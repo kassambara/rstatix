@@ -1,4 +1,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+[![Build Status](https://api.travis-ci.org/kassambara/rstatix.png)](https://travis-ci.org/kassambara/rstatix)
+
 rstatix
 =======
 
@@ -26,7 +28,18 @@ devtools::install_github("kassambara/rstatix")
 
 ``` r
 library(rstatix)  
+#> Loading required package: dplyr
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 library(ggpubr)  
+#> Loading required package: ggplot2
+#> Loading required package: magrittr
 ```
 
 Comparing means
