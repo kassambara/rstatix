@@ -1,0 +1,13 @@
+templates:
+  params:
+    bootswatch: lumen
+reference:
+  - title: Comparing Means
+    contents:
+      - t_test
+      - wilcox_test
+  - title: Helpers
+    contents:
+      - adjust_pvalue
+      - add_significance
+

@@ -1,0 +1,108 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "tools/README-"
+)
+```
+
+# rstatix
+
+Provides a pipe-friendly framework to perform easily basic statistical tests in R. The output of each test is automatically transformed into a tidy data frame to facilitate visualization.
+   
+Main functions include:
+  
+- `t_test()`: performs one-sample, two-sample and pairwise t-tests
+- `wilcox_test()`: performs one-sample, two-sample and pairwise Wilcoxon tests
+- `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
+- `add_significance()`: add a column containing the p-value significance level
+   
+   
+## Installation and loading
+    
+    
+- Install the latest version from [GitHub](https://github.com/kassambara/rstatix) as follow: 
+    
+   
+```{r, eval = FALSE}
+# Install
+if(!require(devtools)) install.packages("devtools")
+devtools::install_github("kassambara/rstatix")
+```
+     
+     
+- Loading packages
+   
+```{r}
+library(rstatix)  
+library(ggpubr)  
+```
+
+     
+## Comparing means
+   
+   
+### Comparing two groups
+   
+   
+- Two sample t-test
+   
+```{r two-sample-t-test, fig.width=3, fig.height=3}
+ToothGrowth %>% 
+  t_test(len ~ supp, paired = FALSE)
+
+ToothGrowth %>%  ggboxplot(
+  x = "supp", y = "len",
+  color = "supp", palette = "jco"
+  )
+```
+
+
+- Compare supp levels after grouping the data by "dose"
+   
+```{r -grouped-two-sample-t-test, fig.width=6, fig.height=3}
+# Statistical test
+ToothGrowth %>%
+  group_by(dose) %>%
+  do(t_test(data =., len ~ supp)) %>%
+  ungroup() %>%
+  adjust_pvalue() %>%
+  add_significance("p.adj")
+
+# Visualization
+ggboxplot(
+  ToothGrowth, x = "supp", y = "len",
+  color = "supp", palette = "jco",facet.by = "dose"
+  ) +
+  stat_compare_means(method = "t.test")
+```
+   
+   
+- Pairwise comparisons
+   
+   
+```{r}
+# pairwise comparisons
+#::::::::::::::::::::::::::::::::::::::::
+# As dose contains more thant two levels ==>
+# pairwise test is automatically performed.
+ToothGrowth %>% t_test(len ~ dose)
+
+# Comparison against reference group
+#::::::::::::::::::::::::::::::::::::::::
+# each level is compared to the ref group
+ToothGrowth %>% t_test(len ~ dose, ref.group = "0.5")
+
+# Comparison against all
+#::::::::::::::::::::::::::::::::::::::::
+ToothGrowth %>% t_test(len ~ dose, ref.group = "all")
+```
+

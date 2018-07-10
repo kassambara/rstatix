@@ -1,0 +1,33 @@
+Package: rstatix
+Type: Package
+Title: Pipe-friendly Framework for Basic Statistical Tests in R
+Version: 0.1.0
+Authors@R: c(
+    person("Alboukadel", "Kassambara", role = c("aut", "cre"), email = "alboukadel.kassambara@gmail.com"))
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: Provides a pipe-friendly framework to perform easily basic statistical tests in R. 
+    The output of each test is automatically transformed into a tidy data frame to facilitate visualization.
+License: GPL-2
+LazyData: TRUE
+Depends:
+    R (>= 3.3.0),
+    dplyr(>= 0.7.1)
+Imports:
+    stats,
+    utils,
+    tidyr,
+    purrr,
+    broom,
+    rlang,
+    tibble
+Suggests:
+    knitr
+URL: http://www.sthda.com/english/rpkgs/rstatix
+BugReports: https://github.com/kassambara/rstatix/issues
+RoxygenNote: 6.0.1
+Collate: 
+    'utilities.R'
+    'add_significance.R'
+    'adjust_pvalue.R'
+    't_test.R'
+    'wilcox_test.R'

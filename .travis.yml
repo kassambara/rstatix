@@ -1,0 +1,13 @@
+language: r
+r_packages:
+ - knitr
+ - stats
+ - utils
+ - devtools
+ - dplyr
+ - tidyr
+ - purrr
+ - broom
+ - rlang
+ - tibble
+sudo: required
