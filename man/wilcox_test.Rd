@@ -83,6 +83,9 @@ Provides a pipe-friendly framework to performs one and two sample
  - If a list of comparisons is specified, the result of the pairwise tests is
  filtered to keep only the comparisons of interest.The p-value is adjusted
  after filtering.
+
+ - For a grouped data, if pairwise test is performed, then the p-values are
+ adjusted for each group level independently.
 }
 \section{Functions}{
 \itemize{
@@ -119,8 +122,7 @@ df \%>\% wilcox_test (len ~ supp, paired = TRUE)
 #::::::::::::::::::::::::::::::::::::::::
 df \%>\%
   group_by(dose) \%>\%
-  do(wilcox_test(data =., len ~ supp)) \%>\%
-  ungroup() \%>\%
+  wilcox_test(data =., len ~ supp) \%>\%
   adjust_pvalue() \%>\%
   add_significance("p.adj")
 

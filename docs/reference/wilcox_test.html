@@ -159,6 +159,8 @@ want to adjust the p value (not recommended), use p.adjust.method = &quot;none&q
     <p>- If a list of comparisons is specified, the result of the pairwise tests is
  filtered to keep only the comparisons of interest.The p-value is adjusted
  after filtering.</p>
+    <p>- For a grouped data, if pairwise test is performed, then the p-values are
+ adjusted for each group level independently.</p>
     
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
@@ -204,8 +206,7 @@ variable levels against all (i.e. basemean)
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>group_by</span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>do</span>(<span class='fu'>wilcox_test</span>(<span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>ungroup</span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'>wilcox_test</span>(<span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='adjust_pvalue.html'>adjust_pvalue</a></span>() <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='add_significance.html'>add_significance</a></span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 9
 #&gt;    dose   .y. group1 group2 statistic     p   method p.adj p.adj.signif

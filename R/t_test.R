@@ -42,6 +42,9 @@ NULL
 #'  filtered to keep only the comparisons of interest.The p-value is adjusted
 #'  after filtering.
 #'
+#'  - For a grouped data, if pairwise test is performed, then the p-values are
+#'  adjusted for each group level independently.
+#'
 #'@return return a data frame with the following columns: \itemize{ \item
 #'  \code{.y.}: the y variable used in the test. \item \code{group1,group2}: the
 #'  compared groups in the pairwise tests. \item \code{statistic}: Test
@@ -72,8 +75,7 @@ NULL
 #' #::::::::::::::::::::::::::::::::::::::::
 #' df %>%
 #'   group_by(dose) %>%
-#'   do(t_test(data =., len ~ supp)) %>%
-#'   ungroup() %>%
+#'   t_test(data =., len ~ supp) %>%
 #'   adjust_pvalue() %>%
 #'   add_significance("p.adj")
 #'
@@ -165,6 +167,16 @@ t_test <- function(
 #'@export
 one_sample_t_test <- function(data, formula, mu = 0, ...){
 
+
+  # Case of grouped data by dplyr::group_by
+  if(is_grouped_df(data)){
+    . <- NULL
+    results <- data %>%
+      do(one_sample_t_test(data =., formula, mu, ...)) %>%
+      ungroup()
+    return(results)
+  }
+
   # Formula variables
   formula.variables <- .extract_formula_variables(formula)
   outcome <- formula.variables$outcome
@@ -190,6 +202,15 @@ one_sample_t_test <- function(data, formula, mu = 0, ...){
 #'@export
 two_sample_t_test <- function(data, formula, paired = FALSE, ...)
 {
+
+  # Case of grouped data by dplyr::group_by
+  if(is_grouped_df(data)){
+    . <- NULL
+    results <- data %>%
+      do(two_sample_t_test(data = ., formula, paired, ...)) %>%
+      ungroup()
+    return(results)
+  }
 
   # Formula variables
   formula.variables <- .extract_formula_variables(formula)
@@ -224,6 +245,18 @@ pairwise_t_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm", ...)
   {
+
+  # Case of grouped data by dplyr::group_by
+  if(is_grouped_df(data)){
+    . <- NULL
+    results <- data %>%
+      do(
+        pairwise_t_test(data = ., formula, comparisons,
+                         ref.group, p.adjust.method, ...)
+        ) %>%
+      ungroup()
+    return(results)
+  }
 
   # Formula variables
   formula.variables <- .extract_formula_variables(formula)
@@ -270,6 +303,17 @@ pairwise_t_test_psd <- function(
   )
   {
 
+  # Case of grouped data by dplyr::group_by
+  if(is_grouped_df(data)){
+    . <- NULL
+    results <- data %>%
+      do(
+        pairwise_t_test_psd(data = ., formula, comparisons,
+                        ref.group, p.adjust.method, ...)
+      ) %>%
+      ungroup()
+    return(results)
+  }
   # Formula variables
   formula.variables <- .extract_formula_variables(formula)
   outcome <- formula.variables$outcome
@@ -323,6 +367,15 @@ pairwise_t_test_psd <- function(
 #'@export
 one_vs_all_t_test <- function(data, formula, p.adjust.method = "holm", ...)
 {
+
+  # Case of grouped data by dplyr::group_by
+  if(is_grouped_df(data)){
+    . <- NULL
+    results <- data %>%
+      do(one_vs_all_t_test(data = ., formula, p.adjust.method, ...)) %>%
+      ungroup()
+    return(results)
+  }
 
   # Formula variables
   formula.variables <- .extract_formula_variables(formula)

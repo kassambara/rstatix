@@ -28,18 +28,7 @@ devtools::install_github("kassambara/rstatix")
 
 ``` r
 library(rstatix)  
-#> Loading required package: dplyr
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(ggpubr)  
-#> Loading required package: ggplot2
-#> Loading required package: magrittr
 ```
 
 Comparing means
@@ -71,8 +60,7 @@ ToothGrowth %>%  ggboxplot(
 # Statistical test
 ToothGrowth %>%
   group_by(dose) %>%
-  do(t_test(data =., len ~ supp)) %>%
-  ungroup() %>%
+  t_test(data =., len ~ supp) %>%
   adjust_pvalue() %>%
   add_significance("p.adj")
 #> # A tibble: 3 x 9
