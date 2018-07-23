@@ -110,7 +110,7 @@ ToothGrowth <span class="op">%&gt;%</span><span class="st">  </span><span class=
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Statistical test</span>
 ToothGrowth <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">group_by</span>(dose) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(<span class="dt">data =</span>., len <span class="op">~</span><span class="st"> </span>supp) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>supp) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/adjust_pvalue.html">adjust_pvalue</a></span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/add_significance.html">add_significance</a></span>(<span class="st">"p.adj"</span>)
 <span class="co">#&gt; # A tibble: 3 x 9</span>

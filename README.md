@@ -60,7 +60,7 @@ ToothGrowth %>%  ggboxplot(
 # Statistical test
 ToothGrowth %>%
   group_by(dose) %>%
-  t_test(data =., len ~ supp) %>%
+  t_test(len ~ supp) %>%
   adjust_pvalue() %>%
   add_significance("p.adj")
 #> # A tibble: 3 x 9
