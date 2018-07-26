@@ -10,8 +10,7 @@ Description: Provides a pipe-friendly framework to perform easily basic statisti
 License: GPL-2
 LazyData: TRUE
 Depends:
-    R (>= 3.3.0),
-    dplyr(>= 0.7.1)
+    R (>= 3.3.0)
 Imports:
     stats,
     utils,
@@ -20,6 +19,7 @@ Imports:
     broom,
     rlang,
     tibble,
+    dplyr(>= 0.7.1),
     car
 Suggests:
     knitr
@@ -31,5 +31,6 @@ Collate:
     'add_significance.R'
     'adjust_pvalue.R'
     'anova_test.R'
+    'reexports.R'
     't_test.R'
     'wilcox_test.R'
