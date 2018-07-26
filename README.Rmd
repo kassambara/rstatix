@@ -26,6 +26,7 @@ Main functions include:
   
 - `t_test()`: performs one-sample, two-sample and pairwise t-tests
 - `wilcox_test()`: performs one-sample, two-sample and pairwise Wilcoxon tests
+- `anova_test()`: wrapper around `car:Anova()` to perform Anova test
 - `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 - `add_significance()`: add a column containing the p-value significance level
    

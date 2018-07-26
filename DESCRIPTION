@@ -19,7 +19,8 @@ Imports:
     purrr,
     broom,
     rlang,
-    tibble
+    tibble,
+    car
 Suggests:
     knitr
 URL: http://www.sthda.com/english/rpkgs/rstatix
@@ -29,5 +30,6 @@ Collate:
     'utilities.R'
     'add_significance.R'
     'adjust_pvalue.R'
+    'anova_test.R'
     't_test.R'
     'wilcox_test.R'

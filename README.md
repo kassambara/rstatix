@@ -10,6 +10,7 @@ Main functions include:
 
 -   `t_test()`: performs one-sample, two-sample and pairwise t-tests
 -   `wilcox_test()`: performs one-sample, two-sample and pairwise Wilcoxon tests
+-   `anova_test()`: wrapper around `car:Anova()` to perform Anova test
 -   `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 -   `add_significance()`: add a column containing the p-value significance level
 
@@ -28,7 +29,18 @@ devtools::install_github("kassambara/rstatix")
 
 ``` r
 library(rstatix)  
+#> Loading required package: dplyr
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 library(ggpubr)  
+#> Loading required package: ggplot2
+#> Loading required package: magrittr
 ```
 
 Comparing means

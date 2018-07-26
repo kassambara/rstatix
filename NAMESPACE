@@ -2,6 +2,7 @@
 
 export(add_significance)
 export(adjust_pvalue)
+export(anova_test)
 export(one_sample_t_test)
 export(one_sample_wilcox_test)
 export(one_vs_all_t_test)
