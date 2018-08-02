@@ -7,20 +7,15 @@
 \alias{reexports}
 \alias{mutate}
 \alias{reexports}
-\alias{filter}
-\alias{reexports}
-\alias{select}
+\alias{group_by}
 \title{Objects exported from other packages}
-\description{
-Objects exported from other packages
-}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{dplyr}{\code{\link[dplyr]{mutate}}, \code{\link[dplyr]{filter}}, \code{\link[dplyr]{select}}}
+  \item{dplyr}{\code{\link[dplyr]{mutate}}, \code{\link[dplyr]{group_by}}}
 
   \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
 }}
