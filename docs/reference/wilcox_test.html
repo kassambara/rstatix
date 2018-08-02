@@ -205,7 +205,7 @@ variable levels against all (i.e. basemean)
 <span class='co'># Compare supp levels after grouping the data by "dose"</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_by</span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='reexports.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>wilcox_test</span>(<span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='adjust_pvalue.html'>adjust_pvalue</a></span>() <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='add_significance.html'>add_significance</a></span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 9

@@ -64,6 +64,8 @@
 <li>
 <code><a href="reference/wilcox_test.html">wilcox_test()</a></code>: performs one-sample, two-sample and pairwise Wilcoxon tests</li>
 <li>
+<code><a href="reference/anova_test.html">anova_test()</a></code>: wrapper around <code>car:Anova()</code> to perform Anova test</li>
+<li>
 <code><a href="reference/adjust_pvalue.html">adjust_pvalue()</a></code>: add an adjusted p-values column to a data frame containing statistical test p-values</li>
 <li>
 <code><a href="reference/add_significance.html">add_significance()</a></code>: add a column containing the p-value significance level</li>
@@ -92,24 +94,28 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <ul>
 <li>Two sample t-test</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ToothGrowth <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>supp, <span class="dt">paired =</span> <span class="ot">FALSE</span>)
-<span class="co">#&gt; # A tibble: 1 x 6</span>
-<span class="co">#&gt;     .y. group1 group2 statistic     p method</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;chr&gt;</span>
-<span class="co">#&gt; 1   len     OJ     VC  1.915268 0.061 T-test</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># T-test</span>
+stat.test &lt;-<span class="st"> </span>ToothGrowth <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>supp, <span class="dt">paired =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/reexports.html">mutate</a></span>(<span class="dt">y.position =</span> <span class="dv">35</span>)
+stat.test
+<span class="co">#&gt; # A tibble: 1 x 7</span>
+<span class="co">#&gt;     .y. group1 group2 statistic     p method y.position</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;chr&gt;      &lt;dbl&gt;</span>
+<span class="co">#&gt; 1   len     OJ     VC  1.915268 0.061 T-test         35</span>
 
-ToothGrowth <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">ggboxplot</span>(
-  <span class="dt">x =</span> <span class="st">"supp"</span>, <span class="dt">y =</span> <span class="st">"len"</span>,
-  <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>
-  )</code></pre></div>
+<span class="co"># Box plot</span>
+ToothGrowth <span class="op">%&gt;%</span><span class="st">  </span>
+<span class="st">  </span><span class="kw">ggboxplot</span>(<span class="dt">x =</span> <span class="st">"supp"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">stat_pvalue_manual</span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>)
+<span class="co">#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</span></code></pre></div>
 <p><img src="tools/README-two-sample-t-test-1.png" width="288"></p>
 <ul>
 <li>Compare supp levels after grouping the data by “dose”</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Statistical test</span>
 ToothGrowth <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">group_by</span>(dose) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/reexports.html">group_by</a></span>(dose) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>supp) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/adjust_pvalue.html">adjust_pvalue</a></span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/add_significance.html">add_significance</a></span>(<span class="st">"p.adj"</span>)
