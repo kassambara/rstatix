@@ -1,16 +1,9 @@
-#' Objects exported from other packages
-#'
-#' @rdname reexports
-#'
 #' @importFrom magrittr %>%
 #' @export
 magrittr::`%>%`
 #' @importFrom dplyr mutate
 #' @export
 dplyr::mutate
-#' @importFrom dplyr filter
+#' @importFrom dplyr group_by
 #' @export
-dplyr::filter
-#' @importFrom dplyr select
-#' @export
-dplyr::select
+dplyr::group_by
