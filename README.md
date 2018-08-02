@@ -11,6 +11,7 @@ Main functions include:
 -   `t_test()`: performs one-sample, two-sample and pairwise t-tests
 -   `wilcox_test()`: performs one-sample, two-sample and pairwise Wilcoxon tests
 -   `anova_test()`: wrapper around `car:Anova()` to perform Anova test
+-   `kruskal_test()`: performs kruskal-wallis rank sum test
 -   `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 -   `add_significance()`: add a column containing the p-value significance level
 
@@ -29,15 +30,6 @@ devtools::install_github("kassambara/rstatix")
 
 ``` r
 library(rstatix)  
-#> Loading required package: dplyr
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(ggpubr)  
 #> Loading required package: ggplot2
 #> Loading required package: magrittr
@@ -51,17 +43,21 @@ Comparing means
 -   Two sample t-test
 
 ``` r
-ToothGrowth %>% 
-  t_test(len ~ supp, paired = FALSE)
-#> # A tibble: 1 x 6
-#>     .y. group1 group2 statistic     p method
-#>   <chr>  <chr>  <chr>     <dbl> <dbl>  <chr>
-#> 1   len     OJ     VC  1.915268 0.061 T-test
+# T-test
+stat.test <- ToothGrowth %>% 
+  t_test(len ~ supp, paired = FALSE) %>%
+  mutate(y.position = 35)
+stat.test
+#> # A tibble: 1 x 7
+#>     .y. group1 group2 statistic     p method y.position
+#>   <chr>  <chr>  <chr>     <dbl> <dbl>  <chr>      <dbl>
+#> 1   len     OJ     VC  1.915268 0.061 T-test         35
 
-ToothGrowth %>%  ggboxplot(
-  x = "supp", y = "len",
-  color = "supp", palette = "jco"
-  )
+# Box plot
+ToothGrowth %>%  
+  ggboxplot(x = "supp", y = "len", color = "supp", palette = "jco", ylim = c(0, 40)) +
+  stat_pvalue_manual(stat.test, label = "p")
+#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
 ```
 
 ![](tools/README-two-sample-t-test-1.png)

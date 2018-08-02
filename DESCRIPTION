@@ -20,7 +20,8 @@ Imports:
     rlang,
     tibble,
     dplyr(>= 0.7.1),
-    car
+    car,
+    magrittr
 Suggests:
     knitr
 URL: http://www.sthda.com/english/rpkgs/rstatix
@@ -31,6 +32,7 @@ Collate:
     'add_significance.R'
     'adjust_pvalue.R'
     'anova_test.R'
+    'kruskal_test.R'
     'reexports.R'
     't_test.R'
     'wilcox_test.R'

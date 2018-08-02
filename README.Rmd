@@ -24,9 +24,11 @@ Provides a pipe-friendly framework to perform easily basic statistical tests in 
    
 Main functions include:
   
+
 - `t_test()`: performs one-sample, two-sample and pairwise t-tests
 - `wilcox_test()`: performs one-sample, two-sample and pairwise Wilcoxon tests
 - `anova_test()`: wrapper around `car:Anova()` to perform Anova test
+- `kruskal_test()`: performs kruskal-wallis rank sum test
 - `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 - `add_significance()`: add a column containing the p-value significance level
    
@@ -61,13 +63,16 @@ library(ggpubr)
 - Two sample t-test
    
 ```{r two-sample-t-test, fig.width=3, fig.height=3}
-ToothGrowth %>% 
-  t_test(len ~ supp, paired = FALSE)
+# T-test
+stat.test <- ToothGrowth %>% 
+  t_test(len ~ supp, paired = FALSE) %>%
+  mutate(y.position = 35)
+stat.test
 
-ToothGrowth %>%  ggboxplot(
-  x = "supp", y = "len",
-  color = "supp", palette = "jco"
-  )
+# Box plot
+ToothGrowth %>%  
+  ggboxplot(x = "supp", y = "len", color = "supp", palette = "jco", ylim = c(0, 40)) +
+  stat_pvalue_manual(stat.test, label = "p")
 ```
 
 
