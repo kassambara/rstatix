@@ -78,7 +78,6 @@ p <- ggboxplot(
   )
 # Add the p-value manually
 p + stat_pvalue_manual(stat.test, label = "p", y.position = 35)
-#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
 ```
 
 ![](tools/README-unpaired-two-sample-t-test-1.png)
@@ -88,7 +87,6 @@ p + stat_pvalue_manual(stat.test, label = "p", y.position = 35)
 ``` r
 p +stat_pvalue_manual(stat.test, label = "T-test, p = {p}", 
                       y.position = 36)
-#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
 ```
 
 ![](tools/README-custoize-p-value-labels-1.png)
@@ -117,7 +115,6 @@ ggboxplot(
   ylim = c(0, 40)
   ) +
   stat_pvalue_manual(stat.test, label = "p.adj", y.position = 35)
-#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
 ```
 
 ![](tools/README-grouped-two-sample-t-test-1.png)
@@ -140,7 +137,6 @@ p <- ggpaired(
   line.color = "gray", line.size = 0.4, ylim = c(0, 40)
   )
 p + stat_pvalue_manual(stat.test, label = "p", y.position = 36)
-#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
 ```
 
 ![](tools/README-paired-t-test-1.png)
@@ -166,7 +162,6 @@ ggboxplot(df, x = "dose", y = "len")+
     pairwise.test, label = "p.adj", 
     y.position = c(29, 35, 39)
     )
-#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
 ```
 
 ![](tools/README-pairwise-comparisons-1.png)
@@ -191,7 +186,6 @@ ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
     stat.test, label = "p.signif", 
     y.position = c(29, 35)
     )
-#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
 ```
 
 ![](tools/README-comaprison-against-reference-group-1.png)
