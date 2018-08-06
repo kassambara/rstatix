@@ -30,7 +30,7 @@ devtools::install_github("kassambara/rstatix")
 
 ``` r
 library(rstatix)  
-library(ggpubr)  
+library(ggpubr)  # For easy data-visualization
 #> Loading required package: ggplot2
 #> Loading required package: magrittr
 ```
@@ -38,64 +38,121 @@ library(ggpubr)
 Comparing means
 ---------------
 
-### Comparing two groups
+To compare the means of two groups, you can use either the function `t_test()` (parametric) or `wilcox_test()` (non-parametric). In the following example the t-test will be illustrated.
 
--   Two sample t-test
+### Data
+
+Preparing the demo data set:
+
+``` r
+df <- ToothGrowth
+df$dose <- as.factor(df$dose)
+head(df)
+#>    len supp dose
+#> 1  4.2   VC  0.5
+#> 2 11.5   VC  0.5
+#> 3  7.3   VC  0.5
+#> 4  5.8   VC  0.5
+#> 5  6.4   VC  0.5
+#> 6 10.0   VC  0.5
+```
+
+### Compare two independent groups
+
+-   Create a simple box plot with p-values:
 
 ``` r
 # T-test
-stat.test <- ToothGrowth %>% 
-  t_test(len ~ supp, paired = FALSE) %>%
-  mutate(y.position = 35)
+stat.test <- df %>% 
+  t_test(len ~ supp, paired = FALSE) 
 stat.test
-#> # A tibble: 1 x 7
-#>     .y. group1 group2 statistic     p method y.position
-#>   <chr>  <chr>  <chr>     <dbl> <dbl>  <chr>      <dbl>
-#> 1   len     OJ     VC  1.915268 0.061 T-test         35
+#> # A tibble: 1 x 6
+#>     .y. group1 group2 statistic     p method
+#>   <chr>  <chr>  <chr>     <dbl> <dbl>  <chr>
+#> 1   len     OJ     VC  1.915268 0.061 T-test
 
-# Box plot
-ToothGrowth %>%  
-  ggboxplot(x = "supp", y = "len", color = "supp", palette = "jco", ylim = c(0, 40)) +
-  stat_pvalue_manual(stat.test, label = "p")
+# Create a box plot
+p <- ggboxplot(
+  df, x = "supp", y = "len", 
+  color = "supp", palette = "jco", ylim = c(0,40)
+  )
+# Add the p-value manually
+p + stat_pvalue_manual(stat.test, label = "p", y.position = 35)
 #> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
 ```
 
-![](tools/README-two-sample-t-test-1.png)
+![](tools/README-unpaired-two-sample-t-test-1.png)
 
--   Compare supp levels after grouping the data by "dose"
+-   Customize labels using [glue expression](https://github.com/tidyverse/glue):
+
+``` r
+p +stat_pvalue_manual(stat.test, label = "T-test, p = {p}", 
+                      y.position = 36)
+#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
+```
+
+![](tools/README-custoize-p-value-labels-1.png)
+
+-   Grouped data: compare supp levels after grouping the data by "dose"
 
 ``` r
 # Statistical test
-ToothGrowth %>%
+stat.test <- df %>%
   group_by(dose) %>%
   t_test(len ~ supp) %>%
   adjust_pvalue() %>%
   add_significance("p.adj")
+stat.test
 #> # A tibble: 3 x 9
-#>    dose   .y. group1 group2  statistic      p method  p.adj p.adj.signif
-#>   <dbl> <chr>  <chr>  <chr>      <dbl>  <dbl>  <chr>  <dbl>        <chr>
-#> 1   0.5   len     OJ     VC  3.1697328 0.0064 T-test 0.0128            *
-#> 2   1.0   len     OJ     VC  4.0327696 0.0010 T-test 0.0030           **
-#> 3   2.0   len     OJ     VC -0.0461361 0.9600 T-test 0.9600           ns
+#>     dose   .y. group1 group2  statistic      p method  p.adj p.adj.signif
+#>   <fctr> <chr>  <chr>  <chr>      <dbl>  <dbl>  <chr>  <dbl>        <chr>
+#> 1    0.5   len     OJ     VC  3.1697328 0.0064 T-test 0.0128            *
+#> 2      1   len     OJ     VC  4.0327696 0.0010 T-test 0.0030           **
+#> 3      2   len     OJ     VC -0.0461361 0.9600 T-test 0.9600           ns
 
 # Visualization
 ggboxplot(
-  ToothGrowth, x = "supp", y = "len",
-  color = "supp", palette = "jco",facet.by = "dose"
+  df, x = "supp", y = "len",
+  color = "supp", palette = "jco", facet.by = "dose",
+  ylim = c(0, 40)
   ) +
-  stat_compare_means(method = "t.test")
+  stat_pvalue_manual(stat.test, label = "p.adj", y.position = 35)
+#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
 ```
 
-![](tools/README--grouped-two-sample-t-test-1.png)
+![](tools/README-grouped-two-sample-t-test-1.png)
 
--   Pairwise comparisons
+### Compare paired samples
 
 ``` r
-# pairwise comparisons
-#::::::::::::::::::::::::::::::::::::::::
-# As dose contains more thant two levels ==>
-# pairwise test is automatically performed.
-ToothGrowth %>% t_test(len ~ dose)
+# T-test
+stat.test <- df %>% 
+  t_test(len ~ supp, paired = TRUE) 
+stat.test
+#> # A tibble: 1 x 6
+#>     .y. group1 group2 statistic      p method
+#>   <chr>  <chr>  <chr>     <dbl>  <dbl>  <chr>
+#> 1   len     OJ     VC  3.302585 0.0025 T-test
+
+# Box plot
+p <- ggpaired(
+  df, x = "supp", y = "len", color = "supp", palette = "jco", 
+  line.color = "gray", line.size = 0.4, ylim = c(0, 40)
+  )
+p + stat_pvalue_manual(stat.test, label = "p", y.position = 36)
+#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
+```
+
+![](tools/README-paired-t-test-1.png)
+
+### Compare more than two groups
+
+-   Pairwise comparisons: if the grouping variable contains more than two categories, a pairwise comparison is automatically performed.
+
+``` r
+# Pairwise t-test
+pairwise.test <- df %>% t_test(len ~ dose)
+pairwise.test
 #> # A tibble: 3 x 9
 #>     .y. group1 group2  statistic       p method   p.adj p.signif
 #>   <chr>  <chr>  <chr>      <dbl>   <dbl>  <chr>   <dbl>    <chr>
@@ -103,21 +160,60 @@ ToothGrowth %>% t_test(len ~ dose)
 #> 2   len    0.5      2 -11.799046 4.4e-14 T-test 1.3e-13     ****
 #> 3   len      1      2  -4.900484 1.9e-05 T-test 1.9e-05     ****
 #> # ... with 1 more variables: p.adj.signif <chr>
+# Box plot
+ggboxplot(df, x = "dose", y = "len")+
+  stat_pvalue_manual(
+    pairwise.test, label = "p.adj", 
+    y.position = c(29, 35, 39)
+    )
+#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
+```
 
+![](tools/README-pairwise-comparisons-1.png)
+
+-   Multiple pairwise comparisons against reference group: each level is compared to the ref group
+
+``` r
 # Comparison against reference group
 #::::::::::::::::::::::::::::::::::::::::
-# each level is compared to the ref group
-ToothGrowth %>% t_test(len ~ dose, ref.group = "0.5")
+# T-test: each level is compared to the ref group
+stat.test <- df %>% t_test(len ~ dose, ref.group = "0.5")
+stat.test
 #> # A tibble: 2 x 9
 #>     .y. group1 group2  statistic       p method   p.adj p.signif
 #>   <chr>  <chr>  <chr>      <dbl>   <dbl>  <chr>   <dbl>    <chr>
 #> 1   len    0.5      1  -6.476648 1.3e-07 T-test 1.3e-07     ****
 #> 2   len    0.5      2 -11.799046 4.4e-14 T-test 8.8e-14     ****
 #> # ... with 1 more variables: p.adj.signif <chr>
+# Box plot
+ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
+  stat_pvalue_manual(
+    stat.test, label = "p.signif", 
+    y.position = c(29, 35)
+    )
+#> Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position
+```
 
-# Comparison against all
-#::::::::::::::::::::::::::::::::::::::::
-ToothGrowth %>% t_test(len ~ dose, ref.group = "all")
+![](tools/README-comaprison-against-reference-group-1.png)
+
+``` r
+# Remove bracket
+ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
+  stat_pvalue_manual(
+    stat.test, label = "p.signif", 
+    y.position = c(29, 35),
+    remove.bracket = TRUE
+    )
+```
+
+![](tools/README-comaprison-against-reference-group-2.png)
+
+-   Multiple pairwise comparisons against all (base-mean): Comparison of each group against base-mean.
+
+``` r
+# T-test
+stat.test <- df %>% t_test(len ~ dose, ref.group = "all")
+stat.test
 #> # A tibble: 3 x 9
 #>     .y. group1 group2  statistic       p method   p.adj p.signif
 #>   <chr>  <chr>  <chr>      <dbl>   <dbl>  <chr>   <dbl>    <chr>
@@ -125,4 +221,14 @@ ToothGrowth %>% t_test(len ~ dose, ref.group = "all")
 #> 2   len    all      1 -0.6600185 5.1e-01 T-test 5.1e-01       ns
 #> 3   len    all      2 -5.6094267 4.3e-07 T-test 8.7e-07     ****
 #> # ... with 1 more variables: p.adj.signif <chr>
+# Box plot with horizontal mean line
+ggboxplot(df, x = "dose", y = "len") +
+  stat_pvalue_manual(
+    stat.test, label = "p.signif", 
+    y.position = 35,
+    remove.bracket = TRUE
+    ) +
+  geom_hline(yintercept = mean(df$len), linetype = 2)
 ```
+
+![](tools/README-comparison-against-base-mean-1.png)

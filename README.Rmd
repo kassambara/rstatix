@@ -50,68 +50,156 @@ devtools::install_github("kassambara/rstatix")
    
 ```{r}
 library(rstatix)  
-library(ggpubr)  
+library(ggpubr)  # For easy data-visualization
 ```
 
      
 ## Comparing means
    
+To compare the means of two groups, you can use either the function `t_test()` (parametric) or `wilcox_test()` (non-parametric). In the following example the t-test will be illustrated.
    
-### Comparing two groups
+### Data
    
    
-- Two sample t-test
+Preparing the demo data set:
    
-```{r two-sample-t-test, fig.width=3, fig.height=3}
-# T-test
-stat.test <- ToothGrowth %>% 
-  t_test(len ~ supp, paired = FALSE) %>%
-  mutate(y.position = 35)
-stat.test
-
-# Box plot
-ToothGrowth %>%  
-  ggboxplot(x = "supp", y = "len", color = "supp", palette = "jco", ylim = c(0, 40)) +
-  stat_pvalue_manual(stat.test, label = "p")
+```{r}
+df <- ToothGrowth
+df$dose <- as.factor(df$dose)
+head(df)
 ```
 
-
-- Compare supp levels after grouping the data by "dose"
    
-```{r -grouped-two-sample-t-test, fig.width=6, fig.height=3}
+### Compare two independent groups
+   
+   
+- Create a simple box plot with p-values:
+   
+```{r unpaired-two-sample-t-test, fig.width=3.5, fig.height=4}
+# T-test
+stat.test <- df %>% 
+  t_test(len ~ supp, paired = FALSE) 
+stat.test
+
+# Create a box plot
+p <- ggboxplot(
+  df, x = "supp", y = "len", 
+  color = "supp", palette = "jco", ylim = c(0,40)
+  )
+# Add the p-value manually
+p + stat_pvalue_manual(stat.test, label = "p", y.position = 35)
+```
+    
+    
+- Customize labels using [glue expression](https://github.com/tidyverse/glue): 
+
+  
+```{r custoize-p-value-labels, fig.width=3.5, fig.height=4}
+p +stat_pvalue_manual(stat.test, label = "T-test, p = {p}", 
+                      y.position = 36)
+```
+    
+    
+
+- Grouped data: compare supp levels after grouping the data by "dose"
+   
+```{r grouped-two-sample-t-test, fig.width=6, fig.height=4}
 # Statistical test
-ToothGrowth %>%
+stat.test <- df %>%
   group_by(dose) %>%
   t_test(len ~ supp) %>%
   adjust_pvalue() %>%
   add_significance("p.adj")
+stat.test
 
 # Visualization
 ggboxplot(
-  ToothGrowth, x = "supp", y = "len",
-  color = "supp", palette = "jco",facet.by = "dose"
+  df, x = "supp", y = "len",
+  color = "supp", palette = "jco", facet.by = "dose",
+  ylim = c(0, 40)
   ) +
-  stat_compare_means(method = "t.test")
+  stat_pvalue_manual(stat.test, label = "p.adj", y.position = 35)
 ```
    
    
-- Pairwise comparisons
-   
-   
-```{r}
-# pairwise comparisons
-#::::::::::::::::::::::::::::::::::::::::
-# As dose contains more thant two levels ==>
-# pairwise test is automatically performed.
-ToothGrowth %>% t_test(len ~ dose)
+### Compare paired samples
+    
+    
+```{r paired-t-test, fig.width=3.5, fig.height=4}
+# T-test
+stat.test <- df %>% 
+  t_test(len ~ supp, paired = TRUE) 
+stat.test
 
+# Box plot
+p <- ggpaired(
+  df, x = "supp", y = "len", color = "supp", palette = "jco", 
+  line.color = "gray", line.size = 0.4, ylim = c(0, 40)
+  )
+p + stat_pvalue_manual(stat.test, label = "p", y.position = 36)
+```
+    
+    
+   
+### Compare more than two groups 
+   
+   
+- Pairwise comparisons: if the grouping variable contains more than two categories, a pairwise comparison is automatically performed.
+   
+   
+```{r pairwise-comparisons, fig.width=3.5, fig.height=3.5}
+# Pairwise t-test
+pairwise.test <- df %>% t_test(len ~ dose)
+pairwise.test
+# Box plot
+ggboxplot(df, x = "dose", y = "len")+
+  stat_pvalue_manual(
+    pairwise.test, label = "p.adj", 
+    y.position = c(29, 35, 39)
+    )
+```
+    
+    
+    
+- Multiple pairwise comparisons against reference group: each level is compared to the ref group
+    
+    
+```{r comaprison-against-reference-group, fig.width=3.5, fig.height=3.5}
 # Comparison against reference group
 #::::::::::::::::::::::::::::::::::::::::
-# each level is compared to the ref group
-ToothGrowth %>% t_test(len ~ dose, ref.group = "0.5")
-
-# Comparison against all
-#::::::::::::::::::::::::::::::::::::::::
-ToothGrowth %>% t_test(len ~ dose, ref.group = "all")
+# T-test: each level is compared to the ref group
+stat.test <- df %>% t_test(len ~ dose, ref.group = "0.5")
+stat.test
+# Box plot
+ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
+  stat_pvalue_manual(
+    stat.test, label = "p.signif", 
+    y.position = c(29, 35)
+    )
+# Remove bracket
+ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
+  stat_pvalue_manual(
+    stat.test, label = "p.signif", 
+    y.position = c(29, 35),
+    remove.bracket = TRUE
+    )
+```
+   
+   
+- Multiple pairwise comparisons against all (base-mean): Comparison of each group against base-mean.
+   
+   
+```{r comparison-against-base-mean, fig.width=3.5, fig.height=3.5}
+# T-test
+stat.test <- df %>% t_test(len ~ dose, ref.group = "all")
+stat.test
+# Box plot with horizontal mean line
+ggboxplot(df, x = "dose", y = "len") +
+  stat_pvalue_manual(
+    stat.test, label = "p.signif", 
+    y.position = 35,
+    remove.bracket = TRUE
+    ) +
+  geom_hline(yintercept = mean(df$len), linetype = 2)
 ```
 

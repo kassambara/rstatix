@@ -7,7 +7,8 @@ reference:
       - t_test
       - wilcox_test
       - anova_test
-  - title: Helpers
+      - kruskal_test
+  - title: Adjust p-values and add significance symbols
     contents:
       - adjust_pvalue
       - add_significance
