@@ -148,7 +148,7 @@ p + stat_pvalue_manual(stat.test, label = "p", y.position = 36)
 - Pairwise comparisons: if the grouping variable contains more than two categories, a pairwise comparison is automatically performed.
    
    
-```{r pairwise-comparisons, fig.width=3.5, fig.height=3.5}
+```{r pairwise-comparisons, fig.width=3.5, fig.height=3}
 # Pairwise t-test
 pairwise.test <- df %>% t_test(len ~ dose)
 pairwise.test
@@ -165,7 +165,7 @@ ggboxplot(df, x = "dose", y = "len")+
 - Multiple pairwise comparisons against reference group: each level is compared to the ref group
     
     
-```{r comaprison-against-reference-group, fig.width=3.5, fig.height=3.5}
+```{r comaprison-against-reference-group, fig.width=3.5, fig.height=3}
 # Comparison against reference group
 #::::::::::::::::::::::::::::::::::::::::
 # T-test: each level is compared to the ref group
@@ -190,7 +190,7 @@ ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
 - Multiple pairwise comparisons against all (base-mean): Comparison of each group against base-mean.
    
    
-```{r comparison-against-base-mean, fig.width=3.5, fig.height=3.5}
+```{r comparison-against-base-mean, fig.width=3.5, fig.height=3}
 # T-test
 stat.test <- df %>% t_test(len ~ dose, ref.group = "all")
 stat.test
