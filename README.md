@@ -31,8 +31,6 @@ devtools::install_github("kassambara/rstatix")
 ``` r
 library(rstatix)  
 library(ggpubr)  # For easy data-visualization
-#> Loading required package: ggplot2
-#> Loading required package: magrittr
 ```
 
 Comparing means
@@ -226,3 +224,7 @@ ggboxplot(df, x = "dose", y = "len") +
 ```
 
 ![](tools/README-comparison-against-base-mean-1.png)
+
+### Related articles
+
+-   [Add P-values and Significance Levels to ggplots](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/)
