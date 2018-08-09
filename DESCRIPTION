@@ -35,4 +35,5 @@ Collate:
     'kruskal_test.R'
     'reexports.R'
     't_test.R'
+    'tukey_hsd.R'
     'wilcox_test.R'

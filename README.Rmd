@@ -33,6 +33,7 @@ Main functions include:
 - `kruskal_test()`: performs kruskal-wallis rank sum test
 - `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 - `add_significance()`: add a column containing the p-value significance level
+- `tukey_hsd()` and `tukey_hsd2()`: performs tukey post-hoc tests
    
    
 ## Installation and loading
