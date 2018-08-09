@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Anova Test — anova_test • rstatix</title>
+<title>Tukey Honest Significant Differences — tukey_hsd • rstatix</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -69,18 +69,24 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Anova Test</h1>
+    <h1>Tukey Honest Significant Differences</h1>
     </div>
 
     
-    <p>Provides a pipe-friendly framework to performs ANOVA tests.
- Wrapper around the function <code><a href='http://www.rdocumentation.org/packages/stats/topics/aov'>aov</a>()</code>.</p>
+    <p>Provides a pipe-friendly framework to performs Tukey post-hoc tests.
+ Wrapper around the function <code><a href='http://www.rdocumentation.org/packages/stats/topics/TukeyHSD'>TukeyHSD</a>()</code>.</p>
     
 
-    <pre><span class='fu'>anova_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='no'>...</span>)</pre>
+    <pre><span class='fu'>tukey_hsd</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='fu'>tukey_hsd2</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
+      <dt>x</dt>
+      <dd>A fitted model object, usually an <code>aov</code> fit.</dd>
+      <dt>...</dt>
+      <dd>other arguments passed to the function <code><a href='http://www.rdocumentation.org/packages/stats/topics/TukeyHSD'>TukeyHSD</a>()</code>.</dd>
       <dt>data</dt>
       <dd>a data.frame containing the variables in the formula.</dd>
       <dt>formula</dt>
@@ -88,46 +94,37 @@
 numeric variable giving the data values and <code>group</code> is a factor with
 one or multiple levels giving the corresponding groups. For example,
 <code>formula = TP53 ~ cancer_group</code>.</dd>
-      <dt>...</dt>
-      <dd>other arguments to be passed to the function
-<code><a href='http://www.rdocumentation.org/packages/car/topics/Anova'>Anova</a></code>.</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>return a data frame with the following columns: <ul>
-<li>
- <code>.y.</code>: the y variable used in the test. </li>
-<li> <code>term</code>: the grouping
- variable. </li>
-<li> <code>statistic</code>: Test statistic (F-statistic) used to compute the
- p-value. </li>
-<li> <code>p</code>: p-value.
- </li>
-<li> <code>method</code>: the statistical test used to compare groups.</li>
+    <p>a tibble data frame containing the results of the different comparisons.</p>
+    
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    <p><ul>
+<li> <code>tukey_hsd</code>: performs tukey post-hoc test from ANOVA results, usually an aov fit.</p>
+    <p></li>
+<li> <code>tukey_hsd2</code>: performs tukey post-hoc tests using data and formula as
+inputs. ANOVA will be automatically performed using the function
+<code><a href='http://www.rdocumentation.org/packages/stats/topics/aov'>aov</a>()</code>
+</li>
 </ul></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Load data</span>
-<span class='co'>#:::::::::::::::::::::::::::::::::::::::</span>
-<span class='fu'>data</span>(<span class='st'>"ToothGrowth"</span>)
+    <pre class="examples"><div class='input'><span class='co'># Data preparation</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span>
-
-<span class='co'># One-way Anova test</span>
-<span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>anova_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
-#&gt;     .y.  term statistic       p method
-#&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;chr&gt;
-#&gt; 1   len  dose  105.0648 1.2e-14  Anova</div><div class='input'>
-<span class='co'># Two-way Anova test</span>
-<span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>anova_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;     .y.      term  statistic       p method
-#&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;chr&gt;
-#&gt; 1   len      supp  12.317020 8.9e-04  Anova
-#&gt; 2   len      dose 133.415146 1.9e-16  Anova
-#&gt; 3   len supp:dose   5.333483 2.5e-02  Anova</div><div class='input'>
+<span class='no'>df</span>$<span class='no'>dose</span> <span class='kw'>&lt;-</span> <span class='fu'>as.factor</span>(<span class='no'>df</span>$<span class='no'>dose</span>)
+<span class='co'># Anova</span>
+<span class='no'>res.aov</span> <span class='kw'>&lt;-</span> <span class='fu'>aov</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>)
+<span class='co'># Tukey hsd</span>
+<span class='fu'>tukey_hsd</span>(<span class='no'>res.aov</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 8
+#&gt;    term group1 group2 comparison estimate  conf.low conf.high   p.adj
+#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+#&gt; 1  dose    0.5      1      1-0.5    9.130  5.901805 12.358195 2.0e-08
+#&gt; 2  dose    0.5      2      2-0.5   15.495 12.266805 18.723195 1.1e-11
+#&gt; 3  dose      1      2        2-1    6.365  3.136805  9.593195 4.2e-05</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -136,6 +133,8 @@ one or multiple levels giving the corresponding groups. For example,
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#functions">Functions</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

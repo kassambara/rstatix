@@ -71,6 +71,8 @@
 <code><a href="reference/adjust_pvalue.html">adjust_pvalue()</a></code>: add an adjusted p-values column to a data frame containing statistical test p-values</li>
 <li>
 <code><a href="reference/add_significance.html">add_significance()</a></code>: add a column containing the p-value significance level</li>
+<li>
+<code><a href="reference/tukey_hsd.html">tukey_hsd()</a></code> and <code><a href="reference/tukey_hsd.html">tukey_hsd2()</a></code>: performs tukey post-hoc tests</li>
 </ul>
 <div id="installation-and-loading" class="section level2">
 <h2 class="hasAnchor">
@@ -127,15 +129,13 @@ p &lt;-<span class="st"> </span><span class="kw">ggboxplot</span>(
   <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">40</span>)
   )
 <span class="co"># Add the p-value manually</span>
-p <span class="op">+</span><span class="st"> </span><span class="kw">stat_pvalue_manual</span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)
-<span class="co">#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</span></code></pre></div>
+p <span class="op">+</span><span class="st"> </span><span class="kw">stat_pvalue_manual</span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)</code></pre></div>
 <p><img src="tools/README-unpaired-two-sample-t-test-1.png" width="336"></p>
 <ul>
 <li>Customize labels using <a href="https://github.com/tidyverse/glue">glue expression</a>:</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="kw">stat_pvalue_manual</span>(stat.test, <span class="dt">label =</span> <span class="st">"T-test, p = {p}"</span>, 
-                      <span class="dt">y.position =</span> <span class="dv">36</span>)
-<span class="co">#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</span></code></pre></div>
+                      <span class="dt">y.position =</span> <span class="dv">36</span>)</code></pre></div>
 <p><img src="tools/README-custoize-p-value-labels-1.png" width="336"></p>
 <ul>
 <li>Grouped data: compare supp levels after grouping the data by “dose”</li>
@@ -160,8 +160,7 @@ stat.test
   <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>, <span class="dt">facet.by =</span> <span class="st">"dose"</span>,
   <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">40</span>)
   ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">stat_pvalue_manual</span>(stat.test, <span class="dt">label =</span> <span class="st">"p.adj"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)
-<span class="co">#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</span></code></pre></div>
+<span class="st">  </span><span class="kw">stat_pvalue_manual</span>(stat.test, <span class="dt">label =</span> <span class="st">"p.adj"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)</code></pre></div>
 <p><img src="tools/README-grouped-two-sample-t-test-1.png" width="576"></p>
 </div>
 <div id="compare-paired-samples" class="section level3">
@@ -181,8 +180,7 @@ p &lt;-<span class="st"> </span><span class="kw">ggpaired</span>(
   df, <span class="dt">x =</span> <span class="st">"supp"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>, 
   <span class="dt">line.color =</span> <span class="st">"gray"</span>, <span class="dt">line.size =</span> <span class="fl">0.4</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">40</span>)
   )
-p <span class="op">+</span><span class="st"> </span><span class="kw">stat_pvalue_manual</span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">36</span>)
-<span class="co">#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</span></code></pre></div>
+p <span class="op">+</span><span class="st"> </span><span class="kw">stat_pvalue_manual</span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">36</span>)</code></pre></div>
 <p><img src="tools/README-paired-t-test-1.png" width="336"></p>
 </div>
 <div id="compare-more-than-two-groups" class="section level3">
@@ -206,8 +204,7 @@ pairwise.test
 <span class="st">  </span><span class="kw">stat_pvalue_manual</span>(
     pairwise.test, <span class="dt">label =</span> <span class="st">"p.adj"</span>, 
     <span class="dt">y.position =</span> <span class="kw">c</span>(<span class="dv">29</span>, <span class="dv">35</span>, <span class="dv">39</span>)
-    )
-<span class="co">#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</span></code></pre></div>
+    )</code></pre></div>
 <p><img src="tools/README-pairwise-comparisons-1.png" width="336"></p>
 <ul>
 <li>Multiple pairwise comparisons against reference group: each level is compared to the ref group</li>
@@ -228,8 +225,7 @@ stat.test
 <span class="st">  </span><span class="kw">stat_pvalue_manual</span>(
     stat.test, <span class="dt">label =</span> <span class="st">"p.signif"</span>, 
     <span class="dt">y.position =</span> <span class="kw">c</span>(<span class="dv">29</span>, <span class="dv">35</span>)
-    )
-<span class="co">#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</span></code></pre></div>
+    )</code></pre></div>
 <p><img src="tools/README-comaprison-against-reference-group-1.png" width="336"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Remove bracket</span>
 <span class="kw">ggboxplot</span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
@@ -261,6 +257,13 @@ stat.test
     ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="kw">mean</span>(df<span class="op">$</span>len), <span class="dt">linetype =</span> <span class="dv">2</span>)</code></pre></div>
 <p><img src="tools/README-comparison-against-base-mean-1.png" width="336"></p>
+</div>
+<div id="related-articles" class="section level3">
+<h3 class="hasAnchor">
+<a href="#related-articles" class="anchor"> </a>Related articles</h3>
+<ul>
+<li><a href="http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/">Add P-values and Significance Levels to ggplots</a></li>
+</ul>
 </div>
 </div>
 </div>

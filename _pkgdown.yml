@@ -8,6 +8,7 @@ reference:
       - wilcox_test
       - anova_test
       - kruskal_test
+      - tukey_hsd
   - title: Adjust p-values and add significance symbols
     contents:
       - adjust_pvalue
