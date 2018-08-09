@@ -4,7 +4,7 @@ NULL
 #'
 #'
 #'@description Provides a pipe-friendly framework to performs ANOVA tests.
-#'  Wrapper around the function \code{\link[car]{Anova}()} in the \code{car} package.
+#'  Wrapper around the function \code{\link[stats]{aov}()}.
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a
 #'  numeric variable giving the data values and \code{group} is a factor with
@@ -53,8 +53,7 @@ anova_test <- function(
   }
 
   term <- statistic <- p <- method <- NULL
-  stats::lm(formula, data = data) %>%
-    car::Anova() %>%
+  stats::aov(formula, data = data) %>%
     .as_tidy_stat() %>%
     filter(term != "Residuals") %>%
     mutate(

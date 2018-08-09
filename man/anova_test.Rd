@@ -26,7 +26,7 @@ return a data frame with the following columns: \itemize{ \item
 }
 \description{
 Provides a pipe-friendly framework to performs ANOVA tests.
- Wrapper around the function \code{\link[car]{Anova}()} in the \code{car} package.
+ Wrapper around the function \code{\link[stats]{aov}()}.
 }
 \examples{
 # Load data

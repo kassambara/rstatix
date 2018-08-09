@@ -20,7 +20,6 @@ Imports:
     rlang,
     tibble,
     dplyr(>= 0.7.1),
-    car,
     magrittr
 Suggests:
     knitr
