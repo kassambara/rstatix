@@ -15,7 +15,7 @@ one or multiple levels giving the corresponding groups. For example,
 \code{formula = TP53 ~ cancer_group}.}
 
 \item{...}{other arguments to be passed to the function
-\code{\link[car]{Anova}}.}
+\code{\link[stats]{aov}}.}
 }
 \value{
 return a data frame with the following columns: \itemize{ \item
@@ -25,7 +25,7 @@ return a data frame with the following columns: \itemize{ \item
  \item \code{method}: the statistical test used to compare groups.}
 }
 \description{
-Provides a pipe-friendly framework to performs ANOVA tests.
+Provides a pipe-friendly framework to perform ANOVA tests.
  Wrapper around the function \code{\link[stats]{aov}()}.
 }
 \examples{

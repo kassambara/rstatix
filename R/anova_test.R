@@ -3,7 +3,7 @@ NULL
 #'Anova Test
 #'
 #'
-#'@description Provides a pipe-friendly framework to performs ANOVA tests.
+#'@description Provides a pipe-friendly framework to perform ANOVA tests.
 #'  Wrapper around the function \code{\link[stats]{aov}()}.
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a
@@ -11,7 +11,7 @@ NULL
 #'  one or multiple levels giving the corresponding groups. For example,
 #'  \code{formula = TP53 ~ cancer_group}.
 #'@param ... other arguments to be passed to the function
-#'  \code{\link[car]{Anova}}.
+#'  \code{\link[stats]{aov}}.
 #'
 #'@return return a data frame with the following columns: \itemize{ \item
 #'  \code{.y.}: the y variable used in the test. \item \code{term}: the grouping
