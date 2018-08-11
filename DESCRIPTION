@@ -31,6 +31,7 @@ Collate:
     'add_significance.R'
     'adjust_pvalue.R'
     'anova_test.R'
+    'cor_test.R'
     'kruskal_test.R'
     'reexports.R'
     't_test.R'

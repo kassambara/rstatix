@@ -9,6 +9,9 @@ reference:
       - anova_test
       - kruskal_test
       - tukey_hsd
+  - title: Correlation analysis
+    contents:
+      - cor_test
   - title: Adjust p-values and add significance symbols
     contents:
       - adjust_pvalue

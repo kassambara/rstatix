@@ -6,15 +6,24 @@ rstatix
 
 Provides a pipe-friendly framework to perform easily basic statistical tests in R. The output of each test is automatically transformed into a tidy data frame to facilitate visualization.
 
-Main functions include:
+The main functions are listed below.
+
+**Comparing means**:
 
 -   `t_test()`: performs one-sample, two-sample and pairwise t-tests
 -   `wilcox_test()`: performs one-sample, two-sample and pairwise Wilcoxon tests
 -   `anova_test()`: wrapper around `car:Anova()` to perform Anova test
 -   `kruskal_test()`: performs kruskal-wallis rank sum test
+-   `tukey_hsd()` and `tukey_hsd2()`: performs tukey post-hoc tests
+
+**Correlation analysis**:
+
+-   `cor_test()`: correlation test between two variables using Pearson, Spearman or Kendall methods.
+
+**Adjusting p-values and adding significance symbols**:
+
 -   `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 -   `add_significance()`: add a column containing the p-value significance level
--   `tukey_hsd()` and `tukey_hsd2()`: performs tukey post-hoc tests
 
 Installation and loading
 ------------------------
@@ -66,9 +75,9 @@ stat.test <- df %>%
   t_test(len ~ supp, paired = FALSE) 
 stat.test
 #> # A tibble: 1 x 6
-#>     .y. group1 group2 statistic     p method
-#>   <chr>  <chr>  <chr>     <dbl> <dbl>  <chr>
-#> 1   len     OJ     VC  1.915268 0.061 T-test
+#>   .y.   group1 group2 statistic     p method
+#>   <chr> <chr>  <chr>      <dbl> <dbl> <chr> 
+#> 1 len   OJ     VC          1.92 0.061 T-test
 
 # Create a box plot
 p <- ggboxplot(
@@ -101,11 +110,11 @@ stat.test <- df %>%
   add_significance("p.adj")
 stat.test
 #> # A tibble: 3 x 9
-#>     dose   .y. group1 group2  statistic      p method  p.adj p.adj.signif
-#>   <fctr> <chr>  <chr>  <chr>      <dbl>  <dbl>  <chr>  <dbl>        <chr>
-#> 1    0.5   len     OJ     VC  3.1697328 0.0064 T-test 0.0128            *
-#> 2      1   len     OJ     VC  4.0327696 0.0010 T-test 0.0030           **
-#> 3      2   len     OJ     VC -0.0461361 0.9600 T-test 0.9600           ns
+#>   dose  .y.   group1 group2 statistic      p method  p.adj p.adj.signif
+#>   <fct> <chr> <chr>  <chr>      <dbl>  <dbl> <chr>   <dbl> <chr>       
+#> 1 0.5   len   OJ     VC        3.17   0.0064 T-test 0.0128 *           
+#> 2 1     len   OJ     VC        4.03   0.001  T-test 0.003  **          
+#> 3 2     len   OJ     VC       -0.0461 0.96   T-test 0.96   ns
 
 # Visualization
 ggboxplot(
@@ -126,9 +135,9 @@ stat.test <- df %>%
   t_test(len ~ supp, paired = TRUE) 
 stat.test
 #> # A tibble: 1 x 6
-#>     .y. group1 group2 statistic      p method
-#>   <chr>  <chr>  <chr>     <dbl>  <dbl>  <chr>
-#> 1   len     OJ     VC  3.302585 0.0025 T-test
+#>   .y.   group1 group2 statistic      p method
+#>   <chr> <chr>  <chr>      <dbl>  <dbl> <chr> 
+#> 1 len   OJ     VC          3.30 0.0025 T-test
 
 # Box plot
 p <- ggpaired(
@@ -149,12 +158,12 @@ p + stat_pvalue_manual(stat.test, label = "p", y.position = 36)
 pairwise.test <- df %>% t_test(len ~ dose)
 pairwise.test
 #> # A tibble: 3 x 9
-#>     .y. group1 group2  statistic       p method   p.adj p.signif
-#>   <chr>  <chr>  <chr>      <dbl>   <dbl>  <chr>   <dbl>    <chr>
-#> 1   len    0.5      1  -6.476648 1.3e-07 T-test 2.6e-07     ****
-#> 2   len    0.5      2 -11.799046 4.4e-14 T-test 1.3e-13     ****
-#> 3   len      1      2  -4.900484 1.9e-05 T-test 1.9e-05     ****
-#> # ... with 1 more variables: p.adj.signif <chr>
+#>   .y.   group1 group2 statistic        p method    p.adj p.signif
+#>   <chr> <chr>  <chr>      <dbl>    <dbl> <chr>     <dbl> <chr>   
+#> 1 len   0.5    1          -6.48 1.30e- 7 T-test 2.60e- 7 ****    
+#> 2 len   0.5    2         -11.8  4.40e-14 T-test 1.30e-13 ****    
+#> 3 len   1      2          -4.90 1.90e- 5 T-test 1.90e- 5 ****    
+#> # ... with 1 more variable: p.adj.signif <chr>
 # Box plot
 ggboxplot(df, x = "dose", y = "len")+
   stat_pvalue_manual(
@@ -174,11 +183,11 @@ ggboxplot(df, x = "dose", y = "len")+
 stat.test <- df %>% t_test(len ~ dose, ref.group = "0.5")
 stat.test
 #> # A tibble: 2 x 9
-#>     .y. group1 group2  statistic       p method   p.adj p.signif
-#>   <chr>  <chr>  <chr>      <dbl>   <dbl>  <chr>   <dbl>    <chr>
-#> 1   len    0.5      1  -6.476648 1.3e-07 T-test 1.3e-07     ****
-#> 2   len    0.5      2 -11.799046 4.4e-14 T-test 8.8e-14     ****
-#> # ... with 1 more variables: p.adj.signif <chr>
+#>   .y.   group1 group2 statistic        p method    p.adj p.signif
+#>   <chr> <chr>  <chr>      <dbl>    <dbl> <chr>     <dbl> <chr>   
+#> 1 len   0.5    1          -6.48 1.30e- 7 T-test 1.30e- 7 ****    
+#> 2 len   0.5    2         -11.8  4.40e-14 T-test 8.80e-14 ****    
+#> # ... with 1 more variable: p.adj.signif <chr>
 # Box plot
 ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
   stat_pvalue_manual(
@@ -208,12 +217,12 @@ ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
 stat.test <- df %>% t_test(len ~ dose, ref.group = "all")
 stat.test
 #> # A tibble: 3 x 9
-#>     .y. group1 group2  statistic       p method   p.adj p.signif
-#>   <chr>  <chr>  <chr>      <dbl>   <dbl>  <chr>   <dbl>    <chr>
-#> 1   len    all    0.5  5.8222543 2.9e-07 T-test 8.7e-07     ****
-#> 2   len    all      1 -0.6600185 5.1e-01 T-test 5.1e-01       ns
-#> 3   len    all      2 -5.6094267 4.3e-07 T-test 8.7e-07     ****
-#> # ... with 1 more variables: p.adj.signif <chr>
+#>   .y.   group1 group2 statistic       p method   p.adj p.signif
+#>   <chr> <chr>  <chr>      <dbl>   <dbl> <chr>    <dbl> <chr>   
+#> 1 len   all    0.5        5.82  2.90e-7 T-test 8.70e-7 ****    
+#> 2 len   all    1         -0.660 5.10e-1 T-test 5.10e-1 ns      
+#> 3 len   all    2         -5.61  4.30e-7 T-test 8.70e-7 ****    
+#> # ... with 1 more variable: p.adj.signif <chr>
 # Box plot with horizontal mean line
 ggboxplot(df, x = "dose", y = "len") +
   stat_pvalue_manual(

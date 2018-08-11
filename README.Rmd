@@ -24,16 +24,26 @@ knitr::opts_chunk$set(
 
 Provides a pipe-friendly framework to perform easily basic statistical tests in R. The output of each test is automatically transformed into a tidy data frame to facilitate visualization.
    
-Main functions include:
+The main functions are listed below.
   
-
+  
+**Comparing means**:
+     
 - `t_test()`: performs one-sample, two-sample and pairwise t-tests
 - `wilcox_test()`: performs one-sample, two-sample and pairwise Wilcoxon tests
 - `anova_test()`: wrapper around `car:Anova()` to perform Anova test
 - `kruskal_test()`: performs kruskal-wallis rank sum test
+- `tukey_hsd()` and `tukey_hsd2()`: performs tukey post-hoc tests
+
+**Correlation analysis**:
+   
+- `cor_test()`: correlation test between two variables using Pearson, Spearman or Kendall methods.
+
+**Adjusting p-values and adding significance symbols**:
+      
 - `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 - `add_significance()`: add a column containing the p-value significance level
-- `tukey_hsd()` and `tukey_hsd2()`: performs tukey post-hoc tests
+
    
    
 ## Installation and loading
