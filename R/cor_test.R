@@ -10,6 +10,7 @@ NULL
 #'  around the function \code{\link[stats]{cor.test}()}.
 #'
 #'@inheritParams stats::cor.test
+#'@inheritParams stats::cor
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{var1 ~ var2} where \code{var1} and
 #'  \code{var2} are two numeric variables in the data.
@@ -36,7 +37,9 @@ NULL
 #'@name cor_test
 #'@export
 cor_test <- function(
-  data, formula, alternative = "two.sided", method = "pearson", conf.level = 0.95, ...
+  data, formula, alternative = "two.sided",
+  method = "pearson", conf.level = 0.95,
+  use = "complete.obs", ...
 )
 {
 

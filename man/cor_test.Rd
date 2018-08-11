@@ -5,7 +5,7 @@
 \title{Correlation Test}
 \usage{
 cor_test(data, formula, alternative = "two.sided", method = "pearson",
-  conf.level = 0.95, ...)
+  conf.level = 0.95, use = "complete.obs", ...)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -26,6 +26,12 @@ cor_test(data, formula, alternative = "two.sided", method = "pearson",
     interval.  Currently only used for the Pearson product moment
     correlation coefficient if there are at least 4 complete pairs of
     observations.}
+
+\item{use}{an optional character string giving a
+    method for computing covariances in the presence
+    of missing values.  This must be (an abbreviation of) one of the strings
+    \code{"everything"}, \code{"all.obs"}, \code{"complete.obs"},
+    \code{"na.or.complete"}, or \code{"pairwise.complete.obs"}.}
 
 \item{...}{other arguments to be passed to the function
 \code{\link[stats]{cor.test}}.}
