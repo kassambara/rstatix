@@ -57,7 +57,8 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#rstatix" class="anchor"> </a>rstatix</h1></div>
 <p>Provides a pipe-friendly framework to perform easily basic statistical tests in R. The output of each test is automatically transformed into a tidy data frame to facilitate visualization.</p>
-<p>Main functions include:</p>
+<p>The main functions are listed below.</p>
+<p><strong>Comparing means</strong>:</p>
 <ul>
 <li>
 <code><a href="reference/t_test.html">t_test()</a></code>: performs one-sample, two-sample and pairwise t-tests</li>
@@ -68,11 +69,19 @@
 <li>
 <code><a href="reference/kruskal_test.html">kruskal_test()</a></code>: performs kruskal-wallis rank sum test</li>
 <li>
+<code><a href="reference/tukey_hsd.html">tukey_hsd()</a></code> and <code><a href="reference/tukey_hsd.html">tukey_hsd2()</a></code>: performs tukey post-hoc tests</li>
+</ul>
+<p><strong>Correlation analysis</strong>:</p>
+<ul>
+<li>
+<code><a href="reference/cor_test.html">cor_test()</a></code>: correlation test between two variables using Pearson, Spearman or Kendall methods.</li>
+</ul>
+<p><strong>Adjusting p-values and adding significance symbols</strong>:</p>
+<ul>
+<li>
 <code><a href="reference/adjust_pvalue.html">adjust_pvalue()</a></code>: add an adjusted p-values column to a data frame containing statistical test p-values</li>
 <li>
 <code><a href="reference/add_significance.html">add_significance()</a></code>: add a column containing the p-value significance level</li>
-<li>
-<code><a href="reference/tukey_hsd.html">tukey_hsd()</a></code> and <code><a href="reference/tukey_hsd.html">tukey_hsd2()</a></code>: performs tukey post-hoc tests</li>
 </ul>
 <div id="installation-and-loading" class="section level2">
 <h2 class="hasAnchor">
@@ -119,9 +128,9 @@ stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span c
 <span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>supp, <span class="dt">paired =</span> <span class="ot">FALSE</span>) 
 stat.test
 <span class="co">#&gt; # A tibble: 1 x 6</span>
-<span class="co">#&gt;     .y. group1 group2 statistic     p method</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;chr&gt;</span>
-<span class="co">#&gt; 1   len     OJ     VC  1.915268 0.061 T-test</span>
+<span class="co">#&gt;   .y.   group1 group2 statistic     p method</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 len   OJ     VC          1.92 0.061 T-test</span>
 
 <span class="co"># Create a box plot</span>
 p &lt;-<span class="st"> </span><span class="kw">ggboxplot</span>(
@@ -148,11 +157,11 @@ stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/add_significance.html">add_significance</a></span>(<span class="st">"p.adj"</span>)
 stat.test
 <span class="co">#&gt; # A tibble: 3 x 9</span>
-<span class="co">#&gt;     dose   .y. group1 group2  statistic      p method  p.adj p.adj.signif</span>
-<span class="co">#&gt;   &lt;fctr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;chr&gt;  &lt;dbl&gt;        &lt;chr&gt;</span>
-<span class="co">#&gt; 1    0.5   len     OJ     VC  3.1697328 0.0064 T-test 0.0128            *</span>
-<span class="co">#&gt; 2      1   len     OJ     VC  4.0327696 0.0010 T-test 0.0030           **</span>
-<span class="co">#&gt; 3      2   len     OJ     VC -0.0461361 0.9600 T-test 0.9600           ns</span>
+<span class="co">#&gt;   dose  .y.   group1 group2 statistic      p method  p.adj p.adj.signif</span>
+<span class="co">#&gt;   &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;       </span>
+<span class="co">#&gt; 1 0.5   len   OJ     VC        3.17   0.0064 T-test 0.0128 *           </span>
+<span class="co">#&gt; 2 1     len   OJ     VC        4.03   0.001  T-test 0.003  **          </span>
+<span class="co">#&gt; 3 2     len   OJ     VC       -0.0461 0.96   T-test 0.96   ns</span>
 
 <span class="co"># Visualization</span>
 <span class="kw">ggboxplot</span>(
@@ -171,9 +180,9 @@ stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span c
 <span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>supp, <span class="dt">paired =</span> <span class="ot">TRUE</span>) 
 stat.test
 <span class="co">#&gt; # A tibble: 1 x 6</span>
-<span class="co">#&gt;     .y. group1 group2 statistic      p method</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;chr&gt;</span>
-<span class="co">#&gt; 1   len     OJ     VC  3.302585 0.0025 T-test</span>
+<span class="co">#&gt;   .y.   group1 group2 statistic      p method</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 len   OJ     VC          3.30 0.0025 T-test</span>
 
 <span class="co"># Box plot</span>
 p &lt;-<span class="st"> </span><span class="kw">ggpaired</span>(
@@ -193,12 +202,12 @@ p <span class="op">+</span><span class="st"> </span><span class="kw">stat_pvalue
 pairwise.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>dose)
 pairwise.test
 <span class="co">#&gt; # A tibble: 3 x 9</span>
-<span class="co">#&gt;     .y. group1 group2  statistic       p method   p.adj p.signif</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;chr&gt;   &lt;dbl&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt; 1   len    0.5      1  -6.476648 1.3e-07 T-test 2.6e-07     ****</span>
-<span class="co">#&gt; 2   len    0.5      2 -11.799046 4.4e-14 T-test 1.3e-13     ****</span>
-<span class="co">#&gt; 3   len      1      2  -4.900484 1.9e-05 T-test 1.9e-05     ****</span>
-<span class="co">#&gt; # ... with 1 more variables: p.adj.signif &lt;chr&gt;</span>
+<span class="co">#&gt;   .y.   group1 group2 statistic        p method    p.adj p.signif</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   </span>
+<span class="co">#&gt; 1 len   0.5    1          -6.48 1.30e- 7 T-test 2.60e- 7 ****    </span>
+<span class="co">#&gt; 2 len   0.5    2         -11.8  4.40e-14 T-test 1.30e-13 ****    </span>
+<span class="co">#&gt; 3 len   1      2          -4.90 1.90e- 5 T-test 1.90e- 5 ****    </span>
+<span class="co">#&gt; # ... with 1 more variable: p.adj.signif &lt;chr&gt;</span>
 <span class="co"># Box plot</span>
 <span class="kw">ggboxplot</span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>)<span class="op">+</span>
 <span class="st">  </span><span class="kw">stat_pvalue_manual</span>(
@@ -215,11 +224,11 @@ pairwise.test
 stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>dose, <span class="dt">ref.group =</span> <span class="st">"0.5"</span>)
 stat.test
 <span class="co">#&gt; # A tibble: 2 x 9</span>
-<span class="co">#&gt;     .y. group1 group2  statistic       p method   p.adj p.signif</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;chr&gt;   &lt;dbl&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt; 1   len    0.5      1  -6.476648 1.3e-07 T-test 1.3e-07     ****</span>
-<span class="co">#&gt; 2   len    0.5      2 -11.799046 4.4e-14 T-test 8.8e-14     ****</span>
-<span class="co">#&gt; # ... with 1 more variables: p.adj.signif &lt;chr&gt;</span>
+<span class="co">#&gt;   .y.   group1 group2 statistic        p method    p.adj p.signif</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   </span>
+<span class="co">#&gt; 1 len   0.5    1          -6.48 1.30e- 7 T-test 1.30e- 7 ****    </span>
+<span class="co">#&gt; 2 len   0.5    2         -11.8  4.40e-14 T-test 8.80e-14 ****    </span>
+<span class="co">#&gt; # ... with 1 more variable: p.adj.signif &lt;chr&gt;</span>
 <span class="co"># Box plot</span>
 <span class="kw">ggboxplot</span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">stat_pvalue_manual</span>(
@@ -242,12 +251,12 @@ stat.test
 stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>dose, <span class="dt">ref.group =</span> <span class="st">"all"</span>)
 stat.test
 <span class="co">#&gt; # A tibble: 3 x 9</span>
-<span class="co">#&gt;     .y. group1 group2  statistic       p method   p.adj p.signif</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;chr&gt;   &lt;dbl&gt;    &lt;chr&gt;</span>
-<span class="co">#&gt; 1   len    all    0.5  5.8222543 2.9e-07 T-test 8.7e-07     ****</span>
-<span class="co">#&gt; 2   len    all      1 -0.6600185 5.1e-01 T-test 5.1e-01       ns</span>
-<span class="co">#&gt; 3   len    all      2 -5.6094267 4.3e-07 T-test 8.7e-07     ****</span>
-<span class="co">#&gt; # ... with 1 more variables: p.adj.signif &lt;chr&gt;</span>
+<span class="co">#&gt;   .y.   group1 group2 statistic       p method   p.adj p.signif</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;   </span>
+<span class="co">#&gt; 1 len   all    0.5        5.82  2.90e-7 T-test 8.70e-7 ****    </span>
+<span class="co">#&gt; 2 len   all    1         -0.660 5.10e-1 T-test 5.10e-1 ns      </span>
+<span class="co">#&gt; 3 len   all    2         -5.61  4.30e-7 T-test 8.70e-7 ****    </span>
+<span class="co">#&gt; # ... with 1 more variable: p.adj.signif &lt;chr&gt;</span>
 <span class="co"># Box plot with horizontal mean line</span>
 <span class="kw">ggboxplot</span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">stat_pvalue_manual</span>(

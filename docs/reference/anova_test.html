@@ -73,7 +73,7 @@
     </div>
 
     
-    <p>Provides a pipe-friendly framework to performs ANOVA tests.
+    <p>Provides a pipe-friendly framework to perform ANOVA tests.
  Wrapper around the function <code><a href='http://www.rdocumentation.org/packages/stats/topics/aov'>aov</a>()</code>.</p>
     
 
@@ -90,7 +90,7 @@ one or multiple levels giving the corresponding groups. For example,
 <code>formula = TP53 ~ cancer_group</code>.</dd>
       <dt>...</dt>
       <dd>other arguments to be passed to the function
-<code><a href='http://www.rdocumentation.org/packages/car/topics/Anova'>Anova</a></code>.</dd>
+<code><a href='http://www.rdocumentation.org/packages/stats/topics/aov'>aov</a></code>.</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -117,17 +117,17 @@ one or multiple levels giving the corresponding groups. For example,
 <span class='co'># One-way Anova test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>anova_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
-#&gt;     .y.  term statistic       p method
-#&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;chr&gt;
-#&gt; 1   len  dose  105.0648 1.2e-14  Anova</div><div class='input'>
+#&gt;   .y.   term  statistic        p method
+#&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; 
+#&gt; 1 len   dose       105. 1.20e-14 Anova </div><div class='input'>
 <span class='co'># Two-way Anova test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>anova_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;     .y.      term  statistic       p method
-#&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;chr&gt;
-#&gt; 1   len      supp  12.317020 8.9e-04  Anova
-#&gt; 2   len      dose 133.415146 1.9e-16  Anova
-#&gt; 3   len supp:dose   5.333483 2.5e-02  Anova</div><div class='input'>
+#&gt;   .y.   term      statistic        p method
+#&gt;   &lt;chr&gt; &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; 
+#&gt; 1 len   supp          12.3  8.90e- 4 Anova 
+#&gt; 2 len   dose         133.   1.90e-16 Anova 
+#&gt; 3 len   supp:dose      5.33 2.50e- 2 Anova </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

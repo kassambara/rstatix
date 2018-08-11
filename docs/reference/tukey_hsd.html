@@ -120,11 +120,11 @@ inputs. ANOVA will be automatically performed using the function
 <span class='no'>res.aov</span> <span class='kw'>&lt;-</span> <span class='fu'>aov</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>)
 <span class='co'># Tukey hsd</span>
 <span class='fu'>tukey_hsd</span>(<span class='no'>res.aov</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 8
-#&gt;    term group1 group2 comparison estimate  conf.low conf.high   p.adj
-#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-#&gt; 1  dose    0.5      1      1-0.5    9.130  5.901805 12.358195 2.0e-08
-#&gt; 2  dose    0.5      2      2-0.5   15.495 12.266805 18.723195 1.1e-11
-#&gt; 3  dose      1      2        2-1    6.365  3.136805  9.593195 4.2e-05</div><div class='input'>
+#&gt;   term  group1 group2 comparison estimate conf.low conf.high    p.adj
+#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 dose  0.5    1      1-0.5          9.13     5.90     12.4  2.00e- 8
+#&gt; 2 dose  0.5    2      2-0.5         15.5     12.3      18.7  1.10e-11
+#&gt; 3 dose  1      2      2-1            6.36     3.14      9.59 4.20e- 5</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

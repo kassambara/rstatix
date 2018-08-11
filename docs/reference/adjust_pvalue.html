@@ -104,11 +104,11 @@ adjust the p value (not recommended), use p.adjust.method = &quot;none&quot;.</d
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
  <span class='fu'><a href='t_test.html'>t_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
  <span class='fu'>adjust_pvalue</span>()</div><div class='output co'>#&gt; # A tibble: 3 x 9
-#&gt;     .y. group1 group2  statistic       p method    p.adj p.signif p.adj.signif
-#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;chr&gt;        &lt;chr&gt;
-#&gt; 1   len    0.5      1  -6.476648 1.3e-07 T-test 2.60e-07     ****         ****
-#&gt; 2   len    0.5      2 -11.799046 4.4e-14 T-test 1.32e-13     ****         ****
-#&gt; 3   len      1      2  -4.900484 1.9e-05 T-test 1.90e-05     ****         ****</div><div class='input'>
+#&gt;   .y.   group1 group2 statistic        p method    p.adj p.signif p.adj.signif
+#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;       
+#&gt; 1 len   0.5    1          -6.48 1.30e- 7 T-test 2.60e- 7 ****     ****        
+#&gt; 2 len   0.5    2         -11.8  4.40e-14 T-test 1.32e-13 ****     ****        
+#&gt; 3 len   1      2          -4.90 1.90e- 5 T-test 1.90e- 5 ****     ****        </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
