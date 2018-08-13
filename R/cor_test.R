@@ -61,7 +61,8 @@ cor_test <- function(
     as.formula() %>%
     cor.test(
       data = data, alternative = alternative,
-      method = method, conf.level = conf.level, ...
+      method = method, conf.level = conf.level,
+      exact = FALSE, ...
       ) %>%
     .as_tidy_stat()
 
