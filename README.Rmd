@@ -38,6 +38,7 @@ The main functions are listed below.
 **Correlation analysis**:
    
 - `cor_test()`: correlation test between two variables using Pearson, Spearman or Kendall methods.
+- `mcor_test()`: Multiple correlation tests between two vectors of variables.
 
 **Adjusting p-values and adding significance symbols**:
       

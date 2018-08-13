@@ -2,10 +2,13 @@
 % Please edit documentation in R/cor_test.R
 \name{cor_test}
 \alias{cor_test}
+\alias{mcor_test}
 \title{Correlation Test}
 \usage{
 cor_test(data, formula, alternative = "two.sided", method = "pearson",
   conf.level = 0.95, use = "complete.obs", ...)
+
+mcor_test(data, x, y, ...)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -35,6 +38,12 @@ cor_test(data, formula, alternative = "two.sided", method = "pearson",
 
 \item{...}{other arguments to be passed to the function
 \code{\link[stats]{cor.test}}.}
+
+\item{x}{numeric vectors of data values.  \code{x} and \code{y}
+    must have the same length.}
+
+\item{y}{numeric vectors of data values.  \code{x} and \code{y}
+    must have the same length.}
 }
 \value{
 return a data frame with the following columns: \itemize{ \item
@@ -48,7 +57,20 @@ return a data frame with the following columns: \itemize{ \item
 Provides a pipe-friendly framework to perform correlation test
  between paired samples, using Pearson, Kendall or Spearman method. Wrapper
  around the function \code{\link[stats]{cor.test}()}.
+
+Available functions include:
+\itemize{
+\item \code{cor_test()}: Correlation test between two variables.
+\item \code{mcor_test()}: Multiple correlation tests between two vectors of variables.
 }
+}
+\section{Functions}{
+\itemize{
+\item \code{cor_test}: Correlation test between two variables.
+
+\item \code{mcor_test}: Multiple correlation tests between two vectors of variables.
+}}
+
 \examples{
 # Correlation test between two variables
 #:::::::::::::::::::::::::::::::::::::::::
@@ -59,5 +81,14 @@ mtcars \%>\% cor_test(wt ~ mpg)
 iris \%>\%
   group_by(Species) \%>\%
  cor_test(Sepal.Width ~ Sepal.Length)
+
+# Multiple correlation test
+#:::::::::::::::::::::::::::::::::::::::::
+# Correlation between one variable vs many
+mtcars \%>\% mcor_test(x = "mpg", y = c("disp", "hp", "drat"))
+
+# Correlation between two vectors of variables
+mtcars \%>\% mcor_test(x = c("mpg", "wt"), y = c("disp", "hp", "drat"))
+
 
 }

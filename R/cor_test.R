@@ -1,6 +1,7 @@
 #' @include utilities.R
 #' @importFrom stats as.formula
 #' @importFrom stats cor.test
+#'
 NULL
 #'Correlation Test
 #'
@@ -8,6 +9,13 @@ NULL
 #'@description Provides a pipe-friendly framework to perform correlation test
 #'  between paired samples, using Pearson, Kendall or Spearman method. Wrapper
 #'  around the function \code{\link[stats]{cor.test}()}.
+#'
+#' Available functions include:
+#' \itemize{
+#' \item \code{cor_test()}: Correlation test between two variables.
+#' \item \code{mcor_test()}: Multiple correlation tests between two vectors of variables.
+#' }
+#'
 #'
 #'@inheritParams stats::cor.test
 #'@inheritParams stats::cor
@@ -34,7 +42,16 @@ NULL
 #'   group_by(Species) %>%
 #'  cor_test(Sepal.Width ~ Sepal.Length)
 #'
-#'@name cor_test
+#' # Multiple correlation test
+#' #:::::::::::::::::::::::::::::::::::::::::
+#' # Correlation between one variable vs many
+#' mtcars %>% mcor_test(x = "mpg", y = c("disp", "hp", "drat"))
+#'
+#' # Correlation between two vectors of variables
+#' mtcars %>% mcor_test(x = c("mpg", "wt"), y = c("disp", "hp", "drat"))
+#'
+#'
+#'@describeIn cor_test Correlation test between two variables.
 #'@export
 cor_test <- function(
   data, formula, alternative = "two.sided",
@@ -84,3 +101,29 @@ cor_test <- function(
 
   res
 }
+
+
+#' @describeIn cor_test Multiple correlation tests between two vectors of variables.
+#' @export
+mcor_test <- function(data, x, y, ...){
+
+  variables.grid <- expand.grid(x = x, y = y, stringsAsFactors = FALSE)
+  variables.grid <- variables.grid %>% as.list()
+
+  var1 <- NULL
+  purrr::pmap_dfr(variables.grid, .cor_test_xy, data, ...) %>%
+    dplyr::arrange(var1)
+}
+
+
+
+
+# Helper functions
+#:::::::::::::::::::::::::::::::::::::::::::::::::::
+
+# Correlation test taking x and y as input
+.cor_test_xy <- function(x, y, data, ...){
+  .formula <- paste0(x, "~", y) %>% as.formula()
+  cor_test(data, .formula, ...)
+}
+
