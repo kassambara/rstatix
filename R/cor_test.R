@@ -10,11 +10,9 @@ NULL
 #'  between paired samples, using Pearson, Kendall or Spearman method. Wrapper
 #'  around the function \code{\link[stats]{cor.test}()}.
 #'
-#' Available functions include:
-#' \itemize{
-#' \item \code{cor_test()}: Correlation test between two variables.
-#' \item \code{mcor_test()}: Multiple correlation tests between two vectors of variables.
-#' }
+#'  Available functions include: \itemize{ \item \code{cor_test()}: Correlation
+#'  test between two variables. \item \code{mcor_test()}: Multiple correlation
+#'  tests between two vectors of variables. }
 #'
 #'
 #'@inheritParams stats::cor.test
@@ -22,6 +20,8 @@ NULL
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{var1 ~ var2} where \code{var1} and
 #'  \code{var2} are two numeric variables in the data.
+#'@param x,y character vectors containing variable names to be used in the
+#'  correlation analysis.
 #'@param ... other arguments to be passed to the function
 #'  \code{\link[stats]{cor.test}}.
 #'

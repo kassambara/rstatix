@@ -76,10 +76,19 @@
     <p>Provides a pipe-friendly framework to perform correlation test
  between paired samples, using Pearson, Kendall or Spearman method. Wrapper
  around the function <code><a href='http://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a>()</code>.</p>
+
+    <p>Available functions include: <ul>
+<li> <code>cor_test()</code>: Correlation
+ test between two variables. </li>
+<li> <code>mcor_test()</code>: Multiple correlation
+ tests between two vectors of variables. </li>
+</ul></p>
     
 
     <pre><span class='fu'>cor_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>,
-  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>use</span> <span class='kw'>=</span> <span class='st'>"complete.obs"</span>, <span class='no'>...</span>)
+
+<span class='fu'>mcor_test</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -102,9 +111,18 @@
     interval.  Currently only used for the Pearson product moment
     correlation coefficient if there are at least 4 complete pairs of
     observations.</dd>
+      <dt>use</dt>
+      <dd>an optional character string giving a
+    method for computing covariances in the presence
+    of missing values.  This must be (an abbreviation of) one of the strings
+    <code>&quot;everything&quot;</code>, <code>&quot;all.obs&quot;</code>, <code>&quot;complete.obs&quot;</code>,
+    <code>&quot;na.or.complete&quot;</code>, or <code>&quot;pairwise.complete.obs&quot;</code>.</dd>
       <dt>...</dt>
       <dd>other arguments to be passed to the function
 <code><a href='http://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a></code>.</dd>
+      <dt>x, y</dt>
+      <dd>character vectors containing variable names to be used in the
+correlation analysis.</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -121,6 +139,15 @@
  <code>conf.low,conf.high</code>: Lower and upper bounds on a confidende interval.
  </li>
 <li> <code>method</code>: the method used to compute the statistic.</li>
+</ul></p>
+    
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    <p><ul>
+<li> <code>cor_test</code>: Correlation test between two variables.</p>
+    <p></li>
+<li> <code>mcor_test</code>: Multiple correlation tests between two vectors of variables.
+</li>
 </ul></p>
     
 
@@ -141,6 +168,26 @@
 #&gt; 1 setosa    Sepal.W… Sepal.…  0.74      7.68 6.71e-10    0.585     0.846 Pears…
 #&gt; 2 versicol… Sepal.W… Sepal.…  0.53      4.28 8.77e- 5    0.290     0.702 Pears…
 #&gt; 3 virginica Sepal.W… Sepal.…  0.46      3.56 8.43e- 4    0.205     0.653 Pears…</div><div class='input'>
+<span class='co'># Multiple correlation test</span>
+<span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
+<span class='co'># Correlation between one variable vs many</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mcor_test</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"mpg"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 8
+#&gt;   var1  var2    cor statistic        p conf.low conf.high method 
+#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt; 1 mpg   disp  -0.85     -8.75 9.38e-10   -0.923    -0.708 Pearson
+#&gt; 2 mpg   hp    -0.78     -6.74 1.79e- 7   -0.885    -0.586 Pearson
+#&gt; 3 mpg   drat   0.68      5.10 1.78e- 5    0.436     0.832 Pearson</div><div class='input'>
+<span class='co'># Correlation between two vectors of variables</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mcor_test</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"mpg"</span>, <span class='st'>"wt"</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 8
+#&gt;   var1  var2    cor statistic        p conf.low conf.high method 
+#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt; 1 mpg   disp  -0.85     -8.75 9.38e-10   -0.923    -0.708 Pearson
+#&gt; 2 mpg   hp    -0.78     -6.74 1.79e- 7   -0.885    -0.586 Pearson
+#&gt; 3 mpg   drat   0.68      5.10 1.78e- 5    0.436     0.832 Pearson
+#&gt; 4 wt    disp   0.89     10.6  1.22e-11    0.781     0.944 Pearson
+#&gt; 5 wt    hp     0.66      4.80 4.15e- 5    0.403     0.819 Pearson
+#&gt; 6 wt    drat  -0.71     -5.56 4.78e- 6   -0.850    -0.484 Pearson</div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -149,6 +196,8 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#functions">Functions</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

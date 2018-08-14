@@ -39,11 +39,8 @@ mcor_test(data, x, y, ...)
 \item{...}{other arguments to be passed to the function
 \code{\link[stats]{cor.test}}.}
 
-\item{x}{numeric vectors of data values.  \code{x} and \code{y}
-    must have the same length.}
-
-\item{y}{numeric vectors of data values.  \code{x} and \code{y}
-    must have the same length.}
+\item{x, y}{character vectors containing variable names to be used in the
+correlation analysis.}
 }
 \value{
 return a data frame with the following columns: \itemize{ \item
@@ -58,11 +55,9 @@ Provides a pipe-friendly framework to perform correlation test
  between paired samples, using Pearson, Kendall or Spearman method. Wrapper
  around the function \code{\link[stats]{cor.test}()}.
 
-Available functions include:
-\itemize{
-\item \code{cor_test()}: Correlation test between two variables.
-\item \code{mcor_test()}: Multiple correlation tests between two vectors of variables.
-}
+ Available functions include: \itemize{ \item \code{cor_test()}: Correlation
+ test between two variables. \item \code{mcor_test()}: Multiple correlation
+ tests between two vectors of variables. }
 }
 \section{Functions}{
 \itemize{
