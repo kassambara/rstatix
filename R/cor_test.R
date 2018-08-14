@@ -107,12 +107,10 @@ cor_test <- function(
 #' @export
 mcor_test <- function(data, x, y, ...){
 
-  variables.grid <- expand.grid(x = x, y = y, stringsAsFactors = FALSE)
+  variables.grid <- expand.grid(y = y, x = x,  stringsAsFactors = FALSE)
   variables.grid <- variables.grid %>% as.list()
+  purrr::pmap_dfr(variables.grid, .cor_test_xy, data, ...)
 
-  var1 <- NULL
-  purrr::pmap_dfr(variables.grid, .cor_test_xy, data, ...) %>%
-    dplyr::arrange(var1)
 }
 
 
