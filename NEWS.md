@@ -1,6 +1,14 @@
 # rstatix 0.1.0
 
-* Added a `NEWS.md` file to track changes to the package.
 
+## to do
+
+cor_matrix(data)
+cor_pval_matrix(data)
+
+as_cor_matrix(cor.test)
+rearrange() by correlation
+pull_variables()
+pull_pvalue_matrix()
 
 
