@@ -29,16 +29,19 @@ The main functions are listed below.
   
 **Comparing means**:
      
-- `t_test()`: performs one-sample, two-sample and pairwise t-tests
-- `wilcox_test()`: performs one-sample, two-sample and pairwise Wilcoxon tests
+- `t_test()`: perform one-sample, two-sample and pairwise t-tests
+- `wilcox_test()`: perform one-sample, two-sample and pairwise Wilcoxon tests
 - `anova_test()`: wrapper around `car:Anova()` to perform Anova test
-- `kruskal_test()`: performs kruskal-wallis rank sum test
+- `kruskal_test()`: perform kruskal-wallis rank sum test
 - `tukey_hsd()` and `tukey_hsd2()`: performs tukey post-hoc tests
 
 **Correlation analysis**:
    
 - `cor_test()`: correlation test between two variables using Pearson, Spearman or Kendall methods.
-- `mcor_test()`: Multiple correlation tests between two vectors of variables.
+- `mcor_test()`: multiple correlation tests between two vectors of variables.
+- `cor_matrix()`: correlation matrix analysis with p-values. 
+- `replace_cor_by_symbols()`: take a correlation matrix and replaces the correlation coefficients by symbols.
+- `pull_upper_triangle()`, `pull_lower_triangle()`: pull lower and upper triangular part of a (correlation) matrix.
 
 **Adjusting p-values and adding significance symbols**:
       

@@ -12,6 +12,8 @@ reference:
   - title: Correlation analysis
     contents:
       - cor_test
+      - cor_matrix
+      - pull_triangle
   - title: Adjust p-values and add significance symbols
     contents:
       - adjust_pvalue
