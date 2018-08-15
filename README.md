@@ -20,8 +20,9 @@ The main functions are listed below.
 
 -   `cor_test()`: correlation test between two variables using Pearson, Spearman or Kendall methods.
 -   `mcor_test()`: multiple correlation tests between two vectors of variables.
--   `cor_matrix()`: correlation matrix analysis with p-values.
+-   `cor_mat()`: perform correlation matrix analysis with p-values.
 -   `replace_cor_by_symbols()`: take a correlation matrix and replaces the correlation coefficients by symbols.
+-   `subset_cor_mat()`: subset a correlation matrix. Alias of `pull_variables()`.
 -   `pull_upper_triangle()`, `pull_lower_triangle()`: pull lower and upper triangular part of a (correlation) matrix.
 
 **Adjusting p-values and adding significance symbols**:
