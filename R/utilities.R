@@ -19,6 +19,8 @@
 #' @importFrom rlang !!
 #' @importFrom rlang :=
 #' @importFrom tibble add_column
+#' @importFrom tibble as_tibble
+#' @importFrom tidyr spread
 
 
 
@@ -129,6 +131,33 @@ to_uppercase_first_letter <- function(x) {
   substr(x, 1, 1) <- toupper(substr(x, 1, 1))
   x
 }
+
+
+# Data conversion
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+# Convert a tbl to matrix
+.tibble_to_matrix <- function(x){
+  x <-  as.data.frame(x)
+  rownames(x) <- x[, 1]
+  x <- x[, -1]
+  as.matrix(x)
+}
+
+# Conver a matrix to standard data frame
+.matrix_to_dataframe <- function(x){
+  x <- as.data.frame(x) %>%
+    add_column(name = rownames(x), .before = 1)
+  rownames(x) <- NULL
+  x
+}
+
+# Conver a matrix to tibble
+.matrix_to_tibble <- function(x){
+  .matrix_to_dataframe(x) %>%
+    as_tibble()
+}
+
 
 
 
