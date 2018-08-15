@@ -38,7 +38,7 @@ Returns the lower or the upper triangular part of a
 \examples{
 # Compute correlation matrix
 df <- mtcars[, c(1,3,4,5,6,7)]
-cor.mat <- cor_matrix(df)
+cor.mat <- cor_mat(df)
 cor.mat
 
 # Pull lower triangular part
