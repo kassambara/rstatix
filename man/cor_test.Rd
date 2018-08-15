@@ -5,16 +5,17 @@
 \alias{mcor_test}
 \title{Correlation Test}
 \usage{
-cor_test(data, formula, alternative = "two.sided", method = "pearson",
-  conf.level = 0.95, use = "complete.obs", ...)
+cor_test(data, vars = NULL, alternative = "two.sided", method = "pearson",
+  conf.level = 0.95, use = "pairwise.complete.obs", ...)
 
 mcor_test(data, x, y, ...)
 }
 \arguments{
-\item{data}{a data.frame containing the variables in the formula.}
+\item{data}{a data.frame containing the variables.}
 
-\item{formula}{a formula of the form \code{var1 ~ var2} where \code{var1} and
-\code{var2} are two numeric variables in the data.}
+\item{vars}{a character vector containing at least two variable names. If
+NULL, multiple pairwise correlation tests is performed between all variables
+in the data.}
 
 \item{alternative}{indicates the alternative hypothesis and must be
     one of \code{"two.sided"}, \code{"greater"} or \code{"less"}.  You
@@ -36,8 +37,8 @@ mcor_test(data, x, y, ...)
     \code{"everything"}, \code{"all.obs"}, \code{"complete.obs"},
     \code{"na.or.complete"}, or \code{"pairwise.complete.obs"}.}
 
-\item{...}{other arguments to be passed to the function
-\code{\link[stats]{cor.test}}.}
+\item{...}{other arguments to be passed to the function \code{cor_test()} or
+\code{\link[stats]{cor.test}()}.}
 
 \item{x, y}{character vectors containing variable names to be used in the
 correlation analysis.}
@@ -56,8 +57,9 @@ Provides a pipe-friendly framework to perform correlation test
  around the function \code{\link[stats]{cor.test}()}.
 
  Available functions include: \itemize{ \item \code{cor_test()}: Correlation
- test between two variables. \item \code{mcor_test()}: Multiple correlation
- tests between two vectors of variables. }
+ test between two or variables. \item \code{mcor_test()}: Multiple
+ correlation tests between two vectors of variables. Using this function, you
+ can compute, for example, the correlation between one variable vs many. }
 }
 \section{Functions}{
 \itemize{
@@ -69,13 +71,17 @@ Provides a pipe-friendly framework to perform correlation test
 \examples{
 # Correlation test between two variables
 #:::::::::::::::::::::::::::::::::::::::::
-mtcars \%>\% cor_test(wt ~ mpg)
+mtcars \%>\% cor_test(c("wt", "mpg"))
+
+# Pairwise correlation between multiple variables
+#:::::::::::::::::::::::::::::::::::::::::
+mtcars \%>\% cor_test(c("wt", "mpg", "disp"))
 
 # Grouped data
 #:::::::::::::::::::::::::::::::::::::::::
 iris \%>\%
   group_by(Species) \%>\%
- cor_test(Sepal.Width ~ Sepal.Length)
+ cor_test(c("Sepal.Width", "Sepal.Length"))
 
 # Multiple correlation test
 #:::::::::::::::::::::::::::::::::::::::::

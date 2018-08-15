@@ -11,19 +11,21 @@ NULL
 #'  around the function \code{\link[stats]{cor.test}()}.
 #'
 #'  Available functions include: \itemize{ \item \code{cor_test()}: Correlation
-#'  test between two variables. \item \code{mcor_test()}: Multiple correlation
-#'  tests between two vectors of variables. }
+#'  test between two or variables. \item \code{mcor_test()}: Multiple
+#'  correlation tests between two vectors of variables. Using this function, you
+#'  can compute, for example, the correlation between one variable vs many. }
 #'
 #'
 #'@inheritParams stats::cor.test
 #'@inheritParams stats::cor
-#'@param data a data.frame containing the variables in the formula.
-#'@param formula a formula of the form \code{var1 ~ var2} where \code{var1} and
-#'  \code{var2} are two numeric variables in the data.
+#'@param data a data.frame containing the variables.
+#'@param vars a character vector containing at least two variable names. If
+#'  NULL, multiple pairwise correlation tests is performed between all variables
+#'  in the data.
 #'@param x,y character vectors containing variable names to be used in the
 #'  correlation analysis.
-#'@param ... other arguments to be passed to the function
-#'  \code{\link[stats]{cor.test}}.
+#'@param ... other arguments to be passed to the function \code{cor_test()} or
+#'  \code{\link[stats]{cor.test}()}.
 #'
 #'@return return a data frame with the following columns: \itemize{ \item
 #'  \code{var1, var2}: the variables used in the correlation test. \item
@@ -34,13 +36,17 @@ NULL
 #' @examples
 #' # Correlation test between two variables
 #' #:::::::::::::::::::::::::::::::::::::::::
-#' mtcars %>% cor_test(wt ~ mpg)
+#' mtcars %>% cor_test(c("wt", "mpg"))
+#'
+#' # Pairwise correlation between multiple variables
+#' #:::::::::::::::::::::::::::::::::::::::::
+#' mtcars %>% cor_test(c("wt", "mpg", "disp"))
 #'
 #' # Grouped data
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' iris %>%
 #'   group_by(Species) %>%
-#'  cor_test(Sepal.Width ~ Sepal.Length)
+#'  cor_test(c("Sepal.Width", "Sepal.Length"))
 #'
 #' # Multiple correlation test
 #' #:::::::::::::::::::::::::::::::::::::::::
@@ -53,36 +59,96 @@ NULL
 #'
 #'@describeIn cor_test Correlation test between two variables.
 #'@export
+
 cor_test <- function(
-  data, formula, alternative = "two.sided",
+  data, vars = NULL, alternative = "two.sided",
   method = "pearson", conf.level = 0.95,
-  use = "complete.obs", ...
+  use = "pairwise.complete.obs", ...
 )
 {
 
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  var1 <- formula.variables[[1]]
-  var2 <- formula.variables[[2]]
+  n.vars <- length(vars)
 
+  # Pairwise correlation test between all vars in data
+  if(is.null(vars)){
+    # Select only numeric columns
+    data <- data %>% dplyr::select_if(is.numeric)
+    # Multiple correlation tests
+    vars <- colnames(data)
+    res <- mcor_test(
+      data, x = vars, y = vars,
+      alternative = alternative, method = method,
+      conf.level = conf.level, use = use, ...
+    )
+  }
+
+  # Correlation test between two variables
+  else if(n.vars == 2){
+    res <- cor_test_xy(
+      data, x = vars[1], y = vars[2],
+      alternative = alternative, method = method,
+      conf.level = conf.level, use = use, ...
+    )
+  }
+
+  # Multiple pairwise correlation between multiple variables
+  else if(n.vars >2){
+    res <- mcor_test(
+      data, x = vars, y = vars,
+      alternative = alternative, method = method,
+      conf.level = conf.level, use = use, ...
+    )
+  }
+
+  else{
+    stop("At least, two varables needed")
+  }
+
+  structure(res, class = c(class(res), "cor_test") )
+}
+
+
+#' @describeIn cor_test Multiple correlation tests between two vectors of variables.
+#' @export
+mcor_test <- function(data, x, y, ...){
+
+  variables.grid <- expand.grid(y = y, x = x,  stringsAsFactors = FALSE)
+  variables.grid <- variables.grid %>% as.list()
+  cor.test <- purrr::pmap_dfr(variables.grid, cor_test_xy, data = data, ...)
+  structure(cor.test, class = c(class(cor.test), "cor_test") )
+}
+
+
+
+
+# Helper functions
+#:::::::::::::::::::::::::::::::::::::::::::::::::::
+
+cor_test_xy <- function(
+  data, x, y, method = "pearson",
+  use = "pairwise.complete.obs", exact = FALSE,  ...
+)
+{
+
+  # Case of grouped data
   if(is_grouped_df(data)){
     . <- NULL
     results <- data %>%
-      do(cor_test(data =., formula, ...)) %>%
+      do(cor_test_xy(data =., x, y, method = method, use = use, exact = exact, ...)) %>%
       ungroup()
     return(results)
   }
 
-
-  res <- paste0("~ ", var1, " + ", var2) %>%
-    as.formula() %>%
-    cor.test(
-      data = data, alternative = alternative,
-      method = method, conf.level = conf.level,
-      exact = FALSE, ...
-      ) %>%
+  # Correlation test
+  x.value <- data %>% pull(x)
+  y.value <- data %>% pull(y)
+  res <- cor.test(
+    x.value, y.value, method = method,
+    exact = exact, use = use, ...
+    ) %>%
     .as_tidy_stat()
 
+  # Format the result
   estimate <- conf.low <- conf.high <- statistic <- p <- cor <- NULL
   .method <- method
 
@@ -93,35 +159,13 @@ cor_test <- function(
 
   res <- res %>%
     rename(cor = estimate) %>%
-    add_column(var1 = var1, var2 = var2, .before = "cor") %>%
+    add_column(var1 = x, var2 = y, .before = "cor") %>%
     mutate(
       cor = signif(cor, 2),
       method = to_uppercase_first_letter(.method)
-      )
+    )
 
   res
 }
 
-
-#' @describeIn cor_test Multiple correlation tests between two vectors of variables.
-#' @export
-mcor_test <- function(data, x, y, ...){
-
-  variables.grid <- expand.grid(y = y, x = x,  stringsAsFactors = FALSE)
-  variables.grid <- variables.grid %>% as.list()
-  purrr::pmap_dfr(variables.grid, .cor_test_xy, data, ...)
-
-}
-
-
-
-
-# Helper functions
-#:::::::::::::::::::::::::::::::::::::::::::::::::::
-
-# Correlation test taking x and y as input
-.cor_test_xy <- function(x, y, data, ...){
-  .formula <- paste0(x, "~", y) %>% as.formula()
-  cor_test(data, .formula, ...)
-}
 
