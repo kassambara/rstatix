@@ -67,11 +67,12 @@ get_cor_mat_pval <- function(x){
   if(!.is_cor_mat(x)){
     stop("x should be an object of class cor_mat")
   }
-  vars <- colnames(x)[-1]
+  col.vars <- colnames(x)[-1]
+  row.vars <- pull(x, 1)[-1]
   pvals <- x %>%
     attr("cor_test") %>%
     spread_cor_test(value = "p") %>%
-    .respect_variables_order(vars)
+    .respect_variables_order(row.vars = row.vars, col.vars = col.vars)
 
   pvals
 }
