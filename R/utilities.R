@@ -144,7 +144,7 @@ to_uppercase_first_letter <- function(x) {
   as.matrix(x)
 }
 
-# Conver a matrix to standard data frame
+# Convert a matrix to standard data frame
 .matrix_to_dataframe <- function(x){
   x <- as.data.frame(x) %>%
     add_column(name = rownames(x), .before = 1)
@@ -152,11 +152,54 @@ to_uppercase_first_letter <- function(x) {
   x
 }
 
-# Conver a matrix to tibble
+# Convert a matrix to tibble
 .matrix_to_tibble <- function(x){
   .matrix_to_dataframe(x) %>%
     as_tibble()
 }
+
+
+# Correlation analysis
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+# Check classes
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.is_cor_mat <- function(x){
+  inherits(x, "cor_mat")
+}
+
+.is_cor_test <- function(x){
+  inherits(x, "cor_test")
+}
+
+# Spread a result from cor_test function
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# x: cor_test results;
+# value: column containing the value to spread
+spread_cor_test <- function(x, value = "cor"){
+
+  # if(!.is_cor_test(x)){
+  #   stop("x should be an object of class cor_test")
+  # }
+
+  var1 <- var2 <- cor <- p <- NULL
+  vars <- x %>% pull(var2) %>% unique()
+
+  res <- x %>%
+    select(var1, var2, !!value) %>%
+    spread(key = "var1", value = value) %>%
+    .respect_variables_order(vars)
+  colnames(res)[1] <- "name"
+
+  res
+}
+
+# Reorder a correlation matrix according
+# to the order of variables in vars
+.respect_variables_order <- function(x, vars){
+  subset_cor_mat(x, vars)
+}
+
 
 
 
