@@ -2,20 +2,28 @@
 % Please edit documentation in R/cor_test.R
 \name{cor_test}
 \alias{cor_test}
-\alias{mcor_test}
 \title{Correlation Test}
 \usage{
-cor_test(data, vars = NULL, alternative = "two.sided", method = "pearson",
-  conf.level = 0.95, use = "pairwise.complete.obs", ...)
-
-mcor_test(data, x, y, ...)
+cor_test(data, vars = NULL, vars2 = NULL, alternative = "two.sided",
+  method = "pearson", conf.level = 0.95, use = "pairwise.complete.obs",
+  ...)
 }
 \arguments{
 \item{data}{a data.frame containing the variables.}
 
-\item{vars}{a character vector containing at least two variable names. If
-NULL, multiple pairwise correlation tests is performed between all variables
-in the data.}
+\item{vars}{a character vector containing variable names for correlation
+analysis. \itemize{ \item If \code{vars} is NULL, multiple pairwise
+correlation tests is performed between all variables in the data. \item If
+\code{vars} contain only one variable, a pairwise correlation analysis is
+performed between the specified variable vs either all the remaining numeric
+variables in the data or variables in \code{vars2} (if specified). \item If
+\code{vars} contain two or more variables: i) if \code{vars2} is not
+specified, a pairwise correlation analysis is performed between all possible
+combinations of variables. ii) if \code{vars2} is specified, each element in
+\code{vars} is tested against all elements in \code{vars2}}}
+
+\item{vars2}{optional character vector. If specified, each element in
+\code{vars} is tested against all elements in \code{vars2}.}
 
 \item{alternative}{indicates the alternative hypothesis and must be
     one of \code{"two.sided"}, \code{"greater"} or \code{"less"}.  You
@@ -39,9 +47,6 @@ in the data.}
 
 \item{...}{other arguments to be passed to the function \code{cor_test()} or
 \code{\link[stats]{cor.test}()}.}
-
-\item{x, y}{character vectors containing variable names to be used in the
-correlation analysis.}
 }
 \value{
 return a data frame with the following columns: \itemize{ \item
@@ -56,19 +61,22 @@ Provides a pipe-friendly framework to perform correlation test
  between paired samples, using Pearson, Kendall or Spearman method. Wrapper
  around the function \code{\link[stats]{cor.test}()}.
 
- Available functions include: \itemize{ \item \code{cor_test()}: Correlation
- test between two or variables. \item \code{mcor_test()}: Multiple
- correlation tests between two vectors of variables. Using this function, you
- can compute, for example, the correlation between one variable vs many. }
+ Can also performs multiple pairwise correlation analyses between more than
+ two variables or between two different vectors of variables. Using this function, you
+ can also compute, for example, the correlation between one variable vs many.
 }
 \section{Functions}{
 \itemize{
 \item \code{cor_test}: Correlation test between two variables.
-
-\item \code{mcor_test}: Multiple correlation tests between two vectors of variables.
 }}
 
 \examples{
+
+# Correlation between the specified variable vs
+# the remaining numeric variables in the data
+#:::::::::::::::::::::::::::::::::::::::::
+mtcars \%>\% cor_test("mpg")
+
 # Correlation test between two variables
 #:::::::::::::::::::::::::::::::::::::::::
 mtcars \%>\% cor_test(c("wt", "mpg"))
@@ -86,10 +94,20 @@ iris \%>\%
 # Multiple correlation test
 #:::::::::::::::::::::::::::::::::::::::::
 # Correlation between one variable vs many
-mtcars \%>\% mcor_test(x = "mpg", y = c("disp", "hp", "drat"))
+mtcars \%>\% cor_test(
+  vars = "mpg",
+  vars2 = c("disp", "hp", "drat")
+ )
 
 # Correlation between two vectors of variables
-mtcars \%>\% mcor_test(x = c("mpg", "wt"), y = c("disp", "hp", "drat"))
+# Each element in vars is tested against all elements in vars2
+mtcars \%>\% cor_test(
+  vars = c("mpg", "wt"),
+  vars2 = c("disp", "hp", "drat")
+ )
 
 
+}
+\seealso{
+cor_mat
 }
