@@ -11,6 +11,7 @@ NULL
 #' @param vars a character vector containing at least two variable names.
 #' @param ... Other arguments passed to the function \code{\link{cor_test}()}
 #' @return a data frame
+#' @seealso cor_test
 #' @examples
 #' # Compute correlation matrix
 #' #::::::::::::::::::::::::::::::::::::::::::
@@ -37,30 +38,51 @@ NULL
 #'  ) %>%
 #'  pull_lower_triangle()
 #'
+#' # Reorder by correlation and get p-values
+#' #::::::::::::::::::::::::::::::::::::::::::
+#' # Reorder
+#' cor.mat %>%
+#'   reorder_cor_mat()
+#' # Get p-values of the reordered cor_mat
+#' cor.mat %>%
+#'   reorder_cor_mat() %>%
+#'   get_cor_mat_pval()
+#'
 #' @describeIn cor_mat compute correlation matrix with p-values.
 #' @export
-cor_mat <- function(data, vars = NULL,  ...){
+cor_mat <- function(data, vars = NULL, method = "pearson", ...){
 
-  res.cor.test <- cor_test(data, vars = vars, ...)
-
-
-  var1 <- var2 <- cor <- NULL
-  vars <- res.cor.test %>%
-    pull(var2) %>% unique()
-
+  res.cor.test <- cor_test(data, vars = vars, method = method, ...)
   cor.mat <- res.cor.test %>%
-    select(var1, var2, cor) %>%
-    spread(key = "var1", value = "cor") %>%
-    .respect_variables_order(vars)
-  colnames(cor.mat)[1] <- "name"
-  attr(cor.mat, "cor_test") <- res.cor.test
+    spread_cor_test(value = "cor")
 
+  attr(cor.mat, "cor_test") <- res.cor.test
   structure(cor.mat, class = c(class(cor.mat), "cor_mat") )
 }
 
-#' @describeIn cor_mat reorder correlation matrix, according the
-#'   coefficients, using the hierarchical clustering method.
+#' @describeIn cor_mat return a correlation matrix p-values.
+#' @export
+get_cor_mat_pval <- function(x){
+
+  if(!.is_cor_mat(x)){
+    stop("x should be an object of class cor_mat")
+  }
+  vars <- colnames(x)[-1]
+  pvals <- x %>%
+    attr("cor_test") %>%
+    spread_cor_test(value = "p") %>%
+    .respect_variables_order(vars)
+
+  pvals
+}
+
+
+#' @describeIn cor_mat reorder correlation matrix, according to the coefficients,
+#'   using the hierarchical clustering method.
+#' @export
 reorder_cor_mat <- function(x){
+
+  cor.test <- attr(x, "cor_test")
 
   if(inherits(x, "tbl_df"))
     x <- .tibble_to_matrix(x)
@@ -68,8 +90,15 @@ reorder_cor_mat <- function(x){
   hc <- stats::as.dist(1 - x) %>%
     stats::hclust(method = "complete")
 
-  x[hc$order, hc$order] %>%
+  x <- x[hc$order, hc$order] %>%
     .matrix_to_tibble()
+
+  if(!is.null(cor.test)){
+    attr(x, "cor_test") <- cor.test
+    x <- structure(x, class = c(class(x), "cor_mat") )
+  }
+
+  x
 }
 
 
@@ -98,7 +127,7 @@ subset_cor_mat <- function(x, vars){
 
   vars <- unique(vars)
   if(length(vars) == 1)
-    stop("You should provide, at least, two variables", call. = FALSE)
+    stop("You should provide, at least, two variables")
 
   if(inherits(x, "tbl_df"))
     x <- .tibble_to_matrix(x)
@@ -113,9 +142,3 @@ pull_variables <- function(x, vars){
   subset_cor_mat(x,vars)
 }
 
-
-# Helper function
-#:::::::::::::::::::::::::::::::::::::
-.respect_variables_order <- function(x, vars){
-  subset_cor_mat(x, vars)
-}

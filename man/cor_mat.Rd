@@ -2,13 +2,16 @@
 % Please edit documentation in R/cor_mat.R
 \name{cor_mat}
 \alias{cor_mat}
+\alias{get_cor_mat_pval}
 \alias{reorder_cor_mat}
 \alias{replace_cor_by_symbols}
 \alias{subset_cor_mat}
 \alias{pull_variables}
 \title{Correlation Matrix with P-values}
 \usage{
-cor_mat(data, vars = NULL, ...)
+cor_mat(data, vars = NULL, method = "pearson", ...)
+
+get_cor_mat_pval(x)
 
 reorder_cor_mat(x)
 
@@ -23,6 +26,10 @@ pull_variables(x, vars)
 \item{data}{a data.frame containing the variables.}
 
 \item{vars}{a character vector containing at least two variable names.}
+
+\item{method}{a character string indicating which correlation
+    coefficient is to be  used for the test.  One of \code{"pearson"},
+    \code{"kendall"}, or \code{"spearman"}, can be abbreviated.}
 
 \item{...}{Other arguments passed to the function \code{\link{cor_test}()}}
 
@@ -44,8 +51,10 @@ Compute correlation matrix with p-values. Numeric columns in the
 \itemize{
 \item \code{cor_mat}: compute correlation matrix with p-values.
 
-\item \code{reorder_cor_mat}: reorder correlation matrix, according the
-coefficients, using the hierarchical clustering method.
+\item \code{get_cor_mat_pval}: return a correlation matrix p-values.
+
+\item \code{reorder_cor_mat}: reorder correlation matrix, according to the coefficients,
+using the hierarchical clustering method.
 
 \item \code{replace_cor_by_symbols}: Replace correlation coefficients by symbols
 
@@ -80,4 +89,17 @@ cor.mat \%>\%
  ) \%>\%
  pull_lower_triangle()
 
+# Reorder by correlation and get p-values
+#::::::::::::::::::::::::::::::::::::::::::
+# Reorder
+cor.mat \%>\%
+  reorder_cor_mat()
+# Get p-values of the reordered cor_mat
+cor.mat \%>\%
+  reorder_cor_mat() \%>\%
+  get_cor_mat_pval()
+
+}
+\seealso{
+cor_test
 }
