@@ -183,12 +183,13 @@ spread_cor_test <- function(x, value = "cor"){
   # }
 
   var1 <- var2 <- cor <- p <- NULL
-  vars <- x %>% pull(var2) %>% unique()
+  row.vars <- x %>% pull(var2) %>% unique()
+  col.vars <- x %>% pull(var1) %>% unique()
 
   res <- x %>%
     select(var1, var2, !!value) %>%
     spread(key = "var1", value = value) %>%
-    .respect_variables_order(vars)
+    .respect_variables_order(row.vars = row.vars, col.vars = col.vars)
   colnames(res)[1] <- "name"
 
   res
@@ -196,8 +197,9 @@ spread_cor_test <- function(x, value = "cor"){
 
 # Reorder a correlation matrix according
 # to the order of variables in vars
-.respect_variables_order <- function(x, vars){
-  subset_cor_mat(x, vars)
+.respect_variables_order <- function(x, vars, row.vars = vars, col.vars = vars){
+  x <- .tibble_to_matrix(x)
+  x[row.vars, col.vars] %>% .matrix_to_tibble()
 }
 
 
