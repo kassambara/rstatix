@@ -78,7 +78,7 @@ NULL
 #'  )
 #'
 #'
-#'@describeIn cor_test Correlation test between two variables.
+#'@describeIn cor_test correlation test between two or more variables.
 #'@export
 
 cor_test <- function(
@@ -126,6 +126,16 @@ cor_test <- function(
   structure(res, class = c(class(res), "cor_test") )
 }
 
+
+#' @describeIn cor_test transform a cor_test object into a correlation matrix
+#'  format as provided by \code{\link{cor_mat}()}
+#'  @param x an object of class \code{cor_test}.
+#' @export
+as_cor_mat <- function(x){
+  cor.mat <- x %>% spread_cor_test(value = "cor")
+  attr(cor.mat, "cor_test") <- x
+  structure(cor.mat, class = c(class(cor.mat), "cor_mat") )
+}
 
 
 
@@ -186,6 +196,7 @@ cor_test_xy <- function(
     add_column(var1 = x, var2 = y, .before = "cor") %>%
     mutate(
       cor = signif(cor, 2),
+      p = signif(p, 2),
       method = to_uppercase_first_letter(.method)
     )
 

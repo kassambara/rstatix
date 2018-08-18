@@ -2,11 +2,14 @@
 % Please edit documentation in R/cor_test.R
 \name{cor_test}
 \alias{cor_test}
+\alias{as_cor_mat}
 \title{Correlation Test}
 \usage{
 cor_test(data, vars = NULL, vars2 = NULL, alternative = "two.sided",
   method = "pearson", conf.level = 0.95, use = "pairwise.complete.obs",
   ...)
+
+as_cor_mat(x)
 }
 \arguments{
 \item{data}{a data.frame containing the variables.}
@@ -47,6 +50,9 @@ combinations of variables. ii) if \code{vars2} is specified, each element in
 
 \item{...}{other arguments to be passed to the function \code{cor_test()} or
 \code{\link[stats]{cor.test}()}.}
+
+\item{x}{numeric vectors of data values.  \code{x} and \code{y}
+    must have the same length.}
 }
 \value{
 return a data frame with the following columns: \itemize{ \item
@@ -67,7 +73,11 @@ Provides a pipe-friendly framework to perform correlation test
 }
 \section{Functions}{
 \itemize{
-\item \code{cor_test}: Correlation test between two variables.
+\item \code{cor_test}: correlation test between two or more variables.
+
+\item \code{as_cor_mat}: transform a cor_test object into a correlation matrix
+format as provided by \code{\link{cor_mat}()}
+@param x an object of class \code{cor_test}.
 }}
 
 \examples{
