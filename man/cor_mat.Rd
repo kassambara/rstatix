@@ -6,7 +6,6 @@
 \alias{reorder_cor_mat}
 \alias{replace_cor_by_symbols}
 \alias{subset_cor_mat}
-\alias{pull_variables}
 \title{Correlation Matrix with P-values}
 \usage{
 cor_mat(data, vars = NULL, method = "pearson", ...)
@@ -18,9 +17,7 @@ reorder_cor_mat(x)
 replace_cor_by_symbols(x, cutpoints = c(0, 0.25, 0.5, 0.75, 1),
   symbols = c(" ", ".", "+", "*"))
 
-subset_cor_mat(x, vars)
-
-pull_variables(x, vars)
+subset_cor_mat(x, ..., vars = NULL)
 }
 \arguments{
 \item{data}{a data.frame containing the variables.}
@@ -31,21 +28,27 @@ pull_variables(x, vars)
     coefficient is to be  used for the test.  One of \code{"pearson"},
     \code{"kendall"}, or \code{"spearman"}, can be abbreviated.}
 
-\item{...}{Other arguments passed to the function \code{\link{cor_test}()}}
+\item{...}{Additional arguments. \itemize{ \item In \code{cor_mat()}: Other
+arguments passed to the function \code{\link{cor_test}()} \item In
+\code{subset_cor_mat()}: One or more unquoted expressions separated by
+commas. These arguments are passed to the function
+\code{\link[dplyr]{select}}() }}
 
-\item{x}{a correlation matrix}
+\item{x}{an object of class \code{cor_mat}}
 
-\item{cutpoints}{numeric vector used for intervals. Default values are \code{c(0, 0.25, 0.5, 0.75, 1)}.}
+\item{cutpoints}{numeric vector used for intervals. Default values are
+\code{c(0, 0.25, 0.5, 0.75, 1)}.}
 
 \item{symbols}{character vector, one shorter than cutpoints, used as
-correlation coefficient symbols. Default values are \code{c(" ", ".",  "+", "*")}.}
+correlation coefficient symbols. Default values are \code{c(" ", ".",  "+",
+"*")}.}
 }
 \value{
 a data frame
 }
 \description{
 Compute correlation matrix with p-values. Numeric columns in the
-  data are detected and automatically selected.
+ data are detected and automatically selected.
 }
 \section{Functions}{
 \itemize{
@@ -56,11 +59,9 @@ Compute correlation matrix with p-values. Numeric columns in the
 \item \code{reorder_cor_mat}: reorder correlation matrix, according to the coefficients,
 using the hierarchical clustering method.
 
-\item \code{replace_cor_by_symbols}: Replace correlation coefficients by symbols
+\item \code{replace_cor_by_symbols}: replace correlation coefficients by symbols
 
-\item \code{subset_cor_mat}: Subset of a correlation matrix
-
-\item \code{pull_variables}: alias of subset_cor_mat()
+\item \code{subset_cor_mat}: subset of a correlation matrix
 }}
 
 \examples{
@@ -98,6 +99,17 @@ cor.mat \%>\%
 cor.mat \%>\%
   reorder_cor_mat() \%>\%
   get_cor_mat_pval()
+
+# Subsetting correlation matrix
+#::::::::::::::::::::::::::::::::::::::::::
+
+# Select some variables of interest
+cor.mat \%>\%
+  subset_cor_mat(mpg, drat, wt)
+
+# Remove variables
+cor.mat \%>\%
+  subset_cor_mat(-mpg, -wt)
 
 }
 \seealso{

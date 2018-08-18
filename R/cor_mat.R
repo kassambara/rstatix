@@ -1,17 +1,23 @@
 #' @include utilities.R
 NULL
-#' Correlation Matrix with P-values
-#' @description Compute correlation matrix with p-values. Numeric columns in the
-#'   data are detected and automatically selected.
-#' @inheritParams cor_test
-#' @param x a correlation matrix
-#' @param cutpoints numeric vector used for intervals. Default values are \code{c(0, 0.25, 0.5, 0.75, 1)}.
-#' @param symbols character vector, one shorter than cutpoints, used as
-#'   correlation coefficient symbols. Default values are \code{c(" ", ".",  "+", "*")}.
-#' @param vars a character vector containing at least two variable names.
-#' @param ... Other arguments passed to the function \code{\link{cor_test}()}
-#' @return a data frame
-#' @seealso cor_test
+#'Correlation Matrix with P-values
+#'@description Compute correlation matrix with p-values. Numeric columns in the
+#'  data are detected and automatically selected.
+#'@inheritParams cor_test
+#'@param x an object of class \code{cor_mat}
+#'@param cutpoints numeric vector used for intervals. Default values are
+#'  \code{c(0, 0.25, 0.5, 0.75, 1)}.
+#'@param symbols character vector, one shorter than cutpoints, used as
+#'  correlation coefficient symbols. Default values are \code{c(" ", ".",  "+",
+#'  "*")}.
+#'@param vars a character vector containing at least two variable names.
+#'@param ... Additional arguments. \itemize{ \item In \code{cor_mat()}: Other
+#'  arguments passed to the function \code{\link{cor_test}()} \item In
+#'  \code{subset_cor_mat()}: One or more unquoted expressions separated by
+#'  commas. These arguments are passed to the function
+#'  \code{\link[dplyr]{select}}() }
+#'@return a data frame
+#'@seealso cor_test
 #' @examples
 #' # Compute correlation matrix
 #' #::::::::::::::::::::::::::::::::::::::::::
@@ -48,8 +54,19 @@ NULL
 #'   reorder_cor_mat() %>%
 #'   get_cor_mat_pval()
 #'
-#' @describeIn cor_mat compute correlation matrix with p-values.
-#' @export
+#' # Subsetting correlation matrix
+#' #::::::::::::::::::::::::::::::::::::::::::
+#'
+#' # Select some variables of interest
+#' cor.mat %>%
+#'   subset_cor_mat(mpg, drat, wt)
+#'
+#' # Remove variables
+#' cor.mat %>%
+#'   subset_cor_mat(-mpg, -wt)
+#'
+#'@describeIn cor_mat compute correlation matrix with p-values.
+#'@export
 cor_mat <- function(data, vars = NULL, method = "pearson", ...){
 
   res.cor.test <- cor_test(data, vars = vars, method = method, ...)
@@ -103,7 +120,7 @@ reorder_cor_mat <- function(x){
 }
 
 
-#' @describeIn cor_mat Replace correlation coefficients by symbols
+#' @describeIn cor_mat replace correlation coefficients by symbols
 #' @export
 replace_cor_by_symbols <- function( x, cutpoints = c(0, 0.25, 0.5, 0.75, 1),
                                     symbols = c(" ", ".",  "+", "*"))
@@ -122,24 +139,31 @@ replace_cor_by_symbols <- function( x, cutpoints = c(0, 0.25, 0.5, 0.75, 1),
   structure(res, class = c("data.frame", "tbl_df"))
 }
 
-#' @describeIn cor_mat Subset of a correlation matrix
+#' @describeIn cor_mat subset of a correlation matrix
 #' @export
-subset_cor_mat <- function(x, vars){
+subset_cor_mat <- function(x, ..., vars = NULL){
 
-  vars <- unique(vars)
-  if(length(vars) == 1)
-    stop("You should provide, at least, two variables")
+  if(!inherits(x, "tbl_df"))
+    x <- .matrix_to_tibble(x)
+  vars2 <- rlang::quos(...)
 
-  if(inherits(x, "tbl_df"))
-    x <- .tibble_to_matrix(x)
+  . <- name <- NULL
 
-  x[vars, vars] %>% .matrix_to_tibble()
-}
+  if(length(vars2) > 0){
+    .name <- x %>% pull(name)
+    x <- x %>%
+      select(...) %>%
+      mutate(name = .name) %>%
+      select(name, everything())
+    vars <- c(vars, colnames(x)[-1])
+  }
+  if(!is.null(vars)){
+    vars <- unique(vars)
+      x <- x %>%
+        select(!!c("name", vars)) %>%
+        filter(name %in% vars)
+  }
 
-
-#' @describeIn cor_mat alias of subset_cor_mat()
-#' @export
-pull_variables <- function(x, vars){
-  subset_cor_mat(x,vars)
+  x
 }
 
