@@ -6,18 +6,24 @@
 \alias{pull_lower_triangle}
 \title{Pull Lower and Upper Triangular Part of a Matrix}
 \usage{
-pull_triangle(x, triangle = c("lower", "upper"), diagonal = FALSE)
+pull_triangle(x, triangle = c("lower", "upper"), diagonal = FALSE,
+  replacement = "")
 
-pull_upper_triangle(x, diagonal = FALSE)
+pull_upper_triangle(x, diagonal = FALSE, replacement = "")
 
-pull_lower_triangle(x, diagonal = FALSE)
+pull_lower_triangle(x, diagonal = FALSE, replacement = "")
 }
 \arguments{
 \item{x}{a (correlation) matrix}
 
-\item{triangle}{the type of triangle to pull. Allowed values are one of "upper" and "lower".}
+\item{triangle}{the type of triangle to pull. Allowed values are one of
+"upper" and "lower".}
 
-\item{diagonal}{logical. Default is FALSE. If TRUE, the matrix diagonal is included.}
+\item{diagonal}{logical. Default is FALSE. If TRUE, the matrix diagonal is
+included.}
+
+\item{replacement}{Appropriate values are either "" or NA. Used to replace
+the upper, lower or the diagonal part of the matrix.}
 }
 \value{
 a data frame
