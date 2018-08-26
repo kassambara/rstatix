@@ -11,9 +11,22 @@ reference:
       - tukey_hsd
   - title: Correlation analysis
     contents:
+
       - cor_test
-      - cor_matrix
+      - cor_mat
+      - as_cor_mat
+
+      - cor_select
       - pull_triangle
+      - replace_triangle
+
+      - cor_reorder
+      - cor_spread
+      - cor_gather
+
+      - cor_as_symbols
+      - cor_plot
+
   - title: Adjust p-values and add significance symbols
     contents:
       - adjust_pvalue

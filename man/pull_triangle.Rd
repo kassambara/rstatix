@@ -6,27 +6,23 @@
 \alias{pull_lower_triangle}
 \title{Pull Lower and Upper Triangular Part of a Matrix}
 \usage{
-pull_triangle(x, triangle = c("lower", "upper"), diagonal = FALSE,
-  replacement = "")
+pull_triangle(x, triangle = c("lower", "upper"), diagonal = FALSE)
 
-pull_upper_triangle(x, diagonal = FALSE, replacement = "")
+pull_upper_triangle(x, diagonal = FALSE)
 
-pull_lower_triangle(x, diagonal = FALSE, replacement = "")
+pull_lower_triangle(x, diagonal = FALSE)
 }
 \arguments{
 \item{x}{a (correlation) matrix}
 
-\item{triangle}{the type of triangle to pull. Allowed values are one of
+\item{triangle}{the triangle to pull. Allowed values are one of
 "upper" and "lower".}
 
 \item{diagonal}{logical. Default is FALSE. If TRUE, the matrix diagonal is
 included.}
-
-\item{replacement}{Appropriate values are either "" or NA. Used to replace
-the upper, lower or the diagonal part of the matrix.}
 }
 \value{
-a data frame
+an object of class \code{cor_mat_tri}, which is a data frame
 }
 \description{
 Returns the lower or the upper triangular part of a
@@ -34,17 +30,27 @@ Returns the lower or the upper triangular part of a
 }
 \section{Functions}{
 \itemize{
-\item \code{pull_triangle}: Returns either the lower or upper triangular part of a matrix.
+\item \code{pull_triangle}: returns either the lower or upper triangular part of a matrix.
 
-\item \code{pull_upper_triangle}: Returns the upper triangular part of a matrix.
+\item \code{pull_upper_triangle}: returns an object of class \code{upper_tri}, which
+is a data frame containing the upper triangular part of a matrix.
 
-\item \code{pull_lower_triangle}: Returns the lower triangular part of a matrix.
+\item \code{pull_lower_triangle}: returns an object of class \code{lower_tri}, which
+is a data frame containing the lower triangular part of a matrix.
 }}
 
 \examples{
-# Compute correlation matrix
-df <- mtcars[, c(1,3,4,5,6,7)]
-cor.mat <- cor_mat(df)
+
+# Data preparation
+#::::::::::::::::::::::::::::::::::::::::::
+mydata <- mtcars \%>\%
+  select(mpg, disp, hp, drat, wt, qsec)
+head(mydata, 3)
+
+# Compute correlation matrix and pull triangles
+#::::::::::::::::::::::::::::::::::::::::::
+# Correlation matrix
+cor.mat <- cor_mat(mydata)
 cor.mat
 
 # Pull lower triangular part
@@ -52,4 +58,9 @@ cor.mat \%>\% pull_lower_triangle()
 
 # Pull upper triangular part
 cor.mat \%>\% pull_upper_triangle()
+
+
+}
+\seealso{
+\code{\link{replace_triangle}()}
 }

@@ -18,8 +18,8 @@ NULL
 #'@inheritParams stats::cor.test
 #'@inheritParams stats::cor
 #'@param data a data.frame containing the variables.
-#'@param vars a character vector containing variable names for correlation
-#'  analysis. \itemize{ \item If \code{vars} is NULL, multiple pairwise
+#'@param vars optional character vector containing variable names for correlation
+#'  analysis. Ignored when dot vars are specified. \itemize{ \item If \code{vars} is NULL, multiple pairwise
 #'  correlation tests is performed between all variables in the data. \item If
 #'  \code{vars} contain only one variable, a pairwise correlation analysis is
 #'  performed between the specified variable vs either all the remaining numeric
@@ -30,9 +30,8 @@ NULL
 #'  \code{vars} is tested against all elements in \code{vars2}}
 #'@param vars2 optional character vector. If specified, each element in
 #'  \code{vars} is tested against all elements in \code{vars2}.
-#'
-#'@param ... other arguments to be passed to the function \code{cor_test()} or
-#'  \code{\link[stats]{cor.test}()}.
+#'@param ... One or more unquoted expressions (or variable names) separated by
+#'  commas. Used to select a variable of interest. Alternative to the argument \code{vars}.
 #'
 #'@return return a data frame with the following columns: \itemize{ \item
 #'  \code{var1, var2}: the variables used in the correlation test. \item
@@ -40,27 +39,27 @@ NULL
 #'  statistic used to compute the p-value. \item \code{p}: p-value. \item
 #'  \code{conf.low,conf.high}: Lower and upper bounds on a confidende interval.
 #'  \item \code{method}: the method used to compute the statistic.}
-#' @seealso cor_mat
+#' @seealso \code{\link{cor_mat}()}, \code{\link{as_cor_mat}()}
 #' @examples
 #'
 #' # Correlation between the specified variable vs
 #' # the remaining numeric variables in the data
 #' #:::::::::::::::::::::::::::::::::::::::::
-#' mtcars %>% cor_test("mpg")
+#' mtcars %>% cor_test(mpg)
 #'
 #' # Correlation test between two variables
 #' #:::::::::::::::::::::::::::::::::::::::::
-#' mtcars %>% cor_test(c("wt", "mpg"))
+#' mtcars %>% cor_test(wt, mpg)
 #'
 #' # Pairwise correlation between multiple variables
 #' #:::::::::::::::::::::::::::::::::::::::::
-#' mtcars %>% cor_test(c("wt", "mpg", "disp"))
+#' mtcars %>% cor_test(wt, mpg, disp)
 #'
 #' # Grouped data
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' iris %>%
 #'   group_by(Species) %>%
-#'  cor_test(c("Sepal.Width", "Sepal.Length"))
+#'  cor_test(Sepal.Width, Sepal.Length)
 #'
 #' # Multiple correlation test
 #' #:::::::::::::::::::::::::::::::::::::::::
@@ -82,27 +81,29 @@ NULL
 #'@export
 
 cor_test <- function(
-  data, vars = NULL, vars2 =  NULL, alternative = "two.sided",
+  data, ..., vars = NULL, vars2 =  NULL, alternative = "two.sided",
   method = "pearson", conf.level = 0.95,
-  use = "pairwise.complete.obs", ...
+  use = "pairwise.complete.obs"
 )
 {
 
+  vars <- data %>% collect_specified_vars(..., vars = vars)
   n.vars <- length(vars)
+
   # Select only numeric columns
-  data <- data %>%
-    dplyr::select_if(is.numeric)
+  data.numeric <- data %>%
+    select_numeric_columns()
 
   if(is.null(vars2)){
 
     if(is.null(vars)){
       # Pairwise correlation test between all vars in data
-      vars <- vars2 <- colnames(data)
+      vars <- vars2 <- colnames(data.numeric)
     }
     else if(n.vars == 1){
       # Correlation between the specified variable vs
       # all numeric vars in the data
-      vars2 <- colnames(data) %>% setdiff(vars)
+      vars2 <- colnames( data.numeric) %>% setdiff(vars)
     }
     else if(n.vars == 2){
       # Correlation test between two variables
@@ -118,49 +119,27 @@ cor_test <- function(
     stop("You should specify the argument vars in addition to vars2")
   }
 
-  res <- mcor_test(
-    data, x = vars, y = vars2,
-    alternative = alternative, method = method,
-    conf.level = conf.level, use = use, ...
-  )
-  structure(res, class = c(class(res), "cor_test") )
-}
-
-
-#' @describeIn cor_test transform a cor_test object into a correlation matrix
-#'  format as provided by \code{\link{cor_mat}()}
-#'  @param x an object of class \code{cor_test}.
-#' @export
-as_cor_mat <- function(x){
-  cor.mat <- x %>% spread_cor_test(value = "cor")
-  attr(cor.mat, "cor_test") <- x
-  structure(cor.mat, class = c(class(cor.mat), "cor_mat") )
+  # Multiple correlation tests between two vectors of variables.
+  expand.grid(y = vars2, x = vars,  stringsAsFactors = FALSE) %>%
+    as.list() %>%
+    purrr::pmap_dfr(
+      cor_test_xy, data = data, alternative = alternative,
+      method = method, conf.level = conf.level, use = use
+      ) %>%
+    add_class("cor_test")
 }
 
 
 
+#:::::::::::::::::::::::::::::::::::::::::::::::::::
 # Helper functions
 #:::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-# Multiple correlation tests between two vectors of variables.
-#++++++++++++++++++++++++++++++++++++++++++++++++++++
-# x,y character vectors containing variable names to be used in the
-# correlation analysis.
-mcor_test <- function(data, x, y, ...){
-
-  variables.grid <- expand.grid(y = y, x = x,  stringsAsFactors = FALSE)
-  variables.grid <- variables.grid %>% as.list()
-  cor.test <- purrr::pmap_dfr(variables.grid, cor_test_xy, data = data, ...)
-  structure(cor.test, class = c(class(cor.test), "cor_test") )
-}
-
 
 # Correlation test between two variables x and y
 #++++++++++++++++++++++++++++++++++++++++++++++++++++
 cor_test_xy <- function(
   data, x, y, method = "pearson",
-  use = "pairwise.complete.obs", exact = FALSE,  ...
+  use = "pairwise.complete.obs", ...
 )
 {
 
@@ -168,39 +147,49 @@ cor_test_xy <- function(
   if(is_grouped_df(data)){
     . <- NULL
     results <- data %>%
-      do(cor_test_xy(data =., x, y, method = method, use = use, exact = exact, ...)) %>%
+      do(cor_test_xy(data =., x, y, method = method, use = use, ...)) %>%
       ungroup()
     return(results)
   }
-
-  # Correlation test
+  # Correlation test, supress the warning when method = "spearman" or "kendall".
   x.value <- data %>% pull(x)
   y.value <- data %>% pull(y)
-  res <- cor.test(
-    x.value, y.value, method = method,
-    exact = exact, use = use, ...
-    ) %>%
-    .as_tidy_stat()
+  suppressWarnings(cor.test(x.value, y.value, method = method, use = use, ...)) %>%
+    as_tidy_cor() %>%
+    add_column(var1 = x, var2 = y, .before = "cor")
+}
 
-  # Format the result
-  estimate <- conf.low <- conf.high <- statistic <- p <- cor <- NULL
-  .method <- method
 
-  if(method == "pearson"){
-    res <- res %>%
-      select(estimate, statistic, p, conf.low, conf.high,  method)
+
+# Multiple correlation tests between two vectors of variables.
+#++++++++++++++++++++++++++++++++++++++++++++++++++++
+# x,y character vectors containing variable names to be used in the
+# correlation analysis.
+mcor_test <- function(data, x, y, ...){
+  expand.grid(y = y, x = x,  stringsAsFactors = FALSE) %>%
+    as.list() %>%
+    purrr::pmap_dfr(cor_test_xy, data = data, ...) %>%
+    add_class("cor_test")
+}
+
+
+# Tidy output for correlation test
+as_tidy_cor <- function(x){
+
+  estimate <- cor <- statistic <- p <-
+    conf.low <- conf.high <- method <- NULL
+  res <- x %>%
+    as_tidy_stat() %>%
+    rename(cor = estimate) %>%
+    mutate(cor = signif(cor, 2))
+  if(res$method == "Pearson"){
+    res %>% select(cor, statistic, p, conf.low, conf.high, method)
+  }
+  else {
+    res %>% select(cor, statistic, p, method)
   }
 
-  res <- res %>%
-    rename(cor = estimate) %>%
-    add_column(var1 = x, var2 = y, .before = "cor") %>%
-    mutate(
-      cor = signif(cor, 2),
-      p = signif(p, 2),
-      method = to_uppercase_first_letter(.method)
-    )
-
-  res
 }
+
 
 

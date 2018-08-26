@@ -2,20 +2,19 @@
 % Please edit documentation in R/cor_test.R
 \name{cor_test}
 \alias{cor_test}
-\alias{as_cor_mat}
 \title{Correlation Test}
 \usage{
-cor_test(data, vars = NULL, vars2 = NULL, alternative = "two.sided",
-  method = "pearson", conf.level = 0.95, use = "pairwise.complete.obs",
-  ...)
-
-as_cor_mat(x)
+cor_test(data, ..., vars = NULL, vars2 = NULL, alternative = "two.sided",
+  method = "pearson", conf.level = 0.95, use = "pairwise.complete.obs")
 }
 \arguments{
 \item{data}{a data.frame containing the variables.}
 
-\item{vars}{a character vector containing variable names for correlation
-analysis. \itemize{ \item If \code{vars} is NULL, multiple pairwise
+\item{...}{One or more unquoted expressions (or variable names) separated by
+commas. Used to select a variable of interest. Alternative to the argument \code{vars}.}
+
+\item{vars}{optional character vector containing variable names for correlation
+analysis. Ignored when dot vars are specified. \itemize{ \item If \code{vars} is NULL, multiple pairwise
 correlation tests is performed between all variables in the data. \item If
 \code{vars} contain only one variable, a pairwise correlation analysis is
 performed between the specified variable vs either all the remaining numeric
@@ -47,12 +46,6 @@ combinations of variables. ii) if \code{vars2} is specified, each element in
     of missing values.  This must be (an abbreviation of) one of the strings
     \code{"everything"}, \code{"all.obs"}, \code{"complete.obs"},
     \code{"na.or.complete"}, or \code{"pairwise.complete.obs"}.}
-
-\item{...}{other arguments to be passed to the function \code{cor_test()} or
-\code{\link[stats]{cor.test}()}.}
-
-\item{x}{numeric vectors of data values.  \code{x} and \code{y}
-    must have the same length.}
 }
 \value{
 return a data frame with the following columns: \itemize{ \item
@@ -74,10 +67,6 @@ Provides a pipe-friendly framework to perform correlation test
 \section{Functions}{
 \itemize{
 \item \code{cor_test}: correlation test between two or more variables.
-
-\item \code{as_cor_mat}: transform a cor_test object into a correlation matrix
-format as provided by \code{\link{cor_mat}()}
-@param x an object of class \code{cor_test}.
 }}
 
 \examples{
@@ -85,21 +74,21 @@ format as provided by \code{\link{cor_mat}()}
 # Correlation between the specified variable vs
 # the remaining numeric variables in the data
 #:::::::::::::::::::::::::::::::::::::::::
-mtcars \%>\% cor_test("mpg")
+mtcars \%>\% cor_test(mpg)
 
 # Correlation test between two variables
 #:::::::::::::::::::::::::::::::::::::::::
-mtcars \%>\% cor_test(c("wt", "mpg"))
+mtcars \%>\% cor_test(wt, mpg)
 
 # Pairwise correlation between multiple variables
 #:::::::::::::::::::::::::::::::::::::::::
-mtcars \%>\% cor_test(c("wt", "mpg", "disp"))
+mtcars \%>\% cor_test(wt, mpg, disp)
 
 # Grouped data
 #:::::::::::::::::::::::::::::::::::::::::
 iris \%>\%
   group_by(Species) \%>\%
- cor_test(c("Sepal.Width", "Sepal.Length"))
+ cor_test(Sepal.Width, Sepal.Length)
 
 # Multiple correlation test
 #:::::::::::::::::::::::::::::::::::::::::
@@ -119,5 +108,5 @@ mtcars \%>\% cor_test(
 
 }
 \seealso{
-cor_mat
+\code{\link{cor_mat}()}, \code{\link{as_cor_mat}()}
 }

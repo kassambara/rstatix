@@ -20,9 +20,12 @@ Imports:
     rlang,
     tibble,
     dplyr(>= 0.7.1),
-    magrittr
+    magrittr,
+    corrplot
 Suggests:
-    knitr
+    knitr,
+    rmarkdown,
+    ggpubr
 URL: http://www.sthda.com/english/rpkgs/rstatix
 BugReports: https://github.com/kassambara/rstatix/issues
 RoxygenNote: 6.0.1
@@ -31,11 +34,20 @@ Collate:
     'add_significance.R'
     'adjust_pvalue.R'
     'anova_test.R'
+    'as_cor_mat.R'
+    'cor_as_symbols.R'
     'cor_mat.R'
+    'cor_plot.R'
+    'cor_reorder.R'
+    'cor_reshape.R'
+    'cor_select.R'
     'cor_test.R'
     'kruskal_test.R'
+    'replace_triangle.R'
     'pull_triangle.R'
     'reexports.R'
+    'utilities_mean_test.R'
     't_test.R'
     'tukey_hsd.R'
     'wilcox_test.R'
+VignetteBuilder: knitr

@@ -9,12 +9,12 @@
 \title{Wilcoxon Tests}
 \usage{
 wilcox_test(data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", paired = FALSE, exact = FALSE,
+  p.adjust.method = "holm", paired = FALSE, exact = NULL,
   alternative = "two.sided", mu = 0, conf.level = 0.95)
 
 one_sample_wilcox_test(data, formula, mu = 0, exact = FALSE, ...)
 
-two_sample_wilcox_test(data, formula, paired = FALSE, exact = FALSE, ...)
+two_sample_wilcox_test(data, formula, paired = FALSE, ...)
 
 pairwise_wilcox_test(data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm", ...)

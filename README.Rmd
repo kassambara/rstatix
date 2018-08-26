@@ -24,10 +24,11 @@ knitr::opts_chunk$set(
 
 Provides a pipe-friendly framework to perform easily basic statistical tests in R. The output of each test is automatically transformed into a tidy data frame to facilitate visualization.
    
-The main functions are listed below.
-  
-  
-**Comparing means**:
+   
+## Key functions
+   
+   
+### Comparing means
      
 - `t_test()`: perform one-sample, two-sample and pairwise t-tests
 - `wilcox_test()`: perform one-sample, two-sample and pairwise Wilcoxon tests
@@ -35,16 +36,37 @@ The main functions are listed below.
 - `kruskal_test()`: perform kruskal-wallis rank sum test
 - `tukey_hsd()` and `tukey_hsd2()`: performs tukey post-hoc tests
 
-**Correlation analysis**:
+### Correlation analysis
    
-- `cor_test()`: correlation test between two variables using Pearson, Spearman or Kendall methods.
-- `mcor_test()`: multiple correlation tests between two vectors of variables.
-- `cor_mat()`: perform correlation matrix analysis with p-values. 
-- `replace_cor_by_symbols()`: take a correlation matrix and replaces the correlation coefficients by symbols.
-- `subset_cor_mat()`: subset a correlation matrix. Alias of `pull_variables()`.
-- `pull_upper_triangle()`, `pull_lower_triangle()`: pull lower and upper triangular part of a (correlation) matrix.
+**Computing correlation**:  
+   
+- `cor_test()`: correlation test between two or more variables using Pearson, Spearman or Kendall methods.
+- `cor_mat()`: compute correlation matrix with p-values. Returns a data frame containing the matrix of the correlation coefficients. The output has an attribute named "pvalue", which contains the matrix of the correlation test p-values.
+- `cor_get_pval()`: extract a correlation matrix p-values from an object of class `cor_mat()`.
+- `cor_pmat()`: compute the correlation matrix, but returns only the p-values of the correlation tests.
+- `as_cor_mat()`: convert a `cor_test` object into a correlation matrix format.
+    
+**Reshaping correlation matrix**:  
+  
+- `cor_reorder()`: reorder correlation matrix, according to the coefficients, using the hierarchical clustering method.
+- `cor_gather()`: takes a correlation matrix and collapses (or melt) it into long format data frame (paired list)
+- `cor_spread()`: spread a long correlation data frame into wide format (correlation matrix).
+  
+  
+**Subsetting correlation matrix**:
 
-**Adjusting p-values and adding significance symbols**:
+- `cor_select()`: subset a correlation matrix by selecting variables of interest.
+- `pull_triangle()`, `pull_upper_triangle()`, `pull_lower_triangle()`: pull upper and lower triangular parts of a (correlation) matrix.
+- `replace_triangle()`, `replace_upper_triangle()`, `replace_lower_triangle()`: replace upper and lower triangular parts of a (correlation) matrix.
+   
+   
+**Visualizing correlation matrix**:
+   
+- `cor_as_symbols()`: replaces the correlation coefficients, in a matrix, by symbols according to the value.
+- `cor_plot()`: visualize correlation matrix using base plot.
+  
+  
+### Adjusting p-values and adding significance symbols
       
 - `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 - `add_significance()`: add a column containing the p-value significance level

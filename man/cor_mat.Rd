@@ -2,116 +2,106 @@
 % Please edit documentation in R/cor_mat.R
 \name{cor_mat}
 \alias{cor_mat}
-\alias{get_cor_mat_pval}
-\alias{reorder_cor_mat}
-\alias{replace_cor_by_symbols}
-\alias{subset_cor_mat}
-\title{Correlation Matrix with P-values}
+\alias{cor_pmat}
+\alias{cor_get_pval}
+\title{Compute Correlation Matrix with P-values}
 \usage{
-cor_mat(data, vars = NULL, method = "pearson", ...)
+cor_mat(data, ..., vars = NULL, method = "pearson",
+  alternative = "two.sided", conf.level = 0.95)
 
-get_cor_mat_pval(x)
+cor_pmat(data, ..., vars = NULL, method = "pearson",
+  alternative = "two.sided", conf.level = 0.95)
 
-reorder_cor_mat(x)
-
-replace_cor_by_symbols(x, cutpoints = c(0, 0.25, 0.5, 0.75, 1),
-  symbols = c(" ", ".", "+", "*"))
-
-subset_cor_mat(x, ..., vars = NULL)
+cor_get_pval(x)
 }
 \arguments{
 \item{data}{a data.frame containing the variables.}
 
-\item{vars}{a character vector containing at least two variable names.}
+\item{...}{One or more unquoted expressions (or variable names) separated by
+commas. Used to select a variable of interest.}
+
+\item{vars}{a character vector containing the variable names of interest.}
 
 \item{method}{a character string indicating which correlation
     coefficient is to be  used for the test.  One of \code{"pearson"},
     \code{"kendall"}, or \code{"spearman"}, can be abbreviated.}
 
-\item{...}{Additional arguments. \itemize{ \item In \code{cor_mat()}: Other
-arguments passed to the function \code{\link{cor_test}()} \item In
-\code{subset_cor_mat()}: One or more unquoted expressions separated by
-commas. These arguments are passed to the function
-\code{\link[dplyr]{select}}() }}
+\item{alternative}{indicates the alternative hypothesis and must be
+    one of \code{"two.sided"}, \code{"greater"} or \code{"less"}.  You
+    can specify just the initial letter.  \code{"greater"} corresponds
+    to positive association, \code{"less"} to negative association.}
+
+\item{conf.level}{confidence level for the returned confidence
+    interval.  Currently only used for the Pearson product moment
+    correlation coefficient if there are at least 4 complete pairs of
+    observations.}
 
 \item{x}{an object of class \code{cor_mat}}
-
-\item{cutpoints}{numeric vector used for intervals. Default values are
-\code{c(0, 0.25, 0.5, 0.75, 1)}.}
-
-\item{symbols}{character vector, one shorter than cutpoints, used as
-correlation coefficient symbols. Default values are \code{c(" ", ".",  "+",
-"*")}.}
 }
 \value{
 a data frame
 }
 \description{
 Compute correlation matrix with p-values. Numeric columns in the
- data are detected and automatically selected.
+ data are detected and automatically selected for the analysis. You can also
+ specify variables of interest to be used in the correlation analysis.
 }
 \section{Functions}{
 \itemize{
-\item \code{cor_mat}: compute correlation matrix with p-values.
+\item \code{cor_mat}: compute correlation matrix with p-values. Returns a data
+frame containing the matrix of the correlation coefficients. The output has
+an attribute named "pvalue", which contains the matrix of the correlation
+test p-values.
 
-\item \code{get_cor_mat_pval}: return a correlation matrix p-values.
+\item \code{cor_pmat}: compute the correlation matrix but returns only the p-values of the tests.
 
-\item \code{reorder_cor_mat}: reorder correlation matrix, according to the coefficients,
-using the hierarchical clustering method.
-
-\item \code{replace_cor_by_symbols}: replace correlation coefficients by symbols
-
-\item \code{subset_cor_mat}: subset of a correlation matrix
+\item \code{cor_get_pval}: extract a correlation matrix p-values from an object of
+class \code{cor_mat()}.
 }}
 
 \examples{
+
+# Data preparation
+#:::::::::::::::::::::::::::::::::::::::::::
+mydata <- mtcars \%>\%
+  select(mpg, disp, hp, drat, wt, qsec)
+head(mydata, 3)
+
 # Compute correlation matrix
 #::::::::::::::::::::::::::::::::::::::::::
-df <- mtcars[, c(1,3,4,5,6,7)]
-cor.mat <- cor_mat(df)
+# Correlation matrix between all variables
+cor.mat <- mydata \%>\% cor_mat()
 cor.mat
 
-# Pull lower/upper triangle parts
+# Specify some variables of interest
+mydata \%>\% cor_mat(mpg, hp, wt)
+
+# Or remove some variables in the data
+# before the analysis
+mydata \%>\% cor_mat(-mpg, -hp)
+
+# Significance levels
 #::::::::::::::::::::::::::::::::::::::::::
-
-# Pull lower triangular part
-cor.mat \%>\% pull_lower_triangle()
-
-# Pull upper triangular part
-cor.mat \%>\% pull_upper_triangle()
+cor.mat \%>\% cor_get_pval()
 
 
-# Replace correlation coefficient by symbols
+# Visualize
 #::::::::::::::::::::::::::::::::::::::::::
+# Insignificant correlations are marked by crosses
 cor.mat \%>\%
- replace_cor_by_symbols(
-   cutpoints = c(0, 0.25, 0.5, 0.75, 1),
-   symbols = c(" ", ".",  "+", "*")
- ) \%>\%
- pull_lower_triangle()
+  cor_reorder() \%>\%
+  pull_lower_triangle() \%>\%
+  cor_plot(label = TRUE)
 
-# Reorder by correlation and get p-values
+# Gather/collapse correlation matrix into long format
 #::::::::::::::::::::::::::::::::::::::::::
-# Reorder
-cor.mat \%>\%
-  reorder_cor_mat()
-# Get p-values of the reordered cor_mat
-cor.mat \%>\%
-  reorder_cor_mat() \%>\%
-  get_cor_mat_pval()
+cor.mat \%>\% cor_gather()
 
-# Subsetting correlation matrix
-#::::::::::::::::::::::::::::::::::::::::::
-
-# Select some variables of interest
-cor.mat \%>\%
-  subset_cor_mat(mpg, drat, wt)
-
-# Remove variables
-cor.mat \%>\%
-  subset_cor_mat(-mpg, -wt)
 
 }
 \seealso{
-cor_test
+\code{\link{cor_test}()}, \code{\link{cor_reorder}()},
+ \code{\link{cor_gather}()}, \code{\link{cor_select}()},
+ \code{\link{cor_as_symbols}()}, \code{\link{pull_triangle}()},
+ \code{\link{replace_triangle}()}
 }
