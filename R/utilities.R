@@ -1,6 +1,8 @@
-#' @importFrom dplyr %>%
+#' @importFrom magrittr %>%
+#' @importFrom magrittr extract
 #' @importFrom dplyr mutate
 #' @importFrom dplyr mutate_at
+#' @importFrom dplyr mutate_all
 #' @importFrom dplyr pull
 #' @importFrom dplyr select
 #' @importFrom dplyr rename
@@ -12,15 +14,21 @@
 #' @importFrom dplyr do
 #' @importFrom dplyr filter
 #' @importFrom dplyr tibble
+#' @importFrom dplyr everything
+#' @importFrom dplyr left_join
 #' @importFrom purrr map
 #' @importFrom broom tidy
 #' @importFrom stats t.test
 #' @importFrom rlang sym
 #' @importFrom rlang !!
 #' @importFrom rlang :=
+#' @importFrom rlang set_attrs
+#' @importFrom rlang quos
+#' @importFrom rlang quo_name
 #' @importFrom tibble add_column
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr spread
+#' @importFrom tidyr gather
 
 
 
@@ -86,14 +94,37 @@
 
 # Create a tidy statistical output
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-.as_tidy_stat <- function(x){
-  p.value <- NULL
-  x %>%
+# Generic function to create a tidy statistical output
+as_tidy_stat <- function(x, digits = 2){
+
+  stat.method <- get_stat_method(x)
+
+  estimate <- estimate1 <- estimate2 <- p.value <-
+    alternative <- NULL
+  res <- x %>%
     tidy() %>%
-    as_data_frame() %>%
+    mutate(
+      p.value = signif(p.value, digits),
+      method = stat.method
+    ) %>%
     rename(p = p.value)
+  res
 }
 
+get_stat_method <- function(x){
+
+  if(inherits(x, c("aov", "anova"))){
+    return("Anova")
+  }
+  available.methods <- c(
+    "T-test", "Wilcoxon", "Kruskal-Wallis",
+    "Pearson", "Spearman", "Kendall"
+  )
+  used.method <- available.methods %>%
+    map(grepl, x$method, ignore.case = TRUE) %>%
+    unlist()
+  available.methods %>% extract(used.method)
+}
 
 # Check if en object is empty
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -136,8 +167,33 @@ to_uppercase_first_letter <- function(x) {
 # Data conversion
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+as_matrix <- function(x){
+
+  if(inherits(x, "tbl_df")){
+    tibble_to_matrix(x)
+  }
+  else if(inherits(x, "matrix")){
+    x
+  }
+  else if(is.data.frame(x)){
+    if("rowname" %in% colnames(x)){
+      x %>%
+        tibble::remove_rownames() %>%
+        tibble::column_to_rownames("rowname") %>%
+        as_matrix()
+    }
+    else {
+      as.matrix(x)
+    }
+  }
+  else{
+    as.matrix(x)
+  }
+}
+
+
 # Convert a tbl to matrix
-.tibble_to_matrix <- function(x){
+tibble_to_matrix <- function(x){
   x <-  as.data.frame(x)
   rownames(x) <- x[, 1]
   x <- x[, -1]
@@ -145,19 +201,105 @@ to_uppercase_first_letter <- function(x) {
 }
 
 # Convert a matrix to standard data frame
-.matrix_to_dataframe <- function(x){
-  x <- as.data.frame(x) %>%
-    add_column(name = rownames(x), .before = 1)
+matrix_to_dataframe <- function(x){
+  x <- as.data.frame(x, stringsAsFactors = FALSE) %>%
+    add_column(rowname = rownames(x), .before = 1)
   rownames(x) <- NULL
   x
 }
 
 # Convert a matrix to tibble
-.matrix_to_tibble <- function(x){
-  .matrix_to_dataframe(x) %>%
-    as_tibble()
+matrix_to_tibble <- function(x){
+  as_tibble(x, rownames = "rowname")
 }
 
+# Replace empty space as na
+replace_empty_by <- function(x, replacement = NA){
+  x %>% dplyr::mutate_all(
+      function(x){x[x==""] <- replacement; x}
+      )
+}
+
+
+# Correlation analysis
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+# Stop if not an object of class cor_mat
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+stop_ifnot_cormat <- function(x){
+  if(!inherits(x, "cor_mat")){
+    stop("An object of class cor_mat is required")
+  }
+}
+
+# Subset a correlation matrix, return a tibble
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+subset_matrix <- function(x, vars, row.vars = vars,
+                          col.vars = vars){
+
+  if(inherits(x, "tbl_df")){
+    . <- NULL
+    x %>% as_matrix() %>%
+      .[row.vars, col.vars, drop = FALSE] %>%
+      as_tibble(rownames = "rowname")
+  }
+  else if(inherits(x, "matrix")){
+    x[row.vars, col.vars, drop = FALSE] %>%
+      as_tibble(rownames ="rowname")
+  }
+}
+
+
+
+# Get unquoted variable names passed in dot
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+get_dot_vars <- function(...){
+  . <- NULL
+  quos(...) %>%
+    as.character() %>%
+    gsub("~", "", .)
+}
+
+# Collect variables provided by users
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+# use dplyr select to parse dot vars and pull remaining vars
+collect_specified_vars <- function(x, ..., vars = NULL){
+
+  if(is_grouped_df(x))
+    x <- x %>% dplyr::ungroup()
+
+  dot.vars <- get_dot_vars(...)
+
+  if(!.is_empty(dot.vars)){
+    if(!is.null(vars))
+      warning("Argument vars ignored, because dot vars are specified")
+    vars <- x %>%
+      as_tibble(rownames = "rowname") %>%
+      select(...) %>%
+      colnames() %>%
+      setdiff("rowname")
+  }
+
+  vars
+}
+
+# Select numeric columns
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+select_numeric_columns <- function(data){
+  if(is_grouped_df(data))
+    data <- data %>% dplyr::ungroup()
+  data %>% dplyr::select_if(is.numeric)
+}
+
+# Add a class to an object
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+add_class <- function(x, .class){
+  for(.cl in .class){
+    if(!inherits(x, .cl))
+      x <- structure(x, class = c(class(x), .cl))
+  }
+  x
+}
 
 # Correlation analysis
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -172,40 +314,14 @@ to_uppercase_first_letter <- function(x) {
   inherits(x, "cor_test")
 }
 
-# Spread a result from cor_test function
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# x: cor_test results;
-# value: column containing the value to spread
-spread_cor_test <- function(x, value = "cor"){
-
-  # if(!.is_cor_test(x)){
-  #   stop("x should be an object of class cor_test")
-  # }
-
-  var1 <- var2 <- cor <- p <- NULL
-  row.vars <- x %>% pull(var2) %>% unique()
-  col.vars <- x %>% pull(var1) %>% unique()
-
+# Convert a cor_mat_tri to numeric data
+as_numeric_triangle <- function(x){
+  rrowname <- x %>% pull(1)
   res <- x %>%
-    select(var1, var2, !!value) %>%
-    spread(key = "var1", value = value) %>%
-    .respect_variables_order(row.vars = row.vars, col.vars = col.vars)
-  colnames(res)[1] <- "name"
-
+    replace_empty_by(NA) %>%
+    select(-1) %>%
+    mutate_all(as.numeric) %>%
+    add_column(rowname = rrowname, .before = 1)
   res
 }
-
-# Reorder a correlation matrix according
-# to the order of variables in vars
-.respect_variables_order <- function(x, vars, row.vars = vars, col.vars = vars){
-  x <- .tibble_to_matrix(x)
-  x[row.vars, col.vars] %>% .matrix_to_tibble()
-}
-
-
-
-
-
-
-
 
