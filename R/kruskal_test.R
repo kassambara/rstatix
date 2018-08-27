@@ -50,11 +50,7 @@ kruskal_test <- function(
 
   term <- statistic <- p <- method <- NULL
   stats::kruskal.test(formula, data = data) %>%
-    .as_tidy_stat() %>%
-    mutate(
-      method = "Kruskal-Wallis",
-      p = signif(p, digits = 2)
-    ) %>%
+    as_tidy_stat() %>%
     select(statistic, p, method) %>%
     add_column(.y. = outcome, .before = "statistic")
 }

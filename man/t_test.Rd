@@ -21,7 +21,7 @@ pairwise_t_test(data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm", ...)
 
 pairwise_t_test_psd(data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", ...)
+  p.adjust.method = "holm", pool.sd = TRUE, alternative = "two.sided")
 
 one_vs_all_t_test(data, formula, p.adjust.method = "holm", ...)
 }
@@ -66,6 +66,8 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
 \item{...}{other arguments to be passed to the function
 \code{\link[stats]{t.test}}.}
+
+\item{pool.sd}{switch to allow/disallow the use of a pooled SD.}
 }
 \value{
 return a data frame with the following columns: \itemize{ \item

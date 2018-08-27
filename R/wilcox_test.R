@@ -1,4 +1,4 @@
-#' @include utilities.R
+#' @include utilities.R utilities_mean_test.R
 #' @importFrom stats wilcox.test
 NULL
 #'Wilcoxon Tests
@@ -93,7 +93,7 @@ NULL
 wilcox_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm",
-  paired = FALSE, exact = FALSE, alternative = "two.sided",
+  paired = FALSE, exact = NULL, alternative = "two.sided",
   mu = 0, conf.level = 0.95
 )
 {
@@ -161,75 +161,15 @@ wilcox_test <- function(
 #'@describeIn wilcox_test performs one-sample Wilcoxon test.
 #'@export
 one_sample_wilcox_test <- function(data, formula, mu = 0, exact = FALSE, ...){
-
-  # Case of grouped data by dplyr::group_by
-  if(is_grouped_df(data)){
-    . <- NULL
-    results <- data %>%
-      do(one_sample_wilcox_test(data =., formula, mu, exact, ...)) %>%
-      ungroup()
-    return(results)
-  }
-
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  outcome.values <- data %>% pull(outcome)
-  # Perform the test
-  statistic <- p.value <- p <- method <- NULL
-  wilcox.test(outcome.values, mu = mu, exact = exact, ...) %>%
-    .as_tidy_stat() %>%
-    mutate(
-      method = "Wilcoxon",
-      p = signif(p, digits = 2)
-      ) %>%
-    select(statistic, p, method) %>%
-    add_column(
-      .y. = outcome,
-      group1 = "1", group2 = "null model",
-      .before = "statistic"
-    )
+  mean_test(data, formula, method = "wilcox.test", mu = mu, ...)
 }
 
 
 #'@describeIn wilcox_test performs two sample Wilcoxon test.
 #'@export
-two_sample_wilcox_test <- function(data, formula, paired = FALSE, exact = FALSE, ...)
+two_sample_wilcox_test <- function(data, formula, paired = FALSE,  ...)
 {
-
-  # Case of grouped data by dplyr::group_by
-  if(is_grouped_df(data)){
-    . <- NULL
-    results <- data %>%
-      do(two_sample_wilcox_test(data =., formula, paired,  exact, ...)) %>%
-      ungroup()
-    return(results)
-  }
-
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
-
-  # Convert group into factor if this is not already the case
-  data <- data %>% .as_factor(group)
-  group.levels <- data %>% pull(group) %>% levels()
-
-  # Perform the test
-  statistic <- p.value <- p <- method <- NULL
-  wilcox.test(formula, data, paired = paired, exact = exact, ...) %>%
-    .as_tidy_stat() %>%
-    mutate(
-      method = "Wilcoxon",
-      p = signif(p, digits = 2)
-      ) %>%
-    select(statistic, p, method) %>%
-    add_column(
-      .y. = outcome,
-      group1 = group.levels[1],
-      group2 = group.levels[2],
-      .before = "statistic"
-    )
+  mean_test(data, formula, method = "wilcox.test", paired = paired, ...)
 }
 
 
@@ -240,53 +180,11 @@ pairwise_wilcox_test <- function(
   p.adjust.method = "holm", ...)
   {
 
-  # Case of grouped data by dplyr::group_by
-  if(is_grouped_df(data)){
-    . <- NULL
-    results <- data %>%
-      do(
-        pairwise_wilcox_test(data = ., formula, comparisons,
-                        ref.group, p.adjust.method, ...)
-      ) %>%
-      ungroup()
-    return(results)
-  }
-
-
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
-
-  # Convert group into factor if this is not already the case
-  data <- data %>% .as_factor(group, ref.group = ref.group)
-  group.levels <- data %>% pull(group) %>% levels()
-
-  # All possible pairwise comparisons
-  # if ref.group specified, only comparisons against reference will be kept
-  if(is.null(comparisons))
-    possible.pairs <- group.levels %>% .possible_pairs(ref.group = ref.group)
-  else possible.pairs <- comparisons
-
-  # Perform comparisons
-  p <- p.adj <- NULL
-  .compare_pair <- function(pair, data, formula, ...){
-    data %>%
-      filter(!!sym(group) %in% pair) %>%
-      mutate_at(group, droplevels) %>%
-      two_sample_wilcox_test(formula, ...)
-  }
-  possible.pairs %>%
-    map(.compare_pair, data, formula, ...) %>%
-    bind_rows() %>%
-    adjust_pvalue(method = p.adjust.method) %>%
-    add_significance("p") %>%
-    add_significance("p.adj") %>%
-    mutate(
-      p = signif(p, digits = 2),
-      p.adj = signif(p.adj, digits = 2)
-    ) %>%
-    return()
+  mean_test_pairwise(
+    data, formula, method = "wilcox.test",
+    comparisons = comparisons, ref.group = ref.group,
+    p.adjust.method = p.adjust.method, ...
+  )
 }
 
 
@@ -296,43 +194,8 @@ pairwise_wilcox_test <- function(
 one_vs_all_wilcox_test <- function(data, formula, p.adjust.method = "holm", ...)
 {
 
-  # Case of grouped data by dplyr::group_by
-  if(is_grouped_df(data)){
-    . <- NULL
-    results <- data %>%
-      do(one_vs_all_wilcox_test(data = ., formula, p.adjust.method, ...)) %>%
-      ungroup()
-    return(results)
-  }
-
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
-
-  # Convert group into factor if this is not already the case
-  # extract values
-  data <- data %>% .as_factor(group)
-  outcome.values <- data %>% pull(outcome)
-  group.values <- data %>% pull(group)
-  group.levels <- group.values %>% levels()
-
-  # Create new data set containing the "all" group level
-  all.data <- tibble(
-    outcome = outcome.values,
-    group = "all"
-  )
-  source.data <- tibble(
-    outcome = outcome.values,
-    group = as.character(group.values)
-  )
-  new.data <- all.data %>%
-    bind_rows(source.data) %>%
-    mutate(group = factor(group, levels = c("all", group.levels)))
-  colnames(new.data) <- c(outcome, group)
-
-  pairwise_wilcox_test(
-    data = new.data, formula = formula, ref.group = "all",
+  mean_test_one_vs_all (
+    data, formula, method = "wilcox.test",
     p.adjust.method = p.adjust.method, ...
-    )
+  )
 }

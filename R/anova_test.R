@@ -54,12 +54,8 @@ anova_test <- function(
 
   term <- statistic <- p <- method <- NULL
   stats::aov(formula, data = data) %>%
-    .as_tidy_stat() %>%
+    as_tidy_stat() %>%
     filter(term != "Residuals") %>%
-    mutate(
-      method = "Anova",
-      p = signif(p, digits = 2)
-    ) %>%
     select(term, statistic, p, method) %>%
     add_column(.y. = outcome, .before = "term")
 }

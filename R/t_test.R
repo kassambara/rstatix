@@ -1,4 +1,4 @@
-#' @include utilities.R
+#' @include utilities.R utilities_mean_test.R
 NULL
 #'T-test
 #'
@@ -23,6 +23,7 @@ NULL
 #'  Used when pairwise comparisons are performed. Allowed values include "holm",
 #'  "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't
 #'  want to adjust the p value (not recommended), use p.adjust.method = "none".
+#' @param pool.sd switch to allow/disallow the use of a pooled SD.
 #'@param ... other arguments to be passed to the function
 #'  \code{\link[stats]{t.test}}.
 #'
@@ -166,35 +167,7 @@ t_test <- function(
 #'@describeIn t_test performs one-sample t-test.
 #'@export
 one_sample_t_test <- function(data, formula, mu = 0, ...){
-
-
-  # Case of grouped data by dplyr::group_by
-  if(is_grouped_df(data)){
-    . <- NULL
-    results <- data %>%
-      do(one_sample_t_test(data =., formula, mu, ...)) %>%
-      ungroup()
-    return(results)
-  }
-
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  outcome.values <- data %>% pull(outcome)
-  # Perform the test
-  statistic <- p.value <- p <- method <- NULL
-  t.test(outcome.values, mu = mu, ...) %>%
-    .as_tidy_stat() %>%
-    mutate(
-      method = "T-test",
-      p = signif(p, digits = 2)
-      ) %>%
-    select(statistic, p, method) %>%
-    add_column(
-      .y. = outcome,
-      group1 = "1", group2 = "null model",
-      .before = "statistic"
-    )
+  mean_test(data, formula, method = "t.test", mu = mu, ...)
 }
 
 
@@ -202,40 +175,7 @@ one_sample_t_test <- function(data, formula, mu = 0, ...){
 #'@export
 two_sample_t_test <- function(data, formula, paired = FALSE, ...)
 {
-
-  # Case of grouped data by dplyr::group_by
-  if(is_grouped_df(data)){
-    . <- NULL
-    results <- data %>%
-      do(two_sample_t_test(data = ., formula, paired, ...)) %>%
-      ungroup()
-    return(results)
-  }
-
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
-
-  # Convert group into factor if this is not already the case
-  data <- data %>% .as_factor(group)
-  group.levels <- data %>% pull(group) %>% levels()
-
-  # Perform the test
-  statistic <- p.value <- p <- method <- NULL
-  t.test(formula, data, paired = paired, ...) %>%
-    .as_tidy_stat() %>%
-    mutate(
-      method = "T-test",
-      p = signif(p, digits = 2)
-      ) %>%
-    select(statistic, p, method) %>%
-    add_column(
-      .y. = outcome,
-      group1 = group.levels[1],
-      group2 = group.levels[2],
-      .before = "statistic"
-    )
+  mean_test(data, formula, method = "t.test", paired = paired, ...)
 }
 
 
@@ -243,63 +183,22 @@ two_sample_t_test <- function(data, formula, paired = FALSE, ...)
 #'@export
 pairwise_t_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", ...)
-  {
+  p.adjust.method = "holm", ...) {
 
-  # Case of grouped data by dplyr::group_by
-  if(is_grouped_df(data)){
-    . <- NULL
-    results <- data %>%
-      do(
-        pairwise_t_test(data = ., formula, comparisons,
-                         ref.group, p.adjust.method, ...)
-        ) %>%
-      ungroup()
-    return(results)
+  mean_test_pairwise(
+    data, formula, method = "t.test",
+    comparisons = comparisons, ref.group = ref.group,
+    p.adjust.method = p.adjust.method, ...
+  )
+
   }
-
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
-
-  # Convert group into factor if this is not already the case
-  data <- data %>% .as_factor(group, ref.group = ref.group)
-  group.levels <- data %>% pull(group) %>% levels()
-
-  # All possible pairwise comparisons
-  # if ref.group specified, only comparisons against reference will be kept
-  if(is.null(comparisons))
-    possible.pairs <- group.levels %>% .possible_pairs(ref.group = ref.group)
-  else possible.pairs <- comparisons
-
-  # Perform comparisons
-  p <- p.adj <- NULL
-  .compare_pair <- function(pair, data, formula, ...){
-    data %>%
-      filter(!!sym(group) %in% pair) %>%
-      mutate_at(group, droplevels) %>%
-      two_sample_t_test(formula, ...)
-  }
-  possible.pairs %>%
-    map(.compare_pair, data, formula, ...) %>%
-    bind_rows() %>%
-    adjust_pvalue(method = p.adjust.method) %>%
-    add_significance("p") %>%
-    add_significance("p.adj") %>%
-    mutate(
-      p = signif(p, digits = 2),
-      p.adj = signif(p.adj, digits = 2)
-    ) %>%
-    return()
-}
 
 #'@describeIn t_test performs pairwise t-test with pooled SD. Wrapper around the R
 #'  base function \code{\link[stats]{pairwise.t.test}}.
 #'@export
 pairwise_t_test_psd <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", ...
+  p.adjust.method = "holm", pool.sd = TRUE, alternative = "two.sided"
   )
   {
 
@@ -308,8 +207,8 @@ pairwise_t_test_psd <- function(
     . <- NULL
     results <- data %>%
       do(
-        pairwise_t_test_psd(data = ., formula, comparisons,
-                        ref.group, p.adjust.method, ...)
+        pairwise_t_test_psd(data = ., formula, comparisons, ref.group, p.adjust.method,
+                            pool.sd = pool.sd, alternative = alternative)
       ) %>%
       ungroup()
     return(results)
@@ -328,7 +227,8 @@ pairwise_t_test_psd <- function(
   group1 <- group2 <- p.value <- NULL
   results <- stats::pairwise.t.test(
     outcome.values, group.values,
-    p.adjust.method = "none", ...
+    p.adjust.method = "none", pool.sd = pool.sd,
+    alternative = alternative
     ) %>%
     tidy() %>%
     select(group2, group1, p.value)
@@ -368,43 +268,8 @@ pairwise_t_test_psd <- function(
 one_vs_all_t_test <- function(data, formula, p.adjust.method = "holm", ...)
 {
 
-  # Case of grouped data by dplyr::group_by
-  if(is_grouped_df(data)){
-    . <- NULL
-    results <- data %>%
-      do(one_vs_all_t_test(data = ., formula, p.adjust.method, ...)) %>%
-      ungroup()
-    return(results)
-  }
-
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
-
-  # Convert group into factor if this is not already the case
-  # extract values
-  data <- data %>% .as_factor(group)
-  outcome.values <- data %>% pull(outcome)
-  group.values <- data %>% pull(group)
-  group.levels <- group.values %>% levels()
-
-  # Create new data set containing the "all" group level
-  all.data <- tibble(
-    outcome = outcome.values,
-    group = "all"
-  )
-  source.data <- tibble(
-    outcome = outcome.values,
-    group = as.character(group.values)
-  )
-  new.data <- all.data %>%
-    bind_rows(source.data) %>%
-    mutate(group = factor(group, levels = c("all", group.levels)))
-  colnames(new.data) <- c(outcome, group)
-
-  pairwise_t_test(
-    data = new.data, formula = formula, ref.group = "all",
+  mean_test_one_vs_all (
+    data, formula, method = "t.test",
     p.adjust.method = p.adjust.method, ...
     )
 }
