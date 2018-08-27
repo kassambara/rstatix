@@ -14,7 +14,7 @@ NULL
 #' @inheritParams corrplot::corrplot
 #' @param cor.mat the correlation matrix to visualize
 #' @param palette character vector containing the color palette.
-#' @param pval.mat matrix of p-value corresponding to the correlation matrix.
+#' @param p.mat matrix of p-value corresponding to the correlation matrix.
 #' @param significant.level significant level, if the p-value is bigger than
 #'   \code{significant.level}, then the corresponding correlation coefficient is
 #'   regarded as insignificant.
@@ -91,7 +91,7 @@ NULL
 #'
 #' @export
 cor_plot <- function(cor.mat, method = "circle", type = "full", palette = NULL,
-                     pval.mat = NULL, significant.level = 0.05, insignificant = c("cross", "blank"),
+                     p.mat = NULL, significant.level = 0.05, insignificant = c("cross", "blank"),
                      label = FALSE, font.label = list()) {
 
 
@@ -111,14 +111,14 @@ cor_plot <- function(cor.mat, method = "circle", type = "full", palette = NULL,
   show.diagonal <- TRUE
   if(inherits(cor.mat, "cor_mat")){
     cor.value <- cor.mat %>% as_matrix()
-    pval.mat <- cor.mat %>% cor_get_pval() %>% as_matrix()
+    p.mat <- cor.mat %>% cor_get_pval() %>% as_matrix()
   }
   else if(inherits(cor.mat, "cor_mat_tri")){
 
     cor.value <- cor.mat %>%
       as_numeric_triangle() %>%
       as_matrix()
-    pval.mat <- cor.mat %>%
+    p.mat <- cor.mat %>%
       cor_get_pval() %>%
       as_numeric_triangle() %>%
       as_matrix()
@@ -137,22 +137,22 @@ cor_plot <- function(cor.mat, method = "circle", type = "full", palette = NULL,
   }
   else if(inherits(cor.mat, "rcorr")){
     cor.value <- cor.mat$r
-    pval.mat <- cor.mat$P
+    p.mat <- cor.mat$P
   }
   else {
     cor.value <- cor.mat %>% as_matrix()
   }
 
   # Correlation matrix p-value
-  if(inherits(pval.mat, "tbl_df"))
-    pval.mat <- pval.mat %>% as_matrix()
+  if(inherits(p.mat, "tbl_df"))
+    p.mat <- p.mat %>% as_matrix()
 
   corrplot <- corrplot::corrplot
   corrplot(
     cor.value,  method = method, type = type,
     tl.col="black", tl.srt = 45,
     col = palette, diag = show.diagonal,
-    p.mat = pval.mat, sig.level = significant.level,
+    p.mat = p.mat, sig.level = significant.level,
     insig = insignificant, pch.cex = 2,
     outline = outline, addCoef.col = addCoef.col,
     number.cex = font$size, number.font = font$style

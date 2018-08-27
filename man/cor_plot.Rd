@@ -5,7 +5,7 @@
 \title{Visualize Correlation Matrix Using Base Plot}
 \usage{
 cor_plot(cor.mat, method = "circle", type = "full", palette = NULL,
-  pval.mat = NULL, significant.level = 0.05, insignificant = c("cross",
+  p.mat = NULL, significant.level = 0.05, insignificant = c("cross",
   "blank"), label = FALSE, font.label = list())
 }
 \arguments{
@@ -28,7 +28,7 @@ matrix.}
 
 \item{palette}{character vector containing the color palette.}
 
-\item{pval.mat}{matrix of p-value corresponding to the correlation matrix.}
+\item{p.mat}{matrix of p-value corresponding to the correlation matrix.}
 
 \item{significant.level}{significant level, if the p-value is bigger than
 \code{significant.level}, then the corresponding correlation coefficient is
