@@ -10,3 +10,9 @@ dplyr::filter
 #' @importFrom dplyr group_by
 #' @export
 dplyr::group_by
+#' @importFrom dplyr select
+#' @export
+dplyr::select
+#' @importFrom tidyr drop_na
+#' @export
+tidyr::drop_na
