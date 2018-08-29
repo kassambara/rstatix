@@ -7,6 +7,7 @@ NULL
 #'   multiple columns. Particularly, it takes the results of \code{\link{cor_test}}
 #'   and transforms it into a correlation matrix. }
 #' @param data a data frame or matrix.
+#' @param drop.na logical. If TRUE, drop rows containing missing values after gathering the data.
 #' @param value column name containing the value to spread.
 #' @seealso \code{\link{cor_mat}()}, \code{\link{cor_reorder}()}
 #' @examples
@@ -38,10 +39,9 @@ NULL
 #' @describeIn cor_reshape takes a correlation matrix and collapses (or melt) it into long
 #'   format data frame (paired list)
 #' @export
-cor_gather <- function(data){
+cor_gather <- function(data, drop.na = TRUE){
 
   rowname <- column <- NULL
-  drop.na <- FALSE
 
   if(inherits(data, "cor_mat")){
     cor.value <- data
@@ -52,7 +52,6 @@ cor_gather <- function(data){
     p.value <- data %>%
       cor_get_pval() %>%
       as_numeric_triangle()
-    drop.na <- TRUE
   }
   else if(inherits(data, "rcorr")){
     cor.value <- data$r %>% as_tibble(rownames = "rowname")
@@ -90,12 +89,13 @@ cor_gather <- function(data){
 cor_spread <- function(data, value = "cor"){
 
   var1 <- var2 <- cor <- p <- NULL
-  row.vars <- data %>% pull(var2) %>% unique()
-  col.vars <- data %>% pull(var1) %>% unique()
+  row.vars <- data %>% pull(var1) %>% unique()
+  col.vars <- data %>% pull(var2) %>% unique()
 
   res <- data %>%
     select(var1, var2, !!value) %>%
-    spread(key = "var1", value = value) %>%
+    spread(key = "var2", value = value) %>%
+    rename(rowname = var1) %>%
     respect_variables_order(row.vars = row.vars, col.vars = col.vars)
 
   colnames(res)[1] <- "rowname"

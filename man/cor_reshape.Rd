@@ -5,12 +5,14 @@
 \alias{cor_spread}
 \title{Reshape Correlation Data}
 \usage{
-cor_gather(data)
+cor_gather(data, drop.na = TRUE)
 
 cor_spread(data, value = "cor")
 }
 \arguments{
 \item{data}{a data frame or matrix.}
+
+\item{drop.na}{logical. If TRUE, drop rows containing missing values after gathering the data.}
 
 \item{value}{column name containing the value to spread.}
 }
