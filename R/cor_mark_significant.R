@@ -22,7 +22,7 @@ cor_mark_significant <- function(x, cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 
   cor <- p.signif <- var1 <- var2 <- NULL
   res <- x %>%
     cor_gather (drop.na = FALSE) %>%
-    add_significance() %>%
+    add_significance(cutpoints = cutpoints, symbols = symbols) %>%
     mutate(cor = paste0(cor, p.signif)) %>%
     select(var1, var2, cor) %>%
     cor_spread()
