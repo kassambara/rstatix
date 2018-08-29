@@ -237,7 +237,7 @@ stop_ifnot_cormat <- function(x){
 subset_matrix <- function(x, vars, row.vars = vars,
                           col.vars = vars){
 
-  if(inherits(x, "tbl_df")){
+  if(inherits(x, c("tbl_df", "data.frame"))){
     . <- NULL
     x %>% as_matrix() %>%
       .[row.vars, col.vars, drop = FALSE] %>%
@@ -246,6 +246,9 @@ subset_matrix <- function(x, vars, row.vars = vars,
   else if(inherits(x, "matrix")){
     x[row.vars, col.vars, drop = FALSE] %>%
       as_tibble(rownames ="rowname")
+  }
+  else{
+    stop("x should be a data frame or rownames")
   }
 }
 
