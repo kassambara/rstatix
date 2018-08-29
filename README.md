@@ -43,6 +43,7 @@ Key functions
 
 -   `cor_as_symbols()`: replaces the correlation coefficients, in a matrix, by symbols according to the value.
 -   `cor_plot()`: visualize correlation matrix using base plot.
+-   `cor_mark_significant()`: add significance levels to a correlation matrix.
 
 ### Adjusting p-values and adding significance symbols
 

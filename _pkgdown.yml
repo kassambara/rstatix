@@ -26,6 +26,7 @@ reference:
 
       - cor_as_symbols
       - cor_plot
+      - cor_mark_significant
 
   - title: Adjust p-values and add significance symbols
     contents:
