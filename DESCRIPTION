@@ -21,7 +21,8 @@ Imports:
     tibble,
     dplyr(>= 0.7.1),
     magrittr,
-    corrplot
+    corrplot,
+    tidyselect
 Suggests:
     knitr,
     rmarkdown,
@@ -29,7 +30,7 @@ Suggests:
 URL: http://www.sthda.com/english/rpkgs/rstatix
 BugReports: https://github.com/kassambara/rstatix/issues
 RoxygenNote: 6.0.1
-Collate: 
+Collate:
     'utilities.R'
     'add_significance.R'
     'adjust_pvalue.R'

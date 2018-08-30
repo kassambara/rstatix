@@ -87,7 +87,7 @@ cor_test <- function(
 )
 {
 
-  vars <- data %>% collect_specified_vars(..., vars = vars)
+  vars <- data %>% get_selected_vars(..., vars = vars)
   n.vars <- length(vars)
 
   # Select only numeric columns

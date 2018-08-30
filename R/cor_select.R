@@ -29,7 +29,8 @@ NULL
 #' @export
 cor_select <- function(x, ..., vars = NULL){
 
-  vars <- x %>% collect_specified_vars(..., vars = vars)
+  vars <- x %>% get_selected_vars(..., vars = vars) %>%
+    setdiff("rowname")
 
   if(!.is_empty(vars)){
     # Filter the correlation matrix

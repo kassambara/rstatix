@@ -253,38 +253,24 @@ subset_matrix <- function(x, vars, row.vars = vars,
 }
 
 
-
-# Get unquoted variable names passed in dot
+# Tidy Select
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-get_dot_vars <- function(...){
-  . <- NULL
-  quos(...) %>%
-    as.character() %>%
-    gsub("~", "", .)
-}
 
-# Collect variables provided by users
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-# use dplyr select to parse dot vars and pull remaining vars
-collect_specified_vars <- function(x, ..., vars = NULL){
+# Collect variables provided by users; get selected variables
+get_selected_vars <- function(x, ..., vars = NULL){
 
   if(is_grouped_df(x))
     x <- x %>% dplyr::ungroup()
+  dot.vars <- rlang::quos(...)
 
-  dot.vars <- get_dot_vars(...)
-
-  if(!.is_empty(dot.vars)){
-    if(!is.null(vars))
-      warning("Argument vars ignored, because dot vars are specified")
-    vars <- x %>%
-      as_tibble(rownames = "rowname") %>%
-      select(...) %>%
-      colnames() %>%
-      setdiff("rowname")
+  if(length(vars) > 0){
+    return(vars)
   }
-
-  vars
+  if (length(dot.vars) == 0) selected <- colnames(x)
+  else selected <- tidyselect::vars_select(names(x), !!! dot.vars)
+  selected %>% as.character()
 }
+
 
 # Select numeric columns
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

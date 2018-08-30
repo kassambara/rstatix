@@ -62,7 +62,7 @@ cor_mat <- function(data, ..., vars = NULL, method = "pearson",
                     alternative = "two.sided", conf.level = 0.95){
 
 
-  vars <- data %>% collect_specified_vars(..., vars = vars)
+  vars <- data %>% get_selected_vars(..., vars = vars)
   n.vars <- length(vars)
   if(n.vars > 1 & n.vars <= 2){
       stop("At least, 3 variables are required for a correlation matrix. ",
