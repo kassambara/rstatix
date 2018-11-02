@@ -123,7 +123,7 @@ wilcox_test <- function(
       data = data, formula = formula,
       paired = paired, exact = exact,
       alternative = alternative,
-      conf.level = conf.level
+      conf.level = conf.level, ref.group = ref.group
     )
   }
   # Pairwise comparisons

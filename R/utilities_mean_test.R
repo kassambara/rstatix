@@ -59,7 +59,7 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
 
 
 # Performs one or two samples mean comparisons
-mean_test <- function(data, formula, method = "t.test", ...) {
+mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
   if (is_grouped_df(data)) {
     . <- NULL
     res <- data %>%
@@ -88,7 +88,7 @@ mean_test <- function(data, formula, method = "t.test", ...) {
   # Two sample mean comparisons ========================
   else {
     # Convert group into factor if this is not already the case
-    data <- data %>% .as_factor(group)
+    data <- data %>% .as_factor(group, ref.group = ref.group)
     group.levels <- data %>% pull(group) %>% levels()
     grp1 <- group.levels[1]
     grp2 <- group.levels[2]

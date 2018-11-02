@@ -129,7 +129,7 @@ t_test <- function(
     two_sample_t_test(
       data = data, formula = formula, paired = paired,
       var.equal = var.equal, alternative = alternative,
-      conf.level = conf.level
+      conf.level = conf.level, ref.group = ref.group
     )
   }
   # Pairwise comparisons
