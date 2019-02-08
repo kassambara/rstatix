@@ -4,8 +4,8 @@
 \alias{add_significance}
 \title{Add P-value Significance Symbols}
 \usage{
-add_significance(data, p.col, output.col, cutpoints = c(0, 1e-04, 0.001, 0.01,
-  0.05, 1), symbols = c("****", "***", "**", "*", "ns"))
+add_significance(data, p.col, output.col, cutpoints = c(0, 1e-04, 0.001,
+  0.01, 0.05, 1), symbols = c("****", "***", "**", "*", "ns"))
 }
 \arguments{
 \item{data}{a data frame containing a p-value column.}

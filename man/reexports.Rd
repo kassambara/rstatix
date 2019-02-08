@@ -4,15 +4,10 @@
 \name{reexports}
 \alias{reexports}
 \alias{\%>\%}
-\alias{reexports}
 \alias{mutate}
-\alias{reexports}
 \alias{filter}
-\alias{reexports}
 \alias{group_by}
-\alias{reexports}
 \alias{select}
-\alias{reexports}
 \alias{drop_na}
 \title{Objects exported from other packages}
 \keyword{internal}

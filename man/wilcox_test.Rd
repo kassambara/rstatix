@@ -16,8 +16,8 @@ one_sample_wilcox_test(data, formula, mu = 0, exact = FALSE, ...)
 
 two_sample_wilcox_test(data, formula, paired = FALSE, ...)
 
-pairwise_wilcox_test(data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", ...)
+pairwise_wilcox_test(data, formula, comparisons = NULL,
+  ref.group = NULL, p.adjust.method = "holm", ...)
 
 one_vs_all_wilcox_test(data, formula, p.adjust.method = "holm", ...)
 }

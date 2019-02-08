@@ -9,6 +9,7 @@ Description: Provides a pipe-friendly framework to perform easily basic statisti
     The output of each test is automatically transformed into a tidy data frame to facilitate visualization.
 License: GPL-2
 LazyData: TRUE
+Encoding: UTF-8
 Depends:
     R (>= 3.3.0)
 Imports:
@@ -29,7 +30,7 @@ Suggests:
     ggpubr
 URL: http://www.sthda.com/english/rpkgs/rstatix
 BugReports: https://github.com/kassambara/rstatix/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Collate:
     'utilities.R'
     'add_significance.R'

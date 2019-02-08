@@ -20,8 +20,9 @@ two_sample_t_test(data, formula, paired = FALSE, ...)
 pairwise_t_test(data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm", ...)
 
-pairwise_t_test_psd(data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", pool.sd = TRUE, alternative = "two.sided")
+pairwise_t_test_psd(data, formula, comparisons = NULL,
+  ref.group = NULL, p.adjust.method = "holm", pool.sd = TRUE,
+  alternative = "two.sided")
 
 one_vs_all_t_test(data, formula, p.adjust.method = "holm", ...)
 }
