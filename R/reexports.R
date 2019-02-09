@@ -16,3 +16,9 @@ dplyr::select
 #' @importFrom tidyr drop_na
 #' @export
 tidyr::drop_na
+#' @importFrom tidyr gather
+#' @export
+tidyr::gather
+#' @importFrom tidyr spread
+#' @export
+tidyr::spread

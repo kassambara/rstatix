@@ -9,6 +9,8 @@
 \alias{group_by}
 \alias{select}
 \alias{drop_na}
+\alias{gather}
+\alias{spread}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -20,6 +22,6 @@ below to see their documentation.
 
   \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
 
-  \item{tidyr}{\code{\link[tidyr]{drop_na}}}
+  \item{tidyr}{\code{\link[tidyr]{drop_na}}, \code{\link[tidyr]{gather}}, \code{\link[tidyr]{spread}}}
 }}
 
