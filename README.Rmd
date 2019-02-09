@@ -35,7 +35,11 @@ Provides a pipe-friendly framework to perform easily basic statistical tests in 
 - `anova_test()`: wrapper around `car:Anova()` to perform Anova test
 - `kruskal_test()`: perform kruskal-wallis rank sum test
 - `tukey_hsd()` and `tukey_hsd2()`: performs tukey post-hoc tests
-
+   
+### Effect Size
+   
+- `cohens_d()`: Compute cohen's d measure of effect size for t-tests.
+   
 ### Correlation analysis
    
 **Computing correlation**:  

@@ -37,6 +37,7 @@ Collate:
     'adjust_pvalue.R'
     'anova_test.R'
     'as_cor_mat.R'
+    'cohens_d.R'
     'cor_as_symbols.R'
     'replace_triangle.R'
     'pull_triangle.R'

@@ -1,6 +1,7 @@
 templates:
   params:
     bootswatch: lumen
+    ganalytics: UA-54921687-5
 reference:
   - title: Comparing Means
     contents:
@@ -9,6 +10,9 @@ reference:
       - anova_test
       - kruskal_test
       - tukey_hsd
+  - title: Effect Size
+    contents:
+      - cohens_d
   - title: Correlation analysis
     contents:
 
