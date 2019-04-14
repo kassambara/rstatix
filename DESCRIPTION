@@ -4,7 +4,6 @@ Title: Pipe-friendly Framework for Basic Statistical Tests in R
 Version: 0.1.0
 Authors@R: c(
     person("Alboukadel", "Kassambara", role = c("aut", "cre"), email = "alboukadel.kassambara@gmail.com"))
-Maintainer: The package maintainer <yourself@somewhere.net>
 Description: Provides a pipe-friendly framework to perform easily basic statistical tests in R. 
     The output of each test is automatically transformed into a tidy data frame to facilitate visualization.
 License: GPL-2
@@ -48,7 +47,9 @@ Collate:
     'cor_reshape.R'
     'cor_select.R'
     'cor_test.R'
+    'eta_squared.R'
     'kruskal_test.R'
+    'outliers.R'
     'reexports.R'
     'utilities_mean_test.R'
     't_test.R'
