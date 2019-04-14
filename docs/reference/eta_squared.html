@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add P-value Significance Symbols — add_significance • rstatix</title>
+<title>Effect Size for ANOVA — eta_squared • rstatix</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
 
@@ -32,9 +32,10 @@
 
 
 
-<meta property="og:title" content="Add P-value Significance Symbols — add_significance" />
+<meta property="og:title" content="Effect Size for ANOVA — eta_squared" />
 
-<meta property="og:description" content="Add p-value significance symbols into a data frame." />
+<meta property="og:description" content="Compute eta-squared and partial eta-squared for all terms in an
+  ANOVA model." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -110,63 +111,61 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add P-value Significance Symbols</h1>
+    <h1>Effect Size for ANOVA</h1>
     
-    <div class="hidden name"><code>add_significance.Rd</code></div>
+    <div class="hidden name"><code>eta_squared.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Add p-value significance symbols into a data frame.</p>
+    <p>Compute eta-squared and partial eta-squared for all terms in an
+  ANOVA model.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>add_significance</span>(<span class='no'>data</span>, <span class='no'>p.col</span>, <span class='no'>output.col</span>, <span class='kw'>cutpoints</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>1e-04</span>, <span class='fl'>0.001</span>,
-  <span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>1</span>), <span class='kw'>symbols</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"****"</span>, <span class='st'>"***"</span>, <span class='st'>"**"</span>, <span class='st'>"*"</span>, <span class='st'>"ns"</span>))</pre>
+    <pre class="usage"><span class='fu'>eta_squared</span>(<span class='no'>model</span>)
+
+<span class='fu'>partial_eta_squared</span>(<span class='no'>model</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>a data frame containing a p-value column.</p></td>
-    </tr>
-    <tr>
-      <th>p.col</th>
-      <td><p>column name containing p-values.</p></td>
-    </tr>
-    <tr>
-      <th>output.col</th>
-      <td><p>the output column name to hold the adjusted p-values.</p></td>
-    </tr>
-    <tr>
-      <th>cutpoints</th>
-      <td><p>numeric vector used for intervals.</p></td>
-    </tr>
-    <tr>
-      <th>symbols</th>
-      <td><p>character vector, one shorter than cutpoints, used as
-significance symbols.</p></td>
+      <th>model</th>
+      <td><p>an object of class aov or anova.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame</p>
+    <p>a numeric vector with the effect size statistics</p>
+    
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    <ul>
+<li><p><code>eta_squared</code>: compute eta squared</p></li>
+<li><p><code>partial_eta_squared</code>: compute partial eta squared.</p></li>
+</ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Perform pairwise comparisons and adjust p-values</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='t_test.html'>t_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='adjust_pvalue.html'>adjust_pvalue</a></span>() <span class='kw'>%&gt;%</span>
- <span class='fu'>add_significance</span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 9
-#&gt;   .y.   group1 group2 statistic        p method    p.adj p.signif p.adj.signif
-#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;       
-#&gt; 1 len   0.5    1          -6.48 1.30e- 7 T-test 2.60e- 7 ****     ****        
-#&gt; 2 len   0.5    2         -11.8  4.40e-14 T-test 1.32e-13 ****     ****        
-#&gt; 3 len   1      2          -4.90 1.90e- 5 T-test 1.90e- 5 ****     ****        </div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># Data preparation</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span>
+<span class='no'>df</span>$<span class='no'>dose</span> <span class='kw'>&lt;-</span> <span class='fu'>as.factor</span>(<span class='no'>df</span>$<span class='no'>dose</span>)
+
+<span class='co'># Compute ANOVA</span>
+<span class='no'>res.aov</span> <span class='kw'>&lt;-</span> <span class='fu'>aov</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>)
+<span class='fu'>summary</span>(<span class='no'>res.aov</span>)</div><div class='output co'>#&gt;             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+#&gt; supp         1  205.4   205.4  15.572 0.000231 ***
+#&gt; dose         2 2426.4  1213.2  92.000  &lt; 2e-16 ***
+#&gt; supp:dose    2  108.3    54.2   4.107 0.021860 *  
+#&gt; Residuals   54  712.1    13.2                     
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'>
+<span class='co'># Effect size</span>
+<span class='fu'>eta_squared</span>(<span class='no'>res.aov</span>)</div><div class='output co'>#&gt;       supp       dose  supp:dose 
+#&gt; 0.05948365 0.70286419 0.03137672 </div><div class='input'><span class='fu'>partial_eta_squared</span>(<span class='no'>res.aov</span>)</div><div class='output co'>#&gt;      supp      dose supp:dose 
+#&gt; 0.2238254 0.7731092 0.1320279 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -174,6 +173,8 @@ significance symbols.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#functions">Functions</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

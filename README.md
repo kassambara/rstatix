@@ -9,6 +9,10 @@ Provides a pipe-friendly framework to perform easily basic statistical tests in 
 Key functions
 -------------
 
+### Descriptive statistics
+
+-   `identify_outliers()`: Detect outliers using boxplot methods.
+
 ### Comparing means
 
 -   `t_test()`: perform one-sample, two-sample and pairwise t-tests
@@ -20,6 +24,7 @@ Key functions
 ### Effect Size
 
 -   `cohens_d()`: Compute cohen's d measure of effect size for t-tests.
+-   `eta_squared()` and `partial_eta_squared()`: Compute effect size for ANOVA.
 
 ### Correlation analysis
 

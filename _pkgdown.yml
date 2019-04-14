@@ -3,6 +3,9 @@ templates:
     bootswatch: lumen
     ganalytics: UA-54921687-5
 reference:
+  - title: Descriptive Statistics
+    contents:
+      - identify_outliers
   - title: Comparing Means
     contents:
       - t_test
@@ -13,6 +16,7 @@ reference:
   - title: Effect Size
     contents:
       - cohens_d
+      - eta_squared
   - title: Correlation analysis
     contents:
 

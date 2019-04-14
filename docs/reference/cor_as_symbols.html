@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add P-value Significance Symbols — add_significance • rstatix</title>
+<title>Replace Correlation Coefficients by Symbols — cor_as_symbols • rstatix</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
 
@@ -32,9 +32,10 @@
 
 
 
-<meta property="og:title" content="Add P-value Significance Symbols — add_significance" />
+<meta property="og:title" content="Replace Correlation Coefficients by Symbols — cor_as_symbols" />
 
-<meta property="og:description" content="Add p-value significance symbols into a data frame." />
+<meta property="og:description" content="Take a correlation matrix and replace the correlation coefficients by symbols according to the
+  level of the correlation." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -110,62 +111,64 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add P-value Significance Symbols</h1>
+    <h1>Replace Correlation Coefficients by Symbols</h1>
     
-    <div class="hidden name"><code>add_significance.Rd</code></div>
+    <div class="hidden name"><code>cor_as_symbols.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Add p-value significance symbols into a data frame.</p>
+    <p>Take a correlation matrix and replace the correlation coefficients by symbols according to the
+  level of the correlation.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>add_significance</span>(<span class='no'>data</span>, <span class='no'>p.col</span>, <span class='no'>output.col</span>, <span class='kw'>cutpoints</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>1e-04</span>, <span class='fl'>0.001</span>,
-  <span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>1</span>), <span class='kw'>symbols</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"****"</span>, <span class='st'>"***"</span>, <span class='st'>"**"</span>, <span class='st'>"*"</span>, <span class='st'>"ns"</span>))</pre>
+    <pre class="usage"><span class='fu'>cor_as_symbols</span>(<span class='no'>x</span>, <span class='kw'>cutpoints</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>, <span class='fl'>1</span>),
+  <span class='kw'>symbols</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>" "</span>, <span class='st'>"."</span>, <span class='st'>"+"</span>, <span class='st'>"*"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>a data frame containing a p-value column.</p></td>
-    </tr>
-    <tr>
-      <th>p.col</th>
-      <td><p>column name containing p-values.</p></td>
-    </tr>
-    <tr>
-      <th>output.col</th>
-      <td><p>the output column name to hold the adjusted p-values.</p></td>
+      <th>x</th>
+      <td><p>a correlation matrix. Particularly, an object of class <code>cor_mat</code>.</p></td>
     </tr>
     <tr>
       <th>cutpoints</th>
-      <td><p>numeric vector used for intervals.</p></td>
+      <td><p>numeric vector used for intervals. Default values are
+<code>c(0, 0.25, 0.5, 0.75, 1)</code>.</p></td>
     </tr>
     <tr>
       <th>symbols</th>
       <td><p>character vector, one shorter than cutpoints, used as
-significance symbols.</p></td>
+correlation coefficient symbols. Default values are <code>c(" ", ".",  "+",
+"*")</code>.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>a data frame</p>
+    <div class='dont-index'><p><code><a href='cor_mat.html'>cor_mat</a>()</code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Perform pairwise comparisons and adjust p-values</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='t_test.html'>t_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='adjust_pvalue.html'>adjust_pvalue</a></span>() <span class='kw'>%&gt;%</span>
- <span class='fu'>add_significance</span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 9
-#&gt;   .y.   group1 group2 statistic        p method    p.adj p.signif p.adj.signif
-#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;       
-#&gt; 1 len   0.5    1          -6.48 1.30e- 7 T-test 2.60e- 7 ****     ****        
-#&gt; 2 len   0.5    2         -11.8  4.40e-14 T-test 1.32e-13 ****     ****        
-#&gt; 3 len   1      2          -4.90 1.90e- 5 T-test 1.90e- 5 ****     ****        </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='co'># Compute correlation matrix</span>
+<span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
+<span class='no'>cor.mat</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>, <span class='no'>hp</span>, <span class='no'>drat</span>, <span class='no'>wt</span>, <span class='no'>qsec</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='cor_mat.html'>cor_mat</a></span>()
+
+<span class='co'># Replace correlation coefficient by symbols</span>
+<span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
+<span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>cor_as_symbols</span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='pull_triangle.html'>pull_lower_triangle</a></span>()</div><div class='output co'>#&gt;   rowname mpg disp hp drat wt qsec
+#&gt; 1     mpg                         
+#&gt; 2    disp   *                     
+#&gt; 3      hp   *    *                
+#&gt; 4    drat   +    +  .             
+#&gt; 5      wt   *    *  +    +        
+#&gt; 6    qsec   .    .  +             </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -173,7 +176,7 @@ significance symbols.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

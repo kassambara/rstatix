@@ -1,0 +1,6 @@
+pandoc: 1.19.2.1
+pkgdown: 1.1.0.9000
+pkgdown_sha: 7f564ddbcad38ba3c49bc4c2fed72696021b0fff
+articles:
+  correlation-analysis: correlation-analysis.html
+
