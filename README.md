@@ -12,6 +12,7 @@ Key functions
 ### Descriptive statistics
 
 -   `identify_outliers()`: Detect outliers using boxplot methods.
+-   `box_m()`: Box's M-test for homogeneity of covariance matrices
 
 ### Comparing means
 
