@@ -17,7 +17,7 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
     number.of.groups <- 1  # Null model
   else
     number.of.groups <- data %>%
-    pull(group) %>% unique() %>% length()
+    pull(!!group) %>% unique() %>% length()
 
   if(method %in% c("anova", "kruskal.test") & number.of.groups <= 2)
     stop("The number of groups <= 2; you should use t.test or wilcox.test")
@@ -81,7 +81,7 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
   if (.is_empty(group)) {
     grp1 <- "1"
     grp2 <- "null model"
-    outcome.values <- data %>% pull(outcome)
+    outcome.values <- data %>% pull(!!outcome)
     test.args <- list(x = outcome.values, ...)
   }
 
@@ -89,7 +89,7 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
   else {
     # Convert group into factor if this is not already the case
     data <- data %>% .as_factor(group, ref.group = ref.group)
-    group.levels <- data %>% pull(group) %>% levels()
+    group.levels <- data %>% pull(!!group) %>% levels()
     grp1 <- group.levels[1]
     grp2 <- group.levels[2]
     test.args <- list(formula = formula, data = data, ...)
@@ -131,7 +131,7 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
 
   # Convert group into factor if this is not already the case
   data <- data %>% .as_factor(group, ref.group = ref.group)
-  group.levels <- data %>% pull(group) %>% levels()
+  group.levels <- data %>% pull(!!group) %>% levels()
 
   # All possible pairwise comparisons
   # if ref.group specified, only comparisons against reference will be kept
@@ -181,8 +181,8 @@ mean_test_one_vs_all <- function(data, formula, method = "t.test", p.adjust.meth
   # Convert group into factor if this is not already the case
   # extract values
   data <- data %>% .as_factor(group)
-  outcome.values <- data %>% pull(outcome)
-  group.values <- data %>% pull(group)
+  outcome.values <- data %>% pull(!!outcome)
+  group.values <- data %>% pull(!!group)
   group.levels <- group.values %>% levels()
 
   # Create new data set containing the "all" group level

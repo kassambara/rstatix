@@ -114,7 +114,7 @@ t_test <- function(
     number.of.groups <- 1  # Null model
   else
     number.of.groups <- data %>%
-    pull(group) %>% unique() %>% length()
+    pull(!!group) %>% unique() %>% length()
 
   # Case of one sample test
   if(number.of.groups == 1){
@@ -220,8 +220,8 @@ pairwise_t_test_psd <- function(
 
   # Convert group into factor if this is not already the case
   data <- data %>% .as_factor(group, ref.group = ref.group)
-  outcome.values <- data %>% pull(outcome)
-  group.values <- data %>% pull(group)
+  outcome.values <- data %>% pull(!!outcome)
+  group.values <- data %>% pull(!!group)
 
   # Compute pairwise t-test
   group1 <- group2 <- p.value <- NULL

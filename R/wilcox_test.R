@@ -107,7 +107,7 @@ wilcox_test <- function(
     number.of.groups <- 1  # Null model
   else
     number.of.groups <- data %>%
-    pull(group) %>% unique() %>% length()
+    pull(!!group) %>% unique() %>% length()
 
   # Case of one sample test
   if(number.of.groups == 1){
