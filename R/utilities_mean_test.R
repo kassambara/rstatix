@@ -8,10 +8,8 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
                            p.adjust.method = "holm",  ...)
 {
 
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
 
   if(.is_empty(group))
     number.of.groups <- 1  # Null model
@@ -72,10 +70,8 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
   test.args <- list()
   grp1 <- grp2 <- NULL
 
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
 
   # One sample mean comparison =========================
   if (.is_empty(group)) {
@@ -124,10 +120,8 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
     return(res)
   }
 
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
 
   # Convert group into factor if this is not already the case
   data <- data %>% .as_factor(group, ref.group = ref.group)
@@ -173,10 +167,8 @@ mean_test_one_vs_all <- function(data, formula, method = "t.test", p.adjust.meth
     return(results)
   }
 
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
 
   # Convert group into factor if this is not already the case
   # extract values

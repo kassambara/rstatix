@@ -37,9 +37,8 @@ NULL
 #' @export
 cohens_d <- function(data, formula, paired = FALSE, mu = 0, var.equal = FALSE){
 
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
 
   if(.is_empty(group))
     number.of.groups <- 1  # Null model

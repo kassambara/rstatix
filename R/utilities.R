@@ -36,11 +36,19 @@
 
 # Extract variables used in a formula
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+get_formula_left_hand_side <- function(formula){
+  deparse(formula[[2]])
+}
+get_formula_right_hand_side <- function(formula){
+  attr(stats::terms(formula), "term.labels")
+}
 .extract_formula_variables <- function(formula){
-  outcome <- deparse(formula[[2]])
-  group <- attr(stats::terms(formula), "term.labels")
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
   list(outcome = outcome, group = group)
 }
+
 
 # Convert a group column into a factor if this is not already the case
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

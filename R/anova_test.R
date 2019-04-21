@@ -39,10 +39,8 @@ anova_test <- function(
 )
 {
 
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
 
   if(is_grouped_df(data)){
     . <- NULL
