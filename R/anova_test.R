@@ -43,15 +43,13 @@ anova_test <- function(
   group <- get_formula_right_hand_side(formula)
 
   if(is_grouped_df(data)){
-    . <- NULL
     results <- data %>%
-      do(anova_test(data =., formula)) %>%
-      ungroup()
+      doo(anova_test, formula, ...)
     return(results)
   }
 
   term <- statistic <- p <- method <- NULL
-  stats::aov(formula, data = data) %>%
+  stats::aov(formula, data = data, ...) %>%
     as_tidy_stat() %>%
     filter(term != "Residuals") %>%
     select(term, statistic, p, method) %>%

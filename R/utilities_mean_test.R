@@ -53,11 +53,10 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
 
 # Performs one or two samples mean comparisons
 mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
+
   if (is_grouped_df(data)) {
-    . <- NULL
     res <- data %>%
-      do(mean_test(data = ., formula, method = method, ...)) %>%
-      ungroup()
+      doo(mean_test, formula, method = method, ...)
     return(res)
   }
 
@@ -103,15 +102,11 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
                                comparisons = NULL, ref.group = NULL,
                                p.adjust.method = "holm", ...) {
   if (is_grouped_df(data)) {
-    . <- NULL
     res <- data %>%
-      do(
-        mean_test_pairwise(
-          data = ., formula, method, comparisons,
-          ref.group, p.adjust.method, ...
+      doo(
+        mean_test_pairwise, formula, method,
+        comparisons, ref.group, p.adjust.method, ...
         )
-      ) %>%
-      ungroup()
     return(res)
   }
 
@@ -145,12 +140,9 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
 # One vs all mean comparisons
 mean_test_one_vs_all <- function(data, formula, method = "t.test", p.adjust.method = "holm", ...) {
 
-  # Case of grouped data by dplyr::group_by
   if (is_grouped_df(data)) {
-    . <- NULL
     results <- data %>%
-      do(mean_test_one_vs_all(data = ., formula, method, p.adjust.method, ...)) %>%
-      ungroup()
+      doo(mean_test_one_vs_all, formula, method, p.adjust.method, ...)
     return(results)
   }
 

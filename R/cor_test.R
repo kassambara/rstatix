@@ -142,13 +142,9 @@ cor_test_xy <- function(
   use = "pairwise.complete.obs", ...
 )
 {
-
-  # Case of grouped data
   if(is_grouped_df(data)){
-    . <- NULL
     results <- data %>%
-      do(cor_test_xy(data =., x, y, method = method, use = use, ...)) %>%
-      ungroup()
+      doo(cor_test_xy, x, y, method = method, use = use, ...)
     return(results)
   }
   # Correlation test, supress the warning when method = "spearman" or "kendall".

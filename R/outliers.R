@@ -69,12 +69,9 @@ identify_outliers <- function(data, ..., variable = NULL){
     stop("Specify only one variable")
 
   is.outlier <- NULL
-  # Case of grouped data by dplyr::group_by
   if(is_grouped_df(data)){
-    . <- NULL
     results <- data %>%
-      do(identify_outliers(data = ., variable)) %>%
-      ungroup() %>%
+      doo(identify_outliers, variable) %>%
       filter(is.outlier == TRUE)
     return(results)
   }

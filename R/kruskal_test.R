@@ -39,15 +39,13 @@ kruskal_test <- function(
   group <- get_formula_right_hand_side(formula)
 
   if(is_grouped_df(data)){
-    . <- NULL
     results <- data %>%
-      do(kruskal_test(data =., formula)) %>%
-      ungroup()
+      doo(kruskal_test, formula, ...)
     return(results)
   }
 
   term <- statistic <- p <- method <- NULL
-  stats::kruskal.test(formula, data = data) %>%
+  stats::kruskal.test(formula, data = data, ...) %>%
     as_tidy_stat() %>%
     select(statistic, p, method) %>%
     add_column(.y. = outcome, .before = "statistic")

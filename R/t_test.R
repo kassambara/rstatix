@@ -206,23 +206,16 @@ pairwise_t_test_psd <- function(
   p.adjust.method = "holm", alternative = "two.sided"
   )
   {
-
-  # Case of grouped data by dplyr::group_by
+  . <- NULL
   if(is_grouped_df(data)){
-    . <- NULL
     results <- data %>%
-      do(
-        pairwise_t_test_psd(data = ., formula, comparisons, ref.group, p.adjust.method,
-                            alternative = alternative)
-      ) %>%
-      ungroup()
+      doo(pairwise_t_test_psd, formula, comparisons,
+          ref.group, p.adjust.method, alternative = alternative)
     return(results)
   }
-  # Formula variables
-  formula.variables <- .extract_formula_variables(formula)
-  outcome <- formula.variables$outcome
-  group <- formula.variables$group
 
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
   # Convert group into factor if this is not already the case
   data <- data %>% .as_factor(group, ref.group = ref.group)
   outcome.values <- data %>% pull(!!outcome)

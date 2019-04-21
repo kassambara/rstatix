@@ -36,7 +36,7 @@ tukey_hsd <- function(x, ...)
     mutate(comparison2 = comparison) %>%
     separate(comparison2, into= c("group2", "group1"), sep = "-") %>%
     rename(p.adj = adj.p.value) %>%
-    mutate(p.adj = signif(p.adj, 2)) %>%
+    mutate(p.adj = signif(p.adj, 3)) %>%
     select(term, group1, group2, everything())
   res
 }
@@ -49,10 +49,8 @@ tukey_hsd <- function(x, ...)
 tukey_hsd2 <- function(data, formula, ...){
 
   if(is_grouped_df(data)){
-    . <- NULL
     results <- data %>%
-      do(tukey_hsd2(data =., formula, ...)) %>%
-      ungroup()
+      doo(tukey_hsd2, formula, ...)
     return(results)
   }
 
