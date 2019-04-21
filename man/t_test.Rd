@@ -5,7 +5,6 @@
 \alias{one_sample_t_test}
 \alias{two_sample_t_test}
 \alias{pairwise_t_test}
-\alias{pairwise_t_test_psd}
 \alias{one_vs_all_t_test}
 \title{T-test}
 \usage{
@@ -18,11 +17,7 @@ one_sample_t_test(data, formula, mu = 0, ...)
 two_sample_t_test(data, formula, paired = FALSE, ...)
 
 pairwise_t_test(data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", ...)
-
-pairwise_t_test_psd(data, formula, comparisons = NULL,
-  ref.group = NULL, p.adjust.method = "holm", pool.sd = TRUE,
-  alternative = "two.sided")
+  p.adjust.method = "holm", paired = FALSE, pool.sd = !paired, ...)
 
 one_vs_all_t_test(data, formula, p.adjust.method = "holm", ...)
 }
@@ -68,7 +63,18 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 \item{...}{other arguments to be passed to the function
 \code{\link[stats]{t.test}}.}
 
-\item{pool.sd}{switch to allow/disallow the use of a pooled SD.}
+\item{pool.sd}{logical value used in the function \code{pairwise_t_test()}.
+ Switch to allow/disallow the use of a pooled SD.
+
+ The \code{pool.sd = TRUE} (default) calculates a common SD for all groups
+ and uses that for all comparisons (this can be useful if some groups are
+ small). This method does not actually call t.test, so extra arguments are
+ ignored. Pooling does not generalize to paired tests so pool.sd and paired
+ cannot both be TRUE.
+
+ If \code{pool.sd = FALSE} the standard two sample t-test is applied to all
+ possible pairs of groups. This method calls the \code{t.test()}, so extra
+ arguments, such as \code{var.equal} are accepted.}
 }
 \value{
 return a data frame with the following columns: \itemize{ \item
@@ -84,20 +90,8 @@ Provides a pipe-friendly framework to performs one and two sample
  t-tests.
 }
 \details{
-- \code{pairwise_t_test()} applies the standard two sample t-test to
- all possible pairs of groups. This method calls the
- \code{\link[stats]{t.test}()}, so extra arguments are accepted.
-
- - \code{pairwise_t_test_psd()} performs a pairwise t-test with pooled SD. It
- is a wrapper around the R base function
- \code{\link[stats]{pairwise.t.test}()}, which calculates, by default, a
- common SD for all groups and uses that for all comparisons (this can be
- useful if some groups are small). This method does not actually call t.test,
- so extra arguments are ignored. Pooling does not generalize to paired tests
- so pool.sd and paired cannot both be TRUE.
-
- - If a list of comparisons is specified, the result of the pairwise tests is
- filtered to keep only the comparisons of interest.The p-value is adjusted
+- If a list of comparisons is specified, the result of the pairwise tests is
+ filtered to keep only the comparisons of interest. The p-value is adjusted
  after filtering.
 
  - For a grouped data, if pairwise test is performed, then the p-values are
@@ -109,9 +103,7 @@ Provides a pipe-friendly framework to performs one and two sample
 
 \item \code{two_sample_t_test}: performs two sample t-test.
 
-\item \code{pairwise_t_test}: performs pairwise two sample t-test.
-
-\item \code{pairwise_t_test_psd}: performs pairwise t-test with pooled SD. Wrapper around the R
+\item \code{pairwise_t_test}: performs pairwise two sample t-test. Wrapper around the R
 base function \code{\link[stats]{pairwise.t.test}}.
 
 \item \code{one_vs_all_t_test}: performs pairwise two sample t-test comparing each grouping

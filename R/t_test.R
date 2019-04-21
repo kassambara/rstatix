@@ -23,24 +23,27 @@ NULL
 #'  Used when pairwise comparisons are performed. Allowed values include "holm",
 #'  "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't
 #'  want to adjust the p value (not recommended), use p.adjust.method = "none".
-#' @param pool.sd switch to allow/disallow the use of a pooled SD.
+#'@param pool.sd logical value used in the function \code{pairwise_t_test()}.
+#'  Switch to allow/disallow the use of a pooled SD.
+#'
+#'  The \code{pool.sd = TRUE} (default) calculates a common SD for all groups
+#'  and uses that for all comparisons (this can be useful if some groups are
+#'  small). This method does not actually call t.test, so extra arguments are
+#'  ignored. Pooling does not generalize to paired tests so pool.sd and paired
+#'  cannot both be TRUE.
+#'
+#'  If \code{pool.sd = FALSE} the standard two sample t-test is applied to all
+#'  possible pairs of groups. This method calls the \code{t.test()}, so extra
+#'  arguments, such as \code{var.equal} are accepted.
+
+
 #'@param ... other arguments to be passed to the function
 #'  \code{\link[stats]{t.test}}.
 #'
-#'@details - \code{pairwise_t_test()} applies the standard two sample t-test to
-#'  all possible pairs of groups. This method calls the
-#'  \code{\link[stats]{t.test}()}, so extra arguments are accepted.
-#'
-#'  - \code{pairwise_t_test_psd()} performs a pairwise t-test with pooled SD. It
-#'  is a wrapper around the R base function
-#'  \code{\link[stats]{pairwise.t.test}()}, which calculates, by default, a
-#'  common SD for all groups and uses that for all comparisons (this can be
-#'  useful if some groups are small). This method does not actually call t.test,
-#'  so extra arguments are ignored. Pooling does not generalize to paired tests
-#'  so pool.sd and paired cannot both be TRUE.
+#'@details
 #'
 #'  - If a list of comparisons is specified, the result of the pairwise tests is
-#'  filtered to keep only the comparisons of interest.The p-value is adjusted
+#'  filtered to keep only the comparisons of interest. The p-value is adjusted
 #'  after filtering.
 #'
 #'  - For a grouped data, if pairwise test is performed, then the p-values are
@@ -141,7 +144,8 @@ t_test <- function(
         comparisons = comparisons,
         p.adjust.method = p.adjust.method,
         paired = paired, var.equal = var.equal,
-        alternative = alternative, conf.level = conf.level
+        alternative = alternative, conf.level = conf.level,
+        pool.sd = FALSE
       )
     else if(ref.group %in% c("all", ".all."))
       one_vs_all_t_test(
@@ -156,7 +160,8 @@ t_test <- function(
         comparisons = comparisons, ref.group = ref.group,
         p.adjust.method = p.adjust.method,
         paired = paired, var.equal = var.equal,
-        alternative = alternative, conf.level = conf.level
+        alternative = alternative, conf.level = conf.level,
+        pool.sd = FALSE
       )
   }
 
@@ -179,26 +184,33 @@ two_sample_t_test <- function(data, formula, paired = FALSE, ...)
 }
 
 
-#'@describeIn t_test performs pairwise two sample t-test.
+#'@describeIn t_test performs pairwise two sample t-test. Wrapper around the R
+#'  base function \code{\link[stats]{pairwise.t.test}}.
 #'@export
 pairwise_t_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", ...) {
+  p.adjust.method = "holm", paired = FALSE, pool.sd = !paired, ...) {
 
-  mean_test_pairwise(
-    data, formula, method = "t.test",
-    comparisons = comparisons, ref.group = ref.group,
-    p.adjust.method = p.adjust.method, ...
-  )
-
+  if(paired) pool.sd <- FALSE
+  if(pool.sd){
+    pairwise_t_test_psd(
+      data, formula, comparisons = comparisons, ref.group = ref.group,
+      p.adjust.method = p.adjust.method, ...
+    )
+  }
+  else{
+    mean_test_pairwise(
+      data, formula, method = "t.test",
+      comparisons = comparisons, ref.group = ref.group,
+      p.adjust.method = p.adjust.method, paired = paired, ...
+    )
+  }
   }
 
-#'@describeIn t_test performs pairwise t-test with pooled SD. Wrapper around the R
-#'  base function \code{\link[stats]{pairwise.t.test}}.
-#'@export
+
 pairwise_t_test_psd <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", pool.sd = TRUE, alternative = "two.sided"
+  p.adjust.method = "holm", alternative = "two.sided"
   )
   {
 
@@ -208,7 +220,7 @@ pairwise_t_test_psd <- function(
     results <- data %>%
       do(
         pairwise_t_test_psd(data = ., formula, comparisons, ref.group, p.adjust.method,
-                            pool.sd = pool.sd, alternative = alternative)
+                            alternative = alternative)
       ) %>%
       ungroup()
     return(results)
@@ -227,7 +239,7 @@ pairwise_t_test_psd <- function(
   group1 <- group2 <- p.value <- NULL
   results <- stats::pairwise.t.test(
     outcome.values, group.values,
-    p.adjust.method = "none", pool.sd = pool.sd,
+    p.adjust.method = "none", pool.sd = TRUE,
     alternative = alternative
     ) %>%
     tidy() %>%
