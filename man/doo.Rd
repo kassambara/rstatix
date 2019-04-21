@@ -4,13 +4,15 @@
 \alias{doo}
 \title{Alternative to dplyr::do for Doing Anything}
 \usage{
-doo(data, formula, result = ".results.")
+doo(data, .f, ..., result = ".results.")
 }
 \arguments{
 \item{data}{a grouped data frame}
 
-\item{formula}{Expressions to be applied to each group. For example
+\item{.f}{A function, formula, or atomic vector. For example
 \code{~t.test(len ~ supp, data = .)}.}
+
+\item{...}{Additional arguments passed on to .f}
 
 \item{result}{the column name to hold the results. Default is ".results.".}
 }
@@ -28,13 +30,21 @@ Provides a flexibe alternative to the \code{dplyr:do()} function.
  containing the results for group combinations.
 }
 \examples{
-# Example 1: pipe-friendly t_test()
+# Example 1: pipe-friendly t_test().
+# Two possibilities of usage are available
 #\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%
+# Use this
 ToothGrowth \%>\%
   group_by(dose) \%>\%
   doo(~t_test(data =., len ~ supp))
 
-# Example 2: R base function t.test()
+# Or this
+ToothGrowth \%>\%
+  group_by(dose) \%>\%
+  doo(t_test, len ~ supp)
+
+# Example 2: R base function t.test() (not pipe friendly)
+# One possibility of usage
 #\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%
 comparisons <- ToothGrowth \%>\%
    group_by(dose) \%>\%

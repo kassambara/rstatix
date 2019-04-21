@@ -13,18 +13,27 @@ NULL
 #'  containing the results for group combinations.
 #'
 #'@param data a grouped data frame
-#'@param formula Expressions to be applied to each group. For example
+#'@param .f A function, formula, or atomic vector. For example
 #'  \code{~t.test(len ~ supp, data = .)}.
+#' @param ... Additional arguments passed on to .f
 #' @param result the column name to hold the results. Default is ".results.".
 #' @return a data frame
 #' @examples
-#' # Example 1: pipe-friendly t_test()
+#' # Example 1: pipe-friendly t_test().
+#' # Two possibilities of usage are available
 #' #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#' # Use this
 #' ToothGrowth %>%
 #'   group_by(dose) %>%
 #'   doo(~t_test(data =., len ~ supp))
 #'
-#' # Example 2: R base function t.test()
+#' # Or this
+#' ToothGrowth %>%
+#'   group_by(dose) %>%
+#'   doo(t_test, len ~ supp)
+#'
+#' # Example 2: R base function t.test() (not pipe friendly)
+#' # One possibility of usage
 #' #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #' comparisons <- ToothGrowth %>%
 #'    group_by(dose) %>%
@@ -38,22 +47,18 @@ NULL
 #'    group_by(dose) %>%
 #'    doo(~t.test(len ~ supp, data =.) %>% tidy())
 #'@export
-doo <- function(data, formula, result = ".results."){
+doo <- function(data, .f, ..., result = ".results."){
 
   if(!is_grouped_df(data)){
     stop("data should be a grouped data frame ",
          "as returned by dplyr::group_by")
-  }
-  if(!inherits(formula, "formula")){
-    stop("The function should be provide as formula. ",
-         "Example:  ~t.test(len ~ supp, data = .)")
   }
   .nested <- data %>%
     nest() %>%
     mutate(data = map(data, droplevels))
   .computed <- .nested %>%
     pull(data) %>%
-    map(formula)
+    map(.f, ...)
   .results <- .nested %>%
     select(-data) %>%
     mutate(!!result := .computed)
