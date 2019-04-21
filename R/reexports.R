@@ -22,3 +22,6 @@ tidyr::gather
 #' @importFrom tidyr spread
 #' @export
 tidyr::spread
+#' @importFrom broom tidy
+#' @export
+broom::tidy

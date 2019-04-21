@@ -60,6 +60,10 @@ Key functions
 -   `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 -   `add_significance()`: add a column containing the p-value significance level
 
+### Others
+
+-   `doo()`: alternative to dplyr::do for doing anything. Technically it uses `nest() + mutate() + map()` to apply arbitrary computation to a grouped data frame.
+
 Installation and loading
 ------------------------
 

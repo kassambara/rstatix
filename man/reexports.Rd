@@ -11,6 +11,7 @@
 \alias{drop_na}
 \alias{gather}
 \alias{spread}
+\alias{tidy}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -18,6 +19,8 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
+  \item{broom}{\code{\link[broom]{tidy}}}
+
   \item{dplyr}{\code{\link[dplyr]{mutate}}, \code{\link[dplyr]{filter}}, \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{select}}}
 
   \item{magrittr}{\code{\link[magrittr]{\%>\%}}}

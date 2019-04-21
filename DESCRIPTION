@@ -48,6 +48,7 @@ Collate:
     'cor_reshape.R'
     'cor_select.R'
     'cor_test.R'
+    'doo.R'
     'eta_squared.R'
     'kruskal_test.R'
     'outliers.R'

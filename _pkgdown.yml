@@ -44,4 +44,5 @@ reference:
   - title: Others
     contents:
       - reexports
+      - doo
 

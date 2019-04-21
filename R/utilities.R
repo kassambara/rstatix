@@ -29,6 +29,8 @@
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr spread
 #' @importFrom tidyr gather
+#' @importFrom tidyr nest
+#' @importFrom tidyr unnest
 
 
 
@@ -313,4 +315,5 @@ as_numeric_triangle <- function(x){
     add_column(rowname = rrowname, .before = 1)
   res
 }
+
 
