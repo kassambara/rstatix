@@ -261,8 +261,8 @@ pairwise_t_test_psd <- function(
     add_significance("p") %>%
     add_significance("p.adj") %>%
     mutate(
-      p = signif(p, digits = 2),
-      p.adj = signif(p.adj, digits = 2)
+      p = signif(p, digits = 3),
+      p.adj = signif(p.adj, digits = 3)
     )
 }
 

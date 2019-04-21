@@ -122,7 +122,7 @@ get_levels <- function(data, group){
 # Create a tidy statistical output
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # Generic function to create a tidy statistical output
-as_tidy_stat <- function(x, digits = 2){
+as_tidy_stat <- function(x, digits = 3){
 
   stat.method <- get_stat_method(x)
 
