@@ -132,15 +132,7 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
 
   # Perform comparisons
   p <- p.adj <- NULL
-  .compare_pair <- function(pair, data, formula, ...) {
-    data %>%
-      filter(!!sym(group) %in% pair) %>%
-      mutate_at(group, droplevels) %>%
-      mean_test(formula, method = method, ...)
-  }
-  possible.pairs %>%
-    map(.compare_pair, data, formula, ...) %>%
-    bind_rows() %>%
+  compare_pairs(data, formula, possible.pairs, method, ...) %>%
     adjust_pvalue(method = p.adjust.method) %>%
     add_significance("p") %>%
     add_significance("p.adj") %>%
@@ -192,3 +184,23 @@ mean_test_one_vs_all <- function(data, formula, method = "t.test", p.adjust.meth
     p.adjust.method = p.adjust.method, ...
   )
 }
+
+
+# compare_pair(ToothGrowth, len ~ dose, c("0.5", "1"))
+compare_pair <- function(data, formula, pair, method = "t.test", ...){
+  group <- get_formula_right_hand_side(formula)
+  data %>%
+    filter(!!sym(group) %in% pair) %>%
+    droplevels() %>%
+    mean_test(formula, method = method, ...)
+}
+# compare_pairs(ToothGrowth, len ~ dose, list(c("0.5", "1"), c("1", "2")))
+compare_pairs <- function(data, formula, pairs, method = "t.test", ...){
+  .f <- function(pair, data, formula, method, ...){
+    compare_pair(data, formula, pair, method, ...)
+  }
+  pairs %>%
+    map(.f, data, formula, method, ...) %>%
+    bind_rows()
+}
+
