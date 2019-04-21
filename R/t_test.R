@@ -110,12 +110,7 @@ t_test <- function(
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
-
-  if(.is_empty(group))
-    number.of.groups <- 1  # Null model
-  else
-    number.of.groups <- data %>%
-    pull(!!group) %>% unique() %>% length()
+  number.of.groups <- guess_number_of_groups(data, group)
 
   # Case of one sample test
   if(number.of.groups == 1){

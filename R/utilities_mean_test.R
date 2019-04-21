@@ -10,12 +10,7 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
-
-  if(.is_empty(group))
-    number.of.groups <- 1  # Null model
-  else
-    number.of.groups <- data %>%
-    pull(!!group) %>% unique() %>% length()
+  number.of.groups <- guess_number_of_groups(data, group)
 
   if(method %in% c("anova", "kruskal.test") & number.of.groups <= 2)
     stop("The number of groups <= 2; you should use t.test or wilcox.test")
@@ -85,7 +80,7 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
   else {
     # Convert group into factor if this is not already the case
     data <- data %>% .as_factor(group, ref.group = ref.group)
-    group.levels <- data %>% pull(!!group) %>% levels()
+    group.levels <- data %>% get_levels(group)
     grp1 <- group.levels[1]
     grp2 <- group.levels[2]
     test.args <- list(formula = formula, data = data, ...)
@@ -125,7 +120,7 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
 
   # Convert group into factor if this is not already the case
   data <- data %>% .as_factor(group, ref.group = ref.group)
-  group.levels <- data %>% pull(!!group) %>% levels()
+  group.levels <- data %>% get_levels(group)
 
   # All possible pairwise comparisons
   # if ref.group specified, only comparisons against reference will be kept

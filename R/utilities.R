@@ -49,6 +49,23 @@ get_formula_right_hand_side <- function(formula){
   list(outcome = outcome, group = group)
 }
 
+# Grouping variables manipulation
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+guess_number_of_groups <- function(data, group){
+  if(.is_empty(group)){
+    number.of.groups <- 1  # Null model
+  }
+  else{
+    number.of.groups <- data %>%
+      pull(!!group) %>% unique() %>% length()
+  }
+  number.of.groups
+}
+
+get_levels <- function(data, group){
+  data %>% pull(!!group) %>% levels()
+}
+
 
 # Convert a group column into a factor if this is not already the case
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
