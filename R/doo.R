@@ -8,8 +8,8 @@ NULL
 #'  computation to a grouped data frame.
 #'
 #'  The output is a data frame. If the applied function returns a data frame,
-#'  then the output is unnested. Otherwise, the output includes the grouping
-#'  variables and a column named ".results." (by defauly), which is a "list-columns"
+#'  then the output will be automatically unnested. Otherwise, the output includes the grouping
+#'  variables and a column named ".results." (by default), which is a "list-columns"
 #'  containing the results for group combinations.
 #'
 #'@param data a grouped data frame
