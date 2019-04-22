@@ -50,6 +50,7 @@ Collate:
     'cor_test.R'
     'doo.R'
     'eta_squared.R'
+    'get_summary_stats.R'
     'kruskal_test.R'
     'outliers.R'
     'reexports.R'

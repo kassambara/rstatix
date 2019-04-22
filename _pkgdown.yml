@@ -5,6 +5,7 @@ templates:
 reference:
   - title: Descriptive Statistics
     contents:
+      - get_summary_stats
       - identify_outliers
       - box_m
   - title: Comparing Means

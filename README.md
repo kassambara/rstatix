@@ -11,6 +11,7 @@ Key functions
 
 ### Descriptive statistics
 
+-   `get_summary_stats()`: Compute summary statistics for one or multiple numeric variables. Can handle grouped data.
 -   `identify_outliers()`: Detect outliers using boxplot methods.
 -   `box_m()`: Box's M-test for homogeneity of covariance matrices
 
@@ -114,9 +115,9 @@ stat.test <- df %>%
   t_test(len ~ supp, paired = FALSE) 
 stat.test
 #> # A tibble: 1 x 6
-#>   .y.   group1 group2 statistic     p method
-#>   <chr> <chr>  <chr>      <dbl> <dbl> <chr> 
-#> 1 len   OJ     VC          1.92 0.061 T-test
+#>   .y.   group1 group2 statistic      p method
+#>   <chr> <chr>  <chr>      <dbl>  <dbl> <chr> 
+#> 1 len   OJ     VC          1.92 0.0606 T-test
 
 # Create a box plot
 p <- ggboxplot(
@@ -149,11 +150,11 @@ stat.test <- df %>%
   add_significance("p.adj")
 stat.test
 #> # A tibble: 3 x 9
-#>   dose  .y.   group1 group2 statistic      p method  p.adj p.adj.signif
-#>   <fct> <chr> <chr>  <chr>      <dbl>  <dbl> <chr>   <dbl> <chr>       
-#> 1 0.5   len   OJ     VC        3.17   0.0064 T-test 0.0128 *           
-#> 2 1     len   OJ     VC        4.03   0.001  T-test 0.003  **          
-#> 3 2     len   OJ     VC       -0.0461 0.96   T-test 0.96   ns
+#>   dose  .y.   group1 group2 statistic       p method   p.adj p.adj.signif
+#>   <fct> <chr> <chr>  <chr>      <dbl>   <dbl> <chr>    <dbl> <chr>       
+#> 1 0.5   len   OJ     VC        3.17   0.00636 T-test 0.0127  *           
+#> 2 1     len   OJ     VC        4.03   0.00104 T-test 0.00312 **          
+#> 3 2     len   OJ     VC       -0.0461 0.964   T-test 0.964   ns
 
 # Visualization
 ggboxplot(
@@ -174,9 +175,9 @@ stat.test <- df %>%
   t_test(len ~ supp, paired = TRUE) 
 stat.test
 #> # A tibble: 1 x 6
-#>   .y.   group1 group2 statistic      p method
-#>   <chr> <chr>  <chr>      <dbl>  <dbl> <chr> 
-#> 1 len   OJ     VC          3.30 0.0025 T-test
+#>   .y.   group1 group2 statistic       p method
+#>   <chr> <chr>  <chr>      <dbl>   <dbl> <chr> 
+#> 1 len   OJ     VC          3.30 0.00255 T-test
 
 # Box plot
 p <- ggpaired(
@@ -199,9 +200,9 @@ pairwise.test
 #> # A tibble: 3 x 9
 #>   .y.   group1 group2 statistic        p method    p.adj p.signif
 #>   <chr> <chr>  <chr>      <dbl>    <dbl> <chr>     <dbl> <chr>   
-#> 1 len   0.5    1          -6.48 1.30e- 7 T-test 2.60e- 7 ****    
-#> 2 len   0.5    2         -11.8  4.40e-14 T-test 1.30e-13 ****    
-#> 3 len   1      2          -4.90 1.90e- 5 T-test 1.90e- 5 ****    
+#> 1 len   0.5    1          -6.48 1.27e- 7 T-test 2.54e- 7 ****    
+#> 2 len   0.5    2         -11.8  4.40e-14 T-test 1.32e-13 ****    
+#> 3 len   1      2          -4.90 1.91e- 5 T-test 1.91e- 5 ****    
 #> # … with 1 more variable: p.adj.signif <chr>
 # Box plot
 ggboxplot(df, x = "dose", y = "len")+
@@ -224,7 +225,7 @@ stat.test
 #> # A tibble: 2 x 9
 #>   .y.   group1 group2 statistic        p method    p.adj p.signif
 #>   <chr> <chr>  <chr>      <dbl>    <dbl> <chr>     <dbl> <chr>   
-#> 1 len   0.5    1          -6.48 1.30e- 7 T-test 1.30e- 7 ****    
+#> 1 len   0.5    1          -6.48 1.27e- 7 T-test 1.27e- 7 ****    
 #> 2 len   0.5    2         -11.8  4.40e-14 T-test 8.80e-14 ****    
 #> # … with 1 more variable: p.adj.signif <chr>
 # Box plot
@@ -259,8 +260,8 @@ stat.test
 #>   .y.   group1 group2 statistic       p method   p.adj p.signif
 #>   <chr> <chr>  <chr>      <dbl>   <dbl> <chr>    <dbl> <chr>   
 #> 1 len   all    0.5        5.82  2.90e-7 T-test 8.70e-7 ****    
-#> 2 len   all    1         -0.660 5.10e-1 T-test 5.10e-1 ns      
-#> 3 len   all    2         -5.61  4.30e-7 T-test 8.70e-7 ****    
+#> 2 len   all    1         -0.660 5.12e-1 T-test 5.12e-1 ns      
+#> 3 len   all    2         -5.61  4.25e-7 T-test 8.70e-7 ****    
 #> # … with 1 more variable: p.adj.signif <chr>
 # Box plot with horizontal mean line
 ggboxplot(df, x = "dose", y = "len") +

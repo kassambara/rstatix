@@ -30,6 +30,7 @@ Provides a pipe-friendly framework to perform easily basic statistical tests in 
    
 ### Descriptive statistics
    
+- `get_summary_stats()`: Compute summary statistics for one or multiple numeric variables. Can handle grouped data.
 - `identify_outliers()`: Detect outliers using boxplot methods. 
 - `box_m()`: Box's M-test for homogeneity of covariance matrices
    

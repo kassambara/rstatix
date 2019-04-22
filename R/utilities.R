@@ -22,6 +22,9 @@
 #' @importFrom rlang sym
 #' @importFrom rlang !!
 #' @importFrom rlang :=
+#' @importFrom rlang .data
+#' @importFrom rlang syms
+#' @importFrom rlang !!!
 #' @importFrom rlang set_attrs
 #' @importFrom rlang quos
 #' @importFrom rlang quo_name
@@ -340,5 +343,4 @@ as_numeric_triangle <- function(x){
     add_column(rowname = rrowname, .before = 1)
   res
 }
-
 
