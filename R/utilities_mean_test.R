@@ -63,7 +63,6 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
   test.function <- match.fun(method)
   test.args <- list()
   grp1 <- grp2 <- NULL
-
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
 
@@ -74,7 +73,6 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
     outcome.values <- data %>% pull(!!outcome)
     test.args <- list(x = outcome.values, ...)
   }
-
   # Two sample mean comparisons ========================
   else {
     # Convert group into factor if this is not already the case
@@ -93,7 +91,6 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
       .y. = outcome, group1 = grp1, group2 = grp2,
       .before = "statistic"
     )
-
   res
 }
 
@@ -112,8 +109,6 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
-
-  # Convert group into factor if this is not already the case
   data <- data %>% .as_factor(group, ref.group = ref.group)
   group.levels <- data %>% get_levels(group)
 
@@ -124,7 +119,6 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
   } else {
     possible.pairs <- comparisons
   }
-
   # Perform comparisons
   p <- p.adj <- NULL
   compare_pairs(data, formula, possible.pairs, method, ...) %>%
@@ -148,9 +142,6 @@ mean_test_one_vs_all <- function(data, formula, method = "t.test", p.adjust.meth
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
-
-  # Convert group into factor if this is not already the case
-  # extract values
   data <- data %>% .as_factor(group)
   outcome.values <- data %>% pull(!!outcome)
   group.values <- data %>% pull(!!group)
