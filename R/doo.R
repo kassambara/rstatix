@@ -12,7 +12,7 @@ NULL
 #'  variables and a column named ".results." (by default), which is a "list-columns"
 #'  containing the results for group combinations.
 #'
-#'@param data a grouped data frame
+#'@param data a (grouped) data frame
 #'@param .f A function, formula, or atomic vector. For example
 #'  \code{~t.test(len ~ supp, data = .)}.
 #' @param ... Additional arguments passed on to .f
@@ -48,11 +48,6 @@ NULL
 #'    doo(~t.test(len ~ supp, data =.) %>% tidy())
 #'@export
 doo <- function(data, .f, ..., result = ".results."){
-
-  if(!is_grouped_df(data)){
-    stop("data should be a grouped data frame ",
-         "as returned by dplyr::group_by")
-  }
   .nested <- data %>%
     nest() %>%
     mutate(data = map(data, droplevels))

@@ -7,7 +7,7 @@
 doo(data, .f, ..., result = ".results.")
 }
 \arguments{
-\item{data}{a grouped data frame}
+\item{data}{a (grouped) data frame}
 
 \item{.f}{A function, formula, or atomic vector. For example
 \code{~t.test(len ~ supp, data = .)}.}
