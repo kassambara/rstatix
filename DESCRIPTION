@@ -54,6 +54,7 @@ Collate:
     'kruskal_test.R'
     'outliers.R'
     'reexports.R'
+    'shapiro_test.R'
     'utilities_mean_test.R'
     't_test.R'
     'tukey_hsd.R'
