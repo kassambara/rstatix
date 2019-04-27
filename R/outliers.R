@@ -60,6 +60,14 @@ NULL
 #'@export
 identify_outliers <- function(data, ..., variable = NULL){
 
+  is.outlier <- NULL
+  if(is_grouped_df(data)){
+    results <- data %>%
+      doo(identify_outliers, ..., variable = variable) %>%
+      filter(is.outlier == TRUE)
+    return(results)
+  }
+
   if(!inherits(data, "data.frame"))
     stop("data should be a data frame")
 
@@ -68,14 +76,7 @@ identify_outliers <- function(data, ..., variable = NULL){
   if(n.vars > 1)
     stop("Specify only one variable")
 
-  is.outlier <- NULL
-  if(is_grouped_df(data)){
-    results <- data %>%
-      doo(identify_outliers, variable) %>%
-      filter(is.outlier == TRUE)
-    return(results)
-  }
-  values <- data %>% pull(variable)
+  values <- data %>% pull(!!variable)
   results <- data %>%
     mutate(
       is.outlier = is_outlier(values),
@@ -84,6 +85,7 @@ identify_outliers <- function(data, ..., variable = NULL){
     filter(is.outlier == TRUE)
   results
 }
+
 
 #' @describeIn outliers detect outliers in a numeric vector. Returns logical vector.
 #' @export
