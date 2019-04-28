@@ -30,12 +30,12 @@ NULL
 #' @describeIn shapiro_test univariate Shapiro-Wilk normality test
 #' @export
 shapiro_test <- function(data, ..., vars = NULL){
-
   if(is_grouped_df(data)){
     results <- data %>%
       doo(shapiro_test, ..., vars = vars)
     return(results)
   }
+  data <- data %>% select_numeric_columns()
   vars <- data %>% get_selected_vars(..., vars = vars)
   n.vars <- length(vars)
   if(n.vars >= 1){
@@ -57,6 +57,10 @@ shapiro_test <- function(data, ..., vars = NULL){
 #' @export
 mshapiro_test <- function(data)
 {
+  if(is_grouped_df(data)){
+    results <- data %>%
+      doo(~shapiro.test(.))
+  }
   x <- data
   if (!is.matrix(x)) {
     x <- as.matrix(x)
