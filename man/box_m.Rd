@@ -14,15 +14,11 @@ variables; it is expected that n > p.}
 observation; it is usualy a factor.}
 }
 \value{
-A list with class "htest" containing the following components:
+A data frame containing the following components:
 \itemize{
 \item{statistic }{an approximated value of the chi-square distribution.}
 \item{parameter }{the degrees of freedom related of the test statistic in this case that it follows a Chi-square distribution.}
 \item{p.value }{the p-value of the test.}
-\item{cov }{a list containing the within covariance matrix for each level of \code{grouping}.}
-\item{pooled }{the pooled covariance matrix.}
-\item{logDet }{a vector containing the natural logarithm of each matrix in \code{cov}.}
-\item{data.name }{a character string giving the names of the data.}
 \item{method }{the character string "Box's M-test for Homogeneity of Covariance Matrices".}
 }
 }
