@@ -9,6 +9,7 @@ reference:
       - identify_outliers
       - mahalanobis_distance
       - shapiro_test
+      - levene_test
       - box_m
   - title: Comparing Means
     contents:

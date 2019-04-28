@@ -19,10 +19,11 @@ Imports:
     broom,
     rlang,
     tibble,
-    dplyr(>= 0.7.1),
+    dplyr (>= 0.7.1),
     magrittr,
     corrplot,
-    tidyselect
+    tidyselect,
+    car
 Suggests:
     knitr,
     rmarkdown,
@@ -52,6 +53,7 @@ Collate:
     'eta_squared.R'
     'get_summary_stats.R'
     'kruskal_test.R'
+    'levene_test.R'
     'mahalanobis_distance.R'
     'outliers.R'
     'reexports.R'

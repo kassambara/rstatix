@@ -15,6 +15,7 @@ Key functions
 -   `identify_outliers()`: Detect outliers using boxplot methods.
 -   `mahalanobis_distance()`: Compute Mahalanobis Distance and Flag Multivariate Outliers.
 -   `shapiro_test() and mshapiro_test()`: Univariate and multivariate Shapiro-Wilk normality test.
+-   `levene_test()`: Pipe-friendly framework to easily compute Levene's test for homogeneity of variance across groups. Handles grouped data.
 -   `box_m()`: Box's M-test for homogeneity of covariance matrices
 
 ### Comparing means
