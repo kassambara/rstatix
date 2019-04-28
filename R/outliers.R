@@ -106,3 +106,4 @@ is_outlier <- function(x, coef = 1.5){
 is_extreme <- function(x){
   is_outlier(x, coef = 3)
 }
+

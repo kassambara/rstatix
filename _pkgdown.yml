@@ -7,6 +7,7 @@ reference:
     contents:
       - get_summary_stats
       - identify_outliers
+      - mahalanobis_distance
       - shapiro_test
       - box_m
   - title: Comparing Means

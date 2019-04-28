@@ -52,6 +52,7 @@ Collate:
     'eta_squared.R'
     'get_summary_stats.R'
     'kruskal_test.R'
+    'mahalanobis_distance.R'
     'outliers.R'
     'reexports.R'
     'shapiro_test.R'

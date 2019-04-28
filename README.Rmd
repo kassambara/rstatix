@@ -32,6 +32,7 @@ Provides a pipe-friendly framework to perform easily basic statistical tests in 
    
 - `get_summary_stats()`: Compute summary statistics for one or multiple numeric variables. Can handle grouped data.
 - `identify_outliers()`: Detect outliers using boxplot methods. 
+- `mahalanobis_distance()`: Compute Mahalanobis Distance and Flag Multivariate Outliers.
 - `shapiro_test() and mshapiro_test()`: Univariate and multivariate Shapiro-Wilk normality test.
 - `box_m()`: Box's M-test for homogeneity of covariance matrices
    
