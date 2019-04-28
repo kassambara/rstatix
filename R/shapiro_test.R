@@ -2,7 +2,7 @@
 #' @importFrom stats shapiro.test
 #' @importFrom stats complete.cases
 NULL
-#' hapiro-Wilk Normality Test
+#' Shapiro-Wilk Normality Test
 #'
 #' @description Provides a pipe-friendly framework to performs Shapiro-Wilk test
 #'   of normality. Support grouped data and multiple variables for multivariate

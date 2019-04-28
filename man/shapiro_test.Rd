@@ -3,7 +3,7 @@
 \name{shapiro_test}
 \alias{shapiro_test}
 \alias{mshapiro_test}
-\title{hapiro-Wilk Normality Test}
+\title{Shapiro-Wilk Normality Test}
 \usage{
 shapiro_test(data, ..., vars = NULL)
 
