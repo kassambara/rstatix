@@ -2,37 +2,57 @@
 % Please edit documentation in R/tukey_hsd.R
 \name{tukey_hsd}
 \alias{tukey_hsd}
-\alias{tukey_hsd2}
+\alias{tukey_hsd.default}
+\alias{tukey_hsd.lm}
+\alias{tukey_hsd.data.frame}
 \title{Tukey Honest Significant Differences}
 \usage{
 tukey_hsd(x, ...)
 
-tukey_hsd2(data, formula, ...)
+\method{tukey_hsd}{default}(x, ...)
+
+\method{tukey_hsd}{lm}(x, ...)
+
+\method{tukey_hsd}{data.frame}(x, formula, ...)
 }
 \arguments{
-\item{x}{A fitted model object, usually an \code{\link{aov}} fit.}
+\item{x}{an object of class \code{aov}, \code{lm} or \code{data.frame}
+containing the variables used in the formula.}
 
-\item{...}{other arguments passed to the function \code{\link[stats]{TukeyHSD}()}.}
-
-\item{data}{a data.frame containing the variables in the formula.}
+\item{...}{other arguments passed to the function
+\code{\link[stats]{TukeyHSD}()}. These include: \itemize{ \item
+\strong{which}: A character vector listing terms in the fitted model for
+which the intervals should be calculated. Defaults to all the terms. \item
+\strong{ordered}: A logical value indicating if the levels of the factor
+should be ordered according to increasing average in the sample before
+taking differences. If ordered is true then the calculated differences in
+the means will all be positive. The significant differences will be those
+for which the lwr end point is positive. }}
 
 \item{formula}{a formula of the form \code{x ~ group} where \code{x} is a
 numeric variable giving the data values and \code{group} is a factor with
 one or multiple levels giving the corresponding groups. For example,
 \code{formula = TP53 ~ cancer_group}.}
+
+\item{data}{a data.frame containing the variables in the formula.}
 }
 \value{
-a tibble data frame containing the results of the different comparisons.
+a tibble data frame containing the results of the different
+ comparisons.
 }
 \description{
-Provides a pipe-friendly framework to performs Tukey post-hoc tests.
- Wrapper around the function \code{\link[stats]{TukeyHSD}()}.
-}
-\section{Functions}{
-\itemize{
-\item \code{tukey_hsd}: performs tukey post-hoc test from ANOVA results, usually an aov fit.
+Provides a pipe-friendly framework to performs Tukey post-hoc
+ tests. Wrapper around the function \code{\link[stats]{TukeyHSD}()}.
 
-\item \code{tukey_hsd2}: performs tukey post-hoc tests using data and formula as
+ Can handle different inputs formats: aov, lm, formula.
+}
+\section{Methods (by class)}{
+\itemize{
+\item \code{default}: performs tukey post-hoc test from \code{aov()} results.
+
+\item \code{lm}: performs tukey post-hoc test from \code{lm()} model.
+
+\item \code{data.frame}: performs tukey post-hoc tests using data and formula as
 inputs. ANOVA will be automatically performed using the function
 \code{\link[stats]{aov}()}
 }}
@@ -41,9 +61,21 @@ inputs. ANOVA will be automatically performed using the function
 # Data preparation
 df <- ToothGrowth
 df$dose <- as.factor(df$dose)
-# Anova
-res.aov <- aov(len ~ dose, data = df)
-# Tukey hsd
-tukey_hsd(res.aov)
+# Tukey HSD from ANOVA results
+aov(len ~ dose, data = df) \%>\% tukey_hsd()
+
+# two-way anova with interaction
+aov(len ~ dose*supp, data = df) \%>\% tukey_hsd()
+
+# Tukey HSD from lm() results
+lm(len ~ dose, data = df) \%>\% tukey_hsd()
+
+# Tukey HSD from data frame and formula
+tukey_hsd(df, len ~ dose)
+
+# Tukey HSD using grouped data
+df \%>\%
+  group_by(supp) \%>\%
+  tukey_hsd(len ~ dose)
 
 }

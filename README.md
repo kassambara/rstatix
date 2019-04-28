@@ -24,7 +24,7 @@ Key functions
 -   `wilcox_test()`: perform one-sample, two-sample and pairwise Wilcoxon tests
 -   `anova_test()`: wrapper around `car:Anova()` to perform Anova test
 -   `kruskal_test()`: perform kruskal-wallis rank sum test
--   `tukey_hsd()` and `tukey_hsd2()`: performs tukey post-hoc tests
+-   `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
 
 ### Effect Size
 
