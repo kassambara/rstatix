@@ -4,7 +4,7 @@
 \alias{identify_outliers}
 \alias{is_outlier}
 \alias{is_extreme}
-\title{Identify Outliers Using Boxplot Methods}
+\title{Identify Univariate Outliers Using Boxplot Methods}
 \usage{
 identify_outliers(data, ..., variable = NULL)
 

@@ -12,11 +12,9 @@ Key functions
 ### Descriptive statistics
 
 -   `get_summary_stats()`: Compute summary statistics for one or multiple numeric variables. Can handle grouped data.
--   `identify_outliers()`: Detect outliers using boxplot methods.
+-   `identify_outliers()`: Detect univariate outliers using boxplot methods.
 -   `mahalanobis_distance()`: Compute Mahalanobis Distance and Flag Multivariate Outliers.
 -   `shapiro_test() and mshapiro_test()`: Univariate and multivariate Shapiro-Wilk normality test.
--   `levene_test()`: Pipe-friendly framework to easily compute Levene's test for homogeneity of variance across groups. Handles grouped data.
--   `box_m()`: Box's M-test for homogeneity of covariance matrices
 
 ### Comparing means
 
@@ -25,6 +23,11 @@ Key functions
 -   `anova_test()`: wrapper around `car:Anova()` to perform Anova test
 -   `kruskal_test()`: perform kruskal-wallis rank sum test
 -   `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
+
+### Comparing variances
+
+-   `levene_test()`: Pipe-friendly framework to easily compute Levene's test for homogeneity of variance across groups. Handles grouped data.
+-   `box_m()`: Box's M-test for homogeneity of covariance matrices
 
 ### Effect Size
 

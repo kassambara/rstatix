@@ -2,7 +2,7 @@
 #' @importFrom stats quantile
 #' @importFrom stats IQR
 NULL
-#'Identify Outliers Using Boxplot Methods
+#'Identify Univariate Outliers Using Boxplot Methods
 #'
 #'
 #'@description Detect outliers using boxplot methods. Boxplots are a popular and

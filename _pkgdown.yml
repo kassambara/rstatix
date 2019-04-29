@@ -9,8 +9,6 @@ reference:
       - identify_outliers
       - mahalanobis_distance
       - shapiro_test
-      - levene_test
-      - box_m
   - title: Comparing Means
     contents:
       - t_test
@@ -18,6 +16,10 @@ reference:
       - anova_test
       - kruskal_test
       - tukey_hsd
+  - title: Comparing Variances
+    contents:
+      - levene_test
+      - box_m
   - title: Effect Size
     contents:
       - cohens_d
