@@ -51,6 +51,7 @@ Collate:
     'cor_test.R'
     'doo.R'
     'eta_squared.R'
+    'get_mode.R'
     'get_summary_stats.R'
     'kruskal_test.R'
     'levene_test.R'

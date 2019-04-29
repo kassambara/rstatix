@@ -6,6 +6,7 @@ reference:
   - title: Descriptive Statistics
     contents:
       - get_summary_stats
+      - get_mode
       - identify_outliers
       - mahalanobis_distance
       - shapiro_test
