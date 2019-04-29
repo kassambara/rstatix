@@ -19,8 +19,7 @@ NULL
 #'  \strong{mean}: mean \item \strong{q1, q3}: the first and the third quartile,
 #'  respectively. \item \strong{iqr}: interquartile range \item \strong{mad}:
 #'  median absolute deviation (see ?MAD) \item \strong{sd}: standard deviation
-#'  of the mean \item \strong{se}: standard error of the mean \item \strong{ci,
-#'  ci.lower, ci.upper}: 95 percent confidence interval of the mean }
+#'  of the mean \item \strong{se}: standard error of the mean \item \strong{ci}: 95 percent confidence interval of the mean }
 #' @examples
 #' # Full summary statistics
 #' data("ToothGrowth")
@@ -110,9 +109,7 @@ full_summary <- function(data){
     ) %>%
     mutate(
       se = .data$sd / sqrt(.data$n),
-      ci = abs(stats::qt(alpha/2, .data$n-1)*.data$se),
-      ci.lower = .data$mean - .data$ci,
-      ci.upper = .data$mean + .data$ci
+      ci = abs(stats::qt(alpha/2, .data$n-1)*.data$se)
     )
 }
 
@@ -132,11 +129,8 @@ common_summary <- function(data){
     ) %>%
     mutate(
       se = .data$sd / sqrt(.data$n),
-      ci = abs(stats::qt(alpha/2, .data$n-1)*.data$se),
-      ci.lower = .data$mean - .data$ci,
-      ci.upper = .data$mean + .data$ci
-    )%>%
-    select(-ci)
+      ci = abs(stats::qt(alpha/2, .data$n-1)*.data$se)
+    )
 }
 
 robust_summary <- function(data){

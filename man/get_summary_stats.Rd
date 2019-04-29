@@ -31,8 +31,7 @@ A data frame containing descriptive statistics, such as: \itemize{
  \strong{mean}: mean \item \strong{q1, q3}: the first and the third quartile,
  respectively. \item \strong{iqr}: interquartile range \item \strong{mad}:
  median absolute deviation (see ?MAD) \item \strong{sd}: standard deviation
- of the mean \item \strong{se}: standard error of the mean \item \strong{ci,
- ci.lower, ci.upper}: 95 percent confidence interval of the mean }
+ of the mean \item \strong{se}: standard error of the mean \item \strong{ci}: 95 percent confidence interval of the mean }
 }
 \description{
 Compute summary statistics for one or multiple numeric variables.
