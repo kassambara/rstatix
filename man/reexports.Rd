@@ -4,6 +4,7 @@
 \name{reexports}
 \alias{reexports}
 \alias{\%>\%}
+\alias{tibble}
 \alias{mutate}
 \alias{filter}
 \alias{group_by}
@@ -28,6 +29,8 @@ below to see their documentation.
   \item{dplyr}{\code{\link[dplyr]{mutate}}, \code{\link[dplyr]{filter}}, \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{select}}}
 
   \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
+
+  \item{tibble}{\code{\link[tibble]{tibble}}}
 
   \item{tidyr}{\code{\link[tidyr]{drop_na}}, \code{\link[tidyr]{gather}}, \code{\link[tidyr]{spread}}}
 }}

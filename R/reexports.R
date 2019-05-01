@@ -1,6 +1,9 @@
 #' @importFrom magrittr %>%
 #' @export
 magrittr::`%>%`
+#' @importFrom tibble tibble
+#' @export
+tibble::tibble
 #' @importFrom dplyr mutate
 #' @export
 dplyr::mutate
