@@ -301,6 +301,13 @@ get_selected_vars <- function(x, ..., vars = NULL){
   selected %>% as.character()
 }
 
+# Return dot variables
+get_dot_vars <- function(...){
+  rlang::quos(...) %>%
+    map(rlang::quo_text) %>%
+    unlist()
+}
+
 
 # Select numeric columns
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
