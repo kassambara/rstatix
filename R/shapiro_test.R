@@ -35,12 +35,22 @@ shapiro_test <- function(data, ..., vars = NULL){
       doo(shapiro_test, ..., vars = vars)
     return(results)
   }
-  data <- data %>% select_numeric_columns()
-  vars <- data %>% get_selected_vars(..., vars = vars)
-  n.vars <- length(vars)
-  if(n.vars >= 1){
-    data <- data %>% select(!!!syms(vars))
+  else if(is.numeric(data)){
+    results <- shapiro.test(data)
+    data.name <- deparse(substitute(data))
+    results <-  tidy(results) %>%
+      add_column(variable = data.name, .before = 1) %>%
+      select(-.data$method)
+    return(results)
   }
+  vars <- c(get_dot_vars(...), vars) %>%
+    unique()
+  n.vars <- length(vars)
+  if(.is_empty(vars)){
+    stop("Specify one or more variables...")
+  }
+  data <- data %>%
+    select(!!!syms(vars))
   variable <- value <- method <-  NULL
   data <- data %>%
     gather(key = "variable", value = "value") %>%
