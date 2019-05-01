@@ -57,7 +57,7 @@ box_m <-function(data, group)
            p.value = pval,
            cov = mats, pooled = pooled, logDet = logdet,
            data.name = dname,
-           method = " Box's M-test for Homogeneity of Covariance Matrices"
+           method = "Box's M-test for Homogeneity of Covariance Matrices"
       ),
       class = c("htest", "boxM")
     )
