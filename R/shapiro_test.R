@@ -7,7 +7,7 @@ NULL
 #' @description Provides a pipe-friendly framework to performs Shapiro-Wilk test
 #'   of normality. Support grouped data and multiple variables for multivariate
 #'   normality tests. Wrapper around the R base function
-#'   \code{\link[stats]{shapiro.test}()}.
+#'   \code{\link[stats]{shapiro.test}()}. Can handle grouped data.
 #' @param data a data frame. Columns are variables.
 #' @param ... One or more unquoted expressions (or variable names) separated by
 #'   commas. Used to select a variable of interest.
@@ -47,7 +47,8 @@ shapiro_test <- function(data, ..., vars = NULL){
     filter(!is.na(value))
   data %>%
     group_by(variable) %>%
-    doo(~tidy(shapiro.test(.$value)))
+    doo(~tidy(shapiro.test(.$value))) %>%
+    select(-.data$method)
 }
 
 
@@ -87,5 +88,6 @@ mshapiro_test <- function(data)
   result$data.name <- paste("(", paste(rownames(x), collapse = ","),
                             ")", sep = "")
 
-  tidy(result)
+  tidy(result) %>%
+    select(-.data$method)
 }
