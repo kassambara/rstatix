@@ -12,6 +12,8 @@
 \alias{gather}
 \alias{spread}
 \alias{tidy}
+\alias{Anova}
+\alias{Manova}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -20,6 +22,8 @@ below to see their documentation.
 
 \describe{
   \item{broom}{\code{\link[broom]{tidy}}}
+
+  \item{car}{\code{\link[car]{Anova}}, \code{\link[car]{Manova}}}
 
   \item{dplyr}{\code{\link[dplyr]{mutate}}, \code{\link[dplyr]{filter}}, \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{select}}}
 
