@@ -71,6 +71,7 @@ Key functions
 ### Others
 
 -   `doo()`: alternative to dplyr::do for doing anything. Technically it uses `nest() + mutate() + map()` to apply arbitrary computation to a grouped data frame.
+-   `convert_as_factor(), set_ref_level(), reorder_levels()`: Provides pipe-friendly functions to convert simultaneously multiple variables into a factor variable.
 
 Installation and loading
 ------------------------
