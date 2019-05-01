@@ -351,3 +351,26 @@ as_numeric_triangle <- function(x){
   res
 }
 
+
+# Create label for each row in a grouped data
+#::::::::::::::::::::::::::::::::::::::::::::::::
+# Labels are the combination of the levels of the grouping variables
+# ex: dose:0.5,supp:VC
+create_grouped_data_label <- function(data){
+  if(!is_grouped_df(data)){
+    stop("data should be a grouped data")
+  }
+  .nested <- nest(data)
+  .vars <- dplyr::group_vars(data)
+  .data <- .nested %>% select(!!!syms(.vars))
+  for(.var in .vars){
+    values <- .data %>% pull(!!.var)
+    .data  <- .data %>%
+      mutate(!!.var := paste0(.var, ":", values))
+  }
+  .results <- .data %>%
+    purrr::pmap(paste, sep = ",") %>%
+    unlist()
+  .results
+}
+
