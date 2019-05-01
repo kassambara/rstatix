@@ -62,6 +62,10 @@ doo <- function(data, .f, ..., result = ".results."){
     #  Binding character and factor vector, coercing into character vector
     .results <- suppressWarnings(unnest(.results))
   }
+  if(is_grouped_df(data)){
+    .groups <- dplyr::group_vars(data)
+    .results <- dplyr::arrange(.results, !!!syms(.groups))
+  }
   .results
 }
 
