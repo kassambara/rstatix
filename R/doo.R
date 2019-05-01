@@ -50,7 +50,7 @@ NULL
 doo <- function(data, .f, ..., result = ".results."){
   .nested <- data %>%
     nest() %>%
-    mutate(data = map(data, droplevels))
+     mutate(data = map(data, droplevels))
   .computed <- .nested %>%
     pull(data) %>%
     map(.f, ...)
@@ -58,7 +58,10 @@ doo <- function(data, .f, ..., result = ".results."){
     select(-data) %>%
     mutate(!!result := .computed)
   if(inherits(.computed[[1]], c("data.frame", "tbl_df"))){
-    .results <- unnest(.results)
+    # Suppress warning such as:
+    #  Binding character and factor vector, coercing into character vector
+    .results <- suppressWarnings(unnest(.results))
   }
   .results
 }
+
