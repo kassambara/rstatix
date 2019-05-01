@@ -63,19 +63,16 @@ identify_outliers <- function(data, ..., variable = NULL){
   is.outlier <- NULL
   if(is_grouped_df(data)){
     results <- data %>%
-      doo(identify_outliers, ..., variable = variable) %>%
-      filter(is.outlier == TRUE)
+      doo(identify_outliers, ..., variable = variable)
     return(results)
   }
 
   if(!inherits(data, "data.frame"))
     stop("data should be a data frame")
-
   variable <- data %>% get_selected_vars(..., vars = variable)
   n.vars <- length(variable)
   if(n.vars > 1)
     stop("Specify only one variable")
-
   values <- data %>% pull(!!variable)
   results <- data %>%
     mutate(
