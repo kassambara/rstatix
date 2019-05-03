@@ -21,7 +21,7 @@ Returns the input data frame with two additional columns: 1)
 }
 \description{
 Pipe-friendly wrapper around to the function
- \code{\link[stats]{mahalanobis}()}, which returns the Returns the squared
+ \code{\link[stats]{mahalanobis}()}, which returns the squared
  Mahalanobis distance of all rows in x. Compared to the base function, it
  automatically flags multivariate outliers.
 
