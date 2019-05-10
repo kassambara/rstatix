@@ -1,5 +1,6 @@
 #' @importFrom magrittr %>%
 #' @importFrom magrittr extract
+#' @importFrom magrittr set_colnames
 #' @importFrom dplyr mutate
 #' @importFrom dplyr mutate_at
 #' @importFrom dplyr mutate_all
@@ -9,6 +10,8 @@
 #' @importFrom dplyr as_data_frame
 #' @importFrom dplyr bind_rows
 #' @importFrom dplyr group_by
+#' @importFrom dplyr summarise
+#' @importFrom dplyr n
 #' @importFrom dplyr is_grouped_df
 #' @importFrom dplyr ungroup
 #' @importFrom dplyr do
@@ -36,6 +39,19 @@
 #' @importFrom tidyr unnest
 
 
+# Conditionnaly rounding
+roundif <- function(x, digits = 3){
+  sapply(
+    x,
+    function(x, digits){
+      if(abs(x) > 5*10^-digits)
+        round(x, digits)
+      else
+        signif(x, digits)
+    },
+    digits
+  )
+}
 
 # Extract variables used in a formula
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -50,6 +66,24 @@ get_formula_right_hand_side <- function(formula){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   list(outcome = outcome, group = group)
+}
+
+# Get formula error term: len ~ dose*diet + Error(id/diet)
+# retruns Error(id/diet)
+get_formula_error_term <- function(formula){
+  rhs <- get_formula_right_hand_side(formula)
+  error.term <- rhs[grepl("^Error\\(", rhs)]
+  error.term
+}
+# Get variables included in the error terms
+get_formula_error_vars <- function(formula){
+  error.term <- get_formula_error_term(formula)
+  all.vars(parse(text = error.term))
+}
+
+is_error_term_in_formula <- function(formula){
+  error.term <- get_formula_error_term(formula)
+  length(error.term) > 0
 }
 
 # Grouping variables manipulation
@@ -373,4 +407,7 @@ create_grouped_data_label <- function(data){
     unlist()
   .results
 }
+
+
+
 
