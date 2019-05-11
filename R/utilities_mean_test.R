@@ -22,8 +22,14 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
   # Pairwise comparisons
   else if(number.of.groups > 2){
 
-    if(method == "anova")
-      anova_test(data, formula, ...)
+    if(method == "anova"){
+      anova_test(data, formula, ...) %>%
+        select(.data$Effect, .data$F, .data$p) %>%
+        set_colnames(c("term", "statistic", "p")) %>%
+        add_column(method = "Anova", .after = "p") %>%
+        add_column(.y. = outcome, .before = "term") %>%
+        as_tibble()
+    }
     else if(method == "kruskal.test")
       kruskal_test(data, formula, ...)
 

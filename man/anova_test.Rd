@@ -2,31 +2,121 @@
 % Please edit documentation in R/anova_test.R
 \name{anova_test}
 \alias{anova_test}
+\alias{print.anova_test}
+\alias{plot.anova_test}
 \title{Anova Test}
 \usage{
-anova_test(data, formula, ...)
+anova_test(data, formula, dv, wid, between, within, covariate,
+  type = NULL, effect.size = "ges", error = NULL,
+  white.adjust = FALSE, observed = NULL, detailed = FALSE, ...)
+
+\method{print}{anova_test}(x, ...)
+
+\method{plot}{anova_test}(x, ...)
 }
 \arguments{
-\item{data}{a data.frame containing the variables in the formula.}
+\item{data}{a data.frame or a model to be analyzed.}
 
-\item{formula}{a formula of the form \code{x ~ group} where \code{x} is a
+\item{formula}{a formula specifying the ANOVA model similar to
+\link[stats]{aov}. Can be of the form \code{y ~ group} where \code{y} is a
 numeric variable giving the data values and \code{group} is a factor with
 one or multiple levels giving the corresponding groups. For example,
 \code{formula = TP53 ~ cancer_group}.}
 
+\item{dv}{dependent variable name. Should be a numeric column.}
+
+\item{wid}{column name containing individuals/subjects identifier. Should be
+unique per individual.}
+
+\item{between}{(optional) between-subject factor variables.}
+
+\item{within}{(optional) within-subjects factor variables}
+
+\item{covariate}{(optional) covariate names (for ANCOVA)}
+
+\item{type}{the type of sums of squares for ANOVA. Allowed values are either
+1, 2 or 3. \code{type = 2} is the default because this will yield identical
+ANOVA results as type = 1 when data are balanced but type = 2 will
+additionally yield various assumption tests where appropriate. When the data
+are unbalanced the \code{type = 3} is used by popular commercial softwares
+including SPSS.}
+
+\item{effect.size}{the effect size to compute and to show in the ANOVA
+results. Allowed values can be either "ges" (generalized eta squared) or
+"pes" (partial eta squared) or both. Default is "ges".}
+
+\item{error}{(optional) for a linear model, an lm model object from which the
+overall error sum of squares and degrees of freedom are to be calculated.
+Read more in \code{\link[car]{Anova}()} documentation.}
+
+\item{white.adjust}{Default is FALSE. If TRUE, heteroscedasticity correction
+is applied to the coefficient of covariance matrix. Used only for
+independent measures ANOVA.}
+
+\item{observed}{Variables that are observed (i.e, measured) as compared to
+experimentally manipulated. The default effect size reported (generalized
+eta-squared) requires correct specification of the observed variables.}
+
+\item{detailed}{If TRUE, returns extra information (sums of squares columns,
+intercept row, etc.) in the ANOVA table.}
+
 \item{...}{other arguments to be passed to the function
-\code{\link[stats]{aov}}.}
+\code{\link[car]{Anova}()}.}
+
+\item{x}{an object of class \code{Anova_test}}
 }
 \value{
-return a data frame with the following columns: \itemize{ \item
- \code{.y.}: the y variable used in the test. \item \code{term}: the grouping
- variable. \item \code{statistic}: Test statistic (F-statistic) used to compute the
- p-value. \item \code{p}: p-value.
- \item \code{method}: the statistical test used to compare groups.}
+return an object of class \code{anova_test} a data frame containing
+ the ANOVA table for independent measures ANOVA. However, for repeated/mixed
+ measures ANOVA, it is a list containing the following components are
+ returned:
+
+ \itemize{ \item \strong{ANOVA}: a data frame containing ANOVA results \item
+ \strong{Mauchly's Test for Sphericity}: If any within-Ss variables with more
+ than 2 levels are present, a data frame containing the results of Mauchly's
+ test for Sphericity. Only reported for effects that have more than 2 levels
+ because sphericity necessarily holds for effects with only 2 levels. \item
+ \strong{Sphericity Corrections}: If any within-Ss variables are present, a
+ data frame containing the Greenhouse-Geisser and Huynh-Feldt epsilon values,
+ and corresponding corrected p-values. }
+
+ The returned object has an attribute called \code{args}, which is a list
+ holding the arguments used to fit the ANOVA model, including: data, dv,
+ within, between, type, model, etc.
+
+
+ The following abbreviations are used in the different results tables:
+
+ \itemize{ \item DFn	Degrees of Freedom in the numerator (i.e. DF effect).
+ \item DFd	Degrees of Freedom in the denominator (i.e., DF error). \item
+ SSn	Sum of Squares in the numerator (i.e., SS effect). \item SSd	Sum of
+ Squares in the denominator (i.e.,SS error). \item F	F-value. \item p	p-value
+ (probability of the data given the null hypothesis). \item p<.05	Highlights
+ p-values less than the traditional alpha level of .05. \item ges	Generalized
+ Eta-Squared measure of effect size. \item GGe	Greenhouse-Geisser epsilon.
+ \item p[GGe]	p-value after correction using Greenhouse-Geisser epsilon.
+ \item p[GGe]<.05	Highlights p-values (after correction using
+ Greenhouse-Geisser epsilon) less than the traditional alpha level of .05.
+ \item HFe	Huynh-Feldt epsilon. \item p[HFe]	p-value after correction using
+ Huynh-Feldt epsilon. \item p[HFe]<.05	Highlights p-values (after correction
+ using Huynh-Feldt epsilon) less than the traditional alpha level of .05.
+ \item W	Mauchly's W statistic }
 }
 \description{
-Provides a pipe-friendly framework to perform ANOVA tests.
- Wrapper around the function \code{\link[stats]{aov}()}.
+Provides a pipe-friendly framework to perform different types of
+ ANOVA tests, including: \itemize{ \item \strong{Independent measures ANOVA}:
+ between-Subjects designs, \item \strong{Repeated measures ANOVA}:
+ within-Subjects designs \item \strong{Mixed ANOVA}: Mixed within within- and
+ between-Subjects designs, also known as split-plot ANOVA. }
+
+ The function is an easy to use wrapper around \code{\link[car]{Anova}()} and
+ \code{\link[stats]{aov}()}. It makes ANOVA computation handy in R and It's
+ highly flexible: can support model and formula as input. Variables can be
+ also specified as character vector using the arguments \code{dv, wid,
+ between, within, covariate}.
+
+ The results include ANOVA table, generalized effect size and some assumption
+ checks.
 }
 \examples{
 # Load data
@@ -34,12 +124,28 @@ Provides a pipe-friendly framework to perform ANOVA tests.
 data("ToothGrowth")
 df <- ToothGrowth
 
-# One-way Anova test
+# One-way ANOVA test
 #:::::::::::::::::::::::::::::::::::::::::
 df \%>\% anova_test(len ~ dose)
 
-# Two-way Anova test
+# Two-way ANOVA test
 #:::::::::::::::::::::::::::::::::::::::::
 df \%>\% anova_test(len ~ supp*dose)
 
+# Two-way repeated measures ANOVA
+#:::::::::::::::::::::::::::::::::::::::::
+df$id <- rep(1:10, 6) # Add individuals id
+# Use formula
+# df \%>\% anova_test(len ~ supp*dose + Error(id/(supp*dose)))
+# or use character vector
+df \%>\% anova_test(dv = len, wid = id, within = c(supp, dose))
+
+# Use model as arguments
+#:::::::::::::::::::::::::::::::::::::::::
+.my.model <- lm(yield ~ block + N*P*K, npk)
+anova_test(.my.model)
+
+}
+\author{
+Alboukadel Kassambara, \email{alboukadel.kassambara@gmail.com}
 }

@@ -27,7 +27,8 @@ Imports:
 Suggests:
     knitr,
     rmarkdown,
-    ggpubr
+    ggpubr,
+    graphics
 URL: http://www.sthda.com/english/rpkgs/rstatix
 BugReports: https://github.com/kassambara/rstatix/issues
 RoxygenNote: 6.1.1
@@ -35,6 +36,7 @@ Collate:
     'utilities.R'
     'add_significance.R'
     'adjust_pvalue.R'
+    'factorial_design.R'
     'anova_test.R'
     'as_cor_mat.R'
     'box_m.R'
