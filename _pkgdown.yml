@@ -17,6 +17,7 @@ reference:
       - anova_test
       - kruskal_test
       - tukey_hsd
+      - factorial_design
   - title: Comparing Variances
     contents:
       - levene_test
