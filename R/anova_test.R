@@ -582,69 +582,6 @@ has_model <- function(.args){
   !is.null(.args$model) | is_model(.args$data)
 }
 
-# Fit lm model for car::Anova
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-fit_wide_lm <- function(.args){
-  data <- .args$data
-  dv <- .args$dv
-  wid <- .args$wid
-  between <- .args$between
-  within <- .args$within
-  . <- NULL
-
-  res <-  list()
-  if(!is.null(within)){
-    nested <- data %>%
-      group_by(!!!syms(within)) %>%
-      nest()
-    # Get intra-subject factor levels
-    res$idata <- nested %>%
-      select(-data) %>%
-      dplyr::arrange(!!!syms(within)) %>%
-      as.data.frame()
-    res$idesign <- paste(within, collapse = "*") %>%
-      paste0('~',.) %>%
-      stats::as.formula()
-    # Collapse intra-subject factors into one grouping column,
-    # then spread the data into wide format
-    wide <- nested %>%
-      tidyr::unite(!!!syms(within), col = ".group.", sep = "_") %>%
-      select(.data$.group., data) %>%
-      unnest() %>%
-      select(!!!syms(c(wid, ".group.", between, dv))) %>%
-      spread(key = ".group.", value = dv) %>%
-      as.data.frame()
-    # dv are all possible combinations of within-subjects factor levels
-    wide.dv.name <- setdiff(colnames(wide), c(wid, between))
-    wide.dv <- wide %>%
-      select(!!!syms(wide.dv.name)) %>%
-      as.matrix()
-  }
-  else{
-    wide <- data
-  }
-  # Case of repeated measures anova
-  if(is.null(between)){
-    lm_formula <- wide.dv ~ 1
-  }
-  # Case of independent measures anova
-  else if(is.null(within)){
-    covariate <- paste(.args$covariate, collapse = "+")
-    between <- paste(between, collapse = "*")
-    bc.sep <- ifelse(covariate != "", "+", "") # Between and covariate vars separator
-    lm_formula <- paste0(dv, " ~ ", covariate, bc.sep, between)
-  }
-  # Case of mixed ANOVA
-  else{
-    lm_formula <- paste(between, collapse = "*") %>%
-      paste("wide.dv ~ " ,., sep='')
-  }
-  lm_formula <- stats::as.formula(lm_formula)
-  opt <- options( "contrasts" = c( "contr.sum", "contr.poly" ) )
-  res$lm <- stats::lm(lm_formula, wide)
-  options(opt)
-  res
-}
 
 # Fit lm from formula and data
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -667,7 +604,10 @@ car_anova <- function(.args, ...){
     .args$model <- .model
   }
   else{
-    model <- fit_wide_lm(.args)
+    model <- factorial_design(
+      data = .args$data, dv = .args$dv, wid = .args$wid, between = .args$between,
+      within = .args$within, covariate = .args$covariate
+      )
     if(is_independent_anova(.args)){
       res.anova <- Anova(
         model$lm, type = .args$type,
