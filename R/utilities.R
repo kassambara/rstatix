@@ -58,12 +58,17 @@ roundif <- function(x, digits = 3){
 
 # Check if a given column name is in the data
 assertthat_column_exists <-function(data, cols){
-  .diff <- setdiff(col, colnames(data))
+  .diff <- setdiff(cols, colnames(data))
   if(!.is_empty(.diff)){
     stop("Can't find the following variable(s) in the data: ",
          paste(col, collapse = ", "))
   }
 }
+# remove null elements from a list
+remove_null_items <- function(.list){
+  Filter(Negate(is.null), .list)
+}
+
 
 
 # Extract variables used in a formula
@@ -224,13 +229,18 @@ get_stat_method <- function(x){
 
 # Additems in a list
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-.add_item <- function(.list, ...){
+add_item <- function(.list, ...){
   pms <- list(...)
   for(pms.names in names(pms)){
     .list[[pms.names]] <- pms[[pms.names]]
   }
   .list
 }
+# depreciated
+.add_item <- function(.list, ...){
+  add_item(.list, ...)
+}
+
 
 
 # First letter uppercase
