@@ -69,6 +69,10 @@ remove_null_items <- function(.list){
   Filter(Negate(is.null), .list)
 }
 
+# Count a pattern in a string
+str_count <- function(x, pattern){
+  lengths(regmatches(x, gregexpr(pattern, x)))
+}
 
 
 # Extract variables used in a formula
