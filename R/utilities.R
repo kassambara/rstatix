@@ -56,6 +56,16 @@ roundif <- function(x, digits = 3){
 }
 
 
+# Check if a given column name is in the data
+assertthat_column_exists <-function(data, cols){
+  .diff <- setdiff(col, colnames(data))
+  if(!.is_empty(.diff)){
+    stop("Can't find the following variable(s) in the data: ",
+         paste(col, collapse = ", "))
+  }
+}
+
+
 # Extract variables used in a formula
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
