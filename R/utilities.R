@@ -44,7 +44,9 @@ roundif <- function(x, digits = 3){
   sapply(
     x,
     function(x, digits){
-      if(abs(x) > 5*10^-digits)
+      if(is.na(x))
+        x
+      else if(abs(x) > 10^-digits)
         round(x, digits)
       else
         signif(x, digits)
@@ -52,6 +54,7 @@ roundif <- function(x, digits = 3){
     digits
   )
 }
+
 
 # Extract variables used in a formula
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
