@@ -1,4 +1,4 @@
-#' @include utilities.R factorial_design.R
+#' @include utilities.R factorial_design.R anova_summary.R
 NULL
 #'Anova Test
 #'
@@ -53,7 +53,7 @@ NULL
 #'@param ... other arguments to be passed to the function
 #'  \code{\link[car]{Anova}()}.
 #'@param x an object of class \code{Anova_test}
-#'
+#' @seealso \code{\link{anova_summary}()}, \code{\link{factorial_design}()}
 #'@return return an object of class \code{anova_test} a data frame containing
 #'  the ANOVA table for independent measures ANOVA. However, for repeated/mixed
 #'  measures ANOVA, it is a list containing the following components are
@@ -150,14 +150,10 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
   else if(.args$type == 1) res.anova <- stats_aov(.args)
   else stop("Something is wrong...")
   res.anova <- res.anova %>%
-    summarize_anova(
+    anova_summary(
       effect.size = effect.size, detailed = detailed,
       observed = observed
       )
-  .args <- attr(res.anova, "args")
-  if(length(res.anova) == 1)
-    res.anova <- res.anova[[1]]
-  attr(res.anova, "args") <- .args
   class(res.anova) <- c("anova_test", class(res.anova))
   res.anova
 }
@@ -191,239 +187,6 @@ is_model <- function(object){
   models <- c("lm", "aov", "glm", "multinom", "polr", "mlm", "manova")
   inherits(object,  models)
 }
-
-# Summarize ANOVA
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-# effect.size = c("ges", "pes")
-summarize_anova <- function(res.anova, effect.size = "ges",
-                            detailed = FALSE, observed = NULL){
-  if(inherits(res.anova, "Anova.mlm")){
-    results <- repeated_anova_summary(res.anova)
-  }
-  else if(inherits(res.anova, "anova")){
-    results <- summary_independent_anova(res.anova)
-  }
-  else if(inherits(res.anova, c("aov", "aovlist"))){
-    results <- summary_aov(res.anova)
-  }
-  else{
-    stop("Non-supported object passed: ",
-         paste(class(res.anova), collapse = ", "), ". ",
-         "Object needs to be of class 'Anova.mlm' or 'anova'.")
-  }
-  .args <- attr(res.anova, "args")
-  results <- results %>%
-    add_anova_effect_size(effect.size, observed)
-
-  if(!detailed){
-    results <- remove_details(results)
-  }
-  results$ANOVA <- order_by_interaction_levels(results$ANOVA)
-  results %>%
-    map(~dplyr::mutate_if(., is.numeric, roundif, 3)) %>%
-    rlang::set_attrs(args = .args)
-}
-
-
-# Summary of Anova.mlm object: summary_anova_mlm
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# this function is used for repeated and mixed anova
-repeated_anova_summary <- function(res.anova, detailed = FALSE){
-  .summary <- suppressWarnings(summary(res.anova))
-  # Anova table converted into data frame
-  aov.table <- .summary$univariate.tests %>%
-    convert_anova_object_as_data_frame() %>%
-    set_colnames(c("Effect", "SSn", "DFn", "SSd", "DFd", "F", "p")) %>%
-    select(
-      .data$Effect, .data$DFn, .data$DFd,
-      .data$SSn, .data$SSd, .data$F, .data$p
-      ) %>%
-    mutate(`p<.05` = ifelse(.data$p < 0.05, "*",''))
-  sphericity.test <- corrections <- NULL
-  # Mauchly's Test for Sphericity
-  if(nrow(.summary$sphericity.tests) > 0){
-    sphericity.test <- .summary$sphericity.tests %>%
-      convert_anova_object_as_data_frame() %>%
-      set_colnames(c("Effect", "W", "p")) %>%
-      mutate(`p<.05` = ifelse(.data$p < 0.05, "*",''))
-  }
-  # Sphericity corrections
-  if(nrow(.summary$sphericity.tests) > 0){
-    corrections <- .summary$pval.adjustments %>%
-      as.data.frame() %>%
-      set_colnames(c("GGe", "p[GG]", "HFe", "p[HF]")) %>%
-      tibble::rownames_to_column("Effect")
-    p.gg.signif <- ifelse(corrections[["p[GG]"]] < 0.05, "*",'')
-    p.hf.signif <- ifelse(corrections[["p[HF]"]] < 0.05, "*",'')
-    corrections <- corrections %>%
-      add_column(`p[GG]<.05` = p.gg.signif, .after = "p[GG]") %>%
-      add_column(`p[HF]<.05` = p.hf.signif, .after = "p[HF]")
-  }
-  # Results
-  results <- list(ANOVA = aov.table)
-  if(!is.null(sphericity.test)){
-    results $`Mauchly's Test for Sphericity` <- sphericity.test
-    results$`Sphericity Corrections` <-  corrections
-    results <- results %>% add_corrected_df()
-  }
-  results
-}
-convert_anova_object_as_data_frame <- function(aov.table){
-  aov.table.list <- list(Effect = rownames(aov.table))
-  for(col in colnames(aov.table)){
-    aov.table.list[[col]] <- aov.table[, col]
-  }
-  aov.table <- as.data.frame(aov.table.list, stringsAsFactors = FALSE)
-  rownames(aov.table) <- 1:nrow(aov.table)
-  aov.table
-}
-
-add_corrected_df <- function(.summary){
-  aov.table <- .summary$ANOVA %>%
-    select(.data$Effect, .data$DFn, .data$DFd)
-  corrections <- .summary$`Sphericity Corrections` %>%
-    dplyr::left_join(aov.table, by = "Effect") %>%
-    mutate(
-      df.gg = paste(roundif(.data$GGe*.data$DFn, 2), roundif(.data$GGe*.data$DFd, 2), sep = ", "),
-      df.hf = paste(roundif(.data$HFe*.data$DFn, 2), roundif(.data$HFe*.data$DFd, 2), sep = ", ")
-      ) %>%
-    select(-.data$DFd, -.data$DFn)
-  df.gg <- corrections$df.gg
-  df.hf <- corrections$df.hf
-  .summary$`Sphericity Corrections` <- corrections %>%
-    select(-.data$df.gg, -.data$df.hf) %>%
-    add_column(`DF[GG]` = df.gg, .after = "GGe") %>%
-    add_column(`DF[HF]` = df.hf, .after = "HFe")
-  .summary
-}
-
-# Summary of independent anova
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-summary_independent_anova <- function(res.anova){
-  res.anova <- as.data.frame(res.anova)
-  .residuals <- res.anova["Residuals", 1:2]
-  if('Sum Sq' %in% colnames(res.anova)){
-    colnames(res.anova) <- c('SSn','DFn','F','p')
-    ss.exists <- TRUE
-  }
-  else{
-    # case of white.adjust = TRUE. SS doesnt exist in the results
-    colnames(res.anova) <- c('DFn','F','p')
-    ss.exists <- FALSE
-  }
-  res.anova <- res.anova %>%
-    tibble::rownames_to_column("Effect")  %>%
-    add_column(DFd = .residuals$Df, .after = "DFn") %>%
-    mutate(`p<.05` = ifelse(.data$p < 0.05, "*",'')) %>%
-   filter(.data$Effect != "Residuals")
-  if(ss.exists){
-    res.anova <- res.anova %>%
-      add_column(SSd = .residuals$`Sum Sq`, .after = "SSn")
-  }
-  results <- list(ANOVA = res.anova)
-  results
-}
-
-# Summary of anova from stats::aov
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-summary_aov <- function(res.anova){
-  remove_empty_space <- function(x){
-    sapply(x, function(x){strsplit(x, " ")[[1]][1]})
-  }
-  reformat_aov_summary <- function(aov.summary){
-    if(inherits(aov.summary, "listof"))
-      aov.summary <- as.data.frame(aov.summary[[1]])
-    else as.data.frame(aov.summary)
-    .residuals <- aov.summary["Residuals", 1:2]
-    aov.summary <- aov.summary %>%
-      set_colnames(c("DFn", "SSn", "MS", "F", "p")) %>%
-      tibble::rownames_to_column("Effect")  %>%
-      add_column(DFd = .residuals$Df, .after = "DFn") %>%
-      add_column(SSd = .residuals$`Sum Sq`, .after = "SSn") %>%
-      mutate(`p<.05` = ifelse(.data$p < 0.05, "*",'')) %>%
-      mutate(Effect = remove_empty_space(.data$Effect)) %>%
-      filter(!is.na(.data$p)) %>%
-      select(-.data$MS)
-    aov.summary
-  }
-  res.anova <- summary(res.anova) %>%
-    map(reformat_aov_summary) %>%
-    dplyr::bind_rows() %>%
-    order_by_interaction_levels()
-  results <- list(ANOVA = res.anova)
-  results
-}
-
-
-# Reorder ANOVA table by interaction levels in the term
-order_by_interaction_levels <- function(aov.table){
-  .terms <- aov.table$Effect
-  nb.interaction <- str_count(.terms, ":")
-  aov.table %>% dplyr::arrange(nb.interaction)
-}
-
-
-
-
-
-
-# Remove details from ANOVA summary: such as intercept row, Sum Sq columns
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-remove_details <- function(res.anova.summary){
-  aov.table <- res.anova.summary$ANOVA
-  aov.table = aov.table[, names(aov.table) %in% c('Effect','DFn','DFd','F','p','p<.05', 'ges', 'pes')]
-  intercept.row <- grepl("Intercept", aov.table$Effect)
-  res.anova.summary$ANOVA<- aov.table[!intercept.row, ]
-  res.anova.summary
-}
-
-# Add effect size
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-add_anova_effect_size <- function(res.anova.summary, effect.size = "ges",  observed = NULL){
-  ss.exists <- "SSn" %in% colnames(res.anova.summary$ANOVA)
-  if(!ss.exists){
-    return(res.anova.summary)
-  }
-  if("pes" %in% effect.size){
-    res.anova.summary <- res.anova.summary %>%
-      add_partial_eta_squared()
-  }
-  else {
-    res.anova.summary <- res.anova.summary %>%
-      add_generalized_eta_squared(observed)
-  }
-  res.anova.summary
-}
-
-# Generalized eta squared
-add_generalized_eta_squared <- function(res.anova.summary, observed = NULL){
-  aov.table <- res.anova.summary$ANOVA
-  if(!is.null(observed)){
-    obs <- rep(FALSE, nrow(aov.table))
-    for(i in observed){
-      if (!any(grepl(paste0("\\b",i,"\\b"), aov.table$Effect)))
-        stop("Specified observed variable not found in data: ", i)
-      obs <- obs | grepl(paste0("\\b",i,"\\b"), aov.table$Effect)
-    }
-    obs.SSn1 = sum(aov.table$SSn*obs)
-    obs.SSn2 = aov.table$SSn*obs
-  }
-  else{
-    obs.SSn1 <- 0
-    obs.SSn2 <- 0
-  }
-  aov.table <- aov.table %>%
-    mutate(ges = .data$SSn / (.data$SSn + sum(unique(.data$SSd)) + obs.SSn1 - obs.SSn2))
-  res.anova.summary$ANOVA <- aov.table
-  res.anova.summary
-}
-# Partial eta squared
-add_partial_eta_squared <- function(res.anova.summary){
-  res.anova.summary$ANOVA <- res.anova.summary$ANOVA %>%
-    mutate(pes = .data$SSn/(.data$SSn + .data$SSd))
-  res.anova.summary
-}
-
 
 
 # Get the value of enquo variables
@@ -489,6 +252,7 @@ get_anova_vars_from_formula <- function(.args){
   formula <- .args$formula
   data <- .args$data
   vars <- all.vars(formula)
+  stop_if_multiple_error_terms(formula)
   # Detect transformed responses:
   lhs <- all.names(formula[[2]])
   transf <- setdiff(lhs, all.vars(formula[[2]]))
@@ -513,6 +277,13 @@ get_anova_vars_from_formula <- function(.args){
   .args <- .args %>%
     .add_item(data = data, dv = dv, wid = id, between = between, within = within)
   .args
+}
+
+stop_if_multiple_error_terms <- function(formula){
+  .terms <- stats::terms(formula, "Error")
+  .error.terms <- attr(.terms, "specials")$Error
+  if (length(.error.terms) > 1L)
+    stop(sprintf("there are %d Error terms: only 1 is allowed", length(.error.terms)))
 }
 
 
@@ -604,23 +375,23 @@ car_anova <- function(.args, ...){
     .args$model <- .model
   }
   else{
-    model <- factorial_design(
+    design <- factorial_design(
       data = .args$data, dv = .args$dv, wid = .args$wid, between = .args$between,
       within = .args$within, covariate = .args$covariate
       )
     if(is_independent_anova(.args)){
       res.anova <- Anova(
-        model$lm, type = .args$type,
+        design$lm, type = .args$type,
         white.adjust = .args$white.adjust, ...
       )
     }
     else{
       res.anova <- Anova(
-        model$lm, idata = model$idata,
-        idesign = model$idesign, type = .args$type, ...
+        design$lm, idata = design$idata,
+        idesign = design$idesign, type = .args$type, ...
       )
     }
-   .args$model <- model$lm
+   .args$model <- design$lm
   }
   attr(res.anova, "args") <- .args
   res.anova

@@ -22,7 +22,8 @@ NULL
 #'  \item \strong{lm_formula}: the formula used to build the \code{lm} model.
 #'  \item \strong{lm}: the \code{lm} model
 #'  }
-#'
+#'@author Alboukadel Kassambara, \email{alboukadel.kassambara@@gmail.com}
+#'@seealso \code{\link{anova_test}()}, \code{\link{anova_summary}()}
 #'@examples
 #'# Load data
 #'#:::::::::::::::::::::::::::::::::::::::
@@ -250,10 +251,10 @@ assertthat_iv_has_enough_levels <- function(.args){
 # Convert the grouping variables to factor
 convert_grouping_vars_to_factor <- function(.args){
   .args$data <- .args$data %>%
-    convert_as_factor(vars = c(.args$wid, .args$between, .args$within))
+    convert_as_factor(vars = c(.args$wid, .args$between)) %>%
+    convert_as_factor(vars = .args$within, make.valid.levels = TRUE)
   .args
 }
-
 
 
 

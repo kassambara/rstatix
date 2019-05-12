@@ -71,3 +71,9 @@ design
 Anova(design$lm, type = 3)
 
 }
+\seealso{
+\code{\link{anova_test}()}, \code{\link{anova_summary}()}
+}
+\author{
+Alboukadel Kassambara, \email{alboukadel.kassambara@gmail.com}
+}

@@ -146,6 +146,9 @@ df \%>\% anova_test(dv = len, wid = id, within = c(supp, dose))
 anova_test(.my.model)
 
 }
+\seealso{
+\code{\link{anova_summary}()}, \code{\link{factorial_design}()}
+}
 \author{
 Alboukadel Kassambara, \email{alboukadel.kassambara@gmail.com}
 }
