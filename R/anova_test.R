@@ -166,24 +166,7 @@ is_model <- function(object){
 }
 
 
-# Get the value of enquo variables
-get_quo_vars <- function (data, vars)
-{
-  if(rlang::quo_is_missing(vars)){
-    return(NULL)
-  }
-  names(data) %>%
-    tidyselect::vars_select(!!vars) %>%
-    magrittr::set_names(NULL)
-}
 
-# Check if all columns in a data frame are numeric
-is_all_columns_numeric <- function(data){
-  data %>%
-    map(is.numeric) %>%
-    unlist() %>%
-    all()
-}
 
 # Check the arguments of ANOVA
 # .args is a list

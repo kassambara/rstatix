@@ -74,6 +74,31 @@ str_count <- function(x, pattern){
   lengths(regmatches(x, gregexpr(pattern, x)))
 }
 
+# Check if all columns in a data frame are numeric
+is_all_columns_numeric <- function(data){
+  data %>%
+    map(is.numeric) %>%
+    unlist() %>%
+    all()
+}
+
+# NSE
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+# Get the value of enquo variables. Usage:
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# .args <- rlang::enquos(x = x, y = y, ...) %>%
+#  map(~get_quo_vars(data, .))
+get_quo_vars <- function (data, vars)
+{
+  if(rlang::quo_is_missing(vars)){
+    return(NULL)
+  }
+  names(data) %>%
+    tidyselect::vars_select(!!vars) %>%
+    magrittr::set_names(NULL)
+}
+
 
 # Extract variables used in a formula
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
