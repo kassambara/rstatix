@@ -67,40 +67,16 @@ intercept row, etc.) in the ANOVA table.}
 }
 \value{
 return an object of class \code{anova_test} a data frame containing
- the ANOVA table for independent measures ANOVA. However, for repeated/mixed
- measures ANOVA, it is a list containing the following components are
- returned:
+ the ANOVA table for independent measures ANOVA.
 
- \itemize{ \item \strong{ANOVA}: a data frame containing ANOVA results \item
- \strong{Mauchly's Test for Sphericity}: If any within-Ss variables with more
- than 2 levels are present, a data frame containing the results of Mauchly's
- test for Sphericity. Only reported for effects that have more than 2 levels
- because sphericity necessarily holds for effects with only 2 levels. \item
- \strong{Sphericity Corrections}: If any within-Ss variables are present, a
- data frame containing the Greenhouse-Geisser and Huynh-Feldt epsilon values,
- and corresponding corrected p-values. }
+ However, for repeated/mixed measures ANOVA, a list containing the following
+ components are returned: ANOVA table, Mauchly's Test for Sphericity,
+ Sphericity Corrections. These table are described more in the documentation
+ of the function \code{\link{summary_anova}()}.
 
- The returned object has an attribute called \code{args}, which is a list
+ The \strong{returned object has an attribute} called \code{args}, which is a list
  holding the arguments used to fit the ANOVA model, including: data, dv,
  within, between, type, model, etc.
-
-
- The following abbreviations are used in the different results tables:
-
- \itemize{ \item DFn	Degrees of Freedom in the numerator (i.e. DF effect).
- \item DFd	Degrees of Freedom in the denominator (i.e., DF error). \item
- SSn	Sum of Squares in the numerator (i.e., SS effect). \item SSd	Sum of
- Squares in the denominator (i.e.,SS error). \item F	F-value. \item p	p-value
- (probability of the data given the null hypothesis). \item p<.05	Highlights
- p-values less than the traditional alpha level of .05. \item ges	Generalized
- Eta-Squared measure of effect size. \item GGe	Greenhouse-Geisser epsilon.
- \item p[GGe]	p-value after correction using Greenhouse-Geisser epsilon.
- \item p[GGe]<.05	Highlights p-values (after correction using
- Greenhouse-Geisser epsilon) less than the traditional alpha level of .05.
- \item HFe	Huynh-Feldt epsilon. \item p[HFe]	p-value after correction using
- Huynh-Feldt epsilon. \item p[HFe]<.05	Highlights p-values (after correction
- using Huynh-Feldt epsilon) less than the traditional alpha level of .05.
- \item W	Mauchly's W statistic }
 }
 \description{
 Provides a pipe-friendly framework to perform different types of
