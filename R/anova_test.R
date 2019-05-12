@@ -60,7 +60,7 @@ NULL
 #'  However, for repeated/mixed measures ANOVA, a list containing the following
 #'  components are returned: ANOVA table, Mauchly's Test for Sphericity,
 #'  Sphericity Corrections. These table are described more in the documentation
-#'  of the function \code{\link{summary_anova}()}.
+#'  of the function \code{\link{anova_summary}()}.
 #'
 #'  The \strong{returned object has an attribute} called \code{args}, which is a list
 #'  holding the arguments used to fit the ANOVA model, including: data, dv,
