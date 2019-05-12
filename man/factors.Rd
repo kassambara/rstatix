@@ -6,7 +6,7 @@
 \alias{reorder_levels}
 \title{Factors}
 \usage{
-convert_as_factor(data, ..., vars = NULL)
+convert_as_factor(data, ..., vars = NULL, make.valid.levels = FALSE)
 
 set_ref_level(data, name, ref)
 
@@ -22,12 +22,14 @@ the variables you want to convert into factor. Alternative to the argument
 \item{vars}{a character vector specifying the variables to convert into
 factor.}
 
+\item{make.valid.levels}{logical. Default is FALSE. If TRUE, converts the
+variable to factor and add a leading charcter (x) if starting with a digit.}
+
 \item{name}{a factor variable name.}
 
 \item{ref}{the reference level}
 
-\item{order}{a character vector specifying the order of the
-factor levels}
+\item{order}{a character vector specifying the order of the factor levels}
 }
 \description{
 Provides pipe-friendly functions to convert simultaneously
@@ -68,4 +70,5 @@ levels(result$group)
 result <- result \%>\%
   reorder_levels("group", order = c("b", "c", "a"))
 levels(result$group)
+
 }

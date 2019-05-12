@@ -17,9 +17,10 @@ NULL
 #'  factor.
 #'@param name a factor variable name.
 #'@param ref the reference level
-#'@param order a character vector specifying the order of the
-#'  factor levels
-#'
+#'@param order a character vector specifying the order of the factor levels
+#'@param make.valid.levels logical. Default is FALSE. If TRUE, converts the
+#'  variable to factor and add a leading charcter (x) if starting with a digit.
+
 #'@examples
 #' # Create a demo data
 #' df <- tibble(
@@ -43,15 +44,23 @@ NULL
 #' result <- result %>%
 #'   reorder_levels("group", order = c("b", "c", "a"))
 #' levels(result$group)
+#'
 
 #' @describeIn factors Convert one or multiple variables into factor.
 #' @export
-convert_as_factor <- function(data, ..., vars = NULL){
+convert_as_factor <- function(data, ..., vars = NULL, make.valid.levels = FALSE){
   vars <- c(get_dot_vars(...), vars) %>%
     unique()
-  if(!.is_empty(vars)){
-    data <- data %>%
-      dplyr::mutate_at(vars, as.factor)
+  if(.is_empty(vars)){
+    return(data)
+  }
+  if(make.valid.levels){
+    for(variable in vars) {
+      data <- make_valid_levels(data, variable)
+    }
+  }
+  else{
+    data <- data %>% dplyr::mutate_at(vars, as.factor)
   }
   data
 }
@@ -69,3 +78,20 @@ reorder_levels <- function(data, name, order){
   data[[name]] <- factor(data[[name]], levels = order)
   data
 }
+
+
+
+make_valid_levels <- function(data, name){
+  value <- data %>% pull(!!name)
+  if(is.factor(value)){
+    levels(value) <- make.names(levels(value), unique = TRUE)
+  }
+  else{
+    value <- as.character(value)
+    lab <- make.names(unique(value),unique=TRUE)
+    value <- factor(value, levels = unique(value), labels = lab)
+  }
+  data[[name]] <- value
+  data
+}
+
