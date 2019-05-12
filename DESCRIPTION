@@ -37,6 +37,7 @@ Collate:
     'add_significance.R'
     'adjust_pvalue.R'
     'factorial_design.R'
+    'anova_summary.R'
     'anova_test.R'
     'as_cor_mat.R'
     'box_m.R'

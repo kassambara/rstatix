@@ -41,9 +41,14 @@ Provides a pipe-friendly framework to perform easily basic statistical tests in 
      
 - `t_test()`: perform one-sample, two-sample and pairwise t-tests
 - `wilcox_test()`: perform one-sample, two-sample and pairwise Wilcoxon tests
-- `anova_test()`: wrapper around `car:Anova()` to perform Anova test
+- `anova_test()`: an easy-to-use wrapper around `car::Anova()` to perform different types of ANOVA tests, including **independent measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
 - `kruskal_test()`: perform kruskal-wallis rank sum test
 - `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
+   
+### Facilitating ANOVA computation in R
+   
+- `factorial_design()`: build factorial design for easily computing ANOVA using the `car::Anova()` function. This might be very useful for repeatead measures ANOVA, which is hard to set up with the `car` package.
+- `anova_summary()`: Create beautiul summary tables of ANOVA test results obtained from either `car::Anova()` or `stats::aov()`. The results include ANOVA table, generalized effect size and some assumption checks, shuch as Mauchly's test for sphericity in the case of repeated measures ANOVA.
    
 ### Comparing variances
    

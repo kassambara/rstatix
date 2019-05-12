@@ -17,7 +17,10 @@ reference:
       - anova_test
       - kruskal_test
       - tukey_hsd
+  - title: ANOVA helpers
+    contents:
       - factorial_design
+      - anova_summary
   - title: Comparing Variances
     contents:
       - levene_test
