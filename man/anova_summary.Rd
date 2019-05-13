@@ -86,7 +86,7 @@ head(df)
 
 # Easily perform repeated measures ANOVA using the car package
 design <- factorial_design(df, dv = len, wid = id, within = c(supp, dose))
-res.anova <- Anova(design$lm, idata = design$idata, idesign = design$idesign, type = 3)
+res.anova <- Anova(design$model, idata = design$idata, idesign = design$idesign, type = 3)
 anova_summary(res.anova)
 
 # Repeated measures designs using stats::Aov()

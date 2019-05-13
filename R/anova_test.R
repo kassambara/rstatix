@@ -247,7 +247,6 @@ stop_if_multiple_error_terms <- function(formula){
 }
 
 
-
 # stop if ancova with repeated variables
 stop_if_repeated_ancova <- function(.args){
   if(is_repeated_ancova(.args) | is_mixed_ancova(.args)){
@@ -341,17 +340,17 @@ car_anova <- function(.args, ...){
       )
     if(is_independent_anova(.args)){
       res.anova <- Anova(
-        design$lm, type = .args$type,
+        design$model, type = .args$type,
         white.adjust = .args$white.adjust, ...
       )
     }
     else{
       res.anova <- Anova(
-        design$lm, idata = design$idata,
+        design$model, idata = design$idata,
         idesign = design$idesign, type = .args$type, ...
       )
     }
-   .args$model <- design$lm
+   .args$model <- design$model
   }
   attr(res.anova, "args") <- .args
   res.anova

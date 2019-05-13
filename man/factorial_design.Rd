@@ -30,11 +30,11 @@ a list with the following components: \itemize{ \item \strong{the
  frame giving the levels of factors defining the intra-subject model for
  multivariate repeated-measures data. \item \strong{idesign}: a one-sided
  model formula using the “data” in idata and specifying the intra-subject
- design.
- \item \strong{repeated}: logical. Value is TRUE when the data is a repeated design.
- \item \strong{lm_formula}: the formula used to build the \code{lm} model.
- \item \strong{lm}: the \code{lm} model
- }
+ design. \item \strong{repeated}: logical. Value is TRUE when the data is a
+ repeated design. \item \strong{lm_formula}: the formula used to build the
+ \code{lm} model. \item \strong{lm_data}: thedata used to build the \code{lm}
+ model. Can be either in a long format (i.e., the original data for
+ independent measures ANOVA) or in a wide format (case of repeated measures ANOVA). \item \strong{model}: the \code{lm} model }
 }
 \description{
 Provides helper functions to build factorial design for easily
@@ -58,7 +58,7 @@ head(df)
 design <- factorial_design(df, dv = len, wid = id, within = c(supp, dose))
 design
 # Easily perform repeated measures ANOVA using the car package
-res.anova <- Anova(design$lm, idata = design$idata, idesign = design$idesign, type = 3)
+res.anova <- Anova(design$model, idata = design$idata, idesign = design$idesign, type = 3)
 summary(res.anova, multivariate = FALSE)
 
 # Independent measures designs
@@ -68,7 +68,7 @@ df$id <- 1:nrow(df)
 design <- factorial_design(df, dv = len, wid = id, between = c(supp, dose))
 design
 # Perform ANOVA
-Anova(design$lm, type = 3)
+Anova(design$model, type = 3)
 
 }
 \seealso{

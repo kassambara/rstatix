@@ -17,11 +17,11 @@ NULL
 #'  frame giving the levels of factors defining the intra-subject model for
 #'  multivariate repeated-measures data. \item \strong{idesign}: a one-sided
 #'  model formula using the “data” in idata and specifying the intra-subject
-#'  design.
-#'  \item \strong{repeated}: logical. Value is TRUE when the data is a repeated design.
-#'  \item \strong{lm_formula}: the formula used to build the \code{lm} model.
-#'  \item \strong{lm}: the \code{lm} model
-#'  }
+#'  design. \item \strong{repeated}: logical. Value is TRUE when the data is a
+#'  repeated design. \item \strong{lm_formula}: the formula used to build the
+#'  \code{lm} model. \item \strong{lm_data}: thedata used to build the \code{lm}
+#'  model. Can be either in a long format (i.e., the original data for
+#'  independent measures ANOVA) or in a wide format (case of repeated measures ANOVA). \item \strong{model}: the \code{lm} model }
 #'@author Alboukadel Kassambara, \email{alboukadel.kassambara@@gmail.com}
 #'@seealso \code{\link{anova_test}()}, \code{\link{anova_summary}()}
 #'@examples
@@ -40,7 +40,7 @@ NULL
 #'design <- factorial_design(df, dv = len, wid = id, within = c(supp, dose))
 #'design
 #'# Easily perform repeated measures ANOVA using the car package
-#' res.anova <- Anova(design$lm, idata = design$idata, idesign = design$idesign, type = 3)
+#' res.anova <- Anova(design$model, idata = design$idata, idesign = design$idesign, type = 3)
 #' summary(res.anova, multivariate = FALSE)
 #'
 #'# Independent measures designs
@@ -50,7 +50,7 @@ NULL
 #' design <- factorial_design(df, dv = len, wid = id, between = c(supp, dose))
 #' design
 #' # Perform ANOVA
-#' Anova(design$lm, type = 3)
+#' Anova(design$model, type = 3)
 #'
 #'@rdname factorial_design
 #'@export
@@ -90,7 +90,7 @@ factorial_design <- function(data, dv, wid, between, within, covariate){
       unnest() %>%
       spread(key = ".group.", value = dv) %>%
       as_tibble()
-    .args$data <- wide
+    .args$lm_data <- wide
     .args$repeated <- TRUE
     # Build model formula: orders of wide dv name and data colnames should match
     # dv are all possible combinations of within-subjects factor levels
@@ -100,14 +100,15 @@ factorial_design <- function(data, dv, wid, between, within, covariate){
   }
   # Independent measures designs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   else if(!is.null(between)){
+    .args$lm_data <- .args$data
     .args$repeated <- FALSE
     lm_formula <- paste0(dv, " ~ ", rhs)
   }
   # Fit lm
   lm_formula <- .args$lm_formula <- stats::as.formula(lm_formula)
-  data <- .args$data
+  data <- .args$lm_data
   opt <- options( "contrasts" = c( "contr.sum", "contr.poly" ) )
-  .args$lm <- stats::lm(lm_formula, data)
+  .args$model <- stats::lm(lm_formula, data)
   options(opt)
   .args
 }
