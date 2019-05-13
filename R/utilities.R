@@ -82,6 +82,10 @@ is_all_columns_numeric <- function(data){
     all()
 }
 
+is_lm <- function(object){
+  inherits(object, "lm")
+}
+
 # NSE
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 

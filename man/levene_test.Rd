@@ -7,9 +7,9 @@
 levene_test(data, formula, center = median)
 }
 \arguments{
-\item{data}{a data frame for evaluating the formula}
+\item{data}{a data frame for evaluating the formula or a model}
 
-\item{formula}{lm or a formula}
+\item{formula}{a formula}
 
 \item{center}{The name of a function to compute the center of each group;
 mean gives the original Levene's test; the default, median, provides a more
