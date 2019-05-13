@@ -56,5 +56,6 @@ reference:
     contents:
       - reexports
       - doo
+      - sample_n_by
       - factors
 
