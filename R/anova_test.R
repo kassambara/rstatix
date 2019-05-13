@@ -170,23 +170,16 @@ plot.anova_test <- function(x, ...) {
 }
 
 
-is_model <- function(object){
-  models <- c("lm", "aov", "glm", "multinom", "polr", "mlm", "manova")
-  inherits(object,  models)
-}
-
 
 
 
 # Check the arguments of ANOVA
 # .args is a list
 check_anova_arguments <- function(.args){
-
   if(.is_empty(.args$between)) .args$between <- NULL
   if(.is_empty(.args$within)) .args$within <- NULL
   if(.is_empty(.args$wid)) .args$wid <- NULL
   if(.is_empty(.args$covariate)) .args$covariate <- NULL
-
   if(!is.null(.args$formula)){
     .args <- get_anova_vars_from_formula(.args)
     if(is.null(.args$within)) .args$model <- fit_lm(.args)
@@ -198,23 +191,9 @@ check_anova_arguments <- function(.args){
     if(is.null(.args$type)) .args$type <- 2
     return(.args)
   }
-  else if(!inherits(.args$data, "data.frame")){
-    stop('data should be a data frame.')
-  }
-  if(is.null(.args$within) & is.null(.args$between)){
-    stop("Specify at least one of the arguments: 'within' and 'between'")
-  }
-  .args$data <- droplevels(.args$data) %>%
-    as_tibble()
   .args <- .args %>%
-    remove_missing_values_in_data() %>%
-    assertthat_dv_is_numeric() %>%
-    assertthat_wid_is_specified() %>%
-    asserthat_wid_is_unique() %>%
-    convert_grouping_vars_to_factor() %>%
-    assertthat_iv_has_enough_levels() %>%
-    check_anova_type() %>%
-    stop_if_repeated_ancova()
+    check_factorial_design() %>%
+    check_anova_type()
   .args
 }
 
@@ -311,6 +290,12 @@ check_anova_type <- function(.args){
   .args
 }
 
+# Model
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+is_model <- function(object){
+  models <- c("lm", "aov", "glm", "multinom", "polr", "mlm", "manova")
+  inherits(object,  models)
+}
 # Get anova model from the list of arguments
 get_anova_model <- function(.args){
   if(!is.null(.args$model)) return(.args$model)
@@ -327,9 +312,9 @@ has_model <- function(.args){
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 fit_lm <- function(.args){
   .args <- remove_missing_values_in_data(.args)
-  data <- droplevels(.args$data)
+  lm_data <- droplevels(.args$data)
   lm_formula <- .args$formula
-  stats::lm(lm_formula, data)
+  stats::lm(lm_formula, lm_data)
 }
 
 # Compute the different types of ANOVA
