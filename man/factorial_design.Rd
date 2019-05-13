@@ -9,10 +9,10 @@ factorial_design(data, dv, wid, between, within, covariate)
 \arguments{
 \item{data}{a data frame containing the variables}
 
-\item{dv}{dependent variable name. Should be a numeric column.}
+\item{dv}{(numeric) dependent variable name.}
 
-\item{wid}{column name containing individuals/subjects identifier. Should be
-unique per individual.}
+\item{wid}{(factor) column name containing individuals/subjects identifier.
+Should be unique per individual.}
 
 \item{between}{(optional) between-subject factor variables.}
 

@@ -24,9 +24,19 @@ NULL
 #'  numeric variable giving the data values and \code{group} is a factor with
 #'  one or multiple levels giving the corresponding groups. For example,
 #'  \code{formula = TP53 ~ cancer_group}.
-#'@param dv dependent variable name. Should be a numeric column.
-#'@param wid column name containing individuals/subjects identifier. Should be
-#'  unique per individual.
+#'
+#'  Examples of supported formula include: \itemize{ \item Between-Ss ANOVA
+#'  (independent measures ANOVA): \code{y ~ b1*b2} \item Within-Ss ANOVA (repeated
+#'  measures ANOVA): \code{y ~ w1*w2 + Error(id/(w1*w2))} \item Mixed ANOVA: \code{y ~
+#'  b1*b2*w1 + Error(id/w1)} }
+#'
+#'  If the formula doesn't contain any within vars, a linear model is directly
+#'  fitted and  passed to the ANOVA function. For repeated designs, the ANOVA
+#'  variables are parsed from the formula.
+#'
+#'@param dv (numeric) dependent variable name.
+#'@param wid (factor) column name containing individuals/subjects identifier.
+#'  Should be unique per individual.
 #'@param between (optional) between-subject factor variables.
 #'@param within (optional) within-subjects factor variables
 #'@param covariate (optional) covariate names (for ANCOVA)
@@ -62,8 +72,8 @@ NULL
 #'  Sphericity Corrections. These table are described more in the documentation
 #'  of the function \code{\link{anova_summary}()}.
 #'
-#'  The \strong{returned object has an attribute} called \code{args}, which is a list
-#'  holding the arguments used to fit the ANOVA model, including: data, dv,
+#'  The \strong{returned object has an attribute} called \code{args}, which is a
+#'  list holding the arguments used to fit the ANOVA model, including: data, dv,
 #'  within, between, type, model, etc.
 #'
 #'

@@ -18,15 +18,24 @@ anova_test(data, formula, dv, wid, between, within, covariate,
 \item{data}{a data.frame or a model to be analyzed.}
 
 \item{formula}{a formula specifying the ANOVA model similar to
-\link[stats]{aov}. Can be of the form \code{y ~ group} where \code{y} is a
-numeric variable giving the data values and \code{group} is a factor with
-one or multiple levels giving the corresponding groups. For example,
-\code{formula = TP53 ~ cancer_group}.}
+ \link[stats]{aov}. Can be of the form \code{y ~ group} where \code{y} is a
+ numeric variable giving the data values and \code{group} is a factor with
+ one or multiple levels giving the corresponding groups. For example,
+ \code{formula = TP53 ~ cancer_group}.
 
-\item{dv}{dependent variable name. Should be a numeric column.}
+ Examples of supported formula include: \itemize{ \item Between-Ss ANOVA
+ (independent measures ANOVA): \code{y ~ b1*b2} \item Within-Ss ANOVA (repeated
+ measures ANOVA): \code{y ~ w1*w2 + Error(id/(w1*w2))} \item Mixed ANOVA: \code{y ~
+ b1*b2*w1 + Error(id/w1)} }
 
-\item{wid}{column name containing individuals/subjects identifier. Should be
-unique per individual.}
+ If the formula doesn't contain any within vars, a linear model is directly
+ fitted and  passed to the ANOVA function. For repeated designs, the ANOVA
+ variables are parsed from the formula.}
+
+\item{dv}{(numeric) dependent variable name.}
+
+\item{wid}{(factor) column name containing individuals/subjects identifier.
+Should be unique per individual.}
 
 \item{between}{(optional) between-subject factor variables.}
 
@@ -74,8 +83,8 @@ return an object of class \code{anova_test} a data frame containing
  Sphericity Corrections. These table are described more in the documentation
  of the function \code{\link{anova_summary}()}.
 
- The \strong{returned object has an attribute} called \code{args}, which is a list
- holding the arguments used to fit the ANOVA model, including: data, dv,
+ The \strong{returned object has an attribute} called \code{args}, which is a
+ list holding the arguments used to fit the ANOVA model, including: data, dv,
  within, between, type, model, etc.
 }
 \description{
