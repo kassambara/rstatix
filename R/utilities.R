@@ -223,6 +223,9 @@ as_tidy_stat <- function(x, digits = 3){
       method = stat.method
     ) %>%
     rename(p = p.value)
+  if("parameter" %in% colnames(res)){
+    res <- res %>% rename(df = .data$parameter)
+  }
   res
 }
 

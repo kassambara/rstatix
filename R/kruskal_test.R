@@ -44,9 +44,9 @@ kruskal_test <- function(
     return(results)
   }
 
-  term <- statistic <- p <- method <- NULL
+  term <- statistic <- p <- df <- method <- NULL
   stats::kruskal.test(formula, data = data, ...) %>%
     as_tidy_stat() %>%
-    select(statistic, p, method) %>%
+    select(statistic, df, p, method) %>%
     add_column(.y. = outcome, .before = "statistic")
 }

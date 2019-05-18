@@ -2,24 +2,16 @@
 % Please edit documentation in R/wilcox_test.R
 \name{wilcox_test}
 \alias{wilcox_test}
-\alias{one_sample_wilcox_test}
-\alias{two_sample_wilcox_test}
 \alias{pairwise_wilcox_test}
-\alias{one_vs_all_wilcox_test}
 \title{Wilcoxon Tests}
 \usage{
 wilcox_test(data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm", paired = FALSE, exact = NULL,
-  alternative = "two.sided", mu = 0, conf.level = 0.95)
-
-one_sample_wilcox_test(data, formula, mu = 0, exact = FALSE, ...)
-
-two_sample_wilcox_test(data, formula, paired = FALSE, ...)
+  alternative = "two.sided", mu = 0, conf.level = 0.95,
+  detailed = FALSE)
 
 pairwise_wilcox_test(data, formula, comparisons = NULL,
-  ref.group = NULL, p.adjust.method = "holm", ...)
-
-one_vs_all_wilcox_test(data, formula, p.adjust.method = "holm", ...)
+  ref.group = NULL, p.adjust.method = "holm", detailed = FALSE, ...)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -35,8 +27,11 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
 "C"))}}
 
 \item{ref.group}{a character string specifying the reference group. If
-specified, for a given grouping variable, each of the group levels will be
-compared to the reference group (i.e. control group).}
+ specified, for a given grouping variable, each of the group levels will be
+ compared to the reference group (i.e. control group).
+
+ If \code{ref.group = "all"}, pairwise two sample t-tests are performed for comparing each grouping
+ variable levels against all (i.e. basemean).}
 
 \item{p.adjust.method}{method to adjust p values for multiple comparisons.
 Used when pairwise comparisons are performed. Allowed values include "holm",
@@ -58,11 +53,13 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
 \item{conf.level}{confidence level of the interval.}
 
+\item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is shown.}
+
 \item{...}{other arguments to be passed to the function
 \code{\link[stats]{wilcox.test}}.}
 }
 \value{
-return a data frame with the following columns: \itemize{ \item
+return a data frame with some of the following columns: \itemize{ \item
  \code{.y.}: the y variable used in the test. \item \code{group1,group2}: the
  compared groups in the pairwise tests. \item \code{statistic}: Test
  statistic used to compute the p-value. \item \code{p}: p-value. \item
@@ -89,14 +86,9 @@ Provides a pipe-friendly framework to performs one and two sample
 }
 \section{Functions}{
 \itemize{
-\item \code{one_sample_wilcox_test}: performs one-sample Wilcoxon test.
-
-\item \code{two_sample_wilcox_test}: performs two sample Wilcoxon test.
+\item \code{wilcox_test}: Wilcoxon test
 
 \item \code{pairwise_wilcox_test}: performs pairwise two sample Wilcoxon test.
-
-\item \code{one_vs_all_wilcox_test}: performs pairwise two sample Wilcoxon test comparing each grouping
-variable levels against all (i.e. basemean)
 }}
 
 \examples{
@@ -123,7 +115,7 @@ df \%>\% wilcox_test (len ~ supp, paired = TRUE)
 df \%>\%
   group_by(dose) \%>\%
   wilcox_test(data =., len ~ supp) \%>\%
-  adjust_pvalue() \%>\%
+  adjust_pvalue(method = "bonferroni") \%>\%
   add_significance("p.adj")
 
 # pairwise comparisons

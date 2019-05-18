@@ -1,4 +1,4 @@
-#' @include utilities.R factorial_design.R
+#' @include utilities.R utilities_mean_test.R factorial_design.R
 NULL
 #'Create Nice Summary Tables of ANOVA Results
 #'
@@ -108,7 +108,7 @@ anova_summary <- function(object, effect.size = "ges", detailed = FALSE, observe
     add_anova_effect_size(effect.size, observed)
 
   if(!detailed){
-    results <- remove_details(results)
+    results <- remove_details(results, method = "anova")
   }
   results$ANOVA <- order_by_interaction_levels(results$ANOVA)
   results <- results %>% map(~dplyr::mutate_if(., is.numeric, roundif, 3))
@@ -262,20 +262,6 @@ order_by_interaction_levels <- function(aov.table){
   aov.table %>% dplyr::arrange(nb.interaction)
 }
 
-
-
-
-
-
-# Remove details from ANOVA summary: such as intercept row, Sum Sq columns
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-remove_details <- function(res.anova.summary){
-  aov.table <- res.anova.summary$ANOVA
-  aov.table = aov.table[, names(aov.table) %in% c('Effect','DFn','DFd','F','p','p<.05', 'ges', 'pes')]
-  intercept.row <- grepl("Intercept", aov.table$Effect)
-  res.anova.summary$ANOVA<- aov.table[!intercept.row, ]
-  res.anova.summary
-}
 
 # Add effect size
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

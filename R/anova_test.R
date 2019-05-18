@@ -60,8 +60,6 @@ NULL
 #'  eta-squared) requires correct specification of the observed variables.
 #'@param detailed If TRUE, returns extra information (sums of squares columns,
 #'  intercept row, etc.) in the ANOVA table.
-#'@param ... other arguments to be passed to the function
-#'  \code{\link[car]{Anova}()}.
 #'@param x an object of class \code{Anova_test}
 #'@seealso \code{\link{anova_summary}()}, \code{\link{factorial_design}()}
 #'@return return an object of class \code{anova_test} a data frame containing
@@ -109,7 +107,7 @@ NULL
 #'@export
 anova_test <- function(data, formula, dv, wid, between, within, covariate, type = NULL,
                        effect.size = "ges", error = NULL,
-                       white.adjust = FALSE, observed = NULL, detailed = FALSE, ...){
+                       white.adjust = FALSE, observed = NULL, detailed = FALSE){
   . <- NULL
   .args <- rlang::enquos(
     dv = dv, wid = wid, between = between,
@@ -118,11 +116,12 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
   if(!missing(formula)) .args$formula <- formula
   if(is_grouped_df(data)){
     results <- data %>% doo(
-      anova_test, data = ., formula = .args$formula,
+      ~anova_test(data = ., formula = .args$formula,
       dv = .args$dv, wid = .args$wid, between = .args$between,
       within = .args$within, covariate = .args$covariate,
       type = type, effect.size = effect.size, error = error,
-      white.adjust = white.adjust, observed = observed, detailed = detailed, ...
+      white.adjust = white.adjust, observed = observed, detailed = detailed),
+      result = "anova"
     )
     return(results)
   }
@@ -131,8 +130,8 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
     .add_item(data = data, type = type, white.adjust = white.adjust) %>%
     check_anova_arguments()
   if(.args$type != 1) {
-    if(is.null(error)) res.anova <- car_anova(.args, ...)
-    else res.anova <- car_anova(.args, error = error, ...)
+    if(is.null(error)) res.anova <- car_anova(.args)
+    else res.anova <- car_anova(.args, error = error)
   }
   else if(.args$type == 1) res.anova <- stats_aov(.args)
   else stop("Something is wrong...")
@@ -147,6 +146,7 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
 
 #' @rdname anova_test
 #' @method print anova_test
+#' @param ... additional arguments
 #' @export
 print.anova_test <- function(x, ...) {
   .args <- attr(x, "args")
@@ -423,25 +423,16 @@ check_repeated_anova_assumptions <- function(data, dv, wid, within){
   results$variance.homogeneity  <- NULL
   arguments <- list( dv = dv, wid = wid, within = within)
   results <- results %>% set_attrs(arguments = arguments)
-  if(base::requireNamespace("ez", quietly = TRUE)){
     within <- paste(within, collapse = ", ") %>%
-      paste0(".(", ., ")")
+      paste0("c(", ., ")")
     data.name <- deparse(substitute(data))
     anova.formula <- paste0(
-      "ez::ezANOVA(", data.name, ", dv = ", dv,
+      "anova_test(", data.name, ", dv = ", dv,
       ", wid = ", wid, ", within = ", within, ")"
     )
     res.anova <- eval(parse(text = anova.formula))
     results <- results %>%
       .add_item(sphericity = res.anova$`Mauchly's Test for Sphericity`)
-  }
-  else{
-    warning(
-      "Install the ez R package for ",
-      "checking the assumption of sphericity",
-      call. = FALSE
-    )
-  }
   results
 }
 
@@ -474,27 +465,18 @@ check_mixed_anova_assumptions <- function(data, dv, wid , between, within){
   ) %>%
     set_attrs(arguments = arguments)
 
-  if(base::requireNamespace("ez", quietly = TRUE)){
     within <- paste(within, collapse = ", ") %>%
-      paste0(".(", ., ")")
+      paste0("c(", ., ")")
     between <- paste(between, collapse = ", ") %>%
-      paste0(".(", ., ")")
+      paste0("c(", ., ")")
     data.name <- deparse(substitute(data))
     anova.formula <- paste0(
-      "ez::ezANOVA(", data.name, ", dv = ", dv,
+      "anova_test(", data.name, ", dv = ", dv,
       ", wid = ", wid, ", within = ", within, ", between = ", between, ")"
     )
     res.anova <- eval(parse(text = anova.formula))
     results <- results %>%
       .add_item(sphericity = res.anova$`Mauchly's Test for Sphericity`)
-  }
-  else{
-    warning(
-      "Install the ez R package for ",
-      "checking the assumption of sphericity",
-      call. = FALSE
-    )
-  }
 
   results
 

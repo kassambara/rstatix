@@ -15,6 +15,10 @@ NULL
 #'@param ref.group a character string specifying the reference group. If
 #'  specified, for a given grouping variable, each of the group levels will be
 #'  compared to the reference group (i.e. control group).
+#'
+#'  If \code{ref.group = "all"}, pairwise two sample t-tests are performed for comparing each grouping
+#'  variable levels against all (i.e. basemean).
+#'
 #'@param comparisons A list of length-2 vectors specifying the groups of
 #'  interest to be compared. For example to compare groups "A" vs "B" and "B" vs
 #'  "C", the argument is as follow: \code{comparisons = list(c("A", "B"), c("B",
@@ -35,27 +39,36 @@ NULL
 #'  If \code{pool.sd = FALSE} the standard two sample t-test is applied to all
 #'  possible pairs of groups. This method calls the \code{t.test()}, so extra
 #'  arguments, such as \code{var.equal} are accepted.
-
-
+#'
+#' @param detailed logical value. Default is FALSE. If TRUE, a detailed result is shown.
 #'@param ... other arguments to be passed to the function
 #'  \code{\link[stats]{t.test}}.
 #'
 #'@details
 #'
-#'  - If a list of comparisons is specified, the result of the pairwise tests is
-#'  filtered to keep only the comparisons of interest. The p-value is adjusted
-#'  after filtering.
+#'- If a list of comparisons is specified, the result of the pairwise tests is
+#'filtered to keep only the comparisons of interest. The p-value is adjusted
+#'after filtering.
 #'
-#'  - For a grouped data, if pairwise test is performed, then the p-values are
-#'  adjusted for each group level independently.
+#'- For a grouped data, if pairwise test is performed, then the p-values are
+#'adjusted for each group level independently.
 #'
-#'@return return a data frame with the following columns: \itemize{ \item
+#'@return return a data frame with some the following columns: \itemize{ \item
 #'  \code{.y.}: the y variable used in the test. \item \code{group1,group2}: the
 #'  compared groups in the pairwise tests. \item \code{statistic}: Test
-#'  statistic used to compute the p-value. \item \code{p}: p-value. \item
-#'  \code{p.adj}: the adjusted p-value. \item \code{method}: the statistical
-#'  test used to compare groups. \item \code{p.signif, p.adj.signif}: the
-#'  significance level of p-values and adjusted p-values, respectively. }
+#'  statistic used to compute the p-value. \item \code{df}: degrees of freedom.
+#'  \item \code{p}: p-value. \item \code{p.adj}: the adjusted p-value. \item
+#'  \code{method}: the statistical test used to compare groups. \item
+#'  \code{p.signif, p.adj.signif}: the significance level of p-values and
+#'  adjusted p-values, respectively. \item \code{estimate}: estimate of the
+#'  effect size. It corresponds to the estimated mean or difference in means
+#'  depending on whether it was a one-sample test or a two-sample test. \item
+#'  \code{estimate1, estimate2}: show the mean values of the two groups,
+#'  respectively, for independent samples t-tests.
+#'   \item \code{alternative}: a character string describing the alternative hypothesis.
+#'  \item
+#'  \code{conf.low,conf.high}: Lower and upper bound on a confidence interval.
+#'   }
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::
@@ -80,12 +93,12 @@ NULL
 #' df %>%
 #'   group_by(dose) %>%
 #'   t_test(data =., len ~ supp) %>%
-#'   adjust_pvalue() %>%
+#'   adjust_pvalue(method = "bonferroni") %>%
 #'   add_significance("p.adj")
 #'
 #' # pairwise comparisons
 #' #::::::::::::::::::::::::::::::::::::::::
-#' # As dose contains more thant two levels ==>
+#' # As dose contains more than two levels ==>
 #' # pairwise test is automatically performed.
 #' df %>% t_test(len ~ dose)
 #'
@@ -98,13 +111,13 @@ NULL
 #' #::::::::::::::::::::::::::::::::::::::::
 #' df %>% t_test(len ~ dose, ref.group = "all")
 #'
-#'@name t_test
+#'@describeIn t_test t test
 #'@export
 t_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm",
   paired = FALSE, var.equal = FALSE, alternative = "two.sided",
-  mu = 0, conf.level = 0.95
+  mu = 0, conf.level = 0.95, detailed = FALSE
 )
 {
 
@@ -114,7 +127,7 @@ t_test <- function(
 
   # Case of one sample test
   if(number.of.groups == 1){
-    one_sample_t_test(
+    res <- one_sample_t_test(
       data = data, formula = formula,
       alternative = alternative, mu = mu,
       conf.level = conf.level
@@ -122,7 +135,7 @@ t_test <- function(
   }
   # Case of two independents or paired groups
   else if (number.of.groups == 2) {
-    two_sample_t_test(
+    res <- two_sample_t_test(
       data = data, formula = formula, paired = paired,
       var.equal = var.equal, alternative = alternative,
       conf.level = conf.level, ref.group = ref.group
@@ -132,7 +145,7 @@ t_test <- function(
   else if(number.of.groups > 2){
 
     if(is.null(ref.group))
-      pairwise_t_test(
+      res <- pairwise_t_test(
         data = data, formula = formula,
         comparisons = comparisons,
         p.adjust.method = p.adjust.method,
@@ -141,14 +154,14 @@ t_test <- function(
         pool.sd = FALSE
       )
     else if(ref.group %in% c("all", ".all."))
-      one_vs_all_t_test(
+      res <- one_vs_all_t_test(
         data = data, formula = formula,
         p.adjust.method = p.adjust.method,
         var.equal = var.equal,
         alternative = alternative, conf.level = conf.level
       )
     else
-      pairwise_t_test(
+      res <- pairwise_t_test(
         data = data, formula = formula,
         comparisons = comparisons, ref.group = ref.group,
         p.adjust.method = p.adjust.method,
@@ -157,20 +170,17 @@ t_test <- function(
         pool.sd = FALSE
       )
   }
-
+  if(!detailed) res <- remove_details(res, method = "t.test")
+  res
 }
 
 
 
-#'@describeIn t_test performs one-sample t-test.
-#'@export
 one_sample_t_test <- function(data, formula, mu = 0, ...){
   mean_test(data, formula, method = "t.test", mu = mu, ...)
 }
 
 
-#'@describeIn t_test performs two sample t-test.
-#'@export
 two_sample_t_test <- function(data, formula, paired = FALSE, ...)
 {
   mean_test(data, formula, method = "t.test", paired = paired, ...)
@@ -182,22 +192,25 @@ two_sample_t_test <- function(data, formula, paired = FALSE, ...)
 #'@export
 pairwise_t_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", paired = FALSE, pool.sd = !paired, ...) {
+  p.adjust.method = "holm", paired = FALSE, pool.sd = !paired,
+  detailed = FALSE, ...) {
 
   if(paired) pool.sd <- FALSE
   if(pool.sd){
-    pairwise_t_test_psd(
+    res <- pairwise_t_test_psd(
       data, formula, comparisons = comparisons, ref.group = ref.group,
       p.adjust.method = p.adjust.method, ...
     )
   }
   else{
-    mean_test_pairwise(
+    res <- mean_test_pairwise(
       data, formula, method = "t.test",
       comparisons = comparisons, ref.group = ref.group,
       p.adjust.method = p.adjust.method, paired = paired, ...
     )
   }
+  if(!detailed) res <- remove_details(res, method = "t.test")
+  res
   }
 
 
@@ -260,12 +273,10 @@ pairwise_t_test_psd <- function(
 }
 
 
-#'@describeIn t_test performs pairwise two sample t-test comparing each grouping
-#'  variable levels against all (i.e. basemean)
-#'@export
+# t_test performs pairwise two sample t-test comparing each grouping
+# variable levels against all (i.e. basemean)
 one_vs_all_t_test <- function(data, formula, p.adjust.method = "holm", ...)
 {
-
   mean_test_one_vs_all (
     data, formula, method = "t.test",
     p.adjust.method = p.adjust.method, ...

@@ -5,7 +5,7 @@
 # Global function to compare means
 compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
                            comparisons = NULL, ref.group = NULL,
-                           p.adjust.method = "holm",  ...)
+                           p.adjust.method = "holm", detailed = FALSE, ...)
 {
 
   outcome <- get_formula_left_hand_side(formula)
@@ -17,13 +17,13 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
 
   # Case of one sample test
   if(number.of.groups <= 2){
-    mean_test(data, formula, method = method, paired = paired, ...)
+    res <- mean_test(data, formula, method = method, paired = paired, ...)
   }
   # Pairwise comparisons
   else if(number.of.groups > 2){
 
     if(method == "anova"){
-      anova_test(data, formula, ...) %>%
+      res <- anova_test(data, formula, ...) %>%
         select(.data$Effect, .data$F, .data$p) %>%
         set_colnames(c("term", "statistic", "p")) %>%
         add_column(method = "Anova", .after = "p") %>%
@@ -31,27 +31,30 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
         as_tibble()
     }
     else if(method == "kruskal.test")
-      kruskal_test(data, formula, ...)
+      res <- kruskal_test(data, formula, ...)
 
     else if(is.null(ref.group))
-      mean_test_pairwise(
+      res <- mean_test_pairwise(
         data, formula, method = method, paired = paired,
         comparisons = comparisons, ref.group = ref.group,
-        p.adjust.method = p.adjust.method, ...
+        p.adjust.method = p.adjust.method, detailed = detailed, ...
       )
 
     else if(ref.group %in% c("all", ".all."))
-      mean_test_one_vs_all (
+      res <- mean_test_one_vs_all (
         data, formula, method = method,
-        p.adjust.method = p.adjust.method, ...
+        p.adjust.method = p.adjust.method, detailed = detailed, ...
       )
     else
-      mean_test_pairwise(
+      res <- mean_test_pairwise(
         data, formula, method = method, paired = paired,
         comparisons = comparisons, ref.group = ref.group,
-        p.adjust.method = p.adjust.method, ...
+        p.adjust.method = p.adjust.method, detailed = detailed, ...
       )
   }
+  if(!detailed) res <- remove_details(res, method = method)
+
+  res
 
 }
 
@@ -92,7 +95,6 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
   statistic <- p <- NULL
   res <- suppressWarnings(do.call(test.function, test.args)) %>%
     as_tidy_stat() %>%
-    select(statistic, p, method) %>%
     add_column(
       .y. = outcome, group1 = grp1, group2 = grp2,
       .before = "statistic"
@@ -103,7 +105,7 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
 # Pairwise mean comparisons
 mean_test_pairwise <- function(data, formula, method = "t.test",
                                comparisons = NULL, ref.group = NULL,
-                               p.adjust.method = "holm", ...) {
+                               p.adjust.method = "holm",  ...) {
   if (is_grouped_df(data)) {
     res <- data %>%
       doo(
@@ -129,7 +131,6 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
   p <- p.adj <- NULL
   compare_pairs(data, formula, possible.pairs, method, ...) %>%
     adjust_pvalue(method = p.adjust.method) %>%
-    add_significance("p") %>%
     add_significance("p.adj") %>%
     mutate(
       p = signif(p, digits = 3),
@@ -191,5 +192,30 @@ compare_pairs <- function(data, formula, pairs, method = "t.test", ...){
   pairs %>%
     map(.f, data, formula, method, ...) %>%
     bind_rows()
+}
+
+
+
+# Remove details from statistical test results
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+remove_details <- function(res, method){
+  if(method == "anova"){
+    # Remove details from ANOVA summary: such as intercept row, Sum Sq columns
+    aov.table <- res$ANOVA
+    aov.table = aov.table[, names(aov.table) %in% c('Effect','DFn','DFd','F','p','p<.05', 'ges', 'pes')]
+    intercept.row <- grepl("Intercept", aov.table$Effect)
+    res$ANOVA<- aov.table[!intercept.row, ]
+  }
+  else if(method %in% c("t.test", "wilcox.test", "kruskal.test") ){
+    columns.to.keep <- intersect(
+      c(".y.", "group1", "group2", "statistic", "df", "p", "p.signif", "p.adj", "p.adj.signif"),
+      colnames(res)
+    )
+    res <- res[, columns.to.keep]
+  }
+  else{
+    stop("Don't support the method : ", method)
+  }
+  res
 }
 

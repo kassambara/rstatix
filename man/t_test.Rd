@@ -2,24 +2,17 @@
 % Please edit documentation in R/t_test.R
 \name{t_test}
 \alias{t_test}
-\alias{one_sample_t_test}
-\alias{two_sample_t_test}
 \alias{pairwise_t_test}
-\alias{one_vs_all_t_test}
 \title{T-test}
 \usage{
 t_test(data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm", paired = FALSE, var.equal = FALSE,
-  alternative = "two.sided", mu = 0, conf.level = 0.95)
-
-one_sample_t_test(data, formula, mu = 0, ...)
-
-two_sample_t_test(data, formula, paired = FALSE, ...)
+  alternative = "two.sided", mu = 0, conf.level = 0.95,
+  detailed = FALSE)
 
 pairwise_t_test(data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", paired = FALSE, pool.sd = !paired, ...)
-
-one_vs_all_t_test(data, formula, p.adjust.method = "holm", ...)
+  p.adjust.method = "holm", paired = FALSE, pool.sd = !paired,
+  detailed = FALSE, ...)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -35,8 +28,11 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
 "C"))}}
 
 \item{ref.group}{a character string specifying the reference group. If
-specified, for a given grouping variable, each of the group levels will be
-compared to the reference group (i.e. control group).}
+ specified, for a given grouping variable, each of the group levels will be
+ compared to the reference group (i.e. control group).
+
+ If \code{ref.group = "all"}, pairwise two sample t-tests are performed for comparing each grouping
+ variable levels against all (i.e. basemean).}
 
 \item{p.adjust.method}{method to adjust p values for multiple comparisons.
 Used when pairwise comparisons are performed. Allowed values include "holm",
@@ -60,8 +56,7 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
 \item{conf.level}{confidence level of the interval.}
 
-\item{...}{other arguments to be passed to the function
-\code{\link[stats]{t.test}}.}
+\item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is shown.}
 
 \item{pool.sd}{logical value used in the function \code{pairwise_t_test()}.
  Switch to allow/disallow the use of a pooled SD.
@@ -75,15 +70,27 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
  If \code{pool.sd = FALSE} the standard two sample t-test is applied to all
  possible pairs of groups. This method calls the \code{t.test()}, so extra
  arguments, such as \code{var.equal} are accepted.}
+
+\item{...}{other arguments to be passed to the function
+\code{\link[stats]{t.test}}.}
 }
 \value{
-return a data frame with the following columns: \itemize{ \item
+return a data frame with some the following columns: \itemize{ \item
  \code{.y.}: the y variable used in the test. \item \code{group1,group2}: the
  compared groups in the pairwise tests. \item \code{statistic}: Test
- statistic used to compute the p-value. \item \code{p}: p-value. \item
- \code{p.adj}: the adjusted p-value. \item \code{method}: the statistical
- test used to compare groups. \item \code{p.signif, p.adj.signif}: the
- significance level of p-values and adjusted p-values, respectively. }
+ statistic used to compute the p-value. \item \code{df}: degrees of freedom.
+ \item \code{p}: p-value. \item \code{p.adj}: the adjusted p-value. \item
+ \code{method}: the statistical test used to compare groups. \item
+ \code{p.signif, p.adj.signif}: the significance level of p-values and
+ adjusted p-values, respectively. \item \code{estimate}: estimate of the
+ effect size. It corresponds to the estimated mean or difference in means
+ depending on whether it was a one-sample test or a two-sample test. \item
+ \code{estimate1, estimate2}: show the mean values of the two groups,
+ respectively, for independent samples t-tests.
+  \item \code{alternative}: a character string describing the alternative hypothesis.
+ \item
+ \code{conf.low,conf.high}: Lower and upper bound on a confidence interval.
+  }
 }
 \description{
 Provides a pipe-friendly framework to performs one and two sample
@@ -91,23 +98,18 @@ Provides a pipe-friendly framework to performs one and two sample
 }
 \details{
 - If a list of comparisons is specified, the result of the pairwise tests is
- filtered to keep only the comparisons of interest. The p-value is adjusted
- after filtering.
+filtered to keep only the comparisons of interest. The p-value is adjusted
+after filtering.
 
- - For a grouped data, if pairwise test is performed, then the p-values are
- adjusted for each group level independently.
+- For a grouped data, if pairwise test is performed, then the p-values are
+adjusted for each group level independently.
 }
 \section{Functions}{
 \itemize{
-\item \code{one_sample_t_test}: performs one-sample t-test.
-
-\item \code{two_sample_t_test}: performs two sample t-test.
+\item \code{t_test}: t test
 
 \item \code{pairwise_t_test}: performs pairwise two sample t-test. Wrapper around the R
 base function \code{\link[stats]{pairwise.t.test}}.
-
-\item \code{one_vs_all_t_test}: performs pairwise two sample t-test comparing each grouping
-variable levels against all (i.e. basemean)
 }}
 
 \examples{
@@ -134,12 +136,12 @@ df \%>\% t_test (len ~ supp, paired = TRUE)
 df \%>\%
   group_by(dose) \%>\%
   t_test(data =., len ~ supp) \%>\%
-  adjust_pvalue() \%>\%
+  adjust_pvalue(method = "bonferroni") \%>\%
   add_significance("p.adj")
 
 # pairwise comparisons
 #::::::::::::::::::::::::::::::::::::::::
-# As dose contains more thant two levels ==>
+# As dose contains more than two levels ==>
 # pairwise test is automatically performed.
 df \%>\% t_test(len ~ dose)
 

@@ -8,7 +8,7 @@
 \usage{
 anova_test(data, formula, dv, wid, between, within, covariate,
   type = NULL, effect.size = "ges", error = NULL,
-  white.adjust = FALSE, observed = NULL, detailed = FALSE, ...)
+  white.adjust = FALSE, observed = NULL, detailed = FALSE)
 
 \method{print}{anova_test}(x, ...)
 
@@ -69,10 +69,9 @@ eta-squared) requires correct specification of the observed variables.}
 \item{detailed}{If TRUE, returns extra information (sums of squares columns,
 intercept row, etc.) in the ANOVA table.}
 
-\item{...}{other arguments to be passed to the function
-\code{\link[car]{Anova}()}.}
-
 \item{x}{an object of class \code{Anova_test}}
+
+\item{...}{additional arguments}
 }
 \value{
 return an object of class \code{anova_test} a data frame containing
