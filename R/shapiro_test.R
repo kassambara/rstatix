@@ -58,7 +58,8 @@ shapiro_test <- function(data, ..., vars = NULL){
   data %>%
     group_by(variable) %>%
     doo(~tidy(shapiro.test(.$value))) %>%
-    select(-.data$method)
+    select(-.data$method) %>%
+    rename(p = .data$p.value)
 }
 
 
