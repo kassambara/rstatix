@@ -7,7 +7,7 @@
 get_mode(x)
 }
 \arguments{
-\item{x}{a vector. Can be numeric, factor or character vetor.}
+\item{x}{a vector. Can be numeric, factor or character vector.}
 }
 \description{
 Compute the mode in a given vector. Mode is the most frequent

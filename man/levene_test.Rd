@@ -20,7 +20,7 @@ Provide a pipe-friendly framework to easily compute Levene's
   test for homogeneity of variance across groups.
 
   Wrapper around the function \code{\link[car]{leveneTest}()}, which can
-  additionnaly handles a grouped data.
+  additionally handles a grouped data.
 }
 \examples{
 # Prepare the data

@@ -7,7 +7,7 @@ NULL
 #'   test for homogeneity of variance across groups.
 #'
 #'   Wrapper around the function \code{\link[car]{leveneTest}()}, which can
-#'   additionnaly handles a grouped data.
+#'   additionally handles a grouped data.
 #' @param data a data frame for evaluating the formula or a model
 #' @param formula a formula
 #' @param center The name of a function to compute the center of each group;

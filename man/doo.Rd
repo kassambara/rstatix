@@ -20,7 +20,7 @@ doo(data, .f, ..., result = ".results.")
 a data frame
 }
 \description{
-Provides a flexibe alternative to the \code{dplyr:do()} function.
+Provides a flexible alternative to the \code{dplyr:do()} function.
  Technically it uses \code{nest() + mutate() + map()} to apply arbitrary
  computation to a grouped data frame.
 

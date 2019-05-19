@@ -23,7 +23,7 @@ the variables you want to convert into factor. Alternative to the argument
 factor.}
 
 \item{make.valid.levels}{logical. Default is FALSE. If TRUE, converts the
-variable to factor and add a leading charcter (x) if starting with a digit.}
+variable to factor and add a leading character (x) if starting with a digit.}
 
 \item{name}{a factor variable name.}
 

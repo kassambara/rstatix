@@ -11,7 +11,7 @@ box_m(data, group)
 variables; it is expected that n > p.}
 
 \item{group}{a vector of length n containing the class of each
-observation; it is usualy a factor.}
+observation; it is usually a factor.}
 }
 \value{
 A data frame containing the following components:

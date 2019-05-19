@@ -3,7 +3,7 @@ NULL
 #'Alternative to dplyr::do for Doing Anything
 #'
 #'
-#'@description Provides a flexibe alternative to the \code{dplyr:do()} function.
+#'@description Provides a flexible alternative to the \code{dplyr:do()} function.
 #'  Technically it uses \code{nest() + mutate() + map()} to apply arbitrary
 #'  computation to a grouped data frame.
 #'

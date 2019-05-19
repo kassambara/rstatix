@@ -43,7 +43,7 @@ labels.}
 
 \item{font.label}{a list with one or more of the following elements: size
 (e.g., 1), color (e.g., "black") and style (e.g., "bold"). Used to
-customize the correlation coefficient lables. For example \code{font.label
+customize the correlation coefficient labels. For example \code{font.label
 = list(size = 1, color = "black", style = "bold")}.}
 
 \item{...}{other arguments passed to \code{\link[corrplot]{corrplot}()}}

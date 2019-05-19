@@ -19,7 +19,7 @@ NULL
 #'@param ref the reference level
 #'@param order a character vector specifying the order of the factor levels
 #'@param make.valid.levels logical. Default is FALSE. If TRUE, converts the
-#'  variable to factor and add a leading charcter (x) if starting with a digit.
+#'  variable to factor and add a leading character (x) if starting with a digit.
 
 #'@examples
 #' # Create a demo data

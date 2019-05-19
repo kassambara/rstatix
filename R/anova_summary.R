@@ -3,7 +3,7 @@ NULL
 #'Create Nice Summary Tables of ANOVA Results
 #'
 #'
-#'@description Create beautiul summary tables of ANOVA test results obtained
+#'@description Create beautiful summary tables of ANOVA test results obtained
 #'  from either \code{\link[car]{Anova}()} or \code{\link[stats]{aov}()}.
 #'
 #'  The results include ANOVA table, generalized effect size and some assumption

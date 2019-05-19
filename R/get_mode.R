@@ -5,7 +5,7 @@ NULL
 #' @description Compute the mode in a given vector. Mode is the most frequent
 #'   value.
 #'
-#' @param x a vector. Can be numeric, factor or character vetor.
+#' @param x a vector. Can be numeric, factor or character vector.
 #'
 #' @examples
 #'

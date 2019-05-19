@@ -9,7 +9,7 @@ NULL
 #' @param data a numeric data.frame or matrix containing n observations of p
 #'   variables; it is expected that n > p.
 #' @param group a vector of length n containing the class of each
-#'   observation; it is usualy a factor.
+#'   observation; it is usually a factor.
 #' @return A data frame containing the following components:
 #' \itemize{
 #' \item{statistic }{an approximated value of the chi-square distribution.}

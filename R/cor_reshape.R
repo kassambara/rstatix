@@ -3,7 +3,7 @@ NULL
 #' Reshape Correlation Data
 #' @description Reshape correlation analysis results. Key functions: \itemize{
 #'   \item \code{cor_gather()}: takes a correlation matrix and collapses (i.e. melt) it into a paired list
-#'   (long format). \item \code{cor_spread()}: spread a long correlation data format accross
+#'   (long format). \item \code{cor_spread()}: spread a long correlation data format across
 #'   multiple columns. Particularly, it takes the results of \code{\link{cor_test}}
 #'   and transforms it into a correlation matrix. }
 #' @param data a data frame or matrix.
