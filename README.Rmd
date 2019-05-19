@@ -103,6 +103,7 @@ Provides a pipe-friendly framework to perform easily basic statistical tests in 
 - `doo()`: alternative to dplyr::do for doing anything. Technically it uses `nest() + mutate() + map()` to apply arbitrary computation to a grouped data frame.
 - `sample_n_by()`: sample n rows by group from a table
 - `convert_as_factor(), set_ref_level(), reorder_levels()`: Provides pipe-friendly functions to convert simultaneously multiple variables into a factor variable.
+- `make_clean_names()`: Pipe-friendly function to make syntactically valid column names (for input data frame) or names (for input vector).
    
    
 ## Installation and loading

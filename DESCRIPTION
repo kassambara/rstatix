@@ -61,6 +61,7 @@ Collate:
     'kruskal_test.R'
     'levene_test.R'
     'mahalanobis_distance.R'
+    'make_clean_names.R'
     'outliers.R'
     'reexports.R'
     'sample_n_by.R'
