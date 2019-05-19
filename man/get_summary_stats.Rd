@@ -6,7 +6,7 @@
 \usage{
 get_summary_stats(data, ..., type = c("full", "common", "robust",
   "five_number", "mean_sd", "mean_se", "mean_ci", "median_iqr",
-  "median_mad"), show = NULL)
+  "median_mad", "quantile"), show = NULL, probs = seq(0, 1, 0.25))
 }
 \arguments{
 \item{data}{a data frame}
@@ -18,11 +18,13 @@ data frame is computed.}
 
 \item{type}{type of summary statistics. Possible values include: \code{"full",
 "common", "robust",  "five_number", "mean_sd", "mean_se", "mean_ci",
-"median_iqr", "median_mad"}}
+"median_iqr", "median_mad", "quantile"}}
 
 \item{show}{a character vector specifying the summary statistics you want to
 show. Example: \code{show = c("n", "mean", "sd")}. This is used to filter
 the output after computation.}
+
+\item{probs}{numeric vector of probabilities with values in [0,1]. Used only when type = "quantile".}
 }
 \value{
 A data frame containing descriptive statistics, such as: \itemize{
