@@ -8,20 +8,18 @@
 
 <title>Pull Lower and Upper Triangular Part of a Matrix — pull_triangle • rstatix</title>
 
-<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js" integrity="sha256-hIvIxeqhGZF+VVeM55k0mJvWpQ6gTkWk3Emc+NmowYA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- sticky kit -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
@@ -41,7 +39,8 @@
 
 
 <!-- mathjax -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -65,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -111,7 +110,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>pull_triangle</span>(<span class='no'>x</span>, <span class='kw'>triangle</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"lower"</span>, <span class='st'>"upper"</span>), <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>pull_triangle</span>(<span class='no'>x</span>, <span class='kw'>triangle</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"lower"</span>, <span class='st'>"upper"</span>), <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>pull_upper_triangle</span>(<span class='no'>x</span>, <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
@@ -161,7 +160,7 @@ is a data frame containing the lower triangular part of a matrix.</p></li>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>mydata</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>, <span class='no'>hp</span>, <span class='no'>drat</span>, <span class='no'>wt</span>, <span class='no'>qsec</span>)
-<span class='fu'>head</span>(<span class='no'>mydata</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt;                mpg disp  hp drat    wt  qsec
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>mydata</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt;                mpg disp  hp drat    wt  qsec
 #&gt; Mazda RX4     21.0  160 110 3.90 2.620 16.46
 #&gt; Mazda RX4 Wag 21.0  160 110 3.90 2.875 17.02
 #&gt; Datsun 710    22.8  108  93 3.85 2.320 18.61</div><div class='input'>
@@ -169,15 +168,15 @@ is a data frame containing the lower triangular part of a matrix.</p></li>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Correlation matrix</span>
 <span class='no'>cor.mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cor_mat.html'>cor_mat</a></span>(<span class='no'>mydata</span>)
-<span class='no'>cor.mat</span></div><div class='output co'>#&gt; [90m# A tibble: 6 x 7[39m
+<span class='no'>cor.mat</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 7</span><span>
 #&gt;   rowname   mpg  disp    hp   drat    wt   qsec
-#&gt; [90m*[39m [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m  [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m  [3m[90m&lt;dbl&gt;[39m[23m
-#&gt; [90m1[39m mpg      1    -[31m0[39m[31m.[39m[31m85[39m -[31m0[39m[31m.[39m[31m78[39m  0.68  -[31m0[39m[31m.[39m[31m87[39m  0.42 
-#&gt; [90m2[39m disp    -[31m0[39m[31m.[39m[31m85[39m  1     0.79 -[31m0[39m[31m.[39m[31m71[39m   0.89 -[31m0[39m[31m.[39m[31m43[39m 
-#&gt; [90m3[39m hp      -[31m0[39m[31m.[39m[31m78[39m  0.79  1    -[31m0[39m[31m.[39m[31m45[39m   0.66 -[31m0[39m[31m.[39m[31m71[39m 
-#&gt; [90m4[39m drat     0.68 -[31m0[39m[31m.[39m[31m71[39m -[31m0[39m[31m.[39m[31m45[39m  1     -[31m0[39m[31m.[39m[31m71[39m  0.091
-#&gt; [90m5[39m wt      -[31m0[39m[31m.[39m[31m87[39m  0.89  0.66 -[31m0[39m[31m.[39m[31m71[39m   1    -[31m0[39m[31m.[39m[31m17[39m 
-#&gt; [90m6[39m qsec     0.42 -[31m0[39m[31m.[39m[31m43[39m -[31m0[39m[31m.[39m[31m71[39m  0.091 -[31m0[39m[31m.[39m[31m17[39m  1    </div><div class='input'>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> mpg      1    -</span><span style='color: #BB0000;'>0.85</span><span> -</span><span style='color: #BB0000;'>0.78</span><span>  0.68  -</span><span style='color: #BB0000;'>0.87</span><span>  0.42 
+#&gt; </span><span style='color: #555555;'>2</span><span> disp    -</span><span style='color: #BB0000;'>0.85</span><span>  1     0.79 -</span><span style='color: #BB0000;'>0.71</span><span>   0.89 -</span><span style='color: #BB0000;'>0.43</span><span> 
+#&gt; </span><span style='color: #555555;'>3</span><span> hp      -</span><span style='color: #BB0000;'>0.78</span><span>  0.79  1    -</span><span style='color: #BB0000;'>0.45</span><span>   0.66 -</span><span style='color: #BB0000;'>0.71</span><span> 
+#&gt; </span><span style='color: #555555;'>4</span><span> drat     0.68 -</span><span style='color: #BB0000;'>0.71</span><span> -</span><span style='color: #BB0000;'>0.45</span><span>  1     -</span><span style='color: #BB0000;'>0.71</span><span>  0.091
+#&gt; </span><span style='color: #555555;'>5</span><span> wt      -</span><span style='color: #BB0000;'>0.87</span><span>  0.89  0.66 -</span><span style='color: #BB0000;'>0.71</span><span>   1    -</span><span style='color: #BB0000;'>0.17</span><span> 
+#&gt; </span><span style='color: #555555;'>6</span><span> qsec     0.42 -</span><span style='color: #BB0000;'>0.43</span><span> -</span><span style='color: #BB0000;'>0.71</span><span>  0.091 -</span><span style='color: #BB0000;'>0.17</span><span>  1    </div><div class='input'>
 <span class='co'># Pull lower triangular part</span>
 <span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull_lower_triangle</span>()</div><div class='output co'>#&gt;   rowname   mpg  disp    hp  drat    wt qsec
 #&gt; 1     mpg                                   
@@ -195,7 +194,7 @@ is a data frame containing the lower triangular part of a matrix.</p></li>
 #&gt; 5      wt                             -0.17
 #&gt; 6    qsec                                  </div><div class='input'>
 
-</div></pre>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -220,9 +219,8 @@ is a data frame containing the lower triangular part of a matrix.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
-
       </footer>
    </div>
 

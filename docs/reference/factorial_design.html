@@ -8,20 +8,18 @@
 
 <title>Build Factorial Designs for ANOVA — factorial_design • rstatix</title>
 
-<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js" integrity="sha256-hIvIxeqhGZF+VVeM55k0mJvWpQ6gTkWk3Emc+NmowYA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- sticky kit -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
@@ -43,7 +41,8 @@
 
 
 <!-- mathjax -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -67,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -109,7 +108,7 @@
     <div class="ref-description">
     
     <p>Provides helper functions to build factorial design for easily
- computing ANOVA using the <code><a href='http://www.rdocumentation.org/packages/car/topics/Anova'>Anova</a>()</code> function. This might be
+ computing ANOVA using the <code><a href='https://www.rdocumentation.org/packages/car/topics/Anova'>Anova</a>()</code> function. This might be
  very useful for repeated measures ANOVA, which is hard to set up with the
  <code>car</code> package.</p>
     
@@ -184,9 +183,9 @@ Should be unique per individual.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load data</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::</span>
-<span class='fu'>data</span>(<span class='st'>"ToothGrowth"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"ToothGrowth"</span>)
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span>
-<span class='fu'>head</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;    len supp dose
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;    len supp dose
 #&gt; 1  4.2   VC  0.5
 #&gt; 2 11.5   VC  0.5
 #&gt; 3  7.3   VC  0.5
@@ -196,15 +195,15 @@ Should be unique per individual.</p></td>
 <span class='co'># Repeated measures designs</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Prepare the data</span>
-<span class='no'>df</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'>rep</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>6</span>) <span class='co'># Add individuals id</span>
-<span class='fu'>head</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;    len supp dose id
+<span class='no'>df</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>6</span>) <span class='co'># Add individuals id</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;    len supp dose id
 #&gt; 1  4.2   VC  0.5  1
 #&gt; 2 11.5   VC  0.5  2
 #&gt; 3  7.3   VC  0.5  3
 #&gt; 4  5.8   VC  0.5  4
 #&gt; 5  6.4   VC  0.5  5
 #&gt; 6 10.0   VC  0.5  6</div><div class='input'><span class='co'># Build factorial designs</span>
-<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'>factorial_design</span>(<span class='no'>df</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='no'>len</span>, <span class='kw'>wid</span> <span class='kw'>=</span> <span class='no'>id</span>, <span class='kw'>within</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='no'>supp</span>, <span class='no'>dose</span>))
+<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'>factorial_design</span>(<span class='no'>df</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='no'>len</span>, <span class='kw'>wid</span> <span class='kw'>=</span> <span class='no'>id</span>, <span class='kw'>within</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>supp</span>, <span class='no'>dose</span>))
 <span class='no'>design</span></div><div class='output co'>#&gt; $dv
 #&gt; [1] "len"
 #&gt; 
@@ -215,20 +214,20 @@ Should be unique per individual.</p></td>
 #&gt; [1] "supp" "dose"
 #&gt; 
 #&gt; $data
-#&gt; [90m# A tibble: 60 x 4[39m
+#&gt; <span style='color: #555555;'># A tibble: 60 x 4</span><span>
 #&gt;      len supp  dose  id   
-#&gt;    [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m
-#&gt; [90m 1[39m   4.2 VC    X0.5  1    
-#&gt; [90m 2[39m  11.5 VC    X0.5  2    
-#&gt; [90m 3[39m   7.3 VC    X0.5  3    
-#&gt; [90m 4[39m   5.8 VC    X0.5  4    
-#&gt; [90m 5[39m   6.4 VC    X0.5  5    
-#&gt; [90m 6[39m  10   VC    X0.5  6    
-#&gt; [90m 7[39m  11.2 VC    X0.5  7    
-#&gt; [90m 8[39m  11.2 VC    X0.5  8    
-#&gt; [90m 9[39m   5.2 VC    X0.5  9    
-#&gt; [90m10[39m   7   VC    X0.5  10   
-#&gt; [90m# … with 50 more rows[39m
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>   4.2 VC    X0.5  1    
+#&gt; </span><span style='color: #555555;'> 2</span><span>  11.5 VC    X0.5  2    
+#&gt; </span><span style='color: #555555;'> 3</span><span>   7.3 VC    X0.5  3    
+#&gt; </span><span style='color: #555555;'> 4</span><span>   5.8 VC    X0.5  4    
+#&gt; </span><span style='color: #555555;'> 5</span><span>   6.4 VC    X0.5  5    
+#&gt; </span><span style='color: #555555;'> 6</span><span>  10   VC    X0.5  6    
+#&gt; </span><span style='color: #555555;'> 7</span><span>  11.2 VC    X0.5  7    
+#&gt; </span><span style='color: #555555;'> 8</span><span>  11.2 VC    X0.5  8    
+#&gt; </span><span style='color: #555555;'> 9</span><span>   5.2 VC    X0.5  9    
+#&gt; </span><span style='color: #555555;'>10</span><span>   7   VC    X0.5  10   
+#&gt; </span><span style='color: #555555;'># … with 50 more rows</span><span>
 #&gt; 
 #&gt; $idata
 #&gt;   supp dose
@@ -241,29 +240,29 @@ Should be unique per individual.</p></td>
 #&gt; 
 #&gt; $idesign
 #&gt; ~supp * dose
-#&gt; &lt;environment: 0x7f8c4751e758&gt;
+#&gt; &lt;environment: 0x7fb851040108&gt;
 #&gt; 
 #&gt; $lm_data
-#&gt; [90m# A tibble: 10 x 7[39m
+#&gt; </span><span style='color: #555555;'># A tibble: 10 x 7</span><span>
 #&gt;    id    OJ_X0.5 OJ_X1 OJ_X2 VC_X0.5 VC_X1 VC_X2
-#&gt;    [3m[90m&lt;fct&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m
-#&gt; [90m 1[39m 1        15.2  19.7  25.5     4.2  16.5  23.6
-#&gt; [90m 2[39m 2        21.5  23.3  26.4    11.5  16.5  18.5
-#&gt; [90m 3[39m 3        17.6  23.6  22.4     7.3  15.2  33.9
-#&gt; [90m 4[39m 4         9.7  26.4  24.5     5.8  17.3  25.5
-#&gt; [90m 5[39m 5        14.5  20    24.8     6.4  22.5  26.4
-#&gt; [90m 6[39m 6        10    25.2  30.9    10    17.3  32.5
-#&gt; [90m 7[39m 7         8.2  25.8  26.4    11.2  13.6  26.7
-#&gt; [90m 8[39m 8         9.4  21.2  27.3    11.2  14.5  21.5
-#&gt; [90m 9[39m 9        16.5  14.5  29.4     5.2  18.8  23.3
-#&gt; [90m10[39m 10        9.7  27.3  23       7    15.5  29.5
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 1        15.2  19.7  25.5     4.2  16.5  23.6
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2        21.5  23.3  26.4    11.5  16.5  18.5
+#&gt; </span><span style='color: #555555;'> 3</span><span> 3        17.6  23.6  22.4     7.3  15.2  33.9
+#&gt; </span><span style='color: #555555;'> 4</span><span> 4         9.7  26.4  24.5     5.8  17.3  25.5
+#&gt; </span><span style='color: #555555;'> 5</span><span> 5        14.5  20    24.8     6.4  22.5  26.4
+#&gt; </span><span style='color: #555555;'> 6</span><span> 6        10    25.2  30.9    10    17.3  32.5
+#&gt; </span><span style='color: #555555;'> 7</span><span> 7         8.2  25.8  26.4    11.2  13.6  26.7
+#&gt; </span><span style='color: #555555;'> 8</span><span> 8         9.4  21.2  27.3    11.2  14.5  21.5
+#&gt; </span><span style='color: #555555;'> 9</span><span> 9        16.5  14.5  29.4     5.2  18.8  23.3
+#&gt; </span><span style='color: #555555;'>10</span><span> 10        9.7  27.3  23       7    15.5  29.5
 #&gt; 
 #&gt; $repeated
 #&gt; [1] TRUE
 #&gt; 
 #&gt; $lm_formula
 #&gt; cbind(OJ_X0.5, OJ_X1, OJ_X2, VC_X0.5, VC_X1, VC_X2) ~ 1
-#&gt; &lt;environment: 0x7f8c480645f0&gt;
+#&gt; &lt;environment: 0x7fb85306a350&gt;
 #&gt; 
 #&gt; $model
 #&gt; 
@@ -275,8 +274,8 @@ Should be unique per individual.</p></td>
 #&gt; (Intercept)  13.23    22.70  26.06   7.98    16.77  26.14
 #&gt; 
 #&gt; </div><div class='input'><span class='co'># Easily perform repeated measures ANOVA using the car package</span>
-<span class='no'>res.anova</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/car/topics/Anova'>Anova</a></span>(<span class='no'>design</span>$<span class='no'>model</span>, <span class='kw'>idata</span> <span class='kw'>=</span> <span class='no'>design</span>$<span class='no'>idata</span>, <span class='kw'>idesign</span> <span class='kw'>=</span> <span class='no'>design</span>$<span class='no'>idesign</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='fu'>summary</span>(<span class='no'>res.anova</span>, <span class='kw'>multivariate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: HF eps &gt; 1 treated as 1</span></div><div class='output co'>#&gt; 
+<span class='no'>res.anova</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/car/topics/Anova'>Anova</a></span>(<span class='no'>design</span>$<span class='no'>model</span>, <span class='kw'>idata</span> <span class='kw'>=</span> <span class='no'>design</span>$<span class='no'>idata</span>, <span class='kw'>idesign</span> <span class='kw'>=</span> <span class='no'>design</span>$<span class='no'>idesign</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>res.anova</span>, <span class='kw'>multivariate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: HF eps &gt; 1 treated as 1</span></div><div class='output co'>#&gt; 
 #&gt; Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
 #&gt; 
 #&gt;                  SS num Df Error SS den Df         F    Pr(&gt;F)    
@@ -310,8 +309,8 @@ Should be unique per individual.</p></td>
 <span class='co'># Independent measures designs</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Build factorial designs</span>
-<span class='no'>df</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fu'>nrow</span>(<span class='no'>df</span>)
-<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'>factorial_design</span>(<span class='no'>df</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='no'>len</span>, <span class='kw'>wid</span> <span class='kw'>=</span> <span class='no'>id</span>, <span class='kw'>between</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='no'>supp</span>, <span class='no'>dose</span>))
+<span class='no'>df</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>df</span>)
+<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'>factorial_design</span>(<span class='no'>df</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='no'>len</span>, <span class='kw'>wid</span> <span class='kw'>=</span> <span class='no'>id</span>, <span class='kw'>between</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>supp</span>, <span class='no'>dose</span>))
 <span class='no'>design</span></div><div class='output co'>#&gt; $dv
 #&gt; [1] "len"
 #&gt; 
@@ -322,43 +321,43 @@ Should be unique per individual.</p></td>
 #&gt; [1] "id"
 #&gt; 
 #&gt; $data
-#&gt; [90m# A tibble: 60 x 4[39m
+#&gt; </span><span style='color: #555555;'># A tibble: 60 x 4</span><span>
 #&gt;      len supp  dose  id   
-#&gt;    [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m
-#&gt; [90m 1[39m   4.2 VC    0.5   1    
-#&gt; [90m 2[39m  11.5 VC    0.5   2    
-#&gt; [90m 3[39m   7.3 VC    0.5   3    
-#&gt; [90m 4[39m   5.8 VC    0.5   4    
-#&gt; [90m 5[39m   6.4 VC    0.5   5    
-#&gt; [90m 6[39m  10   VC    0.5   6    
-#&gt; [90m 7[39m  11.2 VC    0.5   7    
-#&gt; [90m 8[39m  11.2 VC    0.5   8    
-#&gt; [90m 9[39m   5.2 VC    0.5   9    
-#&gt; [90m10[39m   7   VC    0.5   10   
-#&gt; [90m# … with 50 more rows[39m
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>   4.2 VC    0.5   1    
+#&gt; </span><span style='color: #555555;'> 2</span><span>  11.5 VC    0.5   2    
+#&gt; </span><span style='color: #555555;'> 3</span><span>   7.3 VC    0.5   3    
+#&gt; </span><span style='color: #555555;'> 4</span><span>   5.8 VC    0.5   4    
+#&gt; </span><span style='color: #555555;'> 5</span><span>   6.4 VC    0.5   5    
+#&gt; </span><span style='color: #555555;'> 6</span><span>  10   VC    0.5   6    
+#&gt; </span><span style='color: #555555;'> 7</span><span>  11.2 VC    0.5   7    
+#&gt; </span><span style='color: #555555;'> 8</span><span>  11.2 VC    0.5   8    
+#&gt; </span><span style='color: #555555;'> 9</span><span>   5.2 VC    0.5   9    
+#&gt; </span><span style='color: #555555;'>10</span><span>   7   VC    0.5   10   
+#&gt; </span><span style='color: #555555;'># … with 50 more rows</span><span>
 #&gt; 
 #&gt; $lm_data
-#&gt; [90m# A tibble: 60 x 4[39m
+#&gt; </span><span style='color: #555555;'># A tibble: 60 x 4</span><span>
 #&gt;      len supp  dose  id   
-#&gt;    [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m [3m[90m&lt;fct&gt;[39m[23m
-#&gt; [90m 1[39m   4.2 VC    0.5   1    
-#&gt; [90m 2[39m  11.5 VC    0.5   2    
-#&gt; [90m 3[39m   7.3 VC    0.5   3    
-#&gt; [90m 4[39m   5.8 VC    0.5   4    
-#&gt; [90m 5[39m   6.4 VC    0.5   5    
-#&gt; [90m 6[39m  10   VC    0.5   6    
-#&gt; [90m 7[39m  11.2 VC    0.5   7    
-#&gt; [90m 8[39m  11.2 VC    0.5   8    
-#&gt; [90m 9[39m   5.2 VC    0.5   9    
-#&gt; [90m10[39m   7   VC    0.5   10   
-#&gt; [90m# … with 50 more rows[39m
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>   4.2 VC    0.5   1    
+#&gt; </span><span style='color: #555555;'> 2</span><span>  11.5 VC    0.5   2    
+#&gt; </span><span style='color: #555555;'> 3</span><span>   7.3 VC    0.5   3    
+#&gt; </span><span style='color: #555555;'> 4</span><span>   5.8 VC    0.5   4    
+#&gt; </span><span style='color: #555555;'> 5</span><span>   6.4 VC    0.5   5    
+#&gt; </span><span style='color: #555555;'> 6</span><span>  10   VC    0.5   6    
+#&gt; </span><span style='color: #555555;'> 7</span><span>  11.2 VC    0.5   7    
+#&gt; </span><span style='color: #555555;'> 8</span><span>  11.2 VC    0.5   8    
+#&gt; </span><span style='color: #555555;'> 9</span><span>   5.2 VC    0.5   9    
+#&gt; </span><span style='color: #555555;'>10</span><span>   7   VC    0.5   10   
+#&gt; </span><span style='color: #555555;'># … with 50 more rows</span><span>
 #&gt; 
 #&gt; $repeated
 #&gt; [1] FALSE
 #&gt; 
 #&gt; $lm_formula
 #&gt; len ~ supp * dose
-#&gt; &lt;environment: 0x7f8c4447f8a8&gt;
+#&gt; &lt;environment: 0x7fb853191ed8&gt;
 #&gt; 
 #&gt; $model
 #&gt; 
@@ -370,7 +369,7 @@ Should be unique per individual.</p></td>
 #&gt;     18.8133       1.8500      -8.2083       0.9217       0.7750       1.1150  
 #&gt; 
 #&gt; </div><div class='input'><span class='co'># Perform ANOVA</span>
-<span class='fu'><a href='http://www.rdocumentation.org/packages/car/topics/Anova'>Anova</a></span>(<span class='no'>design</span>$<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; Anova Table (Type III tests)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/car/topics/Anova'>Anova</a></span>(<span class='no'>design</span>$<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; Anova Table (Type III tests)
 #&gt; 
 #&gt; Response: len
 #&gt;              Sum Sq Df  F value    Pr(&gt;F)    
@@ -381,7 +380,7 @@ Should be unique per individual.</p></td>
 #&gt; Residuals     712.1 54                       
 #&gt; ---
 #&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'>
-</div></pre>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -396,9 +395,7 @@ Should be unique per individual.</p></td>
     </ul>
 
     <h2>Author</h2>
-    
-Alboukadel Kassambara, <a href='mailto:alboukadel.kassambara@gmail.com'>alboukadel.kassambara@gmail.com</a>
-
+    <p>Alboukadel Kassambara, <a href='mailto:alboukadel.kassambara@gmail.com'>alboukadel.kassambara@gmail.com</a></p>
   </div>
 </div>
 
@@ -408,9 +405,8 @@ Alboukadel Kassambara, <a href='mailto:alboukadel.kassambara@gmail.com'>alboukad
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
-
       </footer>
    </div>
 

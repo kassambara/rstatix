@@ -60,7 +60,6 @@ class \code{cor_mat()}.
 }}
 
 \examples{
-
 # Data preparation
 #:::::::::::::::::::::::::::::::::::::::::::
 mydata <- mtcars \%>\%

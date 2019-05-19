@@ -8,20 +8,18 @@
 
 <title>Correlation Test — cor_test • rstatix</title>
 
-<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.1/clipboard.min.js" integrity="sha256-hIvIxeqhGZF+VVeM55k0mJvWpQ6gTkWk3Emc+NmowYA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- sticky kit -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
@@ -46,7 +44,8 @@ Can also performs multiple pairwise correlation analyses between more than
 
 
 <!-- mathjax -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -70,7 +69,7 @@ Can also performs multiple pairwise correlation analyses between more than
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -113,7 +112,7 @@ Can also performs multiple pairwise correlation analyses between more than
     
     <p>Provides a pipe-friendly framework to perform correlation test
  between paired samples, using Pearson, Kendall or Spearman method. Wrapper
- around the function <code><a href='http://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a>()</code>.</p>
+ around the function <code><a href='https://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a>()</code>.</p>
 <p>Can also performs multiple pairwise correlation analyses between more than
  two variables or between two different vectors of variables. Using this
  function, you can also compute, for example, the correlation between one
@@ -154,13 +153,13 @@ correlation analysis is performed between all possible combinations of
 variables. ii) if <code>vars2</code> is specified, each element in <code>vars</code> is
 tested against all elements in <code>vars2</code></p></li>
 </ul><p>. Accept unquoted
-variable names: <code>c(var1, var2)</code>.</p></td>
+variable names: <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(var1, var2)</a></code>.</p></td>
     </tr>
     <tr>
       <th>vars2</th>
       <td><p>optional character vector. If specified, each element in
 <code>vars</code> is tested against all elements in <code>vars2</code>. Accept unquoted
-variable names: <code>c(var1, var2)</code>.</p></td>
+variable names: <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(var1, var2)</a></code>.</p></td>
     </tr>
     <tr>
       <th>alternative</th>
@@ -221,77 +220,77 @@ variable names: <code>c(var1, var2)</code>.</p></td>
 <span class='co'># Correlation between the specified variable vs</span>
 <span class='co'># the remaining numeric variables in the data</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>mpg</span>)</div><div class='output co'>#&gt; [90m# A tibble: 10 x 8[39m
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>mpg</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 8</span><span>
 #&gt;    var1  var2    cor statistic        p conf.low conf.high method 
-#&gt;  [90m*[39m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  
-#&gt; [90m 1[39m mpg   cyl   -[31m0[39m[31m.[39m[31m85[39m     -[31m8[39m[31m.[39m[31m92[39m 6.11[90me[39m[31m-10[39m  -[31m0[39m[31m.[39m[31m926[39m     -[31m0[39m[31m.[39m[31m716[39m Pearson
-#&gt; [90m 2[39m mpg   disp  -[31m0[39m[31m.[39m[31m85[39m     -[31m8[39m[31m.[39m[31m75[39m 9.38[90me[39m[31m-10[39m  -[31m0[39m[31m.[39m[31m923[39m     -[31m0[39m[31m.[39m[31m708[39m Pearson
-#&gt; [90m 3[39m mpg   hp    -[31m0[39m[31m.[39m[31m78[39m     -[31m6[39m[31m.[39m[31m74[39m 1.79[90me[39m[31m- 7[39m  -[31m0[39m[31m.[39m[31m885[39m     -[31m0[39m[31m.[39m[31m586[39m Pearson
-#&gt; [90m 4[39m mpg   drat   0.68      5.10 1.78[90me[39m[31m- 5[39m   0.436      0.832 Pearson
-#&gt; [90m 5[39m mpg   wt    -[31m0[39m[31m.[39m[31m87[39m     -[31m9[39m[31m.[39m[31m56[39m 1.29[90me[39m[31m-10[39m  -[31m0[39m[31m.[39m[31m934[39m     -[31m0[39m[31m.[39m[31m744[39m Pearson
-#&gt; [90m 6[39m mpg   qsec   0.42      2.53 1.71[90me[39m[31m- 2[39m   0.082[4m0[24m     0.670 Pearson
-#&gt; [90m 7[39m mpg   vs     0.66      4.86 3.42[90me[39m[31m- 5[39m   0.410      0.822 Pearson
-#&gt; [90m 8[39m mpg   am     0.6       4.11 2.85[90me[39m[31m- 4[39m   0.318      0.784 Pearson
-#&gt; [90m 9[39m mpg   gear   0.48      3.00 5.40[90me[39m[31m- 3[39m   0.158      0.710 Pearson
-#&gt; [90m10[39m mpg   carb  -[31m0[39m[31m.[39m[31m55[39m     -[31m3[39m[31m.[39m[31m62[39m 1.08[90me[39m[31m- 3[39m  -[31m0[39m[31m.[39m[31m755[39m     -[31m0[39m[31m.[39m[31m250[39m Pearson</div><div class='input'>
+#&gt;  </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'> 1</span><span> mpg   cyl   -</span><span style='color: #BB0000;'>0.85</span><span>     -</span><span style='color: #BB0000;'>8.92</span><span> 6.11</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>  -</span><span style='color: #BB0000;'>0.926</span><span>     -</span><span style='color: #BB0000;'>0.716</span><span> Pearson
+#&gt; </span><span style='color: #555555;'> 2</span><span> mpg   disp  -</span><span style='color: #BB0000;'>0.85</span><span>     -</span><span style='color: #BB0000;'>8.75</span><span> 9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>  -</span><span style='color: #BB0000;'>0.923</span><span>     -</span><span style='color: #BB0000;'>0.708</span><span> Pearson
+#&gt; </span><span style='color: #555555;'> 3</span><span> mpg   hp    -</span><span style='color: #BB0000;'>0.78</span><span>     -</span><span style='color: #BB0000;'>6.74</span><span> 1.79</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span>  -</span><span style='color: #BB0000;'>0.885</span><span>     -</span><span style='color: #BB0000;'>0.586</span><span> Pearson
+#&gt; </span><span style='color: #555555;'> 4</span><span> mpg   drat   0.68      5.10 1.78</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span>   0.436      0.832 Pearson
+#&gt; </span><span style='color: #555555;'> 5</span><span> mpg   wt    -</span><span style='color: #BB0000;'>0.87</span><span>     -</span><span style='color: #BB0000;'>9.56</span><span> 1.29</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>  -</span><span style='color: #BB0000;'>0.934</span><span>     -</span><span style='color: #BB0000;'>0.744</span><span> Pearson
+#&gt; </span><span style='color: #555555;'> 6</span><span> mpg   qsec   0.42      2.53 1.71</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>   0.082</span><span style='text-decoration: underline;'>0</span><span>     0.670 Pearson
+#&gt; </span><span style='color: #555555;'> 7</span><span> mpg   vs     0.66      4.86 3.42</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span>   0.410      0.822 Pearson
+#&gt; </span><span style='color: #555555;'> 8</span><span> mpg   am     0.6       4.11 2.85</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 4</span><span>   0.318      0.784 Pearson
+#&gt; </span><span style='color: #555555;'> 9</span><span> mpg   gear   0.48      3.00 5.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 3</span><span>   0.158      0.710 Pearson
+#&gt; </span><span style='color: #555555;'>10</span><span> mpg   carb  -</span><span style='color: #BB0000;'>0.55</span><span>     -</span><span style='color: #BB0000;'>3.62</span><span> 1.08</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 3</span><span>  -</span><span style='color: #BB0000;'>0.755</span><span>     -</span><span style='color: #BB0000;'>0.250</span><span> Pearson</div><div class='input'>
 <span class='co'># Correlation test between two variables</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>wt</span>, <span class='no'>mpg</span>)</div><div class='output co'>#&gt; [90m# A tibble: 1 x 8[39m
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>wt</span>, <span class='no'>mpg</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 8</span><span>
 #&gt;   var1  var2    cor statistic        p conf.low conf.high method 
-#&gt; [90m*[39m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  
-#&gt; [90m1[39m wt    mpg   -[31m0[39m[31m.[39m[31m87[39m     -[31m9[39m[31m.[39m[31m56[39m 1.29[90me[39m[31m-10[39m   -[31m0[39m[31m.[39m[31m934[39m    -[31m0[39m[31m.[39m[31m744[39m Pearson</div><div class='input'>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>1</span><span> wt    mpg   -</span><span style='color: #BB0000;'>0.87</span><span>     -</span><span style='color: #BB0000;'>9.56</span><span> 1.29</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>   -</span><span style='color: #BB0000;'>0.934</span><span>    -</span><span style='color: #BB0000;'>0.744</span><span> Pearson</div><div class='input'>
 <span class='co'># Pairwise correlation between multiple variables</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>wt</span>, <span class='no'>mpg</span>, <span class='no'>disp</span>)</div><div class='output co'>#&gt; [90m# A tibble: 9 x 8[39m
-#&gt;   var1  var2    cor     statistic         p conf.low conf.high method 
-#&gt; [90m*[39m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  
-#&gt; [90m1[39m wt    wt     1     367[4m5[24m[4m7[24m[4m0[24m386.   2.27[90me[39m[31m-236[39m    1.000     1     Pearson
-#&gt; [90m2[39m wt    mpg   -[31m0[39m[31m.[39m[31m87[39m         -[31m9[39m[31m.[39m[31m56[39m 1.29[90me[39m[31m- 10[39m   -[31m0[39m[31m.[39m[31m934[39m    -[31m0[39m[31m.[39m[31m744[39m Pearson
-#&gt; [90m3[39m wt    disp   0.89         10.6  1.22[90me[39m[31m- 11[39m    0.781     0.944 Pearson
-#&gt; [90m4[39m mpg   wt    -[31m0[39m[31m.[39m[31m87[39m         -[31m9[39m[31m.[39m[31m56[39m 1.29[90me[39m[31m- 10[39m   -[31m0[39m[31m.[39m[31m934[39m    -[31m0[39m[31m.[39m[31m744[39m Pearson
-#&gt; [90m5[39m mpg   mpg    1           [31mInf[39m    0.  [90m [39m        1         1     Pearson
-#&gt; [90m6[39m mpg   disp  -[31m0[39m[31m.[39m[31m85[39m         -[31m8[39m[31m.[39m[31m75[39m 9.38[90me[39m[31m- 10[39m   -[31m0[39m[31m.[39m[31m923[39m    -[31m0[39m[31m.[39m[31m708[39m Pearson
-#&gt; [90m7[39m disp  wt     0.89         10.6  1.22[90me[39m[31m- 11[39m    0.781     0.944 Pearson
-#&gt; [90m8[39m disp  mpg   -[31m0[39m[31m.[39m[31m85[39m         -[31m8[39m[31m.[39m[31m75[39m 9.38[90me[39m[31m- 10[39m   -[31m0[39m[31m.[39m[31m923[39m    -[31m0[39m[31m.[39m[31m708[39m Pearson
-#&gt; [90m9[39m disp  disp   1           [31mInf[39m    0.  [90m [39m        1         1     Pearson</div><div class='input'>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>wt</span>, <span class='no'>mpg</span>, <span class='no'>disp</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 8</span><span>
+#&gt;   var1  var2    cor    statistic         p conf.low conf.high method 
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>1</span><span> wt    wt     1    367</span><span style='text-decoration: underline;'>570</span><span>386.   2.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-236</span><span>    1.000     1     Pearson
+#&gt; </span><span style='color: #555555;'>2</span><span> wt    mpg   -</span><span style='color: #BB0000;'>0.87</span><span>        -</span><span style='color: #BB0000;'>9.56</span><span> 1.29</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 10</span><span>   -</span><span style='color: #BB0000;'>0.934</span><span>    -</span><span style='color: #BB0000;'>0.744</span><span> Pearson
+#&gt; </span><span style='color: #555555;'>3</span><span> wt    disp   0.89        10.6  1.22</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 11</span><span>    0.781     0.944 Pearson
+#&gt; </span><span style='color: #555555;'>4</span><span> mpg   wt    -</span><span style='color: #BB0000;'>0.87</span><span>        -</span><span style='color: #BB0000;'>9.56</span><span> 1.29</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 10</span><span>   -</span><span style='color: #BB0000;'>0.934</span><span>    -</span><span style='color: #BB0000;'>0.744</span><span> Pearson
+#&gt; </span><span style='color: #555555;'>5</span><span> mpg   mpg    1          </span><span style='color: #BB0000;'>Inf</span><span>    0.  </span><span style='color: #555555;'> </span><span>        1         1     Pearson
+#&gt; </span><span style='color: #555555;'>6</span><span> mpg   disp  -</span><span style='color: #BB0000;'>0.85</span><span>        -</span><span style='color: #BB0000;'>8.75</span><span> 9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 10</span><span>   -</span><span style='color: #BB0000;'>0.923</span><span>    -</span><span style='color: #BB0000;'>0.708</span><span> Pearson
+#&gt; </span><span style='color: #555555;'>7</span><span> disp  wt     0.89        10.6  1.22</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 11</span><span>    0.781     0.944 Pearson
+#&gt; </span><span style='color: #555555;'>8</span><span> disp  mpg   -</span><span style='color: #BB0000;'>0.85</span><span>        -</span><span style='color: #BB0000;'>8.75</span><span> 9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 10</span><span>   -</span><span style='color: #BB0000;'>0.923</span><span>    -</span><span style='color: #BB0000;'>0.708</span><span> Pearson
+#&gt; </span><span style='color: #555555;'>9</span><span> disp  disp   1          </span><span style='color: #BB0000;'>Inf</span><span>    0.  </span><span style='color: #555555;'> </span><span>        1         1     Pearson</div><div class='input'>
 <span class='co'># Grouped data</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>cor_test</span>(<span class='no'>Sepal.Width</span>, <span class='no'>Sepal.Length</span>)</div><div class='output co'>#&gt; [90m# A tibble: 3 x 9[39m
+ <span class='fu'>cor_test</span>(<span class='no'>Sepal.Width</span>, <span class='no'>Sepal.Length</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 9</span><span>
 #&gt;   Species   var1     var2       cor statistic        p conf.low conf.high method
-#&gt; [90m*[39m [3m[90m&lt;fct&gt;[39m[23m     [3m[90m&lt;chr&gt;[39m[23m    [3m[90m&lt;chr&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m 
-#&gt; [90m1[39m setosa    Sepal.W… Sepal.L…  0.74      7.68 6.71[90me[39m[31m-10[39m    0.585     0.846 Pears…
-#&gt; [90m2[39m versicol… Sepal.W… Sepal.L…  0.53      4.28 8.77[90me[39m[31m- 5[39m    0.290     0.702 Pears…
-#&gt; [90m3[39m virginica Sepal.W… Sepal.L…  0.46      3.56 8.43[90me[39m[31m- 4[39m    0.205     0.653 Pears…</div><div class='input'>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'>1</span><span> setosa    Sepal.W… Sepal.L…  0.74      7.68 6.71</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>    0.585     0.846 Pears…
+#&gt; </span><span style='color: #555555;'>2</span><span> versicol… Sepal.W… Sepal.L…  0.53      4.28 8.77</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span>    0.290     0.702 Pears…
+#&gt; </span><span style='color: #555555;'>3</span><span> virginica Sepal.W… Sepal.L…  0.46      3.56 8.43</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 4</span><span>    0.205     0.653 Pears…</div><div class='input'>
 <span class='co'># Multiple correlation test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Correlation between one variable vs many</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(
   <span class='kw'>vars</span> <span class='kw'>=</span> <span class='st'>"mpg"</span>,
-  <span class='kw'>vars2</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span>)
- )</div><div class='output co'>#&gt; [90m# A tibble: 3 x 8[39m
+  <span class='kw'>vars2</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span>)
+ )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 8</span><span>
 #&gt;   var1  var2    cor statistic        p conf.low conf.high method 
-#&gt; [90m*[39m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  
-#&gt; [90m1[39m mpg   disp  -[31m0[39m[31m.[39m[31m85[39m     -[31m8[39m[31m.[39m[31m75[39m 9.38[90me[39m[31m-10[39m   -[31m0[39m[31m.[39m[31m923[39m    -[31m0[39m[31m.[39m[31m708[39m Pearson
-#&gt; [90m2[39m mpg   hp    -[31m0[39m[31m.[39m[31m78[39m     -[31m6[39m[31m.[39m[31m74[39m 1.79[90me[39m[31m- 7[39m   -[31m0[39m[31m.[39m[31m885[39m    -[31m0[39m[31m.[39m[31m586[39m Pearson
-#&gt; [90m3[39m mpg   drat   0.68      5.10 1.78[90me[39m[31m- 5[39m    0.436     0.832 Pearson</div><div class='input'>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>1</span><span> mpg   disp  -</span><span style='color: #BB0000;'>0.85</span><span>     -</span><span style='color: #BB0000;'>8.75</span><span> 9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>   -</span><span style='color: #BB0000;'>0.923</span><span>    -</span><span style='color: #BB0000;'>0.708</span><span> Pearson
+#&gt; </span><span style='color: #555555;'>2</span><span> mpg   hp    -</span><span style='color: #BB0000;'>0.78</span><span>     -</span><span style='color: #BB0000;'>6.74</span><span> 1.79</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span>   -</span><span style='color: #BB0000;'>0.885</span><span>    -</span><span style='color: #BB0000;'>0.586</span><span> Pearson
+#&gt; </span><span style='color: #555555;'>3</span><span> mpg   drat   0.68      5.10 1.78</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span>    0.436     0.832 Pearson</div><div class='input'>
 <span class='co'># Correlation between two vectors of variables</span>
 <span class='co'># Each element in vars is tested against all elements in vars2</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(
-  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"mpg"</span>, <span class='st'>"wt"</span>),
-  <span class='kw'>vars2</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span>)
- )</div><div class='output co'>#&gt; [90m# A tibble: 6 x 8[39m
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mpg"</span>, <span class='st'>"wt"</span>),
+  <span class='kw'>vars2</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span>)
+ )</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 8</span><span>
 #&gt;   var1  var2    cor statistic        p conf.low conf.high method 
-#&gt; [90m*[39m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  
-#&gt; [90m1[39m mpg   disp  -[31m0[39m[31m.[39m[31m85[39m     -[31m8[39m[31m.[39m[31m75[39m 9.38[90me[39m[31m-10[39m   -[31m0[39m[31m.[39m[31m923[39m    -[31m0[39m[31m.[39m[31m708[39m Pearson
-#&gt; [90m2[39m mpg   hp    -[31m0[39m[31m.[39m[31m78[39m     -[31m6[39m[31m.[39m[31m74[39m 1.79[90me[39m[31m- 7[39m   -[31m0[39m[31m.[39m[31m885[39m    -[31m0[39m[31m.[39m[31m586[39m Pearson
-#&gt; [90m3[39m mpg   drat   0.68      5.10 1.78[90me[39m[31m- 5[39m    0.436     0.832 Pearson
-#&gt; [90m4[39m wt    disp   0.89     10.6  1.22[90me[39m[31m-11[39m    0.781     0.944 Pearson
-#&gt; [90m5[39m wt    hp     0.66      4.80 4.15[90me[39m[31m- 5[39m    0.403     0.819 Pearson
-#&gt; [90m6[39m wt    drat  -[31m0[39m[31m.[39m[31m71[39m     -[31m5[39m[31m.[39m[31m56[39m 4.78[90me[39m[31m- 6[39m   -[31m0[39m[31m.[39m[31m850[39m    -[31m0[39m[31m.[39m[31m484[39m Pearson</div><div class='input'>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>1</span><span> mpg   disp  -</span><span style='color: #BB0000;'>0.85</span><span>     -</span><span style='color: #BB0000;'>8.75</span><span> 9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>   -</span><span style='color: #BB0000;'>0.923</span><span>    -</span><span style='color: #BB0000;'>0.708</span><span> Pearson
+#&gt; </span><span style='color: #555555;'>2</span><span> mpg   hp    -</span><span style='color: #BB0000;'>0.78</span><span>     -</span><span style='color: #BB0000;'>6.74</span><span> 1.79</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span>   -</span><span style='color: #BB0000;'>0.885</span><span>    -</span><span style='color: #BB0000;'>0.586</span><span> Pearson
+#&gt; </span><span style='color: #555555;'>3</span><span> mpg   drat   0.68      5.10 1.78</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span>    0.436     0.832 Pearson
+#&gt; </span><span style='color: #555555;'>4</span><span> wt    disp   0.89     10.6  1.22</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span>    0.781     0.944 Pearson
+#&gt; </span><span style='color: #555555;'>5</span><span> wt    hp     0.66      4.80 4.15</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span>    0.403     0.819 Pearson
+#&gt; </span><span style='color: #555555;'>6</span><span> wt    drat  -</span><span style='color: #BB0000;'>0.71</span><span>     -</span><span style='color: #BB0000;'>5.56</span><span> 4.78</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span>   -</span><span style='color: #BB0000;'>0.850</span><span>    -</span><span style='color: #BB0000;'>0.484</span><span> Pearson</div><div class='input'>
 
-</div></pre>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -316,9 +315,8 @@ variable names: <code>c(var1, var2)</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
-
       </footer>
    </div>
 

@@ -15,7 +15,6 @@ NULL
 #'  \code{\link{cor_as_symbols}()}, \code{\link{pull_triangle}()},
 #'  \code{\link{replace_triangle}()}
 #' @examples
-#'
 #' # Data preparation
 #' #:::::::::::::::::::::::::::::::::::::::::::
 #' mydata <- mtcars %>%

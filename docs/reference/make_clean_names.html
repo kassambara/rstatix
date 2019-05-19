@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Replace Correlation Coefficients by Symbols — cor_as_symbols • rstatix</title>
+<title>Make Clean Names — make_clean_names • rstatix</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="Replace Correlation Coefficients by Symbols — cor_as_symbols" />
+<meta property="og:title" content="Make Clean Names — make_clean_names" />
 
-<meta property="og:description" content="Take a correlation matrix and replace the correlation coefficients by symbols according to the
-  level of the correlation." />
+<meta property="og:description" content="Pipe-friendly function to make syntactically valid names out of
+ character vectors." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,64 +98,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Replace Correlation Coefficients by Symbols</h1>
+    <h1>Make Clean Names</h1>
     
-    <div class="hidden name"><code>cor_as_symbols.Rd</code></div>
+    <div class="hidden name"><code>make_clean_names.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Take a correlation matrix and replace the correlation coefficients by symbols according to the
-  level of the correlation.</p>
+    <p>Pipe-friendly function to make syntactically valid names out of
+ character vectors.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>cor_as_symbols</span>(<span class='no'>x</span>, <span class='kw'>cutpoints</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>, <span class='fl'>1</span>),
-  <span class='kw'>symbols</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>" "</span>, <span class='st'>"."</span>, <span class='st'>"+"</span>, <span class='st'>"*"</span>))</pre>
+    <pre class="usage"><span class='fu'>make_clean_names</span>(<span class='no'>data</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>a correlation matrix. Particularly, an object of class <code>cor_mat</code>.</p></td>
-    </tr>
-    <tr>
-      <th>cutpoints</th>
-      <td><p>numeric vector used for intervals. Default values are
-<code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(0, 0.25, 0.5, 0.75, 1)</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>symbols</th>
-      <td><p>character vector, one shorter than cutpoints, used as
-correlation coefficient symbols. Default values are <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(" ", ".",  "+",
-"*")</a></code>.</p></td>
+      <th>data</th>
+      <td><p>a data frame or vector</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <div class='dont-index'><p><code><a href='cor_mat.html'>cor_mat</a>()</code></p></div>
+    <p>a data frame or a vector depending on the input data</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Compute correlation matrix</span>
-<span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>cor.mat</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>, <span class='no'>hp</span>, <span class='no'>drat</span>, <span class='no'>wt</span>, <span class='no'>qsec</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='cor_mat.html'>cor_mat</a></span>()
-
-<span class='co'># Replace correlation coefficient by symbols</span>
-<span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>cor_as_symbols</span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='pull_triangle.html'>pull_lower_triangle</a></span>()</div><div class='output co'>#&gt;   rowname mpg disp hp drat wt qsec
-#&gt; 1     mpg                         
-#&gt; 2    disp   *                     
-#&gt; 3      hp   *    *                
-#&gt; 4    drat   +    +  .             
-#&gt; 5      wt   *    *  +    +        
-#&gt; 6    qsec   .    .  +             </div><div class='input'>
+    <pre class="examples"><div class='input'>
+<span class='co'># Vector</span>
+<span class='fu'>make_clean_names</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a and b"</span>, <span class='st'>"a-and-b"</span>))</div><div class='output co'>#&gt; [1] "a.and.b" "a.and.b"</div><div class='input'><span class='fu'>make_clean_names</span>(<span class='fl'>1</span>:<span class='fl'>10</span>)</div><div class='output co'>#&gt;  [1] "X1"  "X2"  "X3"  "X4"  "X5"  "X6"  "X7"  "X8"  "X9"  "X10"</div><div class='input'>
+<span class='co'># data frame</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(
+<span class='kw'>`a and b`</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>,
+<span class='kw'>`c and d`</span> <span class='kw'>=</span> <span class='fl'>5</span>:<span class='fl'>8</span>,
+ <span class='kw'>check.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
+<span class='no'>df</span></div><div class='output co'>#&gt;   a and b c and d
+#&gt; 1       1       5
+#&gt; 2       2       6
+#&gt; 3       3       7
+#&gt; 4       4       8</div><div class='input'><span class='fu'>make_clean_names</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;   a.and.b c.and.d
+#&gt; 1       1       5
+#&gt; 2       2       6
+#&gt; 3       3       7
+#&gt; 4       4       8</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -163,7 +152,7 @@ correlation coefficient symbols. Default values are <code><a href='https://www.r
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#value">Value</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

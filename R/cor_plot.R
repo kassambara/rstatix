@@ -30,7 +30,6 @@ NULL
 #' @param ... other arguments passed to \code{\link[corrplot]{corrplot}()}
 #' @seealso \code{\link{cor_as_symbols}()}
 #' @examples
-#'
 #' # Compute correlation matrix
 #' #::::::::::::::::::::::::::::::::::::::::::
 #' cor.mat <- mtcars %>%

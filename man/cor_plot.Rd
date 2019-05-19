@@ -61,7 +61,6 @@ Provide a tibble-friendly framework to visualize a correlation
   used in the visualization.
 }
 \examples{
-
 # Compute correlation matrix
 #::::::::::::::::::::::::::::::::::::::::::
 cor.mat <- mtcars \%>\%

@@ -1,7 +1,7 @@
 Package: rstatix
 Type: Package
 Title: Pipe-friendly Framework for Basic Statistical Tests in R
-Version: 0.999
+Version: 0.1.0
 Authors@R: c(
     person("Alboukadel", "Kassambara", role = c("aut", "cre"), email = "alboukadel.kassambara@gmail.com"))
 Description: Provides a pipe-friendly framework to perform easily basic statistical tests in R. 
@@ -29,7 +29,7 @@ Suggests:
     rmarkdown,
     ggpubr,
     graphics
-URL: https://rpkgs.datanovia.com/rstatix
+URL: https://rpkgs.datanovia.com/rstatix/
 BugReports: https://github.com/kassambara/rstatix/issues
 RoxygenNote: 6.1.1
 Collate:
