@@ -34,7 +34,7 @@ Provides a pipe-friendly framework to perform easily basic statistical tests in 
 - `get_mode()`: Compute the mode of a vector, that is the most frequent values.
 - `identify_outliers()`: Detect univariate outliers using boxplot methods. 
 - `mahalanobis_distance()`: Compute Mahalanobis Distance and Flag Multivariate Outliers.
-- `shapiro_test() and mshapiro_test()`: Univariate and multivariate Shapiro-Wilk normality test.
+- `shapiro_test()` and `mshapiro_test()`: Univariate and multivariate Shapiro-Wilk normality test.
    
    
 ### Comparing means
@@ -47,8 +47,8 @@ Provides a pipe-friendly framework to perform easily basic statistical tests in 
    
 ### Facilitating ANOVA computation in R
    
-- `factorial_design()`: build factorial design for easily computing ANOVA using the `car::Anova()` function. This might be very useful for repeatead measures ANOVA, which is hard to set up with the `car` package.
-- `anova_summary()`: Create beautiul summary tables of ANOVA test results obtained from either `car::Anova()` or `stats::aov()`. The results include ANOVA table, generalized effect size and some assumption checks, shuch as Mauchly's test for sphericity in the case of repeated measures ANOVA.
+- `factorial_design()`: build factorial design for easily computing ANOVA using the `car::Anova()` function. This might be very useful for repeated measures ANOVA, which is hard to set up with the `car` package.
+- `anova_summary()`: Create beautiful summary tables of ANOVA test results obtained from either `car::Anova()` or `stats::aov()`. The results include ANOVA table, generalized effect size and some assumption checks, such as Mauchly's test for sphericity in the case of repeated measures ANOVA.
    
 ### Comparing variances
    
@@ -124,9 +124,30 @@ devtools::install_github("kassambara/rstatix")
 library(rstatix)  
 library(ggpubr)  # For easy data-visualization
 ```
+  
+  
+## Descriptive statistics
+    
+```{r}
+# Summary statistics of some selected variables
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+iris %>% 
+  get_summary_stats(Sepal.Length, Sepal.Width, type = "common")
+
+# Whole data frame
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+iris %>% get_summary_stats(type = "common")
+
+
+# Grouped data
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+iris %>%
+  group_by(Species) %>% 
+  get_summary_stats(Sepal.Length, type = "mean_sd")
+```
 
      
-## Comparing means
+## Comparing two means
    
 To compare the means of two groups, you can use either the function `t_test()` (parametric) or `wilcox_test()` (non-parametric). In the following example the t-test will be illustrated.
    
@@ -213,7 +234,7 @@ p + stat_pvalue_manual(stat.test, label = "p", y.position = 36)
     
     
    
-### Compare more than two groups 
+### Multiple pairwise comparisons
    
    
 - Pairwise comparisons: if the grouping variable contains more than two categories, a pairwise comparison is automatically performed.
@@ -245,13 +266,13 @@ stat.test
 # Box plot
 ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
   stat_pvalue_manual(
-    stat.test, label = "p.signif", 
+    stat.test, label = "p.adj.signif", 
     y.position = c(29, 35)
     )
 # Remove bracket
 ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
   stat_pvalue_manual(
-    stat.test, label = "p.signif", 
+    stat.test, label = "p.adj.signif", 
     y.position = c(29, 35),
     remove.bracket = TRUE
     )
@@ -268,7 +289,7 @@ stat.test
 # Box plot with horizontal mean line
 ggboxplot(df, x = "dose", y = "len") +
   stat_pvalue_manual(
-    stat.test, label = "p.signif", 
+    stat.test, label = "p.adj.signif", 
     y.position = 35,
     remove.bracket = TRUE
     ) +
@@ -276,7 +297,85 @@ ggboxplot(df, x = "dose", y = "len") +
 ```
     
     
-### Related articles
+## ANOVA test
+    
+```{r}
+# One-way ANOVA test
+#:::::::::::::::::::::::::::::::::::::::::
+df %>% anova_test(len ~ dose)
+
+# Two-way ANOVA test
+#:::::::::::::::::::::::::::::::::::::::::
+df %>% anova_test(len ~ supp*dose)
+
+# Two-way repeated measures ANOVA
+#:::::::::::::::::::::::::::::::::::::::::
+df$id <- rep(1:10, 6) # Add individuals id
+# Use formula
+# df %>% anova_test(len ~ supp*dose + Error(id/(supp*dose)))
+# or use character vector
+df %>% anova_test(dv = len, wid = id, within = c(supp, dose))
+
+# Use model as arguments
+#:::::::::::::::::::::::::::::::::::::::::
+.my.model <- lm(yield ~ block + N*P*K, npk)
+anova_test(.my.model)
+```
+   
+   
+## Correlation tests
+   
+```{r}
+# Data preparation
+mydata <- mtcars %>% 
+  select(mpg, disp, hp, drat, wt, qsec)
+head(mydata, 3)
+
+# Correlation test between two variables
+mydata %>% cor_test(wt, mpg, method = "pearson")
+
+# Correlation of one variable against all
+mydata %>% cor_test(mpg, method = "pearson")
+
+# Pairwise correlation test between all variables
+mydata %>% cor_test(method = "pearson")
+```
+   
+   
+## Correlation matrix
+   
+```{r, fig.width=4, fig.height=4}
+# Compute correlation matrix
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat <- mydata %>% cor_mat()
+cor.mat
+
+# Show the significance levels
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %>% cor_get_pval()
+
+# Replacing correlation coefficients by symbols
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %>%
+  cor_as_symbols() %>%
+  pull_lower_triangle()
+
+# Mark significant correlations
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %>%
+  cor_mark_significant()
+
+
+# Draw correlogram using R base plot
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %>%
+  cor_reorder() %>%
+  pull_lower_triangle() %>% 
+  cor_plot()
+```
+
+    
+## Related articles
    
    
 - [Add P-values and Significance Levels to ggplots](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/)

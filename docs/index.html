@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rstatix</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.999</span>
       </span>
     </div>
 
@@ -46,18 +46,6 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/correlation-analysis.html">Correlation Analysis</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -92,7 +80,15 @@
 <a href="#descriptive-statistics" class="anchor"></a>Descriptive statistics</h3>
 <ul>
 <li>
-<code><a href="reference/outliers.html">identify_outliers()</a></code>: Detect outliers using boxplot methods.</li>
+<code><a href="reference/get_summary_stats.html">get_summary_stats()</a></code>: Compute summary statistics for one or multiple numeric variables. Can handle grouped data.</li>
+<li>
+<code><a href="reference/get_mode.html">get_mode()</a></code>: Compute the mode of a vector, that is the most frequent values.</li>
+<li>
+<code><a href="reference/outliers.html">identify_outliers()</a></code>: Detect univariate outliers using boxplot methods.</li>
+<li>
+<code><a href="reference/mahalanobis_distance.html">mahalanobis_distance()</a></code>: Compute Mahalanobis Distance and Flag Multivariate Outliers.</li>
+<li>
+<code><a href="reference/shapiro_test.html">shapiro_test()</a></code> and <code><a href="reference/shapiro_test.html">mshapiro_test()</a></code>: Univariate and multivariate Shapiro-Wilk normality test.</li>
 </ul>
 </div>
 <div id="comparing-means" class="section level3">
@@ -104,11 +100,31 @@
 <li>
 <code><a href="reference/wilcox_test.html">wilcox_test()</a></code>: perform one-sample, two-sample and pairwise Wilcoxon tests</li>
 <li>
-<code><a href="reference/anova_test.html">anova_test()</a></code>: wrapper around <code>car:Anova()</code> to perform Anova test</li>
+<code><a href="reference/anova_test.html">anova_test()</a></code>: an easy-to-use wrapper around <code><a href="http://www.rdocumentation.org/packages/car/topics/Anova">car::Anova()</a></code> to perform different types of ANOVA tests, including <strong>independent measures ANOVA</strong>, <strong>repeated measures ANOVA</strong> and <strong>mixed ANOVA</strong>.</li>
 <li>
 <code><a href="reference/kruskal_test.html">kruskal_test()</a></code>: perform kruskal-wallis rank sum test</li>
 <li>
-<code><a href="reference/tukey_hsd.html">tukey_hsd()</a></code> and <code><a href="reference/tukey_hsd.html">tukey_hsd2()</a></code>: performs tukey post-hoc tests</li>
+<code><a href="reference/tukey_hsd.html">tukey_hsd()</a></code>: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.</li>
+</ul>
+</div>
+<div id="facilitating-anova-computation-in-r" class="section level3">
+<h3 class="hasAnchor">
+<a href="#facilitating-anova-computation-in-r" class="anchor"></a>Facilitating ANOVA computation in R</h3>
+<ul>
+<li>
+<code><a href="reference/factorial_design.html">factorial_design()</a></code>: build factorial design for easily computing ANOVA using the <code><a href="http://www.rdocumentation.org/packages/car/topics/Anova">car::Anova()</a></code> function. This might be very useful for repeated measures ANOVA, which is hard to set up with the <code>car</code> package.</li>
+<li>
+<code><a href="reference/anova_summary.html">anova_summary()</a></code>: Create beautiful summary tables of ANOVA test results obtained from either <code><a href="http://www.rdocumentation.org/packages/car/topics/Anova">car::Anova()</a></code> or <code><a href="http://www.rdocumentation.org/packages/stats/topics/aov">stats::aov()</a></code>. The results include ANOVA table, generalized effect size and some assumption checks, such as Mauchly’s test for sphericity in the case of repeated measures ANOVA.</li>
+</ul>
+</div>
+<div id="comparing-variances" class="section level3">
+<h3 class="hasAnchor">
+<a href="#comparing-variances" class="anchor"></a>Comparing variances</h3>
+<ul>
+<li>
+<code><a href="reference/levene_test.html">levene_test()</a></code>: Pipe-friendly framework to easily compute Levene’s test for homogeneity of variance across groups. Handles grouped data.</li>
+<li>
+<code><a href="reference/box_m.html">box_m()</a></code>: Box’s M-test for homogeneity of covariance matrices</li>
 </ul>
 </div>
 <div id="effect-size" class="section level3">
@@ -175,6 +191,18 @@
 <code><a href="reference/add_significance.html">add_significance()</a></code>: add a column containing the p-value significance level</li>
 </ul>
 </div>
+<div id="others" class="section level3">
+<h3 class="hasAnchor">
+<a href="#others" class="anchor"></a>Others</h3>
+<ul>
+<li>
+<code><a href="reference/doo.html">doo()</a></code>: alternative to dplyr::do for doing anything. Technically it uses <code>nest() + mutate() + map()</code> to apply arbitrary computation to a grouped data frame.</li>
+<li>
+<code><a href="reference/sample_n_by.html">sample_n_by()</a></code>: sample n rows by group from a table</li>
+<li>
+<code>convert_as_factor(), set_ref_level(), reorder_levels()</code>: Provides pipe-friendly functions to convert simultaneously multiple variables into a factor variable.</li>
+</ul>
+</div>
 </div>
 <div id="installation-and-loading" class="section level2">
 <h2 class="hasAnchor">
@@ -191,9 +219,46 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rstatix)  
 <span class="kw">library</span>(ggpubr)  <span class="co"># For easy data-visualization</span></code></pre></div>
 </div>
-<div id="comparing-means-1" class="section level2">
+<div id="descriptive-statistics-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#comparing-means-1" class="anchor"></a>Comparing means</h2>
+<a href="#descriptive-statistics-1" class="anchor"></a>Descriptive statistics</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Summary statistics of some selected variables</span>
+<span class="co">#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+iris <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="reference/get_summary_stats.html">get_summary_stats</a></span>(Sepal.Length, Sepal.Width, <span class="dt">type =</span> <span class="st">"common"</span>)
+<span class="co">#&gt; # A tibble: 2 x 10</span>
+<span class="co">#&gt;   variable         n   min   max median   iqr  mean    sd    se    ci</span>
+<span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Sepal.Length   150   4.3   7.9    5.8   1.3  5.84 0.828 0.068 0.134</span>
+<span class="co">#&gt; 2 Sepal.Width    150   2     4.4    3     0.5  3.06 0.436 0.036 0.07</span>
+
+<span class="co"># Whole data frame</span>
+<span class="co">#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+iris <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/get_summary_stats.html">get_summary_stats</a></span>(<span class="dt">type =</span> <span class="st">"common"</span>)
+<span class="co">#&gt; # A tibble: 4 x 10</span>
+<span class="co">#&gt;   variable         n   min   max median   iqr  mean    sd    se    ci</span>
+<span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Petal.Length   150   1     6.9   4.35   3.5  3.76 1.76  0.144 0.285</span>
+<span class="co">#&gt; 2 Petal.Width    150   0.1   2.5   1.3    1.5  1.20 0.762 0.062 0.123</span>
+<span class="co">#&gt; 3 Sepal.Length   150   4.3   7.9   5.8    1.3  5.84 0.828 0.068 0.134</span>
+<span class="co">#&gt; 4 Sepal.Width    150   2     4.4   3      0.5  3.06 0.436 0.036 0.07</span>
+
+
+<span class="co"># Grouped data</span>
+<span class="co">#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+iris <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Species) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="reference/get_summary_stats.html">get_summary_stats</a></span>(Sepal.Length, <span class="dt">type =</span> <span class="st">"mean_sd"</span>)
+<span class="co">#&gt; # A tibble: 3 x 5</span>
+<span class="co">#&gt;   Species    variable         n  mean    sd</span>
+<span class="co">#&gt;   &lt;fct&gt;      &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 setosa     Sepal.Length    50  5.01 0.352</span>
+<span class="co">#&gt; 2 versicolor Sepal.Length    50  5.94 0.516</span>
+<span class="co">#&gt; 3 virginica  Sepal.Length    50  6.59 0.636</span></code></pre></div>
+</div>
+<div id="comparing-two-means" class="section level2">
+<h2 class="hasAnchor">
+<a href="#comparing-two-means" class="anchor"></a>Comparing two means</h2>
 <p>To compare the means of two groups, you can use either the function <code><a href="reference/t_test.html">t_test()</a></code> (parametric) or <code><a href="reference/wilcox_test.html">wilcox_test()</a></code> (non-parametric). In the following example the t-test will be illustrated.</p>
 <div id="data" class="section level3">
 <h3 class="hasAnchor">
@@ -221,9 +286,9 @@ stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span c
 <span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>supp, <span class="dt">paired =</span> <span class="ot">FALSE</span>) 
 stat.test
 <span class="co">#&gt; # A tibble: 1 x 6</span>
-<span class="co">#&gt;   .y.   group1 group2 statistic     p method</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 len   OJ     VC          1.92 0.061 T-test</span>
+<span class="co">#&gt;   .y.   group1 group2 statistic    df      p</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 len   OJ     VC          1.92  55.3 0.0606</span>
 
 <span class="co"># Create a box plot</span>
 p &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(
@@ -249,12 +314,12 @@ stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/adjust_pvalue.html">adjust_pvalue</a></span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/add_significance.html">add_significance</a></span>(<span class="st">"p.adj"</span>)
 stat.test
-<span class="co">#&gt; # A tibble: 3 x 9</span>
-<span class="co">#&gt;   dose  .y.   group1 group2 statistic      p method  p.adj p.adj.signif</span>
-<span class="co">#&gt;   &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;       </span>
-<span class="co">#&gt; 1 0.5   len   OJ     VC        3.17   0.0064 T-test 0.0128 *           </span>
-<span class="co">#&gt; 2 1     len   OJ     VC        4.03   0.001  T-test 0.003  **          </span>
-<span class="co">#&gt; 3 2     len   OJ     VC       -0.0461 0.96   T-test 0.96   ns</span>
+<span class="co">#&gt; # A tibble: 3 x 8</span>
+<span class="co">#&gt;   .y.   group1 group2 statistic    df       p   p.adj p.adj.signif</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;       </span>
+<span class="co">#&gt; 1 len   OJ     VC        3.17    15.0 0.00636 0.0127  *           </span>
+<span class="co">#&gt; 2 len   OJ     VC        4.03    15.4 0.00104 0.00312 **          </span>
+<span class="co">#&gt; 3 len   OJ     VC       -0.0461  14.0 0.964   0.964   ns</span>
 
 <span class="co"># Visualization</span>
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(
@@ -273,9 +338,9 @@ stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span c
 <span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>supp, <span class="dt">paired =</span> <span class="ot">TRUE</span>) 
 stat.test
 <span class="co">#&gt; # A tibble: 1 x 6</span>
-<span class="co">#&gt;   .y.   group1 group2 statistic      p method</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; </span>
-<span class="co">#&gt; 1 len   OJ     VC          3.30 0.0025 T-test</span>
+<span class="co">#&gt;   .y.   group1 group2 statistic    df       p</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 len   OJ     VC          3.30    29 0.00255</span>
 
 <span class="co"># Box plot</span>
 p &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/ggpaired">ggpaired</a></span>(
@@ -285,22 +350,21 @@ p &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentat
 p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">36</span>)</code></pre></div>
 <p><img src="tools/README-paired-t-test-1.png" width="336"></p>
 </div>
-<div id="compare-more-than-two-groups" class="section level3">
+<div id="multiple-pairwise-comparisons" class="section level3">
 <h3 class="hasAnchor">
-<a href="#compare-more-than-two-groups" class="anchor"></a>Compare more than two groups</h3>
+<a href="#multiple-pairwise-comparisons" class="anchor"></a>Multiple pairwise comparisons</h3>
 <ul>
 <li>Pairwise comparisons: if the grouping variable contains more than two categories, a pairwise comparison is automatically performed.</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Pairwise t-test</span>
 pairwise.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>dose)
 pairwise.test
-<span class="co">#&gt; # A tibble: 3 x 9</span>
-<span class="co">#&gt;   .y.   group1 group2 statistic        p method    p.adj p.signif</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   </span>
-<span class="co">#&gt; 1 len   0.5    1          -6.48 1.30e- 7 T-test 2.60e- 7 ****    </span>
-<span class="co">#&gt; 2 len   0.5    2         -11.8  4.40e-14 T-test 1.30e-13 ****    </span>
-<span class="co">#&gt; 3 len   1      2          -4.90 1.90e- 5 T-test 1.90e- 5 ****    </span>
-<span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span>
+<span class="co">#&gt; # A tibble: 3 x 8</span>
+<span class="co">#&gt;   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       </span>
+<span class="co">#&gt; 1 len   0.5    1          -6.48  38.0 1.27e- 7 2.54e- 7 ****        </span>
+<span class="co">#&gt; 2 len   0.5    2         -11.8   36.9 4.40e-14 1.32e-13 ****        </span>
+<span class="co">#&gt; 3 len   1      2          -4.90  37.1 1.91e- 5 1.91e- 5 ****</span>
 <span class="co"># Box plot</span>
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>)<span class="op">+</span>
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(
@@ -316,23 +380,22 @@ pairwise.test
 <span class="co"># T-test: each level is compared to the ref group</span>
 stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>dose, <span class="dt">ref.group =</span> <span class="st">"0.5"</span>)
 stat.test
-<span class="co">#&gt; # A tibble: 2 x 9</span>
-<span class="co">#&gt;   .y.   group1 group2 statistic        p method    p.adj p.signif</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   </span>
-<span class="co">#&gt; 1 len   0.5    1          -6.48 1.30e- 7 T-test 1.30e- 7 ****    </span>
-<span class="co">#&gt; 2 len   0.5    2         -11.8  4.40e-14 T-test 8.80e-14 ****    </span>
-<span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span>
+<span class="co">#&gt; # A tibble: 2 x 8</span>
+<span class="co">#&gt;   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       </span>
+<span class="co">#&gt; 1 len   0.5    1          -6.48  38.0 1.27e- 7 1.27e- 7 ****        </span>
+<span class="co">#&gt; 2 len   0.5    2         -11.8   36.9 4.40e-14 8.80e-14 ****</span>
 <span class="co"># Box plot</span>
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(
-    stat.test, <span class="dt">label =</span> <span class="st">"p.signif"</span>, 
+    stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, 
     <span class="dt">y.position =</span> <span class="kw">c</span>(<span class="dv">29</span>, <span class="dv">35</span>)
     )</code></pre></div>
 <p><img src="tools/README-comaprison-against-reference-group-1.png" width="336"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Remove bracket</span>
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(
-    stat.test, <span class="dt">label =</span> <span class="st">"p.signif"</span>, 
+    stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, 
     <span class="dt">y.position =</span> <span class="kw">c</span>(<span class="dv">29</span>, <span class="dv">35</span>),
     <span class="dt">remove.bracket =</span> <span class="ot">TRUE</span>
     )</code></pre></div>
@@ -343,30 +406,205 @@ stat.test
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># T-test</span>
 stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>dose, <span class="dt">ref.group =</span> <span class="st">"all"</span>)
 stat.test
-<span class="co">#&gt; # A tibble: 3 x 9</span>
-<span class="co">#&gt;   .y.   group1 group2 statistic       p method   p.adj p.signif</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;   </span>
-<span class="co">#&gt; 1 len   all    0.5        5.82  2.90e-7 T-test 8.70e-7 ****    </span>
-<span class="co">#&gt; 2 len   all    1         -0.660 5.10e-1 T-test 5.10e-1 ns      </span>
-<span class="co">#&gt; 3 len   all    2         -5.61  4.30e-7 T-test 8.70e-7 ****    </span>
-<span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span>
+<span class="co">#&gt; # A tibble: 3 x 8</span>
+<span class="co">#&gt;   .y.   group1 group2 statistic    df           p      p.adj p.adj.signif</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;       </span>
+<span class="co">#&gt; 1 len   all    0.5        5.82   56.4 0.000000290 0.00000087 ****        </span>
+<span class="co">#&gt; 2 len   all    1         -0.660  57.5 0.512       0.512      ns          </span>
+<span class="co">#&gt; 3 len   all    2         -5.61   66.5 0.000000425 0.00000087 ****</span>
 <span class="co"># Box plot with horizontal mean line</span>
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(
-    stat.test, <span class="dt">label =</span> <span class="st">"p.signif"</span>, 
+    stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, 
     <span class="dt">y.position =</span> <span class="dv">35</span>,
     <span class="dt">remove.bracket =</span> <span class="ot">TRUE</span>
     ) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="kw">mean</span>(df<span class="op">$</span>len), <span class="dt">linetype =</span> <span class="dv">2</span>)</code></pre></div>
 <p><img src="tools/README-comparison-against-base-mean-1.png" width="336"></p>
 </div>
-<div id="related-articles" class="section level3">
-<h3 class="hasAnchor">
-<a href="#related-articles" class="anchor"></a>Related articles</h3>
+</div>
+<div id="anova-test" class="section level2">
+<h2 class="hasAnchor">
+<a href="#anova-test" class="anchor"></a>ANOVA test</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># One-way ANOVA test</span>
+<span class="co">#:::::::::::::::::::::::::::::::::::::::::</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/anova_test.html">anova_test</a></span>(len <span class="op">~</span><span class="st"> </span>dose)
+<span class="co">#&gt; ANOVA Table (type II tests)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   Effect DFn DFd      F        p p&lt;.05   ges</span>
+<span class="co">#&gt; 1   dose   2  57 67.416 9.53e-16     * 0.703</span>
+
+<span class="co"># Two-way ANOVA test</span>
+<span class="co">#:::::::::::::::::::::::::::::::::::::::::</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/anova_test.html">anova_test</a></span>(len <span class="op">~</span><span class="st"> </span>supp<span class="op">*</span>dose)
+<span class="co">#&gt; ANOVA Table (type II tests)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;      Effect DFn DFd      F        p p&lt;.05   ges</span>
+<span class="co">#&gt; 1      supp   1  54 15.572 2.31e-04     * 0.224</span>
+<span class="co">#&gt; 2      dose   2  54 92.000 4.05e-18     * 0.773</span>
+<span class="co">#&gt; 3 supp:dose   2  54  4.107 2.20e-02     * 0.132</span>
+
+<span class="co"># Two-way repeated measures ANOVA</span>
+<span class="co">#:::::::::::::::::::::::::::::::::::::::::</span>
+df<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">6</span>) <span class="co"># Add individuals id</span>
+<span class="co"># Use formula</span>
+<span class="co"># df %&gt;% anova_test(len ~ supp*dose + Error(id/(supp*dose)))</span>
+<span class="co"># or use character vector</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/anova_test.html">anova_test</a></span>(<span class="dt">dv =</span> len, <span class="dt">wid =</span> id, <span class="dt">within =</span> <span class="kw">c</span>(supp, dose))
+<span class="co">#&gt; ANOVA Table (type III tests)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $ANOVA</span>
+<span class="co">#&gt;      Effect DFn DFd       F        p p&lt;.05   ges</span>
+<span class="co">#&gt; 1      supp   1   9  34.866 2.28e-04     * 0.224</span>
+<span class="co">#&gt; 2      dose   2  18 106.470 1.06e-10     * 0.773</span>
+<span class="co">#&gt; 3 supp:dose   2  18   2.534 1.07e-01       0.132</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`Mauchly's Test for Sphericity`</span>
+<span class="co">#&gt;      Effect     W     p p&lt;.05</span>
+<span class="co">#&gt; 1      dose 0.807 0.425      </span>
+<span class="co">#&gt; 2 supp:dose 0.934 0.761      </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`Sphericity Corrections`</span>
+<span class="co">#&gt;      Effect   GGe      DF[GG]    p[GG] p[GG]&lt;.05   HFe      DF[HF]</span>
+<span class="co">#&gt; 1      dose 0.838 1.68, 15.09 2.79e-09         * 1.008 2.02, 18.15</span>
+<span class="co">#&gt; 2 supp:dose 0.938 1.88, 16.88 1.12e-01           1.176 2.35, 21.17</span>
+<span class="co">#&gt;      p[HF] p[HF]&lt;.05</span>
+<span class="co">#&gt; 1 1.06e-10         *</span>
+<span class="co">#&gt; 2 1.07e-01</span>
+
+<span class="co"># Use model as arguments</span>
+<span class="co">#:::::::::::::::::::::::::::::::::::::::::</span>
+.my.model &lt;-<span class="st"> </span><span class="kw">lm</span>(yield <span class="op">~</span><span class="st"> </span>block <span class="op">+</span><span class="st"> </span>N<span class="op">*</span>P<span class="op">*</span>K, npk)
+<span class="kw"><a href="reference/anova_test.html">anova_test</a></span>(.my.model)
+<span class="co">#&gt; ANOVA Table (type II tests)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   Effect DFn DFd      F     p p&lt;.05   ges</span>
+<span class="co">#&gt; 1  block   5  12  4.447 0.016     * 0.649</span>
+<span class="co">#&gt; 2      N   1  12 12.259 0.004     * 0.505</span>
+<span class="co">#&gt; 3      P   1  12  0.544 0.475       0.043</span>
+<span class="co">#&gt; 4      K   1  12  6.166 0.029     * 0.339</span>
+<span class="co">#&gt; 5    N:P   1  12  1.378 0.263       0.103</span>
+<span class="co">#&gt; 6    N:K   1  12  2.146 0.169       0.152</span>
+<span class="co">#&gt; 7    P:K   1  12  0.031 0.863       0.003</span>
+<span class="co">#&gt; 8  N:P:K   0  12     NA    NA  &lt;NA&gt;    NA</span></code></pre></div>
+</div>
+<div id="correlation-tests" class="section level2">
+<h2 class="hasAnchor">
+<a href="#correlation-tests" class="anchor"></a>Correlation tests</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Data preparation</span>
+mydata &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(mpg, disp, hp, drat, wt, qsec)
+<span class="kw">head</span>(mydata, <span class="dv">3</span>)
+<span class="co">#&gt;                mpg disp  hp drat    wt  qsec</span>
+<span class="co">#&gt; Mazda RX4     21.0  160 110 3.90 2.620 16.46</span>
+<span class="co">#&gt; Mazda RX4 Wag 21.0  160 110 3.90 2.875 17.02</span>
+<span class="co">#&gt; Datsun 710    22.8  108  93 3.85 2.320 18.61</span>
+
+<span class="co"># Correlation test between two variables</span>
+mydata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_test.html">cor_test</a></span>(wt, mpg, <span class="dt">method =</span> <span class="st">"pearson"</span>)
+<span class="co">#&gt; # A tibble: 1 x 8</span>
+<span class="co">#&gt;   var1  var2    cor statistic        p conf.low conf.high method </span>
+<span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt; 1 wt    mpg   -0.87     -9.56 1.29e-10   -0.934    -0.744 Pearson</span>
+
+<span class="co"># Correlation of one variable against all</span>
+mydata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_test.html">cor_test</a></span>(mpg, <span class="dt">method =</span> <span class="st">"pearson"</span>)
+<span class="co">#&gt; # A tibble: 5 x 8</span>
+<span class="co">#&gt;   var1  var2    cor statistic        p conf.low conf.high method </span>
+<span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt; 1 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson</span>
+<span class="co">#&gt; 2 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson</span>
+<span class="co">#&gt; 3 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson</span>
+<span class="co">#&gt; 4 mpg   wt    -0.87     -9.56 1.29e-10  -0.934     -0.744 Pearson</span>
+<span class="co">#&gt; 5 mpg   qsec   0.42      2.53 1.71e- 2   0.0820     0.670 Pearson</span>
+
+<span class="co"># Pairwise correlation test between all variables</span>
+mydata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_test.html">cor_test</a></span>(<span class="dt">method =</span> <span class="st">"pearson"</span>)
+<span class="co">#&gt; # A tibble: 36 x 8</span>
+<span class="co">#&gt;    var1  var2    cor statistic        p conf.low conf.high method </span>
+<span class="co">#&gt;  * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt;  1 mpg   mpg    1       Inf    0.         1          1     Pearson</span>
+<span class="co">#&gt;  2 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson</span>
+<span class="co">#&gt;  3 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson</span>
+<span class="co">#&gt;  4 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson</span>
+<span class="co">#&gt;  5 mpg   wt    -0.87     -9.56 1.29e-10  -0.934     -0.744 Pearson</span>
+<span class="co">#&gt;  6 mpg   qsec   0.42      2.53 1.71e- 2   0.0820     0.670 Pearson</span>
+<span class="co">#&gt;  7 disp  mpg   -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson</span>
+<span class="co">#&gt;  8 disp  disp   1       Inf    0.         1          1     Pearson</span>
+<span class="co">#&gt;  9 disp  hp     0.79      7.08 7.14e- 8   0.611      0.893 Pearson</span>
+<span class="co">#&gt; 10 disp  drat  -0.71     -5.53 5.28e- 6  -0.849     -0.481 Pearson</span>
+<span class="co">#&gt; # … with 26 more rows</span></code></pre></div>
+</div>
+<div id="correlation-matrix" class="section level2">
+<h2 class="hasAnchor">
+<a href="#correlation-matrix" class="anchor"></a>Correlation matrix</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compute correlation matrix</span>
+<span class="co">#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+cor.mat &lt;-<span class="st"> </span>mydata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_mat.html">cor_mat</a></span>()
+cor.mat
+<span class="co">#&gt; # A tibble: 6 x 7</span>
+<span class="co">#&gt;   rowname   mpg  disp    hp   drat    wt   qsec</span>
+<span class="co">#&gt; * &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 mpg      1    -0.85 -0.78  0.68  -0.87  0.42 </span>
+<span class="co">#&gt; 2 disp    -0.85  1     0.79 -0.71   0.89 -0.43 </span>
+<span class="co">#&gt; 3 hp      -0.78  0.79  1    -0.45   0.66 -0.71 </span>
+<span class="co">#&gt; 4 drat     0.68 -0.71 -0.45  1     -0.71  0.091</span>
+<span class="co">#&gt; 5 wt      -0.87  0.89  0.66 -0.71   1    -0.17 </span>
+<span class="co">#&gt; 6 qsec     0.42 -0.43 -0.71  0.091 -0.17  1</span>
+
+<span class="co"># Show the significance levels</span>
+<span class="co">#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+cor.mat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_mat.html">cor_get_pval</a></span>()
+<span class="co">#&gt; # A tibble: 6 x 7</span>
+<span class="co">#&gt;   rowname      mpg     disp           hp       drat        wt       qsec</span>
+<span class="co">#&gt; * &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 mpg     0.       9.38e-10 0.000000179  0.0000178  1.29e- 10 0.0171    </span>
+<span class="co">#&gt; 2 disp    9.38e-10 0.       0.0000000714 0.00000528 1.22e- 11 0.0131    </span>
+<span class="co">#&gt; 3 hp      1.79e- 7 7.14e- 8 0            0.00999    4.15e-  5 0.00000577</span>
+<span class="co">#&gt; 4 drat    1.78e- 5 5.28e- 6 0.00999      0          4.78e-  6 0.62      </span>
+<span class="co">#&gt; 5 wt      1.29e-10 1.22e-11 0.0000415    0.00000478 2.27e-236 0.339     </span>
+<span class="co">#&gt; 6 qsec    1.71e- 2 1.31e- 2 0.00000577   0.62       3.39e-  1 0</span>
+
+<span class="co"># Replacing correlation coefficients by symbols</span>
+<span class="co">#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+cor.mat <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/cor_as_symbols.html">cor_as_symbols</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/pull_triangle.html">pull_lower_triangle</a></span>()
+<span class="co">#&gt;   rowname mpg disp hp drat wt qsec</span>
+<span class="co">#&gt; 1     mpg                         </span>
+<span class="co">#&gt; 2    disp   *                     </span>
+<span class="co">#&gt; 3      hp   *    *                </span>
+<span class="co">#&gt; 4    drat   +    +  .             </span>
+<span class="co">#&gt; 5      wt   *    *  +    +        </span>
+<span class="co">#&gt; 6    qsec   .    .  +</span>
+
+<span class="co"># Mark significant correlations</span>
+<span class="co">#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+cor.mat <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/cor_mark_significant.html">cor_mark_significant</a></span>()
+<span class="co">#&gt;   rowname       mpg      disp        hp      drat    wt qsec</span>
+<span class="co">#&gt; 1     mpg                                                   </span>
+<span class="co">#&gt; 2    disp -0.85****                                         </span>
+<span class="co">#&gt; 3      hp -0.78****  0.79****                               </span>
+<span class="co">#&gt; 4    drat  0.68**** -0.71****   -0.45**                     </span>
+<span class="co">#&gt; 5      wt -0.87****  0.89****  0.66**** -0.71****           </span>
+<span class="co">#&gt; 6    qsec     0.42*    -0.43* -0.71****     0.091 -0.17</span>
+
+
+<span class="co"># Draw correlogram using R base plot</span>
+<span class="co">#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
+cor.mat <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/cor_reorder.html">cor_reorder</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/pull_triangle.html">pull_lower_triangle</a></span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="reference/cor_plot.html">cor_plot</a></span>()</code></pre></div>
+<p><img src="tools/README-unnamed-chunk-8-1.png" width="384"></p>
+</div>
+<div id="related-articles" class="section level2">
+<h2 class="hasAnchor">
+<a href="#related-articles" class="anchor"></a>Related articles</h2>
 <ul>
 <li><a href="http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/">Add P-values and Significance Levels to ggplots</a></li>
 </ul>
-</div>
 </div>
 </div>
   </div>

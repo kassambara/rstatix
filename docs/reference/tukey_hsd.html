@@ -34,8 +34,9 @@
 
 <meta property="og:title" content="Tukey Honest Significant Differences — tukey_hsd" />
 
-<meta property="og:description" content="Provides a pipe-friendly framework to performs Tukey post-hoc tests.
- Wrapper around the function TukeyHSD()." />
+<meta property="og:description" content="Provides a pipe-friendly framework to performs Tukey post-hoc
+ tests. Wrapper around the function TukeyHSD().
+Can handle different inputs formats: aov, lm, formula." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -65,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.999</span>
       </span>
     </div>
 
@@ -79,18 +80,6 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/correlation-analysis.html">Correlation Analysis</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -118,29 +107,43 @@
 
     <div class="ref-description">
     
-    <p>Provides a pipe-friendly framework to performs Tukey post-hoc tests.
- Wrapper around the function <code><a href='http://www.rdocumentation.org/packages/stats/topics/TukeyHSD'>TukeyHSD</a>()</code>.</p>
+    <p>Provides a pipe-friendly framework to performs Tukey post-hoc
+ tests. Wrapper around the function <code><a href='http://www.rdocumentation.org/packages/stats/topics/TukeyHSD'>TukeyHSD</a>()</code>.</p>
+<p>Can handle different inputs formats: aov, lm, formula.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>tukey_hsd</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
-<span class='fu'>tukey_hsd2</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='no'>...</span>)</pre>
+<span class='co'># S3 method for default</span>
+<span class='fu'>tukey_hsd</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for lm</span>
+<span class='fu'>tukey_hsd</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>tukey_hsd</span>(<span class='no'>x</span>, <span class='no'>formula</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A fitted model object, usually an <code>aov</code> fit.</p></td>
+      <td><p>an object of class <code>aov</code>, <code>lm</code> or <code>data.frame</code>
+containing the variables used in the formula.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other arguments passed to the function <code><a href='http://www.rdocumentation.org/packages/stats/topics/TukeyHSD'>TukeyHSD</a>()</code>.</p></td>
-    </tr>
-    <tr>
-      <th>data</th>
-      <td><p>a data.frame containing the variables in the formula.</p></td>
+      <td><p>other arguments passed to the function
+<code><a href='http://www.rdocumentation.org/packages/stats/topics/TukeyHSD'>TukeyHSD</a>()</code>. These include:</p><ul>
+<li><p><strong>which</strong>: A character vector listing terms in the fitted model for
+which the intervals should be calculated. Defaults to all the terms.</p></li>
+<li><p><strong>ordered</strong>: A logical value indicating if the levels of the factor
+should be ordered according to increasing average in the sample before
+taking differences. If ordered is true then the calculated differences in
+the means will all be positive. The significant differences will be those
+for which the lwr end point is positive.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>formula</th>
@@ -149,17 +152,23 @@ numeric variable giving the data values and <code>group</code> is a factor with
 one or multiple levels giving the corresponding groups. For example,
 <code>formula = TP53 ~ cancer_group</code>.</p></td>
     </tr>
+    <tr>
+      <th>data</th>
+      <td><p>a data.frame containing the variables in the formula.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a tibble data frame containing the results of the different comparisons.</p>
+    <p>a tibble data frame containing the results of the different
+ comparisons.</p>
     
-    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+    <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
 
     <ul>
-<li><p><code>tukey_hsd</code>: performs tukey post-hoc test from ANOVA results, usually an aov fit.</p></li>
-<li><p><code>tukey_hsd2</code>: performs tukey post-hoc tests using data and formula as
+<li><p><code>default</code>: performs tukey post-hoc test from <code>aov()</code> results.</p></li>
+<li><p><code>lm</code>: performs tukey post-hoc test from <code>lm()</code> model.</p></li>
+<li><p><code>data.frame</code>: performs tukey post-hoc tests using data and formula as
 inputs. ANOVA will be automatically performed using the function
 <code><a href='http://www.rdocumentation.org/packages/stats/topics/aov'>aov</a>()</code></p></li>
 </ul>
@@ -169,15 +178,62 @@ inputs. ANOVA will be automatically performed using the function
     <pre class="examples"><div class='input'><span class='co'># Data preparation</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span>
 <span class='no'>df</span>$<span class='no'>dose</span> <span class='kw'>&lt;-</span> <span class='fu'>as.factor</span>(<span class='no'>df</span>$<span class='no'>dose</span>)
-<span class='co'># Anova</span>
-<span class='no'>res.aov</span> <span class='kw'>&lt;-</span> <span class='fu'>aov</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>)
-<span class='co'># Tukey hsd</span>
-<span class='fu'>tukey_hsd</span>(<span class='no'>res.aov</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 8
+<span class='co'># Tukey HSD from ANOVA results</span>
+<span class='fu'>aov</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; [90m# A tibble: 3 x 8[39m
 #&gt;   term  group1 group2 comparison estimate conf.low conf.high    p.adj
-#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1 dose  0.5    1      1-0.5          9.13     5.90     12.4  2.00e- 8
-#&gt; 2 dose  0.5    2      2-0.5         15.5     12.3      18.7  1.10e-11
-#&gt; 3 dose  1      2      2-1            6.36     3.14      9.59 4.20e- 5</div><div class='input'>
+#&gt;   [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m
+#&gt; [90m1[39m dose  0.5    1      1-0.5          9.13     5.90     12.4  2.00[90me[39m[31m- 8[39m
+#&gt; [90m2[39m dose  0.5    2      2-0.5         15.5     12.3      18.7  1.12[90me[39m[31m-11[39m
+#&gt; [90m3[39m dose  1      2      2-1            6.36     3.14      9.59 4.25[90me[39m[31m- 5[39m</div><div class='input'>
+<span class='co'># two-way anova with interaction</span>
+<span class='fu'>aov</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>*<span class='no'>supp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; [90m# A tibble: 19 x 8[39m
+#&gt;    term      group1 group2 comparison    estimate conf.low conf.high    p.adj
+#&gt;    [3m[90m&lt;chr&gt;[39m[23m     [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m            [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m
+#&gt; [90m 1[39m dose      0.5    1      1-0.5           9.13       6.36    11.9   3.55[90me[39m[31m-10[39m
+#&gt; [90m 2[39m dose      0.5    2      2-0.5          15.5       12.7     18.3   4.38[90me[39m[31m-13[39m
+#&gt; [90m 3[39m dose      1      2      2-1             6.36       3.60     9.13  2.71[90me[39m[31m- 6[39m
+#&gt; [90m 4[39m supp      OJ     VC     VC-OJ          -[31m3[39m[31m.[39m[31m7[39m       -[31m5[39m[31m.[39m[31m58[39m    -[31m1[39m[31m.[39m[31m82[39m  2.31[90me[39m[31m- 4[39m
+#&gt; [90m 5[39m dose:supp 0.5:OJ 1:OJ   1:OJ-0.5:OJ     9.47       4.67    14.3   4.61[90me[39m[31m- 6[39m
+#&gt; [90m 6[39m dose:supp 0.5:OJ 2:OJ   2:OJ-0.5:OJ    12.8        8.03    17.6   2.13[90me[39m[31m- 9[39m
+#&gt; [90m 7[39m dose:supp 0.5:OJ 0.5:VC 0.5:VC-0.5:OJ  -[31m5[39m[31m.[39m[31m25[39m     -[31m10[39m[31m.[39m[31m0[39m     -[31m0[39m[31m.[39m[31m452[39m 2.43[90me[39m[31m- 2[39m
+#&gt; [90m 8[39m dose:supp 0.5:OJ 1:VC   1:VC-0.5:OJ     3.54      -[31m1[39m[31m.[39m[31m26[39m     8.34  2.64[90me[39m[31m- 1[39m
+#&gt; [90m 9[39m dose:supp 0.5:OJ 2:VC   2:VC-0.5:OJ    12.9        8.11    17.7   1.77[90me[39m[31m- 9[39m
+#&gt; [90m10[39m dose:supp 1:OJ   2:OJ   2:OJ-1:OJ       3.36      -[31m1[39m[31m.[39m[31m44[39m     8.16  3.19[90me[39m[31m- 1[39m
+#&gt; [90m11[39m dose:supp 1:OJ   0.5:VC 0.5:VC-1:OJ   -[31m14[39m[31m.[39m[31m7[39m      -[31m19[39m[31m.[39m[31m5[39m     -[31m9[39m[31m.[39m[31m92[39m  2.99[90me[39m[31m-11[39m
+#&gt; [90m12[39m dose:supp 1:OJ   1:VC   1:VC-1:OJ      -[31m5[39m[31m.[39m[31m93[39m     -[31m10[39m[31m.[39m[31m7[39m     -[31m1[39m[31m.[39m[31m13[39m  7.39[90me[39m[31m- 3[39m
+#&gt; [90m13[39m dose:supp 1:OJ   2:VC   2:VC-1:OJ       3.44      -[31m1[39m[31m.[39m[31m36[39m     8.24  2.94[90me[39m[31m- 1[39m
+#&gt; [90m14[39m dose:supp 2:OJ   0.5:VC 0.5:VC-2:OJ   -[31m18[39m[31m.[39m[31m1[39m      -[31m22[39m[31m.[39m[31m9[39m    -[31m13[39m[31m.[39m[31m3[39m   4.86[90me[39m[31m-13[39m
+#&gt; [90m15[39m dose:supp 2:OJ   1:VC   1:VC-2:OJ      -[31m9[39m[31m.[39m[31m29[39m     -[31m14[39m[31m.[39m[31m1[39m     -[31m4[39m[31m.[39m[31m49[39m  6.91[90me[39m[31m- 6[39m
+#&gt; [90m16[39m dose:supp 2:OJ   2:VC   2:VC-2:OJ       0.080[4m0[24m    -[31m4[39m[31m.[39m[31m72[39m     4.88  1.00[90me[39m+ 0
+#&gt; [90m17[39m dose:supp 0.5:VC 1:VC   1:VC-0.5:VC     8.79       3.99    13.6   2.10[90me[39m[31m- 5[39m
+#&gt; [90m18[39m dose:supp 0.5:VC 2:VC   2:VC-0.5:VC    18.2       13.4     23.0   4.82[90me[39m[31m-13[39m
+#&gt; [90m19[39m dose:supp 1:VC   2:VC   2:VC-1:VC       9.37       4.57    14.2   5.77[90me[39m[31m- 6[39m</div><div class='input'>
+<span class='co'># Tukey HSD from lm() results</span>
+<span class='fu'>lm</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; [90m# A tibble: 3 x 8[39m
+#&gt;   term  group1 group2 comparison estimate conf.low conf.high    p.adj
+#&gt;   [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m
+#&gt; [90m1[39m dose  0.5    1      1-0.5          9.13     5.90     12.4  2.00[90me[39m[31m- 8[39m
+#&gt; [90m2[39m dose  0.5    2      2-0.5         15.5     12.3      18.7  1.12[90me[39m[31m-11[39m
+#&gt; [90m3[39m dose  1      2      2-1            6.36     3.14      9.59 4.25[90me[39m[31m- 5[39m</div><div class='input'>
+<span class='co'># Tukey HSD from data frame and formula</span>
+<span class='fu'>tukey_hsd</span>(<span class='no'>df</span>, <span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; [90m# A tibble: 3 x 8[39m
+#&gt;   term  group1 group2 comparison estimate conf.low conf.high    p.adj
+#&gt;   [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m
+#&gt; [90m1[39m dose  0.5    1      1-0.5          9.13     5.90     12.4  2.00[90me[39m[31m- 8[39m
+#&gt; [90m2[39m dose  0.5    2      2-0.5         15.5     12.3      18.7  1.12[90me[39m[31m-11[39m
+#&gt; [90m3[39m dose  1      2      2-1            6.36     3.14      9.59 4.25[90me[39m[31m- 5[39m</div><div class='input'>
+<span class='co'># Tukey HSD using grouped data</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>tukey_hsd</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; [90m# A tibble: 6 x 9[39m
+#&gt;   supp  term  group1 group2 comparison estimate conf.low conf.high    p.adj
+#&gt;   [3m[90m&lt;fct&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m
+#&gt; [90m1[39m OJ    dose  0.5    1      1-0.5          9.47    5.31      13.6  1.58[90me[39m[31m- 5[39m
+#&gt; [90m2[39m OJ    dose  0.5    2      2-0.5         12.8     8.67      17.0  9.39[90me[39m[31m- 8[39m
+#&gt; [90m3[39m OJ    dose  1      2      2-1            3.36   -[31m0[39m[31m.[39m[31m800[39m      7.52 1.31[90me[39m[31m- 1[39m
+#&gt; [90m4[39m VC    dose  0.5    1      1-0.5          8.79    4.90      12.7  1.75[90me[39m[31m- 5[39m
+#&gt; [90m5[39m VC    dose  0.5    2      2-0.5         18.2    14.3       22.0  1.66[90me[39m[31m-11[39m
+#&gt; [90m6[39m VC    dose  1      2      2-1            9.37    5.48      13.3  6.61[90me[39m[31m- 6[39m</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -187,7 +243,7 @@ inputs. ANOVA will be automatically performed using the function
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#functions">Functions</a></li>
+      <li><a href="#methods-by-class-">Methods (by class)</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

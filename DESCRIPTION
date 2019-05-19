@@ -29,7 +29,7 @@ Suggests:
     rmarkdown,
     ggpubr,
     graphics
-URL: http://www.sthda.com/english/rpkgs/rstatix
+URL: https://rpkgs.datanovia.com/rstatix
 BugReports: https://github.com/kassambara/rstatix/issues
 RoxygenNote: 6.1.1
 Collate:

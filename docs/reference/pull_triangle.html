@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.999</span>
       </span>
     </div>
 
@@ -79,18 +79,6 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/correlation-analysis.html">Correlation Analysis</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -181,15 +169,15 @@ is a data frame containing the lower triangular part of a matrix.</p></li>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Correlation matrix</span>
 <span class='no'>cor.mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cor_mat.html'>cor_mat</a></span>(<span class='no'>mydata</span>)
-<span class='no'>cor.mat</span></div><div class='output co'>#&gt; # A tibble: 6 x 7
+<span class='no'>cor.mat</span></div><div class='output co'>#&gt; [90m# A tibble: 6 x 7[39m
 #&gt;   rowname   mpg  disp    hp   drat    wt   qsec
-#&gt; * &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1 mpg      1    -0.85 -0.78  0.68  -0.87  0.42 
-#&gt; 2 disp    -0.85  1     0.79 -0.71   0.89 -0.43 
-#&gt; 3 hp      -0.78  0.79  1    -0.45   0.66 -0.71 
-#&gt; 4 drat     0.68 -0.71 -0.45  1     -0.71  0.091
-#&gt; 5 wt      -0.87  0.89  0.66 -0.71   1    -0.17 
-#&gt; 6 qsec     0.42 -0.43 -0.71  0.091 -0.17  1    </div><div class='input'>
+#&gt; [90m*[39m [3m[90m&lt;chr&gt;[39m[23m   [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m  [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m  [3m[90m&lt;dbl&gt;[39m[23m
+#&gt; [90m1[39m mpg      1    -[31m0[39m[31m.[39m[31m85[39m -[31m0[39m[31m.[39m[31m78[39m  0.68  -[31m0[39m[31m.[39m[31m87[39m  0.42 
+#&gt; [90m2[39m disp    -[31m0[39m[31m.[39m[31m85[39m  1     0.79 -[31m0[39m[31m.[39m[31m71[39m   0.89 -[31m0[39m[31m.[39m[31m43[39m 
+#&gt; [90m3[39m hp      -[31m0[39m[31m.[39m[31m78[39m  0.79  1    -[31m0[39m[31m.[39m[31m45[39m   0.66 -[31m0[39m[31m.[39m[31m71[39m 
+#&gt; [90m4[39m drat     0.68 -[31m0[39m[31m.[39m[31m71[39m -[31m0[39m[31m.[39m[31m45[39m  1     -[31m0[39m[31m.[39m[31m71[39m  0.091
+#&gt; [90m5[39m wt      -[31m0[39m[31m.[39m[31m87[39m  0.89  0.66 -[31m0[39m[31m.[39m[31m71[39m   1    -[31m0[39m[31m.[39m[31m17[39m 
+#&gt; [90m6[39m qsec     0.42 -[31m0[39m[31m.[39m[31m43[39m -[31m0[39m[31m.[39m[31m71[39m  0.091 -[31m0[39m[31m.[39m[31m17[39m  1    </div><div class='input'>
 <span class='co'># Pull lower triangular part</span>
 <span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull_lower_triangle</span>()</div><div class='output co'>#&gt;   rowname   mpg  disp    hp  drat    wt qsec
 #&gt; 1     mpg                                   

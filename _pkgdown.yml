@@ -57,5 +57,5 @@ reference:
       - reexports
       - doo
       - sample_n_by
-      - factors
+      - convert_as_factor
 

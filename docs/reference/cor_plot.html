@@ -72,7 +72,7 @@ The p-values contained in the outputs of the functions
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.999</span>
       </span>
     </div>
 
@@ -86,18 +86,6 @@ The p-values contained in the outputs of the functions
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/correlation-analysis.html">Correlation Analysis</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -195,7 +183,7 @@ labels.</p></td>
       <th>font.label</th>
       <td><p>a list with one or more of the following elements: size
 (e.g., 1), color (e.g., "black") and style (e.g., "bold"). Used to
-customize the correlation coefficient lables. For example <code>font.label
+customize the correlation coefficient labels. For example <code>font.label
 = list(size = 1, color = "black", style = "bold")</code>.</p></td>
     </tr>
     <tr>
@@ -254,7 +242,13 @@ customize the correlation coefficient lables. For example <code>font.label
   <span class='no'>my.palette</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/ggpubr/topics/get_palette'>get_palette</a></span>(<span class='fu'>c</span>(<span class='st'>"red"</span>, <span class='st'>"white"</span>, <span class='st'>"blue"</span>), <span class='fl'>200</span>)
   <span class='no'>cor.lower.tri</span> <span class='kw'>%&gt;%</span>
    <span class='fu'>cor_plot</span>(<span class='kw'>palette</span> <span class='kw'>=</span> <span class='no'>my.palette</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Le chargement a nécessité le package : ggpubr</span></div><div class='output co'>#&gt; <span class='message'>Le chargement a nécessité le package : ggplot2</span></div><div class='output co'>#&gt; <span class='message'>Le chargement a nécessité le package : magrittr</span></div><div class='img'><img src='cor_plot-7.png' alt='' width='700' height='433' /></div><div class='input'>
+}</div><div class='output co'>#&gt; <span class='message'>Le chargement a nécessité le package : ggpubr</span></div><div class='output co'>#&gt; <span class='message'>Le chargement a nécessité le package : ggplot2</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attachement du package : ‘ggplot2’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:rstatix’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    mean_se</span></div><div class='output co'>#&gt; <span class='message'>Le chargement a nécessité le package : magrittr</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attachement du package : ‘ggpubr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:rstatix’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    mean_ci, mean_sd, median_iqr, median_mad</span></div><div class='img'><img src='cor_plot-7.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Using RcolorBrewer color palette</span>
 <span class='kw'>if</span>(<span class='fu'>require</span>(<span class='st'>"ggpubr"</span>)){
   <span class='no'>my.palette</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/ggpubr/topics/get_palette'>get_palette</a></span>(<span class='st'>"PuOr"</span>, <span class='fl'>200</span>)

@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.999</span>
       </span>
     </div>
 
@@ -79,18 +79,6 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/correlation-analysis.html">Correlation Analysis</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -158,12 +146,12 @@ adjust the p value (not recommended), use p.adjust.method = "none".</p></td>
     <pre class="examples"><div class='input'><span class='co'># Perform pairwise comparisons and adjust p-values</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
  <span class='fu'><a href='t_test.html'>t_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>adjust_pvalue</span>()</div><div class='output co'>#&gt; # A tibble: 3 x 9
-#&gt;   .y.   group1 group2 statistic        p method    p.adj p.signif p.adj.signif
-#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;       
-#&gt; 1 len   0.5    1          -6.48 1.30e- 7 T-test 2.60e- 7 ****     ****        
-#&gt; 2 len   0.5    2         -11.8  4.40e-14 T-test 1.32e-13 ****     ****        
-#&gt; 3 len   1      2          -4.90 1.90e- 5 T-test 1.90e- 5 ****     ****        </div><div class='input'>
+ <span class='fu'>adjust_pvalue</span>()</div><div class='output co'>#&gt; [90m# A tibble: 3 x 8[39m
+#&gt;   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
+#&gt;   [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  [3m[90m&lt;chr&gt;[39m[23m      [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m       
+#&gt; [90m1[39m len   0.5    1          -[31m6[39m[31m.[39m[31m48[39m  38.0 1.27[90me[39m[31m- 7[39m 2.54[90me[39m[31m- 7[39m ****        
+#&gt; [90m2[39m len   0.5    2         -[31m11[39m[31m.[39m[31m8[39m   36.9 4.40[90me[39m[31m-14[39m 1.32[90me[39m[31m-13[39m ****        
+#&gt; [90m3[39m len   1      2          -[31m4[39m[31m.[39m[31m90[39m  37.1 1.91[90me[39m[31m- 5[39m 1.91[90me[39m[31m- 5[39m ****        </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

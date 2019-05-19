@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.999</span>
       </span>
     </div>
 
@@ -79,18 +79,6 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/correlation-analysis.html">Correlation Analysis</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -166,10 +154,10 @@ one or multiple levels giving the corresponding groups. For example,
 
 <span class='co'># Kruskal-wallis rank sum test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>kruskal_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 4
-#&gt;   .y.   statistic            p method        
-#&gt;   &lt;chr&gt;     &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;         
-#&gt; 1 len        40.7 0.0000000015 Kruskal-Wallis</div><div class='input'>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>kruskal_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; [90m# A tibble: 1 x 5[39m
+#&gt;   .y.   statistic    df             p method        
+#&gt;   [3m[90m&lt;chr&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;int&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m         
+#&gt; [90m1[39m len        40.7     2 0.000[4m0[24m[4m0[24m[4m0[24m001[4m4[24m[4m8[24m Kruskal-Wallis</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

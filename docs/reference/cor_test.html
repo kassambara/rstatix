@@ -38,8 +38,9 @@
  between paired samples, using Pearson, Kendall or Spearman method. Wrapper
  around the function cor.test().
 Can also performs multiple pairwise correlation analyses between more than
- two variables or between two different vectors of variables. Using this function, you
- can also compute, for example, the correlation between one variable vs many." />
+ two variables or between two different vectors of variables. Using this
+ function, you can also compute, for example, the correlation between one
+ variable vs many." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +70,7 @@ Can also performs multiple pairwise correlation analyses between more than
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.999</span>
       </span>
     </div>
 
@@ -83,18 +84,6 @@ Can also performs multiple pairwise correlation analyses between more than
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/correlation-analysis.html">Correlation Analysis</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -126,8 +115,9 @@ Can also performs multiple pairwise correlation analyses between more than
  between paired samples, using Pearson, Kendall or Spearman method. Wrapper
  around the function <code><a href='http://www.rdocumentation.org/packages/stats/topics/cor.test'>cor.test</a>()</code>.</p>
 <p>Can also performs multiple pairwise correlation analyses between more than
- two variables or between two different vectors of variables. Using this function, you
- can also compute, for example, the correlation between one variable vs many.</p>
+ two variables or between two different vectors of variables. Using this
+ function, you can also compute, for example, the correlation between one
+ variable vs many.</p>
     
     </div>
 
@@ -145,29 +135,32 @@ Can also performs multiple pairwise correlation analyses between more than
     <tr>
       <th>...</th>
       <td><p>One or more unquoted expressions (or variable names) separated by
-commas. Used to select a variable of interest. Alternative to the argument <code>vars</code>.</p></td>
+commas. Used to select a variable of interest. Alternative to the argument
+<code>vars</code>.</p></td>
     </tr>
     <tr>
       <th>vars</th>
-      <td><p>optional character vector containing variable names for correlation
-analysis. Ignored when dot vars are specified.</p><ul>
-<li><p>If <code>vars</code> is NULL, multiple pairwise
-correlation tests is performed between all variables in the data.</p></li>
-<li><p>If
-<code>vars</code> contain only one variable, a pairwise correlation analysis is
-performed between the specified variable vs either all the remaining numeric
-variables in the data or variables in <code>vars2</code> (if specified).</p></li>
-<li><p>If
-<code>vars</code> contain two or more variables: i) if <code>vars2</code> is not
-specified, a pairwise correlation analysis is performed between all possible
-combinations of variables. ii) if <code>vars2</code> is specified, each element in
-<code>vars</code> is tested against all elements in <code>vars2</code></p></li>
-</ul></td>
+      <td><p>optional character vector containing variable names for
+correlation analysis. Ignored when dot vars are specified.</p><ul>
+<li><p>If <code>vars</code> is NULL, multiple pairwise correlation tests is performed
+between all variables in the data.</p></li>
+<li><p>If <code>vars</code> contain only one
+variable, a pairwise correlation analysis is performed between the specified
+variable vs either all the remaining numeric variables in the data or
+variables in <code>vars2</code> (if specified).</p></li>
+<li><p>If <code>vars</code> contain two
+or more variables: i) if <code>vars2</code> is not specified, a pairwise
+correlation analysis is performed between all possible combinations of
+variables. ii) if <code>vars2</code> is specified, each element in <code>vars</code> is
+tested against all elements in <code>vars2</code></p></li>
+</ul><p>. Accept unquoted
+variable names: <code>c(var1, var2)</code>.</p></td>
     </tr>
     <tr>
       <th>vars2</th>
       <td><p>optional character vector. If specified, each element in
-<code>vars</code> is tested against all elements in <code>vars2</code>.</p></td>
+<code>vars</code> is tested against all elements in <code>vars2</code>. Accept unquoted
+variable names: <code>c(var1, var2)</code>.</p></td>
     </tr>
     <tr>
       <th>alternative</th>
@@ -207,7 +200,7 @@ combinations of variables. ii) if <code>vars2</code> is specified, each element 
 <li><p><code>statistic</code>: Test
  statistic used to compute the p-value.</p></li>
 <li><p><code>p</code>: p-value.</p></li>
-<li><p><code>conf.low,conf.high</code>: Lower and upper bounds on a confidende interval.</p></li>
+<li><p><code>conf.low,conf.high</code>: Lower and upper bounds on a confidence interval.</p></li>
 <li><p><code>method</code>: the method used to compute the statistic.</p></li>
 </ul>
 
@@ -228,75 +221,75 @@ combinations of variables. ii) if <code>vars2</code> is specified, each element 
 <span class='co'># Correlation between the specified variable vs</span>
 <span class='co'># the remaining numeric variables in the data</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>mpg</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 8
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>mpg</span>)</div><div class='output co'>#&gt; [90m# A tibble: 10 x 8[39m
 #&gt;    var1  var2    cor statistic        p conf.low conf.high method 
-#&gt;  * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
-#&gt;  1 mpg   cyl   -0.85     -8.92 6.10e-10  -0.926     -0.716 Pearson
-#&gt;  2 mpg   disp  -0.85     -8.75 9.40e-10  -0.923     -0.708 Pearson
-#&gt;  3 mpg   hp    -0.78     -6.74 1.80e- 7  -0.885     -0.586 Pearson
-#&gt;  4 mpg   drat   0.68      5.10 1.80e- 5   0.436      0.832 Pearson
-#&gt;  5 mpg   wt    -0.87     -9.56 1.30e-10  -0.934     -0.744 Pearson
-#&gt;  6 mpg   qsec   0.42      2.53 1.70e- 2   0.0820     0.670 Pearson
-#&gt;  7 mpg   vs     0.66      4.86 3.40e- 5   0.410      0.822 Pearson
-#&gt;  8 mpg   am     0.6       4.11 2.90e- 4   0.318      0.784 Pearson
-#&gt;  9 mpg   gear   0.48      3.00 5.40e- 3   0.158      0.710 Pearson
-#&gt; 10 mpg   carb  -0.55     -3.62 1.10e- 3  -0.755     -0.250 Pearson</div><div class='input'>
+#&gt;  [90m*[39m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  
+#&gt; [90m 1[39m mpg   cyl   -[31m0[39m[31m.[39m[31m85[39m     -[31m8[39m[31m.[39m[31m92[39m 6.11[90me[39m[31m-10[39m  -[31m0[39m[31m.[39m[31m926[39m     -[31m0[39m[31m.[39m[31m716[39m Pearson
+#&gt; [90m 2[39m mpg   disp  -[31m0[39m[31m.[39m[31m85[39m     -[31m8[39m[31m.[39m[31m75[39m 9.38[90me[39m[31m-10[39m  -[31m0[39m[31m.[39m[31m923[39m     -[31m0[39m[31m.[39m[31m708[39m Pearson
+#&gt; [90m 3[39m mpg   hp    -[31m0[39m[31m.[39m[31m78[39m     -[31m6[39m[31m.[39m[31m74[39m 1.79[90me[39m[31m- 7[39m  -[31m0[39m[31m.[39m[31m885[39m     -[31m0[39m[31m.[39m[31m586[39m Pearson
+#&gt; [90m 4[39m mpg   drat   0.68      5.10 1.78[90me[39m[31m- 5[39m   0.436      0.832 Pearson
+#&gt; [90m 5[39m mpg   wt    -[31m0[39m[31m.[39m[31m87[39m     -[31m9[39m[31m.[39m[31m56[39m 1.29[90me[39m[31m-10[39m  -[31m0[39m[31m.[39m[31m934[39m     -[31m0[39m[31m.[39m[31m744[39m Pearson
+#&gt; [90m 6[39m mpg   qsec   0.42      2.53 1.71[90me[39m[31m- 2[39m   0.082[4m0[24m     0.670 Pearson
+#&gt; [90m 7[39m mpg   vs     0.66      4.86 3.42[90me[39m[31m- 5[39m   0.410      0.822 Pearson
+#&gt; [90m 8[39m mpg   am     0.6       4.11 2.85[90me[39m[31m- 4[39m   0.318      0.784 Pearson
+#&gt; [90m 9[39m mpg   gear   0.48      3.00 5.40[90me[39m[31m- 3[39m   0.158      0.710 Pearson
+#&gt; [90m10[39m mpg   carb  -[31m0[39m[31m.[39m[31m55[39m     -[31m3[39m[31m.[39m[31m62[39m 1.08[90me[39m[31m- 3[39m  -[31m0[39m[31m.[39m[31m755[39m     -[31m0[39m[31m.[39m[31m250[39m Pearson</div><div class='input'>
 <span class='co'># Correlation test between two variables</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>wt</span>, <span class='no'>mpg</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 8
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>wt</span>, <span class='no'>mpg</span>)</div><div class='output co'>#&gt; [90m# A tibble: 1 x 8[39m
 #&gt;   var1  var2    cor statistic        p conf.low conf.high method 
-#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
-#&gt; 1 wt    mpg   -0.87     -9.56 1.30e-10   -0.934    -0.744 Pearson</div><div class='input'>
+#&gt; [90m*[39m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  
+#&gt; [90m1[39m wt    mpg   -[31m0[39m[31m.[39m[31m87[39m     -[31m9[39m[31m.[39m[31m56[39m 1.29[90me[39m[31m-10[39m   -[31m0[39m[31m.[39m[31m934[39m    -[31m0[39m[31m.[39m[31m744[39m Pearson</div><div class='input'>
 <span class='co'># Pairwise correlation between multiple variables</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>wt</span>, <span class='no'>mpg</span>, <span class='no'>disp</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 8
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(<span class='no'>wt</span>, <span class='no'>mpg</span>, <span class='no'>disp</span>)</div><div class='output co'>#&gt; [90m# A tibble: 9 x 8[39m
 #&gt;   var1  var2    cor     statistic         p conf.low conf.high method 
-#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;         &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
-#&gt; 1 wt    wt     1     367570386.   2.30e-236    1.000     1     Pearson
-#&gt; 2 wt    mpg   -0.87         -9.56 1.30e- 10   -0.934    -0.744 Pearson
-#&gt; 3 wt    disp   0.89         10.6  1.20e- 11    0.781     0.944 Pearson
-#&gt; 4 mpg   wt    -0.87         -9.56 1.30e- 10   -0.934    -0.744 Pearson
-#&gt; 5 mpg   mpg    1           Inf    0.           1         1     Pearson
-#&gt; 6 mpg   disp  -0.85         -8.75 9.40e- 10   -0.923    -0.708 Pearson
-#&gt; 7 disp  wt     0.89         10.6  1.20e- 11    0.781     0.944 Pearson
-#&gt; 8 disp  mpg   -0.85         -8.75 9.40e- 10   -0.923    -0.708 Pearson
-#&gt; 9 disp  disp   1           Inf    0.           1         1     Pearson</div><div class='input'>
+#&gt; [90m*[39m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m         [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  
+#&gt; [90m1[39m wt    wt     1     367[4m5[24m[4m7[24m[4m0[24m386.   2.27[90me[39m[31m-236[39m    1.000     1     Pearson
+#&gt; [90m2[39m wt    mpg   -[31m0[39m[31m.[39m[31m87[39m         -[31m9[39m[31m.[39m[31m56[39m 1.29[90me[39m[31m- 10[39m   -[31m0[39m[31m.[39m[31m934[39m    -[31m0[39m[31m.[39m[31m744[39m Pearson
+#&gt; [90m3[39m wt    disp   0.89         10.6  1.22[90me[39m[31m- 11[39m    0.781     0.944 Pearson
+#&gt; [90m4[39m mpg   wt    -[31m0[39m[31m.[39m[31m87[39m         -[31m9[39m[31m.[39m[31m56[39m 1.29[90me[39m[31m- 10[39m   -[31m0[39m[31m.[39m[31m934[39m    -[31m0[39m[31m.[39m[31m744[39m Pearson
+#&gt; [90m5[39m mpg   mpg    1           [31mInf[39m    0.  [90m [39m        1         1     Pearson
+#&gt; [90m6[39m mpg   disp  -[31m0[39m[31m.[39m[31m85[39m         -[31m8[39m[31m.[39m[31m75[39m 9.38[90me[39m[31m- 10[39m   -[31m0[39m[31m.[39m[31m923[39m    -[31m0[39m[31m.[39m[31m708[39m Pearson
+#&gt; [90m7[39m disp  wt     0.89         10.6  1.22[90me[39m[31m- 11[39m    0.781     0.944 Pearson
+#&gt; [90m8[39m disp  mpg   -[31m0[39m[31m.[39m[31m85[39m         -[31m8[39m[31m.[39m[31m75[39m 9.38[90me[39m[31m- 10[39m   -[31m0[39m[31m.[39m[31m923[39m    -[31m0[39m[31m.[39m[31m708[39m Pearson
+#&gt; [90m9[39m disp  disp   1           [31mInf[39m    0.  [90m [39m        1         1     Pearson</div><div class='input'>
 <span class='co'># Grouped data</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>cor_test</span>(<span class='no'>Sepal.Width</span>, <span class='no'>Sepal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 9
-#&gt;   Species   var1     var2      cor statistic         p conf.low conf.high method
-#&gt; * &lt;fct&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; 
-#&gt; 1 setosa    Sepal.W… Sepal.…  0.74      7.68  6.70e-10    0.585     0.846 Pears…
-#&gt; 2 versicol… Sepal.W… Sepal.…  0.53      4.28  8.80e- 5    0.290     0.702 Pears…
-#&gt; 3 virginica Sepal.W… Sepal.…  0.46      3.56  8.40e- 4    0.205     0.653 Pears…</div><div class='input'>
+ <span class='fu'>cor_test</span>(<span class='no'>Sepal.Width</span>, <span class='no'>Sepal.Length</span>)</div><div class='output co'>#&gt; [90m# A tibble: 3 x 9[39m
+#&gt;   Species   var1     var2       cor statistic        p conf.low conf.high method
+#&gt; [90m*[39m [3m[90m&lt;fct&gt;[39m[23m     [3m[90m&lt;chr&gt;[39m[23m    [3m[90m&lt;chr&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m 
+#&gt; [90m1[39m setosa    Sepal.W… Sepal.L…  0.74      7.68 6.71[90me[39m[31m-10[39m    0.585     0.846 Pears…
+#&gt; [90m2[39m versicol… Sepal.W… Sepal.L…  0.53      4.28 8.77[90me[39m[31m- 5[39m    0.290     0.702 Pears…
+#&gt; [90m3[39m virginica Sepal.W… Sepal.L…  0.46      3.56 8.43[90me[39m[31m- 4[39m    0.205     0.653 Pears…</div><div class='input'>
 <span class='co'># Multiple correlation test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Correlation between one variable vs many</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(
   <span class='kw'>vars</span> <span class='kw'>=</span> <span class='st'>"mpg"</span>,
   <span class='kw'>vars2</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span>)
- )</div><div class='output co'>#&gt; # A tibble: 3 x 8
-#&gt;   var1  var2    cor statistic             p conf.low conf.high method 
-#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
-#&gt; 1 mpg   disp  -0.85     -8.75 0.00000000094   -0.923    -0.708 Pearson
-#&gt; 2 mpg   hp    -0.78     -6.74 0.00000018      -0.885    -0.586 Pearson
-#&gt; 3 mpg   drat   0.68      5.10 0.000018         0.436     0.832 Pearson</div><div class='input'>
+ )</div><div class='output co'>#&gt; [90m# A tibble: 3 x 8[39m
+#&gt;   var1  var2    cor statistic        p conf.low conf.high method 
+#&gt; [90m*[39m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  
+#&gt; [90m1[39m mpg   disp  -[31m0[39m[31m.[39m[31m85[39m     -[31m8[39m[31m.[39m[31m75[39m 9.38[90me[39m[31m-10[39m   -[31m0[39m[31m.[39m[31m923[39m    -[31m0[39m[31m.[39m[31m708[39m Pearson
+#&gt; [90m2[39m mpg   hp    -[31m0[39m[31m.[39m[31m78[39m     -[31m6[39m[31m.[39m[31m74[39m 1.79[90me[39m[31m- 7[39m   -[31m0[39m[31m.[39m[31m885[39m    -[31m0[39m[31m.[39m[31m586[39m Pearson
+#&gt; [90m3[39m mpg   drat   0.68      5.10 1.78[90me[39m[31m- 5[39m    0.436     0.832 Pearson</div><div class='input'>
 <span class='co'># Correlation between two vectors of variables</span>
 <span class='co'># Each element in vars is tested against all elements in vars2</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_test</span>(
   <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"mpg"</span>, <span class='st'>"wt"</span>),
   <span class='kw'>vars2</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"disp"</span>, <span class='st'>"hp"</span>, <span class='st'>"drat"</span>)
- )</div><div class='output co'>#&gt; # A tibble: 6 x 8
+ )</div><div class='output co'>#&gt; [90m# A tibble: 6 x 8[39m
 #&gt;   var1  var2    cor statistic        p conf.low conf.high method 
-#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
-#&gt; 1 mpg   disp  -0.85     -8.75 9.40e-10   -0.923    -0.708 Pearson
-#&gt; 2 mpg   hp    -0.78     -6.74 1.80e- 7   -0.885    -0.586 Pearson
-#&gt; 3 mpg   drat   0.68      5.10 1.80e- 5    0.436     0.832 Pearson
-#&gt; 4 wt    disp   0.89     10.6  1.20e-11    0.781     0.944 Pearson
-#&gt; 5 wt    hp     0.66      4.80 4.10e- 5    0.403     0.819 Pearson
-#&gt; 6 wt    drat  -0.71     -5.56 4.80e- 6   -0.850    -0.484 Pearson</div><div class='input'>
+#&gt; [90m*[39m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m     [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;chr&gt;[39m[23m  
+#&gt; [90m1[39m mpg   disp  -[31m0[39m[31m.[39m[31m85[39m     -[31m8[39m[31m.[39m[31m75[39m 9.38[90me[39m[31m-10[39m   -[31m0[39m[31m.[39m[31m923[39m    -[31m0[39m[31m.[39m[31m708[39m Pearson
+#&gt; [90m2[39m mpg   hp    -[31m0[39m[31m.[39m[31m78[39m     -[31m6[39m[31m.[39m[31m74[39m 1.79[90me[39m[31m- 7[39m   -[31m0[39m[31m.[39m[31m885[39m    -[31m0[39m[31m.[39m[31m586[39m Pearson
+#&gt; [90m3[39m mpg   drat   0.68      5.10 1.78[90me[39m[31m- 5[39m    0.436     0.832 Pearson
+#&gt; [90m4[39m wt    disp   0.89     10.6  1.22[90me[39m[31m-11[39m    0.781     0.944 Pearson
+#&gt; [90m5[39m wt    hp     0.66      4.80 4.15[90me[39m[31m- 5[39m    0.403     0.819 Pearson
+#&gt; [90m6[39m wt    drat  -[31m0[39m[31m.[39m[31m71[39m     -[31m5[39m[31m.[39m[31m56[39m 4.78[90me[39m[31m- 6[39m   -[31m0[39m[31m.[39m[31m850[39m    -[31m0[39m[31m.[39m[31m484[39m Pearson</div><div class='input'>
 
 </div></pre>
   </div>

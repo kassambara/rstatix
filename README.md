@@ -15,7 +15,7 @@ Key functions
 -   `get_mode()`: Compute the mode of a vector, that is the most frequent values.
 -   `identify_outliers()`: Detect univariate outliers using boxplot methods.
 -   `mahalanobis_distance()`: Compute Mahalanobis Distance and Flag Multivariate Outliers.
--   `shapiro_test() and mshapiro_test()`: Univariate and multivariate Shapiro-Wilk normality test.
+-   `shapiro_test()` and `mshapiro_test()`: Univariate and multivariate Shapiro-Wilk normality test.
 
 ### Comparing means
 
@@ -27,8 +27,8 @@ Key functions
 
 ### Facilitating ANOVA computation in R
 
--   `factorial_design()`: build factorial design for easily computing ANOVA using the `car::Anova()` function. This might be very useful for repeatead measures ANOVA, which is hard to set up with the `car` package.
--   `anova_summary()`: Create beautiul summary tables of ANOVA test results obtained from either `car::Anova()` or `stats::aov()`. The results include ANOVA table, generalized effect size and some assumption checks, shuch as Mauchly's test for sphericity in the case of repeated measures ANOVA.
+-   `factorial_design()`: build factorial design for easily computing ANOVA using the `car::Anova()` function. This might be very useful for repeated measures ANOVA, which is hard to set up with the `car` package.
+-   `anova_summary()`: Create beautiful summary tables of ANOVA test results obtained from either `car::Anova()` or `stats::aov()`. The results include ANOVA table, generalized effect size and some assumption checks, such as Mauchly's test for sphericity in the case of repeated measures ANOVA.
 
 ### Comparing variances
 
@@ -76,6 +76,7 @@ Key functions
 ### Others
 
 -   `doo()`: alternative to dplyr::do for doing anything. Technically it uses `nest() + mutate() + map()` to apply arbitrary computation to a grouped data frame.
+-   `sample_n_by()`: sample n rows by group from a table
 -   `convert_as_factor(), set_ref_level(), reorder_levels()`: Provides pipe-friendly functions to convert simultaneously multiple variables into a factor variable.
 
 Installation and loading
@@ -96,8 +97,47 @@ library(rstatix)
 library(ggpubr)  # For easy data-visualization
 ```
 
-Comparing means
----------------
+Descriptive statistics
+----------------------
+
+``` r
+# Summary statistics of some selected variables
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+iris %>% 
+  get_summary_stats(Sepal.Length, Sepal.Width, type = "common")
+#> # A tibble: 2 x 10
+#>   variable         n   min   max median   iqr  mean    sd    se    ci
+#>   <chr>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1 Sepal.Length   150   4.3   7.9    5.8   1.3  5.84 0.828 0.068 0.134
+#> 2 Sepal.Width    150   2     4.4    3     0.5  3.06 0.436 0.036 0.07
+
+# Whole data frame
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+iris %>% get_summary_stats(type = "common")
+#> # A tibble: 4 x 10
+#>   variable         n   min   max median   iqr  mean    sd    se    ci
+#>   <chr>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1 Petal.Length   150   1     6.9   4.35   3.5  3.76 1.76  0.144 0.285
+#> 2 Petal.Width    150   0.1   2.5   1.3    1.5  1.20 0.762 0.062 0.123
+#> 3 Sepal.Length   150   4.3   7.9   5.8    1.3  5.84 0.828 0.068 0.134
+#> 4 Sepal.Width    150   2     4.4   3      0.5  3.06 0.436 0.036 0.07
+
+
+# Grouped data
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+iris %>%
+  group_by(Species) %>% 
+  get_summary_stats(Sepal.Length, type = "mean_sd")
+#> # A tibble: 3 x 5
+#>   Species    variable         n  mean    sd
+#>   <fct>      <chr>        <dbl> <dbl> <dbl>
+#> 1 setosa     Sepal.Length    50  5.01 0.352
+#> 2 versicolor Sepal.Length    50  5.94 0.516
+#> 3 virginica  Sepal.Length    50  6.59 0.636
+```
+
+Comparing two means
+-------------------
 
 To compare the means of two groups, you can use either the function `t_test()` (parametric) or `wilcox_test()` (non-parametric). In the following example the t-test will be illustrated.
 
@@ -128,9 +168,9 @@ stat.test <- df %>%
   t_test(len ~ supp, paired = FALSE) 
 stat.test
 #> # A tibble: 1 x 6
-#>   .y.   group1 group2 statistic      p method
-#>   <chr> <chr>  <chr>      <dbl>  <dbl> <chr> 
-#> 1 len   OJ     VC          1.92 0.0606 T-test
+#>   .y.   group1 group2 statistic    df      p
+#>   <chr> <chr>  <chr>      <dbl> <dbl>  <dbl>
+#> 1 len   OJ     VC          1.92  55.3 0.0606
 
 # Create a box plot
 p <- ggboxplot(
@@ -162,12 +202,12 @@ stat.test <- df %>%
   adjust_pvalue() %>%
   add_significance("p.adj")
 stat.test
-#> # A tibble: 3 x 9
-#>   dose  .y.   group1 group2 statistic       p method   p.adj p.adj.signif
-#>   <fct> <chr> <chr>  <chr>      <dbl>   <dbl> <chr>    <dbl> <chr>       
-#> 1 0.5   len   OJ     VC        3.17   0.00636 T-test 0.0127  *           
-#> 2 1     len   OJ     VC        4.03   0.00104 T-test 0.00312 **          
-#> 3 2     len   OJ     VC       -0.0461 0.964   T-test 0.964   ns
+#> # A tibble: 3 x 8
+#>   .y.   group1 group2 statistic    df       p   p.adj p.adj.signif
+#>   <chr> <chr>  <chr>      <dbl> <dbl>   <dbl>   <dbl> <chr>       
+#> 1 len   OJ     VC        3.17    15.0 0.00636 0.0127  *           
+#> 2 len   OJ     VC        4.03    15.4 0.00104 0.00312 **          
+#> 3 len   OJ     VC       -0.0461  14.0 0.964   0.964   ns
 
 # Visualization
 ggboxplot(
@@ -188,9 +228,9 @@ stat.test <- df %>%
   t_test(len ~ supp, paired = TRUE) 
 stat.test
 #> # A tibble: 1 x 6
-#>   .y.   group1 group2 statistic       p method
-#>   <chr> <chr>  <chr>      <dbl>   <dbl> <chr> 
-#> 1 len   OJ     VC          3.30 0.00255 T-test
+#>   .y.   group1 group2 statistic    df       p
+#>   <chr> <chr>  <chr>      <dbl> <dbl>   <dbl>
+#> 1 len   OJ     VC          3.30    29 0.00255
 
 # Box plot
 p <- ggpaired(
@@ -202,7 +242,7 @@ p + stat_pvalue_manual(stat.test, label = "p", y.position = 36)
 
 ![](tools/README-paired-t-test-1.png)
 
-### Compare more than two groups
+### Multiple pairwise comparisons
 
 -   Pairwise comparisons: if the grouping variable contains more than two categories, a pairwise comparison is automatically performed.
 
@@ -210,13 +250,12 @@ p + stat_pvalue_manual(stat.test, label = "p", y.position = 36)
 # Pairwise t-test
 pairwise.test <- df %>% t_test(len ~ dose)
 pairwise.test
-#> # A tibble: 3 x 9
-#>   .y.   group1 group2 statistic        p method    p.adj p.signif
-#>   <chr> <chr>  <chr>      <dbl>    <dbl> <chr>     <dbl> <chr>   
-#> 1 len   0.5    1          -6.48 1.27e- 7 T-test 2.54e- 7 ****    
-#> 2 len   0.5    2         -11.8  4.40e-14 T-test 1.32e-13 ****    
-#> 3 len   1      2          -4.90 1.91e- 5 T-test 1.91e- 5 ****    
-#> # … with 1 more variable: p.adj.signif <chr>
+#> # A tibble: 3 x 8
+#>   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
+#>   <chr> <chr>  <chr>      <dbl> <dbl>    <dbl>    <dbl> <chr>       
+#> 1 len   0.5    1          -6.48  38.0 1.27e- 7 2.54e- 7 ****        
+#> 2 len   0.5    2         -11.8   36.9 4.40e-14 1.32e-13 ****        
+#> 3 len   1      2          -4.90  37.1 1.91e- 5 1.91e- 5 ****
 # Box plot
 ggboxplot(df, x = "dose", y = "len")+
   stat_pvalue_manual(
@@ -235,16 +274,15 @@ ggboxplot(df, x = "dose", y = "len")+
 # T-test: each level is compared to the ref group
 stat.test <- df %>% t_test(len ~ dose, ref.group = "0.5")
 stat.test
-#> # A tibble: 2 x 9
-#>   .y.   group1 group2 statistic        p method    p.adj p.signif
-#>   <chr> <chr>  <chr>      <dbl>    <dbl> <chr>     <dbl> <chr>   
-#> 1 len   0.5    1          -6.48 1.27e- 7 T-test 1.27e- 7 ****    
-#> 2 len   0.5    2         -11.8  4.40e-14 T-test 8.80e-14 ****    
-#> # … with 1 more variable: p.adj.signif <chr>
+#> # A tibble: 2 x 8
+#>   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
+#>   <chr> <chr>  <chr>      <dbl> <dbl>    <dbl>    <dbl> <chr>       
+#> 1 len   0.5    1          -6.48  38.0 1.27e- 7 1.27e- 7 ****        
+#> 2 len   0.5    2         -11.8   36.9 4.40e-14 8.80e-14 ****
 # Box plot
 ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
   stat_pvalue_manual(
-    stat.test, label = "p.signif", 
+    stat.test, label = "p.adj.signif", 
     y.position = c(29, 35)
     )
 ```
@@ -255,7 +293,7 @@ ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
 # Remove bracket
 ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
   stat_pvalue_manual(
-    stat.test, label = "p.signif", 
+    stat.test, label = "p.adj.signif", 
     y.position = c(29, 35),
     remove.bracket = TRUE
     )
@@ -269,17 +307,16 @@ ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
 # T-test
 stat.test <- df %>% t_test(len ~ dose, ref.group = "all")
 stat.test
-#> # A tibble: 3 x 9
-#>   .y.   group1 group2 statistic       p method   p.adj p.signif
-#>   <chr> <chr>  <chr>      <dbl>   <dbl> <chr>    <dbl> <chr>   
-#> 1 len   all    0.5        5.82  2.90e-7 T-test 8.70e-7 ****    
-#> 2 len   all    1         -0.660 5.12e-1 T-test 5.12e-1 ns      
-#> 3 len   all    2         -5.61  4.25e-7 T-test 8.70e-7 ****    
-#> # … with 1 more variable: p.adj.signif <chr>
+#> # A tibble: 3 x 8
+#>   .y.   group1 group2 statistic    df           p      p.adj p.adj.signif
+#>   <chr> <chr>  <chr>      <dbl> <dbl>       <dbl>      <dbl> <chr>       
+#> 1 len   all    0.5        5.82   56.4 0.000000290 0.00000087 ****        
+#> 2 len   all    1         -0.660  57.5 0.512       0.512      ns          
+#> 3 len   all    2         -5.61   66.5 0.000000425 0.00000087 ****
 # Box plot with horizontal mean line
 ggboxplot(df, x = "dose", y = "len") +
   stat_pvalue_manual(
-    stat.test, label = "p.signif", 
+    stat.test, label = "p.adj.signif", 
     y.position = 35,
     remove.bracket = TRUE
     ) +
@@ -288,6 +325,190 @@ ggboxplot(df, x = "dose", y = "len") +
 
 ![](tools/README-comparison-against-base-mean-1.png)
 
-### Related articles
+ANOVA test
+----------
+
+``` r
+# One-way ANOVA test
+#:::::::::::::::::::::::::::::::::::::::::
+df %>% anova_test(len ~ dose)
+#> ANOVA Table (type II tests)
+#> 
+#>   Effect DFn DFd      F        p p<.05   ges
+#> 1   dose   2  57 67.416 9.53e-16     * 0.703
+
+# Two-way ANOVA test
+#:::::::::::::::::::::::::::::::::::::::::
+df %>% anova_test(len ~ supp*dose)
+#> ANOVA Table (type II tests)
+#> 
+#>      Effect DFn DFd      F        p p<.05   ges
+#> 1      supp   1  54 15.572 2.31e-04     * 0.224
+#> 2      dose   2  54 92.000 4.05e-18     * 0.773
+#> 3 supp:dose   2  54  4.107 2.20e-02     * 0.132
+
+# Two-way repeated measures ANOVA
+#:::::::::::::::::::::::::::::::::::::::::
+df$id <- rep(1:10, 6) # Add individuals id
+# Use formula
+# df %>% anova_test(len ~ supp*dose + Error(id/(supp*dose)))
+# or use character vector
+df %>% anova_test(dv = len, wid = id, within = c(supp, dose))
+#> ANOVA Table (type III tests)
+#> 
+#> $ANOVA
+#>      Effect DFn DFd       F        p p<.05   ges
+#> 1      supp   1   9  34.866 2.28e-04     * 0.224
+#> 2      dose   2  18 106.470 1.06e-10     * 0.773
+#> 3 supp:dose   2  18   2.534 1.07e-01       0.132
+#> 
+#> $`Mauchly's Test for Sphericity`
+#>      Effect     W     p p<.05
+#> 1      dose 0.807 0.425      
+#> 2 supp:dose 0.934 0.761      
+#> 
+#> $`Sphericity Corrections`
+#>      Effect   GGe      DF[GG]    p[GG] p[GG]<.05   HFe      DF[HF]
+#> 1      dose 0.838 1.68, 15.09 2.79e-09         * 1.008 2.02, 18.15
+#> 2 supp:dose 0.938 1.88, 16.88 1.12e-01           1.176 2.35, 21.17
+#>      p[HF] p[HF]<.05
+#> 1 1.06e-10         *
+#> 2 1.07e-01
+
+# Use model as arguments
+#:::::::::::::::::::::::::::::::::::::::::
+.my.model <- lm(yield ~ block + N*P*K, npk)
+anova_test(.my.model)
+#> ANOVA Table (type II tests)
+#> 
+#>   Effect DFn DFd      F     p p<.05   ges
+#> 1  block   5  12  4.447 0.016     * 0.649
+#> 2      N   1  12 12.259 0.004     * 0.505
+#> 3      P   1  12  0.544 0.475       0.043
+#> 4      K   1  12  6.166 0.029     * 0.339
+#> 5    N:P   1  12  1.378 0.263       0.103
+#> 6    N:K   1  12  2.146 0.169       0.152
+#> 7    P:K   1  12  0.031 0.863       0.003
+#> 8  N:P:K   0  12     NA    NA  <NA>    NA
+```
+
+Correlation tests
+-----------------
+
+``` r
+# Data preparation
+mydata <- mtcars %>% 
+  select(mpg, disp, hp, drat, wt, qsec)
+head(mydata, 3)
+#>                mpg disp  hp drat    wt  qsec
+#> Mazda RX4     21.0  160 110 3.90 2.620 16.46
+#> Mazda RX4 Wag 21.0  160 110 3.90 2.875 17.02
+#> Datsun 710    22.8  108  93 3.85 2.320 18.61
+
+# Correlation test between two variables
+mydata %>% cor_test(wt, mpg, method = "pearson")
+#> # A tibble: 1 x 8
+#>   var1  var2    cor statistic        p conf.low conf.high method 
+#> * <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
+#> 1 wt    mpg   -0.87     -9.56 1.29e-10   -0.934    -0.744 Pearson
+
+# Correlation of one variable against all
+mydata %>% cor_test(mpg, method = "pearson")
+#> # A tibble: 5 x 8
+#>   var1  var2    cor statistic        p conf.low conf.high method 
+#> * <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
+#> 1 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
+#> 2 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
+#> 3 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson
+#> 4 mpg   wt    -0.87     -9.56 1.29e-10  -0.934     -0.744 Pearson
+#> 5 mpg   qsec   0.42      2.53 1.71e- 2   0.0820     0.670 Pearson
+
+# Pairwise correlation test between all variables
+mydata %>% cor_test(method = "pearson")
+#> # A tibble: 36 x 8
+#>    var1  var2    cor statistic        p conf.low conf.high method 
+#>  * <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
+#>  1 mpg   mpg    1       Inf    0.         1          1     Pearson
+#>  2 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
+#>  3 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
+#>  4 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson
+#>  5 mpg   wt    -0.87     -9.56 1.29e-10  -0.934     -0.744 Pearson
+#>  6 mpg   qsec   0.42      2.53 1.71e- 2   0.0820     0.670 Pearson
+#>  7 disp  mpg   -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
+#>  8 disp  disp   1       Inf    0.         1          1     Pearson
+#>  9 disp  hp     0.79      7.08 7.14e- 8   0.611      0.893 Pearson
+#> 10 disp  drat  -0.71     -5.53 5.28e- 6  -0.849     -0.481 Pearson
+#> # … with 26 more rows
+```
+
+Correlation matrix
+------------------
+
+``` r
+# Compute correlation matrix
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat <- mydata %>% cor_mat()
+cor.mat
+#> # A tibble: 6 x 7
+#>   rowname   mpg  disp    hp   drat    wt   qsec
+#> * <chr>   <dbl> <dbl> <dbl>  <dbl> <dbl>  <dbl>
+#> 1 mpg      1    -0.85 -0.78  0.68  -0.87  0.42 
+#> 2 disp    -0.85  1     0.79 -0.71   0.89 -0.43 
+#> 3 hp      -0.78  0.79  1    -0.45   0.66 -0.71 
+#> 4 drat     0.68 -0.71 -0.45  1     -0.71  0.091
+#> 5 wt      -0.87  0.89  0.66 -0.71   1    -0.17 
+#> 6 qsec     0.42 -0.43 -0.71  0.091 -0.17  1
+
+# Show the significance levels
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %>% cor_get_pval()
+#> # A tibble: 6 x 7
+#>   rowname      mpg     disp           hp       drat        wt       qsec
+#> * <chr>      <dbl>    <dbl>        <dbl>      <dbl>     <dbl>      <dbl>
+#> 1 mpg     0.       9.38e-10 0.000000179  0.0000178  1.29e- 10 0.0171    
+#> 2 disp    9.38e-10 0.       0.0000000714 0.00000528 1.22e- 11 0.0131    
+#> 3 hp      1.79e- 7 7.14e- 8 0            0.00999    4.15e-  5 0.00000577
+#> 4 drat    1.78e- 5 5.28e- 6 0.00999      0          4.78e-  6 0.62      
+#> 5 wt      1.29e-10 1.22e-11 0.0000415    0.00000478 2.27e-236 0.339     
+#> 6 qsec    1.71e- 2 1.31e- 2 0.00000577   0.62       3.39e-  1 0
+
+# Replacing correlation coefficients by symbols
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %>%
+  cor_as_symbols() %>%
+  pull_lower_triangle()
+#>   rowname mpg disp hp drat wt qsec
+#> 1     mpg                         
+#> 2    disp   *                     
+#> 3      hp   *    *                
+#> 4    drat   +    +  .             
+#> 5      wt   *    *  +    +        
+#> 6    qsec   .    .  +
+
+# Mark significant correlations
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %>%
+  cor_mark_significant()
+#>   rowname       mpg      disp        hp      drat    wt qsec
+#> 1     mpg                                                   
+#> 2    disp -0.85****                                         
+#> 3      hp -0.78****  0.79****                               
+#> 4    drat  0.68**** -0.71****   -0.45**                     
+#> 5      wt -0.87****  0.89****  0.66**** -0.71****           
+#> 6    qsec     0.42*    -0.43* -0.71****     0.091 -0.17
+
+
+# Draw correlogram using R base plot
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %>%
+  cor_reorder() %>%
+  pull_lower_triangle() %>% 
+  cor_plot()
+```
+
+![](tools/README-unnamed-chunk-8-1.png)
+
+Related articles
+----------------
 
 -   [Add P-values and Significance Levels to ggplots](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/)

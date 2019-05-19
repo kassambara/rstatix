@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Identify Outliers Using Boxplot Methods — identify_outliers • rstatix</title>
+<title>Identify Univariate Outliers Using Boxplot Methods — identify_outliers • rstatix</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
 
@@ -32,7 +32,7 @@
 
 
 
-<meta property="og:title" content="Identify Outliers Using Boxplot Methods — identify_outliers" />
+<meta property="og:title" content="Identify Univariate Outliers Using Boxplot Methods — identify_outliers" />
 
 <meta property="og:description" content="Detect outliers using boxplot methods. Boxplots are a popular and
  an easy method for identifying outliers. There are two categories of
@@ -74,7 +74,7 @@ Generally speaking, data points that are labelled outliers in boxplots are
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.999</span>
       </span>
     </div>
 
@@ -88,18 +88,6 @@ Generally speaking, data points that are labelled outliers in boxplots are
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/correlation-analysis.html">Correlation Analysis</a>
-    </li>
-  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -120,7 +108,7 @@ Generally speaking, data points that are labelled outliers in boxplots are
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Identify Outliers Using Boxplot Methods</h1>
+    <h1>Identify Univariate Outliers Using Boxplot Methods</h1>
     
     <div class="hidden name"><code>outliers.Rd</code></div>
     </div>
@@ -214,11 +202,11 @@ and "is.extreme".</p></li>
 <span class='co'># Identify outliers by groups</span>
 <span class='no'>demo.data</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>identify_outliers</span>(<span class='st'>"score"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 5
-#&gt;   sample score gender is.outlier is.extreme
-#&gt;    &lt;int&gt; &lt;dbl&gt; &lt;fct&gt;  &lt;lgl&gt;      &lt;lgl&gt;     
-#&gt; 1     18  1.07 Female TRUE       FALSE     
-#&gt; 2     20 50    Female TRUE       TRUE      </div></pre>
+  <span class='fu'>identify_outliers</span>(<span class='st'>"score"</span>)</div><div class='output co'>#&gt; [90m# A tibble: 2 x 5[39m
+#&gt;   gender sample score is.outlier is.extreme
+#&gt;   [3m[90m&lt;fct&gt;[39m[23m   [3m[90m&lt;int&gt;[39m[23m [3m[90m&lt;dbl&gt;[39m[23m [3m[90m&lt;lgl&gt;[39m[23m      [3m[90m&lt;lgl&gt;[39m[23m     
+#&gt; [90m1[39m Female     18  1.07 TRUE       FALSE     
+#&gt; [90m2[39m Female     20 50    TRUE       TRUE      </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
