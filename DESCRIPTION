@@ -1,6 +1,6 @@
 Package: rstatix
 Type: Package
-Title: Pipe-friendly Framework for Basic Statistical Tests in R
+Title: Pipe-Friendly Framework for Basic Statistical Tests in R
 Version: 0.1.0
 Authors@R: c(
     person("Alboukadel", "Kassambara", role = c("aut", "cre"), email = "alboukadel.kassambara@gmail.com"))
@@ -69,4 +69,3 @@ Collate:
     't_test.R'
     'tukey_hsd.R'
     'wilcox_test.R'
-VignetteBuilder: knitr
