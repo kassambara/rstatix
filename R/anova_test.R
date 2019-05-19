@@ -112,7 +112,7 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
   .args <- rlang::enquos(
     dv = dv, wid = wid, between = between,
     within = within, covariate = covariate) %>%
-    map(~get_quo_vars(data, .))
+    get_quo_vars_list(data, .)
   if(!missing(formula)) .args$formula <- formula
   if(is_grouped_df(data)){
     results <- data %>% doo(
@@ -166,7 +166,7 @@ print.anova_test <- function(x, ...) {
 #' @export
 plot.anova_test <- function(x, ...) {
   .args <- attr(x, "args")
-  graphics::plot(.args$model, sub = "", ...)
+  graphics::plot(.args$model,  ...)
 }
 
 
@@ -176,10 +176,6 @@ plot.anova_test <- function(x, ...) {
 # Check the arguments of ANOVA
 # .args is a list
 check_anova_arguments <- function(.args){
-  if(.is_empty(.args$between)) .args$between <- NULL
-  if(.is_empty(.args$within)) .args$within <- NULL
-  if(.is_empty(.args$wid)) .args$wid <- NULL
-  if(.is_empty(.args$covariate)) .args$covariate <- NULL
   if(!is.null(.args$formula)){
     .args <- get_anova_vars_from_formula(.args)
     if(is.null(.args$within)) .args$model <- fit_lm(.args)
@@ -385,7 +381,7 @@ create_aov_formula <- function(.args){
 
 
 
-
+# Not used helpers
 check_anova_assumptions <- function(data, dv, between){
   . <- NULL
   outliers <- data %>%

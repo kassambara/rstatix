@@ -20,7 +20,7 @@ Should be unique per individual.}
 
 \item{covariate}{(optional) covariate names (for ANCOVA)}
 
-\item{...}{within variable names (i.e., repeatead measure variables)}
+\item{...}{within variable names (i.e., repeated measure variables)}
 }
 \value{
 a list with the following components: \itemize{ \item \strong{the
@@ -32,14 +32,14 @@ a list with the following components: \itemize{ \item \strong{the
  model formula using the “data” in idata and specifying the intra-subject
  design. \item \strong{repeated}: logical. Value is TRUE when the data is a
  repeated design. \item \strong{lm_formula}: the formula used to build the
- \code{lm} model. \item \strong{lm_data}: thedata used to build the \code{lm}
+ \code{lm} model. \item \strong{lm_data}: the data used to build the \code{lm}
  model. Can be either in a long format (i.e., the original data for
  independent measures ANOVA) or in a wide format (case of repeated measures ANOVA). \item \strong{model}: the \code{lm} model }
 }
 \description{
 Provides helper functions to build factorial design for easily
  computing ANOVA using the \code{\link[car]{Anova}()} function. This might be
- very useful for repeatead measures ANOVA, which is hard to set up with the
+ very useful for repeated measures ANOVA, which is hard to set up with the
  \code{car} package.
 }
 \examples{

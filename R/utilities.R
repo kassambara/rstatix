@@ -102,7 +102,19 @@ get_quo_vars <- function (data, vars)
     tidyselect::vars_select(!!vars) %>%
     magrittr::set_names(NULL)
 }
+# .args <- rlang::enquos(x = x, y = y, ...) %>%
+#   get_quo_vars_list(data, .)
+get_quo_vars_list <- function(data, .enquos){
+  . <- NULL
+  res <- .enquos %>% map(~get_quo_vars(data, .))
+  res <- map(res, set_empty_to_null )
+  res
+}
 
+set_empty_to_null <- function(x){
+  if(.is_empty(x)) x <- NULL
+  x
+}
 
 # Extract variables used in a formula
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

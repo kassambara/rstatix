@@ -61,7 +61,7 @@ return an object of class \code{anova_test} a data frame containing
  \item W	Mauchly's W statistic }
 }
 \description{
-Create beautiul summary tables of ANOVA test results obtained
+Create beautiful summary tables of ANOVA test results obtained
  from either \code{\link[car]{Anova}()} or \code{\link[stats]{aov}()}.
 
  The results include ANOVA table, generalized effect size and some assumption

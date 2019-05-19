@@ -5,11 +5,11 @@ NULL
 #'
 #'@description Provides helper functions to build factorial design for easily
 #'  computing ANOVA using the \code{\link[car]{Anova}()} function. This might be
-#'  very useful for repeatead measures ANOVA, which is hard to set up with the
+#'  very useful for repeated measures ANOVA, which is hard to set up with the
 #'  \code{car} package.
 #'@inheritParams anova_test
 #'@param data a data frame containing the variables
-#'@param ... within variable names (i.e., repeatead measure variables)
+#'@param ... within variable names (i.e., repeated measure variables)
 #'@return a list with the following components: \itemize{ \item \strong{the
 #'  specified arguments}: \code{dv, wid, between, within} \item \strong{data}:
 #'  the original data (long format) or independent ANOVA. The wide format is
@@ -19,7 +19,7 @@ NULL
 #'  model formula using the “data” in idata and specifying the intra-subject
 #'  design. \item \strong{repeated}: logical. Value is TRUE when the data is a
 #'  repeated design. \item \strong{lm_formula}: the formula used to build the
-#'  \code{lm} model. \item \strong{lm_data}: thedata used to build the \code{lm}
+#'  \code{lm} model. \item \strong{lm_data}: the data used to build the \code{lm}
 #'  model. Can be either in a long format (i.e., the original data for
 #'  independent measures ANOVA) or in a wide format (case of repeated measures ANOVA). \item \strong{model}: the \code{lm} model }
 #'@author Alboukadel Kassambara, \email{alboukadel.kassambara@@gmail.com}
@@ -56,12 +56,12 @@ NULL
 #'@export
 factorial_design <- function(data, dv, wid, between, within, covariate){
   # Check factorial design %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  . <- NULL
   .args <- rlang::enquos(dv = dv, between = between, wid = wid, within = within, covariate = covariate) %>%
-    map(~get_quo_vars(data, .)) %>%
+    get_quo_vars_list(data, .) %>%
     remove_null_items() %>%
     add_item(data = data) %>%
     check_factorial_design()
-  . <- NULL
   data <- .args$data
   dv <- .args$dv
   between <- .args$between
@@ -127,10 +127,6 @@ create_formula_right_hand_side <- function(between, covariate = NULL){
 # Cheking the design
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 check_factorial_design <- function(.args){
-  if(.is_empty(.args$between)) .args$between <- NULL
-  if(.is_empty(.args$within)) .args$within <- NULL
-  if(.is_empty(.args$wid)) .args$wid <- NULL
-  if(.is_empty(.args$covariate)) .args$covariate <- NULL
   if(!inherits(.args$data, "data.frame")){
     stop('data should be a data frame.')
   }

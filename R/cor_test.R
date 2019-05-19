@@ -11,35 +11,40 @@ NULL
 #'  around the function \code{\link[stats]{cor.test}()}.
 #'
 #'  Can also performs multiple pairwise correlation analyses between more than
-#'  two variables or between two different vectors of variables. Using this function, you
-#'  can also compute, for example, the correlation between one variable vs many.
+#'  two variables or between two different vectors of variables. Using this
+#'  function, you can also compute, for example, the correlation between one
+#'  variable vs many.
 #'
 #'
 #'@inheritParams stats::cor.test
 #'@inheritParams stats::cor
 #'@param data a data.frame containing the variables.
-#'@param vars optional character vector containing variable names for correlation
-#'  analysis. Ignored when dot vars are specified. \itemize{ \item If \code{vars} is NULL, multiple pairwise
-#'  correlation tests is performed between all variables in the data. \item If
-#'  \code{vars} contain only one variable, a pairwise correlation analysis is
-#'  performed between the specified variable vs either all the remaining numeric
-#'  variables in the data or variables in \code{vars2} (if specified). \item If
-#'  \code{vars} contain two or more variables: i) if \code{vars2} is not
-#'  specified, a pairwise correlation analysis is performed between all possible
-#'  combinations of variables. ii) if \code{vars2} is specified, each element in
-#'  \code{vars} is tested against all elements in \code{vars2}}
+#'@param vars optional character vector containing variable names for
+#'  correlation analysis. Ignored when dot vars are specified. \itemize{ \item
+#'  If \code{vars} is NULL, multiple pairwise correlation tests is performed
+#'  between all variables in the data. \item If \code{vars} contain only one
+#'  variable, a pairwise correlation analysis is performed between the specified
+#'  variable vs either all the remaining numeric variables in the data or
+#'  variables in \code{vars2} (if specified). \item If \code{vars} contain two
+#'  or more variables: i) if \code{vars2} is not specified, a pairwise
+#'  correlation analysis is performed between all possible combinations of
+#'  variables. ii) if \code{vars2} is specified, each element in \code{vars} is
+#'  tested against all elements in \code{vars2}}. Accept unquoted
+#'  variable names: \code{c(var1, var2)}.
 #'@param vars2 optional character vector. If specified, each element in
-#'  \code{vars} is tested against all elements in \code{vars2}.
+#'  \code{vars} is tested against all elements in \code{vars2}. Accept unquoted
+#'  variable names: \code{c(var1, var2)}.
 #'@param ... One or more unquoted expressions (or variable names) separated by
-#'  commas. Used to select a variable of interest. Alternative to the argument \code{vars}.
+#'  commas. Used to select a variable of interest. Alternative to the argument
+#'  \code{vars}.
 #'
 #'@return return a data frame with the following columns: \itemize{ \item
 #'  \code{var1, var2}: the variables used in the correlation test. \item
 #'  \code{cor}: the correlation coefficient. \item \code{statistic}: Test
 #'  statistic used to compute the p-value. \item \code{p}: p-value. \item
-#'  \code{conf.low,conf.high}: Lower and upper bounds on a confidende interval.
+#'  \code{conf.low,conf.high}: Lower and upper bounds on a confidence interval.
 #'  \item \code{method}: the method used to compute the statistic.}
-#' @seealso \code{\link{cor_mat}()}, \code{\link{as_cor_mat}()}
+#'@seealso \code{\link{cor_mat}()}, \code{\link{as_cor_mat}()}
 #' @examples
 #'
 #' # Correlation between the specified variable vs
@@ -86,6 +91,12 @@ cor_test <- function(
   use = "pairwise.complete.obs"
 )
 {
+  . <- NULL
+  # Accept unquoted variables
+  .args <- rlang::enquos(vars = vars, vars2 = vars2) %>%
+    get_quo_vars_list(data, .)
+  vars <- .args$vars
+  vars2 <- .args$vars2
 
   vars <- data %>% get_selected_vars(..., vars = vars)
   n.vars <- length(vars)
