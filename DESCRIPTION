@@ -1,10 +1,10 @@
 Package: rstatix
 Type: Package
-Title: Pipe-Friendly Framework for Basic Statistical Tests in R
+Title: Pipe-Friendly Framework for Basic Statistical Tests
 Version: 0.1.0
 Authors@R: c(
     person("Alboukadel", "Kassambara", role = c("aut", "cre"), email = "alboukadel.kassambara@gmail.com"))
-Description: Provides a pipe-friendly framework to perform easily basic statistical tests in R. 
+Description: Provides a pipe-friendly framework to perform easily basic statistical tests. 
     The output of each test is automatically transformed into a tidy data frame to facilitate visualization.
 License: GPL-2
 LazyData: TRUE
@@ -53,6 +53,7 @@ Collate:
     'cor_reshape.R'
     'cor_select.R'
     'cor_test.R'
+    'cramer_v.R'
     'doo.R'
     'eta_squared.R'
     'factors.R'

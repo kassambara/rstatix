@@ -79,6 +79,7 @@ Key functions
 -   `sample_n_by()`: sample n rows by group from a table
 -   `convert_as_factor(), set_ref_level(), reorder_levels()`: Provides pipe-friendly functions to convert simultaneously multiple variables into a factor variable.
 -   `make_clean_names()`: Pipe-friendly function to make syntactically valid column names (for input data frame) or names (for input vector).
+-   `cramer_v()`: Compute Cramer's V, which measures the strength of the association between categorical variables.
 
 Installation and loading
 ------------------------
