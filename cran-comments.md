@@ -6,8 +6,9 @@
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs. 
 
-## Submission
+## Resubmission
 
-This is a first submission of v0.1.0
+This is a resubmission of v0.1.0.  
+In this version, I removed redundant "in R" in the title and description.
 
 

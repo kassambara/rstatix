@@ -57,6 +57,7 @@ Collate:
     'doo.R'
     'eta_squared.R'
     'factors.R'
+    'freq_table.R'
     'get_mode.R'
     'get_summary_stats.R'
     'kruskal_test.R'

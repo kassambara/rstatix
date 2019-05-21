@@ -110,7 +110,7 @@
 
     <pre class="usage"><span class='fu'>get_summary_stats</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"full"</span>, <span class='st'>"common"</span>, <span class='st'>"robust"</span>,
   <span class='st'>"five_number"</span>, <span class='st'>"mean_sd"</span>, <span class='st'>"mean_se"</span>, <span class='st'>"mean_ci"</span>, <span class='st'>"median_iqr"</span>,
-  <span class='st'>"median_mad"</span>), <span class='kw'>show</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='st'>"median_mad"</span>, <span class='st'>"quantile"</span>), <span class='kw'>show</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.25</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -130,13 +130,17 @@ data frame is computed.</p></td>
       <th>type</th>
       <td><p>type of summary statistics. Possible values include: <code>"full",
 "common", "robust",  "five_number", "mean_sd", "mean_se", "mean_ci",
-"median_iqr", "median_mad"</code></p></td>
+"median_iqr", "median_mad", "quantile"</code></p></td>
     </tr>
     <tr>
       <th>show</th>
       <td><p>a character vector specifying the summary statistics you want to
 show. Example: <code>show = c("n", "mean", "sd")</code>. This is used to filter
 the output after computation.</p></td>
+    </tr>
+    <tr>
+      <th>probs</th>
+      <td><p>numeric vector of probabilities with values in [0,1]. Used only when type = "quantile".</p></td>
     </tr>
     </table>
     
