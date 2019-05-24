@@ -151,7 +151,7 @@ If TRUE then the pooled variance is used to estimate the variance otherwise the 
   <span class='kw'>pre</span>  <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>110</span>, <span class='fl'>122</span>, <span class='fl'>101</span>, <span class='fl'>120</span>, <span class='fl'>140</span>),
   <span class='kw'>post</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>150</span>, <span class='fl'>160</span>, <span class='fl'>110</span>, <span class='fl'>140</span>, <span class='fl'>155</span>)
 )
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"treatment"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"value"</span>, -<span class='no'>id</span>)
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/tidyr/topics/gather'>gather</a></span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"treatment"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"value"</span>, -<span class='no'>id</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;   id treatment value
 #&gt; 1  1       pre   110
 #&gt; 2  2       pre   122

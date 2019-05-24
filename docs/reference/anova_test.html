@@ -286,8 +286,28 @@ intercept row, etc.) in the ANOVA table.</p></td>
 <span class='co'># Two-way repeated measures ANOVA</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>df</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>6</span>) <span class='co'># Add individuals id</span>
-<span class='co'># Use formula</span>
-<span class='co'># df %&gt;% anova_test(len ~ supp*dose + Error(id/(supp*dose)))</span>
+<span class='co'># Use formula</span></div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>anova_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/aov'>Error</a></span>(<span class='no'>id</span>/(<span class='no'>supp</span>*<span class='no'>dose</span>)))</div><div class='output co'>#&gt; ANOVA Table (type III tests)
+#&gt; 
+#&gt; $ANOVA
+#&gt;      Effect DFn DFd       F        p p&lt;.05   ges
+#&gt; 1      supp   1   9  34.866 2.28e-04     * 0.224
+#&gt; 2      dose   2  18 106.470 1.06e-10     * 0.773
+#&gt; 3 supp:dose   2  18   2.534 1.07e-01       0.132
+#&gt; 
+#&gt; $`Mauchly's Test for Sphericity`
+#&gt;      Effect     W     p p&lt;.05
+#&gt; 1      dose 0.807 0.425      
+#&gt; 2 supp:dose 0.934 0.761      
+#&gt; 
+#&gt; $`Sphericity Corrections`
+#&gt;      Effect   GGe      DF[GG]    p[GG] p[GG]&lt;.05   HFe      DF[HF]    p[HF]
+#&gt; 1      dose 0.838 1.68, 15.09 2.79e-09         * 1.008 2.02, 18.15 1.06e-10
+#&gt; 2 supp:dose 0.938 1.88, 16.88 1.12e-01           1.176 2.35, 21.17 1.07e-01
+#&gt;   p[HF]&lt;.05
+#&gt; 1         *
+#&gt; 2          
+#&gt; </div><div class='input'>
+
 <span class='co'># or use character vector</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>anova_test</span>(<span class='kw'>dv</span> <span class='kw'>=</span> <span class='no'>len</span>, <span class='kw'>wid</span> <span class='kw'>=</span> <span class='no'>id</span>, <span class='kw'>within</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>supp</span>, <span class='no'>dose</span>))</div><div class='output co'>#&gt; ANOVA Table (type III tests)
 #&gt; 

@@ -10,8 +10,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Pipe-Friendly Framework for Basic Statistical Tests">
-<meta property="og:description" content="Provides a pipe-friendly framework to perform easily basic statistical tests. 
-    The output of each test is automatically transformed into a tidy data frame to facilitate visualization.">
+<meta property="og:description" content="Provides simple and intuitive pipe-friendly framework, coherent with the 'tidyverse' design philosophy, 
+    for performing basic statistical tests, including t-test, Wilcoxon test, ANOVA, Kruskal-Wallis and correlation analyses. 
+    The output of each test is automatically transformed into a tidy data frame to facilitate visualization. 
+    Additional functions are available for reshaping, reordering, manipulating and visualizing correlation matrix.  
+    Functions are also included to facilitate the analysis of factorial experiments, including purely 'within-Ss' designs 
+    (repeated measures), purely 'between-Ss' designs, and mixed 'within-and-between-Ss' designs. 
+    It's also possible to compute several effect size metrics, including &quot;eta squared&quot; for ANOVA, &quot;Cohen's d&quot; for t-test and 
+    &quot;Cramer's V&quot; for the association between categorical variables. 
+    The package contains helper functions for identifying univariate and multivariate outliers, assessing normality and homogeneity of variances.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -80,6 +87,8 @@
 <ul>
 <li>
 <code><a href="reference/get_summary_stats.html">get_summary_stats()</a></code>: Compute summary statistics for one or multiple numeric variables. Can handle grouped data.</li>
+<li>
+<code><a href="reference/freq_table.html">freq_table()</a></code>: Compute frequency table of categorical variables.</li>
 <li>
 <code><a href="reference/get_mode.html">get_mode()</a></code>: Compute the mode of a vector, that is the most frequent values.</li>
 <li>
@@ -250,7 +259,7 @@ iris <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a 
 <span class="co"># Grouped data</span>
 <span class="co">#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
 iris <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Species) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/dplyr/topics/group_by">group_by</a></span>(Species) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="reference/get_summary_stats.html">get_summary_stats</a></span>(Sepal.Length, <span class="dt">type =</span> <span class="st">"mean_sd"</span>)
 <span class="co">#&gt; # A tibble: 3 x 5</span>
 <span class="co">#&gt;   Species    variable         n  mean    sd</span>
@@ -312,17 +321,17 @@ p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="ht
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Statistical test</span>
 stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(dose) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/dplyr/topics/group_by">group_by</a></span>(dose) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>supp) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/adjust_pvalue.html">adjust_pvalue</a></span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/add_significance.html">add_significance</a></span>(<span class="st">"p.adj"</span>)
 stat.test
-<span class="co">#&gt; # A tibble: 3 x 8</span>
-<span class="co">#&gt;   .y.   group1 group2 statistic    df       p   p.adj p.adj.signif</span>
-<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;       </span>
-<span class="co">#&gt; 1 len   OJ     VC        3.17    15.0 0.00636 0.0127  *           </span>
-<span class="co">#&gt; 2 len   OJ     VC        4.03    15.4 0.00104 0.00312 **          </span>
-<span class="co">#&gt; 3 len   OJ     VC       -0.0461  14.0 0.964   0.964   ns</span>
+<span class="co">#&gt; # A tibble: 3 x 9</span>
+<span class="co">#&gt;   dose  .y.   group1 group2 statistic    df       p   p.adj p.adj.signif</span>
+<span class="co">#&gt;   &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;       </span>
+<span class="co">#&gt; 1 0.5   len   OJ     VC        3.17    15.0 0.00636 0.0127  *           </span>
+<span class="co">#&gt; 2 1     len   OJ     VC        4.03    15.4 0.00104 0.00312 **          </span>
+<span class="co">#&gt; 3 2     len   OJ     VC       -0.0461  14.0 0.964   0.964   ns</span>
 
 <span class="co"># Visualization</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(
@@ -496,7 +505,7 @@ df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a hr
 <a href="#correlation-tests" class="anchor"></a>Correlation tests</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Data preparation</span>
 mydata &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(mpg, disp, hp, drat, wt, qsec)
+<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/dplyr/topics/select">select</a></span>(mpg, disp, hp, drat, wt, qsec)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mydata, <span class="dv">3</span>)
 <span class="co">#&gt;                mpg disp  hp drat    wt  qsec</span>
 <span class="co">#&gt; Mazda RX4     21.0  160 110 3.90 2.620 16.46</span>

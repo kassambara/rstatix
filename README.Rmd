@@ -35,6 +35,7 @@ Provides a pipe-friendly framework to perform easily basic statistical tests in 
 ### Descriptive statistics
    
 - `get_summary_stats()`: Compute summary statistics for one or multiple numeric variables. Can handle grouped data.
+- `freq_table()`: Compute frequency table of categorical variables.
 - `get_mode()`: Compute the mode of a vector, that is the most frequent values.
 - `identify_outliers()`: Detect univariate outliers using boxplot methods. 
 - `mahalanobis_distance()`: Compute Mahalanobis Distance and Flag Multivariate Outliers.

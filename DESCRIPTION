@@ -4,7 +4,7 @@ Title: Pipe-Friendly Framework for Basic Statistical Tests
 Version: 0.1.0
 Authors@R: c(
     person("Alboukadel", "Kassambara", role = c("aut", "cre"), email = "alboukadel.kassambara@gmail.com"))
-Description: Provides simple and intuitive pipe-friendly framework, coherent with the 'tidyverse' design philosophy, 
+Description: Provides a simple and intuitive pipe-friendly framework, coherent with the 'tidyverse' design philosophy, 
     for performing basic statistical tests, including t-test, Wilcoxon test, ANOVA, Kruskal-Wallis and correlation analyses. 
     The output of each test is automatically transformed into a tidy data frame to facilitate visualization. 
     Additional functions are available for reshaping, reordering, manipulating and visualizing correlation matrix.  

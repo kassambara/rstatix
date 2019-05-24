@@ -12,6 +12,7 @@ Key functions
 ### Descriptive statistics
 
 -   `get_summary_stats()`: Compute summary statistics for one or multiple numeric variables. Can handle grouped data.
+-   `freq_table()`: Compute frequency table of categorical variables.
 -   `get_mode()`: Compute the mode of a vector, that is the most frequent values.
 -   `identify_outliers()`: Detect univariate outliers using boxplot methods.
 -   `mahalanobis_distance()`: Compute Mahalanobis Distance and Flag Multivariate Outliers.
@@ -204,12 +205,12 @@ stat.test <- df %>%
   adjust_pvalue() %>%
   add_significance("p.adj")
 stat.test
-#> # A tibble: 3 x 8
-#>   .y.   group1 group2 statistic    df       p   p.adj p.adj.signif
-#>   <chr> <chr>  <chr>      <dbl> <dbl>   <dbl>   <dbl> <chr>       
-#> 1 len   OJ     VC        3.17    15.0 0.00636 0.0127  *           
-#> 2 len   OJ     VC        4.03    15.4 0.00104 0.00312 **          
-#> 3 len   OJ     VC       -0.0461  14.0 0.964   0.964   ns
+#> # A tibble: 3 x 9
+#>   dose  .y.   group1 group2 statistic    df       p   p.adj p.adj.signif
+#>   <fct> <chr> <chr>  <chr>      <dbl> <dbl>   <dbl>   <dbl> <chr>       
+#> 1 0.5   len   OJ     VC        3.17    15.0 0.00636 0.0127  *           
+#> 2 1     len   OJ     VC        4.03    15.4 0.00104 0.00312 **          
+#> 3 2     len   OJ     VC       -0.0461  14.0 0.964   0.964   ns
 
 # Visualization
 ggboxplot(
