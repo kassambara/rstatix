@@ -15,7 +15,7 @@ mshapiro_test(data)
 \item{...}{One or more unquoted expressions (or variable names) separated by
 commas. Used to select a variable of interest.}
 
-\item{vars}{optional character vector containing variable names.Ignored when
+\item{vars}{optional character vector containing variable names. Ignored when
 dot vars are specified.}
 }
 \value{

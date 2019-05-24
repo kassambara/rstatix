@@ -11,7 +11,7 @@ NULL
 #' @param data a data frame. Columns are variables.
 #' @param ... One or more unquoted expressions (or variable names) separated by
 #'   commas. Used to select a variable of interest.
-#' @param vars optional character vector containing variable names.Ignored when
+#' @param vars optional character vector containing variable names. Ignored when
 #'   dot vars are specified.
 #' @return  a data frame containing the value of the Shapiro-Wilk statistic and
 #'   the corresponding p.value.
