@@ -94,7 +94,11 @@ NULL
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' df$id <- rep(1:10, 6) # Add individuals id
 #' # Use formula
-#' # df %>% anova_test(len ~ supp*dose + Error(id/(supp*dose)))
+#' \donttest{
+#' df %>% anova_test(len ~ supp*dose + Error(id/(supp*dose)))
+#' }
+#'
+#'
 #' # or use character vector
 #' df %>% anova_test(dv = len, wid = id, within = c(supp, dose))
 #'
