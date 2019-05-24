@@ -61,7 +61,7 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
 
 
 # Performs one or two samples mean comparisons
-mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
+mean_test <- function(data, formula, method = "t.test", ref.group = NULL, detailed = FALSE, ...) {
 
   if (is_grouped_df(data)) {
     res <- data %>%
@@ -99,13 +99,14 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, ...) {
       .y. = outcome, group1 = grp1, group2 = grp2,
       .before = "statistic"
     )
+  if(!detailed) res <- remove_details(res, method = method)
   res
 }
 
 # Pairwise mean comparisons
 mean_test_pairwise <- function(data, formula, method = "t.test",
                                comparisons = NULL, ref.group = NULL,
-                               p.adjust.method = "holm",  ...) {
+                               p.adjust.method = "holm", detailed = FALSE, ...) {
   if (is_grouped_df(data)) {
     res <- data %>%
       doo(
@@ -119,7 +120,6 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
   group <- get_formula_right_hand_side(formula)
   data <- data %>% .as_factor(group, ref.group = ref.group)
   group.levels <- data %>% get_levels(group)
-
   # All possible pairwise comparisons
   # if ref.group specified, only comparisons against reference will be kept
   if (is.null(comparisons)) {
@@ -129,17 +129,18 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
   }
   # Perform comparisons
   p <- p.adj <- NULL
-  compare_pairs(data, formula, possible.pairs, method, ...) %>%
+  res <- compare_pairs(data, formula, possible.pairs, method, ...) %>%
     adjust_pvalue(method = p.adjust.method) %>%
     add_significance("p.adj") %>%
     mutate(
       p = signif(p, digits = 3),
       p.adj = signif(p.adj, digits = 3)
     )
+if(!detailed) res <- remove_details(res, method = method)
 }
 
 # One vs all mean comparisons
-mean_test_one_vs_all <- function(data, formula, method = "t.test", p.adjust.method = "holm", ...) {
+mean_test_one_vs_all <- function(data, formula, method = "t.test", p.adjust.method = "holm", detailed = FALSE, ...) {
 
   if (is_grouped_df(data)) {
     results <- data %>%
@@ -171,7 +172,8 @@ mean_test_one_vs_all <- function(data, formula, method = "t.test", p.adjust.meth
   mean_test_pairwise(
     data = new.data, formula = formula,
     method = method, ref.group = "all",
-    p.adjust.method = p.adjust.method, ...
+    p.adjust.method = p.adjust.method,
+    detailed = detailed, ...
   )
 }
 

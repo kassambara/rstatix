@@ -130,7 +130,7 @@ t_test <- function(
     res <- one_sample_t_test(
       data = data, formula = formula,
       alternative = alternative, mu = mu,
-      conf.level = conf.level
+      conf.level = conf.level, detailed = detailed
     )
   }
   # Case of two independents or paired groups
@@ -138,7 +138,8 @@ t_test <- function(
     res <- two_sample_t_test(
       data = data, formula = formula, paired = paired,
       var.equal = var.equal, alternative = alternative,
-      conf.level = conf.level, ref.group = ref.group
+      conf.level = conf.level, ref.group = ref.group,
+      detailed = detailed
     )
   }
   # Pairwise comparisons
@@ -151,14 +152,15 @@ t_test <- function(
         p.adjust.method = p.adjust.method,
         paired = paired, var.equal = var.equal,
         alternative = alternative, conf.level = conf.level,
-        pool.sd = FALSE
+        pool.sd = FALSE, detailed = detailed
       )
     else if(ref.group %in% c("all", ".all."))
       res <- one_vs_all_t_test(
         data = data, formula = formula,
         p.adjust.method = p.adjust.method,
         var.equal = var.equal,
-        alternative = alternative, conf.level = conf.level
+        alternative = alternative, conf.level = conf.level,
+        detailed = detailed
       )
     else
       res <- pairwise_t_test(
@@ -167,10 +169,9 @@ t_test <- function(
         p.adjust.method = p.adjust.method,
         paired = paired, var.equal = var.equal,
         alternative = alternative, conf.level = conf.level,
-        pool.sd = FALSE
+        pool.sd = FALSE, detailed = detailed
       )
   }
-  if(!detailed) res <- remove_details(res, method = "t.test")
   res
 }
 
@@ -199,24 +200,25 @@ pairwise_t_test <- function(
   if(pool.sd){
     res <- pairwise_t_test_psd(
       data, formula, comparisons = comparisons, ref.group = ref.group,
-      p.adjust.method = p.adjust.method, ...
+      p.adjust.method = p.adjust.method, detailed = detailed, ...
     )
   }
   else{
     res <- mean_test_pairwise(
       data, formula, method = "t.test",
       comparisons = comparisons, ref.group = ref.group,
-      p.adjust.method = p.adjust.method, paired = paired, ...
+      p.adjust.method = p.adjust.method, paired = paired,
+      detailed = detailed, ...
     )
   }
-  if(!detailed) res <- remove_details(res, method = "t.test")
   res
   }
 
 
 pairwise_t_test_psd <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", alternative = "two.sided"
+  p.adjust.method = "holm", alternative = "two.sided",
+  detailed = FALSE
   )
   {
   . <- NULL
@@ -262,7 +264,7 @@ pairwise_t_test_psd <- function(
   }
 
   p <- p.adj <- NULL
-  results %>%
+  results <- results %>%
     adjust_pvalue(method = p.adjust.method) %>%
     add_significance("p") %>%
     add_significance("p.adj") %>%
@@ -270,6 +272,8 @@ pairwise_t_test_psd <- function(
       p = signif(p, digits = 3),
       p.adj = signif(p.adj, digits = 3)
     )
+  if(!detailed) results <- remove_details(results, method = "t.test")
+  results
 }
 
 

@@ -112,7 +112,7 @@ wilcox_test <- function(
     res <- one_sample_wilcox_test(
       data = data, formula = formula, exact = exact,
       alternative = alternative, mu = mu,
-      conf.level = conf.level
+      conf.level = conf.level, detailed = detailed
     )
   }
   # Case of two independents or paired groups
@@ -121,7 +121,8 @@ wilcox_test <- function(
       data = data, formula = formula,
       paired = paired, exact = exact,
       alternative = alternative,
-      conf.level = conf.level, ref.group = ref.group
+      conf.level = conf.level, ref.group = ref.group,
+      detailed = detailed
     )
   }
   # Pairwise comparisons
@@ -133,14 +134,15 @@ wilcox_test <- function(
         comparisons = comparisons,
         p.adjust.method = p.adjust.method,
         paired = paired, exact = exact,
-        alternative = alternative, conf.level = conf.level
+        alternative = alternative, conf.level = conf.level,
+        detailed = detailed
       )
     else if(ref.group %in% c("all", ".all."))
       res <- one_vs_all_wilcox_test(
         data = data, formula = formula,
         p.adjust.method = p.adjust.method,
         exact = exact, alternative = alternative,
-        conf.level = conf.level
+        conf.level = conf.level, detailed = detailed
       )
     else
       res <- pairwise_wilcox_test(
@@ -148,10 +150,10 @@ wilcox_test <- function(
         comparisons = comparisons, ref.group = ref.group,
         p.adjust.method = p.adjust.method,
         paired = paired, exact = exact,
-        alternative = alternative, conf.level = conf.level
+        alternative = alternative, conf.level = conf.level,
+        detailed = detailed
       )
   }
-  if(!detailed) res <- remove_details(res, method = "wilcox.test")
   res
 }
 
@@ -174,13 +176,11 @@ pairwise_wilcox_test <- function(
   p.adjust.method = "holm", detailed = FALSE, ...)
   {
 
-  res <- mean_test_pairwise(
+  mean_test_pairwise(
     data, formula, method = "wilcox.test",
     comparisons = comparisons, ref.group = ref.group,
-    p.adjust.method = p.adjust.method, ...
+    p.adjust.method = p.adjust.method, detailed = detailed, ...
   )
-  if(!detailed) res <- remove_details(res, method = "wilcox.test")
-  res
 }
 
 
