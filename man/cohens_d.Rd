@@ -18,11 +18,18 @@ one or multiple levels giving the corresponding groups. For example,
 
 \item{mu}{theoretical mean, use for one-sample t-test. Default is O.}
 
-\item{var.equal}{a logical variable indicating whether to treat the two variances as being equal.
-If TRUE then the pooled variance is used to estimate the variance otherwise the Welch (or Satterthwaite) approximation to the degrees of freedom is used.}
+\item{var.equal}{a logical variable indicating whether to treat the two
+variances as being equal. If TRUE then the pooled variance is used to
+estimate the variance otherwise the Welch (or Satterthwaite) approximation
+to the degrees of freedom is used.}
+}
+\value{
+a data frame containing the Cohen's d and the magnitude.
 }
 \description{
-Compute the effect size for t-test.
+Compute the effect size for t-test. T-test conventional effect
+  sizes, poposed by Cohen, are: 0.2 (small efect), 0.5 (moderate effect) and
+  0.8 (large effect).
 }
 \examples{
 # One-sample t test effect size
