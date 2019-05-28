@@ -69,7 +69,8 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, detail
     return(res)
   }
 
-  test.function <- match.fun(method)
+  # test.function <- match.fun(method)
+  test.function <- method
   test.args <- list()
   grp1 <- grp2 <- NULL
   outcome <- get_formula_left_hand_side(formula)
