@@ -143,7 +143,8 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
       p = signif(p, digits = 3),
       p.adj = signif(p.adj, digits = 3)
     )
-if(!detailed) res <- remove_details(res, method = method)
+ if(!detailed) res <- remove_details(res, method = method)
+ res
 }
 
 # One vs all mean comparisons
