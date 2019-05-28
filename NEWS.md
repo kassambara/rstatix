@@ -2,7 +2,8 @@
    
    
 ## New features
-
+  
+- New function `sign_test()` added.
 
 ## Major changes
    

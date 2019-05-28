@@ -15,6 +15,7 @@ reference:
     contents:
       - t_test
       - wilcox_test
+      - sign_test
       - anova_test
       - kruskal_test
       - tukey_hsd

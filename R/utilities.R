@@ -248,7 +248,7 @@ get_stat_method <- function(x){
   }
   available.methods <- c(
     "T-test", "Wilcoxon", "Kruskal-Wallis",
-    "Pearson", "Spearman", "Kendall"
+    "Pearson", "Spearman", "Kendall", "Sign-Test"
   )
   used.method <- available.methods %>%
     map(grepl, x$method, ignore.case = TRUE) %>%

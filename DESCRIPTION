@@ -75,6 +75,7 @@ Collate:
     'reexports.R'
     'sample_n_by.R'
     'shapiro_test.R'
+    'sign_test.R'
     't_test.R'
     'tukey_hsd.R'
     'wilcox_test.R'

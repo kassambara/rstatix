@@ -28,6 +28,7 @@ Key functions
 
 -   `t_test()`: perform one-sample, two-sample and pairwise t-tests
 -   `wilcox_test()`: perform one-sample, two-sample and pairwise Wilcoxon tests
+-   `sign_test()`: perform sign test to determine whether there is a median difference between paired or matched observations.
 -   `anova_test()`: an easy-to-use wrapper around `car::Anova()` to perform different types of ANOVA tests, including **independent measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
 -   `kruskal_test()`: perform kruskal-wallis rank sum test
 -   `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
