@@ -30,7 +30,7 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
  specified, for a given grouping variable, each of the group levels will be
  compared to the reference group (i.e. control group).
 
- If \code{ref.group = "all"}, pairwise two sample t-tests are performed for comparing each grouping
+ If \code{ref.group = "all"}, pairwise two sample Wilcoxon tests are performed for comparing each grouping
  variable levels against all (i.e. basemean).}
 
 \item{p.adjust.method}{method to adjust p values for multiple comparisons.
@@ -120,7 +120,7 @@ df \%>\%
 
 # pairwise comparisons
 #::::::::::::::::::::::::::::::::::::::::
-# As dose contains more thant two levels ==>
+# As dose contains more than two levels ==>
 # pairwise test is automatically performed.
 df \%>\% wilcox_test(len ~ dose)
 
