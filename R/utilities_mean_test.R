@@ -136,7 +136,7 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
   }
   # Perform comparisons
   p <- p.adj <- NULL
-  res <- compare_pairs(data, formula, possible.pairs, method, ...) %>%
+  res <- compare_pairs(data, formula, possible.pairs, method, detailed = detailed, ...) %>%
     adjust_pvalue(method = p.adjust.method) %>%
     add_significance("p.adj") %>%
     mutate(
