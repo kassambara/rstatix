@@ -73,7 +73,7 @@ Performs one-sample and two-sample sign tests.
 }}
 
 \note{
-this function is a reimplementation of the function \code{SignTest()} from the \code{DescTools} package.
+This function is a reimplementation of the function \code{SignTest()} from the \code{DescTools} package.
 }
 \examples{
 # Load data

@@ -31,7 +31,7 @@ NULL
 #'  \code{conf.low,conf.high}: Lower and upper bound on a confidence interval.
 #'   }
 #' @note
-#' this function is a reimplementation of the function \code{SignTest()} from the \code{DescTools} package.
+#' This function is a reimplementation of the function \code{SignTest()} from the \code{DescTools} package.
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::
