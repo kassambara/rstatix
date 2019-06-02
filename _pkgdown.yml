@@ -19,6 +19,7 @@ reference:
       - anova_test
       - kruskal_test
       - tukey_hsd
+      - dunn_test
   - title: ANOVA helpers
     contents:
       - factorial_design

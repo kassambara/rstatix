@@ -1,8 +1,10 @@
 # rstatix 0.1.0.999
    
+## To do
    
 ## New features
   
+- New function `dunn_test()` added for multiple pairwise comparisons following Kruskal-Wallis test.
 - New function `sign_test()` added.
 
 ## Major changes

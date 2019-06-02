@@ -56,6 +56,7 @@ It's also possible to compute several effect size metrics, including "eta square
 - `anova_test()`: an easy-to-use wrapper around `car::Anova()` to perform different types of ANOVA tests, including **independent measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
 - `kruskal_test()`: perform kruskal-wallis rank sum test
 - `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
+- `dunn_test()`: compute multiple pairwise comparisons following Kruskal-Wallis test.
    
 ### Facilitating ANOVA computation in R
    
