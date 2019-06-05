@@ -20,7 +20,11 @@ NULL
 #' ToothGrowth %>% dunn_test(len ~ dose)
 #'@export
 dunn_test <- function(data, formula, p.adjust.method = "holm"){
-
+  if(is_grouped_df(data)){
+    results <- data %>%
+      doo(dunn_test, formula, p.adjust.method )
+    return(results)
+  }
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
