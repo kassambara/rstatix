@@ -16,8 +16,8 @@ NULL
 #'  specified, for a given grouping variable, each of the group levels will be
 #'  compared to the reference group (i.e. control group).
 #'
-#'  If \code{ref.group = "all"}, pairwise two sample t-tests are performed for comparing each grouping
-#'  variable levels against all (i.e. basemean).
+#'  If \code{ref.group = "all"}, pairwise two sample t-tests are performed for
+#'  comparing each grouping variable levels against all (i.e. basemean).
 #'
 #'@param comparisons A list of length-2 vectors specifying the groups of
 #'  interest to be compared. For example to compare groups "A" vs "B" and "B" vs
@@ -40,7 +40,8 @@ NULL
 #'  possible pairs of groups. This method calls the \code{t.test()}, so extra
 #'  arguments, such as \code{var.equal} are accepted.
 #'
-#' @param detailed logical value. Default is FALSE. If TRUE, a detailed result is shown.
+#'@param detailed logical value. Default is FALSE. If TRUE, a detailed result is
+#'  shown.
 #'@param ... other arguments to be passed to the function
 #'  \code{\link[stats]{t.test}}.
 #'
@@ -64,11 +65,13 @@ NULL
 #'  effect size. It corresponds to the estimated mean or difference in means
 #'  depending on whether it was a one-sample test or a two-sample test. \item
 #'  \code{estimate1, estimate2}: show the mean values of the two groups,
-#'  respectively, for independent samples t-tests.
-#'   \item \code{alternative}: a character string describing the alternative hypothesis.
-#'  \item
-#'  \code{conf.low,conf.high}: Lower and upper bound on a confidence interval.
-#'   }
+#'  respectively, for independent samples t-tests. \item \code{alternative}: a
+#'  character string describing the alternative hypothesis. \item
+#'  \code{conf.low,conf.high}: Lower and upper bound on a confidence interval. }
+#'
+#'  The \strong{returned object has an attribute called args}, which is a list holding
+#'  the test arguments.
+#'
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::
@@ -120,7 +123,8 @@ t_test <- function(
   mu = 0, conf.level = 0.95, detailed = FALSE
 )
 {
-
+  args <- as.list(environment()) %>%
+    .add_item(method = "t_test")
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
@@ -172,7 +176,9 @@ t_test <- function(
         pool.sd = FALSE, detailed = detailed
       )
   }
-  res
+  res %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "t_test"))
 }
 
 
@@ -196,6 +202,8 @@ pairwise_t_test <- function(
   p.adjust.method = "holm", paired = FALSE, pool.sd = !paired,
   detailed = FALSE, ...) {
 
+  args <- c(as.list(environment()), list(...)) %>%
+    .add_item(method = "t_test")
   if(paired) pool.sd <- FALSE
   if(pool.sd){
     res <- pairwise_t_test_psd(
@@ -211,7 +219,9 @@ pairwise_t_test <- function(
       detailed = detailed, ...
     )
   }
-  res
+  res %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "t_test"))
   }
 
 

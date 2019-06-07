@@ -51,6 +51,9 @@ NULL
 #'  \code{p.adj}: the adjusted p-value. \item \code{method}: the statistical
 #'  test used to compare groups. \item \code{p.signif, p.adj.signif}: the
 #'  significance level of p-values and adjusted p-values, respectively. }
+#'
+#'  The \strong{returned object has an attribute called args}, which is a list holding
+#'  the test arguments.
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::
@@ -102,6 +105,8 @@ wilcox_test <- function(
   mu = 0, conf.level = 0.95, detailed = FALSE
 )
 {
+  args <- as.list(environment()) %>%
+    .add_item(method = "wilcox_test")
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
@@ -154,7 +159,9 @@ wilcox_test <- function(
         detailed = detailed
       )
   }
-  res
+  res %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "wilcox_test"))
 }
 
 
@@ -175,12 +182,16 @@ pairwise_wilcox_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm", detailed = FALSE, ...)
   {
-
-  mean_test_pairwise(
+  args <- as.list(environment()) %>%
+    .add_item(method = "wilcox_test")
+  res <- mean_test_pairwise(
     data, formula, method = "wilcox.test",
     comparisons = comparisons, ref.group = ref.group,
     p.adjust.method = p.adjust.method, detailed = detailed, ...
   )
+  res %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "wilcox_test"))
 }
 
 

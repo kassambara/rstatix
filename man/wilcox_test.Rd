@@ -66,6 +66,9 @@ return a data frame with some of the following columns: \itemize{ \item
  \code{p.adj}: the adjusted p-value. \item \code{method}: the statistical
  test used to compare groups. \item \code{p.signif, p.adj.signif}: the
  significance level of p-values and adjusted p-values, respectively. }
+
+ The \strong{returned object has an attribute called args}, which is a list holding
+ the test arguments.
 }
 \description{
 Provides a pipe-friendly framework to performs one and two sample

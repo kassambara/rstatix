@@ -31,8 +31,8 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
  specified, for a given grouping variable, each of the group levels will be
  compared to the reference group (i.e. control group).
 
- If \code{ref.group = "all"}, pairwise two sample t-tests are performed for comparing each grouping
- variable levels against all (i.e. basemean).}
+ If \code{ref.group = "all"}, pairwise two sample t-tests are performed for
+ comparing each grouping variable levels against all (i.e. basemean).}
 
 \item{p.adjust.method}{method to adjust p values for multiple comparisons.
 Used when pairwise comparisons are performed. Allowed values include "holm",
@@ -56,7 +56,8 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
 \item{conf.level}{confidence level of the interval.}
 
-\item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is shown.}
+\item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
+shown.}
 
 \item{pool.sd}{logical value used in the function \code{pairwise_t_test()}.
  Switch to allow/disallow the use of a pooled SD.
@@ -86,11 +87,12 @@ return a data frame with some the following columns: \itemize{ \item
  effect size. It corresponds to the estimated mean or difference in means
  depending on whether it was a one-sample test or a two-sample test. \item
  \code{estimate1, estimate2}: show the mean values of the two groups,
- respectively, for independent samples t-tests.
-  \item \code{alternative}: a character string describing the alternative hypothesis.
- \item
- \code{conf.low,conf.high}: Lower and upper bound on a confidence interval.
-  }
+ respectively, for independent samples t-tests. \item \code{alternative}: a
+ character string describing the alternative hypothesis. \item
+ \code{conf.low,conf.high}: Lower and upper bound on a confidence interval. }
+
+ The \strong{returned object has an attribute called args}, which is a list holding
+ the test arguments.
 }
 \description{
 Provides a pipe-friendly framework to performs one and two sample

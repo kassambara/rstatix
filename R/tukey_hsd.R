@@ -85,12 +85,17 @@ tukey_hsd.lm <- function(x, ...)
 #'   \code{\link[stats]{aov}()}
 #' @export
 tukey_hsd.data.frame <- function(x, formula, ...){
-
+  args <- list(data = x, formula = formula, method = "tukey_hsd")
   if(is_grouped_df(x)){
     results <- x %>%
-      doo(tukey_hsd.data.frame, formula, ...)
+      doo(tukey_hsd.data.frame, formula, ...) %>%
+      set_attrs(args = args) %>%
+      add_class(c("rstatix_test", "tukey_hsd"))
     return(results)
   }
+
   stats::aov(formula, x) %>%
-    tukey_hsd.default(...)
+    tukey_hsd.default(...) %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "tukey_hsd"))
 }

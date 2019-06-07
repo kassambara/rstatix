@@ -43,7 +43,8 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
 \item{conf.level}{confidence level of the interval.}
 
-\item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is shown.}
+\item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
+shown.}
 
 \item{...}{other arguments passed to the function \code{sign_test()}}
 }
@@ -61,6 +62,9 @@ return a data frame with some the following columns: \itemize{ \item
  \item
  \code{conf.low,conf.high}: Lower and upper bound on a confidence interval.
   }
+
+ The \strong{returned object has an attribute called args}, which is a list holding
+ the test arguments.
 }
 \description{
 Performs one-sample and two-sample sign tests.

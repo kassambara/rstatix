@@ -14,15 +14,23 @@ NULL
 #'  \code{method}: the statistical test used to compare groups. \item
 #'  \code{p.signif, p.adj.signif}: the significance level of p-values and
 #'  adjusted p-values, respectively. }
+#'
+#'  The \strong{returned object has an attribute called args}, which is a list holding
+#'  the test arguments.
 #' @references
 #' Dunn, O. J. (1964) Multiple comparisons using rank sums Technometrics, 6(3):241-252.
 #' @examples
 #' ToothGrowth %>% dunn_test(len ~ dose)
 #'@export
 dunn_test <- function(data, formula, p.adjust.method = "holm"){
+  args <- as.list(environment()) %>%
+    .add_item(method = "dunn_test")
+
   if(is_grouped_df(data)){
     results <- data %>%
-      doo(dunn_test, formula, p.adjust.method )
+      doo(dunn_test, formula, p.adjust.method ) %>%
+      set_attrs(args = args) %>%
+      add_class(c("rstatix_test", "dunn_test"))
     return(results)
   }
   outcome <- get_formula_left_hand_side(formula)
@@ -87,7 +95,9 @@ dunn_test <- function(data, formula, p.adjust.method = "holm"){
     add_column(statistic = PSTAT$statistic, .before = "p") %>%
     add_column(estimate = ESTIMATE$diff, .before = "group1") %>%
     select(.data$.y., .data$group1, .data$group2, .data$estimate, everything())
-  PVAL
+  PVAL %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "dunn_test"))
 }
 
 

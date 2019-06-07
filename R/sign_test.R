@@ -30,6 +30,9 @@ NULL
 #'  \item
 #'  \code{conf.low,conf.high}: Lower and upper bound on a confidence interval.
 #'   }
+#'
+#'  The \strong{returned object has an attribute called args}, which is a list holding
+#'  the test arguments.
 #' @note
 #' This function is a reimplementation of the function \code{SignTest()} from the \code{DescTools} package.
 #' @examples
@@ -74,6 +77,9 @@ sign_test <- function(data, formula, comparisons = NULL, ref.group = NULL,
                       p.adjust.method = "holm", alternative = "two.sided",
                       mu = 0, conf.level = 0.95, detailed = FALSE){
 
+  args <- as.list(environment()) %>%
+    .add_item(method = "sign_test")
+
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
@@ -109,7 +115,9 @@ sign_test <- function(data, formula, comparisons = NULL, ref.group = NULL,
         detailed = detailed
       )
   }
-  res
+  res %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "sign_test"))
 }
 
 
@@ -129,12 +137,17 @@ pairwise_sign_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm", detailed = FALSE, ...)
 {
+  args <- as.list(environment()) %>%
+    .add_item(method = "sign_test")
 
-  mean_test_pairwise(
+  res <- mean_test_pairwise(
     data, formula, method = "sign.test",
     comparisons = comparisons, ref.group = ref.group,
     p.adjust.method = p.adjust.method, detailed = detailed, ...
   )
+  res %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "sign_test"))
 }
 
 
