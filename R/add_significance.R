@@ -26,6 +26,7 @@ add_significance <- function(
   symbols = c("****", "***", "**", "*",  "ns")
 )
 {
+  .attributes <- get_test_attributes(data)
   if(missing(p.col))
     p.col <- .guess_pvalue_column(data)
   if(missing(output.col))
@@ -36,6 +37,7 @@ add_significance <- function(
     as.character()
 
   data %>%
-    mutate(!!output.col := .p.signif)
+    mutate(!!output.col := .p.signif) %>%
+    set_test_attributes(.attributes)
 }
 

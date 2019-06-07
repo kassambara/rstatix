@@ -21,7 +21,7 @@ NULL
 #' @rdname adjust_pvalue
 #' @export
 adjust_pvalue <- function(data, p.col, output.col, method = "holm"){
-
+  .attributes <- get_test_attributes(data)
   p.adjust <- stats::p.adjust
   p.adjust.method <-  method
 
@@ -35,5 +35,6 @@ adjust_pvalue <- function(data, p.col, output.col, method = "holm"){
   data %>%
     mutate(
       !!output.col := p.adjust(!!sym(p.col), method = p.adjust.method)
-    )
+    ) %>%
+    set_test_attributes(.attributes)
 }
