@@ -95,12 +95,17 @@ Key functions
 Installation and loading
 ------------------------
 
--   Install the latest version from [GitHub](https://github.com/kassambara/rstatix) as follow:
+-   Install the latest developmental version from [GitHub](https://github.com/kassambara/rstatix) as follow:
 
 ``` r
-# Install
 if(!require(devtools)) install.packages("devtools")
 devtools::install_github("kassambara/rstatix")
+```
+
+-   Or install from [CRAN](https://cran.r-project.org/package=ggpubr) as follow:
+
+``` r
+install.packages("rstatix")
 ```
 
 -   Loading packages
@@ -519,7 +524,7 @@ cor.mat %>%
   cor_plot()
 ```
 
-![](tools/README-unnamed-chunk-8-1.png)
+![](tools/README-unnamed-chunk-9-1.png)
 
 Related articles
 ----------------

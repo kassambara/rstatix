@@ -125,16 +125,23 @@ It's also possible to compute several effect size metrics, including "eta square
 ## Installation and loading
     
     
-- Install the latest version from [GitHub](https://github.com/kassambara/rstatix) as follow: 
+- Install the latest developmental version from [GitHub](https://github.com/kassambara/rstatix) as follow: 
     
    
 ```{r, eval = FALSE}
-# Install
 if(!require(devtools)) install.packages("devtools")
 devtools::install_github("kassambara/rstatix")
 ```
      
      
+- Or install from [CRAN](https://cran.r-project.org/package=ggpubr) as follow: 
+    
+     
+```{r, eval = FALSE}
+install.packages("rstatix")
+```
+
+
 - Loading packages
    
 ```{r}
