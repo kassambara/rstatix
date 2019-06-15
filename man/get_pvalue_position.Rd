@@ -97,5 +97,4 @@ stat.test <- stat.test \%>\%
      stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.01)
   }
 }
-
 }

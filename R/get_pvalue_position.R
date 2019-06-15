@@ -47,9 +47,8 @@ NULL
 #'      stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.01)
 #'   }
 #' }
-#'
 
-#'@describeIn get_pvalue_postion compute the p-value y positions
+#'@describeIn get_pvalue_position compute the p-value y positions
 #'@export
 get_y_position <- function(data, formula, fun = "max", ref.group = NULL, comparisons = NULL,
                            step.increase = 0.12){
@@ -120,7 +119,7 @@ get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, co
 
 
 
-#' @describeIn get_pvalue_postion add p-value y positions to an object of class \code{rstatix_test}
+#' @describeIn get_pvalue_position add p-value y positions to an object of class \code{rstatix_test}
 #' @export
 add_y_position <- function(test, fun = "max", step.increase = 0.12,
                            data = NULL, formula = NULL,  ref.group = NULL, comparisons = NULL)
@@ -186,7 +185,7 @@ combine_this <- function(...){
 }
 
 
-#' @describeIn get_pvalue_postion compute and add p-value x positions.
+#' @describeIn get_pvalue_position compute and add p-value x positions.
 #' @export
 add_x_position <- function(test, x = NULL, dodge = 0.8){
   asserttat_group_columns_exists(test)
@@ -219,7 +218,7 @@ add_x_position <- function(test, x = NULL, dodge = 0.8){
     set_test_attributes(.attributes)
 }
 
-#' @describeIn get_pvalue_postion compute and add both x and y positions.
+#' @describeIn get_pvalue_position compute and add both x and y positions.
 #' @export
 add_xy_position <- function(test, x = NULL,  dodge = 0.8, fun = "max", step.increase = 0.12, ...){
   test %>%
