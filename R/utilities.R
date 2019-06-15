@@ -86,6 +86,14 @@ is_lm <- function(object){
   inherits(object, "lm")
 }
 
+# Check odd and even numbers
+is_odd_number <- function(x){
+  x %% 2 != 0
+}
+is_even_number <- function(x){
+  x %% 2 == 0
+}
+
 # NSE
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -173,11 +181,15 @@ get_levels <- function(data, group){
 # ref.group: optional reference group
 # ToothGrowth %>% .as_factor("dose", ref.group = "0.5") %>% pull("dose")
 .as_factor <- function (data, group.col, ref.group = NULL){
+  if(.is_empty(group.col))
+    return(data)
   group.values <- data %>% pull(group.col)
   if(!is.factor(group.values))
     group.values <- as.factor(group.values)
-  if(!is.null(ref.group))
-    group.values <- stats::relevel(group.values, ref.group)
+  if(!is.null(ref.group)){
+    if(ref.group != "")
+      group.values <- stats::relevel(group.values, ref.group)
+  }
   data %>% mutate(!!group.col := group.values)
 }
 
@@ -201,10 +213,10 @@ get_levels <- function(data, group){
 # if ref.group is specified, then all possible pairs,
 # against reference group, are generated
 .possible_pairs <- function(group.levels, ref.group = NULL){
-
   # Ref group should be always the first group
   if(!is.null(ref.group))
-    group.levels <- c(ref.group,  group.levels) %>% unique()
+    group.levels <- c(ref.group,  group.levels)
+  group.levels <- unique(group.levels)
   # Generate possible pairs
   possible.pairs <- utils::combn(group.levels, 2) %>%
     as.data.frame()
@@ -213,7 +225,6 @@ get_levels <- function(data, group){
   if(!is.null(ref.group))
     possible.pairs <- possible.pairs %>%
     select(which(mate1 == ref.group))
-
   possible.pairs %>% as.list()
 }
 
@@ -479,6 +490,39 @@ create_grouped_data_label <- function(data){
   .results
 }
 
+#::::::::::::::::::::::::::::::::::::::::::::::::
+# Helper functions to process rstatix test results
+#::::::::::::::::::::::::::::::::::::::::::::::::
+is_rstatix_test <- function(x){
+  inherits(x, "rstatix_test")
+}
+# get rstatix test arguments
+get_test_arguments <- function(test){
+  attr(test, "args")
+}
 
+# get test grouping variables
+# exist when tests are performed on grouped data
+get_test_grouping_vars <- function(test){
+  args <- get_test_arguments(test)
+  grouping.vars <- dplyr::group_vars(args$data)
+  if(.is_empty(grouping.vars))
+    grouping.vars <- NULL
+  grouping.vars
+}
+# Get  and set the test attributes: class and attr
+# used to propagate attributes
+get_test_attributes <- function(test){
+  list(
+    class = class(test),
+    args = get_test_arguments(test)
+    )
+}
+set_test_attributes <- function(test, .attributes){
+  class(test) <- .attributes$class
+  if(!is.null(.attributes$args))
+    attr(test, "args") <- .attributes$args
+  test
+}
 
 
