@@ -94,6 +94,19 @@ is_even_number <- function(x){
   x %% 2 == 0
 }
 
+
+# Set diff that can keep duplicates
+set_diff <- function(x, y, keep.dup = FALSE){
+  if(!keep.dup)
+    res <- setdiff(x, y)
+  else{
+    ins <- x %in% y
+    res <- x[!ins]
+  }
+  res
+}
+
+
 # NSE
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 

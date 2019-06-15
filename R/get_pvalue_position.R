@@ -190,24 +190,22 @@ combine_this <- function(...){
 add_x_position <- function(test, x = NULL, dodge = 0.8){
   asserttat_group_columns_exists(test)
   .attributes <- get_test_attributes(test)
-  group1 <- setdiff(test$group1, c("all", ".all."))
-  group2 <- setdiff(test$group2, c("all", ".all."))
+  group1 <- set_diff(test$group1, c("all", ".all."), keep.dup = TRUE)
+  group2 <- set_diff(test$group2, c("all", ".all."), keep.dup = TRUE)
   groups <- unique(c(group1, group2))
-  group1.ranks <-  match(group1, groups)
-  group2.ranks <- match(group2, groups)
+  group1.coords <- group1.ranks <-  match(group1, groups)
+  group2.coords <- group2.ranks <- match(group2, groups)
   n <- length(groups)
   # Grouped test
-  if(!is.null(x) & x %in% colnames(test)){
-    test <- test %>%
-      .as_factor(x) %>%
-      mutate(x = as.numeric(!!sym(x))) # x levels order
-    xpos <- test$x
-    group1.coords <- (((dodge - dodge*n) / (2*n)) + ((group1.ranks - 1) * (dodge / n))) + xpos
-    group2.coords <- (((dodge - dodge*n) / (2*n)) + ((group2.ranks - 1) * (dodge / n))) + xpos
-  }
-  else{
-    group1.coords <- group1.ranks
-    group2.coords <- group2.ranks
+  if(!is.null(x)){
+    if(x %in% colnames(test)){
+      test <- test %>%
+        .as_factor(x) %>%
+        mutate(x = as.numeric(!!sym(x))) # x levels order
+      xpos <- test$x
+      group1.coords <- (((dodge - dodge*n) / (2*n)) + ((group1.ranks - 1) * (dodge / n))) + xpos
+      group2.coords <- (((dodge - dodge*n) / (2*n)) + ((group2.ranks - 1) * (dodge / n))) + xpos
+    }
   }
   if(.is_empty(group1)) {
     # case when ref.group = "all"
@@ -243,8 +241,6 @@ asserttat_group_columns_exists <- function(data){
     stop("data should contain group1 and group2 columns")
   }
 }
-
-
 
 
 # Helper, not used
