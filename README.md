@@ -33,6 +33,8 @@ Key functions
 -   `kruskal_test()`: perform kruskal-wallis rank sum test
 -   `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
 -   `dunn_test()`: compute multiple pairwise comparisons following Kruskal-Wallis test.
+-   `get_comparisons()`: Create a list of possible pairwise comparisons between groups.
+-   `get_pvalue_position`: autocompute p-value positions for plotting significance using ggplot2.
 
 ### Facilitating ANOVA computation in R
 
@@ -48,6 +50,7 @@ Key functions
 
 -   `cohens_d()`: Compute cohen's d measure of effect size for t-tests.
 -   `eta_squared()` and `partial_eta_squared()`: Compute effect size for ANOVA.
+-   `cramer_v()`: Compute Cramer's V, which measures the strength of the association between categorical variables.
 
 ### Correlation analysis
 
@@ -88,7 +91,6 @@ Key functions
 -   `sample_n_by()`: sample n rows by group from a table
 -   `convert_as_factor(), set_ref_level(), reorder_levels()`: Provides pipe-friendly functions to convert simultaneously multiple variables into a factor variable.
 -   `make_clean_names()`: Pipe-friendly function to make syntactically valid column names (for input data frame) or names (for input vector).
--   `cramer_v()`: Compute Cramer's V, which measures the strength of the association between categorical variables.
 
 Installation and loading
 ------------------------
