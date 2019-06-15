@@ -20,6 +20,8 @@ reference:
       - kruskal_test
       - tukey_hsd
       - dunn_test
+      - get_comparisons
+      - get_pvalue_position
   - title: ANOVA helpers
     contents:
       - factorial_design
@@ -32,6 +34,7 @@ reference:
     contents:
       - cohens_d
       - eta_squared
+      - cramer_v
   - title: Correlation analysis
     contents:
 
@@ -62,5 +65,4 @@ reference:
       - sample_n_by
       - convert_as_factor
       - make_clean_names
-      - cramer_v
 
