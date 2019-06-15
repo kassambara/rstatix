@@ -9,7 +9,7 @@ NULL
 #'  data frame is computed.
 #'@param type type of summary statistics. Possible values include: \code{"full",
 #'  "common", "robust",  "five_number", "mean_sd", "mean_se", "mean_ci",
-#'  "median_iqr", "median_mad", "quantile"}
+#'  "median_iqr", "median_mad", "quantile", "mean", "median",  "min", "max"}
 #'@param show a character vector specifying the summary statistics you want to
 #'  show. Example: \code{show = c("n", "mean", "sd")}. This is used to filter
 #'  the output after computation.
@@ -48,7 +48,8 @@ NULL
 #'@export
 get_summary_stats <- function(
   data, ..., type = c("full", "common", "robust",  "five_number",
-                      "mean_sd", "mean_se", "mean_ci", "median_iqr", "median_mad", "quantile"),
+                      "mean_sd", "mean_se", "mean_ci", "median_iqr", "median_mad", "quantile",
+                      "mean", "median",  "min", "max" ),
   show = NULL, probs = seq(0, 1, 0.25)
   ){
   type = match.arg(type)
@@ -79,6 +80,10 @@ get_summary_stats <- function(
     median_iqr = median_iqr(data),
     median_mad = median_mad(data),
     quantile = quantile_summary(data, probs),
+    mean = mean_(data),
+    median = median_(data),
+    min = min_(data),
+    max = max_(data),
     full_summary(data)
   ) %>%
     dplyr::mutate_if(is.numeric, round, digits = 3)
@@ -175,6 +180,39 @@ five_number_summary <- function(data){
       q1 = stats::quantile(value, 0.25, na.rm = TRUE),
       median = stats::median(value, na.rm=TRUE),
       q3 = stats::quantile(value, 0.75, na.rm = TRUE)
+    )
+}
+
+mean_ <- function(data){
+  value  <- NULL
+  data %>%
+    dplyr::summarise(
+      n = sum(!is.na(value)),
+      mean = mean(value, na.rm = TRUE)
+    )
+}
+median_ <- function(data){
+  value  <- NULL
+  data %>%
+    dplyr::summarise(
+      n = sum(!is.na(value)),
+      median = stats::median(value, na.rm=TRUE)
+    )
+}
+max_ <- function(data){
+  value  <- NULL
+  data %>%
+    dplyr::summarise(
+      n = sum(!is.na(value)),
+      max = max(value, na.rm = TRUE)
+    )
+}
+min_ <- function(data){
+  value  <- NULL
+  data %>%
+    dplyr::summarise(
+      n = sum(!is.na(value)),
+      min = min(value, na.rm = TRUE)
     )
 }
 
