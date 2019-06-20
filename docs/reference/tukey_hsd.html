@@ -65,7 +65,7 @@ Can handle different inputs formats: aov, lm, formula." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -178,62 +178,62 @@ inputs. ANOVA will be automatically performed using the function
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span>
 <span class='no'>df</span>$<span class='no'>dose</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>as.factor</a></span>(<span class='no'>df</span>$<span class='no'>dose</span>)
 <span class='co'># Tukey HSD from ANOVA results</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/aov'>aov</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 8</span><span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/aov'>aov</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; # A tibble: 3 x 8
 #&gt;   term  group1 group2 comparison estimate conf.low conf.high    p.adj
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> dose  0.5    1      1-0.5          9.13     5.90     12.4  2.00</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> dose  0.5    2      2-0.5         15.5     12.3      18.7  1.12</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> dose  1      2      2-1            6.36     3.14      9.59 4.25</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span></div><div class='input'>
+#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 dose  0.5    1      1-0.5          9.13     5.90     12.4  2.00e- 8
+#&gt; 2 dose  0.5    2      2-0.5         15.5     12.3      18.7  1.12e-11
+#&gt; 3 dose  1      2      2-1            6.36     3.14      9.59 4.25e- 5</div><div class='input'>
 <span class='co'># two-way anova with interaction</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/aov'>aov</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>*<span class='no'>supp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 19 x 8</span><span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/aov'>aov</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>*<span class='no'>supp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; # A tibble: 19 x 8
 #&gt;    term      group1 group2 comparison    estimate conf.low conf.high    p.adj
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> dose      0.5    1      1-0.5           9.13       6.36    11.9   3.55</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span> dose      0.5    2      2-0.5          15.5       12.7     18.3   4.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> dose      1      2      2-1             6.36       3.60     9.13  2.71</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span> supp      OJ     VC     VC-OJ          -</span><span style='color: #BB0000;'>3.7</span><span>       -</span><span style='color: #BB0000;'>5.58</span><span>    -</span><span style='color: #BB0000;'>1.82</span><span>  2.31</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 4</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> dose:supp 0.5:OJ 1:OJ   1:OJ-0.5:OJ     9.47       4.67    14.3   4.61</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> dose:supp 0.5:OJ 2:OJ   2:OJ-0.5:OJ    12.8        8.03    17.6   2.13</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 9</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> dose:supp 0.5:OJ 0.5:VC 0.5:VC-0.5:OJ  -</span><span style='color: #BB0000;'>5.25</span><span>     -</span><span style='color: #BB0000;'>10.0</span><span>     -</span><span style='color: #BB0000;'>0.452</span><span> 2.43</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span> dose:supp 0.5:OJ 1:VC   1:VC-0.5:OJ     3.54      -</span><span style='color: #BB0000;'>1.26</span><span>     8.34  2.64</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #555555;'> 9</span><span> dose:supp 0.5:OJ 2:VC   2:VC-0.5:OJ    12.9        8.11    17.7   1.77</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 9</span><span>
-#&gt; </span><span style='color: #555555;'>10</span><span> dose:supp 1:OJ   2:OJ   2:OJ-1:OJ       3.36      -</span><span style='color: #BB0000;'>1.44</span><span>     8.16  3.19</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #555555;'>11</span><span> dose:supp 1:OJ   0.5:VC 0.5:VC-1:OJ   -</span><span style='color: #BB0000;'>14.7</span><span>      -</span><span style='color: #BB0000;'>19.5</span><span>     -</span><span style='color: #BB0000;'>9.92</span><span>  2.99</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span>
-#&gt; </span><span style='color: #555555;'>12</span><span> dose:supp 1:OJ   1:VC   1:VC-1:OJ      -</span><span style='color: #BB0000;'>5.93</span><span>     -</span><span style='color: #BB0000;'>10.7</span><span>     -</span><span style='color: #BB0000;'>1.13</span><span>  7.39</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 3</span><span>
-#&gt; </span><span style='color: #555555;'>13</span><span> dose:supp 1:OJ   2:VC   2:VC-1:OJ       3.44      -</span><span style='color: #BB0000;'>1.36</span><span>     8.24  2.94</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #555555;'>14</span><span> dose:supp 2:OJ   0.5:VC 0.5:VC-2:OJ   -</span><span style='color: #BB0000;'>18.1</span><span>      -</span><span style='color: #BB0000;'>22.9</span><span>    -</span><span style='color: #BB0000;'>13.3</span><span>   4.86</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span>
-#&gt; </span><span style='color: #555555;'>15</span><span> dose:supp 2:OJ   1:VC   1:VC-2:OJ      -</span><span style='color: #BB0000;'>9.29</span><span>     -</span><span style='color: #BB0000;'>14.1</span><span>     -</span><span style='color: #BB0000;'>4.49</span><span>  6.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span>
-#&gt; </span><span style='color: #555555;'>16</span><span> dose:supp 2:OJ   2:VC   2:VC-2:OJ       0.080</span><span style='text-decoration: underline;'>0</span><span>    -</span><span style='color: #BB0000;'>4.72</span><span>     4.88  1.00</span><span style='color: #555555;'>e</span><span>+ 0
-#&gt; </span><span style='color: #555555;'>17</span><span> dose:supp 0.5:VC 1:VC   1:VC-0.5:VC     8.79       3.99    13.6   2.10</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span>
-#&gt; </span><span style='color: #555555;'>18</span><span> dose:supp 0.5:VC 2:VC   2:VC-0.5:VC    18.2       13.4     23.0   4.82</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span>
-#&gt; </span><span style='color: #555555;'>19</span><span> dose:supp 1:VC   2:VC   2:VC-1:VC       9.37       4.57    14.2   5.77</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span></div><div class='input'>
+#&gt;    &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;            &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt;  1 dose      0.5    1      1-0.5           9.13       6.36    11.9   3.55e-10
+#&gt;  2 dose      0.5    2      2-0.5          15.5       12.7     18.3   4.38e-13
+#&gt;  3 dose      1      2      2-1             6.36       3.60     9.13  2.71e- 6
+#&gt;  4 supp      OJ     VC     VC-OJ          -3.7       -5.58    -1.82  2.31e- 4
+#&gt;  5 dose:supp 0.5:OJ 1:OJ   1:OJ-0.5:OJ     9.47       4.67    14.3   4.61e- 6
+#&gt;  6 dose:supp 0.5:OJ 2:OJ   2:OJ-0.5:OJ    12.8        8.03    17.6   2.13e- 9
+#&gt;  7 dose:supp 0.5:OJ 0.5:VC 0.5:VC-0.5:OJ  -5.25     -10.0     -0.452 2.43e- 2
+#&gt;  8 dose:supp 0.5:OJ 1:VC   1:VC-0.5:OJ     3.54      -1.26     8.34  2.64e- 1
+#&gt;  9 dose:supp 0.5:OJ 2:VC   2:VC-0.5:OJ    12.9        8.11    17.7   1.77e- 9
+#&gt; 10 dose:supp 1:OJ   2:OJ   2:OJ-1:OJ       3.36      -1.44     8.16  3.19e- 1
+#&gt; 11 dose:supp 1:OJ   0.5:VC 0.5:VC-1:OJ   -14.7      -19.5     -9.92  2.99e-11
+#&gt; 12 dose:supp 1:OJ   1:VC   1:VC-1:OJ      -5.93     -10.7     -1.13  7.39e- 3
+#&gt; 13 dose:supp 1:OJ   2:VC   2:VC-1:OJ       3.44      -1.36     8.24  2.94e- 1
+#&gt; 14 dose:supp 2:OJ   0.5:VC 0.5:VC-2:OJ   -18.1      -22.9    -13.3   4.86e-13
+#&gt; 15 dose:supp 2:OJ   1:VC   1:VC-2:OJ      -9.29     -14.1     -4.49  6.91e- 6
+#&gt; 16 dose:supp 2:OJ   2:VC   2:VC-2:OJ       0.0800    -4.72     4.88  1.00e+ 0
+#&gt; 17 dose:supp 0.5:VC 1:VC   1:VC-0.5:VC     8.79       3.99    13.6   2.10e- 5
+#&gt; 18 dose:supp 0.5:VC 2:VC   2:VC-0.5:VC    18.2       13.4     23.0   4.82e-13
+#&gt; 19 dose:supp 1:VC   2:VC   2:VC-1:VC       9.37       4.57    14.2   5.77e- 6</div><div class='input'>
 <span class='co'># Tukey HSD from lm() results</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 8</span><span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; # A tibble: 3 x 8
 #&gt;   term  group1 group2 comparison estimate conf.low conf.high    p.adj
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> dose  0.5    1      1-0.5          9.13     5.90     12.4  2.00</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> dose  0.5    2      2-0.5         15.5     12.3      18.7  1.12</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> dose  1      2      2-1            6.36     3.14      9.59 4.25</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span></div><div class='input'>
+#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 dose  0.5    1      1-0.5          9.13     5.90     12.4  2.00e- 8
+#&gt; 2 dose  0.5    2      2-0.5         15.5     12.3      18.7  1.12e-11
+#&gt; 3 dose  1      2      2-1            6.36     3.14      9.59 4.25e- 5</div><div class='input'>
 <span class='co'># Tukey HSD from data frame and formula</span>
-<span class='fu'>tukey_hsd</span>(<span class='no'>df</span>, <span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 8</span><span>
+<span class='fu'>tukey_hsd</span>(<span class='no'>df</span>, <span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 8
 #&gt;   term  group1 group2 comparison estimate conf.low conf.high    p.adj
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> dose  0.5    1      1-0.5          9.13     5.90     12.4  2.00</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> dose  0.5    2      2-0.5         15.5     12.3      18.7  1.12</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> dose  1      2      2-1            6.36     3.14      9.59 4.25</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span></div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 dose  0.5    1      1-0.5          9.13     5.90     12.4  2.00e- 8
+#&gt; 2 dose  0.5    2      2-0.5         15.5     12.3      18.7  1.12e-11
+#&gt; 3 dose  1      2      2-1            6.36     3.14      9.59 4.25e- 5</div><div class='input'>
 <span class='co'># Tukey HSD using grouped data</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>tukey_hsd</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 9</span><span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>tukey_hsd</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 9
 #&gt;   supp  term  group1 group2 comparison estimate conf.low conf.high    p.adj
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> OJ    dose  0.5    1      1-0.5          9.47    5.31      13.6  1.58</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> OJ    dose  0.5    2      2-0.5         12.8     8.67      17.0  9.39</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> OJ    dose  1      2      2-1            3.36   -</span><span style='color: #BB0000;'>0.800</span><span>      7.52 1.31</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> VC    dose  0.5    1      1-0.5          8.79    4.90      12.7  1.75</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> VC    dose  0.5    2      2-0.5         18.2    14.3       22.0  1.66</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span>
-#&gt; </span><span style='color: #555555;'>6</span><span> VC    dose  1      2      2-1            9.37    5.48      13.3  6.61</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span></div><div class='input'>
-</div></span></pre>
+#&gt; * &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 OJ    dose  0.5    1      1-0.5          9.47    5.31      13.6  1.58e- 5
+#&gt; 2 OJ    dose  0.5    2      2-0.5         12.8     8.67      17.0  9.39e- 8
+#&gt; 3 OJ    dose  1      2      2-1            3.36   -0.800      7.52 1.31e- 1
+#&gt; 4 VC    dose  0.5    1      1-0.5          8.79    4.90      12.7  1.75e- 5
+#&gt; 5 VC    dose  0.5    2      2-0.5         18.2    14.3       22.0  1.66e-11
+#&gt; 6 VC    dose  1      2      2-1            9.37    5.48      13.3  6.61e- 6</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

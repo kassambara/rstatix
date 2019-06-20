@@ -187,7 +187,7 @@ stat.test <- df %>%
 stat.test
 #> # A tibble: 1 x 6
 #>   .y.   group1 group2 statistic    df      p
-#>   <chr> <chr>  <chr>      <dbl> <dbl>  <dbl>
+#> * <chr> <chr>  <chr>      <dbl> <dbl>  <dbl>
 #> 1 len   OJ     VC          1.92  55.3 0.0606
 
 # Create a box plot
@@ -247,7 +247,7 @@ stat.test <- df %>%
 stat.test
 #> # A tibble: 1 x 6
 #>   .y.   group1 group2 statistic    df       p
-#>   <chr> <chr>  <chr>      <dbl> <dbl>   <dbl>
+#> * <chr> <chr>  <chr>      <dbl> <dbl>   <dbl>
 #> 1 len   OJ     VC          3.30    29 0.00255
 
 # Box plot
@@ -270,7 +270,7 @@ pairwise.test <- df %>% t_test(len ~ dose)
 pairwise.test
 #> # A tibble: 3 x 8
 #>   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
-#>   <chr> <chr>  <chr>      <dbl> <dbl>    <dbl>    <dbl> <chr>       
+#> * <chr> <chr>  <chr>      <dbl> <dbl>    <dbl>    <dbl> <chr>       
 #> 1 len   0.5    1          -6.48  38.0 1.27e- 7 2.54e- 7 ****        
 #> 2 len   0.5    2         -11.8   36.9 4.40e-14 1.32e-13 ****        
 #> 3 len   1      2          -4.90  37.1 1.91e- 5 1.91e- 5 ****
@@ -294,7 +294,7 @@ stat.test <- df %>% t_test(len ~ dose, ref.group = "0.5")
 stat.test
 #> # A tibble: 2 x 8
 #>   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
-#>   <chr> <chr>  <chr>      <dbl> <dbl>    <dbl>    <dbl> <chr>       
+#> * <chr> <chr>  <chr>      <dbl> <dbl>    <dbl>    <dbl> <chr>       
 #> 1 len   0.5    1          -6.48  38.0 1.27e- 7 1.27e- 7 ****        
 #> 2 len   0.5    2         -11.8   36.9 4.40e-14 8.80e-14 ****
 # Box plot
@@ -327,7 +327,7 @@ stat.test <- df %>% t_test(len ~ dose, ref.group = "all")
 stat.test
 #> # A tibble: 3 x 8
 #>   .y.   group1 group2 statistic    df           p      p.adj p.adj.signif
-#>   <chr> <chr>  <chr>      <dbl> <dbl>       <dbl>      <dbl> <chr>       
+#> * <chr> <chr>  <chr>      <dbl> <dbl>       <dbl>      <dbl> <chr>       
 #> 1 len   all    0.5        5.82   56.4 0.000000290 0.00000087 ****        
 #> 2 len   all    1         -0.660  57.5 0.512       0.512      ns          
 #> 3 len   all    2         -5.61   66.5 0.000000425 0.00000087 ****

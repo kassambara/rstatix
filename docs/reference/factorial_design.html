@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -214,20 +214,20 @@ Should be unique per individual.</p></td>
 #&gt; [1] "supp" "dose"
 #&gt; 
 #&gt; $data
-#&gt; <span style='color: #555555;'># A tibble: 60 x 4</span><span>
+#&gt; # A tibble: 60 x 4
 #&gt;      len supp  dose  id   
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>   4.2 VC    X0.5  1    
-#&gt; </span><span style='color: #555555;'> 2</span><span>  11.5 VC    X0.5  2    
-#&gt; </span><span style='color: #555555;'> 3</span><span>   7.3 VC    X0.5  3    
-#&gt; </span><span style='color: #555555;'> 4</span><span>   5.8 VC    X0.5  4    
-#&gt; </span><span style='color: #555555;'> 5</span><span>   6.4 VC    X0.5  5    
-#&gt; </span><span style='color: #555555;'> 6</span><span>  10   VC    X0.5  6    
-#&gt; </span><span style='color: #555555;'> 7</span><span>  11.2 VC    X0.5  7    
-#&gt; </span><span style='color: #555555;'> 8</span><span>  11.2 VC    X0.5  8    
-#&gt; </span><span style='color: #555555;'> 9</span><span>   5.2 VC    X0.5  9    
-#&gt; </span><span style='color: #555555;'>10</span><span>   7   VC    X0.5  10   
-#&gt; </span><span style='color: #555555;'># … with 50 more rows</span><span>
+#&gt;    &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;
+#&gt;  1   4.2 VC    X0.5  1    
+#&gt;  2  11.5 VC    X0.5  2    
+#&gt;  3   7.3 VC    X0.5  3    
+#&gt;  4   5.8 VC    X0.5  4    
+#&gt;  5   6.4 VC    X0.5  5    
+#&gt;  6  10   VC    X0.5  6    
+#&gt;  7  11.2 VC    X0.5  7    
+#&gt;  8  11.2 VC    X0.5  8    
+#&gt;  9   5.2 VC    X0.5  9    
+#&gt; 10   7   VC    X0.5  10   
+#&gt; # … with 50 more rows
 #&gt; 
 #&gt; $idata
 #&gt;   supp dose
@@ -240,29 +240,29 @@ Should be unique per individual.</p></td>
 #&gt; 
 #&gt; $idesign
 #&gt; ~supp * dose
-#&gt; &lt;environment: 0x7fe21fdc1758&gt;
+#&gt; &lt;environment: 0x7fdf02b1f3c0&gt;
 #&gt; 
 #&gt; $lm_data
-#&gt; </span><span style='color: #555555;'># A tibble: 10 x 7</span><span>
+#&gt; # A tibble: 10 x 7
 #&gt;    id    OJ_X0.5 OJ_X1 OJ_X2 VC_X0.5 VC_X1 VC_X2
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 1        15.2  19.7  25.5     4.2  16.5  23.6
-#&gt; </span><span style='color: #555555;'> 2</span><span> 2        21.5  23.3  26.4    11.5  16.5  18.5
-#&gt; </span><span style='color: #555555;'> 3</span><span> 3        17.6  23.6  22.4     7.3  15.2  33.9
-#&gt; </span><span style='color: #555555;'> 4</span><span> 4         9.7  26.4  24.5     5.8  17.3  25.5
-#&gt; </span><span style='color: #555555;'> 5</span><span> 5        14.5  20    24.8     6.4  22.5  26.4
-#&gt; </span><span style='color: #555555;'> 6</span><span> 6        10    25.2  30.9    10    17.3  32.5
-#&gt; </span><span style='color: #555555;'> 7</span><span> 7         8.2  25.8  26.4    11.2  13.6  26.7
-#&gt; </span><span style='color: #555555;'> 8</span><span> 8         9.4  21.2  27.3    11.2  14.5  21.5
-#&gt; </span><span style='color: #555555;'> 9</span><span> 9        16.5  14.5  29.4     5.2  18.8  23.3
-#&gt; </span><span style='color: #555555;'>10</span><span> 10        9.7  27.3  23       7    15.5  29.5
+#&gt;    &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 1        15.2  19.7  25.5     4.2  16.5  23.6
+#&gt;  2 2        21.5  23.3  26.4    11.5  16.5  18.5
+#&gt;  3 3        17.6  23.6  22.4     7.3  15.2  33.9
+#&gt;  4 4         9.7  26.4  24.5     5.8  17.3  25.5
+#&gt;  5 5        14.5  20    24.8     6.4  22.5  26.4
+#&gt;  6 6        10    25.2  30.9    10    17.3  32.5
+#&gt;  7 7         8.2  25.8  26.4    11.2  13.6  26.7
+#&gt;  8 8         9.4  21.2  27.3    11.2  14.5  21.5
+#&gt;  9 9        16.5  14.5  29.4     5.2  18.8  23.3
+#&gt; 10 10        9.7  27.3  23       7    15.5  29.5
 #&gt; 
 #&gt; $repeated
 #&gt; [1] TRUE
 #&gt; 
 #&gt; $lm_formula
 #&gt; cbind(OJ_X0.5, OJ_X1, OJ_X2, VC_X0.5, VC_X1, VC_X2) ~ 1
-#&gt; &lt;environment: 0x7fe2221a0d50&gt;
+#&gt; &lt;environment: 0x7fdeff97f9c8&gt;
 #&gt; 
 #&gt; $model
 #&gt; 
@@ -321,43 +321,43 @@ Should be unique per individual.</p></td>
 #&gt; [1] "id"
 #&gt; 
 #&gt; $data
-#&gt; </span><span style='color: #555555;'># A tibble: 60 x 4</span><span>
+#&gt; # A tibble: 60 x 4
 #&gt;      len supp  dose  id   
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>   4.2 VC    0.5   1    
-#&gt; </span><span style='color: #555555;'> 2</span><span>  11.5 VC    0.5   2    
-#&gt; </span><span style='color: #555555;'> 3</span><span>   7.3 VC    0.5   3    
-#&gt; </span><span style='color: #555555;'> 4</span><span>   5.8 VC    0.5   4    
-#&gt; </span><span style='color: #555555;'> 5</span><span>   6.4 VC    0.5   5    
-#&gt; </span><span style='color: #555555;'> 6</span><span>  10   VC    0.5   6    
-#&gt; </span><span style='color: #555555;'> 7</span><span>  11.2 VC    0.5   7    
-#&gt; </span><span style='color: #555555;'> 8</span><span>  11.2 VC    0.5   8    
-#&gt; </span><span style='color: #555555;'> 9</span><span>   5.2 VC    0.5   9    
-#&gt; </span><span style='color: #555555;'>10</span><span>   7   VC    0.5   10   
-#&gt; </span><span style='color: #555555;'># … with 50 more rows</span><span>
+#&gt;    &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;
+#&gt;  1   4.2 VC    0.5   1    
+#&gt;  2  11.5 VC    0.5   2    
+#&gt;  3   7.3 VC    0.5   3    
+#&gt;  4   5.8 VC    0.5   4    
+#&gt;  5   6.4 VC    0.5   5    
+#&gt;  6  10   VC    0.5   6    
+#&gt;  7  11.2 VC    0.5   7    
+#&gt;  8  11.2 VC    0.5   8    
+#&gt;  9   5.2 VC    0.5   9    
+#&gt; 10   7   VC    0.5   10   
+#&gt; # … with 50 more rows
 #&gt; 
 #&gt; $lm_data
-#&gt; </span><span style='color: #555555;'># A tibble: 60 x 4</span><span>
+#&gt; # A tibble: 60 x 4
 #&gt;      len supp  dose  id   
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>   4.2 VC    0.5   1    
-#&gt; </span><span style='color: #555555;'> 2</span><span>  11.5 VC    0.5   2    
-#&gt; </span><span style='color: #555555;'> 3</span><span>   7.3 VC    0.5   3    
-#&gt; </span><span style='color: #555555;'> 4</span><span>   5.8 VC    0.5   4    
-#&gt; </span><span style='color: #555555;'> 5</span><span>   6.4 VC    0.5   5    
-#&gt; </span><span style='color: #555555;'> 6</span><span>  10   VC    0.5   6    
-#&gt; </span><span style='color: #555555;'> 7</span><span>  11.2 VC    0.5   7    
-#&gt; </span><span style='color: #555555;'> 8</span><span>  11.2 VC    0.5   8    
-#&gt; </span><span style='color: #555555;'> 9</span><span>   5.2 VC    0.5   9    
-#&gt; </span><span style='color: #555555;'>10</span><span>   7   VC    0.5   10   
-#&gt; </span><span style='color: #555555;'># … with 50 more rows</span><span>
+#&gt;    &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;
+#&gt;  1   4.2 VC    0.5   1    
+#&gt;  2  11.5 VC    0.5   2    
+#&gt;  3   7.3 VC    0.5   3    
+#&gt;  4   5.8 VC    0.5   4    
+#&gt;  5   6.4 VC    0.5   5    
+#&gt;  6  10   VC    0.5   6    
+#&gt;  7  11.2 VC    0.5   7    
+#&gt;  8  11.2 VC    0.5   8    
+#&gt;  9   5.2 VC    0.5   9    
+#&gt; 10   7   VC    0.5   10   
+#&gt; # … with 50 more rows
 #&gt; 
 #&gt; $repeated
 #&gt; [1] FALSE
 #&gt; 
 #&gt; $lm_formula
 #&gt; len ~ supp * dose
-#&gt; &lt;environment: 0x7fe223c21670&gt;
+#&gt; &lt;environment: 0x7fdefffa2b88&gt;
 #&gt; 
 #&gt; $model
 #&gt; 
@@ -380,7 +380,7 @@ Should be unique per individual.</p></td>
 #&gt; Residuals     712.1 54                       
 #&gt; ---
 #&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

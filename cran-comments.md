@@ -6,13 +6,7 @@
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs. 
 
-## Resubmission
+## Update
 
-This is a resubmission of v0.1.0.  
-In this version:  
-   
-- I added more details in the DESCRIPTION text.
-- I used \donttest{} instead of commenting out examples in the anova_test() function documentation.
-
-
+This is an updated version 0.1.1
 

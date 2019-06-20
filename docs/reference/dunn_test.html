@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Reorder Correlation Matrix — cor_reorder • rstatix</title>
+<title>Dunn's Test of Multiple Comparisons — dunn_test • rstatix</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,11 @@
 
 
 
-<meta property="og:title" content="Reorder Correlation Matrix — cor_reorder" />
+<meta property="og:title" content="Dunn's Test of Multiple Comparisons — dunn_test" />
 
-<meta property="og:description" content="reorder correlation matrix, according to the coefficients,
-  using the hierarchical clustering method." />
+<meta property="og:description" content="Performs Dunn's test for pairwise multiple comparisons of the
+ ranked data. The mean rank of the different groups is compared. Used for
+ post-hoc test following Kruskal-Wallis test." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,70 +99,72 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Reorder Correlation Matrix</h1>
+    <h1>Dunn's Test of Multiple Comparisons</h1>
     
-    <div class="hidden name"><code>cor_reorder.Rd</code></div>
+    <div class="hidden name"><code>dunn_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>reorder correlation matrix, according to the coefficients,
-  using the hierarchical clustering method.</p>
+    <p>Performs Dunn's test for pairwise multiple comparisons of the
+ ranked data. The mean rank of the different groups is compared. Used for
+ post-hoc test following Kruskal-Wallis test.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>cor_reorder</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>dunn_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>a correlation matrix. Particularly, an object of class <code>cor_mat</code>.</p></td>
+      <th>data</th>
+      <td><p>a data.frame containing the variables in the formula.</p></td>
+    </tr>
+    <tr>
+      <th>formula</th>
+      <td><p>a formula of the form <code>x ~ group</code> where <code>x</code> is a
+numeric variable giving the data values and <code>group</code> is a factor with
+one or multiple levels giving the corresponding groups. For example,
+<code>formula = TP53 ~ cancer_group</code>.</p></td>
+    </tr>
+    <tr>
+      <th>p.adjust.method</th>
+      <td><p>method to adjust p values for multiple comparisons.
+Used when pairwise comparisons are performed. Allowed values include "holm",
+"hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't
+want to adjust the p value (not recommended), use p.adjust.method = "none".</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>return a data frame with some of the following columns:</p><ul>
+<li><p><code>.y.</code>: the y (outcome) variable used in the test.</p></li>
+<li><p><code>group1,group2</code>: the compared groups in the pairwise tests.</p></li>
+<li><p><code>statistic</code>: Test statistic (z-value) used to compute the p-value.</p></li>
+<li><p><code>p</code>: p-value.</p></li>
+<li><p><code>p.adj</code>: the adjusted p-value.</p></li>
+<li><p><code>method</code>: the statistical test used to compare groups.</p></li>
+<li><p><code>p.signif, p.adj.signif</code>: the significance level of p-values and
+ adjusted p-values, respectively.</p></li>
+</ul>
 
-    <div class='dont-index'><p><code><a href='cor_mat.html'>cor_mat</a>()</code>, <code><a href='cor_reshape.html'>cor_gather</a>()</code>, <code><a href='cor_reshape.html'>cor_spread</a>()</code></p></div>
+<p>The <strong>returned object has an attribute called args</strong>, which is a list holding
+ the test arguments.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Dunn, O. J. (1964) Multiple comparisons using rank sums Technometrics, 6(3):241-252.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Compute correlation matrix</span>
-<span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>cor.mat</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>, <span class='no'>hp</span>, <span class='no'>drat</span>, <span class='no'>wt</span>, <span class='no'>qsec</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='cor_mat.html'>cor_mat</a></span>()
-
-<span class='co'># Reorder by correlation and get p-values</span>
-<span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
-<span class='co'># Reorder</span>
-<span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>cor_reorder</span>()</div><div class='output co'>#&gt; # A tibble: 6 x 7
-#&gt;   rowname    hp  disp    wt   qsec   mpg   drat
-#&gt; * &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1 hp       1     0.79  0.66 -0.71  -0.78 -0.45 
-#&gt; 2 disp     0.79  1     0.89 -0.43  -0.85 -0.71 
-#&gt; 3 wt       0.66  0.89  1    -0.17  -0.87 -0.71 
-#&gt; 4 qsec    -0.71 -0.43 -0.17  1      0.42  0.091
-#&gt; 5 mpg     -0.78 -0.85 -0.87  0.42   1     0.68 
-#&gt; 6 drat    -0.45 -0.71 -0.71  0.091  0.68  1    </div><div class='input'><span class='co'># Get p-values of the reordered cor_mat</span>
-<span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>cor_reorder</span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='cor_mat.html'>cor_get_pval</a></span>()</div><div class='output co'>#&gt; # A tibble: 6 x 7
-#&gt;   rowname           hp     disp        wt       qsec      mpg       drat
-#&gt;   &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
-#&gt; 1 hp      0            7.14e- 8 4.15e-  5 0.00000577 1.79e- 7 0.00999   
-#&gt; 2 disp    0.0000000714 0.       1.22e- 11 0.0131     9.38e-10 0.00000528
-#&gt; 3 wt      0.0000415    1.22e-11 2.27e-236 0.339      1.29e-10 0.00000478
-#&gt; 4 qsec    0.00000577   1.31e- 2 3.39e-  1 0          1.71e- 2 0.62      
-#&gt; 5 mpg     0.000000179  9.38e-10 1.29e- 10 0.0171     0.       0.0000178 
-#&gt; 6 drat    0.00999      5.28e- 6 4.78e-  6 0.62       1.78e- 5 0         </div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>dunn_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 9
+#&gt;   .y.   group1 group2 estimate statistic        p method      p.adj p.adj.signif
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   0.5    1          19.6      3.55 3.78e- 4 Dunn Te… 7.56e- 4 ***         
+#&gt; 2 len   0.5    2          35.1      6.36 1.98e-10 Dunn Te… 5.95e-10 ****        
+#&gt; 3 len   1      2          15.5      2.81 4.99e- 3 Dunn Te… 4.99e- 3 **          </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -170,7 +173,7 @@
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

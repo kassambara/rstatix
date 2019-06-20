@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@
 
     <div class="ref-description">
     
-    <p>sample n rows by group from a table using the <code><a href='https://www.rdocumentation.org/packages/dplyr/topics/sample'>sample_n</a>()</code> function.</p>
+    <p>sample n rows by group from a table using the <code><a href='https://dplyr.tidyverse.org/reference/sample.html'>sample_n</a>()</code> function.</p>
     
     </div>
 
@@ -133,21 +133,21 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>sample_n_by</span>(<span class='no'>dose</span>, <span class='no'>supp</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 12 x 3</span><span>
+    <pre class="examples"><div class='input'><span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>sample_n_by</span>(<span class='no'>dose</span>, <span class='no'>supp</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; # A tibble: 12 x 3
 #&gt;      len supp   dose
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>   9.7 OJ      0.5
-#&gt; </span><span style='color: #555555;'> 2</span><span>  17.6 OJ      0.5
-#&gt; </span><span style='color: #555555;'> 3</span><span>  11.5 VC      0.5
-#&gt; </span><span style='color: #555555;'> 4</span><span>   5.8 VC      0.5
-#&gt; </span><span style='color: #555555;'> 5</span><span>  20   OJ      1  
-#&gt; </span><span style='color: #555555;'> 6</span><span>  26.4 OJ      1  
-#&gt; </span><span style='color: #555555;'> 7</span><span>  16.5 VC      1  
-#&gt; </span><span style='color: #555555;'> 8</span><span>  15.5 VC      1  
-#&gt; </span><span style='color: #555555;'> 9</span><span>  22.4 OJ      2  
-#&gt; </span><span style='color: #555555;'>10</span><span>  24.8 OJ      2  
-#&gt; </span><span style='color: #555555;'>11</span><span>  33.9 VC      2  
-#&gt; </span><span style='color: #555555;'>12</span><span>  21.5 VC      2  </div></span></pre>
+#&gt;    &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt;
+#&gt;  1   9.7 OJ      0.5
+#&gt;  2  17.6 OJ      0.5
+#&gt;  3  11.5 VC      0.5
+#&gt;  4   5.8 VC      0.5
+#&gt;  5  20   OJ      1  
+#&gt;  6  26.4 OJ      1  
+#&gt;  7  16.5 VC      1  
+#&gt;  8  15.5 VC      1  
+#&gt;  9  22.4 OJ      2  
+#&gt; 10  24.8 OJ      2  
+#&gt; 11  33.9 VC      2  
+#&gt; 12  21.5 VC      2  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

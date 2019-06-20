@@ -60,7 +60,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -98,9 +98,42 @@
       
     </div>
 
+    <div id="rstatix-0-1-1" class="section level1">
+<h1 class="page-header">
+<a href="#rstatix-0-1-1" class="anchor"></a>rstatix 0.1.1<small> Unreleased </small>
+</h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New features</h2>
+<ul>
+<li>New function <code>get_pvalue_position</code> added to autocompute p-value positions for plotting significance using ggplot2.</li>
+<li>New function <code><a href="../reference/get_comparisons.html">get_comparisons()</a></code> added to create a list of possible pairwise comparisons between groups.</li>
+<li>New function <code><a href="../reference/dunn_test.html">dunn_test()</a></code> added for multiple pairwise comparisons following Kruskal-Wallis test.</li>
+<li>New function <code><a href="../reference/sign_test.html">sign_test()</a></code> added.</li>
+</ul>
+</div>
+<div id="minor-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-changes" class="anchor"></a>Minor changes</h2>
+<ul>
+<li>
+<code><a href="../reference/get_summary_stats.html">get_summary_stats()</a></code> now supports type = “min”, “max”, “mean” or “median”</li>
+<li>the results of <code><a href="../reference/t_test.html">t_test()</a></code>, <code><a href="../reference/wilcox_test.html">wilcox_test()</a></code>, <code><a href="../reference/dunn_test.html">dunn_test()</a></code> and <code><a href="../reference/sign_test.html">sign_test()</a></code> are now an object of class <code>rstatix_test</code> that has an attribute named <strong>args</strong> for holding the test arguments.</li>
+<li>The results of <code><a href="../reference/cohens_d.html">cohens_d()</a></code> is now a data frame containing the Cohen’s d and the magnitude.</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>the argument <code>detatiled</code> is now passed to <code>compare_pairs()</code>.</li>
+</ul>
+</div>
+</div>
     <div id="rstatix-0-1-0" class="section level1">
 <h1 class="page-header">
-<a href="#rstatix-0-1-0" class="anchor"></a>rstatix 0.1.0</h1>
+<a href="#rstatix-0-1-0" class="anchor"></a>rstatix 0.1.0<small> 2019-05-27 </small>
+</h1>
 <p>First release</p>
 </div>
   </div>
@@ -109,6 +142,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#rstatix-0-1-1">0.1.1</a></li>
         <li><a href="#rstatix-0-1-0">0.1.0</a></li>
       </ul>
     </div>

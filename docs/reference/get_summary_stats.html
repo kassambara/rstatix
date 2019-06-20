@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -110,7 +110,8 @@
 
     <pre class="usage"><span class='fu'>get_summary_stats</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"full"</span>, <span class='st'>"common"</span>, <span class='st'>"robust"</span>,
   <span class='st'>"five_number"</span>, <span class='st'>"mean_sd"</span>, <span class='st'>"mean_se"</span>, <span class='st'>"mean_ci"</span>, <span class='st'>"median_iqr"</span>,
-  <span class='st'>"median_mad"</span>, <span class='st'>"quantile"</span>), <span class='kw'>show</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.25</span>))</pre>
+  <span class='st'>"median_mad"</span>, <span class='st'>"quantile"</span>, <span class='st'>"mean"</span>, <span class='st'>"median"</span>, <span class='st'>"min"</span>, <span class='st'>"max"</span>), <span class='kw'>show</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.25</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -130,7 +131,7 @@ data frame is computed.</p></td>
       <th>type</th>
       <td><p>type of summary statistics. Possible values include: <code>"full",
 "common", "robust",  "five_number", "mean_sd", "mean_se", "mean_ci",
-"median_iqr", "median_mad", "quantile"</code></p></td>
+"median_iqr", "median_mad", "quantile", "mean", "median",  "min", "max"</code></p></td>
     </tr>
     <tr>
       <th>show</th>
@@ -168,46 +169,46 @@ the output after computation.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Full summary statistics</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"ToothGrowth"</span>)
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 13</span><span>
+<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 13
 #&gt;   variable     n   min   max median    q1    q3   iqr   mad  mean    sd    se
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> len         60   4.2  33.9   19.2  13.1  25.3  12.2  9.04  18.8  7.65 0.988
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: ci </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
+#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 len         60   4.2  33.9   19.2  13.1  25.3  12.2  9.04  18.8  7.65 0.988
+#&gt; # … with 1 more variable: ci &lt;dbl&gt;</div><div class='input'>
 <span class='co'># Summary statistics of grouped data</span>
 <span class='co'># Show only common summary</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>dose</span>, <span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"common"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 12</span><span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>, <span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"common"</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 12
 #&gt;    dose supp  variable     n   min   max median   iqr  mean    sd    se    ci
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>   0.5 OJ    len         10   8.2  21.5  12.2   6.48 13.2   4.46 1.41   3.19
-#&gt; </span><span style='color: #555555;'>2</span><span>   0.5 VC    len         10   4.2  11.5   7.15  4.95  7.98  2.75 0.869  1.96
-#&gt; </span><span style='color: #555555;'>3</span><span>   1   OJ    len         10  14.5  27.3  23.4   5.35 22.7   3.91 1.24   2.80
-#&gt; </span><span style='color: #555555;'>4</span><span>   1   VC    len         10  13.6  22.5  16.5   2.02 16.8   2.52 0.795  1.80
-#&gt; </span><span style='color: #555555;'>5</span><span>   2   OJ    len         10  22.4  30.9  26.0   2.5  26.1   2.66 0.84   1.90
-#&gt; </span><span style='color: #555555;'>6</span><span>   2   VC    len         10  18.5  33.9  26.0   5.42 26.1   4.80 1.52   3.43</div><div class='input'>
+#&gt;   &lt;dbl&gt; &lt;fct&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1   0.5 OJ    len         10   8.2  21.5  12.2   6.48 13.2   4.46 1.41   3.19
+#&gt; 2   0.5 VC    len         10   4.2  11.5   7.15  4.95  7.98  2.75 0.869  1.96
+#&gt; 3   1   OJ    len         10  14.5  27.3  23.4   5.35 22.7   3.91 1.24   2.80
+#&gt; 4   1   VC    len         10  13.6  22.5  16.5   2.02 16.8   2.52 0.795  1.80
+#&gt; 5   2   OJ    len         10  22.4  30.9  26.0   2.5  26.1   2.66 0.84   1.90
+#&gt; 6   2   VC    len         10  18.5  33.9  26.0   5.42 26.1   4.80 1.52   3.43</div><div class='input'>
 <span class='co'># Robust summary statistics</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"robust"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 4</span><span>
+<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"robust"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 4
 #&gt;   variable     n median   iqr
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> len         60   19.2  12.2</div><div class='input'>
+#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 len         60   19.2  12.2</div><div class='input'>
 <span class='co'># Five number summary statistics</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"five_number"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 7</span><span>
+<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"five_number"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 7
 #&gt;   variable     n   min   max    q1 median    q3
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> len         60   4.2  33.9  13.1   19.2  25.3</div><div class='input'>
+#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 len         60   4.2  33.9  13.1   19.2  25.3</div><div class='input'>
 <span class='co'># Compute only mean and sd</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mean_sd"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 4</span><span>
+<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"mean_sd"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 4
 #&gt;   variable     n  mean    sd
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> len         60  18.8  7.65</div><div class='input'>
+#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 len         60  18.8  7.65</div><div class='input'>
 <span class='co'># Compute full summary statistics but show only mean, sd, median, iqr</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mean"</span>, <span class='st'>"sd"</span>, <span class='st'>"median"</span>, <span class='st'>"iqr"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+    <span class='fu'>get_summary_stats</span>(<span class='no'>len</span>, <span class='kw'>show</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mean"</span>, <span class='st'>"sd"</span>, <span class='st'>"median"</span>, <span class='st'>"iqr"</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 6
 #&gt;   variable     n  mean    sd median   iqr
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> len         60  18.8  7.65   19.2  12.2</div><div class='input'>
-</div></span></pre>
+#&gt;   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 len         60  18.8  7.65   19.2  12.2</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -145,8 +145,8 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
       <td><p>a character string specifying the reference group. If
  specified, for a given grouping variable, each of the group levels will be
  compared to the reference group (i.e. control group).</p>
-<p>If <code>ref.group = "all"</code>, pairwise two sample t-tests are performed for comparing each grouping
- variable levels against all (i.e. basemean).</p></td>
+<p>If <code>ref.group = "all"</code>, pairwise two sample t-tests are performed for
+ comparing each grouping variable levels against all (i.e. basemean).</p></td>
     </tr>
     <tr>
       <th>p.adjust.method</th>
@@ -184,7 +184,8 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
     </tr>
     <tr>
       <th>detailed</th>
-      <td><p>logical value. Default is FALSE. If TRUE, a detailed result is shown.</p></td>
+      <td><p>logical value. Default is FALSE. If TRUE, a detailed result is
+shown.</p></td>
     </tr>
     <tr>
       <th>pool.sd</th>
@@ -225,10 +226,13 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
  depending on whether it was a one-sample test or a two-sample test.</p></li>
 <li><p><code>estimate1, estimate2</code>: show the mean values of the two groups,
  respectively, for independent samples t-tests.</p></li>
-<li><p><code>alternative</code>: a character string describing the alternative hypothesis.</p></li>
+<li><p><code>alternative</code>: a
+ character string describing the alternative hypothesis.</p></li>
 <li><p><code>conf.low,conf.high</code>: Lower and upper bound on a confidence interval.</p></li>
 </ul>
 
+<p>The <strong>returned object has an attribute called args</strong>, which is a list holding
+ the test arguments.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -255,62 +259,62 @@ base function <code><a href='https://www.rdocumentation.org/packages/stats/topic
 
 <span class='co'># One-sample test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
 #&gt;   .y.   group1 group2     statistic    df        p
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> len   1      null model      19.1    59 6.94</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-27</span><span></div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 len   1      null model      19.1    59 6.94e-27</div><div class='input'>
 
 <span class='co'># Two-samples unpaired test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
 #&gt;   .y.   group1 group2 statistic    df      p
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> len   OJ     VC          1.92  55.3 0.060</span><span style='text-decoration: underline;'>6</span><span></div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1 len   OJ     VC          1.92  55.3 0.0606</div><div class='input'>
 <span class='co'># Two-samples paired test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span> (<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span> (<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
 #&gt;   .y.   group1 group2 statistic    df       p
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> len   OJ     VC          3.30    29 0.002</span><span style='text-decoration: underline;'>55</span><span></div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+#&gt; 1 len   OJ     VC          3.30    29 0.00255</div><div class='input'>
 <span class='co'># Compare supp levels after grouping the data by "dose"</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>t_test</span>(<span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='adjust_pvalue.html'>adjust_pvalue</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='add_significance.html'>add_significance</a></span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 9</span><span>
+  <span class='fu'><a href='add_significance.html'>add_significance</a></span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 9
 #&gt;    dose .y.   group1 group2 statistic    df       p   p.adj p.adj.signif
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span>   0.5 len   OJ     VC        3.17    15.0 0.006</span><span style='text-decoration: underline;'>36</span><span> 0.019</span><span style='text-decoration: underline;'>1</span><span>  *           
-#&gt; </span><span style='color: #555555;'>2</span><span>   1   len   OJ     VC        4.03    15.4 0.001</span><span style='text-decoration: underline;'>04</span><span> 0.003</span><span style='text-decoration: underline;'>12</span><span> **          
-#&gt; </span><span style='color: #555555;'>3</span><span>   2   len   OJ     VC       -</span><span style='color: #BB0000;'>0.046</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span>  14.0 0.964   1       ns          </div><div class='input'>
+#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1   0.5 len   OJ     VC        3.17    15.0 0.00636 0.0191  *           
+#&gt; 2   1   len   OJ     VC        4.03    15.4 0.00104 0.00312 **          
+#&gt; 3   2   len   OJ     VC       -0.0461  14.0 0.964   1       ns          </div><div class='input'>
 <span class='co'># pairwise comparisons</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># As dose contains more than two levels ==&gt;</span>
 <span class='co'># pairwise test is automatically performed.</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 8</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 8
 #&gt;   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> len   0.5    1          -</span><span style='color: #BB0000;'>6.48</span><span>  38.0 1.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 2.54</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> len   0.5    2         -</span><span style='color: #BB0000;'>11.8</span><span>   36.9 4.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-14</span><span> 1.32</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> len   1      2          -</span><span style='color: #BB0000;'>4.90</span><span>  37.1 1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> 1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        </div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   0.5    1          -6.48  38.0 1.27e- 7 2.54e- 7 ****        
+#&gt; 2 len   0.5    2         -11.8   36.9 4.40e-14 1.32e-13 ****        
+#&gt; 3 len   1      2          -4.90  37.1 1.91e- 5 1.91e- 5 ****        </div><div class='input'>
 <span class='co'># Comparison against reference group</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># each level is compared to the ref group</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='st'>"0.5"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 8</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='st'>"0.5"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 8
 #&gt;   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> len   0.5    1          -</span><span style='color: #BB0000;'>6.48</span><span>  38.0 1.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 1.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> len   0.5    2         -</span><span style='color: #BB0000;'>11.8</span><span>   36.9 4.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-14</span><span> 8.80</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-14</span><span> ****        </div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   0.5    1          -6.48  38.0 1.27e- 7 1.27e- 7 ****        
+#&gt; 2 len   0.5    2         -11.8   36.9 4.40e-14 8.80e-14 ****        </div><div class='input'>
 <span class='co'># Comparison against all</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='st'>"all"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 8</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>t_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='st'>"all"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 8
 #&gt;   .y.   group1 group2 statistic    df           p      p.adj p.adj.signif
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> len   all    0.5        5.82   56.4 0.000</span><span style='text-decoration: underline;'>000</span><span>290 0.000</span><span style='text-decoration: underline;'>000</span><span>87 ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> len   all    1         -</span><span style='color: #BB0000;'>0.660</span><span>  57.5 0.512       0.512      ns          
-#&gt; </span><span style='color: #555555;'>3</span><span> len   all    2         -</span><span style='color: #BB0000;'>5.61</span><span>   66.5 0.000</span><span style='text-decoration: underline;'>000</span><span>425 0.000</span><span style='text-decoration: underline;'>000</span><span>87 ****        </div><div class='input'>
-</div></span></pre>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   all    0.5        5.82   56.4 0.000000290 0.00000087 ****        
+#&gt; 2 len   all    1         -0.660  57.5 0.512       0.512      ns          
+#&gt; 3 len   all    2         -5.61   66.5 0.000000425 0.00000087 ****        </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
