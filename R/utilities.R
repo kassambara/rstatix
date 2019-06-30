@@ -55,6 +55,16 @@ roundif <- function(x, digits = 3){
   )
 }
 
+# Check if required package is installed
+required_package <- function(pkg){
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(
+      pkg, " package needed to be installed before using this function. ",
+      "Type this in R: install.packages('", pkg, "')"
+    )
+  }
+}
+
 
 # Check if a given column name is in the data
 assertthat_column_exists <-function(data, cols){
