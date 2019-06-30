@@ -65,7 +65,8 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, detail
 
   if (is_grouped_df(data)) {
     res <- data %>%
-      doo(mean_test, formula, method = method, ...)
+      doo(mean_test, formula, method = method,
+          ref.group = ref.group, detailed = detailed, ...)
     return(res)
   }
 
@@ -119,7 +120,8 @@ mean_test_pairwise <- function(data, formula, method = "t.test",
     res <- data %>%
       doo(
         mean_test_pairwise, formula, method,
-        comparisons, ref.group, p.adjust.method, ...
+        comparisons, ref.group, p.adjust.method,
+        detailed = detailed, ...
         )
     return(res)
   }
@@ -153,7 +155,8 @@ mean_test_one_vs_all <- function(data, formula, method = "t.test", p.adjust.meth
 
   if (is_grouped_df(data)) {
     results <- data %>%
-      doo(mean_test_one_vs_all, formula, method, p.adjust.method, ...)
+      doo(mean_test_one_vs_all, formula, method, p.adjust.method,
+          detailed = detailed, ...)
     return(results)
   }
 

@@ -235,7 +235,8 @@ pairwise_t_test_psd <- function(
   if(is_grouped_df(data)){
     results <- data %>%
       doo(pairwise_t_test_psd, formula, comparisons,
-          ref.group, p.adjust.method, alternative = alternative)
+          ref.group, p.adjust.method, alternative = alternative,
+          detailed = detailed)
     return(results)
   }
 
