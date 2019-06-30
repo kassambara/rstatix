@@ -4,7 +4,7 @@
 \alias{adjust_pvalue}
 \title{Adjust P-values for Multiple Comparisons}
 \usage{
-adjust_pvalue(data, p.col, output.col, method = "holm")
+adjust_pvalue(data, p.col = NULL, output.col = NULL, method = "holm")
 }
 \arguments{
 \item{data}{a data frame containing a p-value column}
@@ -23,7 +23,7 @@ a data frame
 }
 \description{
 A pipe-friendly function to add an adjusted p-value column into
-  a data frame.
+  a data frame. Supports grouped data.
 }
 \examples{
 # Perform pairwise comparisons and adjust p-values

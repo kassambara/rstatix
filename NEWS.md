@@ -2,9 +2,11 @@
    
 ## New features
 
+emmeans custom contrast: https://aosmith.rbind.io/2019/04/15/custom-contrasts-emmeans/
 
 ## Minor changes
-
+  
+- `adjust_pvalue()` now supports grouped data
 
 ## Bug fixes
 

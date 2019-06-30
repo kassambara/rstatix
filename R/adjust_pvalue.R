@@ -2,7 +2,7 @@
 NULL
 #' Adjust P-values for Multiple Comparisons
 #' @description A pipe-friendly function to add an adjusted p-value column into
-#'   a data frame.
+#'   a data frame. Supports grouped data.
 #' @param data a data frame containing a p-value column
 #' @param p.col column name containing p-values
 #' @param output.col the output column name to hold the adjusted p-values
@@ -20,15 +20,21 @@ NULL
 #'
 #' @rdname adjust_pvalue
 #' @export
-adjust_pvalue <- function(data, p.col, output.col, method = "holm"){
+adjust_pvalue <- function(data, p.col = NULL, output.col = NULL, method = "holm"){
+
+  if (is_grouped_df(data)) {
+    res <- data %>%
+      doo(adjust_pvalue, p.col, output.col, method = method)
+    return(res)
+  }
   .attributes <- get_test_attributes(data)
   p.adjust <- stats::p.adjust
   p.adjust.method <-  method
 
   # Guess p-value columns if missing
-  if(missing(p.col))
+  if(is.null(p.col))
     p.col <- .guess_pvalue_column(data)
-  if(missing(output.col))
+  if(is.null(output.col))
     output.col <- paste0(p.col, ".adj")
 
   # Adjust p-value
