@@ -2,7 +2,7 @@
    
 ## New features
 
-emmeans custom contrast: https://aosmith.rbind.io/2019/04/15/custom-contrasts-emmeans/
+- New function `emmeans_test()` added for pairwise comparisons of estimated marginal means.
 
 ## Minor changes
   

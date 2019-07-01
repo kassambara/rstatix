@@ -20,6 +20,7 @@ reference:
       - kruskal_test
       - tukey_hsd
       - dunn_test
+      - emmeans_test
       - get_comparisons
       - get_pvalue_position
   - title: ANOVA helpers

@@ -57,6 +57,7 @@ It's also possible to compute several effect size metrics, including "eta square
 - `kruskal_test()`: perform kruskal-wallis rank sum test
 - `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
 - `dunn_test()`: compute multiple pairwise comparisons following Kruskal-Wallis test.
+- `emmeans_test()`: pipe-friendly wrapper arround `emmeans` function to perform pairwise comparisons of estimated marginal means. Useful for post-hoc analyses following up ANOVA/ANCOVA tests.
 - `get_comparisons()`: Create a list of possible pairwise comparisons between groups.
 - `get_pvalue_position`: autocompute p-value positions for plotting significance using ggplot2.
    

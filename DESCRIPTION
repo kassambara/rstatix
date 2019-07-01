@@ -35,7 +35,8 @@ Suggests:
     knitr,
     rmarkdown,
     ggpubr,
-    graphics
+    graphics,
+    emmeans
 URL: https://rpkgs.datanovia.com/rstatix/
 BugReports: https://github.com/kassambara/rstatix/issues
 RoxygenNote: 6.1.1
@@ -64,6 +65,7 @@ Collate:
     'doo.R'
     't_test.R'
     'dunn_test.R'
+    'emmeans_test.R'
     'eta_squared.R'
     'factors.R'
     'freq_table.R'
