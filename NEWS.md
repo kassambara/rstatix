@@ -9,7 +9,8 @@
 - `adjust_pvalue()` now supports grouped data
 
 ## Bug fixes
-
+  
+- `detailed` arguments correctly propagated when grouped stats are performed
 
 # rstatix 0.1.1
    
