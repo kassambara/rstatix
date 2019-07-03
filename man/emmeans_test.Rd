@@ -61,7 +61,8 @@ return a data frame with some the following columns: \itemize{ \item
 Performs pairwise comparisons between groups using the estimated
  marginal means. Pipe-friendly wrapper arround the functions \code{emmans() +
  contrast()} from the \code{emmeans} package, which need to be installed
- before using this function.
+ before using this function. This function is useful for performing post-hoc
+ analyses following ANOVA/ANCOVA tests.
 }
 \examples{
 # Data preparation
