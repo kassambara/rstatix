@@ -67,7 +67,8 @@ tukey_hsd.default <- function(x, ...)
     separate(comparison2, into= c("group2", "group1"), sep = "-") %>%
     rename(p.adj = adj.p.value) %>%
     mutate(p.adj = signif(p.adj, 3)) %>%
-    select(term, group1, group2, everything())
+    select(term, group1, group2, everything()) %>%
+    add_significance("p.adj")
   res
 }
 

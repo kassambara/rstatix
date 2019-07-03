@@ -6,6 +6,7 @@
 
 ## Minor changes
   
+- significance column added in `tukey_hsd()` results.
 - `adjust_pvalue()` now supports grouped data
 
 ## Bug fixes
