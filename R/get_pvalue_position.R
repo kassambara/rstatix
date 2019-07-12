@@ -16,9 +16,14 @@ NULL
 #'  showing mean plots +/- error bars.
 #'@param step.increase numeric vector with the increase in fraction of total
 #'  height for every additional comparison to minimize overlap.
+#'@param y.trans a function for transforming y axis scale. Value can be
+#'  \code{log2}, \code{log10} and \code{sqrt}. Can be also any custom function
+#'  that can take a numeric vector as input and retourne a numeric vector,
+#'  example: \code{y.trans = function(x){log2(x+1)}}
 #'@param test an object of class \code{rstatix_test} as returned by
-#'  \code{\link{t_test}()}, \code{\link{wilcox_test}()}, \code{\link{sign_test}()},
-#'  \code{\link{tukey_hsd}()}, \code{\link{dunn_test}()}.
+#'  \code{\link{t_test}()}, \code{\link{wilcox_test}()},
+#'  \code{\link{sign_test}()}, \code{\link{tukey_hsd}()},
+#'  \code{\link{dunn_test}()}.
 #'@param x variable on x axis.
 #'@param dodge dodge width for grouped ggplot/test. Default is 0.8. Used only
 #'  when \code{x} specified.
@@ -51,7 +56,7 @@ NULL
 #'@describeIn get_pvalue_position compute the p-value y positions
 #'@export
 get_y_position <- function(data, formula, fun = "max", ref.group = NULL, comparisons = NULL,
-                           step.increase = 0.12){
+                           step.increase = 0.12, y.trans = NULL){
   # Estimate step increase
   # 1. Get groups y scale
   outcome <- get_formula_left_hand_side(formula)
@@ -63,17 +68,21 @@ get_y_position <- function(data, formula, fun = "max", ref.group = NULL, compari
   yscale <- get_y_scale(data, outcome, group, fun)
   # 2. Step increase
   step.increase <- step.increase*(yscale$max - yscale$min)
-  get_y_position_core(data, formula, fun, ref.group, comparisons, step.increase = step.increase)
+  get_y_position_core(
+    data = data, formula = formula, fun = fun, ref.group = ref.group,
+    comparisons = comparisons, step.increase = step.increase, y.trans = y.trans
+    )
 }
 
 
 get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, comparisons = NULL,
-                            step.increase = 0.12){
+                            step.increase = 0.12, y.trans = NULL){
   if(is_grouped_df(data)){
     results <- data %>%
       doo(
         get_y_position_core, formula = formula, fun = fun,
-        ref.group = ref.group, comparisons = comparisons, step.increase = step.increase
+        ref.group = ref.group, comparisons = comparisons,
+        step.increase = step.increase, y.trans = y.trans
         )
     return(results)
   }
@@ -113,8 +122,10 @@ get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, co
       length.out = ncomparisons
     )
   }
-  tibble(group1, group2, y.position) %>%
+  if(!is.null(y.trans)) y.position <- y.trans(y.position)
+  results <- tibble(group1, group2, y.position) %>%
     mutate(groups = combine_this(group1, group2))
+  results
 }
 
 
@@ -122,7 +133,8 @@ get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, co
 #' @describeIn get_pvalue_position add p-value y positions to an object of class \code{rstatix_test}
 #' @export
 add_y_position <- function(test, fun = "max", step.increase = 0.12,
-                           data = NULL, formula = NULL,  ref.group = NULL, comparisons = NULL)
+                           data = NULL, formula = NULL,  ref.group = NULL, comparisons = NULL,
+                           y.trans = NULL)
   {
   asserttat_group_columns_exists(test)
   .attributes <- get_test_attributes(test)
@@ -139,7 +151,7 @@ add_y_position <- function(test, fun = "max", step.increase = 0.12,
   positions <- get_y_position(
     data = data, formula = formula, fun = fun,
     ref.group = ref.group, comparisons = comparisons,
-    step.increase = step.increase
+    step.increase = step.increase, y.trans = y.trans
   )
   test$y.position <- positions$y.position
   test$groups <- positions$groups

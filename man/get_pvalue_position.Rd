@@ -8,10 +8,11 @@
 \title{Autocompute P-value Positions For Plotting Significance}
 \usage{
 get_y_position(data, formula, fun = "max", ref.group = NULL,
-  comparisons = NULL, step.increase = 0.12)
+  comparisons = NULL, step.increase = 0.12, y.trans = NULL)
 
 add_y_position(test, fun = "max", step.increase = 0.12, data = NULL,
-  formula = NULL, ref.group = NULL, comparisons = NULL)
+  formula = NULL, ref.group = NULL, comparisons = NULL,
+  y.trans = NULL)
 
 add_x_position(test, x = NULL, dodge = 0.8)
 
@@ -46,9 +47,15 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
 \item{step.increase}{numeric vector with the increase in fraction of total
 height for every additional comparison to minimize overlap.}
 
+\item{y.trans}{a function for transforming y axis scale. Value can be
+\code{log2}, \code{log10} and \code{sqrt}. Can be also any custom function
+that can take a numeric vector as input and retourne a numeric vector,
+example: \code{y.trans = function(x){log2(x+1)}}}
+
 \item{test}{an object of class \code{rstatix_test} as returned by
-\code{\link{t_test}()}, \code{\link{wilcox_test}()}, \code{\link{sign_test}()},
-\code{\link{tukey_hsd}()}, \code{\link{dunn_test}()}.}
+\code{\link{t_test}()}, \code{\link{wilcox_test}()},
+\code{\link{sign_test}()}, \code{\link{tukey_hsd}()},
+\code{\link{dunn_test}()}.}
 
 \item{x}{variable on x axis.}
 
