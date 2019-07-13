@@ -6,6 +6,7 @@
 
 ## Minor changes
   
+- In `get_y_position()`, y positions and test data are merged now for grouped plots.
 - New argument `y.trans` added in `get_y_position()` for y scale transformation.
 - significance column added in `tukey_hsd()` results.
 - `adjust_pvalue()` now supports grouped data

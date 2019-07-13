@@ -153,8 +153,24 @@ add_y_position <- function(test, fun = "max", step.increase = 0.12,
     ref.group = ref.group, comparisons = comparisons,
     step.increase = step.increase, y.trans = y.trans
   )
-  test$y.position <- positions$y.position
-  test$groups <- positions$groups
+  if(nrow(test) == nrow(positions)){
+    test$y.position <- positions$y.position
+    test$groups <- positions$groups
+  }
+  else{
+    # this occurs when tests are grouped by two variables (for ex),
+    # but y positions are grouped by one variable
+    # merging positions and test data frame
+    if("y.position" %in% colnames(test)){
+      test <- test %>% select(-.data$y.position)
+    }
+    if("groups" %in% colnames(test)){
+      test <- test %>% select(-.data$groups)
+    }
+    common.columns <- intersect(colnames(test), colnames(positions))
+    test <- test %>% dplyr::left_join(positions, by = common.columns)
+  }
+
   test %>%
     set_test_attributes(.attributes)
 }
