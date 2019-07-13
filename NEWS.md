@@ -2,6 +2,7 @@
    
 ## New features
 
+- New functions added to extract information from statistical tests: `get_anova_label()`
 - New function `emmeans_test()` added for pairwise comparisons of estimated marginal means.
 
 ## Minor changes

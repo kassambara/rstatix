@@ -59,6 +59,9 @@ reference:
     contents:
       - adjust_pvalue
       - add_significance
+  - title: Extract Information From Statistical Tests
+    contents:
+      - get_anova_label
   - title: Others
     contents:
       - reexports

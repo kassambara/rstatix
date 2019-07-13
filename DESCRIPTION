@@ -69,6 +69,7 @@ Collate:
     'eta_squared.R'
     'factors.R'
     'freq_table.R'
+    'get_anova_label.R'
     'get_comparisons.R'
     'get_mode.R'
     'get_pvalue_position.R'
