@@ -34,7 +34,8 @@ kruskal_test <- function(
   data, formula, ...
 )
 {
-
+  args <- c(as.list(environment()), list(...)) %>%
+    .add_item(method = "kruskal_test")
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
 
@@ -45,8 +46,12 @@ kruskal_test <- function(
   }
 
   term <- statistic <- p <- df <- method <- NULL
-  stats::kruskal.test(formula, data = data, ...) %>%
+  res <- stats::kruskal.test(formula, data = data, ...) %>%
     as_tidy_stat() %>%
     select(statistic, df, p, method) %>%
     add_column(.y. = outcome, .before = "statistic")
+
+  res %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "kruskal_test"))
 }
