@@ -2,6 +2,7 @@
 % Please edit documentation in R/anova_test.R
 \name{anova_test}
 \alias{anova_test}
+\alias{get_anova_table}
 \alias{print.anova_test}
 \alias{plot.anova_test}
 \title{Anova Test}
@@ -9,6 +10,8 @@
 anova_test(data, formula, dv, wid, between, within, covariate,
   type = NULL, effect.size = "ges", error = NULL,
   white.adjust = FALSE, observed = NULL, detailed = FALSE)
+
+get_anova_table(x, correction = c("auto", "GG", "HF", "none"))
 
 \method{print}{anova_test}(x, ...)
 
@@ -71,6 +74,14 @@ intercept row, etc.) in the ANOVA table.}
 
 \item{x}{an object of class \code{Anova_test}}
 
+\item{correction}{character. Which sphericity correction of the degrees of
+freedom should be reported for the within-subject factors (repeated
+measures). The default is set to \code{"GG"} corresponding to the
+Greenhouse-Geisser correction. Possible values are \code{"GG"}, \code{"HF"}
+(i.e., Hyunh-Feldt correction), \code{"none"} (i.e., no correction) and
+\code{"auto"} (apply automatically GG correction if the sphericity
+assumption is not for within-subject design.}
+
 \item{...}{additional arguments}
 }
 \value{
@@ -102,6 +113,13 @@ Provides a pipe-friendly framework to perform different types of
  The results include ANOVA table, generalized effect size and some assumption
  checks.
 }
+\section{Functions}{
+\itemize{
+\item \code{anova_test}: perform anova test
+
+\item \code{get_anova_table}: extract anova table from an object of class \code{anova_test}
+}}
+
 \examples{
 # Load data
 #:::::::::::::::::::::::::::::::::::::::
@@ -128,10 +146,16 @@ df \%>\% anova_test(len ~ supp*dose + Error(id/(supp*dose)))
 # or use character vector
 df \%>\% anova_test(dv = len, wid = id, within = c(supp, dose))
 
+# Extract ANOVA table and apply correction
+#:::::::::::::::::::::::::::::::::::::::::
+res.aov <- df \%>\% anova_test(dv = len, wid = id, within = c(supp, dose))
+get_anova_table(res.aov, correction = "GG")
+
 # Use model as arguments
 #:::::::::::::::::::::::::::::::::::::::::
 .my.model <- lm(yield ~ block + N*P*K, npk)
 anova_test(.my.model)
+
 
 }
 \seealso{

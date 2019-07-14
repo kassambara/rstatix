@@ -2,6 +2,7 @@
    
 ## New features
 
+- New function `get_anova_table()` added to extract ANOVA table from `anova_test()` results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs.
 - New functions added to extract information from statistical tests: `get_anova_label()`
 - New function `emmeans_test()` added for pairwise comparisons of estimated marginal means.
 

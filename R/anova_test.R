@@ -18,6 +18,7 @@ NULL
 #'  The results include ANOVA table, generalized effect size and some assumption
 #'  checks.
 #'
+#'
 #'@param data a data.frame or a model to be analyzed.
 #'@param formula a formula specifying the ANOVA model similar to
 #'  \link[stats]{aov}. Can be of the form \code{y ~ group} where \code{y} is a
@@ -61,6 +62,13 @@ NULL
 #'@param detailed If TRUE, returns extra information (sums of squares columns,
 #'  intercept row, etc.) in the ANOVA table.
 #'@param x an object of class \code{Anova_test}
+#' @param correction character. Which sphericity correction of the degrees of
+#'   freedom should be reported for the within-subject factors (repeated
+#'   measures). The default is set to \code{"GG"} corresponding to the
+#'   Greenhouse-Geisser correction. Possible values are \code{"GG"}, \code{"HF"}
+#'   (i.e., Hyunh-Feldt correction), \code{"none"} (i.e., no correction) and
+#'   \code{"auto"} (apply automatically GG correction if the sphericity
+#'   assumption is not for within-subject design.
 #'@seealso \code{\link{anova_summary}()}, \code{\link{factorial_design}()}
 #'@return return an object of class \code{anova_test} a data frame containing
 #'  the ANOVA table for independent measures ANOVA.
@@ -102,12 +110,19 @@ NULL
 #' # or use character vector
 #' df %>% anova_test(dv = len, wid = id, within = c(supp, dose))
 #'
+#' # Extract ANOVA table and apply correction
+#' #:::::::::::::::::::::::::::::::::::::::::
+#' res.aov <- df %>% anova_test(dv = len, wid = id, within = c(supp, dose))
+#' get_anova_table(res.aov, correction = "GG")
+#'
+#'
 #' # Use model as arguments
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' .my.model <- lm(yield ~ block + N*P*K, npk)
 #' anova_test(.my.model)
 #'
-#'@name anova_test
+#'
+#' @describeIn anova_test perform anova test
 #'@export
 anova_test <- function(data, formula, dv, wid, between, within, covariate, type = NULL,
                        effect.size = "ges", error = NULL,
@@ -144,8 +159,57 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
       effect.size = effect.size, detailed = detailed,
       observed = observed
       )
-  class(res.anova) <- c("anova_test", class(res.anova))
+  class(res.anova) <- c("anova_test", class(res.anova), "rstatix_test")
   res.anova
+}
+
+#' @describeIn anova_test extract anova table from an object of class \code{anova_test}
+#' @export
+get_anova_table <- function(x, correction = c("auto", "GG", "HF", "none")){
+  correction.method <- method <- match.arg(correction)
+  if(method == "auto") method = "GG"
+  if(!inherits(x, "anova_test")){
+    stop("An object of class 'anova_test' required")
+  }
+  # Independent anova
+  if(!inherits(x, "list")){
+    return(x)
+  }
+  if(correction.method == "none"){
+    return(x)
+  }
+  # repeated/mixed design
+  # Get correction table from anova_test
+  .args <- attr(x, "args")
+  get_corrections_table <- function(x, method = c("GG", "HF")){
+    method <- match.arg(method)
+    pattern <- paste0("Effect|", method)
+    corrections <- x$`Sphericity Corrections` %>%
+      select(tidyselect::matches(pattern))
+    colnames(corrections) <- c("Effect", "epsilon", "df", "p", "p<.05")
+    corrections <- corrections %>%
+      tidyr::separate(col = "df", into = c("DFn", "DFd"), sep = ", ", convert = TRUE) %>%
+      mutate(method = method)
+    corrections
+  }
+  res.aov <- x$ANOVA
+  sphericity <- x$`Mauchly's Test for Sphericity`
+  corrections <- get_corrections_table(x, method)
+  # If auto apply correction only when sphericity is not assumed (Mauchly p < 0.05)
+  if(correction.method == "auto"){
+    corrections %<>% filter(sphericity$p <= 0.05)
+  }
+  if(nrow(corrections) > 0){
+    rownames(res.aov) <- res.aov$Effect
+    rownames(corrections) <- corrections$Effect
+    cols.to.update <- c("DFn", "DFd", "p", "p<.05")
+    rows.to.update <- rownames(corrections)
+    res.aov[rows.to.update, cols.to.update] <- corrections[rows.to.update, cols.to.update]
+    rownames(res.aov) <- 1:nrow(res.aov)
+  }
+  res.aov <- res.aov %>% set_attrs(args = .args)
+  class(res.aov) <- c("anova_test", class(res.aov), "rstatix_test")
+  res.aov
 }
 
 #' @rdname anova_test
