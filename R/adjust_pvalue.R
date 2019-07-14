@@ -28,6 +28,9 @@ adjust_pvalue <- function(data, p.col = NULL, output.col = NULL, method = "holm"
     return(res)
   }
   .attributes <- get_test_attributes(data)
+  if(!is.null(.attributes$args)){
+    .attributes$args$p.adjust.method = method
+  }
   p.adjust <- stats::p.adjust
   p.adjust.method <-  method
 
