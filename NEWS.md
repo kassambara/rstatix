@@ -7,6 +7,7 @@
 
 ## Minor changes
   
+- `rstatix_test` class added to `anova_test()` results
 - the results of `kruskal_test()` is now an object of class `rstatix_test` that has an attribute named **args** for holding the test arguments.
 - In `get_y_position()`, y positions and test data are merged now for grouped plots.
 - New argument `y.trans` added in `get_y_position()` for y scale transformation.
