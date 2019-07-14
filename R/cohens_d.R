@@ -20,6 +20,15 @@ NULL
 #'   variances as being equal. If TRUE then the pooled variance is used to
 #'   estimate the variance otherwise the Welch (or Satterthwaite) approximation
 #'   to the degrees of freedom is used.
+#' @details Quantification of the effect size magnitude is performed
+#' using the thresholds defined in Cohen (1992). The magnitude is assessed using
+#' the thresholds provided in (Cohen 1992), i.e. |d|<0.2 "negligible", |d|<0.5
+#' "small", |d|<0.8 "medium", otherwise "large".
+#' @references
+#' \itemize{
+#' \item Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.). New York:Academic Press.
+#' \item Cohen, J. (1992). A power primer. Psychological Bulletin, 112, 155-159.
+#' }
 #' @return a data frame containing the Cohen's d and the magnitude.
 #' @examples
 #' # One-sample t test effect size
@@ -105,3 +114,4 @@ get_cohens_magnitude <- function(d){
   magnitude <- factor(magnitude[d.index], levels = magnitude, ordered = TRUE)
   magnitude
 }
+

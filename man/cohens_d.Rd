@@ -31,6 +31,12 @@ Compute the effect size for t-test. T-test conventional effect
   sizes, poposed by Cohen, are: 0.2 (small efect), 0.5 (moderate effect) and
   0.8 (large effect).
 }
+\details{
+Quantification of the effect size magnitude is performed
+using the thresholds defined in Cohen (1992). The magnitude is assessed using
+the thresholds provided in (Cohen 1992), i.e. |d|<0.2 "negligible", |d|<0.5
+"small", |d|<0.8 "medium", otherwise "large".
+}
 \examples{
 # One-sample t test effect size
 ToothGrowth \%>\% cohens_d(len ~ 1, mu = 0)
@@ -48,4 +54,10 @@ df <- df \%>\% gather(key = "treatment", value = "value", -id)
 head(df)
 
 df \%>\% cohens_d(value ~ treatment, paired = TRUE)
+}
+\references{
+\itemize{
+\item Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.). New York:Academic Press.
+\item Cohen, J. (1992). A power primer. Psychological Bulletin, 112, 155-159.
+}
 }
