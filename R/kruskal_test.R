@@ -41,7 +41,9 @@ kruskal_test <- function(
 
   if(is_grouped_df(data)){
     results <- data %>%
-      doo(kruskal_test, formula, ...)
+      doo(kruskal_test, formula, ...) %>%
+      set_attrs(args = args) %>%
+      add_class(c("rstatix_test", "kruskal_test"))
     return(results)
   }
 
@@ -50,7 +52,6 @@ kruskal_test <- function(
     as_tidy_stat() %>%
     select(statistic, df, p, method) %>%
     add_column(.y. = outcome, .before = "statistic")
-
   res %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "kruskal_test"))
