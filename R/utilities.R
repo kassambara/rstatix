@@ -1,4 +1,5 @@
 #' @importFrom magrittr %>%
+#' @importFrom magrittr %<>%
 #' @importFrom magrittr extract
 #' @importFrom magrittr set_colnames
 #' @importFrom dplyr mutate
