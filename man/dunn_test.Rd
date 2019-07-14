@@ -23,14 +23,14 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 return a data frame with some of the following columns: \itemize{
  \item \code{.y.}: the y (outcome) variable used in the test. \item
  \code{group1,group2}: the compared groups in the pairwise tests. \item
- \code{statistic}: Test statistic (z-value) used to compute the p-value. \item
- \code{p}: p-value. \item \code{p.adj}: the adjusted p-value. \item
- \code{method}: the statistical test used to compare groups. \item
- \code{p.signif, p.adj.signif}: the significance level of p-values and
- adjusted p-values, respectively. }
+ \code{n1,n2}: Sample counts. \item \code{statistic}: Test statistic
+ (z-value) used to compute the p-value. \item \code{p}: p-value. \item
+ \code{p.adj}: the adjusted p-value. \item \code{method}: the statistical
+ test used to compare groups. \item \code{p.signif, p.adj.signif}: the
+ significance level of p-values and adjusted p-values, respectively. }
 
- The \strong{returned object has an attribute called args}, which is a list holding
- the test arguments.
+ The \strong{returned object has an attribute called args}, which is a list
+ holding the test arguments.
 }
 \description{
 Performs Dunn's test for pairwise multiple comparisons of the
@@ -41,5 +41,6 @@ Performs Dunn's test for pairwise multiple comparisons of the
 ToothGrowth \%>\% dunn_test(len ~ dose)
 }
 \references{
-Dunn, O. J. (1964) Multiple comparisons using rank sums Technometrics, 6(3):241-252.
+Dunn, O. J. (1964) Multiple comparisons using rank sums
+Technometrics, 6(3):241-252.
 }

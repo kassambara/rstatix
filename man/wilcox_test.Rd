@@ -30,8 +30,9 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
  specified, for a given grouping variable, each of the group levels will be
  compared to the reference group (i.e. control group).
 
- If \code{ref.group = "all"}, pairwise two sample Wilcoxon tests are performed for comparing each grouping
- variable levels against all (i.e. basemean).}
+ If \code{ref.group = "all"}, pairwise two sample Wilcoxon tests are
+ performed for comparing each grouping variable levels against all (i.e.
+ basemean).}
 
 \item{p.adjust.method}{method to adjust p values for multiple comparisons.
 Used when pairwise comparisons are performed. Allowed values include "holm",
@@ -53,30 +54,32 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
 \item{conf.level}{confidence level of the interval.}
 
-\item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is shown.}
+\item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
+shown.}
 
 \item{...}{other arguments to be passed to the function
 \code{\link[stats]{wilcox.test}}.}
 }
 \value{
-return a data frame with some of the following columns: \itemize{ \item
- \code{.y.}: the y variable used in the test. \item \code{group1,group2}: the
- compared groups in the pairwise tests. \item \code{statistic}: Test
- statistic used to compute the p-value. \item \code{p}: p-value. \item
- \code{p.adj}: the adjusted p-value. \item \code{method}: the statistical
- test used to compare groups. \item \code{p.signif, p.adj.signif}: the
- significance level of p-values and adjusted p-values, respectively. }
+return a data frame with some of the following columns: \itemize{
+ \item \code{.y.}: the y variable used in the test. \item
+ \code{group1,group2}: the compared groups in the pairwise tests. \item
+ \code{n,n1,n2}: Sample counts. \item \code{statistic}: Test statistic used
+ to compute the p-value. \item \code{p}: p-value. \item \code{p.adj}: the
+ adjusted p-value. \item \code{method}: the statistical test used to compare
+ groups. \item \code{p.signif, p.adj.signif}: the significance level of
+ p-values and adjusted p-values, respectively. }
 
- The \strong{returned object has an attribute called args}, which is a list holding
- the test arguments.
+ The \strong{returned object has an attribute called args}, which is a list
+ holding the test arguments.
 }
 \description{
 Provides a pipe-friendly framework to performs one and two sample
  Wilcoxon tests.
 }
 \details{
-- \code{pairwise_wilcox_test()} applies the standard two sample Wilcoxon test to
- all possible pairs of groups. This method calls the
+- \code{pairwise_wilcox_test()} applies the standard two sample
+ Wilcoxon test to all possible pairs of groups. This method calls the
  \code{\link[stats]{wilcox.test}()}, so extra arguments are accepted.
 
 

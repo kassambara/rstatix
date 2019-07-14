@@ -549,4 +549,14 @@ set_test_attributes <- function(test, .attributes){
   test
 }
 
+get_group_size <- function(data, group){
+  result <- data %>%
+    group_by(!!sym(group)) %>%
+    dplyr::count()
+  n <- result$n
+  group.levels <- result %>% pull(1)
+  names(n) <- group.levels
+  n
+}
+
 

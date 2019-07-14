@@ -19,13 +19,15 @@ one or multiple levels giving the corresponding groups. For example,
 }
 \value{
 return a data frame with the following columns: \itemize{ \item
- \code{.y.}: the y variable used in the test. \item \code{statistic}: the kruskal-wallis rank sum statistic used to compute the
- p-value. \item \code{p}: p-value.
- \item \code{method}: the statistical test used to compare groups.}
+ \code{.y.}: the y variable used in the test. \item \code{n}: sample count.
+ \item \code{statistic}: the kruskal-wallis rank sum statistic used to
+ compute the p-value. \item \code{p}: p-value. \item \code{method}: the
+ statistical test used to compare groups.}
 }
 \description{
-Provides a pipe-friendly framework to performs Kruskal-Wallis rank sum test.
- Wrapper around the function \code{\link[stats]{kruskal.test}()}.
+Provides a pipe-friendly framework to performs Kruskal-Wallis
+ rank sum test. Wrapper around the function
+ \code{\link[stats]{kruskal.test}()}.
 }
 \examples{
 # Load data

@@ -82,6 +82,7 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, detail
     grp1 <- "1"
     grp2 <- "null model"
     outcome.values <- data %>% pull(!!outcome)
+    n <- length(outcome.values)
     test.args <- list(x = outcome.values, ...)
   }
   # Two sample mean comparisons ========================
@@ -93,11 +94,11 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, detail
     group.levels <- data %>% get_levels(group)
     grp1 <- group.levels[1]
     grp2 <- group.levels[2]
-    test.args <- list(
-        x = outcome.values[group.values == grp1],
-        y = outcome.values[group.values == grp2],
-        ...
-      )
+    x <- outcome.values[group.values == grp1]
+    y <- outcome.values[group.values == grp2]
+    n1 <- length(x)
+    n2 <- length(y)
+    test.args <- list(x = x, y = y, ...)
     # test.args <- list(formula = formula, data = data, ...)
   }
 
@@ -108,6 +109,13 @@ mean_test <- function(data, formula, method = "t.test", ref.group = NULL, detail
       .y. = outcome, group1 = grp1, group2 = grp2,
       .before = "statistic"
     )
+  # Add n columns
+  if(grp2 == "null model"){
+    res <- res %>% add_column(n = n, .before = "statistic")
+  }
+  else{
+    res <- res %>% add_column(n1 = n1, n2 = n2, .before = "statistic")
+  }
   if(!detailed) res <- remove_details(res, method = method)
   res
 }
@@ -222,7 +230,8 @@ remove_details <- function(res, method){
   }
   else if(method %in% c("t.test", "wilcox.test", "kruskal.test", "sign.test") ){
     columns.to.keep <- intersect(
-      c(".y.", "group1", "group2", "statistic", "df", "p", "p.signif", "p.adj", "p.adj.signif"),
+      c(".y.", "group1", "group2", "n", "n1", "n2",  "statistic",
+        "df", "p", "p.signif", "p.adj", "p.adj.signif"),
       colnames(res)
     )
     res <- res[, columns.to.keep]

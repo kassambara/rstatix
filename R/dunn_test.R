@@ -9,16 +9,16 @@ NULL
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y (outcome) variable used in the test. \item
 #'  \code{group1,group2}: the compared groups in the pairwise tests. \item
-#'  \code{statistic}: Test statistic (z-value) used to compute the p-value. \item
-#'  \code{p}: p-value. \item \code{p.adj}: the adjusted p-value. \item
-#'  \code{method}: the statistical test used to compare groups. \item
-#'  \code{p.signif, p.adj.signif}: the significance level of p-values and
-#'  adjusted p-values, respectively. }
+#'  \code{n1,n2}: Sample counts. \item \code{statistic}: Test statistic
+#'  (z-value) used to compute the p-value. \item \code{p}: p-value. \item
+#'  \code{p.adj}: the adjusted p-value. \item \code{method}: the statistical
+#'  test used to compare groups. \item \code{p.signif, p.adj.signif}: the
+#'  significance level of p-values and adjusted p-values, respectively. }
 #'
-#'  The \strong{returned object has an attribute called args}, which is a list holding
-#'  the test arguments.
-#' @references
-#' Dunn, O. J. (1964) Multiple comparisons using rank sums Technometrics, 6(3):241-252.
+#'  The \strong{returned object has an attribute called args}, which is a list
+#'  holding the test arguments.
+#'@references Dunn, O. J. (1964) Multiple comparisons using rank sums
+#'Technometrics, 6(3):241-252.
 #' @examples
 #' ToothGrowth %>% dunn_test(len ~ dose)
 #'@export
@@ -47,6 +47,7 @@ dunn_test <- function(data, formula, p.adjust.method = "holm"){
 
   x <- data %>% pull(!!outcome)
   g <- data %>% pull(!!group)
+  group.size <- data %>% get_group_size(group)
   if (!all(is.finite(g)))
     stop("all group levels must be finite")
 
@@ -95,7 +96,11 @@ dunn_test <- function(data, formula, p.adjust.method = "holm"){
     add_column(statistic = PSTAT$statistic, .before = "p") %>%
     add_column(estimate = ESTIMATE$diff, .before = "group1") %>%
     select(.data$.y., .data$group1, .data$group2, .data$estimate, everything())
+
+  n1 <- group.size[PVAL$group1]
+  n2 <- group.size[PVAL$group2]
   PVAL %>%
+    add_column(n1 = n1, n2 = n2, .after = "group2") %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "dunn_test"))
 }

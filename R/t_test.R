@@ -56,21 +56,22 @@ NULL
 #'
 #'@return return a data frame with some the following columns: \itemize{ \item
 #'  \code{.y.}: the y variable used in the test. \item \code{group1,group2}: the
-#'  compared groups in the pairwise tests. \item \code{statistic}: Test
-#'  statistic used to compute the p-value. \item \code{df}: degrees of freedom.
-#'  \item \code{p}: p-value. \item \code{p.adj}: the adjusted p-value. \item
-#'  \code{method}: the statistical test used to compare groups. \item
-#'  \code{p.signif, p.adj.signif}: the significance level of p-values and
-#'  adjusted p-values, respectively. \item \code{estimate}: estimate of the
-#'  effect size. It corresponds to the estimated mean or difference in means
-#'  depending on whether it was a one-sample test or a two-sample test. \item
-#'  \code{estimate1, estimate2}: show the mean values of the two groups,
-#'  respectively, for independent samples t-tests. \item \code{alternative}: a
-#'  character string describing the alternative hypothesis. \item
-#'  \code{conf.low,conf.high}: Lower and upper bound on a confidence interval. }
+#'  compared groups in the pairwise tests. \item \code{n,n1,n2}: Sample counts.
+#'  \item \code{statistic}: Test statistic used to compute the p-value. \item
+#'  \code{df}: degrees of freedom. \item \code{p}: p-value. \item \code{p.adj}:
+#'  the adjusted p-value. \item \code{method}: the statistical test used to
+#'  compare groups. \item \code{p.signif, p.adj.signif}: the significance level
+#'  of p-values and adjusted p-values, respectively. \item \code{estimate}:
+#'  estimate of the effect size. It corresponds to the estimated mean or
+#'  difference in means depending on whether it was a one-sample test or a
+#'  two-sample test. \item \code{estimate1, estimate2}: show the mean values of
+#'  the two groups, respectively, for independent samples t-tests. \item
+#'  \code{alternative}: a character string describing the alternative
+#'  hypothesis. \item \code{conf.low,conf.high}: Lower and upper bound on a
+#'  confidence interval. }
 #'
-#'  The \strong{returned object has an attribute called args}, which is a list holding
-#'  the test arguments.
+#'  The \strong{returned object has an attribute called args}, which is a list
+#'  holding the test arguments.
 #'
 #' @examples
 #' # Load data
@@ -246,6 +247,7 @@ pairwise_t_test_psd <- function(
   data <- data %>% .as_factor(group, ref.group = ref.group)
   outcome.values <- data %>% pull(!!outcome)
   group.values <- data %>% pull(!!group)
+  group.size <- data %>% get_group_size(group)
 
   # Compute pairwise t-test
   group1 <- group2 <- p.value <- NULL
@@ -257,10 +259,13 @@ pairwise_t_test_psd <- function(
     tidy() %>%
     select(group2, group1, p.value)
   colnames(results) <- c("group1", "group2", "p")
+  n1 <- group.size[results$group1]
+  n2 <- group.size[results$group2]
 
   results <- results %>%
     mutate(method = "T-test") %>%
-    add_column(.y. = outcome, .before = 1)
+    add_column(.y. = outcome, .before = 1) %>%
+    add_column(n1 = n1, n2 = n2, .after = "group2")
 
   # If ref.group specified, keep only comparisons against reference
   if(!is.null(ref.group)){
