@@ -21,20 +21,22 @@ NULL
 #'@return return a data frame with some the following columns: \itemize{ \item
 #'  \code{.y.}: the y variable used in the test. \item \code{group1,group2}: the
 #'  compared groups in the pairwise tests. \item \code{n,n1,n2}: Sample counts.
-#'  \item \code{statistic}: Test statistic used to compute the p-value. \item
-#'  \code{df, parameter}: degrees of freedom. \item \code{p}: p-value.  \item
-#'  \code{method}: the statistical test used to compare groups. \item
-#'  \code{p.signif, p.adj.signif}: the significance level of p-values and
-#'  adjusted p-values, respectively. \item \code{estimate}: estimate of the
-#'  effect size. It corresponds to the median of the differences. \item
-#'  \code{alternative}: a character string describing the alternative
-#'  hypothesis. \item \code{conf.low,conf.high}: Lower and upper bound on a
-#'  confidence interval. }
+#'  \item \code{statistic}: Test statistic used to compute the p-value. That is
+#'  the S-statistic (the number of positive differences between the data and the
+#'  hypothesized median), with names attribute \code{"S"}. \item \code{df,
+#'  parameter}: degrees of freedom. Here, the total number of valid differences.
+#'  \item \code{p}: p-value.  \item \code{method}: the statistical test used to
+#'  compare groups. \item \code{p.signif, p.adj.signif}: the significance level
+#'  of p-values and adjusted p-values, respectively. \item \code{estimate}:
+#'  estimate of the effect size. It corresponds to the median of the
+#'  differences. \item \code{alternative}: a character string describing the
+#'  alternative hypothesis. \item \code{conf.low,conf.high}: Lower and upper
+#'  bound on a confidence interval of the estimate. }
 #'
 #'  The \strong{returned object has an attribute called args}, which is a list
 #'  holding the test arguments.
 #'@note This function is a reimplementation of the function \code{SignTest()}
-#'from the \code{DescTools} package.
+#'  from the \code{DescTools} package.
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::
