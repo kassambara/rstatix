@@ -37,10 +37,20 @@ Performs Dunn's test for pairwise multiple comparisons of the
  ranked data. The mean rank of the different groups is compared. Used for
  post-hoc test following Kruskal-Wallis test.
 }
+\details{
+DunnTest performs the post hoc pairwise multiple comparisons
+ procedure appropriate to follow up a Kruskal-Wallis test, which is a
+ non-parametric analog of the one-way ANOVA. The Wilcoxon rank sum
+ test, itself a non-parametric analog of the unpaired t-test, is possibly
+ intuitive, but inappropriate as a post hoc pairwise test, because (1) it
+ fails to retain the dependent ranking that produced the Kruskal-Wallis test
+ statistic, and (2) it does not incorporate the pooled variance estimate
+ implied by the null hypothesis of the Kruskal-Wallis test.
+}
 \examples{
 ToothGrowth \%>\% dunn_test(len ~ dose)
 }
 \references{
 Dunn, O. J. (1964) Multiple comparisons using rank sums
-Technometrics, 6(3):241-252.
+ Technometrics, 6(3):241-252.
 }
