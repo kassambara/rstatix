@@ -43,15 +43,15 @@ shown.}
 \value{
 return a data frame with some the following columns: \itemize{ \item
  \code{.y.}: the y variable used in the test. \item \code{group1,group2}: the
- compared groups in the pairwise tests. \item \code{statistic}: Test
- statistic (t.ratio) used to compute the p-value. \item \code{df}: degrees of
- freedom. \item \code{p}: p-value. \item \code{p.adj}: the adjusted p-value.
- \item \code{method}: the statistical test used to compare groups. \item
- \code{p.signif, p.adj.signif}: the significance level of p-values and
- adjusted p-values, respectively. \item \code{estimate}: estimate of the
- effect size, that is the difference between the two emmeans (estimated
- marginal means). \item \code{conf.low,conf.high}: Lower and upper bound on a
- confidence interval of the estimate. }
+ compared groups in the pairwise tests.
+ \item \code{statistic}: Test statistic (t.ratio) used to compute the
+ p-value. \item \code{df}: degrees of freedom. \item \code{p}: p-value. \item
+ \code{p.adj}: the adjusted p-value. \item \code{method}: the statistical
+ test used to compare groups. \item \code{p.signif, p.adj.signif}: the
+ significance level of p-values and adjusted p-values, respectively. \item
+ \code{estimate}: estimate of the effect size, that is the difference between
+ the two emmeans (estimated marginal means). \item \code{conf.low,conf.high}:
+ Lower and upper bound on a confidence interval of the estimate. }
 
  The \strong{returned object has an attribute called args}, which is a list
  holding the test arguments. It has also an attribute named "emmeans", a data

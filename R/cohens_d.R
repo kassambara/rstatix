@@ -6,8 +6,18 @@ NULL
 #' Compute Cohen's d Measure of Effect Size
 #'
 #' @description Compute the effect size for t-test. T-test conventional effect
-#'   sizes, poposed by Cohen, are: 0.2 (small efect), 0.5 (moderate effect) and
+#'   sizes, poposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
 #'   0.8 (large effect).
+#'
+#' Cohen's \code{d} is calculated as the difference between means or mean minus \code{mu}
+#' divided by the estimated standardized deviation.
+#'
+#' For independent samples t-test, there are two possibilities implemented.
+#' If the t-test did not make a homogeneity of variance assumption, (the Welch test),
+#' the variance term will mirror the Welch test, otherwise a pooled estimate is used.
+#'
+#' If a paired samples t-test was requested, then effect size desired is
+#' based on the standard deviation of the differences.
 #'
 #' @param data a data.frame containing the variables in the formula.
 #' @param formula a formula of the form \code{x ~ group} where \code{x} is a
@@ -22,8 +32,8 @@ NULL
 #'   to the degrees of freedom is used.
 #' @details Quantification of the effect size magnitude is performed
 #' using the thresholds defined in Cohen (1992). The magnitude is assessed using
-#' the thresholds provided in (Cohen 1992), i.e. |d|<0.2 "negligible", |d|<0.5
-#' "small", |d|<0.8 "medium", otherwise "large".
+#' the thresholds provided in (Cohen 1992), i.e. \code{|d| < 0.2} "negligible", \code{|d| < 0.5}
+#' "small", \code{|d| < 0.8} "medium", otherwise "large".
 #' @references
 #' \itemize{
 #' \item Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.). New York:Academic Press.
