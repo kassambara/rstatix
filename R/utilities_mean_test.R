@@ -236,6 +236,11 @@ remove_details <- function(res, method){
     )
     res <- res[, columns.to.keep]
   }
+  else if(method == "coin.wilcox.test"){
+    columns.to.remove <- c("n1", "n2", "n", "method", "alternative", "statistic", "df")
+    columns.to.keep  <- setdiff(colnames(res), columns.to.remove)
+    res <- res %>% select(!!!syms(columns.to.keep))
+  }
   else{
     stop("Don't support the method : ", method)
   }
