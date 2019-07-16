@@ -147,7 +147,8 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
 
   .args <- .args %>%
     .add_item(data = data, type = type, white.adjust = white.adjust) %>%
-    check_anova_arguments()
+    check_anova_arguments() %>%
+    .add_item(method = "anova_test")
   if(.args$type != 1) {
     if(is.null(error)) res.anova <- car_anova(.args)
     else res.anova <- car_anova(.args, error = error)

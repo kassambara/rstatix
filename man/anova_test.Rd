@@ -151,6 +151,7 @@ df \%>\% anova_test(dv = len, wid = id, within = c(supp, dose))
 res.aov <- df \%>\% anova_test(dv = len, wid = id, within = c(supp, dose))
 get_anova_table(res.aov, correction = "GG")
 
+
 # Use model as arguments
 #:::::::::::::::::::::::::::::::::::::::::
 .my.model <- lm(yield ~ block + N*P*K, npk)
