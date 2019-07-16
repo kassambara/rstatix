@@ -36,7 +36,9 @@ Suggests:
     rmarkdown,
     ggpubr,
     graphics,
-    emmeans
+    emmeans,
+    coin,
+    boot
 URL: https://rpkgs.datanovia.com/rstatix/
 BugReports: https://github.com/kassambara/rstatix/issues
 RoxygenNote: 6.1.1
@@ -69,11 +71,11 @@ Collate:
     'eta_squared.R'
     'factors.R'
     'freq_table.R'
-    'get_anova_label.R'
     'get_comparisons.R'
     'get_mode.R'
     'get_pvalue_position.R'
     'get_summary_stats.R'
+    'get_test_label.R'
     'kruskal_test.R'
     'levene_test.R'
     'mahalanobis_distance.R'
@@ -84,4 +86,5 @@ Collate:
     'shapiro_test.R'
     'sign_test.R'
     'tukey_hsd.R'
+    'wilcox_effsize.R'
     'wilcox_test.R'
