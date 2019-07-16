@@ -29,7 +29,6 @@
 #' @importFrom rlang .data
 #' @importFrom rlang syms
 #' @importFrom rlang !!!
-#' @importFrom rlang set_attrs
 #' @importFrom rlang quos
 #' @importFrom rlang quo_name
 #' @importFrom tibble add_column
@@ -310,7 +309,7 @@ get_stat_method <- function(x){
   levels(x)
 }
 
-# Additems in a list
+# Add/remove items in a list
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 add_item <- function(.list, ...){
   pms <- list(...)
@@ -319,6 +318,16 @@ add_item <- function(.list, ...){
   }
   .list
 }
+remove_item <- function(.list, items){
+  for(item in items)
+    .list[[item]] <- NULL
+  .list
+}
+remove_null_items <- function(.list){
+  Filter(Negate(is.null), .list)
+}
+
+
 # depreciated
 .add_item <- function(.list, ...){
   add_item(.list, ...)
@@ -466,6 +475,14 @@ add_class <- function(x, .class){
   }
   x
 }
+# Add/set attributes
+#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+set_attrs <- function (x, ...)
+{
+  attrs <- list(...)
+  attributes(x) <- c(attributes(x), attrs)
+  x
+}
 
 # Correlation analysis
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -559,4 +576,23 @@ get_group_size <- function(data, group){
   n
 }
 
+stop_ifnot_class <- function(x, .class){
+  object.name <- deparse(substitute(x))
+  if(!inherits(x, .class)){
+    stop(object.name, " should be an object of class: ",
+         paste(.class, collapse = ", "))
+  }
+}
+
+# Allowed pairwise comparison tests
+get_pairwise_comparison_methods <- function(){
+  c(
+    t_test = "T test",
+    wilcox_test = "Wilcoxon test",
+    sign_test = "Sign test",
+    dunn_test = "Dunn test",
+    emmeans_test = "Emmeans test",
+    tukey_hsd = "Tukey HSD"
+  )
+}
 
