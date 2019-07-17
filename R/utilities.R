@@ -226,8 +226,7 @@ get_levels <- function(data, group){
   p.col <- data %>%
     select(matches(common.p.cols)) %>%
     colnames()
-  if(.is_empty(p.col))
-    stop("Can't guess the p value column from the input data. Specify the p.col argument")
+  if(.is_empty(p.col)) p.col <- NULL
   p.col
 }
 
