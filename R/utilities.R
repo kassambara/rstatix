@@ -39,8 +39,9 @@
 #' @importFrom tidyr unnest
 
 
-# Conditionnaly rounding
-roundif <- function(x, digits = 3){
+# Rounding values --------------------------------------
+# Round a vector, conditionnaly rounding
+round_value <- function(x, digits = 0){
   sapply(
     x,
     function(x, digits){
@@ -54,6 +55,46 @@ roundif <- function(x, digits = 3){
     digits
   )
 }
+# Round a whole data frame or selected columns
+round_column <- function(data, ...,  digits = 0){
+  dot.vars <- get_existing_dot_vars(data, ...)
+  if(.is_empty(dot.vars)){
+    data %<>% dplyr::mutate_if(is.numeric, round_value, digits = digits)
+  }
+  data %<>% dplyr::mutate_at(dot.vars, round_value, digits = digits)
+  data
+}
+
+# Extract or replace number from character string
+extract_number <- function(x){
+  as.numeric(gsub("[^0-9.-]+", "", as.character(x)))
+}
+replace_number <- function(x, replacement = ""){
+  gsub("[0-9.]", replacement, as.character(x))
+}
+
+# Add columns into data frame
+# If specified before or after columns does not exist, columns are appended at the end
+add_columns <- function(.data, ..., .before = NULL, .after = NULL){
+  if(is.character(.before)){
+    if(!(.before %in% colnames(.data))){
+      .before <- NULL
+    }
+  }
+  if(is.character(.after)){
+    if(!(.after %in% colnames(.data))){
+      .after <- NULL
+    }
+  }
+  tibble::add_column(.data, ..., .before = .before, .after = .after)
+}
+
+
+
+
+
+
+
 
 # Check if required package is installed
 required_package <- function(pkg){
@@ -220,15 +261,14 @@ get_levels <- function(data, group){
 
 # Guess p-value column name from a statistical test output
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-.guess_pvalue_column <- function(data){
-  matches <- dplyr::matches
-  common.p.cols <- "^p$|^pval$|^pvalue$|^p\\.val$|^p\\.value$"
-  p.col <- data %>%
-    select(matches(common.p.cols)) %>%
-    colnames()
-  if(.is_empty(p.col)) p.col <- NULL
-  p.col
+# transform vector into regular expression
+as_regexp <- function(x){
+  . <- NULL
+  gsub(".", "\\.", x, fixed = TRUE) %>%
+    paste(collapse = "$|^") %>%
+    paste("^", ., "$", sep = "")
 }
+
 
 # Generate all possible pairs of a factor levels
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -256,18 +296,17 @@ get_levels <- function(data, group){
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # Generic function to create a tidy statistical output
 as_tidy_stat <- function(x, digits = 3){
-
-  stat.method <- get_stat_method(x)
-
   estimate <- estimate1 <- estimate2 <- p.value <-
     alternative <- NULL
-  res <- x %>%
-    tidy() %>%
-    mutate(
-      p.value = signif(p.value, digits),
-      method = stat.method
-    ) %>%
-    rename(p = p.value)
+  res <- tidy(x)
+  if("method" %in% colnames(res)){
+    stat.method <- get_stat_method(x)
+    res %<>% mutate(method = stat.method)
+  }
+  if("p.value" %in% colnames(res)){
+    res %<>% mutate(p.value = signif(p.value, digits)) %>%
+      rename(p = p.value)
+  }
   if("parameter" %in% colnames(res)){
     res <- res %>% rename(df = .data$parameter)
   }
@@ -281,7 +320,8 @@ get_stat_method <- function(x){
   }
   available.methods <- c(
     "T-test", "Wilcoxon", "Kruskal-Wallis",
-    "Pearson", "Spearman", "Kendall", "Sign-Test"
+    "Pearson", "Spearman", "Kendall", "Sign-Test",
+    "Cohen's d"
   )
   used.method <- available.methods %>%
     map(grepl, x$method, ignore.case = TRUE) %>%
@@ -449,11 +489,14 @@ get_selected_vars <- function(x, ..., vars = NULL){
   selected %>% as.character()
 }
 
-# Return dot variables
+# Return dot variables -----------------------
 get_dot_vars <- function(...){
   rlang::quos(...) %>%
     map(rlang::quo_text) %>%
     unlist()
+}
+get_existing_dot_vars <- function(data, ...){
+  tidyselect::vars_select(colnames(data), !!!rlang::quos(...))
 }
 
 
@@ -595,3 +638,16 @@ get_pairwise_comparison_methods <- function(){
   )
 }
 
+# Bootstrap confidence intervals -------------------------
+get_boot_ci <- function(data, stat.func, conf.level = 0.95, type = "perc", nboot = 500){
+  required_package("boot")
+  Boot = boot::boot(data, stat.func, R = nboot)
+  BCI = boot::boot.ci(Boot, conf = conf.level, type = type, parallel = "multicore")
+  type <- switch(
+    type, norm = "normal", perc = "percent",
+    basic = "basic", bca = "bca", stud = "student", type
+  )
+  CI <- as.vector(BCI[[type]]) %>%
+    utils::tail(2) %>% round_value(digits = 2)
+  CI
+}
