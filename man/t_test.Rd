@@ -31,7 +31,7 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
  specified, for a given grouping variable, each of the group levels will be
  compared to the reference group (i.e. control group).
 
- If \code{ref.group = "all"}, pairwise two sample t-tests are performed for
+ If \code{ref.group = "all"}, pairwise two sample tests are performed for
  comparing each grouping variable levels against all (i.e. basemean).}
 
 \item{p.adjust.method}{method to adjust p values for multiple comparisons.
@@ -51,8 +51,7 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
     \code{"greater"} or \code{"less"}.  You can specify just the initial
     letter.}
 
-\item{mu}{a number indicating the true value of the mean (or
-    difference in means if you are performing a two sample test).}
+\item{mu}{a number specifying an optional parameter used to form the null hypothesis.}
 
 \item{conf.level}{confidence level of the interval.}
 

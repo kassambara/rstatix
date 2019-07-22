@@ -1,4 +1,4 @@
-#' @include utilities.R
+#' @include utilities.R utilities_two_sample_test.R
 #' @importFrom stats qbinom
 #' @importFrom stats pbinom
 NULL
@@ -125,11 +125,11 @@ sign_test <- function(data, formula, comparisons = NULL, ref.group = NULL,
 
 
 one_sample_sign_test <- function(data, formula, mu = 0, ...){
-  mean_test(data, formula, method = "sign.test", mu = mu, ...)
+  two_sample_test(data, formula, method = "sign.test", mu = mu, ...)
 }
 two_sample_sign_test <- function(data, formula,   ...)
 {
-  mean_test(data, formula, method = "sign.test",  ...)
+  two_sample_test(data, formula, method = "sign.test",  ...)
 }
 
 
@@ -142,7 +142,7 @@ pairwise_sign_test <- function(
   args <- as.list(environment()) %>%
     .add_item(method = "sign_test")
 
-  res <- mean_test_pairwise(
+  res <- pairwise_two_sample_test(
     data, formula, method = "sign.test",
     comparisons = comparisons, ref.group = ref.group,
     p.adjust.method = p.adjust.method, detailed = detailed, ...
@@ -157,17 +157,9 @@ sign.test <- function(x, y = NULL, alternative = c("two.sided", "less", "greater
                              mu = 0, conf.level = 0.95, ...) {
 
   alternative <- match.arg(alternative)
-  if (!missing(mu) & ((length(mu) > 1L) || !is.finite(mu)))
-    stop("'mu' must be a single number")
-  if (!((length(conf.level) == 1L) & is.finite(conf.level) &
-        (conf.level > 0) & (conf.level < 1)))
-    stop("'conf.level' must be a single number between 0 and 1")
-  if (!is.numeric(x))
-    stop("'x' must be numeric")
+  check_two_samples_test_args(x = x, y = y, mu = mu,  conf.level = conf.level)
 
   if (!is.null(y)) {
-    if (!is.numeric(y))
-      stop("'y' must be numeric")
     if (length(x) != length(y))
       stop("'x' and 'y' must have the same length")
     DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))

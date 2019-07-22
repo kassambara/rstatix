@@ -1,4 +1,4 @@
-#' @include utilities.R utilities_mean_test.R
+#' @include utilities.R utilities_two_sample_test.R
 NULL
 #'T-test
 #'
@@ -16,9 +16,9 @@ NULL
 #'  specified, for a given grouping variable, each of the group levels will be
 #'  compared to the reference group (i.e. control group).
 #'
-#'  If \code{ref.group = "all"}, pairwise two sample t-tests are performed for
+#'  If \code{ref.group = "all"}, pairwise two sample tests are performed for
 #'  comparing each grouping variable levels against all (i.e. basemean).
-#'
+#'@param mu a number specifying an optional parameter used to form the null hypothesis.
 #'@param comparisons A list of length-2 vectors specifying the groups of
 #'  interest to be compared. For example to compare groups "A" vs "B" and "B" vs
 #'  "C", the argument is as follow: \code{comparisons = list(c("A", "B"), c("B",
@@ -124,75 +124,30 @@ t_test <- function(
   mu = 0, conf.level = 0.95, detailed = FALSE
 )
 {
-  args <- as.list(environment()) %>%
+  env <- as.list(environment())
+  args <- env %>%
     .add_item(method = "t_test")
+  params <- env %>%
+    remove_null_items() %>%
+    add_item(method = "t.test")
+
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
-
-  # Case of one sample test
-  if(number.of.groups == 1){
-    res <- one_sample_t_test(
-      data = data, formula = formula,
-      alternative = alternative, mu = mu,
-      conf.level = conf.level, detailed = detailed
-    )
+  if(number.of.groups > 2 & !is.null(ref.group)){
+    if(ref.group %in% c("all", ".all.")){
+      params$data <- create_data_with_all_ref_group(data, outcome, group)
+      params$ref.group <- "all"
+    }
   }
-  # Case of two independents or paired groups
-  else if (number.of.groups == 2) {
-    res <- two_sample_t_test(
-      data = data, formula = formula, paired = paired,
-      var.equal = var.equal, alternative = alternative,
-      conf.level = conf.level, ref.group = ref.group,
-      detailed = detailed
-    )
-  }
-  # Pairwise comparisons
-  else if(number.of.groups > 2){
-
-    if(is.null(ref.group))
-      res <- pairwise_t_test(
-        data = data, formula = formula,
-        comparisons = comparisons,
-        p.adjust.method = p.adjust.method,
-        paired = paired, var.equal = var.equal,
-        alternative = alternative, conf.level = conf.level,
-        pool.sd = FALSE, detailed = detailed
-      )
-    else if(ref.group %in% c("all", ".all."))
-      res <- one_vs_all_t_test(
-        data = data, formula = formula,
-        p.adjust.method = p.adjust.method,
-        var.equal = var.equal,
-        alternative = alternative, conf.level = conf.level,
-        detailed = detailed
-      )
-    else
-      res <- pairwise_t_test(
-        data = data, formula = formula,
-        comparisons = comparisons, ref.group = ref.group,
-        p.adjust.method = p.adjust.method,
-        paired = paired, var.equal = var.equal,
-        alternative = alternative, conf.level = conf.level,
-        pool.sd = FALSE, detailed = detailed
-      )
-  }
-  res %>%
+  test.func <- two_sample_test
+  if(number.of.groups > 2)
+    test.func <- pairwise_two_sample_test
+  do.call(test.func, params) %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "t_test"))
 }
 
-
-
-one_sample_t_test <- function(data, formula, mu = 0, ...){
-  mean_test(data, formula, method = "t.test", mu = mu, ...)
-}
-
-
-two_sample_t_test <- function(data, formula, paired = FALSE, ...)
-{
-  mean_test(data, formula, method = "t.test", paired = paired, ...)
-}
 
 
 #'@describeIn t_test performs pairwise two sample t-test. Wrapper around the R
@@ -213,7 +168,7 @@ pairwise_t_test <- function(
     )
   }
   else{
-    res <- mean_test_pairwise(
+    res <- pairwise_two_sample_test(
       data, formula, method = "t.test",
       comparisons = comparisons, ref.group = ref.group,
       p.adjust.method = p.adjust.method, paired = paired,
@@ -292,13 +247,3 @@ pairwise_t_test_psd <- function(
   results
 }
 
-
-# t_test performs pairwise two sample t-test comparing each grouping
-# variable levels against all (i.e. basemean)
-one_vs_all_t_test <- function(data, formula, p.adjust.method = "holm", ...)
-{
-  mean_test_one_vs_all (
-    data, formula, method = "t.test",
-    p.adjust.method = p.adjust.method, ...
-    )
-}
