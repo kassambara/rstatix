@@ -1,4 +1,4 @@
-#' @include utilities.R utilities_mean_test.R factorial_design.R
+#' @include utilities.R utilities_two_sample_test.R factorial_design.R
 NULL
 #'Create Nice Summary Tables of ANOVA Results
 #'

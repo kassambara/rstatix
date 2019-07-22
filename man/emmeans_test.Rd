@@ -22,7 +22,7 @@ one or multiple levels giving the corresponding groups. For example,
  specified, for a given grouping variable, each of the group levels will be
  compared to the reference group (i.e. control group).
 
- If \code{ref.group = "all"}, pairwise two sample t-tests are performed for
+ If \code{ref.group = "all"}, pairwise two sample tests are performed for
  comparing each grouping variable levels against all (i.e. basemean).}
 
 \item{comparisons}{A list of length-2 vectors specifying the groups of
