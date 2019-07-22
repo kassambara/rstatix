@@ -4,7 +4,9 @@
 \alias{cohens_d}
 \title{Compute Cohen's d Measure of Effect Size}
 \usage{
-cohens_d(data, formula, paired = FALSE, mu = 0, var.equal = FALSE)
+cohens_d(data, formula, comparisons = NULL, ref.group = NULL,
+  paired = FALSE, mu = 0, var.equal = FALSE, ci = FALSE,
+  conf.level = 0.95, ci.type = "perc", nboot = 1000)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -14,17 +16,45 @@ numeric variable giving the data values and \code{group} is a factor with
 one or multiple levels giving the corresponding groups. For example,
 \code{formula = TP53 ~ cancer_group}.}
 
+\item{comparisons}{A list of length-2 vectors specifying the groups of
+interest to be compared. For example to compare groups "A" vs "B" and "B" vs
+"C", the argument is as follow: \code{comparisons = list(c("A", "B"), c("B",
+"C"))}}
+
+\item{ref.group}{a character string specifying the reference group. If
+ specified, for a given grouping variable, each of the group levels will be
+ compared to the reference group (i.e. control group).
+
+ If \code{ref.group = "all"}, pairwise two sample tests are
+ performed for comparing each grouping variable levels against all (i.e.
+ basemean).}
+
 \item{paired}{a logical indicating whether you want a paired test.}
 
-\item{mu}{theoretical mean, use for one-sample t-test. Default is O.}
+\item{mu}{theoretical mean, use for one-sample t-test. Default is 0.}
 
 \item{var.equal}{a logical variable indicating whether to treat the two
 variances as being equal. If TRUE then the pooled variance is used to
 estimate the variance otherwise the Welch (or Satterthwaite) approximation
 to the degrees of freedom is used.}
+
+\item{ci}{If TRUE, returns confidence intervals by bootstrap. May be slow.}
+
+\item{conf.level}{The level for the confidence interval.}
+
+\item{ci.type}{The type of confidence interval to use. Can be any of "norm",
+"basic", "perc", or "bca". Passed to \code{boot::boot.ci}.}
+
+\item{nboot}{The number of replications to use for bootstrap.}
 }
 \value{
-a data frame containing the Cohen's d and the magnitude.
+return a data frame with some of the following columns: \itemize{
+ \item \code{.y.}: the y variable used in the test. \item
+ \code{group1,group2}: the compared groups in the pairwise tests. \item
+ \code{n,n1,n2}: Sample counts. \item \code{effsize}: estimate of the effect
+ size (\code{d} value). \item \code{magnitude}: magnitude of effect size.
+ \item \code{conf.low,conf.high}: lower and upper bound of the effect size
+ confidence interval.}
 }
 \description{
 Compute the effect size for t-test. T-test conventional effect
@@ -40,6 +70,8 @@ the variance term will mirror the Welch test, otherwise a pooled estimate is use
 
 If a paired samples t-test was requested, then effect size desired is
 based on the standard deviation of the differences.
+
+ It can also returns confidence intervals by bootstap.
 }
 \details{
 Quantification of the effect size magnitude is performed

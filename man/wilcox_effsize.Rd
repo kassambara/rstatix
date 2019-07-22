@@ -5,9 +5,8 @@
 \title{Wilcoxon Effect Size}
 \usage{
 wilcox_effsize(data, formula, comparisons = NULL, ref.group = NULL,
-  paired = FALSE, alternative = "two.sided", mu = 0,
-  p.adjust.method = "holm", ci = FALSE, conf.level = 0.95,
-  ci.type = "perc", nboot = 1000, detailed = FALSE, ...)
+  paired = FALSE, alternative = "two.sided", mu = 0, ci = FALSE,
+  conf.level = 0.95, ci.type = "perc", nboot = 1000, ...)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -26,7 +25,7 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
  specified, for a given grouping variable, each of the group levels will be
  compared to the reference group (i.e. control group).
 
- If \code{ref.group = "all"}, pairwise two sample Wilcoxon tests are
+ If \code{ref.group = "all"}, pairwise two sample tests are
  performed for comparing each grouping variable levels against all (i.e.
  basemean).}
 
@@ -37,13 +36,7 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
     \code{"greater"} or \code{"less"}.  You can specify just the initial
     letter.}
 
-\item{mu}{a number specifying an optional parameter used to form the
-    null hypothesis.  See \sQuote{Details}.}
-
-\item{p.adjust.method}{method to adjust p values for multiple comparisons.
-Used when pairwise comparisons are performed. Allowed values include "holm",
-"hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't
-want to adjust the p value (not recommended), use p.adjust.method = "none".}
+\item{mu}{a number specifying an optional parameter used to form the null hypothesis.}
 
 \item{ci}{If TRUE, returns confidence intervals by bootstrap. May be slow.}
 
@@ -54,9 +47,6 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
 \item{nboot}{The number of replications to use for bootstrap.}
 
-\item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
-shown.}
-
 \item{...}{Additional arguments passed to the functions
 \code{coin::wilcoxsign_test()} (case of one- or paired-samples test) or
 \code{coin::wilcox_test()} (case of independent two-samples test).}
@@ -65,18 +55,10 @@ shown.}
 return a data frame with some of the following columns: \itemize{
  \item \code{.y.}: the y variable used in the test. \item
  \code{group1,group2}: the compared groups in the pairwise tests. \item
- \code{n,n1,n2}: Sample counts. \item \code{statistic}: Test statistic used
- to compute the p-value. Here, this corresponds to the \code{Z} value as
- returned by the \code{coin} package. \code{df}: degrees of freedom, here the
- sample count. \item \code{effsize}: estimate of the effect size (\code{r}
- value). \item \code{magnitude}: magnitude of effect size. \item \code{p}:
- Wilcoxon test p-value. \item \code{p.adj}: the adjusted p-value. \item
- \code{method}: the statistical test used to compare groups. \item
- \code{p.signif, p.adj.signif}: the significance level of p-values and
- adjusted p-values, respectively. \item \code{conf.low,conf.high}: lower and
- upper bound of the effect size confidence interval.  \item
- \code{alternative}: a character string describing the alternative
- hypothesis. }
+ \code{n,n1,n2}: Sample counts. \item \code{effsize}: estimate of the effect
+ size (\code{r} value). \item \code{magnitude}: magnitude of effect size.
+ \item \code{conf.low,conf.high}: lower and upper bound of the effect size
+ confidence interval.}
 }
 \description{
 Compute Wilcoxon effect size (\code{r}) for: \itemize{ \item
@@ -96,8 +78,8 @@ Compute Wilcoxon effect size (\code{r}) for: \itemize{ \item
  test and to total number of pairs for paired samples test.
 
  The \code{r} value varies from 0 to close to 1. The interpretation values
- for r commonly in published litterature and on the internet are: \code{0.10 -
- < 0.3} (small effect), \code{0.30 - < 0.5} (moderate effect) and \code{>=
+ for r commonly in published litterature and on the internet are: \code{0.10
+ - < 0.3} (small effect), \code{0.30 - < 0.5} (moderate effect) and \code{>=
  0.5} (large effect).
 }
 \examples{
@@ -108,6 +90,7 @@ ToothGrowth \%>\% wilcox_effsize(len ~ 1, mu = 0)
 
 # Independent two-samples wilcoxon effect size
 ToothGrowth \%>\% wilcox_effsize(len ~ supp)
+
 
 # Paired-samples wilcoxon effect size
 ToothGrowth \%>\% wilcox_effsize(len ~ supp, paired = TRUE)
@@ -121,4 +104,9 @@ ToothGrowth \%>\%
   wilcox_effsize(len ~ dose)
 
 }
+}
+\references{
+Maciej Tomczak and Ewa Tomczak. The need to report effect size
+ estimates revisited. An overview of some recommended measures of effect
+ size. Trends in Sport Sciences. 2014; 1(21):19-25.
 }

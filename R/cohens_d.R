@@ -1,4 +1,4 @@
-#' @include utilities.R
+#' @include utilities.R utilities_two_sample_test.R
 #' @importFrom stats sd
 #' @importFrom stats var
 NULL
@@ -19,13 +19,16 @@ NULL
 #' If a paired samples t-test was requested, then effect size desired is
 #' based on the standard deviation of the differences.
 #'
+#'  It can also returns confidence intervals by bootstap.
+#'
+#' @inheritParams wilcox_effsize
 #' @param data a data.frame containing the variables in the formula.
 #' @param formula a formula of the form \code{x ~ group} where \code{x} is a
 #'   numeric variable giving the data values and \code{group} is a factor with
 #'   one or multiple levels giving the corresponding groups. For example,
 #'   \code{formula = TP53 ~ cancer_group}.
 #' @param paired a logical indicating whether you want a paired test.
-#' @param mu theoretical mean, use for one-sample t-test. Default is O.
+#' @param mu theoretical mean, use for one-sample t-test. Default is 0.
 #' @param var.equal a logical variable indicating whether to treat the two
 #'   variances as being equal. If TRUE then the pooled variance is used to
 #'   estimate the variance otherwise the Welch (or Satterthwaite) approximation
@@ -39,7 +42,13 @@ NULL
 #' \item Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.). New York:Academic Press.
 #' \item Cohen, J. (1992). A power primer. Psychological Bulletin, 112, 155-159.
 #' }
-#' @return a data frame containing the Cohen's d and the magnitude.
+#'@return return a data frame with some of the following columns: \itemize{
+#'  \item \code{.y.}: the y variable used in the test. \item
+#'  \code{group1,group2}: the compared groups in the pairwise tests. \item
+#'  \code{n,n1,n2}: Sample counts. \item \code{effsize}: estimate of the effect
+#'  size (\code{d} value). \item \code{magnitude}: magnitude of effect size.
+#'  \item \code{conf.low,conf.high}: lower and upper bound of the effect size
+#'  confidence interval.}
 #' @examples
 #' # One-sample t test effect size
 #' ToothGrowth %>% cohens_d(len ~ 1, mu = 0)
@@ -58,10 +67,108 @@ NULL
 #'
 #' df %>% cohens_d(value ~ treatment, paired = TRUE)
 #' @export
-cohens_d <- function(data, formula, paired = FALSE, mu = 0, var.equal = FALSE){
+cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired = FALSE, mu = 0, var.equal = FALSE,
+                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000){
+  env <- as.list(environment())
+  args <- env %>% .add_item(method = "cohens_d")
+  params <- env %>%
+    remove_null_items() %>%
+    add_item(method = "cohens.d", detailed = FALSE)
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
+  number.of.groups <- guess_number_of_groups(data, group)
+  if(number.of.groups > 2 & !is.null(ref.group)){
+    if(ref.group %in% c("all", ".all.")){
+      params$data <- create_data_with_all_ref_group(data, outcome, group)
+      params$ref.group <- "all"
+    }
+  }
+  test.func <- two_sample_test
+  if(number.of.groups > 2) test.func <- pairwise_two_sample_test
+  res <- do.call(test.func, params) %>%
+    select(.data$.y., .data$group1, .data$group2, .data$estimate, everything()) %>%
+    rename(effsize = .data$estimate) %>%
+    mutate(magnitude = get_cohens_magnitude(.data$effsize)) %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "cohens_d"))
+  res
+}
+
+
+
+# Cohens d core function -------------------------------
+cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
+                         ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...){
+  check_two_samples_test_args(
+    x = x, y = y, mu = mu, paired = paired,
+    conf.level = conf.level
+  )
+
+  if (!is.null(y)) {
+    DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
+    if (paired) {
+      OK <- complete.cases(x, y)
+      x <- x[OK] - y[OK]
+      y <- NULL
+      METHOD <- "Paired T-test"
+    }
+    else {
+      x <- x[is.finite(x)]
+      y <- y[is.finite(y)]
+      METHOD <- "Independent T-test"
+    }
+  }
+  else {
+    DNAME <- deparse(substitute(x))
+    METHOD <- "One-sample T-test"
+    x <- x[is.finite(x)]
+  }
+
+  if(is.null(y)){
+   formula <- x ~ 1
+   y <- rep(mu, length(x))
+  }
+  else{
+    group <- rep(c("grp1", "grp2"), times = c(length(x), length(y))) %>%
+      factor()
+    x <- c(x, y)
+    y <- group
+    formula <- x ~ y
+  }
+  data <- data.frame(x, y)
+  results <- get_cohens_d(data, formula, paired = paired, var.equal = var.equal)
+  # Confidence interval of the effect size r
+  if (ci == TRUE) {
+    stat.func <- function(data, subset) {
+      get_cohens_d(
+        data, formula = formula, subset = subset,
+        paired = paired, var.equal = var.equal
+      )$d
+    }
+    CI <- get_boot_ci(
+      data, stat.func, conf.level = conf.level,
+      type = ci.type, nboot = nboot
+    )
+    results <- results %>% mutate(conf.low = CI[1], conf.high = CI[2])
+  }
+  RVAL <- list(statistic = NA, p.value = NA, null.value = mu, method = METHOD,
+               data.name = DNAME, estimate = results$d)
+  if (ci) {
+    attr(CI, "conf.level") <- conf.level
+    RVAL <- c(RVAL, list(conf.int = CI))
+  }
+  names(RVAL$estimate) <- "Cohen's d"
+  class(RVAL) <- "htest"
+  RVAL
+}
+
+# Helper to compute cohens d -----------------------------------
+get_cohens_d <- function(data, formula, subset = NULL, paired = FALSE, mu = 0, var.equal = FALSE){
+
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
+  if(!is.null(subset)) data <- data[subset, ]
   if(.is_empty(group))
     number.of.groups <- 1  # Null model
   else
@@ -88,17 +195,14 @@ cohens_d <- function(data, formula, paired = FALSE, mu = 0, var.equal = FALSE){
     stop("The grouping factors contain more than 2 levels.")
   }
   tibble(
-    cohens.d = d,
+    d,
     magnitude = get_cohens_magnitude(d)
   )
 }
 
-
 one_sample_d <- function(x, mu = 0){
   abs(mean(x) - mu)/sd(x)
 }
-
-
 two_independent_sample_d <- function(x, y, var.equal = TRUE){
   if(var.equal){
     squared.dev <- (c(x - mean(x), y - mean(y)))^2
@@ -111,11 +215,10 @@ two_independent_sample_d <- function(x, y, var.equal = TRUE){
   mean.diff <- mean(x) - mean(y)
   abs(mean.diff/SD)
 }
-
-
 paired_sample_d <- function(x, y){
   abs(mean(x-y)/sd(x-y))
 }
+
 
 get_cohens_magnitude <- function(d){
   magnitude.levels = c(0.2,0.5,0.8)
