@@ -36,14 +36,13 @@ adjust_pvalue <- function(data, p.col = NULL, output.col = NULL, method = "holm"
 
   # Guess p-value columns if missing
   if(is.null(p.col))
-    p.col <- .guess_pvalue_column(data)
-  else if(!(p.col %in% colnames(data)))
-    stop("The column ", p.col, "does not exist in the data")
+    p.col <- data %>% p_detect("p")
   if(is.null(p.col))
     return(data)
+  else if(!(p.col %in% colnames(data)))
+    stop("The column ", p.col, "does not exist in the data")
   if(is.null(output.col))
     output.col <- paste0(p.col, ".adj")
-
   # Adjust p-value
   data %>%
     mutate(

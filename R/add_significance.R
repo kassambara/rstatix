@@ -28,18 +28,18 @@ add_significance <- function(
 {
   .attributes <- get_test_attributes(data)
   if(is.null(p.col))
-    p.col <- .guess_pvalue_column(data)
-  else if(!(p.col %in% colnames(data)))
-    stop("The column ", p.col, "does not exist in the data")
+    p.col <- data %>% p_detect("p.adj")
+  if(is.null(p.col))
+    p.col <- data %>% p_detect("p")
   if(is.null(p.col))
     return(data)
+  else if(!(p.col %in% colnames(data)))
+    stop("The column ", p.col, " does not exist in the data")
   if(is.null(output.col))
     output.col <- paste0(p.col, ".signif")
-
   .p.signif <- data %>% pull(!!p.col) %>%
     stats::symnum(cutpoints = cutpoints, symbols = symbols) %>%
     as.character()
-
   data %>%
     mutate(!!output.col := .p.signif) %>%
     set_test_attributes(.attributes)
