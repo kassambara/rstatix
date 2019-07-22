@@ -141,7 +141,7 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
       effect.size = effect.size
     )
   if(is.numeric(stat.test$p))
-    stat.test$p <- round_vec(stat.test$p, 3)
+    stat.test$p <- round_value(stat.test$p, 3)
 
   get_label_func <- switch (
     type,
@@ -199,14 +199,14 @@ create_test_label.expression <- function(
     effect.size <- ""
   }
   else{
-    effect.size <- round_vec(effect.size, 2)
+    effect.size <- round_value(effect.size, 2)
     effect.size <- substitute(
       expr = paste(", ", effect.size.text, " = ", effect.size),
       env = list(effect.size.text = effect.size.text, effect.size = effect.size)
     )
   }
   # Create label
-  statistic <- round_vec(statistic, 2)
+  statistic <- round_value(statistic, 2)
   env <- as.list(environment())
   if(detailed){
     substitute(
@@ -237,7 +237,7 @@ create_test_label.text <- function(description, statistic.text,
   if(detailed){
     paste0(
       description,
-      statistic.text, parameter, " = ", round_vec(statistic, 2), ", ",
+      statistic.text, parameter, " = ", round_value(statistic, 2), ", ",
       "p", " = ", p, effect.size, n
     )
   }
@@ -307,12 +307,12 @@ get_df <- function(stat.test){
     return(NA)
   }
   if(all(c("DFn", "DFd") %in% colnames(stat.test))){
-    dfn <- round_vec(stat.test$DFn, 2)
-    dfd <- round_vec(stat.test$DFd, 2)
+    dfn <- round_value(stat.test$DFn, 2)
+    dfd <- round_value(stat.test$DFd, 2)
     df <- paste(dfn, dfd, sep = ",")
   }
   else{
-    df <- round_vec(stat.test$df, 2)
+    df <- round_value(stat.test$df, 2)
   }
   df
 }

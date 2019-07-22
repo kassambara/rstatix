@@ -111,7 +111,7 @@ anova_summary <- function(object, effect.size = "ges", detailed = FALSE, observe
     results <- remove_details(results, method = "anova")
   }
   results$ANOVA <- order_by_interaction_levels(results$ANOVA)
-  results <- results %>% map(~dplyr::mutate_if(., is.numeric, round_vec, 3))
+  results <- results %>% map(~dplyr::mutate_if(., is.numeric, round_value, 3))
   if(length(results) == 1) results <- results[[1]]
   results %>% rlang::set_attrs(args = .args)
 }
@@ -178,8 +178,8 @@ add_corrected_df <- function(.summary){
   corrections <- .summary$`Sphericity Corrections` %>%
     dplyr::left_join(aov.table, by = "Effect") %>%
     mutate(
-      df.gg = paste(round_vec(.data$GGe*.data$DFn, 2), round_vec(.data$GGe*.data$DFd, 2), sep = ", "),
-      df.hf = paste(round_vec(.data$HFe*.data$DFn, 2), round_vec(.data$HFe*.data$DFd, 2), sep = ", ")
+      df.gg = paste(round_value(.data$GGe*.data$DFn, 2), round_value(.data$GGe*.data$DFd, 2), sep = ", "),
+      df.hf = paste(round_value(.data$HFe*.data$DFn, 2), round_value(.data$HFe*.data$DFd, 2), sep = ", ")
     ) %>%
     select(-.data$DFd, -.data$DFn)
   df.gg <- corrections$df.gg
