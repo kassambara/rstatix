@@ -38,5 +38,4 @@ df <- ToothGrowth
 # Kruskal-wallis rank sum test
 #:::::::::::::::::::::::::::::::::::::::::
 df \%>\% kruskal_test(len ~ dose)
-
 }

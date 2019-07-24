@@ -29,7 +29,6 @@ NULL
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' df %>% kruskal_test(len ~ dose)
 
-#'
 #'@name kruskal_test
 #'@export
 kruskal_test <- function(
