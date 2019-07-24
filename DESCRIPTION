@@ -76,6 +76,7 @@ Collate:
     'get_pvalue_position.R'
     'get_summary_stats.R'
     'get_test_label.R'
+    'kruskal_effesize.R'
     'kruskal_test.R'
     'levene_test.R'
     'mahalanobis_distance.R'
