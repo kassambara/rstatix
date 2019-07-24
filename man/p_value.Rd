@@ -13,7 +13,7 @@ p_round(x, ..., digits = 3)
 
 p_format(x, ..., new.col = FALSE, digits = 2, accuracy = 1e-04,
   decimal.mark = ".", leading.zero = TRUE, trailing.zero = FALSE,
-  add.p = FALSE, space = TRUE)
+  add.p = FALSE, space = FALSE)
 
 p_mark_significant(x, ..., new.col = FALSE, cutpoints = c(0, 1e-04,
   0.001, 0.01, 0.05, 1), symbols = c("****", "***", "**", "*", ""))

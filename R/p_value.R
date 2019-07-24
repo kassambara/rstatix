@@ -81,7 +81,7 @@ p_round <- function(x, ..., digits = 3){
 #' @export
 p_format <- function(x, ..., new.col = FALSE, digits = 2, accuracy = 0.0001, decimal.mark = ".",
                      leading.zero = TRUE, trailing.zero = FALSE,
-                     add.p = FALSE, space = TRUE){
+                     add.p = FALSE, space = FALSE){
   if(is.data.frame(x)){
     res <- p_format_at(
       x, ..., new.col = new.col, digits = digits, accuracy = accuracy,
@@ -97,6 +97,7 @@ p_format <- function(x, ..., new.col = FALSE, digits = 2, accuracy = 0.0001, dec
     # original value < to digits defined
     nsmall = 0
   )
+  res <- gsub(pattern = " ", replacement = "", res, fixed = TRUE)
   res <- gsub("<1e-04", "<0.0001", res)
   if(!leading.zero)
     res <- remove_leading_zero(res)
@@ -111,10 +112,13 @@ p_format <- function(x, ..., new.col = FALSE, digits = 2, accuracy = 0.0001, dec
       # no need to add =
       res2[contain.inf.symbol] <- paste0("p", res[contain.inf.symbol])
     }
-    if(space){
-      res <- gsub(pattern = "(=|<)", replacement = " \\1 ", x = res2)
-    }
-    else res <- res2
+    res <- res2
+  }
+  if(space){
+    if(add.p)
+      res <- gsub(pattern = "(=|<)", replacement = " \\1 ", x = res)
+    else
+      res <- gsub(pattern = "(=|<)", replacement = "\\1 ", x = res)
   }
   res
 }
