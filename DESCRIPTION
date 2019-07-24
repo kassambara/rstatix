@@ -71,6 +71,7 @@ Collate:
     'eta_squared.R'
     'factors.R'
     'freq_table.R'
+    'games_howell_test.R'
     'get_comparisons.R'
     'get_mode.R'
     'get_pvalue_position.R'
