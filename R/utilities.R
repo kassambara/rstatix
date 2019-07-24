@@ -651,3 +651,20 @@ get_boot_ci <- function(data, stat.func, conf.level = 0.95, type = "perc", nboot
     utils::tail(2) %>% round_value(digits = 2)
   CI
 }
+
+
+
+get_complete_cases <- function(data){
+  data %>%
+    filter(complete.cases(data))
+}
+
+
+# transform squared matrix into tidy data frame
+tidy_squared_matrix <- function(data, value = "value"){
+  data %>%
+    as_tibble(rownames = "group2") %>%
+    gather(key = "group1", value = !!value, -.data$group2) %>%
+    stats::na.omit() %>% as_tibble() %>%
+    select(.data$group1, everything())
+}

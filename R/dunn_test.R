@@ -115,11 +115,6 @@ dunn_test <- function(data, formula, p.adjust.method = "holm"){
 }
 
 
-get_complete_cases <- function(data){
-  data %>%
-    filter(complete.cases(data))
-}
-
 
 get_ties <- function(x, n) {
   x.sorted <- sort(x)
@@ -134,14 +129,6 @@ get_ties <- function(x, n) {
     }
   }
   tiesum / (12 * (n - 1))
-}
-# transform squared matrix into tidy data frame
-tidy_squared_matrix <- function(data, value){
-  data %>%
-    as_tibble(rownames = "group2") %>%
-    gather(key = "group1", value = !!value, -.data$group2) %>%
-    stats::na.omit() %>% as_tibble() %>%
-    select(.data$group1, everything())
 }
 
 
