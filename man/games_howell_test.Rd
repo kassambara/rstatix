@@ -4,7 +4,8 @@
 \alias{games_howell_test}
 \title{Games Howell Post-hoc Tests}
 \usage{
-games_howell_test(data, formula, conf.level = 0.95, detailed = FALSE)
+games_howell_test(data, formula, conf.level = 0.95,
+  p.adjust.method = "holm", detailed = FALSE)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -16,6 +17,11 @@ one or multiple levels giving the corresponding groups. For example,
 
 \item{conf.level}{confidence level of the interval.}
 
+\item{p.adjust.method}{method to adjust p values for multiple comparisons.
+Used when pairwise comparisons are performed. Allowed values include "holm",
+"hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't
+want to adjust the p value (not recommended), use p.adjust.method = "none".}
+
 \item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
 shown.}
 }
@@ -23,7 +29,7 @@ shown.}
 return a data frame with some of the following columns: \itemize{
  \item \code{.y.}: the y (outcome) variable used in the test. \item
  \code{group1,group2}: the compared groups in the pairwise tests. \item
- \code{n1,n2}: Sample counts. \item \code{mean.diff, conf.low, conf.high}:
+ \code{n1,n2}: Sample counts. \item \code{estimate, conf.low, conf.high}:
  mean difference and its confidence intervals. \item \code{statistic}: Test
  statistic (t-value) used to compute the p-value. \item \code{df}: degrees of
  freedom calculated using Welch’s correction. \item \code{p}: p-value.

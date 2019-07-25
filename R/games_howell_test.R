@@ -11,7 +11,7 @@ NULL
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y (outcome) variable used in the test. \item
 #'  \code{group1,group2}: the compared groups in the pairwise tests. \item
-#'  \code{n1,n2}: Sample counts. \item \code{mean.diff, conf.low, conf.high}:
+#'  \code{n1,n2}: Sample counts. \item \code{estimate, conf.low, conf.high}:
 #'  mean difference and its confidence intervals. \item \code{statistic}: Test
 #'  statistic (t-value) used to compute the p-value. \item \code{df}: degrees of
 #'  freedom calculated using Welch’s correction. \item \code{p}: p-value.
@@ -29,7 +29,7 @@ NULL
 #'
 #' @rdname games_howell_test
 #'@export
-games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE){
+games_howell_test <- function(data, formula, conf.level = 0.95, p.adjust.method = "holm", detailed = FALSE){
   args <- as.list(environment()) %>%
     .add_item(method = "games_howell_test")
 
@@ -103,20 +103,24 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
   n2 <- grp.sizes[mean.diff$group2]
 
   results <- mean.diff %>%
-    rename(mean.diff = .data$value) %>%
+    rename(estimate = .data$value) %>%
     mutate(
       conf.low = conf.low, conf.high = conf.high,
-      se = se, statistic = t, df = df$value, p = p_round(p, digits = 3),
-      method = "Games-Howell"
+      se = se, statistic = t, df = df$value, p = p_round(p, digits = 3)
     ) %>%
     add_column(n1 = n1, n2 = n2, .after = "group2") %>%
     add_column(.y. = outcome, .before = "group1") %>%
-    add_significance("p") %>%
+    adjust_pvalue(method = p.adjust.method) %>%
+    add_significance("p.adj") %>%
+    mutate(method = "Games-Howell") %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "games_howell_test"))
   if(!detailed){
     results <- results %>%
-      select(-.data$se, -.data$method)
+      select(
+        -.data$se, -.data$method, -.data$conf.low,
+        -.data$conf.high, -.data$estimate
+        )
   }
   results
 }
