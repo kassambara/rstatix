@@ -634,7 +634,8 @@ get_pairwise_comparison_methods <- function(){
     sign_test = "Sign test",
     dunn_test = "Dunn test",
     emmeans_test = "Emmeans test",
-    tukey_hsd = "Tukey HSD"
+    tukey_hsd = "Tukey HSD",
+    games_howell_test = "Games Howell"
   )
 }
 

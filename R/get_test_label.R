@@ -266,6 +266,7 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       sign_test = quote(italic("S")),
       dunn_test = quote(italic("Z")),
       emmeans_test = quote(italic("t")),
+      games_howell_test = quote(italic("t")),
       kruskal_test = quote(italic(chi)^2),
       anova_test = quote(italic("F")),
       quote(italic("Stat"))
@@ -279,6 +280,7 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       sign_test = "S",
       dunn_test = "Z",
       emmeans_test = "t",
+      games_howell_test = "t",
       kruskal_test = "X2",
       anova_test = "F",
       "Stat"
