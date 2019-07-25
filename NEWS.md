@@ -1,11 +1,18 @@
 # rstatix 0.1.1.999
-   
+  
+  
 ## New features
-
+  
+- New function `friedman_test()`, provides a pipe-friendly framework to perform a Friedman rank sum test, which is the non-parametric alternative to the one-way repeated measures ANOVA test.
+- New function `games_howell_test()`: Performs Games-Howell test, which is used to compare all possible combinations of group differences when the assumption of homogeneity of variances is violated.
+- New function `kruskal_effsize()` for computing effect size for Kruskal-Wallis test.
+- New functions added to round and format p-values: `p_round(), p_format(), p_mark_significant()`.
+- New function `wilcox_effsize()` added for computing effect size (r) for wilcoxon test.
 - New function `get_anova_table()` added to extract ANOVA table from `anova_test()` results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs.
 - New functions added to extract information from statistical tests: `get_anova_label()`
 - New function `emmeans_test()` added for pairwise comparisons of estimated marginal means.
-
+   
+   
 ## Minor changes
   
 - New column `n` (sample count) added to statistical tests results: `t_test()`, `wilcox_test()`, `sign_test()`, `dunn_test()` and `kruskal_test()` (@ShixiangWang, [#4](https://github.com/kassambara/rstatix/issues/4)).

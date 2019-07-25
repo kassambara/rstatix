@@ -30,10 +30,9 @@ Key functions
 -   `wilcox_test()`: perform one-sample, two-sample and pairwise Wilcoxon tests
 -   `sign_test()`: perform sign test to determine whether there is a median difference between paired or matched observations.
 -   `anova_test()`: an easy-to-use wrapper around `car::Anova()` to perform different types of ANOVA tests, including **independent measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
+-   `get_anova_test_table()`: extract ANOVA table from `anova_test()` results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs.
 -   `kruskal_test()`: perform kruskal-wallis rank sum test
--   `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
--   `dunn_test()`: compute multiple pairwise comparisons following Kruskal-Wallis test.
--   `emmeans_test()`: pipe-friendly wrapper arround `emmeans` function to perform pairwise comparisons of estimated marginal means. Useful for post-hoc analyses following up ANOVA/ANCOVA tests.
+-   `friedman_test()`: Provides a pipe-friendly framework to perform a Friedman rank sum test, which is the non-parametric alternative to the one-way repeated measures ANOVA test.
 -   `get_comparisons()`: Create a list of possible pairwise comparisons between groups.
 -   `get_pvalue_position`: autocompute p-value positions for plotting significance using ggplot2.
 
@@ -41,6 +40,13 @@ Key functions
 
 -   `factorial_design()`: build factorial design for easily computing ANOVA using the `car::Anova()` function. This might be very useful for repeated measures ANOVA, which is hard to set up with the `car` package.
 -   `anova_summary()`: Create beautiful summary tables of ANOVA test results obtained from either `car::Anova()` or `stats::aov()`. The results include ANOVA table, generalized effect size and some assumption checks, such as Mauchly's test for sphericity in the case of repeated measures ANOVA.
+
+### Post-hoc analyses
+
+-   `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
+-   `dunn_test()`: compute multiple pairwise comparisons following Kruskal-Wallis test.
+-   `games_howell_test()`: Performs Games-Howell test, which is used to compare all possible combinations of group differences when the assumption of homogeneity of variances is violated.
+-   `emmeans_test()`: pipe-friendly wrapper arround `emmeans` function to perform pairwise comparisons of estimated marginal means. Useful for post-hoc analyses following up ANOVA/ANCOVA tests.
 
 ### Comparing variances
 
@@ -50,7 +56,9 @@ Key functions
 ### Effect Size
 
 -   `cohens_d()`: Compute cohen's d measure of effect size for t-tests.
+-   `wilcox_effsize()`: Compute Wilcoxon effect size (r).
 -   `eta_squared()` and `partial_eta_squared()`: Compute effect size for ANOVA.
+-   `kruskal_effsize()`: Compute the effect size for Kruskal-Wallis test as the eta squared based on the H-statistic.
 -   `cramer_v()`: Compute Cramer's V, which measures the strength of the association between categorical variables.
 
 ### Correlation analysis
@@ -81,10 +89,18 @@ Key functions
 -   `cor_plot()`: visualize correlation matrix using base plot.
 -   `cor_mark_significant()`: add significance levels to a correlation matrix.
 
-### Adjusting p-values and adding significance symbols
+### Adjusting p-values, formatting and adding significance symbols
 
 -   `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 -   `add_significance()`: add a column containing the p-value significance level
+-   `p_round(), p_format(), p_mark_significant()`: rounding and formatting p-values
+
+### Extract information from statistical tests
+
+Extract information from statistical test results. Useful for labelling plots with test outputs.
+
+-   `get_pwc_label()`: Extract label from pairwise comparisons.
+-   `get_test_label()`: Extract label from statistical tests.
 
 ### Others
 
@@ -186,10 +202,10 @@ head(df)
 stat.test <- df %>% 
   t_test(len ~ supp, paired = FALSE) 
 stat.test
-#> # A tibble: 1 x 6
-#>   .y.   group1 group2 statistic    df      p
-#> * <chr> <chr>  <chr>      <dbl> <dbl>  <dbl>
-#> 1 len   OJ     VC          1.92  55.3 0.0606
+#> # A tibble: 1 x 8
+#>   .y.   group1 group2    n1    n2 statistic    df      p
+#> * <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>  <dbl>
+#> 1 len   OJ     VC        30    30      1.92  55.3 0.0606
 
 # Create a box plot
 p <- ggboxplot(
@@ -221,12 +237,13 @@ stat.test <- df %>%
   adjust_pvalue() %>%
   add_significance("p.adj")
 stat.test
-#> # A tibble: 3 x 9
-#>   dose  .y.   group1 group2 statistic    df       p   p.adj p.adj.signif
-#>   <fct> <chr> <chr>  <chr>      <dbl> <dbl>   <dbl>   <dbl> <chr>       
-#> 1 0.5   len   OJ     VC        3.17    15.0 0.00636 0.0127  *           
-#> 2 1     len   OJ     VC        4.03    15.4 0.00104 0.00312 **          
-#> 3 2     len   OJ     VC       -0.0461  14.0 0.964   0.964   ns
+#> # A tibble: 3 x 11
+#>   dose  .y.   group1 group2    n1    n2 statistic    df       p   p.adj
+#>   <fct> <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>   <dbl>   <dbl>
+#> 1 0.5   len   OJ     VC        10    10    3.17    15.0 0.00636 0.0127 
+#> 2 1     len   OJ     VC        10    10    4.03    15.4 0.00104 0.00312
+#> 3 2     len   OJ     VC        10    10   -0.0461  14.0 0.964   0.964  
+#> # … with 1 more variable: p.adj.signif <chr>
 
 # Visualization
 ggboxplot(
@@ -246,10 +263,10 @@ ggboxplot(
 stat.test <- df %>% 
   t_test(len ~ supp, paired = TRUE) 
 stat.test
-#> # A tibble: 1 x 6
-#>   .y.   group1 group2 statistic    df       p
-#> * <chr> <chr>  <chr>      <dbl> <dbl>   <dbl>
-#> 1 len   OJ     VC          3.30    29 0.00255
+#> # A tibble: 1 x 8
+#>   .y.   group1 group2    n1    n2 statistic    df       p
+#> * <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>   <dbl>
+#> 1 len   OJ     VC        30    30      3.30    29 0.00255
 
 # Box plot
 p <- ggpaired(
@@ -269,12 +286,13 @@ p + stat_pvalue_manual(stat.test, label = "p", y.position = 36)
 # Pairwise t-test
 pairwise.test <- df %>% t_test(len ~ dose)
 pairwise.test
-#> # A tibble: 3 x 8
-#>   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
-#> * <chr> <chr>  <chr>      <dbl> <dbl>    <dbl>    <dbl> <chr>       
-#> 1 len   0.5    1          -6.48  38.0 1.27e- 7 2.54e- 7 ****        
-#> 2 len   0.5    2         -11.8   36.9 4.40e-14 1.32e-13 ****        
-#> 3 len   1      2          -4.90  37.1 1.91e- 5 1.91e- 5 ****
+#> # A tibble: 3 x 10
+#>   .y.   group1 group2    n1    n2 statistic    df        p    p.adj
+#> * <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>    <dbl>    <dbl>
+#> 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 2.54e- 7
+#> 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 1.32e-13
+#> 3 len   1      2         20    20     -4.90  37.1 1.91e- 5 1.91e- 5
+#> # … with 1 more variable: p.adj.signif <chr>
 # Box plot
 ggboxplot(df, x = "dose", y = "len")+
   stat_pvalue_manual(
@@ -293,11 +311,12 @@ ggboxplot(df, x = "dose", y = "len")+
 # T-test: each level is compared to the ref group
 stat.test <- df %>% t_test(len ~ dose, ref.group = "0.5")
 stat.test
-#> # A tibble: 2 x 8
-#>   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
-#> * <chr> <chr>  <chr>      <dbl> <dbl>    <dbl>    <dbl> <chr>       
-#> 1 len   0.5    1          -6.48  38.0 1.27e- 7 1.27e- 7 ****        
-#> 2 len   0.5    2         -11.8   36.9 4.40e-14 8.80e-14 ****
+#> # A tibble: 2 x 10
+#>   .y.   group1 group2    n1    n2 statistic    df        p    p.adj
+#> * <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>    <dbl>    <dbl>
+#> 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 1.27e- 7
+#> 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 8.80e-14
+#> # … with 1 more variable: p.adj.signif <chr>
 # Box plot
 ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
   stat_pvalue_manual(
@@ -326,12 +345,13 @@ ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
 # T-test
 stat.test <- df %>% t_test(len ~ dose, ref.group = "all")
 stat.test
-#> # A tibble: 3 x 8
-#>   .y.   group1 group2 statistic    df           p      p.adj p.adj.signif
-#> * <chr> <chr>  <chr>      <dbl> <dbl>       <dbl>      <dbl> <chr>       
-#> 1 len   all    0.5        5.82   56.4 0.000000290 0.00000087 ****        
-#> 2 len   all    1         -0.660  57.5 0.512       0.512      ns          
-#> 3 len   all    2         -5.61   66.5 0.000000425 0.00000087 ****
+#> # A tibble: 3 x 10
+#>   .y.   group1 group2    n1    n2 statistic    df       p   p.adj
+#> * <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>   <dbl>   <dbl>
+#> 1 len   all    0.5       60    20     5.82   56.4 2.90e-7 8.70e-7
+#> 2 len   all    1         60    20    -0.660  57.5 5.12e-1 5.12e-1
+#> 3 len   all    2         60    20    -5.61   66.5 4.25e-7 8.70e-7
+#> # … with 1 more variable: p.adj.signif <chr>
 # Box plot with horizontal mean line
 ggboxplot(df, x = "dose", y = "len") +
   stat_pvalue_manual(

@@ -54,18 +54,27 @@ It's also possible to compute several effect size metrics, including "eta square
 - `wilcox_test()`: perform one-sample, two-sample and pairwise Wilcoxon tests
 - `sign_test()`: perform sign test to determine whether there is a median difference between paired or matched observations.
 - `anova_test()`: an easy-to-use wrapper around `car::Anova()` to perform different types of ANOVA tests, including **independent measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
+- `get_anova_test_table()`: extract ANOVA table from `anova_test()` results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs.
 - `kruskal_test()`: perform kruskal-wallis rank sum test
-- `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
-- `dunn_test()`: compute multiple pairwise comparisons following Kruskal-Wallis test.
-- `emmeans_test()`: pipe-friendly wrapper arround `emmeans` function to perform pairwise comparisons of estimated marginal means. Useful for post-hoc analyses following up ANOVA/ANCOVA tests.
+- `friedman_test()`: Provides a pipe-friendly framework to perform a Friedman rank sum test, which is the non-parametric alternative to the one-way repeated measures ANOVA test.
 - `get_comparisons()`: Create a list of possible pairwise comparisons between groups.
 - `get_pvalue_position`: autocompute p-value positions for plotting significance using ggplot2.
+   
    
 ### Facilitating ANOVA computation in R
    
 - `factorial_design()`: build factorial design for easily computing ANOVA using the `car::Anova()` function. This might be very useful for repeated measures ANOVA, which is hard to set up with the `car` package.
 - `anova_summary()`: Create beautiful summary tables of ANOVA test results obtained from either `car::Anova()` or `stats::aov()`. The results include ANOVA table, generalized effect size and some assumption checks, such as Mauchly's test for sphericity in the case of repeated measures ANOVA.
    
+   
+### Post-hoc analyses
+   
+- `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
+- `dunn_test()`: compute multiple pairwise comparisons following Kruskal-Wallis test.
+- `games_howell_test()`: Performs Games-Howell test, which is used to compare all possible combinations of group differences when the assumption of homogeneity of variances is violated.
+- `emmeans_test()`: pipe-friendly wrapper arround `emmeans` function to perform pairwise comparisons of estimated marginal means. Useful for post-hoc analyses following up ANOVA/ANCOVA tests.
+
+  
 ### Comparing variances
    
 - `levene_test()`: Pipe-friendly framework to easily compute Levene's test for homogeneity of variance across groups. Handles grouped data.
@@ -75,7 +84,9 @@ It's also possible to compute several effect size metrics, including "eta square
 ### Effect Size
    
 - `cohens_d()`: Compute cohen's d measure of effect size for t-tests.
+- `wilcox_effsize()`: Compute Wilcoxon effect size (r).
 - `eta_squared()` and `partial_eta_squared()`: Compute effect size for ANOVA.
+- `kruskal_effsize()`: Compute the effect size for Kruskal-Wallis test as the eta squared based on the H-statistic.
 - `cramer_v()`: Compute Cramer's V, which measures the strength of the association between categorical variables.
    
 ### Correlation analysis
@@ -109,11 +120,19 @@ It's also possible to compute several effect size metrics, including "eta square
 - `cor_mark_significant()`: add significance levels to a correlation matrix.
   
   
-### Adjusting p-values and adding significance symbols
+### Adjusting p-values, formatting and adding significance symbols
       
 - `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 - `add_significance()`: add a column containing the p-value significance level
+- `p_round(), p_format(), p_mark_significant()`: rounding and formatting p-values
    
+   
+### Extract information from statistical tests
+   
+Extract information from statistical test results. Useful for labelling plots with  test outputs.
+
+- `get_pwc_label()`: Extract label from pairwise comparisons.
+- `get_test_label()`: Extract label from statistical tests.
    
 ### Others
    
