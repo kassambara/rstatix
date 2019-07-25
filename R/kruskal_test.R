@@ -3,7 +3,7 @@ NULL
 #'Kruskal-Wallis Test
 #'
 #'
-#'@description Provides a pipe-friendly framework to performs Kruskal-Wallis
+#'@description Provides a pipe-friendly framework to perform Kruskal-Wallis
 #'  rank sum test. Wrapper around the function
 #'  \code{\link[stats]{kruskal.test}()}.
 #'@param data a data.frame containing the variables in the formula.

@@ -18,16 +18,19 @@ reference:
       - sign_test
       - anova_test
       - kruskal_test
-      - tukey_hsd
-      - dunn_test
-      - games_howell_test
-      - emmeans_test
+      - friedman_test
       - get_comparisons
       - get_pvalue_position
   - title: ANOVA helpers
     contents:
       - factorial_design
       - anova_summary
+  - title: Post-Hoc Analyses
+    contents:
+      - tukey_hsd
+      - dunn_test
+      - games_howell_test
+      - emmeans_test
   - title: Comparing Variances
     contents:
       - levene_test

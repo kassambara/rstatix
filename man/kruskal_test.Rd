@@ -25,7 +25,7 @@ return a data frame with the following columns: \itemize{ \item
  statistical test used to compare groups.}
 }
 \description{
-Provides a pipe-friendly framework to performs Kruskal-Wallis
+Provides a pipe-friendly framework to perform Kruskal-Wallis
  rank sum test. Wrapper around the function
  \code{\link[stats]{kruskal.test}()}.
 }

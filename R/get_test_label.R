@@ -105,6 +105,7 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
   allowed.tests <- c(
     get_pairwise_comparison_methods(),
     kruskal_test = "Kruskal-Wallis",
+    friedman_test = "Friedman test",
     anova_test = "Anova"
   )
   stop_ifnot_class(stat.test, .class = names(allowed.tests))
@@ -268,6 +269,7 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       emmeans_test = quote(italic("t")),
       games_howell_test = quote(italic("t")),
       kruskal_test = quote(italic(chi)^2),
+      friedman_test = quote(italic(chi)^2),
       anova_test = quote(italic("F")),
       quote(italic("Stat"))
     )
@@ -282,6 +284,7 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       emmeans_test = "t",
       games_howell_test = "t",
       kruskal_test = "X2",
+      friedman_test = "X2",
       anova_test = "F",
       "Stat"
     )
@@ -352,6 +355,7 @@ get_description <- function(stat.test){
     tukey_hsd = "Tukey HSD",
     anova_test = "Anova",
     kruskal_test = "Kruskal-Wallis",
+    friedman_test = "Friedman test",
     cor_test = "Correlation"
   )
   args <- attr(stat.test, "args")
