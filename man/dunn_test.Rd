@@ -23,11 +23,12 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 return a data frame with some of the following columns: \itemize{
  \item \code{.y.}: the y (outcome) variable used in the test. \item
  \code{group1,group2}: the compared groups in the pairwise tests. \item
- \code{n1,n2}: Sample counts. \item \code{statistic}: Test statistic
- (z-value) used to compute the p-value. \item \code{p}: p-value. \item
- \code{p.adj}: the adjusted p-value. \item \code{method}: the statistical
- test used to compare groups. \item \code{p.signif, p.adj.signif}: the
- significance level of p-values and adjusted p-values, respectively. }
+ \code{n1,n2}: Sample counts. \item \code{estimate}: mean ranks difference.
+ \item \code{statistic}: Test statistic (z-value) used to compute the
+ p-value. \item \code{p}: p-value. \item \code{p.adj}: the adjusted p-value.
+ \item \code{method}: the statistical test used to compare groups. \item
+ \code{p.signif, p.adj.signif}: the significance level of p-values and
+ adjusted p-values, respectively. }
 
  The \strong{returned object has an attribute called args}, which is a list
  holding the test arguments.
@@ -40,8 +41,8 @@ Performs Dunn's test for pairwise multiple comparisons of the
 \details{
 DunnTest performs the post hoc pairwise multiple comparisons
  procedure appropriate to follow up a Kruskal-Wallis test, which is a
- non-parametric analog of the one-way ANOVA. The Wilcoxon rank sum
- test, itself a non-parametric analog of the unpaired t-test, is possibly
+ non-parametric analog of the one-way ANOVA. The Wilcoxon rank sum test,
+ itself a non-parametric analog of the unpaired t-test, is possibly
  intuitive, but inappropriate as a post hoc pairwise test, because (1) it
  fails to retain the dependent ranking that produced the Kruskal-Wallis test
  statistic, and (2) it does not incorporate the pooled variance estimate
