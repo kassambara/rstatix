@@ -87,6 +87,7 @@ It's also possible to compute several effect size metrics, including "eta square
 - `wilcox_effsize()`: Compute Wilcoxon effect size (r).
 - `eta_squared()` and `partial_eta_squared()`: Compute effect size for ANOVA.
 - `kruskal_effsize()`: Compute the effect size for Kruskal-Wallis test as the eta squared based on the H-statistic.
+- `friedman_effsize()`: Compute the effect size of Friedman test using the Kendall's W value.
 - `cramer_v()`: Compute Cramer's V, which measures the strength of the association between categorical variables.
    
 ### Correlation analysis

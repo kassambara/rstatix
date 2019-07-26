@@ -49,12 +49,13 @@ friedman_test <- function(data, formula, ...){
     return(results)
   }
   term <- statistic <- p <- df <- method <- NULL
+  sample.size <- data %>% pull(vars$wid) %>% unique() %>% length()
   res <- stats::friedman.test(formula, data = data, ...) %>%
     tidy() %>%
     rename(p = .data$p.value, df = .data$parameter) %>%
     mutate(method = "Friedman test") %>%
     select(.data$statistic, .data$df, .data$p, .data$method)  %>%
-    add_columns(.y. = vars$dv, n = nrow(data), .before = "statistic")
+    add_columns(.y. = vars$dv, n = sample.size, .before = "statistic")
   res %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "friedman_test"))

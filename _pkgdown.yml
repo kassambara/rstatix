@@ -41,6 +41,7 @@ reference:
       - wilcox_effsize
       - eta_squared
       - kruskal_effsize
+      - friedman_effsize
       - cramer_v
   - title: Correlation analysis
     contents:
