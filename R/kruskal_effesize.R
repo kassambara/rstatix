@@ -15,6 +15,8 @@ NULL
 #'  litterature are: \code{0.01- < 0.06} (small effect), \code{0.06 - < 0.14}
 #'  (moderate effect) and \code{>= 0.14} (large effect).
 #'
+#' Confidence intervals are calculated by bootstap.
+#'
 #'@inheritParams wilcox_effsize
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y variable used in the test. \item \code{n}: Sample
@@ -46,7 +48,10 @@ kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.ty
     .add_item(method = "kruskal_effsize")
   if(is_grouped_df(data)){
     results <- data %>%
-      doo(kruskal_effsize, formula) %>%
+      doo(
+        kruskal_effsize, formula, ci = ci, conf.level = conf.level,
+        ci.type = ci.type, nboot = nboot
+        ) %>%
       set_attrs(args = args) %>%
       add_class(c("rstatix_test", "kruskal_effsize"))
     return(results)

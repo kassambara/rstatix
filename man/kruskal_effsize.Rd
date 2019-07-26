@@ -43,6 +43,8 @@ Compute the effect size for Kruskal-Wallis test as the eta
  the independent variable. The interpretation values commonly in published
  litterature are: \code{0.01- < 0.06} (small effect), \code{0.06 - < 0.14}
  (moderate effect) and \code{>= 0.14} (large effect).
+
+Confidence intervals are calculated by bootstap.
 }
 \examples{
 # Load data
