@@ -141,8 +141,9 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
       statistic = statistic, parameter = df,
       effect.size = effect.size
     )
-  if(is.numeric(stat.test$p))
-    stat.test$p <- round_value(stat.test$p, 3)
+  if(is.numeric(stat.test$p)){
+    stat.test$p <- p_format(stat.test$p, 3)
+  }
 
   get_label_func <- switch (
     type,

@@ -47,7 +47,9 @@ NULL
 emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
                          comparisons = NULL, p.adjust.method = "bonferroni",
                          conf.level = 0.95, detailed = FALSE){
-
+  . <- NULL
+  covariate <- rlang::enquos(covariate = covariate) %>%
+    get_quo_vars_list(data, .) %>% unlist()
   args <- as.list(environment()) %>%
     .add_item(method = "emmeans_test")
 
