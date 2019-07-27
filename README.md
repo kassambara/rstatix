@@ -59,6 +59,7 @@ Key functions
 -   `wilcox_effsize()`: Compute Wilcoxon effect size (r).
 -   `eta_squared()` and `partial_eta_squared()`: Compute effect size for ANOVA.
 -   `kruskal_effsize()`: Compute the effect size for Kruskal-Wallis test as the eta squared based on the H-statistic.
+-   `friedman_effsize()`: Compute the effect size of Friedman test using the Kendall's W value.
 -   `cramer_v()`: Compute Cramer's V, which measures the strength of the association between categorical variables.
 
 ### Correlation analysis
@@ -191,6 +192,28 @@ head(df)
 #> 4  5.8   VC  0.5
 #> 5  6.4   VC  0.5
 #> 6 10.0   VC  0.5
+```
+
+### One-sample test
+
+The one-sample test is used to compare the mean of one sample to a known standard (or theoretical / hypothetical) mean (`mu`).
+
+``` r
+df %>% t_test(len ~ 1, mu = 0)
+#> # A tibble: 1 x 7
+#>   .y.   group1 group2         n statistic    df        p
+#> * <chr> <chr>  <chr>      <int>     <dbl> <dbl>    <dbl>
+#> 1 len   1      null model    60      19.1    59 6.94e-27
+# One-sample test of each dose level
+df %>% 
+  group_by(dose) %>%
+  t_test(len ~ 1, mu = 0)
+#> # A tibble: 3 x 8
+#>   dose  .y.   group1 group2         n statistic    df        p
+#> * <fct> <chr> <chr>  <chr>      <int>     <dbl> <dbl>    <dbl>
+#> 1 0.5   len   1      null model    20      10.5    19 2.24e- 9
+#> 2 1     len   1      null model    20      20.0    19 3.22e-14
+#> 3 2     len   1      null model    20      30.9    19 1.03e-17
 ```
 
 ### Compare two independent groups
@@ -545,7 +568,7 @@ cor.mat %>%
   cor_plot()
 ```
 
-![](tools/README-unnamed-chunk-9-1.png)
+![](tools/README-unnamed-chunk-10-1.png)
 
 Related articles
 ----------------

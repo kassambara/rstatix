@@ -206,7 +206,21 @@ df <- ToothGrowth
 df$dose <- as.factor(df$dose)
 head(df)
 ```
-
+   
+   
+### One-sample test
+   
+The one-sample test is used to compare the mean of one sample to a known standard (or theoretical / hypothetical) mean (`mu`).
+    
+    
+```{r}
+df %>% t_test(len ~ 1, mu = 0)
+# One-sample test of each dose level
+df %>% 
+  group_by(dose) %>%
+  t_test(len ~ 1, mu = 0)
+```
+   
    
 ### Compare two independent groups
    
