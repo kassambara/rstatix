@@ -518,6 +518,14 @@ add_class <- function(x, .class){
   }
   x
 }
+
+prepend_class <- function(x, .class){
+  current.class <- class(x)
+  diff.class <- setdiff(class(x), .class)
+  x <- structure(x, class = c(.class, diff.class))
+  x
+}
+
 # Add/set attributes
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 set_attrs <- function (x, ...)
