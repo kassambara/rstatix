@@ -69,7 +69,9 @@ tukey_hsd.default <- function(x, ...)
     mutate(p.adj = signif(p.adj, 3)) %>%
     select(term, group1, group2, everything()) %>%
     add_significance("p.adj")
-  res
+  res %>%
+    set_attrs(args = list(x = x, p.adjust.method = "Tukey", method = "tukey_hsd")) %>%
+    add_class(c("rstatix_test", "tukey_hsd"))
 }
 
 #' @export
@@ -86,7 +88,10 @@ tukey_hsd.lm <- function(x, ...)
 #'   \code{\link[stats]{aov}()}
 #' @export
 tukey_hsd.data.frame <- function(x, formula, ...){
-  args <- list(data = x, formula = formula, method = "tukey_hsd")
+  args <- list(
+    data = x, formula = formula, method = "tukey_hsd",
+    p.adjust.method = "Tukey"
+    )
   if(is_grouped_df(x)){
     results <- x %>%
       doo(tukey_hsd.data.frame, formula, ...) %>%

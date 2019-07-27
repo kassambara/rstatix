@@ -377,6 +377,7 @@ remove_null_items <- function(.list){
 # First letter uppercase
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 to_uppercase_first_letter <- function(x) {
+  if(is.null(x)) return(x)
   substr(x, 1, 1) <- toupper(substr(x, 1, 1))
   x
 }
