@@ -2,11 +2,14 @@
 % Please edit documentation in R/emmeans_test.R
 \name{emmeans_test}
 \alias{emmeans_test}
+\alias{get_emmeans}
 \title{Pairwise Comparisons of Estimated Marginal Means}
 \usage{
 emmeans_test(data, formula, covariate = NULL, ref.group = NULL,
   comparisons = NULL, p.adjust.method = "bonferroni",
   conf.level = 0.95, detailed = FALSE)
+
+get_emmeans(emmeans.test)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -39,6 +42,8 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
 \item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
 shown.}
+
+\item{emmeans.test}{an object of class \code{emmeans_test}.}
 }
 \value{
 return a data frame with some the following columns: \itemize{ \item
@@ -64,6 +69,11 @@ Performs pairwise comparisons between groups using the estimated
  before using this function. This function is useful for performing post-hoc
  analyses following ANOVA/ANCOVA tests.
 }
+\section{Functions}{
+\itemize{
+\item \code{get_emmeans}: returns the estimated marginal means from an object of class \code{emmeans_test}
+}}
+
 \examples{
 # Data preparation
 df <- ToothGrowth
@@ -81,5 +91,5 @@ attr(res, "emmeans")
 # Show details
 df \%>\%
  group_by(supp) \%>\%
- emmeans_test(len ~ dose, p.adjust.method = "bonferroni")
+ emmeans_test(len ~ dose, p.adjust.method = "bonferroni", detailed = TRUE)
 }

@@ -42,7 +42,7 @@ NULL
 #' # Show details
 #' df %>%
 #'  group_by(supp) %>%
-#'  emmeans_test(len ~ dose, p.adjust.method = "bonferroni")
+#'  emmeans_test(len ~ dose, p.adjust.method = "bonferroni", detailed = TRUE)
 #'@export
 emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
                          comparisons = NULL, p.adjust.method = "bonferroni",
@@ -94,7 +94,7 @@ emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
   res.emmeans <- res.emmeans %>%
     tibble::as_tibble() %>%
     dplyr::arrange(!!!syms(grouping.vars)) %>%
-    dplyr::rename(se = .data$SE, lower.CL = .data$lower.CL, upper.cl = .data$upper.CL)
+    dplyr::rename(se = .data$SE, conf.low = .data$lower.CL, conf.high = .data$upper.CL)
 
   if(!detailed){
     to.remove <- c("estimate", "estimate1", "estimate2", "se", "conf.low", "conf.high")
@@ -106,6 +106,16 @@ emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
     mutate(method = "Emmeans test") %>%
     set_attrs(args = args, emmeans = res.emmeans) %>%
     add_class(c("rstatix_test", "emmeans_test"))
+}
+
+#' @export
+#' @param emmeans.test an object of class \code{emmeans_test}.
+#' @describeIn emmeans_test returns the estimated marginal means from an object of class \code{emmeans_test}
+get_emmeans <- function(emmeans.test){
+  if(!inherits(emmeans.test, "emmeans_test")){
+    stop("An object of class 'emmeans_test' required.")
+  }
+  attr(emmeans.test, "emmeans")
 }
 
 
