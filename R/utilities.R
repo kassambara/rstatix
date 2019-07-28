@@ -605,15 +605,16 @@ get_test_grouping_vars <- function(test){
 # Get  and set the test attributes: class and attr
 # used to propagate attributes
 get_test_attributes <- function(test){
-  list(
-    class = class(test),
-    args = get_test_arguments(test)
-    )
+  .attributes <- attributes(test)
+  .attributes$names <- .attributes$row.names <- NULL
+  .attributes
 }
 set_test_attributes <- function(test, .attributes){
   class(test) <- .attributes$class
-  if(!is.null(.attributes$args))
-    attr(test, "args") <- .attributes$args
+  .attributes$class <- NULL
+  for (attr.name in names(.attributes)){
+    attr(test, attr.name ) <- .attributes[[attr.name]]
+  }
   test
 }
 
