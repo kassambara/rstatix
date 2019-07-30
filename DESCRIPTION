@@ -75,6 +75,7 @@ Collate:
     'friedman_effesize.R'
     'games_howell_test.R'
     'get_comparisons.R'
+    'get_manova_table.R'
     'get_mode.R'
     'get_pvalue_position.R'
     'get_summary_stats.R'

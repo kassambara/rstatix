@@ -25,6 +25,20 @@ NULL
 #'   design.
 #' @param row numeric, the row index to be considered. If NULL, the last row is
 #'   automatically considered for ANOVA test.
+#' @param statistic.text character specifying the test statistic. For example
+#'   \code{statistic.text = "F"} (for ANOVA test ); \code{statistic.text = "t"}
+#'   (for t-test ).
+#' @param statistic the numeric value of a statistic.
+#' @param p the p-value of the test.
+#' @param parameter string containing the degree of freedom (if exists). Default
+#'   is \code{NA} to accommodate non-parametric tests. For example
+#'   \code{parameter = "1,9"} (for ANOVA test. Two parameters exist: DFn and
+#'   DFd); \code{sparameter = "9"} (for t-test ).
+#' @param n sample count, example: \code{n = 10}.
+#' @param effect.size the effect size value
+#' @param effect.size.text a character specifying the relevant effect size. For
+#'   example, for \code{Cohens d} statistic, \code{effect.size.text = "d"}. You
+#'   can also use plotmath expression as follow \code{quote(italic("d"))}.
 #' @param detailed logical value. If TRUE, returns detailed label.
 #' @return a text label or an expression to pass to a plotting function.
 #' @examples
@@ -67,6 +81,16 @@ NULL
 #' # Pairwise comparisons labels
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' get_pwc_label(ttest)
+#'
+#'
+#' # Create test labels
+#' #:::::::::::::::::::::::::::::::::::::::::
+#' create_test_label(
+#'   statistic.text = "F", statistic = 71.82,
+#'   parameter = "4, 294",
+#'   p = "<0.0001",
+#'   description = "ANOVA"
+#' )
 #'
 #' @describeIn get_test_label Extract label from pairwise comparisons.
 #' @export
@@ -168,6 +192,33 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
     results <- get_label_func_df(stat.test)
   }
   results
+}
+
+#' @describeIn get_test_label Create labels from user specified test results.
+#' @export
+create_test_label <- function(
+  statistic.text, statistic, p, parameter = NA, description = NULL, n = NA, effect.size = NA, effect.size.text = NA,
+  type = c("text", "expression"), detailed = FALSE)
+{
+  type <- match.arg(type)
+  if(!is.null(description)){
+    if(description != ""){
+      description <- paste0(description, ", ")
+    }
+  }
+  else description <- ""
+  label_func <- switch(
+    type,
+    text = create_test_label.text,
+    expression = create_test_label.expression,
+    create_test_label.text
+  )
+  label_func(
+    description = description, statistic.text = statistic.text,
+    statistic = statistic, parameter = parameter,
+    p = p, n = n,  effect.size = effect.size,
+    effect.size.text = effect.size.text, detailed = detailed
+  )
 }
 
 # Build test labeles

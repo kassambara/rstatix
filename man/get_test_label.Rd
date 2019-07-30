@@ -3,6 +3,7 @@
 \name{get_pwc_label}
 \alias{get_pwc_label}
 \alias{get_test_label}
+\alias{create_test_label}
 \title{Extract Label Information from Statistical Tests}
 \usage{
 get_pwc_label(stat.test, type = c("text", "expression"))
@@ -10,6 +11,11 @@ get_pwc_label(stat.test, type = c("text", "expression"))
 get_test_label(stat.test, description = NULL, p.col = "p",
   type = c("text", "expression"), correction = c("auto", "GG", "HF",
   "none"), row = NULL, detailed = FALSE)
+
+create_test_label(statistic.text, statistic, p, parameter = NA,
+  description = NULL, n = NA, effect.size = NA,
+  effect.size.text = NA, type = c("text", "expression"),
+  detailed = FALSE)
 }
 \arguments{
 \item{stat.test}{statistical test results returned by \code{rstatix}
@@ -40,6 +46,27 @@ design.}
 automatically considered for ANOVA test.}
 
 \item{detailed}{logical value. If TRUE, returns detailed label.}
+
+\item{statistic.text}{character specifying the test statistic. For example
+\code{statistic.text = "F"} (for ANOVA test ); \code{statistic.text = "t"}
+(for t-test ).}
+
+\item{statistic}{the numeric value of a statistic.}
+
+\item{p}{the p-value of the test.}
+
+\item{parameter}{string containing the degree of freedom (if exists). Default
+is \code{NA} to accommodate non-parametric tests. For example
+\code{parameter = "1,9"} (for ANOVA test. Two parameters exist: DFn and
+DFd); \code{sparameter = "9"} (for t-test ).}
+
+\item{n}{sample count, example: \code{n = 10}.}
+
+\item{effect.size}{the effect size value}
+
+\item{effect.size.text}{a character specifying the relevant effect size. For
+example, for \code{Cohens d} statistic, \code{effect.size.text = "d"}. You
+can also use plotmath expression as follow \code{quote(italic("d"))}.}
 }
 \value{
 a text label or an expression to pass to a plotting function.
@@ -53,6 +80,8 @@ Extracts label information from statistical tests. Useful for
 \item \code{get_pwc_label}: Extract label from pairwise comparisons.
 
 \item \code{get_test_label}: Extract labels for statistical tests.
+
+\item \code{create_test_label}: Create labels from user specified test results.
 }}
 
 \examples{
@@ -95,5 +124,15 @@ get_test_label(ttest, detailed = TRUE)
 # Pairwise comparisons labels
 #:::::::::::::::::::::::::::::::::::::::::
 get_pwc_label(ttest)
+
+
+# Create test labels
+#:::::::::::::::::::::::::::::::::::::::::
+create_test_label(
+  statistic.text = "F", statistic = 71.82,
+  parameter = "4, 294",
+  p = "<0.0001",
+  description = "ANOVA"
+)
 
 }
