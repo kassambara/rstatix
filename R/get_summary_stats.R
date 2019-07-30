@@ -64,10 +64,10 @@ get_summary_stats <- function(
   if(n.vars >= 1){
     data <- data %>% select(!!!syms(vars))
   }
-  variable <- value <- NULL
+  variable <- .value. <- NULL
   data <- data %>%
-    gather(key = "variable", value = "value") %>%
-    filter(!is.na(value)) %>%
+    gather(key = "variable", value = ".value.") %>%
+    filter(!is.na(.value.)) %>%
     group_by(variable)
   results <- switch(
     type,
@@ -100,19 +100,19 @@ get_summary_stats <- function(
 full_summary <- function(data){
   confidence <- 0.95
   alpha <- 1 - confidence
-  value <- NULL
+  .value. <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      min = min(value, na.rm=TRUE),
-      max = max(value, na.rm=TRUE),
-      median = stats::median(value, na.rm=TRUE),
-      q1 = stats::quantile(value, 0.25, na.rm = TRUE),
-      q3 = stats::quantile(value, 0.75, na.rm = TRUE),
-      iqr = stats::IQR(value, na.rm=TRUE),
-      mad = stats::mad(value, na.rm=TRUE),
-      mean = mean(value, na.rm = TRUE),
-      sd = stats::sd(value, na.rm = TRUE)
+      n = sum(!is.na(.value.)),
+      min = min(.value., na.rm=TRUE),
+      max = max(.value., na.rm=TRUE),
+      median = stats::median(.value., na.rm=TRUE),
+      q1 = stats::quantile(.value., 0.25, na.rm = TRUE),
+      q3 = stats::quantile(.value., 0.75, na.rm = TRUE),
+      iqr = stats::IQR(.value., na.rm=TRUE),
+      mad = stats::mad(.value., na.rm=TRUE),
+      mean = mean(.value., na.rm = TRUE),
+      sd = stats::sd(.value., na.rm = TRUE)
     ) %>%
     mutate(
       se = .data$sd / sqrt(.data$n),
@@ -123,16 +123,16 @@ full_summary <- function(data){
 common_summary <- function(data){
   confidence <- 0.95
   alpha <- 1 - confidence
-  value <- ci <- NULL
+  .value. <- ci <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      min = min(value, na.rm=TRUE),
-      max = max(value, na.rm=TRUE),
-      median = stats::median(value, na.rm=TRUE),
-      iqr = stats::IQR(value, na.rm=TRUE),
-      mean = mean(value, na.rm = TRUE),
-      sd = stats::sd(value, na.rm = TRUE)
+      n = sum(!is.na(.value.)),
+      min = min(.value., na.rm=TRUE),
+      max = max(.value., na.rm=TRUE),
+      median = stats::median(.value., na.rm=TRUE),
+      iqr = stats::IQR(.value., na.rm=TRUE),
+      mean = mean(.value., na.rm = TRUE),
+      sd = stats::sd(.value., na.rm = TRUE)
     ) %>%
     mutate(
       se = .data$sd / sqrt(.data$n),
@@ -141,21 +141,21 @@ common_summary <- function(data){
 }
 
 robust_summary <- function(data){
-  value <- NULL
+  .value. <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      median = stats::median(value, na.rm=TRUE),
-      iqr = stats::IQR(value, na.rm=TRUE)
+      n = sum(!is.na(.value.)),
+      median = stats::median(.value., na.rm=TRUE),
+      iqr = stats::IQR(.value., na.rm=TRUE)
     )
 }
 
 quantile_summary <- function(data, probs = seq(0, 1, 0.25)){
   core_func <- function(data, probs){
-    value <- NULL
-    n <- sum(!is.na(data$value))
+    .value. <- NULL
+    n <- sum(!is.na(data$.value.))
     names(n) <- "n"
-    q <- stats::quantile(data$value, probs, na.rm = TRUE)
+    q <- stats::quantile(data$.value., probs, na.rm = TRUE)
     results <- t(matrix(c(n, q)))
     colnames(results) <- c("n", names(q))
     tibble::as_tibble(results)
@@ -171,68 +171,68 @@ quantile_summary <- function(data, probs = seq(0, 1, 0.25)){
 
 
 five_number_summary <- function(data){
-  value  <- NULL
+  .value.  <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      min = min(value, na.rm=TRUE),
-      max = max(value, na.rm=TRUE),
-      q1 = stats::quantile(value, 0.25, na.rm = TRUE),
-      median = stats::median(value, na.rm=TRUE),
-      q3 = stats::quantile(value, 0.75, na.rm = TRUE)
+      n = sum(!is.na(.value.)),
+      min = min(.value., na.rm=TRUE),
+      max = max(.value., na.rm=TRUE),
+      q1 = stats::quantile(.value., 0.25, na.rm = TRUE),
+      median = stats::median(.value., na.rm=TRUE),
+      q3 = stats::quantile(.value., 0.75, na.rm = TRUE)
     )
 }
 
 mean_ <- function(data){
-  value  <- NULL
+  .value.  <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      mean = mean(value, na.rm = TRUE)
+      n = sum(!is.na(.value.)),
+      mean = mean(.value., na.rm = TRUE)
     )
 }
 median_ <- function(data){
-  value  <- NULL
+  .value.  <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      median = stats::median(value, na.rm=TRUE)
+      n = sum(!is.na(.value.)),
+      median = stats::median(.value., na.rm=TRUE)
     )
 }
 max_ <- function(data){
-  value  <- NULL
+  .value.  <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      max = max(value, na.rm = TRUE)
+      n = sum(!is.na(.value.)),
+      max = max(.value., na.rm = TRUE)
     )
 }
 min_ <- function(data){
-  value  <- NULL
+  .value.  <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      min = min(value, na.rm = TRUE)
+      n = sum(!is.na(.value.)),
+      min = min(.value., na.rm = TRUE)
     )
 }
 
 mean_sd <- function(data){
-  value  <- NULL
+  .value.  <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      mean = mean(value, na.rm = TRUE),
-      sd = stats::sd(value, na.rm = TRUE)
+      n = sum(!is.na(.value.)),
+      mean = mean(.value., na.rm = TRUE),
+      sd = stats::sd(.value., na.rm = TRUE)
     )
 }
 
 mean_se <- function(data){
-  value  <- NULL
+  .value.  <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      mean = mean(value, na.rm = TRUE),
-      sd = stats::sd(value, na.rm = TRUE)
+      n = sum(!is.na(.value.)),
+      mean = mean(.value., na.rm = TRUE),
+      sd = stats::sd(.value., na.rm = TRUE)
     ) %>%
     mutate(se = .data$sd / sqrt(.data$n))%>%
     select(-.data$sd)
@@ -241,12 +241,12 @@ mean_se <- function(data){
 mean_ci <- function(data){
   confidence <- 0.95
   alpha <- 1 - confidence
-  value <- NULL
+  .value. <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      mean = mean(value, na.rm = TRUE),
-      sd = stats::sd(value, na.rm = TRUE)
+      n = sum(!is.na(.value.)),
+      mean = mean(.value., na.rm = TRUE),
+      sd = stats::sd(.value., na.rm = TRUE)
     ) %>%
     mutate(
       se = .data$sd / sqrt(.data$n),
@@ -256,21 +256,21 @@ mean_ci <- function(data){
 }
 
 median_iqr <- function(data){
-  value  <- NULL
+  .value.  <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      median = stats::median(value, na.rm=TRUE),
-      iqr = stats::IQR(value, na.rm=TRUE)
+      n = sum(!is.na(.value.)),
+      median = stats::median(.value., na.rm=TRUE),
+      iqr = stats::IQR(.value., na.rm=TRUE)
     )
 }
 
 median_mad <- function(data){
-  value  <- NULL
+  .value.  <- NULL
   data %>%
     dplyr::summarise(
-      n = sum(!is.na(value)),
-      median = stats::median(value, na.rm=TRUE),
-      mad = stats::mad(value, na.rm=TRUE)
+      n = sum(!is.na(.value.)),
+      median = stats::median(.value., na.rm=TRUE),
+      mad = stats::mad(.value., na.rm=TRUE)
     )
 }
