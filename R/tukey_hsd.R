@@ -59,12 +59,11 @@ tukey_hsd <- function(x, ...){
 #' @describeIn tukey_hsd performs tukey post-hoc test from \code{aov()} results.
 tukey_hsd.default <- function(x, ...)
 {
-  comparison <- comparison2 <- adj.p.value <- p.adj <-
+  comparison <- adj.p.value <- p.adj <-
     term <- group1 <- group2 <- NULL
   res <- TukeyHSD(x, ...) %>%
     broom::tidy() %>%
-    mutate(comparison2 = comparison) %>%
-    separate(comparison2, into= c("group2", "group1"), sep = "-") %>%
+    separate(comparison, into= c("group2", "group1"), sep = "-") %>%
     rename(p.adj = adj.p.value) %>%
     mutate(p.adj = signif(p.adj, 3)) %>%
     select(term, group1, group2, everything()) %>%

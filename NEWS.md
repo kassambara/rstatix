@@ -1,6 +1,5 @@
 # rstatix 0.1.1.999
   
-  
 ## New features
   
 - New function `friedman_effsize()`, computes the effect size of Friedman test using the Kendall's W value.
@@ -16,6 +15,7 @@
    
 ## Minor changes
   
+- the unnecessary column `comparison` removed from `tukey_hsd()` results (breaking change).
 - New column `n` (sample count) added to statistical tests results: `t_test()`, `wilcox_test()`, `sign_test()`, `dunn_test()` and `kruskal_test()` (@ShixiangWang, [#4](https://github.com/kassambara/rstatix/issues/4)).
 - `rstatix_test` class added to `anova_test()` results
 - the results of `kruskal_test()` is now an object of class `rstatix_test` that has an attribute named **args** for holding the test arguments.
