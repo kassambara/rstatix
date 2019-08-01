@@ -324,7 +324,7 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       kruskal_test = quote(italic(chi)^2),
       friedman_test = quote(italic(chi)^2),
       anova_test = quote(italic("F")),
-      weltch_anova_test = quote(italic("F")),
+      welch_anova_test = quote(italic("F")),
       quote(italic("Stat"))
     )
   }
