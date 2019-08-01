@@ -92,5 +92,6 @@ Collate:
     'shapiro_test.R'
     'sign_test.R'
     'tukey_hsd.R'
+    'welch_anova_test.R'
     'wilcox_effsize.R'
     'wilcox_test.R'

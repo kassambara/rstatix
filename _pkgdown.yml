@@ -17,6 +17,7 @@ reference:
       - wilcox_test
       - sign_test
       - anova_test
+      - welch_anova_test
       - kruskal_test
       - friedman_test
       - get_comparisons

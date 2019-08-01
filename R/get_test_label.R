@@ -130,7 +130,8 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
     get_pairwise_comparison_methods(),
     kruskal_test = "Kruskal-Wallis",
     friedman_test = "Friedman test",
-    anova_test = "Anova"
+    anova_test = "Anova",
+    welch_anova_test = "Welch ANOVA"
   )
   stop_ifnot_class(stat.test, .class = names(allowed.tests))
   is_anova_test <- inherits(stat.test, "anova_test")
@@ -323,6 +324,7 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       kruskal_test = quote(italic(chi)^2),
       friedman_test = quote(italic(chi)^2),
       anova_test = quote(italic("F")),
+      weltch_anova_test = quote(italic("F")),
       quote(italic("Stat"))
     )
   }
@@ -338,6 +340,7 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       kruskal_test = "X2",
       friedman_test = "X2",
       anova_test = "F",
+      welch_anova_test = "F",
       "Stat"
     )
   }
@@ -406,6 +409,7 @@ get_description <- function(stat.test){
     emmeans_test = "Emmeans test",
     tukey_hsd = "Tukey HSD",
     anova_test = "Anova",
+    welch_anova_test = "Welch Anova",
     kruskal_test = "Kruskal-Wallis",
     friedman_test = "Friedman test",
     cor_test = "Correlation"
