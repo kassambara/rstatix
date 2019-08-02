@@ -4,8 +4,7 @@
 \alias{games_howell_test}
 \title{Games Howell Post-hoc Tests}
 \usage{
-games_howell_test(data, formula, conf.level = 0.95,
-  p.adjust.method = "holm", detailed = FALSE)
+games_howell_test(data, formula, conf.level = 0.95, detailed = FALSE)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -17,11 +16,6 @@ one or multiple levels giving the corresponding groups. For example,
 
 \item{conf.level}{confidence level of the interval.}
 
-\item{p.adjust.method}{method to adjust p values for multiple comparisons.
-Used when pairwise comparisons are performed. Allowed values include "holm",
-"hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't
-want to adjust the p value (not recommended), use p.adjust.method = "none".}
-
 \item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
 shown.}
 }
@@ -32,9 +26,9 @@ return a data frame with some of the following columns: \itemize{
  \code{n1,n2}: Sample counts. \item \code{estimate, conf.low, conf.high}:
  mean difference and its confidence intervals. \item \code{statistic}: Test
  statistic (t-value) used to compute the p-value. \item \code{df}: degrees of
- freedom calculated using Welch’s correction. \item \code{p}: p-value.
- \item \code{method}: the statistical test used to compare groups. \item
- \code{p.signif}: the significance level of p-values. }
+ freedom calculated using Welch’s correction. \item \code{p.adj}: adjusted p-value using Tukey's method. \item
+ \code{method}: the statistical test used to compare groups. \item
+ \code{p.adj.signif}: the significance level of p-values. }
 
  The \strong{returned object has an attribute called args}, which is a list
  holding the test arguments.
@@ -45,14 +39,30 @@ Performs Games-Howell test, which is used to compare all possible
  variances is violated. This post hoc test provides confidence intervals for
  the differences between group means and shows whether the differences are
  statistically significant.
+
+ The test is based on Welch’s degrees of freedom correction and uses Tukey’s
+ studentized range distribution for computing the p-values. The test compares
+ the difference between each pair of means with appropriate adjustment for
+ the multiple testing. So there is no need to apply additional p-value
+ corrections.
 }
 \details{
-The p-values are computed from the studentized range distribution.
+The Games-Howell method is an improved version of the Tukey-Kramer
+ method and is applicable in cases where the equivalence of variance
+ assumption is violated. It is a t-test using Welch’s degree of freedom. This
+ method uses a strategy for controlling the type I error for the entire
+ comparison and is known to maintain the preset significance level even when
+ the size of the sample is different. However, the smaller the number of
+ samples in each group, the it is more tolerant the type I error control.
+ Thus, this method can be applied when the number of samples is six or more.
 }
 \examples{
 ToothGrowth \%>\% games_howell_test(len ~ dose)
 
 }
 \references{
-Aaron Schlege, https://rpubs.com/aaronsc32  and https://rpubs.com/aaronsc32/games-howell-test.
+\itemize{ \item Aaron Schlege,
+ https://rpubs.com/aaronsc32/games-howell-test. \item Sangseok Lee, Dong Kyu
+ Lee. What is the proper way to apply the multiple comparison test?. Korean J
+ Anesthesiol. 2018;71(5):353-360. }
 }

@@ -1,12 +1,19 @@
 #' @include utilities.R t_test.R
 NULL
-#' Games Howell Post-hoc Tests
+#'Games Howell Post-hoc Tests
 #'
 #'@description Performs Games-Howell test, which is used to compare all possible
 #'  combinations of group differences when the assumption of homogeneity of
 #'  variances is violated. This post hoc test provides confidence intervals for
 #'  the differences between group means and shows whether the differences are
 #'  statistically significant.
+#'
+#'  The test is based on Welch’s degrees of freedom correction and uses Tukey’s
+#'  studentized range distribution for computing the p-values. The test compares
+#'  the difference between each pair of means with appropriate adjustment for
+#'  the multiple testing. So there is no need to apply additional p-value
+#'  corrections.
+#'
 #'@inheritParams t_test
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y (outcome) variable used in the test. \item
@@ -14,24 +21,35 @@ NULL
 #'  \code{n1,n2}: Sample counts. \item \code{estimate, conf.low, conf.high}:
 #'  mean difference and its confidence intervals. \item \code{statistic}: Test
 #'  statistic (t-value) used to compute the p-value. \item \code{df}: degrees of
-#'  freedom calculated using Welch’s correction. \item \code{p}: p-value.
-#'  \item \code{method}: the statistical test used to compare groups. \item
-#'  \code{p.signif}: the significance level of p-values. }
+#'  freedom calculated using Welch’s correction. \item \code{p.adj}: adjusted p-value using Tukey's method. \item
+#'  \code{method}: the statistical test used to compare groups. \item
+#'  \code{p.adj.signif}: the significance level of p-values. }
 #'
 #'  The \strong{returned object has an attribute called args}, which is a list
 #'  holding the test arguments.
-#'@details The p-values are computed from the studentized range distribution.
+#'@details The Games-Howell method is an improved version of the Tukey-Kramer
+#'  method and is applicable in cases where the equivalence of variance
+#'  assumption is violated. It is a t-test using Welch’s degree of freedom. This
+#'  method uses a strategy for controlling the type I error for the entire
+#'  comparison and is known to maintain the preset significance level even when
+#'  the size of the sample is different. However, the smaller the number of
+#'  samples in each group, the it is more tolerant the type I error control.
+#'  Thus, this method can be applied when the number of samples is six or more.
 #'
-#'@references Aaron Schlege, https://rpubs.com/aaronsc32  and https://rpubs.com/aaronsc32/games-howell-test.
+#'@references \itemize{ \item Aaron Schlege,
+#'  https://rpubs.com/aaronsc32/games-howell-test. \item Sangseok Lee, Dong Kyu
+#'  Lee. What is the proper way to apply the multiple comparison test?. Korean J
+#'  Anesthesiol. 2018;71(5):353-360. }
+#'
 #'
 #' @examples
 #' ToothGrowth %>% games_howell_test(len ~ dose)
 #'
-#' @rdname games_howell_test
+#'@rdname games_howell_test
 #'@export
-games_howell_test <- function(data, formula, conf.level = 0.95, p.adjust.method = "holm", detailed = FALSE){
+games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE){
   args <- as.list(environment()) %>%
-    .add_item(method = "games_howell_test")
+    .add_item(p.adjust.method = "Tukey", method = "games_howell_test")
 
   if(is_grouped_df(data)){
     results <- data %>%
@@ -106,11 +124,10 @@ games_howell_test <- function(data, formula, conf.level = 0.95, p.adjust.method 
     rename(estimate = .data$value) %>%
     mutate(
       conf.low = conf.low, conf.high = conf.high,
-      se = se, statistic = t, df = df$value, p = p_round(p, digits = 3)
+      se = se, statistic = t, df = df$value, p.adj = p_round(p, digits = 3)
     ) %>%
     add_column(n1 = n1, n2 = n2, .after = "group2") %>%
     add_column(.y. = outcome, .before = "group1") %>%
-    adjust_pvalue(method = p.adjust.method) %>%
     add_significance("p.adj") %>%
     mutate(method = "Games-Howell") %>%
     set_attrs(args = args) %>%
@@ -118,8 +135,8 @@ games_howell_test <- function(data, formula, conf.level = 0.95, p.adjust.method 
   if(!detailed){
     results <- results %>%
       select(
-        -.data$se, -.data$method, -.data$conf.low,
-        -.data$conf.high, -.data$estimate
+        -.data$se, -.data$method, -.data$statistic,
+        -.data$df, -.data$n1, -.data$n2
         )
   }
   results
