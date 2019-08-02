@@ -42,7 +42,8 @@ a tibble data frame containing the results of the different
 }
 \description{
 Provides a pipe-friendly framework to performs Tukey post-hoc
- tests. Wrapper around the function \code{\link[stats]{TukeyHSD}()}.
+ tests. Wrapper around the function \code{\link[stats]{TukeyHSD}()}. It is
+ essentially a t-test that corrects for multiple testing.
 
  Can handle different inputs formats: aov, lm, formula.
 }

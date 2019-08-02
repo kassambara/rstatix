@@ -7,7 +7,8 @@ NULL
 #'
 #'
 #'@description Provides a pipe-friendly framework to performs Tukey post-hoc
-#'  tests. Wrapper around the function \code{\link[stats]{TukeyHSD}()}.
+#'  tests. Wrapper around the function \code{\link[stats]{TukeyHSD}()}. It is
+#'  essentially a t-test that corrects for multiple testing.
 #'
 #'  Can handle different inputs formats: aov, lm, formula.
 #'@param x an object of class \code{aov}, \code{lm} or \code{data.frame}
