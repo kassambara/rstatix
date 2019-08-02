@@ -124,9 +124,6 @@ get_pwc_label <- function(stat.test, type = c("text", "expression")){
 get_test_label <- function(stat.test, description = NULL, p.col = "p",
                            type = c("text", "expression"),
                            correction = c("auto", "GG", "HF", "none"), row = NULL, detailed = FALSE){
-  if(!(p.col %in% colnames(stat.test))){
-    p.col <- p_detect(stat.test)
-  }
   type = match.arg(type)
   allowed.tests <- c(
     get_pairwise_comparison_methods(),
@@ -159,7 +156,10 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
       description <- paste0(description, ", ")
     }
   }
-
+  if(!(p.col %in% colnames(stat.test))){
+    # automatic detection of p.col
+    p.col <- p_detect(stat.test)
+  }
   stat.test %<>%
     select(!!sym(p.col)) %>%
     rename(p = p.col) %>%
