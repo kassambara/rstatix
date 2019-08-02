@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Adjust P-values for Multiple Comparisons — adjust_pvalue • rstatix</title>
+<title>Friedman Rank Sum Test — friedman_test • rstatix</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,12 @@
 
 
 
-<meta property="og:title" content="Adjust P-values for Multiple Comparisons — adjust_pvalue" />
+<meta property="og:title" content="Friedman Rank Sum Test — friedman_test" />
 
-<meta property="og:description" content="A pipe-friendly function to add an adjusted p-value column into
-  a data frame. Supports grouped data." />
+<meta property="og:description" content="Provides a pipe-friendly framework to perform a Friedman rank sum
+ test, which is the non-parametric alternative to the one-way repeated
+ measures ANOVA test. Wrapper around the function
+ friedman.test()." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,59 +100,77 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Adjust P-values for Multiple Comparisons</h1>
+    <h1>Friedman Rank Sum Test</h1>
     
-    <div class="hidden name"><code>adjust_pvalue.Rd</code></div>
+    <div class="hidden name"><code>friedman_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A pipe-friendly function to add an adjusted p-value column into
-  a data frame. Supports grouped data.</p>
+    <p>Provides a pipe-friendly framework to perform a Friedman rank sum
+ test, which is the non-parametric alternative to the one-way repeated
+ measures ANOVA test. Wrapper around the function
+ <code><a href='https://www.rdocumentation.org/packages/stats/topics/friedman.test'>friedman.test</a>()</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>adjust_pvalue</span>(<span class='no'>data</span>, <span class='kw'>p.col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>)</pre>
+    <pre class="usage"><span class='fu'>friedman_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>a data frame containing a p-value column</p></td>
+      <td><p>a data.frame containing the variables in the formula.</p></td>
     </tr>
     <tr>
-      <th>p.col</th>
-      <td><p>column name containing p-values</p></td>
+      <th>formula</th>
+      <td><p>a formula of the form <code>a ~ b | c</code>, where <code>a</code>
+(numeric) is the dependent variable name; <code>b</code> is the within-subjects
+factor variables; and <code>c</code> (factor) is the column name containing
+individuals/subjects identifier. Should be unique per individual.</p></td>
     </tr>
     <tr>
-      <th>output.col</th>
-      <td><p>the output column name to hold the adjusted p-values</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>method for adjusting p values (see
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/p.adjust'>p.adjust</a></code>). Allowed values include "holm", "hochberg",
-"hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't want to
-adjust the p value (not recommended), use p.adjust.method = "none".</p></td>
+      <th>...</th>
+      <td><p>other arguments to be passed to the function
+<code><a href='https://www.rdocumentation.org/packages/stats/topics/friedman.test'>friedman.test</a></code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame</p>
+    <p>return a data frame with the following columns:</p><ul>
+<li><p><code>.y.</code>: the y (dependent) variable used in the test.</p></li>
+<li><p><code>n</code>: sample count.</p></li>
+<li><p><code>statistic</code>: the value of Friedman's chi-squared statistic, used to
+ compute the p-value.</p></li>
+<li><p><code>p</code>: p-value.</p></li>
+<li><p><code>method</code>: the
+ statistical test used to compare groups.</p></li>
+</ul>
+
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Perform pairwise comparisons and adjust p-values</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='t_test.html'>t_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>adjust_pvalue</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 10</span><span>
-#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> len   0.5    1         20    20     -</span><span style='color: #BB0000;'>6.48</span><span>  38.0 1.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 2.54</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> len   0.5    2         20    20    -</span><span style='color: #BB0000;'>11.8</span><span>   36.9 4.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-14</span><span> 1.32</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> len   1      2         20    20     -</span><span style='color: #BB0000;'>4.90</span><span>  37.1 1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> 1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        </div><div class='input'>
+    <pre class="examples"><div class='input'><span class='co'># Load data</span>
+<span class='co'>#:::::::::::::::::::::::::::::::::::::::</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"ToothGrowth"</span>)
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/filter'>filter</a></span>(<span class='no'>supp</span> <span class='kw'>==</span> <span class='st'>"VC"</span>) <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/mutate'>mutate</a></span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>3</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;    len supp dose id
+#&gt; 1  4.2   VC  0.5  1
+#&gt; 2 11.5   VC  0.5  2
+#&gt; 3  7.3   VC  0.5  3
+#&gt; 4  5.8   VC  0.5  4
+#&gt; 5  6.4   VC  0.5  5
+#&gt; 6 10.0   VC  0.5  6</div><div class='input'>
+<span class='co'># Friedman rank sum test</span>
+<span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>friedman_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span> <span class='kw'>|</span> <span class='no'>id</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
+#&gt;   .y.       n statistic    df         p method       
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        
+#&gt; </span><span style='color: #555555;'>1</span><span> len      10        20     2 0.000</span><span style='text-decoration: underline;'>045</span><span>4 Friedman test</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

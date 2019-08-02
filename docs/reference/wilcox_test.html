@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -144,8 +144,9 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
       <td><p>a character string specifying the reference group. If
  specified, for a given grouping variable, each of the group levels will be
  compared to the reference group (i.e. control group).</p>
-<p>If <code>ref.group = "all"</code>, pairwise two sample Wilcoxon tests are performed for comparing each grouping
- variable levels against all (i.e. basemean).</p></td>
+<p>If <code>ref.group = "all"</code>, pairwise two sample tests are
+ performed for comparing each grouping variable levels against all (i.e.
+ basemean).</p></td>
     </tr>
     <tr>
       <th>p.adjust.method</th>
@@ -172,8 +173,7 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
     </tr>
     <tr>
       <th>mu</th>
-      <td><p>a number specifying an optional parameter used to form the
-    null hypothesis.  See &#8216;Details&#8217;.</p></td>
+      <td><p>a number specifying an optional parameter used to form the null hypothesis.</p></td>
     </tr>
     <tr>
       <th>conf.level</th>
@@ -181,7 +181,8 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
     </tr>
     <tr>
       <th>detailed</th>
-      <td><p>logical value. Default is FALSE. If TRUE, a detailed result is shown.</p></td>
+      <td><p>logical value. Default is FALSE. If TRUE, a detailed result is
+shown.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -194,25 +195,26 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
 
     <p>return a data frame with some of the following columns:</p><ul>
 <li><p><code>.y.</code>: the y variable used in the test.</p></li>
-<li><p><code>group1,group2</code>: the
- compared groups in the pairwise tests.</p></li>
-<li><p><code>statistic</code>: Test
- statistic used to compute the p-value.</p></li>
+<li><p><code>group1,group2</code>: the compared groups in the pairwise tests.</p></li>
+<li><p><code>n,n1,n2</code>: Sample counts.</p></li>
+<li><p><code>statistic</code>: Test statistic used
+ to compute the p-value.</p></li>
 <li><p><code>p</code>: p-value.</p></li>
-<li><p><code>p.adj</code>: the adjusted p-value.</p></li>
-<li><p><code>method</code>: the statistical
- test used to compare groups.</p></li>
-<li><p><code>p.signif, p.adj.signif</code>: the
- significance level of p-values and adjusted p-values, respectively.</p></li>
+<li><p><code>p.adj</code>: the
+ adjusted p-value.</p></li>
+<li><p><code>method</code>: the statistical test used to compare
+ groups.</p></li>
+<li><p><code>p.signif, p.adj.signif</code>: the significance level of
+ p-values and adjusted p-values, respectively.</p></li>
 </ul>
 
-<p>The <strong>returned object has an attribute called args</strong>, which is a list holding
- the test arguments.</p>
+<p>The <strong>returned object has an attribute called args</strong>, which is a list
+ holding the test arguments.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>- <code>pairwise_wilcox_test()</code> applies the standard two sample Wilcoxon test to
- all possible pairs of groups. This method calls the
+    <p>- <code>pairwise_wilcox_test()</code> applies the standard two sample
+ Wilcoxon test to all possible pairs of groups. This method calls the
  <code><a href='https://www.rdocumentation.org/packages/stats/topics/wilcox.test'>wilcox.test</a>()</code>, so extra arguments are accepted.</p>
     <p>- If a list of comparisons is specified, the result of the pairwise tests is
  filtered to keep only the comparisons of interest.The p-value is adjusted
@@ -236,61 +238,33 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
 
 <span class='co'># One-sample test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
-#&gt;   .y.   group1 group2     statistic        p
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1 len   1      null model      1830 1.66e-11</div><div class='input'>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("wilcox_test"): pas de méthode pour 'wilcox_test' applicable pour un objet de classe "data.frame"</span></div><div class='input'>
 
 <span class='co'># Two-samples unpaired test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
-#&gt;   .y.   group1 group2 statistic      p
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1 len   OJ     VC          576. 0.0645</div><div class='input'>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("wilcox_test"): pas de méthode pour 'wilcox_test' applicable pour un objet de classe "data.frame"</span></div><div class='input'>
 <span class='co'># Two-samples paired test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span> (<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 5
-#&gt;   .y.   group1 group2 statistic       p
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;
-#&gt; 1 len   OJ     VC           350 0.00431</div><div class='input'>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span> (<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("wilcox_test"): pas de méthode pour 'wilcox_test' applicable pour un objet de classe "data.frame"</span></div><div class='input'>
 <span class='co'># Compare supp levels after grouping the data by "dose"</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>wilcox_test</span>(<span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='adjust_pvalue.html'>adjust_pvalue</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='add_significance.html'>add_significance</a></span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 8
-#&gt;    dose .y.   group1 group2 statistic       p  p.adj p.adj.signif
-#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1   0.5 len   OJ     VC          80.5 0.0232  0.0696 ns          
-#&gt; 2   1   len   OJ     VC          88.5 0.00403 0.0121 *           
-#&gt; 3   2   len   OJ     VC          49.5 1       1      ns          </div><div class='input'>
+  <span class='fu'><a href='add_significance.html'>add_significance</a></span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in add_significance(., "p.adj"): The column p.adj does not exist in the data</span></div><div class='input'>
 <span class='co'># pairwise comparisons</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># As dose contains more than two levels ==&gt;</span>
 <span class='co'># pairwise test is automatically performed.</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 7
-#&gt;   .y.   group1 group2 statistic            p       p.adj p.adj.signif
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 len   0.5    1           33.5 0.00000702   0.000014    ****        
-#&gt; 2 len   0.5    2            1.5 0.0000000841 0.000000252 ****        
-#&gt; 3 len   1      2           61   0.000177     0.000177    ***         </div><div class='input'>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("wilcox_test"): pas de méthode pour 'wilcox_test' applicable pour un objet de classe "data.frame"</span></div><div class='input'>
 <span class='co'># Comparison against reference group</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># each level is compared to the ref group</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='st'>"0.5"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 7
-#&gt;   .y.   group1 group2 statistic            p       p.adj p.adj.signif
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 len   0.5    1           33.5 0.00000702   0.00000702  ****        
-#&gt; 2 len   0.5    2            1.5 0.0000000841 0.000000168 ****        </div><div class='input'>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='st'>"0.5"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("wilcox_test"): pas de méthode pour 'wilcox_test' applicable pour un objet de classe "data.frame"</span></div><div class='input'>
 <span class='co'># Comparison against all</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='st'>"all"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 7
-#&gt;   .y.   group1 group2 statistic         p    p.adj p.adj.signif
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 len   all    0.5         965  0.0000508 0.000152 ***         
-#&gt; 2 len   all    1           572. 0.764     0.764    ns          
-#&gt; 3 len   all    2           262. 0.000179  0.000358 ***         </div><div class='input'>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='st'>"all"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("wilcox_test"): pas de méthode pour 'wilcox_test' applicable pour un objet de classe "data.frame"</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

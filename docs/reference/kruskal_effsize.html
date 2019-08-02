@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Kruskal-Wallis Test — kruskal_test • rstatix</title>
+<title>Kruskal-Wallis Effect Size — kruskal_effsize • rstatix</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,19 @@
 
 
 
-<meta property="og:title" content="Kruskal-Wallis Test — kruskal_test" />
+<meta property="og:title" content="Kruskal-Wallis Effect Size — kruskal_effsize" />
 
-<meta property="og:description" content="Provides a pipe-friendly framework to perform Kruskal-Wallis
- rank sum test. Wrapper around the function
- kruskal.test()." />
+<meta property="og:description" content="Compute the effect size for Kruskal-Wallis test as the eta
+ squared based on the H-statistic: eta2[H] = (H - k + 1)/(n - k);
+ where H is the value obtained in the Kruskal-Wallis test; k is
+ the number of groups; n is the total number of observations." />
+
+<meta property="og:description" content="The eta-squared estimate assumes values from 0 to 1 and multiplied by 100
+ indicates the percentage of variance in the dependent variable explained by
+ the independent variable. The interpretation values commonly in published
+ litterature are: 0.01- &amp;lt; 0.06 (small effect), 0.06 - &amp;lt; 0.14
+ (moderate effect) and &amp;gt;= 0.14 (large effect).
+Confidence intervals are calculated by bootstap." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -99,20 +107,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Kruskal-Wallis Test</h1>
+    <h1>Kruskal-Wallis Effect Size</h1>
     
-    <div class="hidden name"><code>kruskal_test.Rd</code></div>
+    <div class="hidden name"><code>kruskal_effsize.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Provides a pipe-friendly framework to perform Kruskal-Wallis
- rank sum test. Wrapper around the function
- <code><a href='https://www.rdocumentation.org/packages/stats/topics/kruskal.test'>kruskal.test</a>()</code>.</p>
+    <p>Compute the effect size for Kruskal-Wallis test as the eta
+ squared based on the H-statistic: <code>eta2[H] = (H - k + 1)/(n - k)</code>;
+ where <code>H</code> is the value obtained in the Kruskal-Wallis test; <code>k</code> is
+ the number of groups; <code>n</code> is the total number of observations.</p>
+
+    <p>The eta-squared estimate assumes values from 0 to 1 and multiplied by 100<!-- % -->
+ indicates the percentage of variance in the dependent variable explained by
+ the independent variable. The interpretation values commonly in published
+ litterature are: <code>0.01- &lt; 0.06</code> (small effect), <code>0.06 - &lt; 0.14</code>
+ (moderate effect) and <code>&gt;= 0.14</code> (large effect).</p>
+<p>Confidence intervals are calculated by bootstap.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>kruskal_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>kruskal_effsize</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>ci.type</span> <span class='kw'>=</span> <span class='st'>"perc"</span>, <span class='kw'>nboot</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -129,24 +146,44 @@ one or multiple levels giving the corresponding groups. For example,
 <code>formula = TP53 ~ cancer_group</code>.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>other arguments to be passed to the function
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/kruskal.test'>kruskal.test</a></code>.</p></td>
+      <th>ci</th>
+      <td><p>If TRUE, returns confidence intervals by bootstrap. May be slow.</p></td>
+    </tr>
+    <tr>
+      <th>conf.level</th>
+      <td><p>The level for the confidence interval.</p></td>
+    </tr>
+    <tr>
+      <th>ci.type</th>
+      <td><p>The type of confidence interval to use. Can be any of "norm",
+"basic", "perc", or "bca". Passed to <code><a href='https://www.rdocumentation.org/packages/boot/topics/boot.ci'>boot::boot.ci</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>nboot</th>
+      <td><p>The number of replications to use for bootstrap.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>return a data frame with the following columns:</p><ul>
+    <p>return a data frame with some of the following columns:</p><ul>
 <li><p><code>.y.</code>: the y variable used in the test.</p></li>
-<li><p><code>n</code>: sample count.</p></li>
-<li><p><code>statistic</code>: the kruskal-wallis rank sum statistic used to
- compute the p-value.</p></li>
-<li><p><code>p</code>: p-value.</p></li>
-<li><p><code>method</code>: the
- statistical test used to compare groups.</p></li>
+<li><p><code>n</code>: Sample
+ counts.</p></li>
+<li><p><code>effsize</code>: estimate of the effect size.</p></li>
+<li><p><code>magnitude</code>: magnitude of effect size.</p></li>
+<li><p><code>conf.low,conf.high</code>:
+ lower and upper bound of the effect size confidence interval.</p></li>
 </ul>
 
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Maciej Tomczak and Ewa Tomczak. The need to report effect size
+ estimates revisited. An overview of some recommended measures of effect
+ size. Trends in Sport Sciences. 2014; 1(21):19-25.</p>
+<p>http://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/effectSize</p>
+<p>http://www.psy.gla.ac.uk/~steve/best/effect.html</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -157,7 +194,7 @@ one or multiple levels giving the corresponding groups. For example,
 
 <span class='co'># Kruskal-wallis rank sum test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>kruskal_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='kruskal_test.html'>kruskal_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
 #&gt;   .y.       n statistic    df             p method        
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         
 #&gt; </span><span style='color: #555555;'>1</span><span> len      60      40.7     2 0.000</span><span style='text-decoration: underline;'>000</span><span>001</span><span style='text-decoration: underline;'>48</span><span> Kruskal-Wallis</div></span></pre>
@@ -168,6 +205,8 @@ one or multiple levels giving the corresponding groups. For example,
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

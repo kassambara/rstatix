@@ -33,8 +33,16 @@
 <meta property="og:title" content="Compute Cohen's d Measure of Effect Size — cohens_d" />
 
 <meta property="og:description" content="Compute the effect size for t-test. T-test conventional effect
-  sizes, poposed by Cohen, are: 0.2 (small efect), 0.5 (moderate effect) and
-  0.8 (large effect)." />
+  sizes, poposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
+  0.8 (large effect).
+Cohen's d is calculated as the difference between means or mean minus mu
+divided by the estimated standardized deviation.
+For independent samples t-test, there are two possibilities implemented.
+If the t-test did not make a homogeneity of variance assumption, (the Welch test),
+the variance term will mirror the Welch test, otherwise a pooled estimate is used.
+If a paired samples t-test was requested, then effect size desired is
+based on the standard deviation of the differences.
+It can also returns confidence intervals by bootstap." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -65,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -107,12 +115,22 @@
     <div class="ref-description">
     
     <p>Compute the effect size for t-test. T-test conventional effect
-  sizes, poposed by Cohen, are: 0.2 (small efect), 0.5 (moderate effect) and
+  sizes, poposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
   0.8 (large effect).</p>
+<p>Cohen's <code>d</code> is calculated as the difference between means or mean minus <code>mu</code>
+divided by the estimated standardized deviation.</p>
+<p>For independent samples t-test, there are two possibilities implemented.
+If the t-test did not make a homogeneity of variance assumption, (the Welch test),
+the variance term will mirror the Welch test, otherwise a pooled estimate is used.</p>
+<p>If a paired samples t-test was requested, then effect size desired is
+based on the standard deviation of the differences.</p>
+<p>It can also returns confidence intervals by bootstap.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>cohens_d</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>cohens_d</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>ci.type</span> <span class='kw'>=</span> <span class='st'>"perc"</span>, <span class='kw'>nboot</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -129,12 +147,28 @@ one or multiple levels giving the corresponding groups. For example,
 <code>formula = TP53 ~ cancer_group</code>.</p></td>
     </tr>
     <tr>
+      <th>comparisons</th>
+      <td><p>A list of length-2 vectors specifying the groups of
+interest to be compared. For example to compare groups "A" vs "B" and "B" vs
+"C", the argument is as follow: <code>comparisons = list(c("A", "B"), c("B",
+"C"))</code></p></td>
+    </tr>
+    <tr>
+      <th>ref.group</th>
+      <td><p>a character string specifying the reference group. If
+ specified, for a given grouping variable, each of the group levels will be
+ compared to the reference group (i.e. control group).</p>
+<p>If <code>ref.group = "all"</code>, pairwise two sample tests are
+ performed for comparing each grouping variable levels against all (i.e.
+ basemean).</p></td>
+    </tr>
+    <tr>
       <th>paired</th>
       <td><p>a logical indicating whether you want a paired test.</p></td>
     </tr>
     <tr>
       <th>mu</th>
-      <td><p>theoretical mean, use for one-sample t-test. Default is O.</p></td>
+      <td><p>theoretical mean, use for one-sample t-test. Default is 0.</p></td>
     </tr>
     <tr>
       <th>var.equal</th>
@@ -143,31 +177,72 @@ variances as being equal. If TRUE then the pooled variance is used to
 estimate the variance otherwise the Welch (or Satterthwaite) approximation
 to the degrees of freedom is used.</p></td>
     </tr>
+    <tr>
+      <th>ci</th>
+      <td><p>If TRUE, returns confidence intervals by bootstrap. May be slow.</p></td>
+    </tr>
+    <tr>
+      <th>conf.level</th>
+      <td><p>The level for the confidence interval.</p></td>
+    </tr>
+    <tr>
+      <th>ci.type</th>
+      <td><p>The type of confidence interval to use. Can be any of "norm",
+"basic", "perc", or "bca". Passed to <code><a href='https://www.rdocumentation.org/packages/boot/topics/boot.ci'>boot::boot.ci</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>nboot</th>
+      <td><p>The number of replications to use for bootstrap.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame containing the Cohen's d and the magnitude.</p>
+    <p>return a data frame with some of the following columns:</p><ul>
+<li><p><code>.y.</code>: the y variable used in the test.</p></li>
+<li><p><code>group1,group2</code>: the compared groups in the pairwise tests.</p></li>
+<li><p><code>n,n1,n2</code>: Sample counts.</p></li>
+<li><p><code>effsize</code>: estimate of the effect
+ size (<code>d</code> value).</p></li>
+<li><p><code>magnitude</code>: magnitude of effect size.</p></li>
+<li><p><code>conf.low,conf.high</code>: lower and upper bound of the effect size
+ confidence interval.</p></li>
+</ul>
+
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Quantification of the effect size magnitude is performed
+using the thresholds defined in Cohen (1992). The magnitude is assessed using
+the thresholds provided in (Cohen 1992), i.e. <code>|d| &lt; 0.2</code> "negligible", <code>|d| &lt; 0.5</code>
+"small", <code>|d| &lt; 0.8</code> "medium", otherwise "large".</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <ul>
+<li><p>Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.). New York:Academic Press.</p></li>
+<li><p>Cohen, J. (1992). A power primer. Psychological Bulletin, 112, 155-159.</p></li>
+</ul>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># One-sample t test effect size</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
-#&gt;   cohens.d magnitude
-#&gt;      &lt;dbl&gt; &lt;ord&gt;    
-#&gt; 1     2.46 large    </div><div class='input'>
+<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
+#&gt;   .y.   group1 group2     effsize     n magnitude
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'>1</span><span> len   1      null model    2.46    60 large    </div><div class='input'>
 <span class='co'># Two indepedent samples t-test effect size</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
-#&gt;   cohens.d magnitude
-#&gt;      &lt;dbl&gt; &lt;ord&gt;    
-#&gt; 1    0.495 small    </div><div class='input'>
+<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 7</span><span>
+#&gt;   .y.   group1 group2 effsize    n1    n2 magnitude
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'>1</span><span> len   OJ     VC       0.495    30    30 small    </div><div class='input'>
 <span class='co'># Paired samples effect size</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>5</span>,
   <span class='kw'>pre</span>  <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>110</span>, <span class='fl'>122</span>, <span class='fl'>101</span>, <span class='fl'>120</span>, <span class='fl'>140</span>),
   <span class='kw'>post</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>150</span>, <span class='fl'>160</span>, <span class='fl'>110</span>, <span class='fl'>140</span>, <span class='fl'>155</span>)
 )
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"treatment"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"value"</span>, -<span class='no'>id</span>)
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/tidyr/topics/gather'>gather</a></span>(<span class='kw'>key</span> <span class='kw'>=</span> <span class='st'>"treatment"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"value"</span>, -<span class='no'>id</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;   id treatment value
 #&gt; 1  1       pre   110
 #&gt; 2  2       pre   122
@@ -175,10 +250,10 @@ to the degrees of freedom is used.</p></td>
 #&gt; 4  4       pre   120
 #&gt; 5  5       pre   140
 #&gt; 6  1      post   150</div><div class='input'>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>value</span> ~ <span class='no'>treatment</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
-#&gt;   cohens.d magnitude
-#&gt;      &lt;dbl&gt; &lt;ord&gt;    
-#&gt; 1     1.75 large    </div></pre>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>value</span> ~ <span class='no'>treatment</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 7</span><span>
+#&gt;   .y.   group1 group2 effsize    n1    n2 magnitude
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'>1</span><span> value post   pre       1.75     5     5 large    </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -186,6 +261,10 @@ to the degrees of freedom is used.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

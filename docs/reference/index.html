@@ -60,7 +60,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -177,9 +177,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="anova_test.html">anova_test()</a></code> <code><a href="anova_test.html">print(<i>&lt;anova_test&gt;</i>)</a></code> <code><a href="anova_test.html">plot(<i>&lt;anova_test&gt;</i>)</a></code> </p>
+          <p><code><a href="anova_test.html">anova_test()</a></code> <code><a href="anova_test.html">get_anova_table()</a></code> <code><a href="anova_test.html">print(<i>&lt;anova_test&gt;</i>)</a></code> <code><a href="anova_test.html">plot(<i>&lt;anova_test&gt;</i>)</a></code> </p>
         </td>
         <td><p>Anova Test</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="welch_anova_test.html">welch_anova_test()</a></code> </p>
+        </td>
+        <td><p>Welch One-Way ANOVA Test</p></td>
       </tr><tr>
         
         <td>
@@ -189,15 +195,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="tukey_hsd.html">tukey_hsd()</a></code> </p>
+          <p><code><a href="friedman_test.html">friedman_test()</a></code> </p>
         </td>
-        <td><p>Tukey Honest Significant Differences</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dunn_test.html">dunn_test()</a></code> </p>
-        </td>
-        <td><p>Dunn's Test of Multiple Comparisons</p></td>
+        <td><p>Friedman Rank Sum Test</p></td>
       </tr><tr>
         
         <td>
@@ -224,6 +224,38 @@
           <p><code><a href="anova_summary.html">anova_summary()</a></code> </p>
         </td>
         <td><p>Create Nice Summary Tables of ANOVA Results</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-post-hoc-analyses" class="hasAnchor"><a href="#section-post-hoc-analyses" class="anchor"></a>Post-Hoc Analyses</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="tukey_hsd.html">tukey_hsd()</a></code> </p>
+        </td>
+        <td><p>Tukey Honest Significant Differences</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dunn_test.html">dunn_test()</a></code> </p>
+        </td>
+        <td><p>Dunn's Test of Multiple Comparisons</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="games_howell_test.html">games_howell_test()</a></code> </p>
+        </td>
+        <td><p>Games Howell Post-hoc Tests</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="emmeans_test.html">emmeans_test()</a></code> <code><a href="emmeans_test.html">get_emmeans()</a></code> </p>
+        </td>
+        <td><p>Pairwise Comparisons of Estimated Marginal Means</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -261,9 +293,27 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="wilcox_effsize.html">wilcox_effsize()</a></code> </p>
+        </td>
+        <td><p>Wilcoxon Effect Size</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="eta_squared.html">eta_squared()</a></code> <code><a href="eta_squared.html">partial_eta_squared()</a></code> </p>
         </td>
         <td><p>Effect Size for ANOVA</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kruskal_effsize.html">kruskal_effsize()</a></code> </p>
+        </td>
+        <td><p>Kruskal-Wallis Effect Size</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="friedman_effsize.html">friedman_effsize()</a></code> </p>
+        </td>
+        <td><p>Friedman Test Effect Size (Kendall's W Value)</p></td>
       </tr><tr>
         
         <td>
@@ -368,6 +418,20 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-extract-information-from-statistical-tests" class="hasAnchor"><a href="#section-extract-information-from-statistical-tests" class="anchor"></a>Extract Information From Statistical Tests</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="get_test_label.html">get_pwc_label()</a></code> <code><a href="get_test_label.html">get_test_label()</a></code> <code><a href="get_test_label.html">create_test_label()</a></code> </p>
+        </td>
+        <td><p>Extract Label Information from Statistical Tests</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-others" class="hasAnchor"><a href="#section-others" class="anchor"></a>Others</h2>
           <p class="section-desc"></p>
         </th>
@@ -413,10 +477,12 @@
       <li><a href="#section-descriptive-statistics">Descriptive Statistics</a></li>
       <li><a href="#section-comparing-means">Comparing Means</a></li>
       <li><a href="#section-anova-helpers">ANOVA helpers</a></li>
+      <li><a href="#section-post-hoc-analyses">Post-Hoc Analyses</a></li>
       <li><a href="#section-comparing-variances">Comparing Variances</a></li>
       <li><a href="#section-effect-size">Effect Size</a></li>
       <li><a href="#section-correlation-analysis">Correlation analysis</a></li>
       <li><a href="#section-adjust-p-values-and-add-significance-symbols">Adjust p-values and add significance symbols</a></li>
+      <li><a href="#section-extract-information-from-statistical-tests">Extract Information From Statistical Tests</a></li>
       <li><a href="#section-others">Others</a></li>
     </ul>
   </div>

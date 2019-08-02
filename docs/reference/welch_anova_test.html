@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Kruskal-Wallis Test — kruskal_test • rstatix</title>
+<title>Welch One-Way ANOVA Test — welch_anova_test • rstatix</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,13 @@
 
 
 
-<meta property="og:title" content="Kruskal-Wallis Test — kruskal_test" />
+<meta property="og:title" content="Welch One-Way ANOVA Test — welch_anova_test" />
 
-<meta property="og:description" content="Provides a pipe-friendly framework to perform Kruskal-Wallis
- rank sum test. Wrapper around the function
- kruskal.test()." />
+<meta property="og:description" content="Tests for equal means in a one-way design (not assuming equal
+  variance). A wrapper around the base function
+  oneway.test(). This is is an alternative to the
+  standard one-way ANOVA in the situation where the homogeneity of variance
+  assumption is violated." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -99,39 +101,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Kruskal-Wallis Test</h1>
+    <h1>Welch One-Way ANOVA Test</h1>
     
-    <div class="hidden name"><code>kruskal_test.Rd</code></div>
+    <div class="hidden name"><code>welch_anova_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Provides a pipe-friendly framework to perform Kruskal-Wallis
- rank sum test. Wrapper around the function
- <code><a href='https://www.rdocumentation.org/packages/stats/topics/kruskal.test'>kruskal.test</a>()</code>.</p>
+    <p>Tests for equal means in a one-way design (not assuming equal
+  variance). A wrapper around the base function
+  <code><a href='https://www.rdocumentation.org/packages/stats/topics/oneway.test'>oneway.test</a>()</code>. This is is an alternative to the
+  standard one-way ANOVA in the situation where the homogeneity of variance
+  assumption is violated.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>kruskal_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>welch_anova_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>a data.frame containing the variables in the formula.</p></td>
+      <td><p>a data frame containing the variables in the formula.</p></td>
     </tr>
     <tr>
       <th>formula</th>
-      <td><p>a formula of the form <code>x ~ group</code> where <code>x</code> is a
-numeric variable giving the data values and <code>group</code> is a factor with
-one or multiple levels giving the corresponding groups. For example,
-<code>formula = TP53 ~ cancer_group</code>.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other arguments to be passed to the function
-<code><a href='https://www.rdocumentation.org/packages/stats/topics/kruskal.test'>kruskal.test</a></code>.</p></td>
+      <td><p>a formula specifying the ANOVA model similar to aov. Can be of
+the form y ~ group where y is a numeric variable giving the data values and
+group is a factor with one or multiple levels giving the corresponding
+groups. For example, formula = TP53 ~ cancer_group.</p></td>
     </tr>
     </table>
     
@@ -140,11 +139,10 @@ one or multiple levels giving the corresponding groups. For example,
     <p>return a data frame with the following columns:</p><ul>
 <li><p><code>.y.</code>: the y variable used in the test.</p></li>
 <li><p><code>n</code>: sample count.</p></li>
-<li><p><code>statistic</code>: the kruskal-wallis rank sum statistic used to
- compute the p-value.</p></li>
-<li><p><code>p</code>: p-value.</p></li>
-<li><p><code>method</code>: the
- statistical test used to compare groups.</p></li>
+<li><p><code>statistic</code>: the value of the test statistic.</p></li>
+<li><p><code>p</code>:
+  p-value.</p></li>
+<li><p><code>method</code>: the statistical test used to compare groups.</p></li>
 </ul>
 
     
@@ -154,13 +152,23 @@ one or multiple levels giving the corresponding groups. For example,
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"ToothGrowth"</span>)
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span>
+<span class='no'>df</span>$<span class='no'>dose</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>as.factor</a></span>(<span class='no'>df</span>$<span class='no'>dose</span>)
 
-<span class='co'># Kruskal-wallis rank sum test</span>
+<span class='co'># Welch one-way ANOVA test (not assuming equal variance)</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>kruskal_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
-#&gt;   .y.       n statistic    df             p method        
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         
-#&gt; </span><span style='color: #555555;'>1</span><span> len      60      40.7     2 0.000</span><span style='text-decoration: underline;'>000</span><span>001</span><span style='text-decoration: underline;'>48</span><span> Kruskal-Wallis</div></span></pre>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>welch_anova_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 7</span><span>
+#&gt;   .y.       n statistic   DFn   DFd        p method     
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      
+#&gt; </span><span style='color: #555555;'>1</span><span> len      60      68.4     2  37.7 2.81</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span> Welch ANOVA</div><div class='input'>
+<span class='co'># Grouped data</span>
+<span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>welch_anova_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 8</span><span>
+#&gt;   supp  .y.       n statistic   DFn   DFd            p method     
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      
+#&gt; </span><span style='color: #555555;'>1</span><span> OJ    len      30      29.4     2  17.1 0.000</span><span style='text-decoration: underline;'>002</span><span>95   Welch ANOVA
+#&gt; </span><span style='color: #555555;'>2</span><span> VC    len      30      59.4     2  17.2 0.000</span><span style='text-decoration: underline;'>000</span><span>019</span><span style='text-decoration: underline;'>4</span><span> Welch ANOVA</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

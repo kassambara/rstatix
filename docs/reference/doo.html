@@ -69,7 +69,7 @@ The output is a data frame. If the applied function returns a data frame,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -155,34 +155,34 @@ The output is a data frame. If the applied function returns a data frame,
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># Use this</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>doo</span>(~<span class='fu'><a href='t_test.html'>t_test</a></span>(<span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 7
-#&gt;    dose .y.   group1 group2 statistic    df       p
-#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-#&gt; 1   0.5 len   OJ     VC        3.17    15.0 0.00636
-#&gt; 2   1   len   OJ     VC        4.03    15.4 0.00104
-#&gt; 3   2   len   OJ     VC       -0.0461  14.0 0.964  </div><div class='input'>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>doo</span>(~<span class='fu'><a href='t_test.html'>t_test</a></span>(<span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>))</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 9</span><span>
+#&gt;    dose .y.   group1 group2    n1    n2 statistic    df       p
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>   0.5 len   OJ     VC        10    10    3.17    15.0 0.006</span><span style='text-decoration: underline;'>36</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span>   1   len   OJ     VC        10    10    4.03    15.4 0.001</span><span style='text-decoration: underline;'>04</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>   2   len   OJ     VC        10    10   -</span><span style='color: #BB0000;'>0.046</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span>  14.0 0.964  </div><div class='input'>
 <span class='co'># Or this</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>doo</span>(<span class='no'>t_test</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 7
-#&gt;    dose .y.   group1 group2 statistic    df       p
-#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-#&gt; 1   0.5 len   OJ     VC        3.17    15.0 0.00636
-#&gt; 2   1   len   OJ     VC        4.03    15.4 0.00104
-#&gt; 3   2   len   OJ     VC       -0.0461  14.0 0.964  </div><div class='input'>
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>doo</span>(<span class='no'>t_test</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 9</span><span>
+#&gt;    dose .y.   group1 group2    n1    n2 statistic    df       p
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>   0.5 len   OJ     VC        10    10    3.17    15.0 0.006</span><span style='text-decoration: underline;'>36</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span>   1   len   OJ     VC        10    10    4.03    15.4 0.001</span><span style='text-decoration: underline;'>04</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span>   2   len   OJ     VC        10    10   -</span><span style='color: #BB0000;'>0.046</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span>  14.0 0.964  </div><div class='input'>
 <span class='co'># Example 2: R base function t.test() (not pipe friendly)</span>
 <span class='co'># One possibility of usage</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='no'>comparisons</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
-   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
    <span class='fu'>doo</span>(~<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/t.test'>t.test</a></span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>))
-<span class='no'>comparisons</span></div><div class='output co'>#&gt; # A tibble: 3 x 2
+<span class='no'>comparisons</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 2</span><span>
 #&gt;    dose .results.
-#&gt;   &lt;dbl&gt; &lt;list&gt;   
-#&gt; 1   0.5 &lt;htest&gt;  
-#&gt; 2   1   &lt;htest&gt;  
-#&gt; 3   2   &lt;htest&gt;  </div><div class='input'><span class='no'>comparisons</span>$<span class='no'>.results.</span></div><div class='output co'>#&gt; [[1]]
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   
+#&gt; </span><span style='color: #555555;'>1</span><span>   0.5 </span><span style='color: #555555;'>&lt;htest&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>2</span><span>   1   </span><span style='color: #555555;'>&lt;htest&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>3</span><span>   2   </span><span style='color: #555555;'>&lt;htest&gt;</span><span>  </div><div class='input'><span class='no'>comparisons</span>$<span class='no'>.results.</span></div><div class='output co'>#&gt; [[1]]
 #&gt; 
 #&gt; 	Welch Two Sample t-test
 #&gt; 
@@ -227,14 +227,14 @@ The output is a data frame. If the applied function returns a data frame,
 <span class='co'># Example 3: R base function combined with tidy()</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
-   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
-   <span class='fu'>doo</span>(~<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/t.test'>t.test</a></span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/broom/topics/tidy'>tidy</a></span>())</div><div class='output co'>#&gt; # A tibble: 3 x 11
+   <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
+   <span class='fu'>doo</span>(~<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/t.test'>t.test</a></span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/broom/topics/tidy'>tidy</a></span>())</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 11</span><span>
 #&gt;    dose estimate estimate1 estimate2 statistic p.value parameter conf.low
-#&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1   0.5     5.25      13.2      7.98    3.17   0.00636      15.0     1.72
-#&gt; 2   1       5.93      22.7     16.8     4.03   0.00104      15.4     2.80
-#&gt; 3   2      -0.08      26.1     26.1    -0.0461 0.964        14.0    -3.80
-#&gt; # … with 3 more variables: conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;</div></pre>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span>   0.5     5.25      13.2      7.98    3.17   0.006</span><span style='text-decoration: underline;'>36</span><span>      15.0     1.72
+#&gt; </span><span style='color: #555555;'>2</span><span>   1       5.93      22.7     16.8     4.03   0.001</span><span style='text-decoration: underline;'>04</span><span>      15.4     2.80
+#&gt; </span><span style='color: #555555;'>3</span><span>   2      -</span><span style='color: #BB0000;'>0.08</span><span>      26.1     26.1    -</span><span style='color: #BB0000;'>0.046</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span> 0.964        14.0    -</span><span style='color: #BB0000;'>3.80</span><span>
+#&gt; </span><span style='color: #555555;'># … with 3 more variables: conf.high </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, method </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, alternative </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

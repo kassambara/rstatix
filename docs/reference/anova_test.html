@@ -79,7 +79,7 @@ The results include ANOVA table, generalized effect size and some assumption
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -143,6 +143,8 @@ The results include ANOVA table, generalized effect size and some assumption
     <pre class="usage"><span class='fu'>anova_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='no'>dv</span>, <span class='no'>wid</span>, <span class='no'>between</span>, <span class='no'>within</span>, <span class='no'>covariate</span>,
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>effect.size</span> <span class='kw'>=</span> <span class='st'>"ges"</span>, <span class='kw'>error</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>white.adjust</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>observed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='fu'>get_anova_table</span>(<span class='no'>x</span>, <span class='kw'>correction</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"GG"</span>, <span class='st'>"HF"</span>, <span class='st'>"none"</span>))
 
 <span class='co'># S3 method for anova_test</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
@@ -241,6 +243,16 @@ intercept row, etc.) in the ANOVA table.</p></td>
       <td><p>an object of class <code>Anova_test</code></p></td>
     </tr>
     <tr>
+      <th>correction</th>
+      <td><p>character. Which sphericity correction of the degrees of
+freedom should be reported for the within-subject factors (repeated
+measures). The default is set to <code>"GG"</code> corresponding to the
+Greenhouse-Geisser correction. Possible values are <code>"GG"</code>, <code>"HF"</code>
+(i.e., Hyunh-Feldt correction), <code>"none"</code> (i.e., no correction) and
+<code>"auto"</code> (apply automatically GG correction if the sphericity
+assumption is not for within-subject design.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>additional arguments</p></td>
     </tr>
@@ -257,6 +269,13 @@ intercept row, etc.) in the ANOVA table.</p></td>
 <p>The <strong>returned object has an attribute</strong> called <code>args</code>, which is a
  list holding the arguments used to fit the ANOVA model, including: data, dv,
  within, between, type, model, etc.</p>
+    
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    <ul>
+<li><p><code>anova_test</code>: perform anova test</p></li>
+<li><p><code>get_anova_table</code>: extract anova table from an object of class <code>anova_test</code></p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -330,6 +349,16 @@ intercept row, etc.) in the ANOVA table.</p></td>
 #&gt; 1         *
 #&gt; 2          
 #&gt; </div><div class='input'>
+<span class='co'># Extract ANOVA table and apply correction</span>
+<span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
+<span class='no'>res.aov</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>anova_test</span>(<span class='kw'>dv</span> <span class='kw'>=</span> <span class='no'>len</span>, <span class='kw'>wid</span> <span class='kw'>=</span> <span class='no'>id</span>, <span class='kw'>within</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>supp</span>, <span class='no'>dose</span>))
+<span class='fu'>get_anova_table</span>(<span class='no'>res.aov</span>, <span class='kw'>correction</span> <span class='kw'>=</span> <span class='st'>"GG"</span>)</div><div class='output co'>#&gt; ANOVA Table (type III tests)
+#&gt; 
+#&gt;      Effect  DFn   DFd       F        p p&lt;.05   ges
+#&gt; 1      supp 1.00  9.00  34.866 2.28e-04     * 0.224
+#&gt; 2      dose 1.68 15.09 106.470 2.79e-09     * 0.773
+#&gt; 3 supp:dose 1.88 16.88   2.534 1.12e-01       0.132</div><div class='input'>
+
 <span class='co'># Use model as arguments</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>.my.model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>yield</span> ~ <span class='no'>block</span> + <span class='no'>N</span>*<span class='no'>P</span>*<span class='no'>K</span>, <span class='no'>npk</span>)
@@ -344,6 +373,7 @@ intercept row, etc.) in the ANOVA table.</p></td>
 #&gt; 6    N:K   1  12  2.146 0.169       0.152
 #&gt; 7    P:K   1  12  0.031 0.863       0.003
 #&gt; 8  N:P:K   0  12     NA    NA  &lt;NA&gt;    NA</div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -352,6 +382,8 @@ intercept row, etc.) in the ANOVA table.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#functions">Functions</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

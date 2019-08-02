@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -165,17 +165,17 @@ Returns an object of class <code>lower_tri</code></p></li>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Correlation matrix</span>
  <span class='no'>cor.mat</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>, <span class='no'>hp</span>, <span class='no'>drat</span>, <span class='no'>wt</span>, <span class='no'>qsec</span>) <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/select'>select</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>, <span class='no'>hp</span>, <span class='no'>drat</span>, <span class='no'>wt</span>, <span class='no'>qsec</span>) <span class='kw'>%&gt;%</span>
    <span class='fu'><a href='cor_mat.html'>cor_mat</a></span>()
- <span class='no'>cor.mat</span></div><div class='output co'>#&gt; # A tibble: 6 x 7
+ <span class='no'>cor.mat</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 7</span><span>
 #&gt;   rowname   mpg  disp    hp   drat    wt   qsec
-#&gt; * &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1 mpg      1    -0.85 -0.78  0.68  -0.87  0.42 
-#&gt; 2 disp    -0.85  1     0.79 -0.71   0.89 -0.43 
-#&gt; 3 hp      -0.78  0.79  1    -0.45   0.66 -0.71 
-#&gt; 4 drat     0.68 -0.71 -0.45  1     -0.71  0.091
-#&gt; 5 wt      -0.87  0.89  0.66 -0.71   1    -0.17 
-#&gt; 6 qsec     0.42 -0.43 -0.71  0.091 -0.17  1    </div><div class='input'>
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> mpg      1    -</span><span style='color: #BB0000;'>0.85</span><span> -</span><span style='color: #BB0000;'>0.78</span><span>  0.68  -</span><span style='color: #BB0000;'>0.87</span><span>  0.42 
+#&gt; </span><span style='color: #555555;'>2</span><span> disp    -</span><span style='color: #BB0000;'>0.85</span><span>  1     0.79 -</span><span style='color: #BB0000;'>0.71</span><span>   0.89 -</span><span style='color: #BB0000;'>0.43</span><span> 
+#&gt; </span><span style='color: #555555;'>3</span><span> hp      -</span><span style='color: #BB0000;'>0.78</span><span>  0.79  1    -</span><span style='color: #BB0000;'>0.45</span><span>   0.66 -</span><span style='color: #BB0000;'>0.71</span><span> 
+#&gt; </span><span style='color: #555555;'>4</span><span> drat     0.68 -</span><span style='color: #BB0000;'>0.71</span><span> -</span><span style='color: #BB0000;'>0.45</span><span>  1     -</span><span style='color: #BB0000;'>0.71</span><span>  0.091
+#&gt; </span><span style='color: #555555;'>5</span><span> wt      -</span><span style='color: #BB0000;'>0.87</span><span>  0.89  0.66 -</span><span style='color: #BB0000;'>0.71</span><span>   1    -</span><span style='color: #BB0000;'>0.17</span><span> 
+#&gt; </span><span style='color: #555555;'>6</span><span> qsec     0.42 -</span><span style='color: #BB0000;'>0.43</span><span> -</span><span style='color: #BB0000;'>0.71</span><span>  0.091 -</span><span style='color: #BB0000;'>0.17</span><span>  1    </div><div class='input'>
  <span class='co'># Replace upper triangle by NA</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span> <span class='fu'>replace_upper_triangle</span>(<span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</div><div class='output co'>#&gt;   rowname   mpg  disp    hp   drat    wt qsec
@@ -206,7 +206,7 @@ Returns an object of class <code>lower_tri</code></p></li>
 #&gt; 18 qsec   hp -0.710 5.77e-06
 #&gt; 23   wt drat -0.710 4.78e-06
 #&gt; 24 qsec drat  0.091 6.20e-01
-#&gt; 30 qsec   wt -0.170 3.39e-01</div></pre>
+#&gt; 30 qsec   wt -0.170 3.39e-01</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

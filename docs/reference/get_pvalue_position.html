@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -111,10 +111,11 @@
     </div>
 
     <pre class="usage"><span class='fu'>get_y_position</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"max"</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>step.increase</span> <span class='kw'>=</span> <span class='fl'>0.12</span>)
+  <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>step.increase</span> <span class='kw'>=</span> <span class='fl'>0.12</span>, <span class='kw'>y.trans</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>add_y_position</span>(<span class='no'>test</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"max"</span>, <span class='kw'>step.increase</span> <span class='kw'>=</span> <span class='fl'>0.12</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>formula</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+  <span class='kw'>formula</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>y.trans</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>add_x_position</span>(<span class='no'>test</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.8</span>)
 
@@ -163,10 +164,18 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
 height for every additional comparison to minimize overlap.</p></td>
     </tr>
     <tr>
+      <th>y.trans</th>
+      <td><p>a function for transforming y axis scale. Value can be
+<code>log2</code>, <code>log10</code> and <code>sqrt</code>. Can be also any custom function
+that can take a numeric vector as input and retourne a numeric vector,
+example: <code>y.trans = function(x){log2(x+1)}</code></p></td>
+    </tr>
+    <tr>
       <th>test</th>
       <td><p>an object of class <code>rstatix_test</code> as returned by
-<code><a href='t_test.html'>t_test</a>()</code>, <code><a href='wilcox_test.html'>wilcox_test</a>()</code>, <code><a href='sign_test.html'>sign_test</a>()</code>,
-<code><a href='tukey_hsd.html'>tukey_hsd</a>()</code>, <code><a href='dunn_test.html'>dunn_test</a>()</code>.</p></td>
+<code><a href='t_test.html'>t_test</a>()</code>, <code><a href='wilcox_test.html'>wilcox_test</a>()</code>,
+<code><a href='sign_test.html'>sign_test</a>()</code>, <code><a href='tukey_hsd.html'>tukey_hsd</a>()</code>,
+<code><a href='dunn_test.html'>dunn_test</a>()</code>.</p></td>
     </tr>
     <tr>
       <th>x</th>
@@ -211,19 +220,19 @@ when <code>x</code> specified.</p></td>
 <span class='co'>#::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>stat.test</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='t_test.html'>t_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)
-<span class='no'>stat.test</span></div><div class='output co'>#&gt; # A tibble: 3 x 8
-#&gt;   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 len   0.5    1          -6.48  38.0 1.27e- 7 2.54e- 7 ****        
-#&gt; 2 len   0.5    2         -11.8   36.9 4.40e-14 1.32e-13 ****        
-#&gt; 3 len   1      2          -4.90  37.1 1.91e- 5 1.91e- 5 ****        </div><div class='input'>
+<span class='no'>stat.test</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 10</span><span>
+#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
+#&gt; </span><span style='color: #555555;'>1</span><span> len   0.5    1         20    20     -</span><span style='color: #BB0000;'>6.48</span><span>  38.0 1.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 2.54</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
+#&gt; </span><span style='color: #555555;'>2</span><span> len   0.5    2         20    20    -</span><span style='color: #BB0000;'>11.8</span><span>   36.9 4.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-14</span><span> 1.32</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span> ****        
+#&gt; </span><span style='color: #555555;'>3</span><span> len   1      2         20    20     -</span><span style='color: #BB0000;'>4.90</span><span>  37.1 1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> 1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        </div><div class='input'>
 <span class='co'># Add the test into box plots</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>stat.test</span> <span class='kw'>&lt;-</span> <span class='no'>stat.test</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>add_y_position</span>()</div><div class='input'> <span class='kw'>if</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"ggpubr"</span>)){
-   <span class='fu'><a href='https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html'>ggboxplot</a></span>(<span class='no'>df</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"dose"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"len"</span>) +
-     <span class='fu'><a href='https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html'>stat_pvalue_manual</a></span>(<span class='no'>stat.test</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"p.adj.signif"</span>, <span class='kw'>tip.length</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)
-  }</div><div class='output co'>#&gt; <span class='warning'>Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</span></div><div class='img'><img src='get_pvalue_position-1.png' alt='' width='700' height='433' /></div></pre>
+  <span class='fu'>add_y_position</span>()</div></span><div class='input'> <span class='kw'>if</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"ggpubr"</span>)){
+   <span class='fu'><a href='https://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot'>ggboxplot</a></span>(<span class='no'>df</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"dose"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"len"</span>) +
+     <span class='fu'><a href='https://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual'>stat_pvalue_manual</a></span>(<span class='no'>stat.test</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"p.adj.signif"</span>, <span class='kw'>tip.length</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)
+  }</div><div class='img'><img src='get_pvalue_position-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
