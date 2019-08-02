@@ -8,5 +8,5 @@ There were no ERRORs, WARNINGs or NOTEs.
 
 ## Update
 
-This is an updated version 0.1.1
+This is an updated version 0.1.2 (see NEWS.md)
 
