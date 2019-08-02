@@ -160,15 +160,11 @@ p_mark_significant <- function(x,  ..., new.col = FALSE, cutpoints = c(0, 1e-04,
 #' @export
 p_detect <- function(data, type = c("all", "p", "p.adj")){
   type <- match.arg(type)
-  matches <- tidyselect::matches
   p.cols <- switch (type,
                     all = c(p_adj_names(), p_names()),
                     p = p_names(), p.adj = p_adj_names()
-  ) %>%
-    as_regexp()
-  existing.p.cols <- data %>%
-    select(matches(p.cols)) %>%
-    colnames()
+  )
+  existing.p.cols <- intersect(p.cols, colnames(data))
   if(.is_empty(existing.p.cols)) existing.p.cols <- NULL
   existing.p.cols
 }
