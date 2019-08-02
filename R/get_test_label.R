@@ -124,7 +124,9 @@ get_pwc_label <- function(stat.test, type = c("text", "expression")){
 get_test_label <- function(stat.test, description = NULL, p.col = "p",
                            type = c("text", "expression"),
                            correction = c("auto", "GG", "HF", "none"), row = NULL, detailed = FALSE){
-
+  if(!(p.col %in% colnames(stat.test))){
+    p.col <- p_detect(stat.test)
+  }
   type = match.arg(type)
   allowed.tests <- c(
     get_pairwise_comparison_methods(),
@@ -320,6 +322,7 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       sign_test = quote(italic("S")),
       dunn_test = quote(italic("Z")),
       emmeans_test = quote(italic("t")),
+      tukey_hsd = quote(italic("t")),
       games_howell_test = quote(italic("t")),
       kruskal_test = quote(italic(chi)^2),
       friedman_test = quote(italic(chi)^2),
@@ -336,6 +339,7 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       sign_test = "S",
       dunn_test = "Z",
       emmeans_test = "t",
+      tukey_hsd = "t",
       games_howell_test = "t",
       kruskal_test = "X2",
       friedman_test = "X2",
@@ -355,6 +359,10 @@ get_statistic <- function(stat.test){
   }
   else if ("F" %in% stat.cols){
     result <- stat.test$F
+  }
+  else{
+    # statistic column not found
+    result <- rep(NA, nrow(stat.test))
   }
   result
 }
