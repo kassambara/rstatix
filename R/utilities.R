@@ -182,6 +182,11 @@ get_quo_vars_list <- function(data, .enquos){
   res <- map(res, set_empty_to_null )
   res
 }
+# pipe friendly alias of get_quo_vars_list
+select_quo_variables <- function(.enquos, data){
+  get_quo_vars_list(.enquos, data)
+}
+
 
 set_empty_to_null <- function(x){
   if(.is_empty(x)) x <- NULL
@@ -512,10 +517,7 @@ select_numeric_columns <- function(data){
 # Add a class to an object
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 add_class <- function(x, .class){
-  for(.cl in .class){
-    if(!inherits(x, .cl))
-      x <- structure(x, class = c(class(x), .cl))
-  }
+  class(x) <- unique(c(class(x), .class))
   x
 }
 
