@@ -50,9 +50,9 @@ NULL
 doo <- function(data, .f, ..., result = ".results."){
   .nested <- data %>%
     nest() %>%
-     mutate(data = map(data, droplevels))
-  .computed <- .nested %>%
-    pull(data) %>%
+    dplyr::ungroup() %>%
+    mutate(data = map(data, droplevels))
+  .computed <- .nested$data %>%
     map(.f, ...)
   .results <- .nested %>%
     select(-data) %>%
@@ -68,4 +68,3 @@ doo <- function(data, .f, ..., result = ".results."){
   }
   .results
 }
-

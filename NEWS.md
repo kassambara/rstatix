@@ -8,6 +8,7 @@
      
 ## Minor changes 
    
+- Adapting to tidyr v1.0.0 (@jennybc, [#6](https://github.com/kassambara/rstatix/issues/6))
    
 ## Bug fixes
    
