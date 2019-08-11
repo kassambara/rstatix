@@ -98,16 +98,16 @@ emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
   res.emmeans <- res.emmeans %>%
     tibble::as_tibble() %>%
     dplyr::arrange(!!!syms(grouping.vars)) %>%
-    dplyr::rename(se = .data$SE, conf.low = .data$lower.CL, conf.high = .data$upper.CL)
+    dplyr::rename(se = .data$SE, conf.low = .data$lower.CL, conf.high = .data$upper.CL) %>%
+    mutate(method = "Emmeans test")
 
   if(!detailed){
-    to.remove <- c("estimate", "estimate1", "estimate2", "se", "conf.low", "conf.high")
+    to.remove <- c("estimate", "estimate1", "estimate2", "se", "conf.low", "conf.high", "method")
     to.keep <- setdiff(colnames(comparisons), to.remove)
     comparisons <- comparisons[, to.keep]
   }
   comparisons %>%
     add_column(.y. = outcome, .before = "group1") %>%
-    mutate(method = "Emmeans test") %>%
     set_attrs(args = args, emmeans = res.emmeans) %>%
     add_class(c("rstatix_test", "emmeans_test"))
 }
