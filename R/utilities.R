@@ -184,7 +184,7 @@ get_quo_vars_list <- function(data, .enquos){
 }
 # pipe friendly alias of get_quo_vars_list
 select_quo_variables <- function(.enquos, data){
-  get_quo_vars_list(.enquos, data)
+  get_quo_vars_list(data, .enquos)
 }
 
 
@@ -192,6 +192,7 @@ set_empty_to_null <- function(x){
   if(.is_empty(x)) x <- NULL
   x
 }
+
 
 # Extract variables used in a formula
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
