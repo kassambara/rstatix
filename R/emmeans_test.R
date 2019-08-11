@@ -9,18 +9,21 @@ NULL
 #'  before using this function. This function is useful for performing post-hoc
 #'  analyses following ANOVA/ANCOVA tests.
 #'@inheritParams t_test
+#'@param model a fitted-model objects such as the result of a call to
+#'  \code{lm()}, from which the overall degrees of
+#'  freedom are to be calculated.
 #'@param covariate (optional) covariate names (for ANCOVA)
 #'@return return a data frame with some the following columns: \itemize{ \item
 #'  \code{.y.}: the y variable used in the test. \item \code{group1,group2}: the
-#'  compared groups in the pairwise tests.
-#'  \item \code{statistic}: Test statistic (t.ratio) used to compute the
-#'  p-value. \item \code{df}: degrees of freedom. \item \code{p}: p-value. \item
-#'  \code{p.adj}: the adjusted p-value. \item \code{method}: the statistical
-#'  test used to compare groups. \item \code{p.signif, p.adj.signif}: the
-#'  significance level of p-values and adjusted p-values, respectively. \item
-#'  \code{estimate}: estimate of the effect size, that is the difference between
-#'  the two emmeans (estimated marginal means). \item \code{conf.low,conf.high}:
-#'  Lower and upper bound on a confidence interval of the estimate. }
+#'  compared groups in the pairwise tests. \item \code{statistic}: Test
+#'  statistic (t.ratio) used to compute the p-value. \item \code{df}: degrees of
+#'  freedom. \item \code{p}: p-value. \item \code{p.adj}: the adjusted p-value.
+#'  \item \code{method}: the statistical test used to compare groups. \item
+#'  \code{p.signif, p.adj.signif}: the significance level of p-values and
+#'  adjusted p-values, respectively. \item \code{estimate}: estimate of the
+#'  effect size, that is the difference between the two emmeans (estimated
+#'  marginal means). \item \code{conf.low,conf.high}: Lower and upper bound on a
+#'  confidence interval of the estimate. }
 #'
 #'  The \strong{returned object has an attribute called args}, which is a list
 #'  holding the test arguments. It has also an attribute named "emmeans", a data
@@ -46,7 +49,7 @@ NULL
 #'@export
 emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
                          comparisons = NULL, p.adjust.method = "bonferroni",
-                         conf.level = 0.95, detailed = FALSE){
+                         conf.level = 0.95, model = NULL, detailed = FALSE){
   . <- NULL
   covariate <- rlang::enquos(covariate = covariate) %>%
     get_quo_vars_list(data, .) %>% unlist()
@@ -74,7 +77,8 @@ emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
 
   # Build linear model
   formula <- stats::as.formula(paste(outcome, rhs, sep = " ~ "))
-  model <- stats::lm(formula, data)
+  if(is.null(model))
+    model <- stats::lm(formula, data)
 
   # Fit emmeans
   # Possible pairwise comparisons: if ref.group specified,

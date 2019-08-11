@@ -7,7 +7,7 @@
 \usage{
 emmeans_test(data, formula, covariate = NULL, ref.group = NULL,
   comparisons = NULL, p.adjust.method = "bonferroni",
-  conf.level = 0.95, detailed = FALSE)
+  conf.level = 0.95, model = NULL, detailed = FALSE)
 
 get_emmeans(emmeans.test)
 }
@@ -40,6 +40,10 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
 \item{conf.level}{confidence level of the interval.}
 
+\item{model}{a fitted-model objects such as the result of a call to
+\code{lm()}, from which the overall degrees of
+freedom are to be calculated.}
+
 \item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
 shown.}
 
@@ -48,15 +52,15 @@ shown.}
 \value{
 return a data frame with some the following columns: \itemize{ \item
  \code{.y.}: the y variable used in the test. \item \code{group1,group2}: the
- compared groups in the pairwise tests.
- \item \code{statistic}: Test statistic (t.ratio) used to compute the
- p-value. \item \code{df}: degrees of freedom. \item \code{p}: p-value. \item
- \code{p.adj}: the adjusted p-value. \item \code{method}: the statistical
- test used to compare groups. \item \code{p.signif, p.adj.signif}: the
- significance level of p-values and adjusted p-values, respectively. \item
- \code{estimate}: estimate of the effect size, that is the difference between
- the two emmeans (estimated marginal means). \item \code{conf.low,conf.high}:
- Lower and upper bound on a confidence interval of the estimate. }
+ compared groups in the pairwise tests. \item \code{statistic}: Test
+ statistic (t.ratio) used to compute the p-value. \item \code{df}: degrees of
+ freedom. \item \code{p}: p-value. \item \code{p.adj}: the adjusted p-value.
+ \item \code{method}: the statistical test used to compare groups. \item
+ \code{p.signif, p.adj.signif}: the significance level of p-values and
+ adjusted p-values, respectively. \item \code{estimate}: estimate of the
+ effect size, that is the difference between the two emmeans (estimated
+ marginal means). \item \code{conf.low,conf.high}: Lower and upper bound on a
+ confidence interval of the estimate. }
 
  The \strong{returned object has an attribute called args}, which is a list
  holding the test arguments. It has also an attribute named "emmeans", a data
