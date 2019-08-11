@@ -113,7 +113,7 @@ anova_summary <- function(object, effect.size = "ges", detailed = FALSE, observe
   results$ANOVA <- order_by_interaction_levels(results$ANOVA)
   results <- results %>% map(~dplyr::mutate_if(., is.numeric, round_value, 3))
   if(length(results) == 1) results <- results[[1]]
-  results %>% rlang::set_attrs(args = .args)
+  results %>% set_attrs(args = .args)
 }
 
 
