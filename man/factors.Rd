@@ -25,9 +25,10 @@ factor.}
 \item{make.valid.levels}{logical. Default is FALSE. If TRUE, converts the
 variable to factor and add a leading character (x) if starting with a digit.}
 
-\item{name}{a factor variable name.}
+\item{name}{a factor variable name. Can be unquoted. For example, use
+\code{group} or \code{"group"}.}
 
-\item{ref}{the reference level}
+\item{ref}{the reference level.}
 
 \item{order}{a character vector specifying the order of the factor levels}
 }

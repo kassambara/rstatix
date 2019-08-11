@@ -15,8 +15,9 @@ NULL
 #'  \code{vars}.
 #'@param vars a character vector specifying the variables to convert into
 #'  factor.
-#'@param name a factor variable name.
-#'@param ref the reference level
+#'@param name a factor variable name. Can be unquoted. For example, use
+#'  \code{group} or \code{"group"}.
+#'@param ref the reference level.
 #'@param order a character vector specifying the order of the factor levels
 #'@param make.valid.levels logical. Default is FALSE. If TRUE, converts the
 #'  variable to factor and add a leading character (x) if starting with a digit.
@@ -68,20 +69,24 @@ convert_as_factor <- function(data, ..., vars = NULL, make.valid.levels = FALSE)
 #' @describeIn factors Change a factor reference level or group.
 #' @export
 set_ref_level <- function(data, name, ref){
-  data[[name]] <- stats::relevel(data[[name]], ref)
+  .args <- rlang::enquos(name = name) %>% select_quo_variables(data)
+  data[[.args$name]] <- stats::relevel(data[[.args$name]], ref)
   data
 }
 
 #' @describeIn factors Change the order of a factor levels
 #' @export
 reorder_levels <- function(data, name, order){
-  data[[name]] <- factor(data[[name]], levels = order)
+  .args <- rlang::enquos(name = name) %>% select_quo_variables(data)
+  data[[.args$name]] <- factor(data[[.args$name]], levels = order)
   data
 }
 
 
 
 make_valid_levels <- function(data, name){
+  .args <- rlang::enquos(name = name) %>% select_quo_variables(data)
+  name <- .args$name
   value <- data %>% pull(!!name)
   if(is.factor(value)){
     levels(value) <- make.names(levels(value), unique = TRUE)
