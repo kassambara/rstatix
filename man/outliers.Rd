@@ -28,10 +28,9 @@ points only). Default is 1.5}
 }
 \value{
 \itemize{ \item \code{identify_outliers()}. Returns the input data
-frame with two additional columns: "is.outlier" and "is.extreme", which hold
-logical values.
-\item \code{is_outlier() and is_extreme()}. Returns logical vectors.
-}
+ frame with two additional columns: "is.outlier" and "is.extreme", which hold
+ logical values. \item \code{is_outlier() and is_extreme()}. Returns logical
+ vectors. }
 }
 \description{
 Detect outliers using boxplot methods. Boxplots are a popular and
@@ -47,7 +46,8 @@ Detect outliers using boxplot methods. Boxplots are a popular and
 
  Generally speaking, data points that are labelled outliers in boxplots are
  not considered as troublesome as those considered extreme points and might
- even be ignored.
+ even be ignored. Note that, any \code{NA} and \code{NaN's} are automatically removed
+ before the quantiles are computed.
 }
 \section{Functions}{
 \itemize{

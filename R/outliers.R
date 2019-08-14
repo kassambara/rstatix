@@ -18,13 +18,13 @@ NULL
 #'
 #'  Generally speaking, data points that are labelled outliers in boxplots are
 #'  not considered as troublesome as those considered extreme points and might
-#'  even be ignored.
+#'  even be ignored. Note that, any \code{NA} and \code{NaN's} are automatically removed
+#'  before the quantiles are computed.
 #'
 #'@return \itemize{ \item \code{identify_outliers()}. Returns the input data
-#'frame with two additional columns: "is.outlier" and "is.extreme", which hold
-#'logical values.
-#'\item \code{is_outlier() and is_extreme()}. Returns logical vectors.
-#' }
+#'  frame with two additional columns: "is.outlier" and "is.extreme", which hold
+#'  logical values. \item \code{is_outlier() and is_extreme()}. Returns logical
+#'  vectors. }
 #'
 #'@param data a data frame
 #'@param ... One unquoted expressions (or variable name). Used to select a
@@ -88,9 +88,9 @@ identify_outliers <- function(data, ..., variable = NULL){
 #' @export
 is_outlier <- function(x, coef = 1.5){
   res <- x
-  Q1 <- quantile(x, 0.25)
-  Q3 <- quantile(x, 0.75)
-  .IQR <- IQR(x)
+  Q1 <- quantile(x, 0.25, na.rm = TRUE)
+  Q3 <- quantile(x, 0.75, na.rm = TRUE)
+  .IQR <- IQR(x, na.rm = TRUE)
   upper.limit <- Q3 + (coef*.IQR)
   lower.limit <- Q1 - (coef*.IQR)
   outlier <- ifelse(x < lower.limit | x > upper.limit, TRUE, FALSE )
