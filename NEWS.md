@@ -1,10 +1,5 @@
 # rstatix 0.1.2.999
 
-## TO DO
-
-- Adding durbin-canover: https://www.rdocumentation.org/packages/PMCMR/versions/4.3/topics/posthoc.durbin.test
-- https://rdrr.io/cran/PMCMR/man/posthoc.friedman.conover.test.html
-
 ## New features
    
    
