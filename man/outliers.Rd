@@ -46,7 +46,7 @@ Detect outliers using boxplot methods. Boxplots are a popular and
 
  Generally speaking, data points that are labelled outliers in boxplots are
  not considered as troublesome as those considered extreme points and might
- even be ignored. Note that, any \code{NA} and \code{NaN's} are automatically removed
+ even be ignored. Note that, any \code{NA} and \code{NaN} are automatically removed
  before the quantiles are computed.
 }
 \section{Functions}{
