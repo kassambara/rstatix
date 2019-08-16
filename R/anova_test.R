@@ -179,7 +179,10 @@ get_anova_table <- function(x, correction = c("auto", "GG", "HF", "none")){
     return(x)
   }
   if(correction.method == "none"){
-    return(x)
+    res.aov <- x$ANOVA
+    attr(res.aov, "args") <- attr(x, "args")
+    class(res.aov) <- c("anova_test", class(res.aov), "rstatix_test")
+    return(res.aov)
   }
   # repeated/mixed design
   # Get correction table from anova_test

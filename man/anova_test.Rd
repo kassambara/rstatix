@@ -80,7 +80,7 @@ measures). The default is set to \code{"GG"} corresponding to the
 Greenhouse-Geisser correction. Possible values are \code{"GG"}, \code{"HF"}
 (i.e., Hyunh-Feldt correction), \code{"none"} (i.e., no correction) and
 \code{"auto"} (apply automatically GG correction if the sphericity
-assumption is not for within-subject design.}
+assumption is not filled for within-subject design).}
 
 \item{...}{additional arguments}
 }
