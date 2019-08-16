@@ -117,7 +117,9 @@ Provides a pipe-friendly framework to perform different types of
 \itemize{
 \item \code{anova_test}: perform anova test
 
-\item \code{get_anova_table}: extract anova table from an object of class \code{anova_test}
+\item \code{get_anova_table}: extract anova table from an object of class
+\code{anova_test}. When within-subject factors are present, either
+sphericity corrected or uncorrected degrees of freedom can be reported.
 }}
 
 \examples{

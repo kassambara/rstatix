@@ -68,7 +68,7 @@ NULL
 #'   Greenhouse-Geisser correction. Possible values are \code{"GG"}, \code{"HF"}
 #'   (i.e., Hyunh-Feldt correction), \code{"none"} (i.e., no correction) and
 #'   \code{"auto"} (apply automatically GG correction if the sphericity
-#'   assumption is not for within-subject design.
+#'   assumption is not filled for within-subject design).
 #'@seealso \code{\link{anova_summary}()}, \code{\link{factorial_design}()}
 #'@return return an object of class \code{anova_test} a data frame containing
 #'  the ANOVA table for independent measures ANOVA.
@@ -164,7 +164,9 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
   res.anova
 }
 
-#' @describeIn anova_test extract anova table from an object of class \code{anova_test}
+#' @describeIn anova_test extract anova table from an object of class
+#'   \code{anova_test}. When within-subject factors are present, either
+#'   sphericity corrected or uncorrected degrees of freedom can be reported.
 #' @export
 get_anova_table <- function(x, correction = c("auto", "GG", "HF", "none")){
   correction.method <- method <- match.arg(correction)
