@@ -27,9 +27,9 @@ get_anova_table(x, correction = c("auto", "GG", "HF", "none"))
  \code{formula = TP53 ~ cancer_group}.
 
  Examples of supported formula include: \itemize{ \item Between-Ss ANOVA
- (independent measures ANOVA): \code{y ~ b1*b2} \item Within-Ss ANOVA (repeated
- measures ANOVA): \code{y ~ w1*w2 + Error(id/(w1*w2))} \item Mixed ANOVA: \code{y ~
- b1*b2*w1 + Error(id/w1)} }
+ (independent measures ANOVA): \code{y ~ b1*b2} \item Within-Ss ANOVA
+ (repeated measures ANOVA): \code{y ~ w1*w2 + Error(id/(w1*w2))} \item Mixed
+ ANOVA: \code{y ~ b1*b2*w1 + Error(id/w1)} }
 
  If the formula doesn't contain any within vars, a linear model is directly
  fitted and  passed to the ANOVA function. For repeated designs, the ANOVA
@@ -72,15 +72,17 @@ eta-squared) requires correct specification of the observed variables.}
 \item{detailed}{If TRUE, returns extra information (sums of squares columns,
 intercept row, etc.) in the ANOVA table.}
 
-\item{x}{an object of class \code{Anova_test}}
+\item{x}{an object of class \code{anova_test}}
 
-\item{correction}{character. Which sphericity correction of the degrees of
-freedom should be reported for the within-subject factors (repeated
-measures). The default is set to \code{"GG"} corresponding to the
-Greenhouse-Geisser correction. Possible values are \code{"GG"}, \code{"HF"}
-(i.e., Hyunh-Feldt correction), \code{"none"} (i.e., no correction) and
-\code{"auto"} (apply automatically GG correction if the sphericity
-assumption is not filled for within-subject design).}
+\item{correction}{character. Used only in repeated measures ANOVA test to
+specify which correction of the degrees of freedom should be reported for
+the within-subject factors. Possible values are:
+\itemize{
+\item{"GG"}: applies Greenhouse-Geisser correction to all within-subjects factors even if the assumption of sphericity is met (i.e., Mauchly's test is not significant, p > 0.05).
+\item{"HF"}: applies Hyunh-Feldt correction to all within-subjects factors even if the assumption of sphericity is met,
+\item{"none"}: returns the ANOVA table without any correction and
+\item{"auto"}: apply automatically GG correction to only within-subjects factors violating the sphericity assumption (i.e., Mauchly's test p-value is significant, p <= 0.05).
+}}
 
 \item{...}{additional arguments}
 }
