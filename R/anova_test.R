@@ -143,7 +143,8 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
       type = type, effect.size = effect.size, error = error,
       white.adjust = white.adjust, observed = observed, detailed = detailed),
       result = "anova"
-    )
+    ) %>%
+      add_class("grouped_anova_test")
     return(results)
   }
 
@@ -171,11 +172,22 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
 #'   sphericity corrected or uncorrected degrees of freedom can be reported.
 #' @export
 get_anova_table <- function(x, correction = c("auto", "GG", "HF", "none")){
-  correction.method <- method <- match.arg(correction)
-  if(method == "auto") method = "GG"
-  if(!inherits(x, "anova_test")){
-    stop("An object of class 'anova_test' required")
+  if(!inherits(x, c("anova_test", "grouped_anova_test"))){
+    stop("An object of class 'anova_test' or 'grouped_anova_test' required")
   }
+  correction <- match.arg(correction)
+  if(inherits(x, "grouped_anova_test")){
+    results <- get_anova_table_from_grouped_test(x, correction = correction)
+  }
+  else{
+    results <- get_anova_table_from_simple_test(x, correction = correction)
+  }
+  results
+}
+
+get_anova_table_from_simple_test <- function(x, correction = "auto"){
+  correction.method <- method <- correction
+  if(method == "auto") method = "GG"
   # Independent anova
   if(!inherits(x, "list")){
     return(x)
@@ -218,6 +230,15 @@ get_anova_table <- function(x, correction = c("auto", "GG", "HF", "none")){
   res.aov <- res.aov %>% set_attrs(args = .args)
   class(res.aov) <- c("anova_test", class(res.aov), "rstatix_test")
   res.aov
+}
+# Extract tables from grouped ANOVA test
+get_anova_table_from_grouped_test <- function(x, correction = "auto"){
+  if(!("anova" %in% colnames(x))){
+    return(x)
+  }
+  x %>%
+    mutate(anova = map(.data$anova, get_anova_table, correction = correction)) %>%
+    unnest()
 }
 
 #' @rdname anova_test
