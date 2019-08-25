@@ -311,14 +311,16 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
   args <- attr(stat.test, "args")
   stat.method <- args$method
   is.paired <- args$paired
+  if(is.paired & stat.method == "wilcox_test"){
+    stat.method = "wilcox_test_paired"
+  }
   if(is.null(is.paired)) is.paired <- FALSE
   if(type == "expression"){
     statistic.text <- switch(
       stat.method,
       t_test = quote(italic("t")),
-      wilcox_test = ifelse(
-        is.paired, quote(italic("V")), quote(italic("W"))
-      ),
+      wilcox_test = quote(italic("W")),
+      wilcox_test_paired = quote(italic("V")),
       sign_test = quote(italic("S")),
       dunn_test = quote(italic("Z")),
       emmeans_test = quote(italic("t")),
@@ -335,7 +337,8 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
     statistic.text <- switch(
       stat.method,
       t_test = "t",
-      wilcox_test = ifelse(is.paired, "V", "W"),
+      wilcox_test = "W",
+      wilcox_test_paired = "V",
       sign_test = "S",
       dunn_test = "Z",
       emmeans_test = "t",
