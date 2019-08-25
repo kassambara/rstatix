@@ -311,8 +311,10 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
   args <- attr(stat.test, "args")
   stat.method <- args$method
   is.paired <- args$paired
-  if(is.paired & stat.method == "wilcox_test"){
-    stat.method = "wilcox_test_paired"
+  if(!is.null(is.paired)){
+    if(is.paired & stat.method == "wilcox_test"){
+      stat.method = "wilcox_test_paired"
+    }
   }
   if(is.null(is.paired)) is.paired <- FALSE
   if(type == "expression"){
