@@ -54,6 +54,32 @@ NULL
 #'    doo(~t.test(len ~ supp, data =.) %>% tidy())
 #'@export
 doo <- function(data, .f, ..., result = ".results."){
+  .results <- data %>%
+    nest() %>%
+    dplyr::ungroup() %>%
+    mutate(data = map(data, droplevels)) %>%
+    mutate(data = map(data, .f, ...))
+  if(inherits(.results$data[[1]], c("data.frame", "tbl_df"))){
+    # Suppress warning such as:
+    #  Binding character and factor vector, coercing into character vector
+    .results <- suppressWarnings(unnest(.results))
+  }
+  else{
+    colnames(.results)[ncol(.results)] <- result
+  }
+  if(is_grouped_df(data)){
+    .groups <- dplyr::group_vars(data)
+    .results <- dplyr::arrange(.results, !!!syms(.groups))
+  }
+  .results
+}
+
+
+
+
+
+# To be removed
+doo_old_version <- function(data, .f, ..., result = ".results."){
   .nested <- data %>%
     nest() %>%
     dplyr::ungroup() %>%
