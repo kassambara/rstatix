@@ -24,7 +24,7 @@ Imports:
     tidyr,
     purrr,
     broom,
-    rlang,
+    rlang (>= 0.3.1),
     tibble,
     dplyr (>= 0.7.1),
     magrittr,
