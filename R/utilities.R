@@ -36,8 +36,24 @@
 #' @importFrom tidyr spread
 #' @importFrom tidyr gather
 #' @importFrom tidyr nest
-#' @importFrom tidyr unnest
 
+
+# Unnesting, adapt to tidyr 1.0.0
+unnest <- function(data, cols = "data", ...){
+  if(is_pkg_version_sup("tidyr", "0.8.3")){
+   results <- tidyr::unnest(data, cols = cols, ...)
+  }
+  else {results <- tidyr::unnest(data, ...)}
+  results
+}
+
+# Check if an installed package version is superior to a specified version
+# Version, pkg: character vector
+is_pkg_version_sup<- function(pkg, version){
+  vv <- as.character(utils::packageVersion(pkg))
+  cc <- utils::compareVersion(vv, version) > 0
+  cc
+}
 
 # Rounding values --------------------------------------
 # Round a vector, conditionnaly rounding
