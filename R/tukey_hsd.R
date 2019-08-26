@@ -60,16 +60,7 @@ tukey_hsd <- function(x, ...){
 #' @describeIn tukey_hsd performs tukey post-hoc test from \code{aov()} results.
 tukey_hsd.default <- function(x, ...)
 {
-  comparison <- adj.p.value <- p.adj <-
-    term <- group1 <- group2 <- NULL
-  res <- TukeyHSD(x, ...) %>%
-    broom::tidy() %>%
-    separate(comparison, into= c("group2", "group1"), sep = "-") %>%
-    rename(p.adj = adj.p.value) %>%
-    mutate(p.adj = signif(p.adj, 3)) %>%
-    select(term, group1, group2, everything()) %>%
-    add_significance("p.adj")
-  res %>%
+  tukey_hsd_of_model(x, ...) %>%
     set_attrs(args = list(x = x, p.adjust.method = "Tukey", method = "tukey_hsd")) %>%
     add_class(c("rstatix_test", "tukey_hsd"))
 }
@@ -78,8 +69,7 @@ tukey_hsd.default <- function(x, ...)
 #' @describeIn tukey_hsd performs tukey post-hoc test from \code{lm()} model.
 tukey_hsd.lm <- function(x, ...)
 {
-  stats::aov(x) %>%
-    tukey_hsd.default(...)
+  stats::aov(x) %>% tukey_hsd.default(...)
 }
 
 
@@ -94,14 +84,32 @@ tukey_hsd.data.frame <- function(x, formula, ...){
     )
   if(is_grouped_df(x)){
     results <- x %>%
-      doo(tukey_hsd.data.frame, formula, ...) %>%
+      doo(tukey_hsd_core, formula, ...) %>%
       set_attrs(args = args) %>%
       add_class(c("rstatix_test", "tukey_hsd"))
     return(results)
   }
 
-  stats::aov(formula, x) %>%
-    tukey_hsd.default(...) %>%
+  tukey_hsd_core (x, formula) %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "tukey_hsd"))
 }
+
+
+tukey_hsd_core <- function(x, formula, ...){
+  stats::aov(formula, x) %>%
+    tukey_hsd_of_model(...)
+}
+
+tukey_hsd_of_model <- function(model, ...){
+  comparison <- adj.p.value <- p.adj <-
+    term <- group1 <- group2 <- NULL
+  TukeyHSD(model, ...) %>%
+    broom::tidy() %>%
+    separate(comparison, into= c("group2", "group1"), sep = "-") %>%
+    rename(p.adj = adj.p.value) %>%
+    mutate(p.adj = signif(p.adj, 3)) %>%
+    select(term, group1, group2, everything()) %>%
+    add_significance("p.adj")
+}
+
