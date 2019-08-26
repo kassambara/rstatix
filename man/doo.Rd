@@ -30,18 +30,24 @@ Provides a flexible alternative to the \code{dplyr:do()} function.
  containing the results for group combinations.
 }
 \examples{
-# Example 1: pipe-friendly t_test().
+# Custom function
+#\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%
+stat_test <- function(data, formula){
+  t.test(formula, data) \%>\%
+    tidy()
+}
+# Example 1: pipe-friendly stat_test().
 # Two possibilities of usage are available
 #\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%
 # Use this
 ToothGrowth \%>\%
   group_by(dose) \%>\%
-  doo(~t_test(data =., len ~ supp))
+  doo(~stat_test(data =., len ~ supp))
 
 # Or this
 ToothGrowth \%>\%
   group_by(dose) \%>\%
-  doo(t_test, len ~ supp)
+  doo(stat_test, len ~ supp)
 
 # Example 2: R base function t.test() (not pipe friendly)
 # One possibility of usage
