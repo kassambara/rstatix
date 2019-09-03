@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Build Status](https://api.travis-ci.org/kassambara/rstatix.png)](https://travis-ci.org/kassambara/rstatix) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/rstatix)](https://cran.r-project.org/package=rstatix) [![CRAN Checks](https://cranchecks.info/badges/summary/rstatix)](https://cran.r-project.org/web/checks/check_results_rstatix.html) [![Downloads](https://cranlogs.r-pkg.org/badges/rstatix)](https://cran.r-project.org/package=rstatix) [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rstatix?color=orange)](https://cranlogs.r-pkg.org/badges/grand-total/rstatix)
+[![Build Status](https://api.travis-ci.org/kassambara/rstatix.png)](https://travis-ci.org/kassambara/rstatix) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/rstatix)](https://cran.r-project.org/package=rstatix) [![CRAN Checks](https://cranchecks.info/badges/summary/rstatix)](https://cran.r-project.org/web/checks/check_results_rstatix.html) [![Downloads](https://cranlogs.r-pkg.org/badges/rstatix)](https://cran.r-project.org/package=rstatix) [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rstatix?color=orange)](https://cran.r-project.org/package=rstatix)
 
 rstatix
 =======
@@ -30,7 +30,7 @@ Key functions
 -   `wilcox_test()`: perform one-sample, two-sample and pairwise Wilcoxon tests
 -   `sign_test()`: perform sign test to determine whether there is a median difference between paired or matched observations.
 -   `anova_test()`: an easy-to-use wrapper around `car::Anova()` to perform different types of ANOVA tests, including **independent measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
--   `get_anova_test_table()`: extract ANOVA table from `anova_test()` results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs.
+-   `get_anova_test_table()`: extract ANOVA table from `anova_test()` results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs. `- welch_anova_test()`: Welch one-Way ANOVA test. A pipe-frindly wrapper around the base function `stats::oneway.test()`. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.
 -   `kruskal_test()`: perform kruskal-wallis rank sum test
 -   `friedman_test()`: Provides a pipe-friendly framework to perform a Friedman rank sum test, which is the non-parametric alternative to the one-way repeated measures ANOVA test.
 -   `get_comparisons()`: Create a list of possible pairwise comparisons between groups.
@@ -102,6 +102,7 @@ Extract information from statistical test results. Useful for labelling plots wi
 
 -   `get_pwc_label()`: Extract label from pairwise comparisons.
 -   `get_test_label()`: Extract label from statistical tests.
+-   `create_test_label()`: Create labels from user specified test results.
 
 ### Others
 
@@ -471,14 +472,14 @@ head(mydata, 3)
 mydata %>% cor_test(wt, mpg, method = "pearson")
 #> # A tibble: 1 x 8
 #>   var1  var2    cor statistic        p conf.low conf.high method 
-#> * <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
+#>   <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
 #> 1 wt    mpg   -0.87     -9.56 1.29e-10   -0.934    -0.744 Pearson
 
 # Correlation of one variable against all
 mydata %>% cor_test(mpg, method = "pearson")
 #> # A tibble: 5 x 8
 #>   var1  var2    cor statistic        p conf.low conf.high method 
-#> * <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
+#>   <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
 #> 1 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
 #> 2 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
 #> 3 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson
@@ -489,7 +490,7 @@ mydata %>% cor_test(mpg, method = "pearson")
 mydata %>% cor_test(method = "pearson")
 #> # A tibble: 36 x 8
 #>    var1  var2    cor statistic        p conf.low conf.high method 
-#>  * <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
+#>    <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
 #>  1 mpg   mpg    1       Inf    0.         1          1     Pearson
 #>  2 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
 #>  3 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
@@ -526,7 +527,7 @@ cor.mat
 cor.mat %>% cor_get_pval()
 #> # A tibble: 6 x 7
 #>   rowname      mpg     disp           hp       drat        wt       qsec
-#> * <chr>      <dbl>    <dbl>        <dbl>      <dbl>     <dbl>      <dbl>
+#>   <chr>      <dbl>    <dbl>        <dbl>      <dbl>     <dbl>      <dbl>
 #> 1 mpg     0.       9.38e-10 0.000000179  0.0000178  1.29e- 10 0.0171    
 #> 2 disp    9.38e-10 0.       0.0000000714 0.00000528 1.22e- 11 0.0131    
 #> 3 hp      1.79e- 7 7.14e- 8 0            0.00999    4.15e-  5 0.00000577
