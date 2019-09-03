@@ -35,30 +35,25 @@ NULL
 #' @name welch_anova_test
 #' @export
 welch_anova_test <- function(data, formula){
-
   args <- as.list(environment()) %>%
     .add_item(method = "welch_anova_test")
-  outcome <- get_formula_left_hand_side(formula)
-  group <- get_formula_right_hand_side(formula)
-
   if(is_grouped_df(data)){
-    results <- data %>%
-      doo(welch_anova_test, formula) %>%
-      set_attrs(args = args) %>%
-      add_class(c("rstatix_test", "welch_anova_test"))
-    return(results)
+    results <- data %>% doo(oneway_test, formula)
   }
-  term <- statistic <- p <- df <- method <- NULL
-  res <- oneway_test(data, formula) %>%
-    add_columns(.y. = outcome, n = nrow(data), .before = "statistic")
-  res %>%
+  else{
+    results <- oneway_test(data, formula)
+  }
+  results %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "welch_anova_test"))
 }
 
 oneway_test <- function(data, formula){
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
   res <- stats::oneway.test(formula, data = data, var.equal = FALSE)
   tibble(
+    .y. = outcome, n = nrow(data),
     statistic = round_value(res$statistic, 2),
     DFn = res$parameter[1],
     DFd = res$parameter[2],
