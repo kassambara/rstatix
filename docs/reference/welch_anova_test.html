@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -163,7 +163,7 @@ groups. For example, formula = TP53 ~ cancer_group.</p></td>
 <span class='co'># Grouped data</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>welch_anova_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 8</span><span>
 #&gt;   supp  .y.       n statistic   DFn   DFd            p method     
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      

@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -118,7 +118,7 @@
 
     <pre class="usage"><span class='fu'>emmeans_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>covariate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>,
-  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>get_emmeans</span>(<span class='no'>emmeans.test</span>)</pre>
     
@@ -167,6 +167,12 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
       <td><p>confidence level of the interval.</p></td>
     </tr>
     <tr>
+      <th>model</th>
+      <td><p>a fitted-model objects such as the result of a call to
+<code><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm()</a></code>, from which the overall degrees of
+freedom are to be calculated.</p></td>
+    </tr>
+    <tr>
       <th>detailed</th>
       <td><p>logical value. Default is FALSE. If TRUE, a detailed result is
 shown.</p></td>
@@ -183,19 +189,20 @@ shown.</p></td>
 <li><p><code>.y.</code>: the y variable used in the test.</p></li>
 <li><p><code>group1,group2</code>: the
  compared groups in the pairwise tests.</p></li>
-<li><p><code>statistic</code>: Test statistic (t.ratio) used to compute the
- p-value.</p></li>
-<li><p><code>df</code>: degrees of freedom.</p></li>
+<li><p><code>statistic</code>: Test
+ statistic (t.ratio) used to compute the p-value.</p></li>
+<li><p><code>df</code>: degrees of
+ freedom.</p></li>
 <li><p><code>p</code>: p-value.</p></li>
 <li><p><code>p.adj</code>: the adjusted p-value.</p></li>
-<li><p><code>method</code>: the statistical
- test used to compare groups.</p></li>
-<li><p><code>p.signif, p.adj.signif</code>: the
- significance level of p-values and adjusted p-values, respectively.</p></li>
-<li><p><code>estimate</code>: estimate of the effect size, that is the difference between
- the two emmeans (estimated marginal means).</p></li>
-<li><p><code>conf.low,conf.high</code>:
- Lower and upper bound on a confidence interval of the estimate.</p></li>
+<li><p><code>method</code>: the statistical test used to compare groups.</p></li>
+<li><p><code>p.signif, p.adj.signif</code>: the significance level of p-values and
+ adjusted p-values, respectively.</p></li>
+<li><p><code>estimate</code>: estimate of the
+ effect size, that is the difference between the two emmeans (estimated
+ marginal means).</p></li>
+<li><p><code>conf.low,conf.high</code>: Lower and upper bound on a
+ confidence interval of the estimate.</p></li>
 </ul>
 
 <p>The <strong>returned object has an attribute called args</strong>, which is a list
@@ -216,9 +223,9 @@ shown.</p></td>
 
 <span class='co'># Pairwise comparisons</span>
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
  <span class='fu'>emmeans_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>)
-<span class='no'>res</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 10</span><span>
+<span class='no'>res</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 9</span><span>
 #&gt;   supp  .y.   group1 group2    df statistic        p    p.adj p.adj.signif
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
 #&gt; </span><span style='color: #555555;'>1</span><span> OJ    len   0.5    1         54     -</span><span style='color: #BB0000;'>5.83</span><span> 3.18</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 9.53</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
@@ -226,22 +233,21 @@ shown.</p></td>
 #&gt; </span><span style='color: #555555;'>3</span><span> OJ    len   1      2         54     -</span><span style='color: #BB0000;'>2.07</span><span> 4.34</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span> 1.30</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> ns          
 #&gt; </span><span style='color: #555555;'>4</span><span> VC    len   0.5    1         54     -</span><span style='color: #BB0000;'>5.41</span><span> 1.46</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> 4.39</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        
 #&gt; </span><span style='color: #555555;'>5</span><span> VC    len   0.5    2         54    -</span><span style='color: #BB0000;'>11.2</span><span>  1.13</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-15</span><span> 3.39</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-15</span><span> ****        
-#&gt; </span><span style='color: #555555;'>6</span><span> VC    len   1      2         54     -</span><span style='color: #BB0000;'>5.77</span><span> 3.98</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 1.19</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: method </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'>6</span><span> VC    len   1      2         54     -</span><span style='color: #BB0000;'>5.77</span><span> 3.98</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 1.19</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        </div><div class='input'>
 <span class='co'># Display estimated marginal means</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"emmeans"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 7</span><span>
-#&gt;   supp  dose  emmean    se    df conf.low conf.high
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> OJ    0.5    13.2   1.15    54    10.9       15.5
-#&gt; </span><span style='color: #555555;'>2</span><span> OJ    1      22.7   1.15    54    20.4       25.0
-#&gt; </span><span style='color: #555555;'>3</span><span> OJ    2      26.1   1.15    54    23.8       28.4
-#&gt; </span><span style='color: #555555;'>4</span><span> VC    0.5     7.98  1.15    54     5.68      10.3
-#&gt; </span><span style='color: #555555;'>5</span><span> VC    1      16.8   1.15    54    14.5       19.1
-#&gt; </span><span style='color: #555555;'>6</span><span> VC    2      26.1   1.15    54    23.8       28.4</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"emmeans"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 8</span><span>
+#&gt;   supp  dose  emmean    se    df conf.low conf.high method      
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
+#&gt; </span><span style='color: #555555;'>1</span><span> OJ    0.5    13.2   1.15    54    10.9       15.5 Emmeans test
+#&gt; </span><span style='color: #555555;'>2</span><span> OJ    1      22.7   1.15    54    20.4       25.0 Emmeans test
+#&gt; </span><span style='color: #555555;'>3</span><span> OJ    2      26.1   1.15    54    23.8       28.4 Emmeans test
+#&gt; </span><span style='color: #555555;'>4</span><span> VC    0.5     7.98  1.15    54     5.68      10.3 Emmeans test
+#&gt; </span><span style='color: #555555;'>5</span><span> VC    1      16.8   1.15    54    14.5       19.1 Emmeans test
+#&gt; </span><span style='color: #555555;'>6</span><span> VC    2      26.1   1.15    54    23.8       28.4 Emmeans test</div><div class='input'>
 <span class='co'># Show details</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
- <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>emmeans_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 14</span><span>
+ <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
+ <span class='fu'>emmeans_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 13</span><span>
 #&gt;   supp  .y.   group1 group2 estimate    se    df conf.low conf.high statistic
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> OJ    len   0.5    1         -</span><span style='color: #BB0000;'>9.47</span><span>  1.62    54   -</span><span style='color: #BB0000;'>12.7</span><span>     -</span><span style='color: #BB0000;'>6.21</span><span>      -</span><span style='color: #BB0000;'>5.83</span><span>
@@ -250,8 +256,7 @@ shown.</p></td>
 #&gt; </span><span style='color: #555555;'>4</span><span> VC    len   0.5    1         -</span><span style='color: #BB0000;'>8.79</span><span>  1.62    54   -</span><span style='color: #BB0000;'>12.0</span><span>     -</span><span style='color: #BB0000;'>5.53</span><span>      -</span><span style='color: #BB0000;'>5.41</span><span>
 #&gt; </span><span style='color: #555555;'>5</span><span> VC    len   0.5    2        -</span><span style='color: #BB0000;'>18.2</span><span>   1.62    54   -</span><span style='color: #BB0000;'>21.4</span><span>    -</span><span style='color: #BB0000;'>14.9</span><span>      -</span><span style='color: #BB0000;'>11.2</span><span> 
 #&gt; </span><span style='color: #555555;'>6</span><span> VC    len   1      2         -</span><span style='color: #BB0000;'>9.37</span><span>  1.62    54   -</span><span style='color: #BB0000;'>12.6</span><span>     -</span><span style='color: #BB0000;'>6.11</span><span>      -</span><span style='color: #BB0000;'>5.77</span><span>
-#&gt; </span><span style='color: #555555;'># … with 4 more variables: p </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, p.adj </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, p.adj.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
-#&gt; #   method </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
+#&gt; </span><span style='color: #555555;'># … with 3 more variables: p </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, p.adj </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, p.adj.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

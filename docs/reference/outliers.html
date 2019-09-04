@@ -42,7 +42,8 @@ Q1 and Q3 are the first and third quartile, respectively. IQR is the
  interquartile range (IQR = Q3 - Q1).
 Generally speaking, data points that are labelled outliers in boxplots are
  not considered as troublesome as those considered extreme points and might
- even be ignored." />
+ even be ignored. Note that, any NA and NaN are automatically removed
+ before the quantiles are computed." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -73,7 +74,7 @@ Generally speaking, data points that are labelled outliers in boxplots are
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -124,7 +125,8 @@ Generally speaking, data points that are labelled outliers in boxplots are
  interquartile range (IQR = Q3 - Q1).</p>
 <p>Generally speaking, data points that are labelled outliers in boxplots are
  not considered as troublesome as those considered extreme points and might
- even be ignored.</p>
+ even be ignored. Note that, any <code>NA</code> and <code>NaN</code> are automatically removed
+ before the quantiles are computed.</p>
     
     </div>
 
@@ -167,9 +169,10 @@ points only). Default is 1.5</p></td>
     
 <ul>
 <li><p><code>identify_outliers()</code>. Returns the input data
-frame with two additional columns: "is.outlier" and "is.extreme", which hold
-logical values.</p></li>
-<li><p><code>is_outlier() and is_extreme()</code>. Returns logical vectors.</p></li>
+ frame with two additional columns: "is.outlier" and "is.extreme", which hold
+ logical values.</p></li>
+<li><p><code>is_outlier() and is_extreme()</code>. Returns logical
+ vectors.</p></li>
 </ul>
 
     
@@ -200,7 +203,7 @@ and "is.extreme".</p></li>
 #&gt; 1     20    50 Female       TRUE       TRUE</div><div class='input'>
 <span class='co'># Identify outliers by groups</span>
 <span class='no'>demo.data</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>identify_outliers</span>(<span class='st'>"score"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 5</span><span>
 #&gt;   gender sample score is.outlier is.extreme
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;lgl&gt;</span><span>     

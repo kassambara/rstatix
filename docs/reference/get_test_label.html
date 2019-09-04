@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -226,11 +226,11 @@ can also use plotmath expression as follow <code><a href='https://www.rdocumenta
 <span class='co'># One-way ANOVA test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>anov</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='anova_test.html'>anova_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)
-<span class='fu'>get_test_label</span>(<span class='no'>anov</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "Anova, F(1,58) = 105.06, p = &lt;0.0001, eta2[g] = 0.644, n = 60"</div><div class='input'>
+<span class='fu'>get_test_label</span>(<span class='no'>anov</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] "Anova, F(1,58) = 105.06, p = &lt;0.0001, eta2[g] = 0.644"</div><div class='input'>
 <span class='co'># Two-way ANOVA test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>anov</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='anova_test.html'>anova_test</a></span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span>)
-<span class='fu'>get_test_label</span>(<span class='no'>anov</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Two Way ANOVA"</span>)</div><div class='output co'>#&gt; [1] "Two Way ANOVA, F(1,56) = 5.33, p = 0.025, eta2[g] = 0.087, n = 60"</div><div class='input'>
+<span class='fu'>get_test_label</span>(<span class='no'>anov</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Two Way ANOVA"</span>)</div><div class='output co'>#&gt; [1] "Two Way ANOVA, F(1,56) = 5.33, p = 0.025, eta2[g] = 0.087"</div><div class='input'>
 
 <span class='co'># Kruskal-Wallis test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>

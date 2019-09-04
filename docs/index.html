@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -308,7 +308,7 @@ iris <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a 
 <span class="co"># Grouped data</span>
 <span class="co">#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::</span>
 iris <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/dplyr/topics/group_by">group_by</a></span>(Species) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(Species) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="reference/get_summary_stats.html">get_summary_stats</a></span>(Sepal.Length, <span class="dt">type =</span> <span class="st">"mean_sd"</span>)
 <span class="co">#&gt; # A tibble: 3 x 5</span>
 <span class="co">#&gt;   Species    variable         n  mean    sd</span>
@@ -347,7 +347,7 @@ df<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw"><
 <span class="co">#&gt; 1 len   1      null model    60      19.1    59 6.94e-27</span>
 <span class="co"># One-sample test of each dose level</span>
 df <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/dplyr/topics/group_by">group_by</a></span>(dose) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(dose) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">mu =</span> <span class="dv">0</span>)
 <span class="co">#&gt; # A tibble: 3 x 8</span>
 <span class="co">#&gt;   dose  .y.   group1 group2         n statistic    df        p</span>
@@ -372,17 +372,17 @@ stat.test
 <span class="co">#&gt; 1 len   OJ     VC        30    30      1.92  55.3 0.0606</span>
 
 <span class="co"># Create a box plot</span>
-p &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(
+p &lt;-<span class="st"> </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(
   df, <span class="dt">x =</span> <span class="st">"supp"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, 
   <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>,<span class="dv">40</span>)
   )
 <span class="co"># Add the p-value manually</span>
-p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)</code></pre></div>
+p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)</code></pre></div>
 <p><img src="tools/README-unpaired-two-sample-t-test-1.png" width="336"></p>
 <ul>
 <li>Customize labels using <a href="https://github.com/tidyverse/glue">glue expression</a>:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"T-test, p = {p}"</span>, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"T-test, p = {p}"</span>, 
                       <span class="dt">y.position =</span> <span class="dv">36</span>)</code></pre></div>
 <p><img src="tools/README-custoize-p-value-labels-1.png" width="336"></p>
 <ul>
@@ -390,7 +390,7 @@ p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="ht
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Statistical test</span>
 stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/dplyr/topics/group_by">group_by</a></span>(dose) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(dose) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>supp) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/adjust_pvalue.html">adjust_pvalue</a></span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/add_significance.html">add_significance</a></span>(<span class="st">"p.adj"</span>)
@@ -404,12 +404,12 @@ stat.test
 <span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span>
 
 <span class="co"># Visualization</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(
+<span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(
   df, <span class="dt">x =</span> <span class="st">"supp"</span>, <span class="dt">y =</span> <span class="st">"len"</span>,
   <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>, <span class="dt">facet.by =</span> <span class="st">"dose"</span>,
   <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)
   ) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p.adj"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)</code></pre></div>
+<span class="st">  </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p.adj"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)</code></pre></div>
 <p><img src="tools/README-grouped-two-sample-t-test-1.png" width="576"></p>
 </div>
 <div id="compare-paired-samples" class="section level3">
@@ -425,11 +425,11 @@ stat.test
 <span class="co">#&gt; 1 len   OJ     VC        30    30      3.30    29 0.00255</span>
 
 <span class="co"># Box plot</span>
-p &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/ggpaired">ggpaired</a></span>(
+p &lt;-<span class="st"> </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggpaired.html">ggpaired</a></span>(
   df, <span class="dt">x =</span> <span class="st">"supp"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>, 
   <span class="dt">line.color =</span> <span class="st">"gray"</span>, <span class="dt">line.size =</span> <span class="fl">0.4</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)
   )
-p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">36</span>)</code></pre></div>
+p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">36</span>)</code></pre></div>
 <p><img src="tools/README-paired-t-test-1.png" width="336"></p>
 </div>
 <div id="multiple-pairwise-comparisons" class="section level3">
@@ -449,8 +449,8 @@ pairwise.test
 <span class="co">#&gt; 3 len   1      2         20    20     -4.90  37.1 1.91e- 5 1.91e- 5</span>
 <span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span>
 <span class="co"># Box plot</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>)<span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(
+<span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
     pairwise.test, <span class="dt">label =</span> <span class="st">"p.adj"</span>, 
     <span class="dt">y.position =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>, <span class="dv">39</span>)
     )</code></pre></div>
@@ -470,15 +470,15 @@ stat.test
 <span class="co">#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 8.80e-14</span>
 <span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span>
 <span class="co"># Box plot</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(
+<span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
     stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, 
     <span class="dt">y.position =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>)
     )</code></pre></div>
 <p><img src="tools/README-comaprison-against-reference-group-1.png" width="336"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Remove bracket</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(
+<span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
     stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, 
     <span class="dt">y.position =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>),
     <span class="dt">remove.bracket =</span> <span class="ot">TRUE</span>
@@ -498,8 +498,8 @@ stat.test
 <span class="co">#&gt; 3 len   all    2         60    20    -5.61   66.5 4.25e-7 8.70e-7</span>
 <span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span>
 <span class="co"># Box plot with horizontal mean line</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual">stat_pvalue_manual</a></span>(
+<span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
     stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, 
     <span class="dt">y.position =</span> <span class="dv">35</span>,
     <span class="dt">remove.bracket =</span> <span class="ot">TRUE</span>
@@ -578,7 +578,7 @@ df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a hr
 <a href="#correlation-tests" class="anchor"></a>Correlation tests</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Data preparation</span>
 mydata &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/dplyr/topics/select">select</a></span>(mpg, disp, hp, drat, wt, qsec)
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(mpg, disp, hp, drat, wt, qsec)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mydata, <span class="dv">3</span>)
 <span class="co">#&gt;                mpg disp  hp drat    wt  qsec</span>
 <span class="co">#&gt; Mazda RX4     21.0  160 110 3.90 2.620 16.46</span>
@@ -589,14 +589,14 @@ mydata &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span 
 mydata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_test.html">cor_test</a></span>(wt, mpg, <span class="dt">method =</span> <span class="st">"pearson"</span>)
 <span class="co">#&gt; # A tibble: 1 x 8</span>
 <span class="co">#&gt;   var1  var2    cor statistic        p conf.low conf.high method </span>
-<span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt; 1 wt    mpg   -0.87     -9.56 1.29e-10   -0.934    -0.744 Pearson</span>
 
 <span class="co"># Correlation of one variable against all</span>
 mydata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_test.html">cor_test</a></span>(mpg, <span class="dt">method =</span> <span class="st">"pearson"</span>)
 <span class="co">#&gt; # A tibble: 5 x 8</span>
 <span class="co">#&gt;   var1  var2    cor statistic        p conf.low conf.high method </span>
-<span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt; 1 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson</span>
 <span class="co">#&gt; 2 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson</span>
 <span class="co">#&gt; 3 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson</span>
@@ -607,7 +607,7 @@ mydata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><
 mydata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_test.html">cor_test</a></span>(<span class="dt">method =</span> <span class="st">"pearson"</span>)
 <span class="co">#&gt; # A tibble: 36 x 8</span>
 <span class="co">#&gt;    var1  var2    cor statistic        p conf.low conf.high method </span>
-<span class="co">#&gt;  * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span>
 <span class="co">#&gt;  1 mpg   mpg    1       Inf    0.         1          1     Pearson</span>
 <span class="co">#&gt;  2 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson</span>
 <span class="co">#&gt;  3 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson</span>
@@ -642,7 +642,7 @@ cor.mat
 cor.mat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_mat.html">cor_get_pval</a></span>()
 <span class="co">#&gt; # A tibble: 6 x 7</span>
 <span class="co">#&gt;   rowname      mpg     disp           hp       drat        wt       qsec</span>
-<span class="co">#&gt; * &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 mpg     0.       9.38e-10 0.000000179  0.0000178  1.29e- 10 0.0171    </span>
 <span class="co">#&gt; 2 disp    9.38e-10 0.       0.0000000714 0.00000528 1.22e- 11 0.0131    </span>
 <span class="co">#&gt; 3 hp      1.79e- 7 7.14e- 8 0            0.00999    4.15e-  5 0.00000577</span>
@@ -724,7 +724,7 @@ cor.mat <span class="op">%&gt;%</span>
 <li><a href="https://cran.r-project.org/package=rstatix"><img src="https://www.r-pkg.org/badges/version/rstatix" alt="CRAN_Status_Badge"></a></li>
 <li><a href="https://cran.r-project.org/web/checks/check_results_rstatix.html"><img src="https://cranchecks.info/badges/summary/rstatix" alt="CRAN Checks"></a></li>
 <li><a href="https://cran.r-project.org/package=rstatix"><img src="https://cranlogs.r-pkg.org/badges/rstatix" alt="Downloads"></a></li>
-<li><a href="https://cranlogs.r-pkg.org/badges/grand-total/rstatix"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rstatix?color=orange" alt="Total Downloads"></a></li>
+<li><a href="https://cran.r-project.org/package=rstatix"><img src="https://cranlogs.r-pkg.org/badges/grand-total/rstatix?color=orange" alt="Total Downloads"></a></li>
 </ul>
 </div>
 </div>

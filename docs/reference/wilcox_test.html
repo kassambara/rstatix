@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -249,7 +249,7 @@ shown.</p></td>
 <span class='co'># Compare supp levels after grouping the data by "dose"</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>wilcox_test</span>(<span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='adjust_pvalue.html'>adjust_pvalue</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='add_significance.html'>add_significance</a></span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in add_significance(., "p.adj"): The column p.adj does not exist in the data</span></div><div class='input'>

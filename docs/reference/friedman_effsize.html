@@ -72,7 +72,7 @@ Confidence intervals are calculated by bootstap." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -191,8 +191,8 @@ individuals/subjects identifier. Should be unique per individual.</p></td>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"ToothGrowth"</span>)
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/filter'>filter</a></span>(<span class='no'>supp</span> <span class='kw'>==</span> <span class='st'>"VC"</span>) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/mutate'>mutate</a></span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>3</span>))
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>supp</span> <span class='kw'>==</span> <span class='st'>"VC"</span>) <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>3</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;    len supp dose id
 #&gt; 1  4.2   VC  0.5  1
 #&gt; 2 11.5   VC  0.5  2

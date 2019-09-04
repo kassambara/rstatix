@@ -79,7 +79,7 @@ The results include ANOVA table, generalized effect size and some assumption
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -169,10 +169,10 @@ The results include ANOVA table, generalized effect size and some assumption
 <p>Examples of supported formula include:</p><ul>
 <li><p>Between-Ss ANOVA
  (independent measures ANOVA): <code>y ~ b1*b2</code></p></li>
-<li><p>Within-Ss ANOVA (repeated
- measures ANOVA): <code>y ~ w1*w2 + Error(id/(w1*w2))</code></p></li>
-<li><p>Mixed ANOVA: <code>y ~
- b1*b2*w1 + Error(id/w1)</code></p></li>
+<li><p>Within-Ss ANOVA
+ (repeated measures ANOVA): <code>y ~ w1*w2 + Error(id/(w1*w2))</code></p></li>
+<li><p>Mixed
+ ANOVA: <code>y ~ b1*b2*w1 + Error(id/w1)</code></p></li>
 </ul>
 
 <p>If the formula doesn't contain any within vars, a linear model is directly
@@ -240,17 +240,18 @@ intercept row, etc.) in the ANOVA table.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>an object of class <code>Anova_test</code></p></td>
+      <td><p>an object of class <code>anova_test</code></p></td>
     </tr>
     <tr>
       <th>correction</th>
-      <td><p>character. Which sphericity correction of the degrees of
-freedom should be reported for the within-subject factors (repeated
-measures). The default is set to <code>"GG"</code> corresponding to the
-Greenhouse-Geisser correction. Possible values are <code>"GG"</code>, <code>"HF"</code>
-(i.e., Hyunh-Feldt correction), <code>"none"</code> (i.e., no correction) and
-<code>"auto"</code> (apply automatically GG correction if the sphericity
-assumption is not for within-subject design.</p></td>
+      <td><p>character. Used only in repeated measures ANOVA test to
+specify which correction of the degrees of freedom should be reported for
+the within-subject factors. Possible values are:</p><ul>
+<li><p>"GG": applies Greenhouse-Geisser correction to all within-subjects factors even if the assumption of sphericity is met (i.e., Mauchly's test is not significant, p &gt; 0.05).</p></li>
+<li><p>"HF": applies Hyunh-Feldt correction to all within-subjects factors even if the assumption of sphericity is met,</p></li>
+<li><p>"none": returns the ANOVA table without any correction and</p></li>
+<li><p>"auto": apply automatically GG correction to only within-subjects factors violating the sphericity assumption (i.e., Mauchly's test p-value is significant, p &lt;= 0.05).</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>...</th>
@@ -274,7 +275,9 @@ assumption is not for within-subject design.</p></td>
 
     <ul>
 <li><p><code>anova_test</code>: perform anova test</p></li>
-<li><p><code>get_anova_table</code>: extract anova table from an object of class <code>anova_test</code></p></li>
+<li><p><code>get_anova_table</code>: extract anova table from an object of class
+<code>anova_test</code>. When within-subject factors are present, either
+sphericity corrected or uncorrected degrees of freedom can be reported.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -230,8 +230,8 @@ when <code>x</code> specified.</p></td>
 <span class='co'>#::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>stat.test</span> <span class='kw'>&lt;-</span> <span class='no'>stat.test</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>add_y_position</span>()</div></span><div class='input'> <span class='kw'>if</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"ggpubr"</span>)){
-   <span class='fu'><a href='https://www.rdocumentation.org/packages/ggpubr/topics/ggboxplot'>ggboxplot</a></span>(<span class='no'>df</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"dose"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"len"</span>) +
-     <span class='fu'><a href='https://www.rdocumentation.org/packages/ggpubr/topics/stat_pvalue_manual'>stat_pvalue_manual</a></span>(<span class='no'>stat.test</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"p.adj.signif"</span>, <span class='kw'>tip.length</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)
+   <span class='fu'><a href='https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html'>ggboxplot</a></span>(<span class='no'>df</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"dose"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"len"</span>) +
+     <span class='fu'><a href='https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html'>stat_pvalue_manual</a></span>(<span class='no'>stat.test</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"p.adj.signif"</span>, <span class='kw'>tip.length</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)
   }</div><div class='img'><img src='get_pvalue_position-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

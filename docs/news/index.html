@@ -60,7 +60,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -98,10 +98,27 @@
       
     </div>
 
-    <div id="rstatix-0-1-2" class="section level1">
+    <div id="rstatix-0-2-0" class="section level1">
 <h1 class="page-header">
-<a href="#rstatix-0-1-2" class="anchor"></a>rstatix 0.1.2<small> Unreleased </small>
+<a href="#rstatix-0-2-0" class="anchor"></a>rstatix 0.2.0<small> 2019-09-03 </small>
 </h1>
+<div id="minor-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-changes" class="anchor"></a>Minor changes</h2>
+<ul>
+<li>
+<code><a href="../reference/anova_test.html">get_anova_table()</a></code> supports now an object of class <code>grouped_anova_test</code>
+</li>
+<li>ANOVA table is now correctly returned when <code>correction = "none"</code> for repeated measures ANOVA</li>
+<li>
+<code>NAs</code> are now automatically removed before quantile computation for identifying outliers (<a href='https://github.com/IndrajeetPatil'>@IndrajeetPatil</a>, <a href="https://github.com/kassambara/rstatix/issues/10">#10</a>).</li>
+<li>Unquoted factor variable name is now supported in factor manipulation functions: <code><a href="../reference/factors.html">set_ref_level()</a></code>, <code><a href="../reference/factors.html">reorder_levels()</a></code> and <code>make_valid_levels()</code>
+</li>
+<li>New argument <code>model</code> added in the function <code><a href="../reference/emmeans_test.html">emmeans_test()</a></code>
+</li>
+<li>Adapting to tidyr v1.0.0 (<a href='https://github.com/jennybc'>@jennybc</a>, <a href="https://github.com/kassambara/rstatix/issues/6">#6</a>)</li>
+</ul>
+</div>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New features</h2>
@@ -119,9 +136,9 @@
 <li>New function <code><a href="../reference/emmeans_test.html">emmeans_test()</a></code> added for pairwise comparisons of estimated marginal means.</li>
 </ul>
 </div>
-<div id="minor-changes" class="section level2">
+<div id="minor-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes" class="anchor"></a>Minor changes</h2>
+<a href="#minor-changes-1" class="anchor"></a>Minor changes</h2>
 <ul>
 <li>the unnecessary column <code>comparison</code> removed from <code><a href="../reference/tukey_hsd.html">tukey_hsd()</a></code> results (breaking change).</li>
 <li>New column <code>n</code> (sample count) added to statistical tests results: <code><a href="../reference/t_test.html">t_test()</a></code>, <code><a href="../reference/wilcox_test.html">wilcox_test()</a></code>, <code><a href="../reference/sign_test.html">sign_test()</a></code>, <code><a href="../reference/dunn_test.html">dunn_test()</a></code> and <code><a href="../reference/kruskal_test.html">kruskal_test()</a></code> (<a href='https://github.com/ShixiangWang'>@ShixiangWang</a>, <a href="https://github.com/kassambara/rstatix/issues/4">#4</a>).</li>
@@ -158,9 +175,9 @@
 <li>New function <code><a href="../reference/sign_test.html">sign_test()</a></code> added.</li>
 </ul>
 </div>
-<div id="minor-changes-1" class="section level2">
+<div id="minor-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-1" class="anchor"></a>Minor changes</h2>
+<a href="#minor-changes-2" class="anchor"></a>Minor changes</h2>
 <ul>
 <li>
 <code><a href="../reference/get_summary_stats.html">get_summary_stats()</a></code> now supports type = “min”, “max”, “mean” or “median”</li>
@@ -188,7 +205,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#rstatix-0-1-2">0.1.2</a></li>
+        <li><a href="#rstatix-0-2-0">0.2.0</a></li>
         <li><a href="#rstatix-0-1-1">0.1.1</a></li>
         <li><a href="#rstatix-0-1-0">0.1.0</a></li>
       </ul>

@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@ commas. Used to select variables of interest.</p></td>
     <pre class="examples"><div class='input'><span class='co'># Compute correlation matrix</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>cor.mat</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/select'>select</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>, <span class='no'>hp</span>, <span class='no'>drat</span>, <span class='no'>wt</span>, <span class='no'>qsec</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>, <span class='no'>hp</span>, <span class='no'>drat</span>, <span class='no'>wt</span>, <span class='no'>qsec</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='cor_mat.html'>cor_mat</a></span>()
 
 <span class='co'># Subsetting correlation matrix</span>

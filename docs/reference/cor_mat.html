@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -190,7 +190,7 @@ class <code>cor_mat()</code>.</p></li>
     <pre class="examples"><div class='input'><span class='co'># Data preparation</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>mydata</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/select'>select</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>, <span class='no'>hp</span>, <span class='no'>drat</span>, <span class='no'>wt</span>, <span class='no'>qsec</span>)
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>, <span class='no'>hp</span>, <span class='no'>drat</span>, <span class='no'>wt</span>, <span class='no'>qsec</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>mydata</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt;                mpg disp  hp drat    wt  qsec
 #&gt; Mazda RX4     21.0  160 110 3.90 2.620 16.46
 #&gt; Mazda RX4 Wag 21.0  160 110 3.90 2.875 17.02
@@ -228,7 +228,7 @@ class <code>cor_mat()</code>.</p></li>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_get_pval</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 7</span><span>
 #&gt;   rowname      mpg     disp           hp       drat        wt       qsec
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> mpg     0.  </span><span style='color: #555555;'> </span><span>    9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span> 0.000</span><span style='text-decoration: underline;'>000</span><span>179  0.000</span><span style='text-decoration: underline;'>017</span><span>8  1.29</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 10</span><span> 0.017</span><span style='text-decoration: underline;'>1</span><span>    
 #&gt; </span><span style='color: #555555;'>2</span><span> disp    9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span> 0.  </span><span style='color: #555555;'> </span><span>    0.000</span><span style='text-decoration: underline;'>000</span><span>071</span><span style='text-decoration: underline;'>4</span><span> 0.000</span><span style='text-decoration: underline;'>005</span><span>28 1.22</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 11</span><span> 0.013</span><span style='text-decoration: underline;'>1</span><span>    
 #&gt; </span><span style='color: #555555;'>3</span><span> hp      1.79</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 7.14</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span> 0            0.009</span><span style='text-decoration: underline;'>99</span><span>    4.15</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  5</span><span> 0.000</span><span style='text-decoration: underline;'>005</span><span>77

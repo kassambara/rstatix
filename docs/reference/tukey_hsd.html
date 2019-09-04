@@ -66,7 +66,7 @@ Can handle different inputs formats: aov, lm, formula." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -225,7 +225,7 @@ inputs. ANOVA will be automatically performed using the function
 #&gt; </span><span style='color: #555555;'>3</span><span> dose  1      2          6.36     3.14      9.59 4.25</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        </div><div class='input'>
 <span class='co'># Tukey HSD using grouped data</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/dplyr/topics/group_by'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>tukey_hsd</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 9</span><span>
 #&gt;   supp  term  group1 group2 estimate conf.low conf.high    p.adj p.adj.signif
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
