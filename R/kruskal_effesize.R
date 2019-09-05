@@ -39,23 +39,26 @@ NULL
 #'
 #' # Kruskal-wallis rank sum test
 #' #:::::::::::::::::::::::::::::::::::::::::
-#' df %>% kruskal_test(len ~ dose)
-
+#' df %>% kruskal_effsize(len ~ dose)
+#'
+#' # Grouped data
+#' df %>%
+#'   group_by(supp) %>%
+#'   kruskal_effsize(len ~ dose)
 #' @export
 kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000){
-
   args <- as.list(environment()) %>%
     .add_item(method = "kruskal_effsize")
-  if(is_grouped_df(data)){
-    results <- data %>%
-      doo(
-        kruskal_effsize, formula, ci = ci, conf.level = conf.level,
-        ci.type = ci.type, nboot = nboot
-        ) %>%
-      set_attrs(args = args) %>%
-      add_class(c("rstatix_test", "kruskal_effsize"))
-    return(results)
-  }
+  data %>%
+    doo(
+      .kruskal_effsize, formula, ci = ci, conf.level = conf.level,
+      ci.type = ci.type, nboot = nboot
+    ) %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "kruskal_effsize"))
+}
+
+.kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000){
   results <- eta_squared_h(data, formula)
   # Confidence interval of the effect size r
   if (ci == TRUE) {
@@ -69,10 +72,7 @@ kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.ty
     results <- results %>%
       add_columns(conf.low = CI[1], conf.high = CI[2], .after = "effsize")
   }
-  results %>%
-    mutate(magnitude = get_eta_squared_magnitude(.data$effsize)) %>%
-    set_attrs(args = args) %>%
-    add_class(c("rstatix_test", "kruskal_effsize"))
+  results %>% mutate(magnitude = get_eta_squared_magnitude(.data$effsize))
 }
 
 

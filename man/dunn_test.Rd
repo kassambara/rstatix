@@ -49,7 +49,13 @@ DunnTest performs the post hoc pairwise multiple comparisons
  implied by the null hypothesis of the Kruskal-Wallis test.
 }
 \examples{
+# Simple test
 ToothGrowth \%>\% dunn_test(len ~ dose)
+
+# Grouped data
+ToothGrowth \%>\%
+  group_by(supp) \%>\%
+  dunn_test(len ~ dose)
 }
 \references{
 Dunn, O. J. (1964) Multiple comparisons using rank sums

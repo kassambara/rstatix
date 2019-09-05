@@ -38,4 +38,9 @@ df <- ToothGrowth
 # Kruskal-wallis rank sum test
 #:::::::::::::::::::::::::::::::::::::::::
 df \%>\% kruskal_test(len ~ dose)
+
+# Grouped data
+df \%>\%
+  group_by(supp) \%>\%
+  kruskal_test(len ~ dose)
 }

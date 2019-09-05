@@ -43,21 +43,34 @@ NULL
 #'
 #'
 #' @examples
+#' # Simple test
 #' ToothGrowth %>% games_howell_test(len ~ dose)
+#'
+#' # Grouped data
+#' ToothGrowth %>%
+#'   group_by(supp) %>%
+#'   games_howell_test(len ~ dose)
 #'
 #'@rdname games_howell_test
 #'@export
 games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE){
   args <- as.list(environment()) %>%
     .add_item(p.adjust.method = "Tukey", method = "games_howell_test")
-
-  if(is_grouped_df(data)){
-    results <- data %>%
-      doo(games_howell_test, formula) %>%
-      set_attrs(args = args) %>%
-      add_class(c("rstatix_test", "games_howell_test"))
-    return(results)
+  results <- data %>%
+    doo(.games_howell_test, formula, conf.level = conf.level) %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "games_howell_test"))
+  if(!detailed){
+    results <- results %>%
+      select(
+        -.data$se, -.data$method, -.data$statistic,
+        -.data$df, -.data$n1, -.data$n2
+      )
   }
+  results
+}
+
+.games_howell_test <- function(data, formula, conf.level = 0.95){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
@@ -129,16 +142,7 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
     add_column(n1 = n1, n2 = n2, .after = "group2") %>%
     add_column(.y. = outcome, .before = "group1") %>%
     add_significance("p.adj") %>%
-    mutate(method = "Games-Howell") %>%
-    set_attrs(args = args) %>%
-    add_class(c("rstatix_test", "games_howell_test"))
-  if(!detailed){
-    results <- results %>%
-      select(
-        -.data$se, -.data$method, -.data$statistic,
-        -.data$df, -.data$n1, -.data$n2
-        )
-  }
+    mutate(method = "Games-Howell")
   results
 }
 

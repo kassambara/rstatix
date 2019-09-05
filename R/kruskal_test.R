@@ -28,31 +28,30 @@ NULL
 #' # Kruskal-wallis rank sum test
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' df %>% kruskal_test(len ~ dose)
+#'
+#' # Grouped data
+#' df %>%
+#'   group_by(supp) %>%
+#'   kruskal_test(len ~ dose)
 
 #'@name kruskal_test
 #'@export
-kruskal_test <- function(
-  data, formula, ...
-)
-{
+kruskal_test <- function(data, formula, ...){
   args <- c(as.list(environment()), list(...)) %>%
     .add_item(method = "kruskal_test")
+  data %>%
+    doo(.kruskal_test, formula, ...) %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "kruskal_test"))
+}
+
+.kruskal_test <- function(data, formula, ...)
+{
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
-
-  if(is_grouped_df(data)){
-    results <- data %>%
-      doo(kruskal_test, formula, ...) %>%
-      set_attrs(args = args) %>%
-      add_class(c("rstatix_test", "kruskal_test"))
-    return(results)
-  }
   term <- statistic <- p <- df <- method <- NULL
-  res <- stats::kruskal.test(formula, data = data, ...) %>%
+  stats::kruskal.test(formula, data = data, ...) %>%
     as_tidy_stat() %>%
     select(statistic, df, p, method) %>%
     add_column(.y. = outcome, n = nrow(data), .before = "statistic")
-  res %>%
-    set_attrs(args = args) %>%
-    add_class(c("rstatix_test", "kruskal_test"))
 }

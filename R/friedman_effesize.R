@@ -50,13 +50,23 @@ friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.t
   if(is_grouped_df(data)){
     results <- data %>%
       doo(
-        friedman_effsize, formula, ci = ci, conf.level = conf.level,
+        .friedman_effsize, formula, ci = ci, conf.level = conf.level,
         ci.type = ci.type, nboot = nboot, ...
-      ) %>%
-      set_attrs(args = args) %>%
-      add_class(c("rstatix_test", "friedman_effsize"))
-    return(results)
+      )
   }
+  else{
+    results <- .friedman_effsize(
+      data, formula, ci = ci, conf.level = conf.level,
+      ci.type = ci.type, nboot = nboot, ...
+    )
+  }
+  results %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "friedman_effsize"))
+}
+
+
+.friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...){
   results <- kendall_w(data, formula, ...)
   # Confidence interval of the effect size
   if (ci == TRUE) {
@@ -81,9 +91,7 @@ friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.t
       add_columns(conf.low = CI[1], conf.high = CI[2], .after = "effsize")
   }
   results %>%
-    mutate(magnitude = get_kendall_w_magnitude(.data$effsize)) %>%
-    set_attrs(args = args) %>%
-    add_class(c("rstatix_test", "friedman_effsize"))
+    mutate(magnitude = get_kendall_w_magnitude(.data$effsize))
 }
 
 

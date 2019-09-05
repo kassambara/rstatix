@@ -134,6 +134,12 @@ df <- ToothGrowth
 #:::::::::::::::::::::::::::::::::::::::::
 df \%>\% anova_test(len ~ dose)
 
+# Grouped One-way ANOVA test
+#:::::::::::::::::::::::::::::::::::::::::
+df \%>\%
+  group_by(supp) \%>\%
+  anova_test(len ~ dose)
+
 # Two-way ANOVA test
 #:::::::::::::::::::::::::::::::::::::::::
 df \%>\% anova_test(len ~ supp*dose)

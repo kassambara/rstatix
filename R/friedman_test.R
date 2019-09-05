@@ -42,12 +42,19 @@ friedman_test <- function(data, formula, ...){
   vars <- get_friedman_vars(formula)
   args <- args %>% add_item(dv = vars$dv, wid = vars$wid, within = args$within)
   if(is_grouped_df(data)){
-    results <- data %>%
-      doo(friedman_test, formula, ...) %>%
-      set_attrs(args = args) %>%
-      add_class(c("rstatix_test", "friedman_test"))
-    return(results)
+    results <- data %>% doo(.friedman_test, formula, ...)
   }
+  else{
+    results <- .friedman_test(data, formula, ...)
+  }
+  results %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "friedman_test"))
+}
+
+
+.friedman_test <- function(data, formula, ...){
+  vars <- get_friedman_vars(formula)
   term <- statistic <- p <- df <- method <- NULL
   sample.size <- data %>% pull(vars$wid) %>% unique() %>% length()
   res <- stats::friedman.test(formula, data = data, ...) %>%
@@ -56,9 +63,7 @@ friedman_test <- function(data, formula, ...){
     mutate(method = "Friedman test") %>%
     select(.data$statistic, .data$df, .data$p, .data$method)  %>%
     add_columns(.y. = vars$dv, n = sample.size, .before = "statistic")
-  res %>%
-    set_attrs(args = args) %>%
-    add_class(c("rstatix_test", "friedman_test"))
+  res
 }
 
 

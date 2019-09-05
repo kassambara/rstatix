@@ -54,7 +54,12 @@ df <- ToothGrowth
 
 # Kruskal-wallis rank sum test
 #:::::::::::::::::::::::::::::::::::::::::
-df \%>\% kruskal_test(len ~ dose)
+df \%>\% kruskal_effsize(len ~ dose)
+
+# Grouped data
+df \%>\%
+  group_by(supp) \%>\%
+  kruskal_effsize(len ~ dose)
 }
 \references{
 Maciej Tomczak and Ewa Tomczak. The need to report effect size

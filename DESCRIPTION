@@ -38,7 +38,9 @@ Suggests:
     graphics,
     emmeans,
     coin,
-    boot
+    boot,
+    testthat,
+    spelling
 URL: https://rpkgs.datanovia.com/rstatix/
 BugReports: https://github.com/kassambara/rstatix/issues
 RoxygenNote: 6.1.1
@@ -95,3 +97,4 @@ Collate:
     'welch_anova_test.R'
     'wilcox_effsize.R'
     'wilcox_test.R'
+Language: en-US

@@ -8,6 +8,7 @@
 
 ## Minor changes
 
+- Unit test added
 
 ## Bug fixes
 

@@ -37,13 +37,8 @@ NULL
 welch_anova_test <- function(data, formula){
   args <- as.list(environment()) %>%
     .add_item(method = "welch_anova_test")
-  if(is_grouped_df(data)){
-    results <- data %>% doo(oneway_test, formula)
-  }
-  else{
-    results <- oneway_test(data, formula)
-  }
-  results %>%
+  data %>%
+    doo(oneway_test, formula) %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "welch_anova_test"))
 }

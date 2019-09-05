@@ -57,7 +57,13 @@ The Games-Howell method is an improved version of the Tukey-Kramer
  Thus, this method can be applied when the number of samples is six or more.
 }
 \examples{
+# Simple test
 ToothGrowth \%>\% games_howell_test(len ~ dose)
+
+# Grouped data
+ToothGrowth \%>\%
+  group_by(supp) \%>\%
+  games_howell_test(len ~ dose)
 
 }
 \references{

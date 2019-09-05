@@ -96,6 +96,12 @@ NULL
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' df %>% anova_test(len ~ dose)
 #'
+#' # Grouped One-way ANOVA test
+#' #:::::::::::::::::::::::::::::::::::::::::
+#' df %>%
+#'   group_by(supp) %>%
+#'   anova_test(len ~ dose)
+#'
 #' # Two-way ANOVA test
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' df %>% anova_test(len ~ supp*dose)
@@ -129,54 +135,69 @@ NULL
 anova_test <- function(data, formula, dv, wid, between, within, covariate, type = NULL,
                        effect.size = "ges", error = NULL,
                        white.adjust = FALSE, observed = NULL, detailed = FALSE){
-  . <- NULL
   .args <- rlang::enquos(
     dv = dv, wid = wid, between = between,
     within = within, covariate = covariate) %>%
-    get_quo_vars_list(data, .)
+    select_quo_variables(data) %>%
+    add_item(type = type, white.adjust = white.adjust, method = "anova_test")
   if(!missing(formula)) .args$formula <- formula
-  if(is_grouped_df(data)){
-    results <- data %>% doo(
-      ~anova_test(data = ., formula = .args$formula,
-      dv = .args$dv, wid = .args$wid, between = .args$between,
-      within = .args$within, covariate = .args$covariate,
-      type = type, effect.size = effect.size, error = error,
-      white.adjust = white.adjust, observed = observed, detailed = detailed),
-      result = "anova"
-    ) %>%
-      add_class("grouped_anova_test")
-    return(results)
+
+  .anova_test <- function(data, .args, effect.size = "ges", error = NULL,
+                          observed = NULL, detailed = FALSE){
+    .args <- .args %>%
+      add_item(data = data) %>%
+      check_anova_arguments()
+    if(.args$type != 1) {
+      if(is.null(error)) res.anova <- car_anova(.args)
+      else res.anova <- car_anova(.args, error = error)
+    }
+    else if(.args$type == 1) res.anova <- stats_aov(.args)
+    else stop("Something is wrong...")
+    results <- res.anova %>%
+      anova_summary(
+        effect.size = effect.size, detailed = detailed,
+        observed = observed
+      )
+    results
+  }
+  .append_anova_class <- function(x){
+    class(x) <- c("anova_test", class(x), "rstatix_test")
+    x
   }
 
-  .args <- .args %>%
-    .add_item(data = data, type = type, white.adjust = white.adjust) %>%
-    check_anova_arguments() %>%
-    .add_item(method = "anova_test")
-  if(.args$type != 1) {
-    if(is.null(error)) res.anova <- car_anova(.args)
-    else res.anova <- car_anova(.args, error = error)
+  if(is_grouped_df(data)){
+    results <- data %>% doo(
+      ~.anova_test(data = ., .args = .args, effect.size = effect.size,
+                   error = error, observed = observed, detailed = detailed),
+      result = "anova"
+    )
+    if("anova" %in% colnames(results)){
+      results <- results %>%
+        mutate(anova = map(.data$anova, .append_anova_class))
+    }
   }
-  else if(.args$type == 1) res.anova <- stats_aov(.args)
-  else stop("Something is wrong...")
-  res.anova <- res.anova %>%
-    anova_summary(
-      effect.size = effect.size, detailed = detailed,
-      observed = observed
-      )
-  class(res.anova) <- c("anova_test", class(res.anova), "rstatix_test")
-  res.anova
+  else{
+    results <- .anova_test(
+      data, .args = .args, effect.size = effect.size,
+      error = error, observed = observed, detailed = detailed
+      ) %>%
+      .append_anova_class()
+  }
+  results
 }
+
+
+
+
+# Extract ANOVA table -----------------------------------------------
 
 #' @describeIn anova_test extract anova table from an object of class
 #'   \code{anova_test}. When within-subject factors are present, either
 #'   sphericity corrected or uncorrected degrees of freedom can be reported.
 #' @export
 get_anova_table <- function(x, correction = c("auto", "GG", "HF", "none")){
-  if(!inherits(x, c("anova_test", "grouped_anova_test"))){
-    stop("An object of class 'anova_test' or 'grouped_anova_test' required")
-  }
   correction <- match.arg(correction)
-  if(inherits(x, "grouped_anova_test")){
+  if(is_grouped_anova_test(x)){
     results <- get_anova_table_from_grouped_test(x, correction = correction)
   }
   else{
@@ -184,6 +205,7 @@ get_anova_table <- function(x, correction = c("auto", "GG", "HF", "none")){
   }
   results
 }
+
 
 get_anova_table_from_simple_test <- function(x, correction = "auto"){
   correction.method <- method <- correction
@@ -231,15 +253,35 @@ get_anova_table_from_simple_test <- function(x, correction = "auto"){
   class(res.aov) <- c("anova_test", class(res.aov), "rstatix_test")
   res.aov
 }
-# Extract tables from grouped ANOVA test
+
 get_anova_table_from_grouped_test <- function(x, correction = "auto"){
-  if(!("anova" %in% colnames(x))){
+  if(!is_grouped_anova_test(x)){
     return(x)
   }
+  extract_table <- function(x, correction){
+    get_anova_table_from_simple_test(x, correction = correction) %>%
+      remove_class(c("anova_test", "rstatix_test"))
+  }
   x %>%
-    mutate(anova = map(.data$anova, get_anova_table, correction = correction)) %>%
-    unnest()
+    mutate(anova = map(.data$anova, extract_table, correction = correction)) %>%
+    unnest(cols = "anova")
 }
+
+
+is_anova_test <- function(x){
+  inherits(x, "anova_test")
+}
+is_grouped_anova_test <- function(x){
+  answer <- FALSE
+  if(("anova" %in% colnames(x))){
+    if(inherits(x$anova, "list")){
+      answer <- inherits(x$anova[[1]], "anova_test")
+    }
+  }
+  answer
+}
+
+# Printing anova and plotting model diagnostic -----------------------------------------------
 
 #' @rdname anova_test
 #' @method print anova_test
@@ -268,7 +310,7 @@ plot.anova_test <- function(x, ...) {
 
 
 
-
+# Check arguments  -----------------------------------------------
 
 # Check the arguments of ANOVA
 # .args is a list
@@ -383,8 +425,7 @@ check_anova_type <- function(.args){
   .args
 }
 
-# Model
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 is_model <- function(object){
   models <- c("lm", "aov", "glm", "multinom", "polr", "mlm", "manova")
   inherits(object,  models)
@@ -401,7 +442,7 @@ has_model <- function(.args){
 }
 
 
-# Fit lm from formula and data
+# Fit lm from formula and data ------------------------------------
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 fit_lm <- function(.args){
   .args <- remove_missing_values_in_data(.args)
@@ -410,7 +451,7 @@ fit_lm <- function(.args){
   stats::lm(lm_formula, lm_data)
 }
 
-# Compute the different types of ANOVA
+# Compute the different types of ANOVA -----------------------------
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 car_anova <- function(.args, ...){
   if(has_model(.args)){
@@ -478,7 +519,7 @@ create_aov_formula <- function(.args){
 
 
 
-# Not used helpers
+# Check assumptions (Not used helpers)-------------------------
 check_anova_assumptions <- function(data, dv, between){
   . <- NULL
   outliers <- data %>%

@@ -30,19 +30,25 @@ NULL
 #'@references Dunn, O. J. (1964) Multiple comparisons using rank sums
 #'  Technometrics, 6(3):241-252.
 #' @examples
+#' # Simple test
 #' ToothGrowth %>% dunn_test(len ~ dose)
+#'
+#' # Grouped data
+#' ToothGrowth %>%
+#'   group_by(supp) %>%
+#'   dunn_test(len ~ dose)
 #'@export
 dunn_test <- function(data, formula, p.adjust.method = "holm"){
   args <- as.list(environment()) %>%
     .add_item(method = "dunn_test")
+  data %>%
+    doo(.dunn_test, formula, p.adjust.method ) %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "dunn_test"))
+}
 
-  if(is_grouped_df(data)){
-    results <- data %>%
-      doo(dunn_test, formula, p.adjust.method ) %>%
-      set_attrs(args = args) %>%
-      add_class(c("rstatix_test", "dunn_test"))
-    return(results)
-  }
+
+.dunn_test <- function(data, formula, p.adjust.method = "holm"){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
@@ -109,10 +115,7 @@ dunn_test <- function(data, formula, p.adjust.method = "holm"){
 
   n1 <- group.size[PVAL$group1]
   n2 <- group.size[PVAL$group2]
-  PVAL %>%
-    add_column(n1 = n1, n2 = n2, .after = "group2") %>%
-    set_attrs(args = args) %>%
-    add_class(c("rstatix_test", "dunn_test"))
+  PVAL %>% add_column(n1 = n1, n2 = n2, .after = "group2")
 }
 
 
