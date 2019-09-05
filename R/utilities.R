@@ -545,6 +545,11 @@ prepend_class <- function(x, .class){
   x
 }
 
+remove_class <- function(x, toremove){
+  class(x) <- setdiff(class(x), toremove)
+  x
+}
+
 # Add/set attributes
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 set_attrs <- function (x, ...)
