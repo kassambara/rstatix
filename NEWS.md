@@ -8,7 +8,8 @@
 
 ## Minor changes
 
-- Unit test added
+- Unit testing and spelling check added
+- Code rewritted to adapt tidyr 1.0.0
 
 ## Bug fixes
 
