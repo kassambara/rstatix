@@ -317,17 +317,20 @@ as_regexp <- function(x){
 # Create a tidy statistical output
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # Generic function to create a tidy statistical output
-as_tidy_stat <- function(x, digits = 3){
+as_tidy_stat <- function(x, round.p = TRUE, digits = 3, stat.method = NULL){
   estimate <- estimate1 <- estimate2 <- p.value <-
-    alternative <- NULL
+    alternative <- p <- NULL
   res <- tidy(x)
-  if("method" %in% colnames(res)){
+  if(!is.null(stat.method)){
+    res %<>% mutate(method = stat.method)
+  }
+  else if("method" %in% colnames(res)){
     stat.method <- get_stat_method(x)
     res %<>% mutate(method = stat.method)
   }
   if("p.value" %in% colnames(res)){
-    res %<>% mutate(p.value = signif(p.value, digits)) %>%
-      rename(p = p.value)
+    res<- res %>% rename(p = p.value)
+    if(round.p) res <- res %>% mutate(p = signif(p, digits))
   }
   if("parameter" %in% colnames(res)){
     res <- res %>% rename(df = .data$parameter)
@@ -336,7 +339,6 @@ as_tidy_stat <- function(x, digits = 3){
 }
 
 get_stat_method <- function(x){
-
   if(inherits(x, c("aov", "anova"))){
     return("Anova")
   }
@@ -348,7 +350,14 @@ get_stat_method <- function(x){
   used.method <- available.methods %>%
     map(grepl, x$method, ignore.case = TRUE) %>%
     unlist()
-  available.methods %>% extract(used.method)
+  if(sum(used.method) > 0){
+    results <- available.methods %>% extract(used.method)
+  if(length(results) >= 2)
+    results <- paste(results, collapse = " ")
+  }
+  else
+    results <- x$method
+  results
 }
 
 # Check if en object is empty
@@ -669,7 +678,9 @@ get_pairwise_comparison_methods <- function(){
     dunn_test = "Dunn test",
     emmeans_test = "Emmeans test",
     tukey_hsd = "Tukey HSD",
-    games_howell_test = "Games Howell"
+    games_howell_test = "Games Howell",
+    prop_test = "Z-Prop test",
+    fisher_test = "Fisher's exact test"
   )
 }
 
