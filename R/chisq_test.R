@@ -114,6 +114,7 @@ pairwise_chisq_test_against_p <- function(x, p = rep(1/length(x), length(x)), p.
   }
   results <- results %>%
     bind_rows() %>%
+    add_columns(group = names(x), .before = 1) %>%
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj") %>%
     mutate(p.adj = signif(.data$p.adj, digits = 3)) %>%
