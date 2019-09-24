@@ -130,7 +130,8 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
     kruskal_test = "Kruskal-Wallis",
     friedman_test = "Friedman test",
     anova_test = "Anova",
-    welch_anova_test = "Welch ANOVA"
+    welch_anova_test = "Welch ANOVA",
+    chisq_test = "Chi-square test"
   )
   stop_ifnot_class(stat.test, .class = names(allowed.tests))
   is_anova_test <- inherits(stat.test, "anova_test")
@@ -332,6 +333,7 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       friedman_test = quote(italic(chi)^2),
       anova_test = quote(italic("F")),
       welch_anova_test = quote(italic("F")),
+      chisq_test = quote(italic(chi)^2),
       quote(italic("Stat"))
     )
   }
@@ -350,6 +352,7 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       friedman_test = "X2",
       anova_test = "F",
       welch_anova_test = "F",
+      chisq_test = "X2",
       "Stat"
     )
   }
