@@ -48,6 +48,12 @@ Key functions
 -   `games_howell_test()`: Performs Games-Howell test, which is used to compare all possible combinations of group differences when the assumption of homogeneity of variances is violated.
 -   `emmeans_test()`: pipe-friendly wrapper arround `emmeans` function to perform pairwise comparisons of estimated marginal means. Useful for post-hoc analyses following up ANOVA/ANCOVA tests.
 
+### Comparing proportions
+
+-   `prop_test()`, `pairwise_prop_test()` and `row_wise_prop_test()`. Performs one-sample and two-samples z-test of proportions. Wrappers around the R base function `prop.test()` but have the advantage of performing pairwise and row-wise z-test of two proportions, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables.
+-   `fisher_test()`, `pairwise_fisher_test()` and `row_wise_fisher_test()`: Fisher's exact test for count data. Wrappers around the R base function `fisher.test()` but have the advantage of performing pairwise and row-wise fisher tests, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables.
+-   `chisq_test()`, `pairwise_chisq_gof_test()`, `pairwise_chisq_test_against_p()`: Performs chi-squared tests, including goodness-of-fit, homogeneity and independence tests.
+
 ### Comparing variances
 
 -   `levene_test()`: Pipe-friendly framework to easily compute Levene's test for homogeneity of variance across groups. Handles grouped data.

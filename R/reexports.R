@@ -28,6 +28,9 @@ tidyr::spread
 #' @importFrom broom tidy
 #' @export
 broom::tidy
+#' @importFrom broom augment
+#' @export
+broom::augment
 #' @importFrom car Anova
 #' @export
 car::Anova

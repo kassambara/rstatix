@@ -13,6 +13,7 @@
 \alias{gather}
 \alias{spread}
 \alias{tidy}
+\alias{augment}
 \alias{Anova}
 \alias{Manova}
 \title{Objects exported from other packages}
@@ -22,7 +23,7 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{broom}{\code{\link[broom]{tidy}}}
+  \item{broom}{\code{\link[broom]{tidy}}, \code{\link[broom]{augment}}}
 
   \item{car}{\code{\link[car]{Anova}}, \code{\link[car]{Manova}}}
 

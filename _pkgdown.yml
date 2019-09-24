@@ -32,6 +32,10 @@ reference:
       - dunn_test
       - games_howell_test
       - emmeans_test
+  - title: Comparing Proportions
+      - prop_test
+      - chisq_test
+      - fisher_test
   - title: Comparing Variances
     contents:
       - levene_test
