@@ -680,7 +680,8 @@ get_pairwise_comparison_methods <- function(){
     tukey_hsd = "Tukey HSD",
     games_howell_test = "Games Howell",
     prop_test = "Z-Prop test",
-    fisher_test = "Fisher's exact test"
+    fisher_test = "Fisher's exact test",
+    chisq_test = "Chi-square test"
   )
 }
 
