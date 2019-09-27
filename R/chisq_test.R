@@ -81,7 +81,7 @@ pairwise_chisq_gof_test <- function(x, p.adjust.method = "holm", ...){
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj") %>%
     mutate(p.adj = signif(.data$p.adj, digits = 3)) %>%
-    select(-.data$p.signif)
+    select(-.data$p.signif, -.data$method)
   results %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "chisq_test"))
@@ -118,7 +118,7 @@ pairwise_chisq_test_against_p <- function(x, p = rep(1/length(x), length(x)), p.
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj") %>%
     mutate(p.adj = signif(.data$p.adj, digits = 3)) %>%
-    select(-.data$p.signif)
+    select(-.data$p.signif, -.data$method)
   results %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "chisq_test"))
