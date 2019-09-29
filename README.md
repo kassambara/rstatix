@@ -56,9 +56,6 @@ Key functions
 -   `binom_test()`, `pairwise_binom_test()`, `pairwise_binom_test_against_p()`: Performs exact binomial test and pairwise comparisons following a significant exact multinomial test. Alternative to the chi-square test of goodness-of-fit-test when the sample.
 -   `multinom_test()`: performs an exact multinomial test. Alternative to the chi-square test of goodness-of-fit-test when the sample size is small.
 
-' size is small.
-================
-
 ### Comparing variances
 
 -   `levene_test()`: Pipe-friendly framework to easily compute Levene's test for homogeneity of variance across groups. Handles grouped data.
