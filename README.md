@@ -53,6 +53,11 @@ Key functions
 -   `prop_test()`, `pairwise_prop_test()` and `row_wise_prop_test()`. Performs one-sample and two-samples z-test of proportions. Wrappers around the R base function `prop.test()` but have the advantage of performing pairwise and row-wise z-test of two proportions, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables.
 -   `fisher_test()`, `pairwise_fisher_test()` and `row_wise_fisher_test()`: Fisher's exact test for count data. Wrappers around the R base function `fisher.test()` but have the advantage of performing pairwise and row-wise fisher tests, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables.
 -   `chisq_test()`, `pairwise_chisq_gof_test()`, `pairwise_chisq_test_against_p()`: Performs chi-squared tests, including goodness-of-fit, homogeneity and independence tests.
+-   `binom_test()`, `pairwise_binom_test()`, `pairwise_binom_test_against_p()`: Performs exact binomial test and pairwise comparisons following a significant exact multinomial test. Alternative to the chi-square test of goodness-of-fit-test when the sample.
+-   `multinom_test()`: performs an exact multinomial test. Alternative to the chi-square test of goodness-of-fit-test when the sample size is small.
+
+' size is small.
+================
 
 ### Comparing variances
 

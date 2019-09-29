@@ -681,7 +681,8 @@ get_pairwise_comparison_methods <- function(){
     games_howell_test = "Games Howell",
     prop_test = "Z-Prop test",
     fisher_test = "Fisher's exact test",
-    chisq_test = "Chi-square test"
+    chisq_test = "Chi-square test",
+    exact_binom_test = "Exact binomial test"
   )
 }
 
@@ -714,4 +715,20 @@ tidy_squared_matrix <- function(data, value = "value"){
     gather(key = "group1", value = !!value, -.data$group2) %>%
     stats::na.omit() %>% as_tibble() %>%
     select(.data$group1, everything())
+}
+
+
+# Binomial proportion confidence interval
+get_prop_conf_int <- function(x, n, p = 0.5, conf.level = 0.95,
+                              alternative = "two.sided"){
+  .get_conf <- function(x, n, p, alternative, conf.level){
+    res <- stats::binom.test(x, n, p, alternative, conf.level)$conf.int
+    tibble(conf.low = res[1], conf.high = res[2])
+  }
+  results <- list(x = x, n = n, p = p) %>%
+    purrr::pmap(
+      .get_conf, conf.level = conf.level,
+      alternative = alternative
+    ) %>%
+    dplyr::bind_rows()
 }

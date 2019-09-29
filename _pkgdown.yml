@@ -36,6 +36,8 @@ reference:
       - prop_test
       - chisq_test
       - fisher_test
+      - binom_test
+      - multinom_test
   - title: Comparing Variances
     contents:
       - levene_test
