@@ -106,13 +106,13 @@ get_pwc_label <- function(stat.test, type = c("text", "expression")){
     p.adjust.method <- "None"
   }
   if(type == "text"){
-    paste0("Pairwise comparisons: ", stat.method, "; p-value adjustment: ", p.adjust.method)
+    paste0("pwc: ", stat.method, "; p.adjust: ", p.adjust.method)
   }
   else if(type == "expression"){
     substitute(
       expr = paste(
-        "Pairwise comparisons: ", bold(stat.method),
-          "; p-value adjustment: ", bold(p.adjust.method)
+        "pwc: ", bold(stat.method),
+          "; p.adjust: ", bold(p.adjust.method)
         ),
       env = list(stat.method = stat.method, p.adjust.method = p.adjust.method)
     )
@@ -131,7 +131,9 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
     friedman_test = "Friedman test",
     anova_test = "Anova",
     welch_anova_test = "Welch ANOVA",
-    chisq_test = "Chi-square test"
+    chisq_test = "Chi-square test",
+    exact_multinom_test = "Exact multinomial test",
+    exact_binom_test = "Exact binomial test"
   )
   stop_ifnot_class(stat.test, .class = names(allowed.tests))
   is_anova_test <- inherits(stat.test, "anova_test")
@@ -428,7 +430,12 @@ get_description <- function(stat.test){
     welch_anova_test = "Welch Anova",
     kruskal_test = "Kruskal-Wallis",
     friedman_test = "Friedman test",
-    cor_test = "Correlation"
+    cor_test = "Correlation",
+    prop_test = "Z-Prop test",
+    fisher_test = "Fisher's exact test",
+    chisq_test = "Chi-square test",
+    exact_multinom_test = "Exact multinomial test",
+    exact_binom_test = "Exact binomial test"
   )
   args <- attr(stat.test, "args")
   stat.method <- args$method
@@ -436,7 +443,7 @@ get_description <- function(stat.test){
     description <- tests[stat.method]
   }
   else{
-    description  <- ""
+    description  <- stat.method
   }
   as.character(description)
 }
