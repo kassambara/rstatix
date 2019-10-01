@@ -151,6 +151,7 @@ Extract information from statistical test results. Useful for labelling plots wi
 - `sample_n_by()`: sample n rows by group from a table
 - `convert_as_factor(), set_ref_level(), reorder_levels()`: Provides pipe-friendly functions to convert simultaneously multiple variables into a factor variable.
 - `make_clean_names()`: Pipe-friendly function to make syntactically valid column names (for input data frame) or names (for input vector).
+- `counts_to_cases()`: converts a contingency table or a data frame of counts into a data frame of individual observations.
    
    
 ## Installation and loading

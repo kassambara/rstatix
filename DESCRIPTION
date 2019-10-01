@@ -67,6 +67,7 @@ Collate:
     'cor_reshape.R'
     'cor_select.R'
     'cor_test.R'
+    'counts_to_cases.R'
     'cramer_v.R'
     'doo.R'
     't_test.R'
