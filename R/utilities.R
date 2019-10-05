@@ -682,7 +682,8 @@ get_pairwise_comparison_methods <- function(){
     prop_test = "Z-Prop test",
     fisher_test = "Fisher's exact test",
     chisq_test = "Chi-square test",
-    exact_binom_test = "Exact binomial test"
+    exact_binom_test = "Exact binomial test",
+    mcnemar_test = "McNemar test"
   )
 }
 
