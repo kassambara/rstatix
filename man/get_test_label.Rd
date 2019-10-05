@@ -6,15 +6,15 @@
 \alias{create_test_label}
 \title{Extract Label Information from Statistical Tests}
 \usage{
-get_pwc_label(stat.test, type = c("text", "expression"))
+get_pwc_label(stat.test, type = c("expression", "text"))
 
 get_test_label(stat.test, description = NULL, p.col = "p",
-  type = c("text", "expression"), correction = c("auto", "GG", "HF",
+  type = c("expression", "text"), correction = c("auto", "GG", "HF",
   "none"), row = NULL, detailed = FALSE)
 
 create_test_label(statistic.text, statistic, p, parameter = NA,
   description = NULL, n = NA, effect.size = NA,
-  effect.size.text = NA, type = c("text", "expression"),
+  effect.size.text = NA, type = c("expression", "text"),
   detailed = FALSE)
 }
 \arguments{
@@ -93,37 +93,38 @@ df <- ToothGrowth
 # One-way ANOVA test
 #:::::::::::::::::::::::::::::::::::::::::
 anov <- df \%>\% anova_test(len ~ dose)
-get_test_label(anov, detailed = TRUE)
+get_test_label(anov, detailed = TRUE, type = "text")
 
 # Two-way ANOVA test
 #:::::::::::::::::::::::::::::::::::::::::
 anov <- df \%>\% anova_test(len ~ supp*dose)
-get_test_label(anov, detailed = TRUE, description = "Two Way ANOVA")
+get_test_label(anov, detailed = TRUE, type = "text",
+   description = "Two Way ANOVA")
 
 
 # Kruskal-Wallis test
 #:::::::::::::::::::::::::::::::::::::::::
 kruskal<- df \%>\% kruskal_test(len ~ dose)
-get_test_label(kruskal, detailed = TRUE)
+get_test_label(kruskal, detailed = TRUE, type = "text")
 
 # Wilcoxon test
 #:::::::::::::::::::::::::::::::::::::::::
 # Unpaired test
 wilcox <- df \%>\% wilcox_test(len ~ supp)
-get_test_label(wilcox, detailed = TRUE)
+get_test_label(wilcox, detailed = TRUE, type = "text")
 # Paired test
 wilcox <- df \%>\% wilcox_test(len ~ supp, paired = TRUE)
-get_test_label(wilcox, detailed = TRUE)
+get_test_label(wilcox, detailed = TRUE, type = "text")
 
 # T test
 #:::::::::::::::::::::::::::::::::::::::::
 ttest <- df \%>\% t_test(len ~ dose)
-get_test_label(ttest, detailed = TRUE)
+get_test_label(ttest, detailed = TRUE, type = "text")
 
 
 # Pairwise comparisons labels
 #:::::::::::::::::::::::::::::::::::::::::
-get_pwc_label(ttest)
+get_pwc_label(ttest, type = "text")
 
 
 # Create test labels
@@ -132,7 +133,8 @@ create_test_label(
   statistic.text = "F", statistic = 71.82,
   parameter = "4, 294",
   p = "<0.0001",
-  description = "ANOVA"
+  description = "ANOVA",
+  type = "text"
 )
 
 }

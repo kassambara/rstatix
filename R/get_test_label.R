@@ -50,37 +50,38 @@ NULL
 #' # One-way ANOVA test
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' anov <- df %>% anova_test(len ~ dose)
-#' get_test_label(anov, detailed = TRUE)
+#' get_test_label(anov, detailed = TRUE, type = "text")
 #'
 #' # Two-way ANOVA test
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' anov <- df %>% anova_test(len ~ supp*dose)
-#' get_test_label(anov, detailed = TRUE, description = "Two Way ANOVA")
+#' get_test_label(anov, detailed = TRUE, type = "text",
+#'    description = "Two Way ANOVA")
 #'
 #'
 #' # Kruskal-Wallis test
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' kruskal<- df %>% kruskal_test(len ~ dose)
-#' get_test_label(kruskal, detailed = TRUE)
+#' get_test_label(kruskal, detailed = TRUE, type = "text")
 #'
 #' # Wilcoxon test
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' # Unpaired test
 #' wilcox <- df %>% wilcox_test(len ~ supp)
-#' get_test_label(wilcox, detailed = TRUE)
+#' get_test_label(wilcox, detailed = TRUE, type = "text")
 #'# Paired test
 #' wilcox <- df %>% wilcox_test(len ~ supp, paired = TRUE)
-#' get_test_label(wilcox, detailed = TRUE)
+#' get_test_label(wilcox, detailed = TRUE, type = "text")
 #'
 #' # T test
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' ttest <- df %>% t_test(len ~ dose)
-#' get_test_label(ttest, detailed = TRUE)
+#' get_test_label(ttest, detailed = TRUE, type = "text")
 #'
 #'
 #' # Pairwise comparisons labels
 #' #:::::::::::::::::::::::::::::::::::::::::
-#' get_pwc_label(ttest)
+#' get_pwc_label(ttest, type = "text")
 #'
 #'
 #' # Create test labels
@@ -89,12 +90,13 @@ NULL
 #'   statistic.text = "F", statistic = 71.82,
 #'   parameter = "4, 294",
 #'   p = "<0.0001",
-#'   description = "ANOVA"
+#'   description = "ANOVA",
+#'   type = "text"
 #' )
 #'
 #' @describeIn get_test_label Extract label from pairwise comparisons.
 #' @export
-get_pwc_label <- function(stat.test, type = c("text", "expression")){
+get_pwc_label <- function(stat.test, type = c("expression", "text")){
   methods <- get_pairwise_comparison_methods()
   stat.test %>% stop_ifnot_class(names(methods))
   type <- match.arg(type)
@@ -122,7 +124,7 @@ get_pwc_label <- function(stat.test, type = c("text", "expression")){
 #' @describeIn get_test_label Extract labels for statistical tests.
 #' @export
 get_test_label <- function(stat.test, description = NULL, p.col = "p",
-                           type = c("text", "expression"),
+                           type = c("expression", "text"),
                            correction = c("auto", "GG", "HF", "none"), row = NULL, detailed = FALSE){
   type = match.arg(type)
   allowed.tests <- c(
@@ -205,7 +207,7 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
 #' @export
 create_test_label <- function(
   statistic.text, statistic, p, parameter = NA, description = NULL, n = NA, effect.size = NA, effect.size.text = NA,
-  type = c("text", "expression"), detailed = FALSE)
+  type = c("expression", "text"), detailed = FALSE)
 {
   type <- match.arg(type)
   if(!is.null(description)){
@@ -310,7 +312,7 @@ create_test_label.text <- function(description, statistic.text,
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 # Statical test text: F, t, W, V, X2, -------------------------------------------
-get_statistic_text <- function(stat.test, type = c("text", "expression")){
+get_statistic_text <- function(stat.test, type = c("expression", "text")){
   type <- match.arg(type)
   args <- attr(stat.test, "args")
   stat.method <- args$method
