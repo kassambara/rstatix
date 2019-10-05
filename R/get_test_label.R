@@ -133,7 +133,8 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
     welch_anova_test = "Welch ANOVA",
     chisq_test = "Chi-square test",
     exact_multinom_test = "Exact multinomial test",
-    exact_binom_test = "Exact binomial test"
+    exact_binom_test = "Exact binomial test",
+    cochran_qtest = "Cochran Q test"
   )
   stop_ifnot_class(stat.test, .class = names(allowed.tests))
   is_anova_test <- inherits(stat.test, "anova_test")
@@ -336,6 +337,9 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       anova_test = quote(italic("F")),
       welch_anova_test = quote(italic("F")),
       chisq_test = quote(italic(chi)^2),
+      mcnemar_test = quote(italic(chi)^2),
+      prop_test = quote(italic(chi)^2),
+      cochran_qtest = quote(italic(chi)^2),
       quote(italic("Stat"))
     )
   }
@@ -355,6 +359,9 @@ get_statistic_text <- function(stat.test, type = c("text", "expression")){
       anova_test = "F",
       welch_anova_test = "F",
       chisq_test = "X2",
+      mcnemar_test = "X2",
+      prop_test = "X2",
+      cochran_qtest = "X2",
       "Stat"
     )
   }
@@ -435,7 +442,9 @@ get_description <- function(stat.test){
     fisher_test = "Fisher's exact test",
     chisq_test = "Chi-square test",
     exact_multinom_test = "Exact multinomial test",
-    exact_binom_test = "Exact binomial test"
+    exact_binom_test = "Exact binomial test",
+    mcnemar_test = "McNemar test",
+    cochran_qtest = "Cochran Q test"
   )
   args <- attr(stat.test, "args")
   stat.method <- args$method
