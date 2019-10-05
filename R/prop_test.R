@@ -120,6 +120,8 @@ NULL
 #' @export
 prop_test <- function(x, n, p = NULL, alternative = c("two.sided", "less", "greater"),
                       correct = TRUE, conf.level = 0.95, detailed = FALSE){
+  args <- as.list(environment()) %>%
+    add_item(method = "prop_test")
   if(is.data.frame(x)) x <- as.matrix(x)
   if(inherits(x, c("matrix", "table"))){
     if(ncol(x) > 2 & nrow(x) == 2) x <- t(x)
@@ -129,7 +131,9 @@ prop_test <- function(x, n, p = NULL, alternative = c("two.sided", "less", "grea
     add_significance("p") %>%
     mutate(method = "Prop test")
   if(!detailed) results <- remove_details(results, method = "prop.test")
-  results
+  results %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "prop_test"))
 }
 
 #' @describeIn prop_test pairwise comparisons between proportions, a post-hoc
