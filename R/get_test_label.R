@@ -269,11 +269,16 @@ create_test_label.expression <- function(
   }
   # Create label
   statistic <- round_value(statistic, 2)
+  equal <- " = "
+  if(is.na(statistic))
+    statistic.text <- equal <- statistic <- ""
+  else
+    statistic <- paste0(statistic, ", ")
   env <- as.list(environment())
   if(detailed){
     substitute(
       expr = paste(
-        description, statistic.text, parameter, " = ", statistic, ", ",
+        description, statistic.text, parameter, equal, statistic,
         italic("p"), " = ", p, effect.size, n
       ),
       env = env
@@ -296,10 +301,13 @@ create_test_label.text <- function(description, statistic.text,
   else effect.size <- paste0(", ", effect.size.text, " = ", effect.size)
   if(is.na(n)) n <- ""
   else n <- paste0(", ", "n", " = ", n)
+  if(!is.na(statistic)){
+    statistics <- paste0(statistic.text, parameter, " = ", round_value(statistic, 2), ", ")
+  }
+  else statistics <- ""
   if(detailed){
     paste0(
-      description,
-      statistic.text, parameter, " = ", round_value(statistic, 2), ", ",
+      description, statistics,
       "p", " = ", p, effect.size, n
     )
   }
