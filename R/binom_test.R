@@ -80,12 +80,14 @@ binom_test <- function(x, n, p = 0.5,
                        conf.level = 0.95, detailed = FALSE){
   args <- as.list(environment()) %>%
     add_item(method = "exact_binom_test")
+  if(length(x) == 2) n <- sum(x)
   results <- stats::binom.test(x, n, p, alternative, conf.level) %>%
     tidy() %>%
     rename(p = .data$p.value) %>%
-    add_significance("p")
+    add_significance("p") %>%
+    add_columns(n = n, .before = 1)
   if(!detailed){
-    to.keep <- c("estimate", "conf.low", "conf.high", "p", "p.signif")
+    to.keep <- c("n", "estimate", "conf.low", "conf.high", "p", "p.signif")
     results <- results[, to.keep]
   }
   results %>%
@@ -121,7 +123,8 @@ pairwise_binom_test <- function(x, p.adjust.method = "holm", alternative = "two.
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj") %>%
     mutate(p.adj = signif(.data$p.adj, digits = 3)) %>%
-    select(.data$group1, .data$group2, .data$p, .data$p.adj, .data$p.adj.signif)
+    select(-.data$p.signif)
+    # select(.data$group1, .data$group2, .data$p, .data$p.adj, .data$p.adj.signif)
   results %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "exact_binom_test"))
@@ -158,7 +161,8 @@ pairwise_binom_test_against_p <- function(x, p = rep(1/length(x), length(x)), p.
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj") %>%
     mutate(p.adj = signif(.data$p.adj, digits = 3)) %>%
-    select(.data$p, .data$p.adj, .data$p.adj.signif) %>%
+    select(-.data$p.signif) %>%
+    # select(.data$p, .data$p.adj, .data$p.adj.signif) %>%
     add_columns(group = groups, observed = x, expected = p*sum(x), .before = 1)
   results %>%
     set_attrs(args = args) %>%

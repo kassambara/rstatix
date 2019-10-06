@@ -19,8 +19,9 @@ NULL
 #'  want to adjust the p value (not recommended), use p.adjust.method = "none".
 #'
 #'
-#'@return return a data frame with the following columns: \itemize{ \item
-#'  \code{statistic}: the value of McNemar's statistic. \item \code{df} the
+#'@return return a data frame with the following columns: \itemize{
+#' \item \code{n}: the number of participants.
+#' \item \code{statistic}: the value of McNemar's statistic. \item \code{df} the
 #'  degrees of freedom of the approximate chi-squared distribution of the test
 #'  statistic. \item \code{p}: p-value. \item \code{p.adj}: the adjusted
 #'  p-value. \item \code{method}: the used statistical test. \item
@@ -72,11 +73,14 @@ NULL
 mcnemar_test <- function(x, y = NULL, correct = TRUE){
   args <- as.list(environment()) %>%
     add_item(method = "mcnemar_test")
+  if(is.data.frame(x)) x <- as.matrix(x)
+  if(inherits(x, c("matrix", "table"))) n <- sum(x)
+  else n <- length(x)
   results <- stats::mcnemar.test(x, y, correct) %>%
     as_tidy_stat() %>%
     add_significance("p") %>%
-    mutate(method = "McNemar test")
-  results[, c("statistic", "df", "p", "p.signif", "method")] %>%
+    mutate(method = "McNemar test", n = n)
+  results[, c("n", "statistic", "df", "p", "p.signif", "method")] %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "mcnemar_test"))
 }

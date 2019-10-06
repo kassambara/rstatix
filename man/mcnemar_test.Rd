@@ -35,8 +35,9 @@ Used when pairwise comparisons are performed. Allowed values include "holm",
 want to adjust the p value (not recommended), use p.adjust.method = "none".}
 }
 \value{
-return a data frame with the following columns: \itemize{ \item
- \code{statistic}: the value of McNemar's statistic. \item \code{df} the
+return a data frame with the following columns: \itemize{
+\item \code{n}: the number of participants.
+\item \code{statistic}: the value of McNemar's statistic. \item \code{df} the
  degrees of freedom of the approximate chi-squared distribution of the test
  statistic. \item \code{p}: p-value. \item \code{p.adj}: the adjusted
  p-value. \item \code{method}: the used statistical test. \item

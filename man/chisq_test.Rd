@@ -60,14 +60,29 @@ Used when pairwise comparisons are performed. Allowed values include "holm",
 "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't
 want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
-\item{...}{other arguments passed to the function
-\code{{chisq_test}()}.}
+\item{...}{other arguments passed to the function \code{{chisq_test}()}.}
 
 \item{res.chisq}{an object of class \code{chisq_test}.}
 }
+\value{
+return a data frame with some the following columns: \itemize{ \item
+ \code{n}: the number of participants. \item \code{group, group1, group2}:
+ the categories or groups being compared. \item \code{statistic}: the value
+ of Pearson's chi-squared test statistic. \item \code{df}: the degrees of
+ freedom of the approximate chi-squared distribution of the test statistic.
+ NA if the p-value is computed by Monte Carlo simulation. \item \code{p}:
+ p-value. \item \code{p.adj}: the adjusted p-value. \item \code{method}: the
+ used statistical test. \item \code{p.signif, p.adj.signif}: the significance
+ level of p-values and adjusted p-values, respectively. \item
+ \code{observed}: observed counts. \item
+ \code{expected}: the expected counts under the null hypothesis.
+ }
+ The \strong{returned object has an attribute called args}, which is a list
+ holding the test arguments.
+}
 \description{
 Performs chi-squared tests, including goodness-of-fit,
-  homogeneity and independence tests.
+ homogeneity and independence tests.
 }
 \section{Functions}{
 \itemize{

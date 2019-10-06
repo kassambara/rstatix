@@ -117,6 +117,7 @@ fisher_test <- function(xtab, workspace = 200000, alternative = "two.sided",
                       conf.int = TRUE, conf.level = 0.95, simulate.p.value = FALSE,
                       B = 2000, detailed = FALSE, ...){
   if(is.data.frame(xtab)) xtab <- as.matrix(xtab)
+  args <- as.list(environment()) %>% add_item(method = "fisher_test")
   results <- stats::fisher.test(
     xtab, workspace = workspace, alternative = alternative,
     conf.int = conf.int, conf.level = conf.level,
@@ -124,9 +125,12 @@ fisher_test <- function(xtab, workspace = 200000, alternative = "two.sided",
     ) %>%
     as_tidy_stat() %>%
     add_significance("p") %>%
+    add_columns(n = sum(xtab), .before = 1) %>%
     mutate(method = "Fisher's Exact test")
   if(!detailed) results <- remove_details(results, method = "prop.test")
-  results
+  results %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "fisher_test"))
 }
 
 #' @describeIn fisher_test pairwise comparisons between proportions, a post-hoc
@@ -150,7 +154,7 @@ pairwise_fisher_test <- function(xtab, p.adjust.method = "holm", detailed = FALS
   compare_pair <- function(rows, xtab, ...){
     rows <- as.character(rows)
     fisher_test(xtab[rows, ], detailed = detailed, ...) %>%
-      add_columns(group1 = rows[1], group2 = rows[2], .before = "p")
+      add_columns(group1 = rows[1], group2 = rows[2], .before = 1)
   }
   args <- c(as.list(environment()), list(...)) %>%
     add_item(method = "fisher_test")

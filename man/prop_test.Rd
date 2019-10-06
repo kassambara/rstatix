@@ -56,8 +56,9 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 \item{...}{Other arguments passed to the function \code{prop_test()}.}
 }
 \value{
-return a data frame with some the following columns: \itemize{ \item
- \code{group}: the categories in the row-wise proportion tests. \item
+return a data frame with some the following columns: \itemize{
+\item \code{n}: the number of participants.
+\item \code{group}: the categories in the row-wise proportion tests. \item
  \code{statistic}: the value of Pearson's chi-squared test statistic. \item
  \code{df}: the degrees of freedom of the approximate chi-squared
  distribution of the test statistic. \item \code{p}: p-value. \item

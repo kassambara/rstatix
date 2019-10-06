@@ -21,8 +21,9 @@ NULL
 #'  shown.
 #'@param ... Other arguments passed to the function \code{prop_test()}.
 #'
-#'@return return a data frame with some the following columns: \itemize{ \item
-#'  \code{group}: the categories in the row-wise proportion tests. \item
+#'@return return a data frame with some the following columns: \itemize{
+#' \item \code{n}: the number of participants.
+#'\item \code{group}: the categories in the row-wise proportion tests. \item
 #'  \code{statistic}: the value of Pearson's chi-squared test statistic. \item
 #'  \code{df}: the degrees of freedom of the approximate chi-squared
 #'  distribution of the test statistic. \item \code{p}: p-value. \item
@@ -123,13 +124,29 @@ prop_test <- function(x, n, p = NULL, alternative = c("two.sided", "less", "grea
   args <- as.list(environment()) %>%
     add_item(method = "prop_test")
   if(is.data.frame(x)) x <- as.matrix(x)
+
   if(inherits(x, c("matrix", "table"))){
     if(ncol(x) > 2 & nrow(x) == 2) x <- t(x)
+    nb.grp <- nrow(x)
+    row.sums <- rowSums(x)
+    n <- sum(x)
+    Ns <- matrix(c(n, row.sums), nrow = 1, ncol = nb.grp+1)
+    colnames(Ns) <- c("n", paste0("n", 1:nb.grp))
   }
+  else{
+    row.sums <- x
+    nb.grp <- length(x)
+    Ns <- matrix(c(sum(n), row.sums), nrow = 1, ncol = nb.grp+1)
+    colnames(Ns) <- c("n", paste0("n", 1:nb.grp))
+  }
+  Ns <- as_tibble(Ns)
   results <- stats::prop.test(x, n, p, alternative, conf.level, correct) %>%
     as_tidy_stat() %>%
     add_significance("p") %>%
     mutate(method = "Prop test")
+
+  results <- dplyr::bind_cols(Ns, results)
+
   if(!detailed) results <- remove_details(results, method = "prop.test")
   results %>%
     set_attrs(args = args) %>%

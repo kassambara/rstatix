@@ -1,16 +1,30 @@
 #' @include utilities.R
 NULL
-#' Chi-squared Test for Count Data
-#' @description Performs chi-squared tests, including goodness-of-fit,
-#'   homogeneity and independence tests.
-#' @inheritParams  stats::chisq.test
-#' @param res.chisq an object of class \code{chisq_test}.
+#'Chi-squared Test for Count Data
+#'@description Performs chi-squared tests, including goodness-of-fit,
+#'  homogeneity and independence tests.
+#'@inheritParams  stats::chisq.test
+#'@param res.chisq an object of class \code{chisq_test}.
 #'@param p.adjust.method method to adjust p values for multiple comparisons.
 #'  Used when pairwise comparisons are performed. Allowed values include "holm",
 #'  "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't
 #'  want to adjust the p value (not recommended), use p.adjust.method = "none".
-#' @param ... other arguments passed to the function
-#'   \code{{chisq_test}()}.
+#'@param ... other arguments passed to the function \code{{chisq_test}()}.
+#'
+#'@return return a data frame with some the following columns: \itemize{ \item
+#'  \code{n}: the number of participants. \item \code{group, group1, group2}:
+#'  the categories or groups being compared. \item \code{statistic}: the value
+#'  of Pearson's chi-squared test statistic. \item \code{df}: the degrees of
+#'  freedom of the approximate chi-squared distribution of the test statistic.
+#'  NA if the p-value is computed by Monte Carlo simulation. \item \code{p}:
+#'  p-value. \item \code{p.adj}: the adjusted p-value. \item \code{method}: the
+#'  used statistical test. \item \code{p.signif, p.adj.signif}: the significance
+#'  level of p-values and adjusted p-values, respectively. \item
+#'  \code{observed}: observed counts. \item
+#'  \code{expected}: the expected counts under the null hypothesis.
+#'  }
+#'  The \strong{returned object has an attribute called args}, which is a list
+#'  holding the test arguments.
 #'
 #' @examples
 #' # Chi-square goodness of fit test
@@ -49,12 +63,16 @@ chisq_test <- function(x, y = NULL, correct = TRUE,
                        simulate.p.value = FALSE, B = 2000){
   args <- as.list(environment()) %>%
     add_item(method = "chisq_test")
+  if(is.data.frame(x)) x <- as.matrix(x)
+  if(inherits(x, c("matrix", "table"))) n <- sum(x)
+  else n <- length(x)
   res.chisq <- stats::chisq.test(
     x, y,  correct = correct, p = p, rescale.p = rescale.p,
     simulate.p.value = simulate.p.value, B = B
     )
   as_tidy_stat(res.chisq, stat.method = "Chi-square test") %>%
     add_significance("p") %>%
+    add_columns(n = n, .before = 1) %>%
     set_attrs(args = args, test = res.chisq) %>%
     add_class(c("rstatix_test", "chisq_test"))
 }

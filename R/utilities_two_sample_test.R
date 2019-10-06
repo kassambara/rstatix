@@ -245,7 +245,7 @@ remove_details <- function(res, method){
   }
   else if(method %in% c("prop.test")){
     columns.to.keep <- intersect(
-      c("group",  "statistic", "df", "p", "p.signif", "p.adj", "p.adj.signif"),
+      c("n",  "group",  "statistic", "df", "p", "p.signif", "p.adj", "p.adj.signif"),
       colnames(res)
     )
     res <- res[, columns.to.keep]
