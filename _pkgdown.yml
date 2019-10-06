@@ -38,6 +38,8 @@ reference:
       - fisher_test
       - binom_test
       - multinom_test
+      - mcnemar_test
+      - cochran_qtest
   - title: Comparing Variances
     contents:
       - levene_test
