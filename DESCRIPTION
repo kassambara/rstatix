@@ -97,6 +97,7 @@ Collate:
     'outliers.R'
     'p_value.R'
     'prop_test.R'
+    'prop_trend_test.R'
     'reexports.R'
     'sample_n_by.R'
     'shapiro_test.R'

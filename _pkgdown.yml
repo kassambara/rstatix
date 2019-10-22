@@ -40,6 +40,7 @@ reference:
       - multinom_test
       - mcnemar_test
       - cochran_qtest
+      - prop_trend_test
   - title: Comparing Variances
     contents:
       - levene_test
