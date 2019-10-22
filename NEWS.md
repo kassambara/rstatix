@@ -1,13 +1,30 @@
 # rstatix 0.2.0.999
 
 ## New features
+   
+- `prop_test()`, `pairwise_prop_test()` and `row_wise_prop_test()`. Performs one-sample and two-samples z-test of proportions. Wrappers around the R base function `prop.test()` but have the advantage of performing pairwise and row-wise z-test of two proportions, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables. 
+- `fisher_test()`, `pairwise_fisher_test()` and `row_wise_fisher_test()`: Fisher's exact test for count data. Wrappers around the R base function `fisher.test()` but have the advantage of performing pairwise and row-wise fisher tests, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables. 
+- `chisq_test()`, `pairwise_chisq_gof_test()`, `pairwise_chisq_test_against_p()` : Chi-square test for count data.
+- `binom_test()`, `pairwise_binom_test()`, `pairwise_binom_test_against_p()` and `multinom_test()`: performs exact binomial and multinomial tests. Alternative to the chi-square test of goodness-of-fit-test when the sample.
+- `counts_to_cases()`: converts a contingency table or a data frame of counts into a data frame of individual observations.
+- New functions `mcnemar_test()` and `cochran_qtest()` for comparing two ore more related proportions.
+- `prop_trend_test()`: Performs chi-squared test for trend in proportion. This test is also known as Cochran-Armitage trend test.
 
+To be done?
+- add_row_prop(xtab)
+- add_row_pct(xtab)
+- add_col_prop(xtab)
+- add_col_pct(xtab)
+- get_row_prop(xtab)
+- get_col_prop(xtab)
+- get_prop(xtab)
 
 ## Major changes
 
 
 ## Minor changes
 
+- Now `get_test_label()` and `get_pwc_label()` return expression by default
 - Unit testing and spelling check added
 - Code rewritted to adapt tidyr 1.0.0
 
