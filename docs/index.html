@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -150,6 +150,28 @@
 <code><a href="reference/emmeans_test.html">emmeans_test()</a></code>: pipe-friendly wrapper arround <code>emmeans</code> function to perform pairwise comparisons of estimated marginal means. Useful for post-hoc analyses following up ANOVA/ANCOVA tests.</li>
 </ul>
 </div>
+<div id="comparing-proportions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#comparing-proportions" class="anchor"></a>Comparing proportions</h3>
+<ul>
+<li>
+<code><a href="reference/prop_test.html">prop_test()</a></code>, <code><a href="reference/prop_test.html">pairwise_prop_test()</a></code> and <code><a href="reference/prop_test.html">row_wise_prop_test()</a></code>. Performs one-sample and two-samples z-test of proportions. Wrappers around the R base function <code><a href="https://www.rdocumentation.org/packages/stats/topics/prop.test">prop.test()</a></code> but have the advantage of performing pairwise and row-wise z-test of two proportions, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables.</li>
+<li>
+<code><a href="reference/fisher_test.html">fisher_test()</a></code>, <code><a href="reference/fisher_test.html">pairwise_fisher_test()</a></code> and <code><a href="reference/fisher_test.html">row_wise_fisher_test()</a></code>: Fisher’s exact test for count data. Wrappers around the R base function <code><a href="https://www.rdocumentation.org/packages/stats/topics/fisher.test">fisher.test()</a></code> but have the advantage of performing pairwise and row-wise fisher tests, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables.</li>
+<li>
+<code><a href="reference/chisq_test.html">chisq_test()</a></code>, <code><a href="reference/chisq_test.html">pairwise_chisq_gof_test()</a></code>, <code><a href="reference/chisq_test.html">pairwise_chisq_test_against_p()</a></code>: Performs chi-squared tests, including goodness-of-fit, homogeneity and independence tests.</li>
+<li>
+<code><a href="reference/binom_test.html">binom_test()</a></code>, <code><a href="reference/binom_test.html">pairwise_binom_test()</a></code>, <code><a href="reference/binom_test.html">pairwise_binom_test_against_p()</a></code>: Performs exact binomial test and pairwise comparisons following a significant exact multinomial test. Alternative to the chi-square test of goodness-of-fit-test when the sample.</li>
+<li>
+<code><a href="reference/multinom_test.html">multinom_test()</a></code>: performs an exact multinomial test. Alternative to the chi-square test of goodness-of-fit-test when the sample size is small.</li>
+<li>
+<code><a href="reference/mcnemar_test.html">mcnemar_test()</a></code>: performs McNemar chi-squared test to compare paired proportions. Provides pairwise comparisons between multiple groups.</li>
+<li>
+<code><a href="reference/cochran_qtest.html">cochran_qtest()</a></code>: extension of the McNemar Chi-squared test for comparing more than two paired proportions.</li>
+<li>
+<code><a href="reference/prop_trend_test.html">prop_trend_test()</a></code>: Performs chi-squared test for trend in proportion. This test is also known as Cochran-Armitage trend test.</li>
+</ul>
+</div>
 <div id="comparing-variances" class="section level3">
 <h3 class="hasAnchor">
 <a href="#comparing-variances" class="anchor"></a>Comparing variances</h3>
@@ -259,6 +281,8 @@
 <code>convert_as_factor(), set_ref_level(), reorder_levels()</code>: Provides pipe-friendly functions to convert simultaneously multiple variables into a factor variable.</li>
 <li>
 <code><a href="reference/make_clean_names.html">make_clean_names()</a></code>: Pipe-friendly function to make syntactically valid column names (for input data frame) or names (for input vector).</li>
+<li>
+<code><a href="reference/counts_to_cases.html">counts_to_cases()</a></code>: converts a contingency table or a data frame of counts into a data frame of individual observations.</li>
 </ul>
 </div>
 </div>

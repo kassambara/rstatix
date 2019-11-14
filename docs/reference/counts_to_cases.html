@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Make Clean Names — make_clean_names • rstatix</title>
+<title>Convert a Table of Counts into a Data Frame of cases — counts_to_cases • rstatix</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="Make Clean Names — make_clean_names" />
+<meta property="og:title" content="Convert a Table of Counts into a Data Frame of cases — counts_to_cases" />
 
-<meta property="og:description" content="Pipe-friendly function to make syntactically valid names out of
- character vectors." />
+<meta property="og:description" content="converts a contingency table or a data frame of counts into a
+  data frame of individual observations." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,53 +98,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Make Clean Names</h1>
+    <h1>Convert a Table of Counts into a Data Frame of cases</h1>
     
-    <div class="hidden name"><code>make_clean_names.Rd</code></div>
+    <div class="hidden name"><code>counts_to_cases.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Pipe-friendly function to make syntactically valid names out of
- character vectors.</p>
+    <p>converts a contingency table or a data frame of counts into a
+  data frame of individual observations.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>make_clean_names</span>(<span class='no'>data</span>)</pre>
+    <pre class="usage"><span class='fu'>counts_to_cases</span>(<span class='no'>x</span>, <span class='kw'>count.col</span> <span class='kw'>=</span> <span class='st'>"Freq"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>a data frame or vector</p></td>
+      <th>x</th>
+      <td><p>a contingency table or a data frame</p></td>
+    </tr>
+    <tr>
+      <th>count.col</th>
+      <td><p>the name of the column containing the counts. Default is "Freq".</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a data frame or a vector depending on the input data</p>
+    <p>a data frame of cases</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># Vector</span>
-<span class='fu'>make_clean_names</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a and b"</span>, <span class='st'>"a-and-b"</span>))</div><div class='output co'>#&gt; [1] "a.and.b" "a.and.b"</div><div class='input'><span class='fu'>make_clean_names</span>(<span class='fl'>1</span>:<span class='fl'>10</span>)</div><div class='output co'>#&gt;  [1] "X1"  "X2"  "X3"  "X4"  "X5"  "X6"  "X7"  "X8"  "X9"  "X10"</div><div class='input'>
-<span class='co'># data frame</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(
-<span class='kw'>`a and b`</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>,
-<span class='kw'>`c and d`</span> <span class='kw'>=</span> <span class='fl'>5</span>:<span class='fl'>8</span>,
- <span class='kw'>check.names</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+    <pre class="examples"><div class='input'><span class='co'># Create a cross-tabulation demo data</span>
+<span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class='no'>xtab</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>as.table</a></span>(
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>20</span>, <span class='fl'>5</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>16</span>,<span class='fl'>9</span>))
 )
-<span class='no'>df</span></div><div class='output co'>#&gt;   a and b c and d
-#&gt; 1       1       5
-#&gt; 2       2       6
-#&gt; 3       3       7
-#&gt; 4       4       8</div><div class='input'><span class='fu'>make_clean_names</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;   a.and.b c.and.d
-#&gt; 1       1       5
-#&gt; 2       2       6
-#&gt; 3       3       7
-#&gt; 4       4       8</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dimnames'>dimnames</a></span>(<span class='no'>xtab</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
+  <span class='kw'>before</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"non.smoker"</span>, <span class='st'>"smoker"</span>),
+  <span class='kw'>after</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"non.smoker"</span>, <span class='st'>"smoker"</span>)
+)
+<span class='no'>xtab</span></div><div class='output co'>#&gt;             after
+#&gt; before       non.smoker smoker
+#&gt;   non.smoker         20      5
+#&gt;   smoker             16      9</div><div class='input'>
+<span class='co'># Convert into a data frame of cases</span>
+<span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>counts_to_cases</span>(<span class='no'>xtab</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;       before      after
+#&gt; 1 non.smoker non.smoker
+#&gt; 2 non.smoker non.smoker
+#&gt; 3 non.smoker non.smoker
+#&gt; 4 non.smoker non.smoker
+#&gt; 5 non.smoker non.smoker
+#&gt; 6 non.smoker non.smoker</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

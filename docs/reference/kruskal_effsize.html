@@ -73,7 +73,7 @@ Confidence intervals are calculated by bootstap." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -194,10 +194,22 @@ one or multiple levels giving the corresponding groups. For example,
 
 <span class='co'># Kruskal-wallis rank sum test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='kruskal_test.html'>kruskal_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
-#&gt;   .y.       n statistic    df             p method        
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         
-#&gt; </span><span style='color: #555555;'>1</span><span> len      60      40.7     2 0.000</span><span style='text-decoration: underline;'>000</span><span>001</span><span style='text-decoration: underline;'>48</span><span> Kruskal-Wallis</div></span></pre>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>kruskal_effsize</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` must not be empty for ungrouped data frames.</span>
+#&gt; <span class='warning'>Did you want `data = everything()`?</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `...` must not be empty for ungrouped data frames.</span>
+#&gt; <span class='warning'>Did you want `data = everything()`?</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 5</span><span>
+#&gt;   .y.       n effsize method  magnitude
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'>1</span><span> len      60   0.678 eta2[H] large    </div><div class='input'>
+<span class='co'># Grouped data</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>kruskal_effsize</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` must not be empty for ungrouped data frames.</span>
+#&gt; <span class='warning'>Did you want `data = everything()`?</span></div><div class='output co'>#&gt; <span class='warning'>Warning: `...` must not be empty for ungrouped data frames.</span>
+#&gt; <span class='warning'>Did you want `data = everything()`?</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 6</span><span>
+#&gt;   supp  .y.       n effsize method  magnitude
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'>1</span><span> OJ    len      30   0.611 eta2[H] large    
+#&gt; </span><span style='color: #555555;'>2</span><span> VC    len      30   0.855 eta2[H] large    </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

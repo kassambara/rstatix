@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -156,7 +156,8 @@ groups. For example, formula = TP53 ~ cancer_group.</p></td>
 
 <span class='co'># Welch one-way ANOVA test (not assuming equal variance)</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>welch_anova_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 7</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>welch_anova_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` must not be empty for ungrouped data frames.</span>
+#&gt; <span class='warning'>Did you want `data = everything()`?</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 7</span><span>
 #&gt;   .y.       n statistic   DFn   DFd        p method     
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      
 #&gt; </span><span style='color: #555555;'>1</span><span> len      60      68.4     2  37.7 2.81</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span> Welch ANOVA</div><div class='input'>

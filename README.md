@@ -55,6 +55,9 @@ Key functions
 -   `chisq_test()`, `pairwise_chisq_gof_test()`, `pairwise_chisq_test_against_p()`: Performs chi-squared tests, including goodness-of-fit, homogeneity and independence tests.
 -   `binom_test()`, `pairwise_binom_test()`, `pairwise_binom_test_against_p()`: Performs exact binomial test and pairwise comparisons following a significant exact multinomial test. Alternative to the chi-square test of goodness-of-fit-test when the sample.
 -   `multinom_test()`: performs an exact multinomial test. Alternative to the chi-square test of goodness-of-fit-test when the sample size is small.
+-   `mcnemar_test()`: performs McNemar chi-squared test to compare paired proportions. Provides pairwise comparisons between multiple groups.
+-   `cochran_qtest()`: extension of the McNemar Chi-squared test for comparing more than two paired proportions.
+-   `prop_trend_test()`: Performs chi-squared test for trend in proportion. This test is also known as Cochran-Armitage trend test.
 
 ### Comparing variances
 

@@ -8,8 +8,5 @@ There were no ERRORs, WARNINGs or NOTEs.
 
 ## Update
 
-This is an updated version 0.2.0 (see NEWS.md)
+This is an updated version 0.3.0 (see NEWS.md)
   
-## Resubmission
-   
-In this version, we fixed an invalid URL in the README.md file.

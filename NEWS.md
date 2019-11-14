@@ -1,4 +1,4 @@
-# rstatix 0.2.0.999
+# rstatix 0.3.0
 
 ## New features
    
@@ -10,26 +10,12 @@
 - New functions `mcnemar_test()` and `cochran_qtest()` for comparing two ore more related proportions.
 - `prop_trend_test()`: Performs chi-squared test for trend in proportion. This test is also known as Cochran-Armitage trend test.
 
-To be done?
-- add_row_prop(xtab)
-- add_row_pct(xtab)
-- add_col_prop(xtab)
-- add_col_pct(xtab)
-- get_row_prop(xtab)
-- get_col_prop(xtab)
-- get_prop(xtab)
-
-## Major changes
-
 
 ## Minor changes
 
 - Now `get_test_label()` and `get_pwc_label()` return expression by default
 - Unit testing and spelling check added
 - Code rewritted to adapt tidyr 1.0.0
-
-## Bug fixes
-
 
 
 # rstatix 0.2.0

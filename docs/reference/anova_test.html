@@ -79,7 +79,7 @@ The results include ANOVA table, generalized effect size and some assumption
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -297,6 +297,15 @@ sphericity corrected or uncorrected degrees of freedom can be reported.</p></li>
 #&gt; 
 #&gt;   Effect DFn DFd       F        p p&lt;.05   ges
 #&gt; 1   dose   1  58 105.065 1.23e-14     * 0.644</div><div class='input'>
+<span class='co'># Grouped One-way ANOVA test</span>
+<span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>anova_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 2 x 8</span><span>
+#&gt;   supp  Effect   DFn   DFd     F        p `p&lt;.05`   ges
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> OJ    dose       1    28  36.0 1.82</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> *       0.563
+#&gt; </span><span style='color: #555555;'>2</span><span> VC    dose       1    28 118.  1.51</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span> *       0.808</div><div class='input'>
 <span class='co'># Two-way ANOVA test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>anova_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span>)</div><div class='output co'>#&gt; ANOVA Table (type II tests)
@@ -308,7 +317,7 @@ sphericity corrected or uncorrected degrees of freedom can be reported.</p></li>
 <span class='co'># Two-way repeated measures ANOVA</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>df</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>6</span>) <span class='co'># Add individuals id</span>
-<span class='co'># Use formula</span></div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>anova_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/aov'>Error</a></span>(<span class='no'>id</span>/(<span class='no'>supp</span>*<span class='no'>dose</span>)))</div><div class='output co'>#&gt; ANOVA Table (type III tests)
+<span class='co'># Use formula</span></div></span><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>anova_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/aov'>Error</a></span>(<span class='no'>id</span>/(<span class='no'>supp</span>*<span class='no'>dose</span>)))</div><div class='output co'>#&gt; ANOVA Table (type III tests)
 #&gt; 
 #&gt; $ANOVA
 #&gt;      Effect DFn DFd       F        p p&lt;.05   ges
