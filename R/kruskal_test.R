@@ -39,8 +39,13 @@ NULL
 kruskal_test <- function(data, formula, ...){
   args <- c(as.list(environment()), list(...)) %>%
     .add_item(method = "kruskal_test")
-  data %>%
-    doo(.kruskal_test, formula, ...) %>%
+  if(is_grouped_df(data)){
+    results <- data %>% doo(.kruskal_test, formula, ...)
+  }
+  else{
+    results <- .kruskal_test(data, formula, ...)
+  }
+  results %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "kruskal_test"))
 }
