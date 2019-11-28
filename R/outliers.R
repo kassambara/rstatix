@@ -80,6 +80,7 @@ identify_outliers <- function(data, ..., variable = NULL){
       is.extreme = is_extreme(values)
       ) %>%
     filter(is.outlier == TRUE)
+  if(nrow(results) == 0) results <- as.data.frame(results)
   results
 }
 
