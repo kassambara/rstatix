@@ -8,6 +8,7 @@
 
 ## Minor changes
 
+- new argument `detailed` added in `dunn_test()`. If TRUE, then estimate and method columns are shown in the results.
 
 ## Bug fixex
 

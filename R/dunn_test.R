@@ -38,11 +38,14 @@ NULL
 #'   group_by(supp) %>%
 #'   dunn_test(len ~ dose)
 #'@export
-dunn_test <- function(data, formula, p.adjust.method = "holm"){
+dunn_test <- function(data, formula, p.adjust.method = "holm", detailed = FALSE){
   args <- as.list(environment()) %>%
     .add_item(method = "dunn_test")
-  data %>%
-    doo(.dunn_test, formula, p.adjust.method ) %>%
+  results <- data %>% doo(.dunn_test, formula, p.adjust.method )
+  if(!detailed){
+    results <- results %>% select(-.data$method, -.data$estimate)
+  }
+  results %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "dunn_test"))
 }

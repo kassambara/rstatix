@@ -4,7 +4,7 @@
 \alias{dunn_test}
 \title{Dunn's Test of Multiple Comparisons}
 \usage{
-dunn_test(data, formula, p.adjust.method = "holm")
+dunn_test(data, formula, p.adjust.method = "holm", detailed = FALSE)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -18,6 +18,9 @@ one or multiple levels giving the corresponding groups. For example,
 Used when pairwise comparisons are performed. Allowed values include "holm",
 "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't
 want to adjust the p value (not recommended), use p.adjust.method = "none".}
+
+\item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
+shown.}
 }
 \value{
 return a data frame with some of the following columns: \itemize{
