@@ -21,7 +21,7 @@ Depends:
 Imports:
     stats,
     utils,
-    tidyr,
+    tidyr (>= 1.0.0),
     purrr,
     broom,
     rlang (>= 0.3.1),

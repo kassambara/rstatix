@@ -54,8 +54,13 @@ NULL
 #'    doo(~t.test(len ~ supp, data =.) %>% tidy())
 #'@export
 doo <- function(data, .f, ..., result = ".results."){
-  .results <- data %>%
-    nest() %>%
+  if(is_grouped_df(data)){
+    .results <- data %>% nest()
+  }
+  else{
+    .results <- data %>% nest(data = everything())
+  }
+  .results <- .results %>%
     dplyr::ungroup() %>%
     mutate(data = map(.data$data, droplevels)) %>%
     mutate(data = map(.data$data, .f, ...))

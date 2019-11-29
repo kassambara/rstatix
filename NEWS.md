@@ -8,6 +8,7 @@
 
 ## Minor changes
 
+- tidyr > 1.0.0 now required
 - know, `identify_outliers` returns a basic data frame instead of tibble when nrow = 0 (for nice printing)
 - new argument `detailed` added in `dunn_test()`. If TRUE, then estimate and method columns are shown in the results.
 
