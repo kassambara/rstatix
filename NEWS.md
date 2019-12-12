@@ -1,18 +1,10 @@
-# rstatix 0.3.0.999
-
-## New features
-
-
-## Major changes
-
+# rstatix 0.3.1
 
 ## Minor changes
 
 - tidyr > 1.0.0 now required
 - know, `identify_outliers` returns a basic data frame instead of tibble when nrow = 0 (for nice printing)
 - new argument `detailed` added in `dunn_test()`. If TRUE, then estimate and method columns are shown in the results.
-
-## Bug fixex
 
 
 
@@ -33,7 +25,7 @@
 
 - Now `get_test_label()` and `get_pwc_label()` return expression by default
 - Unit testing and spelling check added
-- Code rewritted to adapt tidyr 1.0.0
+- Code rewritten to adapt tidyr 1.0.0
 
 
 # rstatix 0.2.0

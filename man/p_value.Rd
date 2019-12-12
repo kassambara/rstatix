@@ -36,7 +36,7 @@ frame. P value columns are automatically detected if not specified.}
 \item{digits}{the number of significant digits to be used.}
 
 \item{new.col}{logical, used only when \code{x} is a data frame. If TRUE, add
-a new column to hold the results. The new colum name is created by adding,
+a new column to hold the results. The new column name is created by adding,
 to the p column, the suffix "format" (for \code{p_format()}), "signif" (for
 \code{p_mak_significant()}).}
 

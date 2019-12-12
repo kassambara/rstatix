@@ -6,7 +6,7 @@ NULL
 #' Compute Cohen's d Measure of Effect Size
 #'
 #' @description Compute the effect size for t-test. T-test conventional effect
-#'   sizes, poposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
+#'   sizes, proposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
 #'   0.8 (large effect).
 #'
 #' Cohen's \code{d} is calculated as the difference between means or mean minus \code{mu}

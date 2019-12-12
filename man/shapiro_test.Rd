@@ -26,7 +26,9 @@ a data frame containing the value of the Shapiro-Wilk statistic and
 Provides a pipe-friendly framework to performs Shapiro-Wilk test
   of normality. Support grouped data and multiple variables for multivariate
   normality tests. Wrapper around the R base function
-  \code{\link[stats]{shapiro.test}()}. Can handle grouped data.
+  \code{\link[stats]{shapiro.test}()}. Can handle grouped data. Read more:
+  \href{https://www.datanovia.com/en/lessons/normality-test-in-r/}{Normality
+  Test in R}.
 }
 \section{Functions}{
 \itemize{

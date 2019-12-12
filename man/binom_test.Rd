@@ -68,10 +68,10 @@ base function \code{\link[stats]{binom.test}} that returns a dataframe as a
 result.
 
 \item \code{pairwise_binom_test}: performs pairwise comparisons (binomial test)
-following a significan exact multinomial test.
+following a significant exact multinomial test.
 
 \item \code{pairwise_binom_test_against_p}: performs pairwise comparisons (binomial test)
-following a significan exact multinomial test for given probabilities.
+following a significant exact multinomial test for given probabilities.
 }}
 
 \examples{

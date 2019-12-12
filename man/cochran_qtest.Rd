@@ -10,7 +10,7 @@ cochran_qtest(data, formula)
 \item{data}{a data frame containing the variables in the formula.}
 
 \item{formula}{a formula of the form \code{a ~ b | c}, where \code{a} is the
-doutcome variable name; b is the within-subjects factor variables; and c
+outcome variable name; b is the within-subjects factor variables; and c
 (factor) is the column name containing individuals/subjects identifier.
 Should be unique per individual.}
 }

@@ -6,7 +6,9 @@ NULL
 #'@description Provides a pipe-friendly framework to perform a Friedman rank sum
 #'  test, which is the non-parametric alternative to the one-way repeated
 #'  measures ANOVA test. Wrapper around the function
-#'  \code{\link[stats]{friedman.test}()}.
+#'  \code{\link[stats]{friedman.test}()}. Read more:
+#'  \href{https://www.datanovia.com/en/lessons/friedman-test-in-r/}{Friedman
+#'  test in R}.
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{a ~ b | c}, where \code{a}
 #'  (numeric) is the dependent variable name; \code{b} is the within-subjects
@@ -15,11 +17,11 @@ NULL
 #'@param ... other arguments to be passed to the function
 #'  \code{\link[stats]{friedman.test}}.
 #'
-#' @return return a data frame with the following columns: \itemize{ \item
-#'  \code{.y.}: the y (dependent) variable used in the test. \item \code{n}: sample count.
-#'  \item \code{statistic}: the value of Friedman's chi-squared statistic, used to
-#'  compute the p-value. \item \code{p}: p-value. \item \code{method}: the
-#'  statistical test used to compare groups.}
+#'@return return a data frame with the following columns: \itemize{ \item
+#'  \code{.y.}: the y (dependent) variable used in the test. \item \code{n}:
+#'  sample count. \item \code{statistic}: the value of Friedman's chi-squared
+#'  statistic, used to compute the p-value. \item \code{p}: p-value. \item
+#'  \code{method}: the statistical test used to compare groups.}
 #'
 #' @examples
 #' # Load data
@@ -34,8 +36,8 @@ NULL
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' df %>% friedman_test(len ~ dose | id)
 #'
-#' @name friedman_test
-#' @export
+#'@name friedman_test
+#'@export
 friedman_test <- function(data, formula, ...){
   args <- c(as.list(environment()), list(...)) %>%
     add_item(method = "friedman_test")

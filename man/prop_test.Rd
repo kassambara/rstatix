@@ -98,7 +98,7 @@ tests following a significant chi-square test of homogeneity for 2xc
 design. Wrapper around \code{\link[stats]{pairwise.prop.test}()}
 
 \item \code{row_wise_prop_test}: performs row-wise z-test of two proportions, a post-hoc tests following a significant chi-square test
-of homogeneity for rx2 contingency table. The z-test of two proportions is runned for each category (row).
+of homogeneity for rx2 contingency table. The z-test of two proportions is calculated for each category (row).
 }}
 
 \examples{

@@ -96,7 +96,7 @@ return a data frame with some the following columns: \itemize{ \item
 }
 \description{
 Provides a pipe-friendly framework to performs one and two sample
- t-tests.
+ t-tests. Read more: \href{https://www.datanovia.com/en/lessons/t-test-in-r/}{T-test in R}.
 }
 \details{
 - If a list of comparisons is specified, the result of the pairwise tests is

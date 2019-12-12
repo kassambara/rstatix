@@ -32,7 +32,7 @@ NULL
 #' # Question 2: comparing observed to expected proportions
 #' #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #' # this is a goodness-of-fit test
-#' expected.p <- c(red = 1/2, yellow = 1/3, white = 1/6)
+#' expected.p <- c(red = 0.5, yellow = 0.33, white = 0.17)
 #' res <- multinom_test(tulip, expected.p)
 #' res
 #' attr(res, "descriptives")

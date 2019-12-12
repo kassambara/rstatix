@@ -19,16 +19,18 @@ individuals/subjects identifier. Should be unique per individual.}
 }
 \value{
 return a data frame with the following columns: \itemize{ \item
- \code{.y.}: the y (dependent) variable used in the test. \item \code{n}: sample count.
- \item \code{statistic}: the value of Friedman's chi-squared statistic, used to
- compute the p-value. \item \code{p}: p-value. \item \code{method}: the
- statistical test used to compare groups.}
+ \code{.y.}: the y (dependent) variable used in the test. \item \code{n}:
+ sample count. \item \code{statistic}: the value of Friedman's chi-squared
+ statistic, used to compute the p-value. \item \code{p}: p-value. \item
+ \code{method}: the statistical test used to compare groups.}
 }
 \description{
 Provides a pipe-friendly framework to perform a Friedman rank sum
  test, which is the non-parametric alternative to the one-way repeated
  measures ANOVA test. Wrapper around the function
- \code{\link[stats]{friedman.test}()}.
+ \code{\link[stats]{friedman.test}()}. Read more:
+ \href{https://www.datanovia.com/en/lessons/friedman-test-in-r/}{Friedman
+ test in R}.
 }
 \examples{
 # Load data

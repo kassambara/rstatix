@@ -184,7 +184,7 @@ pairwise_prop_test <- function(xtab, p.adjust.method = "holm", ...){
 
 
 #' @describeIn prop_test performs row-wise z-test of two proportions, a post-hoc tests following a significant chi-square test
-#'   of homogeneity for rx2 contingency table. The z-test of two proportions is runned for each category (row).
+#'   of homogeneity for rx2 contingency table. The z-test of two proportions is calculated for each category (row).
 #' @export
 row_wise_prop_test <- function(xtab, p.adjust.method = "holm", detailed = FALSE, ...){
   if(is.data.frame(xtab))

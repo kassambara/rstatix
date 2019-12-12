@@ -4,7 +4,7 @@ NULL
 #'
 #'
 #'@description Provides a pipe-friendly framework to performs one and two sample
-#'  t-tests.
+#'  t-tests. Read more: \href{https://www.datanovia.com/en/lessons/t-test-in-r/}{T-test in R}.
 #'@inheritParams stats::t.test
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a
@@ -72,7 +72,6 @@ NULL
 #'
 #'  The \strong{returned object has an attribute called args}, which is a list
 #'  holding the test arguments.
-#'
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::

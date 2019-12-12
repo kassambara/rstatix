@@ -5,7 +5,7 @@ NULL
 #'
 #'
 #'@description Provides a pipe-friendly framework to performs one and two sample
-#'  Wilcoxon tests.
+#'  Wilcoxon tests. Read more: \href{https://www.datanovia.com/en/lessons/wilcoxon-test-in-r/}{Wilcoxon in R}.
 #'@inheritParams stats::wilcox.test
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a

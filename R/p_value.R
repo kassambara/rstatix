@@ -24,7 +24,7 @@ NULL
 #'@param ... column names to manipulate in the case where \code{x} is a data
 #'  frame. P value columns are automatically detected if not specified.
 #'@param new.col logical, used only when \code{x} is a data frame. If TRUE, add
-#'  a new column to hold the results. The new colum name is created by adding,
+#'  a new column to hold the results. The new column name is created by adding,
 #'  to the p column, the suffix "format" (for \code{p_format()}), "signif" (for
 #'  \code{p_mak_significant()}).
 #'@return a vector or a data frame containing the rounded/formatted p-values.

@@ -96,7 +96,7 @@ binom_test <- function(x, n, p = 0.5,
 }
 
 #' @describeIn binom_test performs pairwise comparisons (binomial test)
-#'   following a significan exact multinomial test.
+#'   following a significant exact multinomial test.
 #' @export
 pairwise_binom_test <- function(x, p.adjust.method = "holm", alternative = "two.sided",
                                 conf.level = 0.95){
@@ -131,7 +131,7 @@ pairwise_binom_test <- function(x, p.adjust.method = "holm", alternative = "two.
 }
 
 #' @describeIn binom_test performs pairwise comparisons (binomial test)
-#'   following a significan exact multinomial test for given probabilities.
+#'   following a significant exact multinomial test for given probabilities.
 #' @export
 pairwise_binom_test_against_p <- function(x, p = rep(1/length(x), length(x)), p.adjust.method = "holm",
                                           alternative = "two.sided", conf.level = 0.95){

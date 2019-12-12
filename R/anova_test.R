@@ -4,10 +4,10 @@ NULL
 #'
 #'
 #'@description Provides a pipe-friendly framework to perform different types of
-#'  ANOVA tests, including: \itemize{ \item \strong{Independent measures ANOVA}:
-#'  between-Subjects designs, \item \strong{Repeated measures ANOVA}:
-#'  within-Subjects designs \item \strong{Mixed ANOVA}: Mixed within within- and
-#'  between-Subjects designs, also known as split-plot ANOVA. }
+#'  ANOVA tests, including: \itemize{ \item \strong{\href{https://www.datanovia.com/en/lessons/anova-in-r/}{Independent measures ANOVA}}:
+#'  between-Subjects designs, \item \strong{\href{https://www.datanovia.com/en/lessons/repeated-measures-anova-in-r/}{Repeated measures ANOVA}}:
+#'  within-Subjects designs \item \strong{\href{https://www.datanovia.com/en/lessons/mixed-anova-in-r/}{Mixed ANOVA}}: Mixed within within- and
+#'  between-Subjects designs, also known as split-plot ANOVA and \item \strong{\href{https://www.datanovia.com/en/lessons/ancova-in-r/}{ANCOVA: Analysis of Covariance}}. }
 #'
 #'  The function is an easy to use wrapper around \code{\link[car]{Anova}()} and
 #'  \code{\link[stats]{aov}()}. It makes ANOVA computation handy in R and It's

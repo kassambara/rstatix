@@ -49,7 +49,7 @@ height for every additional comparison to minimize overlap.}
 
 \item{y.trans}{a function for transforming y axis scale. Value can be
 \code{log2}, \code{log10} and \code{sqrt}. Can be also any custom function
-that can take a numeric vector as input and retourne a numeric vector,
+that can take a numeric vector as input and returns a numeric vector,
 example: \code{y.trans = function(x){log2(x+1)}}}
 
 \item{test}{an object of class \code{rstatix_test} as returned by

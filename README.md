@@ -587,3 +587,15 @@ Related articles
 ----------------
 
 -   [Add P-values and Significance Levels to ggplots](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/)
+-   [Comparing Means of Two Groups in R](https://www.datanovia.com/en/courses/comparing-means-of-two-groups-in-r/)
+    -   [T-test in R](https://www.datanovia.com/en/lessons/t-test-in-r/)
+    -   [Wilcoxon Test in R](https://www.datanovia.com/en/lessons/wilcoxon-test-in-r/)
+    -   [Sign Test in R](https://www.datanovia.com/en/lessons/sign-test-in-r/)
+-   [Comparing Multiple Means in R](https://www.datanovia.com/en/courses/comparing-multiple-means-in-r/)
+    -   [ANOVA in R](https://www.datanovia.com/en/lessons/anova-in-r/)
+    -   [Repeated Measures ANOVA in R](https://www.datanovia.com/en/lessons/repeated-measures-anova-in-r/)
+    -   [Mixed ANOVA in R](https://www.datanovia.com/en/lessons/mixed-anova-in-r/)
+    -   [ANCOVA in R](https://www.datanovia.com/en/lessons/ancova-in-r/)
+    -   [One-Way MANOVA in R](https://www.datanovia.com/en/lessons/one-way-manova-in-r/)
+    -   [Kruskal-Wallis Test in R](https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/)
+    -   [Friedman Test in R](https://www.datanovia.com/en/lessons/friedman-test-in-r/)

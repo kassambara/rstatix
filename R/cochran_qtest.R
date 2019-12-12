@@ -8,7 +8,7 @@ NULL
 #'  more than two paired proportions.
 #'@param data a data frame containing the variables in the formula.
 #'@param formula a formula of the form \code{a ~ b | c}, where \code{a} is the
-#'  doutcome variable name; b is the within-subjects factor variables; and c
+#'  outcome variable name; b is the within-subjects factor variables; and c
 #'  (factor) is the column name containing individuals/subjects identifier.
 #'  Should be unique per individual.
 #'@examples
