@@ -7,16 +7,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pipe-Friendly Framework for Basic Statistical Tests • rstatix</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Pipe-Friendly Framework for Basic Statistical Tests">
-<meta property="og:description" content="Provides a simple and intuitive pipe-friendly framework, coherent with the 'tidyverse' design philosophy, 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script><script src="extra.js"></script><meta property="og:title" content="Pipe-Friendly Framework for Basic Statistical Tests">
+<meta property="og:description" content="Provides a simple and intuitive pipe-friendly framework, coherent with the tidyverse design philosophy, 
     for performing basic statistical tests, including t-test, Wilcoxon test, ANOVA, Kruskal-Wallis and correlation analyses. 
     The output of each test is automatically transformed into a tidy data frame to facilitate visualization. 
     Additional functions are available for reshaping, reordering, manipulating and visualizing correlation matrix.  
-    Functions are also included to facilitate the analysis of factorial experiments, including purely 'within-Ss' designs 
-    (repeated measures), purely 'between-Ss' designs, and mixed 'within-and-between-Ss' designs. 
-    It's also possible to compute several effect size metrics, including &quot;eta squared&quot; for ANOVA, &quot;Cohen's d&quot; for t-test and 
+    Functions are also included to facilitate the analysis of factorial experiments, including purely within-Ss designs 
+    (repeated measures), purely between-Ss designs, and mixed within-and-between-Ss designs. 
+    Its also possible to compute several effect size metrics, including &quot;eta squared&quot; for ANOVA, &quot;Cohens d&quot; for t-test and 
     &quot;Cramer's V&quot; for the association between categorical variables. 
     The package contains helper functions for identifying univariate and multivariate outliers, assessing normality and homogeneity of variances.">
 <meta name="twitter:card" content="summary">
@@ -26,7 +27,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -38,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -46,7 +47,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -66,13 +67,10 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    
 
-    
-    
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+      </header><div class="row">
+  <div class="contents col-md-9">
+
 
 <div id="rstatix" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
@@ -113,9 +111,9 @@
 <li>
 <code><a href="reference/sign_test.html">sign_test()</a></code>: perform sign test to determine whether there is a median difference between paired or matched observations.</li>
 <li>
-<code><a href="reference/anova_test.html">anova_test()</a></code>: an easy-to-use wrapper around <code><a href="https://www.rdocumentation.org/packages/car/topics/Anova">car::Anova()</a></code> to perform different types of ANOVA tests, including <strong>independent measures ANOVA</strong>, <strong>repeated measures ANOVA</strong> and <strong>mixed ANOVA</strong>.</li>
+<code><a href="reference/anova_test.html">anova_test()</a></code>: an easy-to-use wrapper around <code><a href="https://rdrr.io/pkg/car/man/Anova.html">car::Anova()</a></code> to perform different types of ANOVA tests, including <strong>independent measures ANOVA</strong>, <strong>repeated measures ANOVA</strong> and <strong>mixed ANOVA</strong>.</li>
 <li>
-<code>get_anova_test_table()</code>: extract ANOVA table from <code><a href="reference/anova_test.html">anova_test()</a></code> results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs. <code>- welch_anova_test()</code>: Welch one-Way ANOVA test. A pipe-frindly wrapper around the base function <code><a href="https://www.rdocumentation.org/packages/stats/topics/oneway.test">stats::oneway.test()</a></code>. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.</li>
+<code>get_anova_test_table()</code>: extract ANOVA table from <code><a href="reference/anova_test.html">anova_test()</a></code> results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs. <code>- welch_anova_test()</code>: Welch one-Way ANOVA test. A pipe-frindly wrapper around the base function <code><a href="https://rdrr.io/r/stats/oneway.test.html">stats::oneway.test()</a></code>. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.</li>
 <li>
 <code><a href="reference/kruskal_test.html">kruskal_test()</a></code>: perform kruskal-wallis rank sum test</li>
 <li>
@@ -131,9 +129,9 @@
 <a href="#facilitating-anova-computation-in-r" class="anchor"></a>Facilitating ANOVA computation in R</h3>
 <ul>
 <li>
-<code><a href="reference/factorial_design.html">factorial_design()</a></code>: build factorial design for easily computing ANOVA using the <code><a href="https://www.rdocumentation.org/packages/car/topics/Anova">car::Anova()</a></code> function. This might be very useful for repeated measures ANOVA, which is hard to set up with the <code>car</code> package.</li>
+<code><a href="reference/factorial_design.html">factorial_design()</a></code>: build factorial design for easily computing ANOVA using the <code><a href="https://rdrr.io/pkg/car/man/Anova.html">car::Anova()</a></code> function. This might be very useful for repeated measures ANOVA, which is hard to set up with the <code>car</code> package.</li>
 <li>
-<code><a href="reference/anova_summary.html">anova_summary()</a></code>: Create beautiful summary tables of ANOVA test results obtained from either <code><a href="https://www.rdocumentation.org/packages/car/topics/Anova">car::Anova()</a></code> or <code><a href="https://www.rdocumentation.org/packages/stats/topics/aov">stats::aov()</a></code>. The results include ANOVA table, generalized effect size and some assumption checks, such as Mauchly’s test for sphericity in the case of repeated measures ANOVA.</li>
+<code><a href="reference/anova_summary.html">anova_summary()</a></code>: Create beautiful summary tables of ANOVA test results obtained from either <code><a href="https://rdrr.io/pkg/car/man/Anova.html">car::Anova()</a></code> or <code><a href="https://rdrr.io/r/stats/aov.html">stats::aov()</a></code>. The results include ANOVA table, generalized effect size and some assumption checks, such as Mauchly’s test for sphericity in the case of repeated measures ANOVA.</li>
 </ul>
 </div>
 <div id="post-hoc-analyses" class="section level3">
@@ -155,9 +153,9 @@
 <a href="#comparing-proportions" class="anchor"></a>Comparing proportions</h3>
 <ul>
 <li>
-<code><a href="reference/prop_test.html">prop_test()</a></code>, <code><a href="reference/prop_test.html">pairwise_prop_test()</a></code> and <code><a href="reference/prop_test.html">row_wise_prop_test()</a></code>. Performs one-sample and two-samples z-test of proportions. Wrappers around the R base function <code><a href="https://www.rdocumentation.org/packages/stats/topics/prop.test">prop.test()</a></code> but have the advantage of performing pairwise and row-wise z-test of two proportions, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables.</li>
+<code><a href="reference/prop_test.html">prop_test()</a></code>, <code><a href="reference/prop_test.html">pairwise_prop_test()</a></code> and <code><a href="reference/prop_test.html">row_wise_prop_test()</a></code>. Performs one-sample and two-samples z-test of proportions. Wrappers around the R base function <code><a href="https://rdrr.io/r/stats/prop.test.html">prop.test()</a></code> but have the advantage of performing pairwise and row-wise z-test of two proportions, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables.</li>
 <li>
-<code><a href="reference/fisher_test.html">fisher_test()</a></code>, <code><a href="reference/fisher_test.html">pairwise_fisher_test()</a></code> and <code><a href="reference/fisher_test.html">row_wise_fisher_test()</a></code>: Fisher’s exact test for count data. Wrappers around the R base function <code><a href="https://www.rdocumentation.org/packages/stats/topics/fisher.test">fisher.test()</a></code> but have the advantage of performing pairwise and row-wise fisher tests, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables.</li>
+<code><a href="reference/fisher_test.html">fisher_test()</a></code>, <code><a href="reference/fisher_test.html">pairwise_fisher_test()</a></code> and <code><a href="reference/fisher_test.html">row_wise_fisher_test()</a></code>: Fisher’s exact test for count data. Wrappers around the R base function <code><a href="https://rdrr.io/r/stats/fisher.test.html">fisher.test()</a></code> but have the advantage of performing pairwise and row-wise fisher tests, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables.</li>
 <li>
 <code><a href="reference/chisq_test.html">chisq_test()</a></code>, <code><a href="reference/chisq_test.html">pairwise_chisq_gof_test()</a></code>, <code><a href="reference/chisq_test.html">pairwise_chisq_test_against_p()</a></code>: Performs chi-squared tests, including goodness-of-fit, homogeneity and independence tests.</li>
 <li>
@@ -292,17 +290,17 @@
 <ul>
 <li>Install the latest developmental version from <a href="https://github.com/kassambara/rstatix">GitHub</a> as follow:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span>(<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)
-devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"kassambara/rstatix"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(devtools)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
+devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"kassambara/rstatix"</span>)</code></pre></div>
 <ul>
 <li>Or install from <a href="https://cran.r-project.org/package=ggpubr">CRAN</a> as follow:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"rstatix"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"rstatix"</span>)</code></pre></div>
 <ul>
 <li>Loading packages</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(rstatix)  
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggpubr)  <span class="co"># For easy data-visualization</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rstatix)  
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggpubr)  <span class="co"># For easy data-visualization</span></code></pre></div>
 </div>
 <div id="descriptive-statistics-1" class="section level2">
 <h2 class="hasAnchor">
@@ -350,8 +348,8 @@ iris <span class="op">%&gt;%</span>
 <a href="#data" class="anchor"></a>Data</h3>
 <p>Preparing the demo data set:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span>ToothGrowth
-df<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(df<span class="op">$</span>dose)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(df)
+df<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(df<span class="op">$</span>dose)
+<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(df)
 <span class="co">#&gt;    len supp dose</span>
 <span class="co">#&gt; 1  4.2   VC  0.5</span>
 <span class="co">#&gt; 2 11.5   VC  0.5</span>
@@ -396,19 +394,19 @@ stat.test
 <span class="co">#&gt; 1 len   OJ     VC        30    30      1.92  55.3 0.0606</span>
 
 <span class="co"># Create a box plot</span>
-p &lt;-<span class="st"> </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(
+p &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(
   df, <span class="dt">x =</span> <span class="st">"supp"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, 
-  <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>,<span class="dv">40</span>)
+  <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>,<span class="dv">40</span>)
   )
 <span class="co"># Add the p-value manually</span>
-p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)</code></pre></div>
-<p><img src="tools/README-unpaired-two-sample-t-test-1.png" width="336"></p>
+p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)</code></pre></div>
+<p><img src="tools/README-unpaired-two-sample-t-test-1.png"></p>
 <ul>
 <li>Customize labels using <a href="https://github.com/tidyverse/glue">glue expression</a>:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"T-test, p = {p}"</span>, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"T-test, p = {p}"</span>, 
                       <span class="dt">y.position =</span> <span class="dv">36</span>)</code></pre></div>
-<p><img src="tools/README-custoize-p-value-labels-1.png" width="336"></p>
+<p><img src="tools/README-custoize-p-value-labels-1.png"></p>
 <ul>
 <li>Grouped data: compare supp levels after grouping the data by “dose”</li>
 </ul>
@@ -428,13 +426,13 @@ stat.test
 <span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span>
 
 <span class="co"># Visualization</span>
-<span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(
+<span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(
   df, <span class="dt">x =</span> <span class="st">"supp"</span>, <span class="dt">y =</span> <span class="st">"len"</span>,
   <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>, <span class="dt">facet.by =</span> <span class="st">"dose"</span>,
-  <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)
+  <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)
   ) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p.adj"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)</code></pre></div>
-<p><img src="tools/README-grouped-two-sample-t-test-1.png" width="576"></p>
+<span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p.adj"</span>, <span class="dt">y.position =</span> <span class="dv">35</span>)</code></pre></div>
+<p><img src="tools/README-grouped-two-sample-t-test-1.png"></p>
 </div>
 <div id="compare-paired-samples" class="section level3">
 <h3 class="hasAnchor">
@@ -449,12 +447,12 @@ stat.test
 <span class="co">#&gt; 1 len   OJ     VC        30    30      3.30    29 0.00255</span>
 
 <span class="co"># Box plot</span>
-p &lt;-<span class="st"> </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggpaired.html">ggpaired</a></span>(
+p &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggpaired.html">ggpaired</a></span>(
   df, <span class="dt">x =</span> <span class="st">"supp"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">color =</span> <span class="st">"supp"</span>, <span class="dt">palette =</span> <span class="st">"jco"</span>, 
-  <span class="dt">line.color =</span> <span class="st">"gray"</span>, <span class="dt">line.size =</span> <span class="fl">0.4</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)
+  <span class="dt">line.color =</span> <span class="st">"gray"</span>, <span class="dt">line.size =</span> <span class="fl">0.4</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)
   )
-p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">36</span>)</code></pre></div>
-<p><img src="tools/README-paired-t-test-1.png" width="336"></p>
+p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(stat.test, <span class="dt">label =</span> <span class="st">"p"</span>, <span class="dt">y.position =</span> <span class="dv">36</span>)</code></pre></div>
+<p><img src="tools/README-paired-t-test-1.png"></p>
 </div>
 <div id="multiple-pairwise-comparisons" class="section level3">
 <h3 class="hasAnchor">
@@ -473,12 +471,12 @@ pairwise.test
 <span class="co">#&gt; 3 len   1      2         20    20     -4.90  37.1 1.91e- 5 1.91e- 5</span>
 <span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span>
 <span class="co"># Box plot</span>
-<span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>)<span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
+<span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>)<span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
     pairwise.test, <span class="dt">label =</span> <span class="st">"p.adj"</span>, 
-    <span class="dt">y.position =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>, <span class="dv">39</span>)
+    <span class="dt">y.position =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>, <span class="dv">39</span>)
     )</code></pre></div>
-<p><img src="tools/README-pairwise-comparisons-1.png" width="336"></p>
+<p><img src="tools/README-pairwise-comparisons-1.png"></p>
 <ul>
 <li>Multiple pairwise comparisons against reference group: each level is compared to the ref group</li>
 </ul>
@@ -494,20 +492,20 @@ stat.test
 <span class="co">#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 8.80e-14</span>
 <span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span>
 <span class="co"># Box plot</span>
-<span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
+<span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
     stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, 
-    <span class="dt">y.position =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>)
+    <span class="dt">y.position =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>)
     )</code></pre></div>
-<p><img src="tools/README-comaprison-against-reference-group-1.png" width="336"></p>
+<p><img src="tools/README-comaprison-against-reference-group-1.png"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Remove bracket</span>
-<span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
+<span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
     stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, 
-    <span class="dt">y.position =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>),
+    <span class="dt">y.position =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>),
     <span class="dt">remove.bracket =</span> <span class="ot">TRUE</span>
     )</code></pre></div>
-<p><img src="tools/README-comaprison-against-reference-group-2.png" width="336"></p>
+<p><img src="tools/README-comaprison-against-reference-group-2.png"></p>
 <ul>
 <li>Multiple pairwise comparisons against all (base-mean): Comparison of each group against base-mean.</li>
 </ul>
@@ -522,14 +520,14 @@ stat.test
 <span class="co">#&gt; 3 len   all    2         60    20    -5.61   66.5 4.25e-7 8.70e-7</span>
 <span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span>
 <span class="co"># Box plot with horizontal mean line</span>
-<span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw"><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
+<span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(
     stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, 
     <span class="dt">y.position =</span> <span class="dv">35</span>,
     <span class="dt">remove.bracket =</span> <span class="ot">TRUE</span>
     ) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(df<span class="op">$</span>len), <span class="dt">linetype =</span> <span class="dv">2</span>)</code></pre></div>
-<p><img src="tools/README-comparison-against-base-mean-1.png" width="336"></p>
+<span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(df<span class="op">$</span>len), <span class="dt">linetype =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="tools/README-comparison-against-base-mean-1.png"></p>
 </div>
 </div>
 <div id="anova-test" class="section level2">
@@ -555,11 +553,11 @@ df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a hr
 
 <span class="co"># Two-way repeated measures ANOVA</span>
 <span class="co">#:::::::::::::::::::::::::::::::::::::::::</span>
-df<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">6</span>) <span class="co"># Add individuals id</span>
+df<span class="op">$</span>id &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">6</span>) <span class="co"># Add individuals id</span>
 <span class="co"># Use formula</span>
 <span class="co"># df %&gt;% anova_test(len ~ supp*dose + Error(id/(supp*dose)))</span>
 <span class="co"># or use character vector</span>
-df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/anova_test.html">anova_test</a></span>(<span class="dt">dv =</span> len, <span class="dt">wid =</span> id, <span class="dt">within =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(supp, dose))
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/anova_test.html">anova_test</a></span>(<span class="dt">dv =</span> len, <span class="dt">wid =</span> id, <span class="dt">within =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(supp, dose))
 <span class="co">#&gt; ANOVA Table (type III tests)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $ANOVA</span>
@@ -583,7 +581,7 @@ df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a hr
 
 <span class="co"># Use model as arguments</span>
 <span class="co">#:::::::::::::::::::::::::::::::::::::::::</span>
-.my.model &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(yield <span class="op">~</span><span class="st"> </span>block <span class="op">+</span><span class="st"> </span>N<span class="op">*</span>P<span class="op">*</span>K, npk)
+.my.model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(yield <span class="op">~</span><span class="st"> </span>block <span class="op">+</span><span class="st"> </span>N<span class="op">*</span>P<span class="op">*</span>K, npk)
 <span class="kw"><a href="reference/anova_test.html">anova_test</a></span>(.my.model)
 <span class="co">#&gt; ANOVA Table (type II tests)</span>
 <span class="co">#&gt; </span>
@@ -603,7 +601,7 @@ df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a hr
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Data preparation</span>
 mydata &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(mpg, disp, hp, drat, wt, qsec)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mydata, <span class="dv">3</span>)
+<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(mydata, <span class="dv">3</span>)
 <span class="co">#&gt;                mpg disp  hp drat    wt  qsec</span>
 <span class="co">#&gt; Mazda RX4     21.0  160 110 3.90 2.620 16.46</span>
 <span class="co">#&gt; Mazda RX4 Wag 21.0  160 110 3.90 2.875 17.02</span>
@@ -706,16 +704,37 @@ cor.mat <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/cor_reorder.html">cor_reorder</a></span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/pull_triangle.html">pull_lower_triangle</a></span>() <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="reference/cor_plot.html">cor_plot</a></span>()</code></pre></div>
-<p><img src="tools/README-unnamed-chunk-10-1.png" width="384"></p>
+<p><img src="tools/README-unnamed-chunk-10-1.png"></p>
 </div>
 <div id="related-articles" class="section level2">
 <h2 class="hasAnchor">
 <a href="#related-articles" class="anchor"></a>Related articles</h2>
 <ul>
 <li><a href="http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/">Add P-values and Significance Levels to ggplots</a></li>
+<li>
+<a href="https://www.datanovia.com/en/courses/comparing-means-of-two-groups-in-r/">Comparing Means of Two Groups in R</a>
+<ul>
+<li><a href="https://www.datanovia.com/en/lessons/t-test-in-r/">T-test in R</a></li>
+<li><a href="https://www.datanovia.com/en/lessons/wilcoxon-test-in-r/">Wilcoxon Test in R</a></li>
+<li><a href="https://www.datanovia.com/en/lessons/sign-test-in-r/">Sign Test in R</a></li>
+</ul>
+</li>
+<li>
+<a href="https://www.datanovia.com/en/courses/comparing-multiple-means-in-r/">Comparing Multiple Means in R</a>
+<ul>
+<li><a href="https://www.datanovia.com/en/lessons/anova-in-r/">ANOVA in R</a></li>
+<li><a href="https://www.datanovia.com/en/lessons/repeated-measures-anova-in-r/">Repeated Measures ANOVA in R</a></li>
+<li><a href="https://www.datanovia.com/en/lessons/mixed-anova-in-r/">Mixed ANOVA in R</a></li>
+<li><a href="https://www.datanovia.com/en/lessons/ancova-in-r/">ANCOVA in R</a></li>
+<li><a href="https://www.datanovia.com/en/lessons/one-way-manova-in-r/">One-Way MANOVA in R</a></li>
+<li><a href="https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/">Kruskal-Wallis Test in R</a></li>
+<li><a href="https://www.datanovia.com/en/lessons/friedman-test-in-r/">Friedman Test in R</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -741,7 +760,7 @@ cor.mat <span class="op">%&gt;%</span>
 </ul>
 </div>
 
-      <div class="dev-status">
+  <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/kassambara/rstatix"><img src="https://api.travis-ci.org/kassambara/rstatix.png" alt="Build Status"></a></li>
@@ -752,7 +771,6 @@ cor.mat <span class="op">%&gt;%</span>
 </ul>
 </div>
 </div>
-
 </div>
 
 
@@ -761,12 +779,14 @@ cor.mat <span class="op">%&gt;%</span>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

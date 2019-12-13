@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,6 +32,8 @@
 
 
 
+  
+  <script src="../extra.js"></script>
 <meta property="og:title" content="Wilcoxon Effect Size — wilcox_effsize" />
 
 <meta property="og:description" content="Compute Wilcoxon effect size (r) for:
@@ -37,9 +41,9 @@ one-sample test (Wilcoxon one-sample signed-rank test);
 paired
  two-samples test (Wilcoxon two-sample paired signed-rank test) and
 independent two-samples test ( Mann-Whitney, two-sample rank-sum test).
-" />
 
-<meta property="og:description" content="It can also returns confidence intervals by bootstap.
+
+It can also returns confidence intervals by bootstap.
 The effect size r is calculated as Z statistic divided by
  square root of the sample size (N) (\(Z/\sqrt{N}\)). The Z value is
  extracted from either coin::wilcoxsign_test() (case of one- or
@@ -65,6 +69,7 @@ The r value varies from 0 to close to 1. The interpretation values
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -81,7 +86,7 @@ The r value varies from 0 to close to 1. The interpretation values
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -89,7 +94,7 @@ The r value varies from 0 to close to 1. The interpretation values
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -110,6 +115,7 @@ The r value varies from 0 to close to 1. The interpretation values
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -129,11 +135,11 @@ The r value varies from 0 to close to 1. The interpretation values
 <li><p>independent two-samples test ( Mann-Whitney, two-sample rank-sum test).</p></li>
 </ul>
 
-    <p>It can also returns confidence intervals by bootstap.</p>
+<p>It can also returns confidence intervals by bootstap.</p>
 <p>The effect size <code>r</code> is calculated as <code>Z</code> statistic divided by
  square root of the sample size (N) (\(Z/\sqrt{N}\)). The <code>Z</code> value is
- extracted from either <code><a href='https://www.rdocumentation.org/packages/coin/topics/SymmetryTests'>coin::wilcoxsign_test()</a></code> (case of one- or
- paired-samples test) or <code><a href='https://www.rdocumentation.org/packages/coin/topics/LocationTests'>coin::wilcox_test()</a></code> (case of independent
+ extracted from either <code><a href='https://rdrr.io/pkg/coin/man/SymmetryTests.html'>coin::wilcoxsign_test()</a></code> (case of one- or
+ paired-samples test) or <code><a href='https://rdrr.io/pkg/coin/man/LocationTests.html'>coin::wilcox_test()</a></code> (case of independent
  two-samples test).</p>
 <p>Note that <code>N</code> corresponds to total sample size for independent samples
  test and to total number of pairs for paired samples test.</p>
@@ -204,7 +210,7 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
     <tr>
       <th>ci.type</th>
       <td><p>The type of confidence interval to use. Can be any of "norm",
-"basic", "perc", or "bca". Passed to <code><a href='https://www.rdocumentation.org/packages/boot/topics/boot.ci'>boot::boot.ci</a></code>.</p></td>
+"basic", "perc", or "bca". Passed to <code><a href='https://rdrr.io/pkg/boot/man/boot.ci.html'>boot::boot.ci</a></code>.</p></td>
     </tr>
     <tr>
       <th>nboot</th>
@@ -213,8 +219,8 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
     <tr>
       <th>...</th>
       <td><p>Additional arguments passed to the functions
-<code><a href='https://www.rdocumentation.org/packages/coin/topics/SymmetryTests'>coin::wilcoxsign_test()</a></code> (case of one- or paired-samples test) or
-<code><a href='https://www.rdocumentation.org/packages/coin/topics/LocationTests'>coin::wilcox_test()</a></code> (case of independent two-samples test).</p></td>
+<code><a href='https://rdrr.io/pkg/coin/man/SymmetryTests.html'>coin::wilcoxsign_test()</a></code> (case of one- or paired-samples test) or
+<code><a href='https://rdrr.io/pkg/coin/man/LocationTests.html'>coin::wilcox_test()</a></code> (case of independent two-samples test).</p></td>
     </tr>
     </table>
     
@@ -240,7 +246,7 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"coin"</span>)){
+    <pre class="examples"><div class='input'><span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"coin"</span>)){
 
 <span class='co'># One-sample Wilcoxon test effect size</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>wilcox_effsize</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)
@@ -263,9 +269,7 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
 }</div><div class='output co'>#&gt; <span class='message'>Le chargement a nécessité le package : coin</span></div><div class='output co'>#&gt; <span class='message'>Le chargement a nécessité le package : survival</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attachement du package : ‘coin’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:rstatix’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    chisq_test, friedman_test, kruskal_test, sign_test, wilcox_test</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    expectation</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 8</span><span>
+#&gt; <span class='message'>    chisq_test, friedman_test, kruskal_test, sign_test, wilcox_test</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 8</span><span>
 #&gt;   .y.   group1 group2 effsize supp     n1    n2 magnitude
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>    
 #&gt; </span><span style='color: #555555;'>1</span><span> len   0.5    1        0.719 OJ       10    10 large    
@@ -290,19 +294,23 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Alboukadel Kassambara.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

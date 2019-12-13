@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,6 +32,8 @@
 
 
 
+  
+  <script src="../extra.js"></script>
 <meta property="og:title" content="Build Factorial Designs for ANOVA — factorial_design" />
 
 <meta property="og:description" content="Provides helper functions to build factorial design for easily
@@ -50,6 +54,7 @@
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -66,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -74,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,6 +100,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -108,7 +114,7 @@
     <div class="ref-description">
     
     <p>Provides helper functions to build factorial design for easily
- computing ANOVA using the <code><a href='https://www.rdocumentation.org/packages/car/topics/Anova'>Anova</a>()</code> function. This might be
+ computing ANOVA using the <code><a href='https://rdrr.io/pkg/car/man/Anova.html'>Anova</a>()</code> function. This might be
  very useful for repeated measures ANOVA, which is hard to set up with the
  <code>car</code> package.</p>
     
@@ -183,9 +189,9 @@ Should be unique per individual.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load data</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"ToothGrowth"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"ToothGrowth"</span>)
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;    len supp dose
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;    len supp dose
 #&gt; 1  4.2   VC  0.5
 #&gt; 2 11.5   VC  0.5
 #&gt; 3  7.3   VC  0.5
@@ -195,15 +201,15 @@ Should be unique per individual.</p></td>
 <span class='co'># Repeated measures designs</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Prepare the data</span>
-<span class='no'>df</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>6</span>) <span class='co'># Add individuals id</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;    len supp dose id
+<span class='no'>df</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fl'>6</span>) <span class='co'># Add individuals id</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>df</span>)</div><div class='output co'>#&gt;    len supp dose id
 #&gt; 1  4.2   VC  0.5  1
 #&gt; 2 11.5   VC  0.5  2
 #&gt; 3  7.3   VC  0.5  3
 #&gt; 4  5.8   VC  0.5  4
 #&gt; 5  6.4   VC  0.5  5
 #&gt; 6 10.0   VC  0.5  6</div><div class='input'><span class='co'># Build factorial designs</span>
-<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'>factorial_design</span>(<span class='no'>df</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='no'>len</span>, <span class='kw'>wid</span> <span class='kw'>=</span> <span class='no'>id</span>, <span class='kw'>within</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>supp</span>, <span class='no'>dose</span>))
+<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'>factorial_design</span>(<span class='no'>df</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='no'>len</span>, <span class='kw'>wid</span> <span class='kw'>=</span> <span class='no'>id</span>, <span class='kw'>within</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>supp</span>, <span class='no'>dose</span>))
 <span class='no'>design</span></div><div class='output co'>#&gt; $dv
 #&gt; [1] "len"
 #&gt; 
@@ -240,7 +246,7 @@ Should be unique per individual.</p></td>
 #&gt; 
 #&gt; $idesign
 #&gt; ~supp * dose
-#&gt; &lt;environment: 0x7fe6b9e70640&gt;
+#&gt; &lt;environment: 0x7ff5ecb22d80&gt;
 #&gt; 
 #&gt; $lm_data
 #&gt; </span><span style='color: #555555;'># A tibble: 10 x 7</span><span>
@@ -262,7 +268,7 @@ Should be unique per individual.</p></td>
 #&gt; 
 #&gt; $lm_formula
 #&gt; cbind(OJ_X0.5, OJ_X1, OJ_X2, VC_X0.5, VC_X1, VC_X2) ~ 1
-#&gt; &lt;environment: 0x7fe6b96832a8&gt;
+#&gt; &lt;environment: 0x7ff5ed930a78&gt;
 #&gt; 
 #&gt; $model
 #&gt; 
@@ -274,8 +280,8 @@ Should be unique per individual.</p></td>
 #&gt; (Intercept)  13.23    22.70  26.06   7.98    16.77  26.14
 #&gt; 
 #&gt; </div><div class='input'><span class='co'># Easily perform repeated measures ANOVA using the car package</span>
-<span class='no'>res.anova</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/car/topics/Anova'>Anova</a></span>(<span class='no'>design</span>$<span class='no'>model</span>, <span class='kw'>idata</span> <span class='kw'>=</span> <span class='no'>design</span>$<span class='no'>idata</span>, <span class='kw'>idesign</span> <span class='kw'>=</span> <span class='no'>design</span>$<span class='no'>idesign</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>res.anova</span>, <span class='kw'>multivariate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: HF eps &gt; 1 treated as 1</span></div><div class='output co'>#&gt; 
+<span class='no'>res.anova</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/car/man/Anova.html'>Anova</a></span>(<span class='no'>design</span>$<span class='no'>model</span>, <span class='kw'>idata</span> <span class='kw'>=</span> <span class='no'>design</span>$<span class='no'>idata</span>, <span class='kw'>idesign</span> <span class='kw'>=</span> <span class='no'>design</span>$<span class='no'>idesign</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>res.anova</span>, <span class='kw'>multivariate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: HF eps &gt; 1 treated as 1</span></div><div class='output co'>#&gt; 
 #&gt; Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
 #&gt; 
 #&gt;                  SS num Df Error SS den Df         F    Pr(&gt;F)    
@@ -309,8 +315,8 @@ Should be unique per individual.</p></td>
 <span class='co'># Independent measures designs</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Build factorial designs</span>
-<span class='no'>df</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>df</span>)
-<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'>factorial_design</span>(<span class='no'>df</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='no'>len</span>, <span class='kw'>wid</span> <span class='kw'>=</span> <span class='no'>id</span>, <span class='kw'>between</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>supp</span>, <span class='no'>dose</span>))
+<span class='no'>df</span>$<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>df</span>)
+<span class='no'>design</span> <span class='kw'>&lt;-</span> <span class='fu'>factorial_design</span>(<span class='no'>df</span>, <span class='kw'>dv</span> <span class='kw'>=</span> <span class='no'>len</span>, <span class='kw'>wid</span> <span class='kw'>=</span> <span class='no'>id</span>, <span class='kw'>between</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>supp</span>, <span class='no'>dose</span>))
 <span class='no'>design</span></div><div class='output co'>#&gt; $dv
 #&gt; [1] "len"
 #&gt; 
@@ -357,7 +363,7 @@ Should be unique per individual.</p></td>
 #&gt; 
 #&gt; $lm_formula
 #&gt; len ~ supp * dose
-#&gt; &lt;environment: 0x7fe6be3167b8&gt;
+#&gt; &lt;environment: 0x7ff5f185fa30&gt;
 #&gt; 
 #&gt; $model
 #&gt; 
@@ -369,7 +375,7 @@ Should be unique per individual.</p></td>
 #&gt;     18.8133       1.8500      -8.2083       0.9217       0.7750       1.1150  
 #&gt; 
 #&gt; </div><div class='input'><span class='co'># Perform ANOVA</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/car/topics/Anova'>Anova</a></span>(<span class='no'>design</span>$<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; Anova Table (Type III tests)
+<span class='fu'><a href='https://rdrr.io/pkg/car/man/Anova.html'>Anova</a></span>(<span class='no'>design</span>$<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; Anova Table (Type III tests)
 #&gt; 
 #&gt; Response: len
 #&gt;              Sum Sq Df  F value    Pr(&gt;F)    
@@ -399,19 +405,23 @@ Should be unique per individual.</p></td>
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Alboukadel Kassambara.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

@@ -16,13 +16,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,6 +32,8 @@
 
 
 
+  
+  <script src="../extra.js"></script>
 <meta property="og:title" content="Fisher's Exact Test for Count Data — fisher_test" />
 
 <meta property="og:description" content="Performs Fisher's exact test for testing the null of independence
@@ -52,6 +56,7 @@ Wrappers around the R base function fisher.test() but
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -68,7 +73,7 @@ Wrappers around the R base function fisher.test() but
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -76,7 +81,7 @@ Wrappers around the R base function fisher.test() but
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -97,6 +102,7 @@ Wrappers around the R base function fisher.test() but
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -111,7 +117,7 @@ Wrappers around the R base function fisher.test() but
     
     <p>Performs Fisher's exact test for testing the null of independence
  of rows and columns in a contingency table.</p>
-<p>Wrappers around the R base function <code><a href='https://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a>()</code> but
+<p>Wrappers around the R base function <code><a href='https://rdrr.io/r/stats/fisher.test.html'>fisher.test</a>()</code> but
  have the advantage of performing pairwise and row-wise fisher tests, the
  post-hoc tests following a significant chi-square test of homogeneity for 2xc
  and rx2 contingency tables.</p>
@@ -213,10 +219,11 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
     
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
-    <ul>
+    
+<ul>
 <li><p><code>fisher_test</code>: performs Fisher's exact test for testing the null of
 independence of rows and columns in a contingency table with fixed
-marginals. Wrapper around the function <code><a href='https://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a>()</code>.</p></li>
+marginals. Wrapper around the function <code><a href='https://rdrr.io/r/stats/fisher.test.html'>fisher.test</a>()</code>.</p></li>
 <li><p><code>pairwise_fisher_test</code>: pairwise comparisons between proportions, a post-hoc
 tests following a significant Fisher's exact test of homogeneity for 2xc
 design.</p></li>
@@ -230,10 +237,10 @@ of homogeneity for rx2 contingency table. The test is conducted for each categor
 <span class='co'># Comparing two proportions</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># Data: frequencies of smokers between two groups</span>
-<span class='no'>xtab</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>as.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>490</span>, <span class='fl'>10</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>400</span>, <span class='fl'>100</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dimnames'>dimnames</a></span>(<span class='no'>xtab</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
-  <span class='kw'>group</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"grp1"</span>, <span class='st'>"grp2"</span>),
-  <span class='kw'>smoker</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"yes"</span>, <span class='st'>"no"</span>)
+<span class='no'>xtab</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>as.table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>490</span>, <span class='fl'>10</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>400</span>, <span class='fl'>100</span>)))
+<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>xtab</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+  <span class='kw'>group</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"grp1"</span>, <span class='st'>"grp2"</span>),
+  <span class='kw'>smoker</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"yes"</span>, <span class='st'>"no"</span>)
 )
 <span class='no'>xtab</span></div><div class='output co'>#&gt;       smoker
 #&gt; group  yes  no
@@ -249,16 +256,16 @@ of homogeneity for rx2 contingency table. The test is conducted for each categor
 <span class='co'># Ha:  this proportion is different in at least one of the populations.</span>
 <span class='co'>#</span>
 <span class='co'># Data preparation</span>
-<span class='no'>grp.size</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>( <span class='fl'>106</span>, <span class='fl'>113</span>, <span class='fl'>156</span>, <span class='fl'>102</span> )
-<span class='no'>smokers</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>( <span class='fl'>50</span>, <span class='fl'>100</span>, <span class='fl'>139</span>, <span class='fl'>80</span> )
+<span class='no'>grp.size</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>( <span class='fl'>106</span>, <span class='fl'>113</span>, <span class='fl'>156</span>, <span class='fl'>102</span> )
+<span class='no'>smokers</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>( <span class='fl'>50</span>, <span class='fl'>100</span>, <span class='fl'>139</span>, <span class='fl'>80</span> )
 <span class='no'>no.smokers</span> <span class='kw'>&lt;-</span> <span class='no'>grp.size</span> - <span class='no'>smokers</span>
-<span class='no'>xtab</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>as.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind</a></span>(
+<span class='no'>xtab</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>as.table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(
   <span class='no'>smokers</span>,
   <span class='no'>no.smokers</span>
 ))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dimnames'>dimnames</a></span>(<span class='no'>xtab</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
-  <span class='kw'>Smokers</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Yes"</span>, <span class='st'>"No"</span>),
-  <span class='kw'>Groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"grp1"</span>, <span class='st'>"grp2"</span>, <span class='st'>"grp3"</span>, <span class='st'>"grp4"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>xtab</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+  <span class='kw'>Smokers</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Yes"</span>, <span class='st'>"No"</span>),
+  <span class='kw'>Groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"grp1"</span>, <span class='st'>"grp2"</span>, <span class='st'>"grp3"</span>, <span class='st'>"grp4"</span>)
 )
 <span class='no'>xtab</span></div><div class='output co'>#&gt;        Groups
 #&gt; Smokers grp1 grp2 grp3 grp4
@@ -283,13 +290,13 @@ of homogeneity for rx2 contingency table. The test is conducted for each categor
 <span class='co'># Pairwise proportion tests</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># Data: Titanic</span>
-<span class='no'>xtab</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>as.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind</a></span>(
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>122</span>, <span class='fl'>167</span>, <span class='fl'>528</span>, <span class='fl'>673</span>),
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>203</span>, <span class='fl'>118</span>, <span class='fl'>178</span>, <span class='fl'>212</span>)
+<span class='no'>xtab</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>as.table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>122</span>, <span class='fl'>167</span>, <span class='fl'>528</span>, <span class='fl'>673</span>),
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>203</span>, <span class='fl'>118</span>, <span class='fl'>178</span>, <span class='fl'>212</span>)
 ))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dimnames'>dimnames</a></span>(<span class='no'>xtab</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
-  <span class='kw'>Survived</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"No"</span>, <span class='st'>"Yes"</span>),
-  <span class='kw'>Class</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"1st"</span>, <span class='st'>"2nd"</span>, <span class='st'>"3rd"</span>, <span class='st'>"Crew"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>xtab</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+  <span class='kw'>Survived</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"No"</span>, <span class='st'>"Yes"</span>),
+  <span class='kw'>Class</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"1st"</span>, <span class='st'>"2nd"</span>, <span class='st'>"3rd"</span>, <span class='st'>"Crew"</span>)
 )
 <span class='no'>xtab</span></div><div class='output co'>#&gt;         Class
 #&gt; Survived 1st 2nd 3rd Crew
@@ -307,13 +314,13 @@ of homogeneity for rx2 contingency table. The test is conducted for each categor
 <span class='co'># Row-wise proportion tests</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># Data: Titanic</span>
-<span class='no'>xtab</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>as.table</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind</a></span>(
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>180</span>, <span class='fl'>145</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>179</span>, <span class='fl'>106</span>),
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>510</span>, <span class='fl'>196</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>862</span>, <span class='fl'>23</span>)
+<span class='no'>xtab</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>as.table</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>180</span>, <span class='fl'>145</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>179</span>, <span class='fl'>106</span>),
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>510</span>, <span class='fl'>196</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>862</span>, <span class='fl'>23</span>)
 ))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dimnames'>dimnames</a></span>(<span class='no'>xtab</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
-  <span class='kw'>Class</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"1st"</span>, <span class='st'>"2nd"</span>, <span class='st'>"3rd"</span>, <span class='st'>"Crew"</span>),
-  <span class='kw'>Gender</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Male"</span>, <span class='st'>"Female"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>xtab</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+  <span class='kw'>Class</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"1st"</span>, <span class='st'>"2nd"</span>, <span class='st'>"3rd"</span>, <span class='st'>"Crew"</span>),
+  <span class='kw'>Gender</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Male"</span>, <span class='st'>"Female"</span>)
 )
 <span class='no'>xtab</span></div><div class='output co'>#&gt;       Gender
 #&gt; Class  Male Female
@@ -329,9 +336,9 @@ of homogeneity for rx2 contingency table. The test is conducted for each categor
 #&gt; </span><span style='color: #555555;'>3</span><span> 3rd    </span><span style='text-decoration: underline;'>2</span><span>201 8.67</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 8.67</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
 #&gt; </span><span style='color: #555555;'>4</span><span> Crew   </span><span style='text-decoration: underline;'>2</span><span>201 8.02</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-85</span><span> 3.21</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-84</span><span> ****        </div><div class='input'>
 <span class='co'># A r x c table  Agresti (2002, p. 57) Job Satisfaction</span>
-<span class='no'>Job</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>0</span>, <span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>6</span>,<span class='fl'>1</span>, <span class='fl'>10</span>,<span class='fl'>10</span>,<span class='fl'>14</span>,<span class='fl'>9</span>, <span class='fl'>6</span>,<span class='fl'>7</span>,<span class='fl'>12</span>,<span class='fl'>11</span>), <span class='fl'>4</span>, <span class='fl'>4</span>,
-              <span class='kw'>dimnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>income</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"&lt; 15k"</span>, <span class='st'>"15-25k"</span>, <span class='st'>"25-40k"</span>, <span class='st'>"&gt; 40k"</span>),
-                             <span class='kw'>satisfaction</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"VeryD"</span>, <span class='st'>"LittleD"</span>, <span class='st'>"ModerateS"</span>, <span class='st'>"VeryS"</span>)))
+<span class='no'>Job</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>0</span>, <span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>6</span>,<span class='fl'>1</span>, <span class='fl'>10</span>,<span class='fl'>10</span>,<span class='fl'>14</span>,<span class='fl'>9</span>, <span class='fl'>6</span>,<span class='fl'>7</span>,<span class='fl'>12</span>,<span class='fl'>11</span>), <span class='fl'>4</span>, <span class='fl'>4</span>,
+              <span class='kw'>dimnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>income</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"&lt; 15k"</span>, <span class='st'>"15-25k"</span>, <span class='st'>"25-40k"</span>, <span class='st'>"&gt; 40k"</span>),
+                             <span class='kw'>satisfaction</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VeryD"</span>, <span class='st'>"LittleD"</span>, <span class='st'>"ModerateS"</span>, <span class='st'>"VeryS"</span>)))
 <span class='fu'>fisher_test</span>(<span class='no'>Job</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 3</span><span>
 #&gt;       n     p p.signif
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
@@ -355,19 +362,23 @@ of homogeneity for rx2 contingency table. The test is conducted for each categor
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Alboukadel Kassambara.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
