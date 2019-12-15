@@ -119,7 +119,7 @@ chisq_test(tulip)
 pairwise_chisq_gof_test(tulip)
 # Q2: comparing observed to expected proportions
 chisq_test(tulip, p = c(1/2, 1/3, 1/6))
-pairwise_chisq_test_against_p(tulip, p = c(1/2, 1/3, 1/6))
+pairwise_chisq_test_against_p(tulip, p = c(0.5, 0.33, 0.17))
 
 # Homogeneity of proportions between groups
 #\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%
