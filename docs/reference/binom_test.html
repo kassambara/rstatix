@@ -258,24 +258,24 @@ following a significant exact multinomial test for given probabilities.</p></li>
 
 <span class='co'># Question 2: comparing observed to expected proportions</span>
 <span class='co'># this is a goodness-of-fit test</span>
-<span class='no'>expected.p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>red</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>2</span>, <span class='kw'>yellow</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>3</span>, <span class='kw'>white</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>6</span>)
+<span class='no'>expected.p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>red</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>yellow</span> <span class='kw'>=</span> <span class='fl'>0.33</span>, <span class='kw'>white</span> <span class='kw'>=</span> <span class='fl'>0.17</span>)
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='multinom_test.html'>multinom_test</a></span>(<span class='no'>tulip</span>, <span class='no'>expected.p</span>)
 <span class='no'>res</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
 #&gt;       p p.signif
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>1</span><span> 0.903 ns      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"descriptives"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 0.942 ns      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"descriptives"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
 #&gt;   group  observed expected
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> red          81     79  
-#&gt; </span><span style='color: #555555;'>2</span><span> yellow       50     52.7
-#&gt; </span><span style='color: #555555;'>3</span><span> white        27     26.3</div><div class='input'>
+#&gt; </span><span style='color: #555555;'>2</span><span> yellow       50     52.1
+#&gt; </span><span style='color: #555555;'>3</span><span> white        27     26.9</div><div class='input'>
 <span class='co'># Pairwise comparisons against a given probabilities</span>
 <span class='fu'>pairwise_binom_test_against_p</span>(<span class='no'>tulip</span>, <span class='no'>expected.p</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 10</span><span>
 #&gt;   group observed expected     n estimate conf.low conf.high     p p.adj
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span> red         81     79     158    0.513    0.432     0.593 0.811     1
-#&gt; </span><span style='color: #555555;'>2</span><span> yell…       50     52.7   158    0.316    0.245     0.395 0.674     1
-#&gt; </span><span style='color: #555555;'>3</span><span> white       27     26.3   158    0.171    0.116     0.239 0.915     1
+#&gt; </span><span style='color: #555555;'>2</span><span> yell…       50     52.1   158    0.316    0.245     0.395 0.800     1
+#&gt; </span><span style='color: #555555;'>3</span><span> white       27     26.9   158    0.171    0.116     0.239 1         1
 #&gt; </span><span style='color: #555555;'># … with 1 more variable: p.adj.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
