@@ -33,7 +33,7 @@ NULL
 #'@param var.equal a logical variable indicating whether to treat the two
 #'  variances as being equal. If TRUE then the pooled variance is used to
 #'  estimate the variance otherwise the Welch (or Satterthwaite) approximation
-#'  to the degrees of freedom is used.
+#'  to the degrees of freedom is used. Used only for unpaired or independent samples test.
 #'@param hedges.correction logical indicating whether apply the Hedges
 #'  correction by multiplying the usual value of Cohen's d by
 #'  \code{(N-3)/(N-2.25)} (for unpaired t-test) and by \code{(n1-2)/(n1-1.25)};

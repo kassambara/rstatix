@@ -37,7 +37,7 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
 \item{var.equal}{a logical variable indicating whether to treat the two
 variances as being equal. If TRUE then the pooled variance is used to
 estimate the variance otherwise the Welch (or Satterthwaite) approximation
-to the degrees of freedom is used.}
+to the degrees of freedom is used. Used only for unpaired or independent samples test.}
 
 \item{hedges.correction}{logical indicating whether apply the Hedges
 correction by multiplying the usual value of Cohen's d by
