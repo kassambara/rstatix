@@ -36,7 +36,7 @@ NULL
 #'  to the degrees of freedom is used. Used only for unpaired or independent samples test.
 #'@param hedges.correction logical indicating whether apply the Hedges
 #'  correction by multiplying the usual value of Cohen's d by
-#'  \code{(N-3)/(N-2.25)} (for unpaired t-test) and by \code{(n1-2)/(n1-1.25)};
+#'  \code{(N-3)/(N-2.25)} (for unpaired t-test) and by \code{(n1-2)/(n1-1.25)} for paired t-test;
 #'  where \code{N} is the total size of the two groups being compared (N = n1 +
 #'  n2).
 #'@details Quantification of the effect size magnitude is performed using the
