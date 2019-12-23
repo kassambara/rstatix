@@ -2,7 +2,11 @@
 
 ## New features
    
-- The `cohens_d()` function now supports Hedge's correction. New argument `hedge.correction` added . logical indicating whether apply the Hedges correction by multiplying the usual value of Cohen's d by `(N-3)/(N-2.25)` (for unpaired t-test) and by `(n1-2)/(n1-1.25)`; where N is the total size of the two groups being compared (N = n1 + n2). (@IndrajeetPatil, [#9](https://github.com/kassambara/rstatix/issues/9)).
+- The `cohens_d()` function now supports Hedge's correction. New argument `hedge.correction` added . logical indicating whether apply the Hedges correction by multiplying the usual value of Cohen's d by `(N-3)/(N-2.25)` (for unpaired t-test) and by `(n1-2)/(n1-1.25)`; where N is the total size of the two groups being compared (N = n1 + n2) (@IndrajeetPatil, [#9](https://github.com/kassambara/rstatix/issues/9)).
+  
+## Minor changes
+  
+Now, the function `cohens_d()` outputs values with directionality. The absolute value is no longer returned. It can now be positive or negative depending on the data (@narunpat, [#9](https://github.com/kassambara/rstatix/issues/13)).
   
 # rstatix 0.3.1
 

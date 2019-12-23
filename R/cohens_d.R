@@ -225,7 +225,7 @@ get_cohens_d <- function(data, formula, subset = NULL, paired = FALSE, mu = 0, v
 }
 
 one_sample_d <- function(x, mu = 0){
-  abs(mean(x) - mu)/sd(x)
+  (mean(x) - mu)/sd(x)
 }
 two_independent_sample_d <- function(x, y, var.equal = TRUE){
   if(var.equal){
@@ -237,10 +237,10 @@ two_independent_sample_d <- function(x, y, var.equal = TRUE){
     SD <- sqrt((var(x) + var(y))/2)
   }
   mean.diff <- mean(x) - mean(y)
-  abs(mean.diff/SD)
+  mean.diff/SD
 }
 paired_sample_d <- function(x, y){
-  abs(mean(x-y)/sd(x-y))
+  mean(x-y)/sd(x-y)
 }
 
 
