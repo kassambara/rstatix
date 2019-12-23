@@ -5,8 +5,9 @@
 \title{Compute Cohen's d Measure of Effect Size}
 \usage{
 cohens_d(data, formula, comparisons = NULL, ref.group = NULL,
-  paired = FALSE, mu = 0, var.equal = FALSE, ci = FALSE,
-  conf.level = 0.95, ci.type = "perc", nboot = 1000)
+  paired = FALSE, mu = 0, var.equal = FALSE,
+  hedges.correction = FALSE, ci = FALSE, conf.level = 0.95,
+  ci.type = "perc", nboot = 1000)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -38,6 +39,12 @@ variances as being equal. If TRUE then the pooled variance is used to
 estimate the variance otherwise the Welch (or Satterthwaite) approximation
 to the degrees of freedom is used.}
 
+\item{hedges.correction}{logical indicating whether apply the Hedges
+correction by multiplying the usual value of Cohen's d by
+\code{(N-3)/(N-2.25)} (for unpaired t-test) and by \code{(n1-2)/(n1-1.25)};
+where \code{N} is the total size of the two groups being compared (N = n1 +
+n2).}
+
 \item{ci}{If TRUE, returns confidence intervals by bootstrap. May be slow.}
 
 \item{conf.level}{The level for the confidence interval.}
@@ -58,26 +65,27 @@ return a data frame with some of the following columns: \itemize{
 }
 \description{
 Compute the effect size for t-test. T-test conventional effect
-  sizes, proposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
-  0.8 (large effect).
+ sizes, proposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
+ 0.8 (large effect).
 
-Cohen's \code{d} is calculated as the difference between means or mean minus \code{mu}
-divided by the estimated standardized deviation.
+ Cohen's \code{d} is calculated as the difference between means or mean minus
+ \code{mu} divided by the estimated standardized deviation.
 
-For independent samples t-test, there are two possibilities implemented.
-If the t-test did not make a homogeneity of variance assumption, (the Welch test),
-the variance term will mirror the Welch test, otherwise a pooled estimate is used.
+ For independent samples t-test, there are two possibilities implemented. If
+ the t-test did not make a homogeneity of variance assumption, (the Welch
+ test), the variance term will mirror the Welch test, otherwise a pooled
+ estimate is used.
 
-If a paired samples t-test was requested, then effect size desired is
-based on the standard deviation of the differences.
+ If a paired samples t-test was requested, then effect size desired is based
+ on the standard deviation of the differences.
 
  It can also returns confidence intervals by bootstap.
 }
 \details{
-Quantification of the effect size magnitude is performed
-using the thresholds defined in Cohen (1992). The magnitude is assessed using
-the thresholds provided in (Cohen 1992), i.e. \code{|d| < 0.2} "negligible", \code{|d| < 0.5}
-"small", \code{|d| < 0.8} "medium", otherwise "large".
+Quantification of the effect size magnitude is performed using the
+ thresholds defined in Cohen (1992). The magnitude is assessed using the
+ thresholds provided in (Cohen 1992), i.e. \code{|d| < 0.2} "negligible",
+ \code{|d| < 0.5} "small", \code{|d| < 0.8} "medium", otherwise "large".
 }
 \examples{
 # One-sample t test effect size
@@ -98,8 +106,10 @@ head(df)
 df \%>\% cohens_d(value ~ treatment, paired = TRUE)
 }
 \references{
-\itemize{
-\item Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.). New York:Academic Press.
-\item Cohen, J. (1992). A power primer. Psychological Bulletin, 112, 155-159.
-}
+\itemize{ \item Cohen, J. (1988). Statistical power analysis for
+ the behavioral sciences (2nd ed.). New York:Academic Press. \item Cohen, J.
+ (1992). A power primer. Psychological Bulletin, 112, 155-159. \item Hedges,
+ Larry & Olkin, Ingram. (1985). Statistical Methods in Meta-Analysis.
+ 10.2307/1164953. \item Navarro, Daniel. 2015. Learning Statistics with R: A
+ Tutorial for Psychology Students and Other Beginners (Version 0.5). }
 }

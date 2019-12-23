@@ -3,45 +3,52 @@
 #' @importFrom stats var
 NULL
 
-#' Compute Cohen's d Measure of Effect Size
+#'Compute Cohen's d Measure of Effect Size
 #'
-#' @description Compute the effect size for t-test. T-test conventional effect
-#'   sizes, proposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
-#'   0.8 (large effect).
+#'@description Compute the effect size for t-test. T-test conventional effect
+#'  sizes, proposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
+#'  0.8 (large effect).
 #'
-#' Cohen's \code{d} is calculated as the difference between means or mean minus \code{mu}
-#' divided by the estimated standardized deviation.
+#'  Cohen's \code{d} is calculated as the difference between means or mean minus
+#'  \code{mu} divided by the estimated standardized deviation.
 #'
-#' For independent samples t-test, there are two possibilities implemented.
-#' If the t-test did not make a homogeneity of variance assumption, (the Welch test),
-#' the variance term will mirror the Welch test, otherwise a pooled estimate is used.
+#'  For independent samples t-test, there are two possibilities implemented. If
+#'  the t-test did not make a homogeneity of variance assumption, (the Welch
+#'  test), the variance term will mirror the Welch test, otherwise a pooled
+#'  estimate is used.
 #'
-#' If a paired samples t-test was requested, then effect size desired is
-#' based on the standard deviation of the differences.
+#'  If a paired samples t-test was requested, then effect size desired is based
+#'  on the standard deviation of the differences.
 #'
 #'  It can also returns confidence intervals by bootstap.
 #'
-#' @inheritParams wilcox_effsize
-#' @param data a data.frame containing the variables in the formula.
-#' @param formula a formula of the form \code{x ~ group} where \code{x} is a
-#'   numeric variable giving the data values and \code{group} is a factor with
-#'   one or multiple levels giving the corresponding groups. For example,
-#'   \code{formula = TP53 ~ cancer_group}.
-#' @param paired a logical indicating whether you want a paired test.
-#' @param mu theoretical mean, use for one-sample t-test. Default is 0.
-#' @param var.equal a logical variable indicating whether to treat the two
-#'   variances as being equal. If TRUE then the pooled variance is used to
-#'   estimate the variance otherwise the Welch (or Satterthwaite) approximation
-#'   to the degrees of freedom is used.
-#' @details Quantification of the effect size magnitude is performed
-#' using the thresholds defined in Cohen (1992). The magnitude is assessed using
-#' the thresholds provided in (Cohen 1992), i.e. \code{|d| < 0.2} "negligible", \code{|d| < 0.5}
-#' "small", \code{|d| < 0.8} "medium", otherwise "large".
-#' @references
-#' \itemize{
-#' \item Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.). New York:Academic Press.
-#' \item Cohen, J. (1992). A power primer. Psychological Bulletin, 112, 155-159.
-#' }
+#'@inheritParams wilcox_effsize
+#'@param data a data.frame containing the variables in the formula.
+#'@param formula a formula of the form \code{x ~ group} where \code{x} is a
+#'  numeric variable giving the data values and \code{group} is a factor with
+#'  one or multiple levels giving the corresponding groups. For example,
+#'  \code{formula = TP53 ~ cancer_group}.
+#'@param paired a logical indicating whether you want a paired test.
+#'@param mu theoretical mean, use for one-sample t-test. Default is 0.
+#'@param var.equal a logical variable indicating whether to treat the two
+#'  variances as being equal. If TRUE then the pooled variance is used to
+#'  estimate the variance otherwise the Welch (or Satterthwaite) approximation
+#'  to the degrees of freedom is used.
+#'@param hedges.correction logical indicating whether apply the Hedges
+#'  correction by multiplying the usual value of Cohen's d by
+#'  \code{(N-3)/(N-2.25)} (for unpaired t-test) and by \code{(n1-2)/(n1-1.25)};
+#'  where \code{N} is the total size of the two groups being compared (N = n1 +
+#'  n2).
+#'@details Quantification of the effect size magnitude is performed using the
+#'  thresholds defined in Cohen (1992). The magnitude is assessed using the
+#'  thresholds provided in (Cohen 1992), i.e. \code{|d| < 0.2} "negligible",
+#'  \code{|d| < 0.5} "small", \code{|d| < 0.8} "medium", otherwise "large".
+#'@references \itemize{ \item Cohen, J. (1988). Statistical power analysis for
+#'  the behavioral sciences (2nd ed.). New York:Academic Press. \item Cohen, J.
+#'  (1992). A power primer. Psychological Bulletin, 112, 155-159. \item Hedges,
+#'  Larry & Olkin, Ingram. (1985). Statistical Methods in Meta-Analysis.
+#'  10.2307/1164953. \item Navarro, Daniel. 2015. Learning Statistics with R: A
+#'  Tutorial for Psychology Students and Other Beginners (Version 0.5). }
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y variable used in the test. \item
 #'  \code{group1,group2}: the compared groups in the pairwise tests. \item
@@ -66,8 +73,9 @@ NULL
 #' head(df)
 #'
 #' df %>% cohens_d(value ~ treatment, paired = TRUE)
-#' @export
-cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired = FALSE, mu = 0, var.equal = FALSE,
+#'@export
+cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired = FALSE, mu = 0,
+                     var.equal = FALSE, hedges.correction = FALSE,
                      ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000){
   env <- as.list(environment())
   args <- env %>% .add_item(method = "cohens_d")
@@ -99,7 +107,8 @@ cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired
 
 # Cohens d core function -------------------------------
 cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
-                         ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...){
+                     hedges.correction = FALSE,
+                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...){
   check_two_samples_test_args(
     x = x, y = y, mu = mu, paired = paired,
     conf.level = conf.level
@@ -137,13 +146,17 @@ cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
     formula <- x ~ y
   }
   data <- data.frame(x, y)
-  results <- get_cohens_d(data, formula, paired = paired, var.equal = var.equal)
+  results <- get_cohens_d(
+    data, formula, paired = paired, var.equal = var.equal,
+    hedges.correction = hedges.correction
+    )
   # Confidence interval of the effect size r
   if (ci == TRUE) {
     stat.func <- function(data, subset) {
       get_cohens_d(
         data, formula = formula, subset = subset,
-        paired = paired, var.equal = var.equal
+        paired = paired, var.equal = var.equal,
+        hedges.correction = hedges.correction
       )$d
     }
     CI <- get_boot_ci(
@@ -164,8 +177,8 @@ cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
 }
 
 # Helper to compute cohens d -----------------------------------
-get_cohens_d <- function(data, formula, subset = NULL, paired = FALSE, mu = 0, var.equal = FALSE){
-
+get_cohens_d <- function(data, formula, subset = NULL, paired = FALSE, mu = 0, var.equal = FALSE,
+                         hedges.correction = FALSE){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   if(!is.null(subset)) data <- data[subset, ]
@@ -174,7 +187,6 @@ get_cohens_d <- function(data, formula, subset = NULL, paired = FALSE, mu = 0, v
   else
     number.of.groups <- data %>%
     pull(group) %>% unique() %>% length()
-
   if(number.of.groups == 1){
     x <- data %>% pull(outcome)
     d <- one_sample_d(x, mu)
@@ -194,6 +206,18 @@ get_cohens_d <- function(data, formula, subset = NULL, paired = FALSE, mu = 0, v
   else{
     stop("The grouping factors contain more than 2 levels.")
   }
+  # Hedge's correction
+  if(hedges.correction){
+    if(paired){
+      n <- length(x)
+      d <- d*(n - 2)/(n - 1.25)
+    }
+    else{
+      n <- length(x) + length(y)
+      d <- d * (n - 3)/(n - 2.25)
+    }
+  }
+
   tibble(
     d,
     magnitude = get_cohens_magnitude(d)
