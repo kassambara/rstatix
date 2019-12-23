@@ -104,12 +104,39 @@ tukey_hsd_core <- function(x, formula, ...){
 tukey_hsd_of_model <- function(model, ...){
   comparison <- adj.p.value <- p.adj <-
     term <- group1 <- group2 <- NULL
-  TukeyHSD(model, ...) %>%
+  magic.text <- "_XX.MAGIC.XX_"
+  model %>%
+    replace_eventual_minus_symbols_in_factors(by = magic.text) %>%
+    TukeyHSD( ...) %>%
     broom::tidy() %>%
     separate(comparison, into= c("group2", "group1"), sep = "-") %>%
+    revert_back_eventual_minus_symbols(magic.text) %>%
     rename(p.adj = adj.p.value) %>%
     mutate(p.adj = signif(p.adj, 3)) %>%
     select(term, group1, group2, everything()) %>%
     add_significance("p.adj")
 }
 
+
+# Handling possible minus symbols in factor levels
+replace_eventual_minus_symbols_in_factors <- function(res.aov, by = "_XX.MAGIC.XX_"){
+  res.aov$model <- res.aov$model %>%
+    dplyr::mutate_if(is.factor, fct_replace_minus, by = by)
+  res.aov
+}
+revert_back_eventual_minus_symbols <- function(res.tukey.df, magic.text = "_XX.MAGIC.XX_" ){
+  res.tukey.df %>%
+    mutate(
+      group1 = gsub(magic.text, replacement = "-", .data$group1, fixed = TRUE),
+      group2 = gsub(magic.text, replacement = "-", .data$group2, fixed = TRUE)
+    )
+}
+
+fct_replace_minus <- function(.factor, by = "_XX.MAGIC.XX_"){
+  new.levels <- gsub(
+    pattern = "-", replacement = by,
+    x = levels(.factor), fixed = TRUE
+    )
+  levels(.factor) <- new.levels
+  .factor
+}
