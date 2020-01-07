@@ -120,6 +120,7 @@ cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
       OK <- complete.cases(x, y)
       x <- x[OK] - y[OK]
       y <- NULL
+      mu <- 0
       METHOD <- "Paired T-test"
     }
     else {
@@ -148,7 +149,7 @@ cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
   data <- data.frame(x, y)
   results <- get_cohens_d(
     data, formula, paired = paired, var.equal = var.equal,
-    hedges.correction = hedges.correction
+    mu = mu, hedges.correction = hedges.correction
     )
   # Confidence interval of the effect size r
   if (ci == TRUE) {
@@ -156,7 +157,7 @@ cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
       get_cohens_d(
         data, formula = formula, subset = subset,
         paired = paired, var.equal = var.equal,
-        hedges.correction = hedges.correction
+        mu = mu, hedges.correction = hedges.correction
       )$d
     }
     CI <- get_boot_ci(

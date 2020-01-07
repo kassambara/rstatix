@@ -10,8 +10,8 @@
 
 ## Bug fixes
   
+- The value of `mu` is now considered when calculating `cohens_d()` for one sample t-test (@mllewis, [#22](https://github.com/kassambara/rstatix/issues/22)).
 - The function `tukey_hsd()` now handles situation where minus `-` symbols are present in factor levels (@IndrajeetPatil, [#19](https://github.com/kassambara/rstatix/issues/19)).
-
   
 # rstatix 0.3.1
 
