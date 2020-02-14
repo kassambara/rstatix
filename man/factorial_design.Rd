@@ -19,8 +19,6 @@ Should be unique per individual.}
 \item{within}{(optional) within-subjects factor variables}
 
 \item{covariate}{(optional) covariate names (for ANCOVA)}
-
-\item{...}{within variable names (i.e., repeated measure variables)}
 }
 \value{
 a list with the following components: \itemize{ \item \strong{the

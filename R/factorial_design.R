@@ -9,7 +9,6 @@ NULL
 #'  \code{car} package.
 #'@inheritParams anova_test
 #'@param data a data frame containing the variables
-#'@param ... within variable names (i.e., repeated measure variables)
 #'@return a list with the following components: \itemize{ \item \strong{the
 #'  specified arguments}: \code{dv, wid, between, within} \item \strong{data}:
 #'  the original data (long format) or independent ANOVA. The wide format is

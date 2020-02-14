@@ -37,15 +37,16 @@
 <meta property="og:title" content="Compute Cohen's d Measure of Effect Size — cohens_d" />
 
 <meta property="og:description" content="Compute the effect size for t-test. T-test conventional effect
-  sizes, proposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
-  0.8 (large effect).
-Cohen's d is calculated as the difference between means or mean minus mu
-divided by the estimated standardized deviation.
-For independent samples t-test, there are two possibilities implemented.
-If the t-test did not make a homogeneity of variance assumption, (the Welch test),
-the variance term will mirror the Welch test, otherwise a pooled estimate is used.
-If a paired samples t-test was requested, then effect size desired is
-based on the standard deviation of the differences.
+ sizes, proposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
+ 0.8 (large effect).
+Cohen's d is calculated as the difference between means or mean minus
+ mu divided by the estimated standardized deviation.
+For independent samples t-test, there are two possibilities implemented. If
+ the t-test did not make a homogeneity of variance assumption, (the Welch
+ test), the variance term will mirror the Welch test, otherwise a pooled
+ estimate is used.
+If a paired samples t-test was requested, then effect size desired is based
+ on the standard deviation of the differences.
 It can also returns confidence intervals by bootstap." />
 <meta name="twitter:card" content="summary" />
 
@@ -78,7 +79,7 @@ It can also returns confidence intervals by bootstap." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -121,22 +122,24 @@ It can also returns confidence intervals by bootstap." />
     <div class="ref-description">
     
     <p>Compute the effect size for t-test. T-test conventional effect
-  sizes, proposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
-  0.8 (large effect).</p>
-<p>Cohen's <code>d</code> is calculated as the difference between means or mean minus <code>mu</code>
-divided by the estimated standardized deviation.</p>
-<p>For independent samples t-test, there are two possibilities implemented.
-If the t-test did not make a homogeneity of variance assumption, (the Welch test),
-the variance term will mirror the Welch test, otherwise a pooled estimate is used.</p>
-<p>If a paired samples t-test was requested, then effect size desired is
-based on the standard deviation of the differences.</p>
+ sizes, proposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
+ 0.8 (large effect).</p>
+<p>Cohen's <code>d</code> is calculated as the difference between means or mean minus
+ <code>mu</code> divided by the estimated standardized deviation.</p>
+<p>For independent samples t-test, there are two possibilities implemented. If
+ the t-test did not make a homogeneity of variance assumption, (the Welch
+ test), the variance term will mirror the Welch test, otherwise a pooled
+ estimate is used.</p>
+<p>If a paired samples t-test was requested, then effect size desired is based
+ on the standard deviation of the differences.</p>
 <p>It can also returns confidence intervals by bootstap.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>cohens_d</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>ci.type</span> <span class='kw'>=</span> <span class='st'>"perc"</span>, <span class='kw'>nboot</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
+  <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>hedges.correction</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>ci.type</span> <span class='kw'>=</span> <span class='st'>"perc"</span>, <span class='kw'>nboot</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -181,7 +184,15 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
       <td><p>a logical variable indicating whether to treat the two
 variances as being equal. If TRUE then the pooled variance is used to
 estimate the variance otherwise the Welch (or Satterthwaite) approximation
-to the degrees of freedom is used.</p></td>
+to the degrees of freedom is used. Used only for unpaired or independent samples test.</p></td>
+    </tr>
+    <tr>
+      <th>hedges.correction</th>
+      <td><p>logical indicating whether apply the Hedges
+correction by multiplying the usual value of Cohen's d by
+<code>(N-3)/(N-2.25)</code> (for unpaired t-test) and by <code>(n1-2)/(n1-1.25)</code> for paired t-test;
+where <code>N</code> is the total size of the two groups being compared (N = n1 +
+n2).</p></td>
     </tr>
     <tr>
       <th>ci</th>
@@ -218,17 +229,24 @@ to the degrees of freedom is used.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Quantification of the effect size magnitude is performed
-using the thresholds defined in Cohen (1992). The magnitude is assessed using
-the thresholds provided in (Cohen 1992), i.e. <code>|d| &lt; 0.2</code> "negligible", <code>|d| &lt; 0.5</code>
-"small", <code>|d| &lt; 0.8</code> "medium", otherwise "large".</p>
+    <p>Quantification of the effect size magnitude is performed using the
+ thresholds defined in Cohen (1992). The magnitude is assessed using the
+ thresholds provided in (Cohen 1992), i.e. <code>|d| &lt; 0.2</code> "negligible",
+ <code>|d| &lt; 0.5</code> "small", <code>|d| &lt; 0.8</code> "medium", otherwise "large".</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     
 <ul>
-<li><p>Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.). New York:Academic Press.</p></li>
-<li><p>Cohen, J. (1992). A power primer. Psychological Bulletin, 112, 155-159.</p></li>
+<li><p>Cohen, J. (1988). Statistical power analysis for
+ the behavioral sciences (2nd ed.). New York:Academic Press.</p></li>
+<li><p>Cohen, J.
+ (1992). A power primer. Psychological Bulletin, 112, 155-159.</p></li>
+<li><p>Hedges,
+ Larry &amp; Olkin, Ingram. (1985). Statistical Methods in Meta-Analysis.
+ 10.2307/1164953.</p></li>
+<li><p>Navarro, Daniel. 2015. Learning Statistics with R: A
+ Tutorial for Psychology Students and Other Beginners (Version 0.5).</p></li>
 </ul>
 
     

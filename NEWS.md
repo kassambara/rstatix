@@ -1,4 +1,4 @@
-# rstatix 0.3.1.999
+# rstatix 0.4.0
 
 ## New features
    
