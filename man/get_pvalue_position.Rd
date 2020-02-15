@@ -27,13 +27,24 @@ numeric variable giving the data values and \code{group} is a factor with
 one or multiple levels giving the corresponding groups. For example,
 \code{formula = TP53 ~ cancer_group}.}
 
-\item{fun}{summary statistics function. Possible values include: \code{"max",
- "mean", "mean_sd", "mean_se", "mean_ci", "median", "median_iqr",
- "median_mad"}.
+\item{fun}{summary statistics functions used to compute automatically suitable
+ y positions of p-value labels and brackets. Possible values include: \code{"max", "mean",
+ "mean_sd", "mean_se", "mean_ci", "median", "median_iqr", "median_mad"}.
 
- \code{"max"} is suitable when you want to add, for example, p-value on box
- plots. The remaining functions are suitable for bar plots and line plots
- showing mean plots +/- error bars.}
+ For example, if \code{fun = "max"}, the y positions are guessed as follow:
+ \itemize{
+ \item 1. Compute the maximum of each group (groups.maximum)
+ \item 2. Use the highest groups maximum as the first bracket y position
+ \item 3. Add successively a step increase for remaining bracket y positions.
+ }
+
+ When the main plot is a boxplot, you need the option \code{fun = "max"}, to
+ have the p-value bracket displayed at the maximum point of the group.
+
+ In some situations the main plot is a line plot or a barplot showing the
+ \code{mean+/-error bars} of the groups, where error can be SE (standard error),
+ SD (standard deviation) or CI (confidence interval). In this case, to correctly
+ compute the bracket y position you need the option \code{fun = "mean_se"}, etc.}
 
 \item{ref.group}{a character string specifying the reference group. If
 specified, for a given grouping variable, each of the group levels will be
