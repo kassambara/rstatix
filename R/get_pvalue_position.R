@@ -227,25 +227,33 @@ combine_this <- function(...){
 #' @describeIn get_pvalue_position compute and add p-value x positions.
 #' @export
 add_x_position <- function(test, x = NULL, dodge = 0.8){
+
   asserttat_group_columns_exists(test)
   .attributes <- get_test_attributes(test)
   group1 <- set_diff(test$group1, c("all", ".all."), keep.dup = TRUE)
   group2 <- set_diff(test$group2, c("all", ".all."), keep.dup = TRUE)
   groups <- unique(c(group1, group2))
+  if(.contains_selected_comparisons(test)){
+    # get all data groups
+    group.var <- get_formula_right_hand_side(.attributes$args$formula)
+    groups <- .attributes$args$data %>%
+      convert_as_factor(vars = group.var) %>%
+      pull(!!group.var) %>%
+      levels()
+  }
   group1.coords <- group1.ranks <-  match(group1, groups)
   group2.coords <- group2.ranks <- match(group2, groups)
   n <- length(groups)
-  # Grouped test
-  if(!is.null(x)){
-    if(x %in% colnames(test)){
-      test <- test %>%
-        .as_factor(x) %>%
-        mutate(x = as.numeric(!!sym(x))) # x levels order
-      xpos <- test$x
-      group1.coords <- (((dodge - dodge*n) / (2*n)) + ((group1.ranks - 1) * (dodge / n))) + xpos
-      group2.coords <- (((dodge - dodge*n) / (2*n)) + ((group2.ranks - 1) * (dodge / n))) + xpos
-    }
+
+  if(.is_grouped_test(test, x)){
+    test <- test %>%
+      .as_factor(x) %>%
+      mutate(x = as.numeric(!!sym(x))) # x levels order
+    xpos <- test$x
+    group1.coords <- (((dodge - dodge*n) / (2*n)) + ((group1.ranks - 1) * (dodge / n))) + xpos
+    group2.coords <- (((dodge - dodge*n) / (2*n)) + ((group2.ranks - 1) * (dodge / n))) + xpos
   }
+
   if(.is_empty(group1)) {
     # case when ref.group = "all"
     group1.coords <- group2.coords
@@ -279,6 +287,25 @@ asserttat_group_columns_exists <- function(data){
   if(!groups.exist){
     stop("data should contain group1 and group2 columns")
   }
+}
+
+.is_grouped_test <- function(test, x = NULL){
+  answer <- FALSE
+  if(!is.null(x)){
+    if(x %in% colnames(test)){
+      answer <- TRUE
+    }
+  }
+  answer
+}
+
+.contains_selected_comparisons <- function(test){
+  answer <- FALSE
+  if(is_rstatix_test(test)){
+    comparisons <- attr(test, "args")$comparisons
+    answer <- !is.null(comparisons)
+  }
+  answer
 }
 
 
