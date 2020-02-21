@@ -7,6 +7,10 @@
 
 ## Bug fixes
   
+  
+- x position is now correctly computed when when making custom comparisons (@barrel0luck, [#28](https://github.com/kassambara/rstatix/issues/28)).
+   
+   
 # rstatix 0.4.0
 
 ## New features
