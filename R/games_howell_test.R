@@ -57,9 +57,7 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
   args <- as.list(environment()) %>%
     .add_item(p.adjust.method = "Tukey", method = "games_howell_test")
   results <- data %>%
-    doo(.games_howell_test, formula, conf.level = conf.level) %>%
-    set_attrs(args = args) %>%
-    add_class(c("rstatix_test", "games_howell_test"))
+    doo(.games_howell_test, formula, conf.level = conf.level)
   if(!detailed){
     results <- results %>%
       select(
@@ -67,7 +65,9 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
         -.data$df, -.data$n1, -.data$n2
       )
   }
-  results
+  results %>%
+    set_attrs(args = args) %>%
+    add_class(c("rstatix_test", "games_howell_test"))
 }
 
 .games_howell_test <- function(data, formula, conf.level = 0.95){

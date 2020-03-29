@@ -111,17 +111,17 @@ pairwise_mcnemar_test <- function (data, formula, type = c("mcnemar", "exact"), 
     colnames(grps.data) <- c("grp1", "grp2")
     xtab <- stats::xtabs(~grp1+grp2, grps.data)
     if(type == "mcnemar"){
-      results <- mcnemar_test(xtab, correct = correct) %>%
-        select(.data$p, .data$method)
+      results <- mcnemar_test(xtab, correct = correct)
     }
     else if(type == "exact"){
       # Get off-diagonal values
       b <- xtab[2, 1]
       c <- xtab[1, 2]
-      results <- binom_test(b, (b + c), p = 0.5, detailed = TRUE) %>%
-        select(.data$p, .data$method)
+      results <- binom_test(b, (b + c), p = 0.5, detailed = TRUE)
     }
     results %>%
+      keep_only_tbl_df_classes() %>%
+      select(.data$p, .data$method) %>%
       add_columns(group1 = grps[1], group2 = grps[2], .before = "p")
   }
   # Convert outcome into factor, then spread.

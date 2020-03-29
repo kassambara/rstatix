@@ -202,6 +202,7 @@ row_wise_prop_test <- function(xtab, p.adjust.method = "holm", detailed = FALSE,
     xtab, MARGIN = 1, FUN = prop_test,
     n = columns.total, detailed = detailed, ...
     ) %>%
+    map(keep_only_tbl_df_classes) %>%
     bind_rows(.id = "group") %>%
     adjust_pvalue(method = p.adjust.method) %>%
     add_significance("p.adj") %>%

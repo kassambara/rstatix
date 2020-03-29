@@ -145,7 +145,11 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
     stat.test <- get_anova_table(stat.test, correction = correction)
     if(is.null(row)) row <-  nrow(stat.test) # consider the last row
   }
-  if(!is.null(row)) stat.test %<>% dplyr::slice(row)
+  if(!is.null(row)) {
+    stat.test <- stat.test %>%
+      keep_only_tbl_df_classes() %>%
+      dplyr::slice(row)
+  }
 
   statistic.text <- get_statistic_text(stat.test, type = type)
   statistic <- get_statistic(stat.test)
@@ -167,7 +171,8 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
     # automatic detection of p.col
     p.col <- p_detect(stat.test)
   }
-  stat.test %<>%
+  stat.test <- stat.test %>%
+    keep_only_tbl_df_classes() %>%
     select(!!sym(p.col)) %>%
     rename(p = p.col) %>%
     mutate(

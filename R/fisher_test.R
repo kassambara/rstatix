@@ -154,7 +154,8 @@ pairwise_fisher_test <- function(xtab, p.adjust.method = "holm", detailed = FALS
   compare_pair <- function(rows, xtab, ...){
     rows <- as.character(rows)
     fisher_test(xtab[rows, ], detailed = detailed, ...) %>%
-      add_columns(group1 = rows[1], group2 = rows[2], .before = 1)
+      add_columns(group1 = rows[1], group2 = rows[2], .before = 1) %>%
+      keep_only_tbl_df_classes()
   }
   args <- c(as.list(environment()), list(...)) %>%
     add_item(method = "fisher_test")
@@ -196,6 +197,7 @@ row_wise_fisher_test <- function(xtab, p.adjust.method = "holm", detailed = FALS
   xtab.list <- apply(xtab, 1, create_xtab, columns.total )
   results <- xtab.list %>%
     map(fisher_test, detailed = detailed, ...) %>%
+    map(keep_only_tbl_df_classes) %>%
     bind_rows(.id = "group") %>%
     adjust_pvalue(method = p.adjust.method) %>%
     add_significance("p.adj") %>%

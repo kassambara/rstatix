@@ -41,6 +41,7 @@ add_significance <- function(
     stats::symnum(cutpoints = cutpoints, symbols = symbols) %>%
     as.character()
   data %>%
+    keep_only_tbl_df_classes() %>%
     mutate(!!output.col := .p.signif) %>%
     set_test_attributes(.attributes)
 }

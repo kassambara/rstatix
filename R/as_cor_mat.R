@@ -28,6 +28,7 @@ as_cor_mat <- function(x){
   if(!inherits(x, "cor_test")){
     stop("x should be an object of class cor_test")
   }
+  x <- keep_only_tbl_df_classes(x)
 
   p.mat <- x %>%
     cor_spread(value = "p") %>%

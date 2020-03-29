@@ -43,7 +43,7 @@ Suggests:
     spelling
 URL: https://rpkgs.datanovia.com/rstatix/
 BugReports: https://github.com/kassambara/rstatix/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Collate:
     'utilities.R'
     'add_significance.R'
@@ -79,7 +79,7 @@ Collate:
     'fisher_test.R'
     'freq_table.R'
     'friedman_test.R'
-    'friedman_effesize.R'
+    'friedman_effsize.R'
     'games_howell_test.R'
     'get_comparisons.R'
     'get_manova_table.R'

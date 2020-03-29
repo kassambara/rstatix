@@ -63,10 +63,12 @@ cor_gather <- function(data, drop.na = TRUE){
   }
 
   cor.value <- cor.value %>%
+    keep_only_tbl_df_classes() %>%
     gather(key = "column", value = "cor", -rowname)
 
   if(!is.null(p.value)){
     p.value <- p.value %>%
+      keep_only_tbl_df_classes() %>%
       gather(key = "column", value = "p", -rowname)
     cor.value <- cor.value %>%
       left_join(p.value, by = c("rowname", "column"))
@@ -93,6 +95,7 @@ cor_spread <- function(data, value = "cor"){
   col.vars <- data %>% pull(var2) %>% unique()
 
   res <- data %>%
+    keep_only_tbl_df_classes() %>%
     select(var1, var2, !!value) %>%
     spread(key = "var2", value = value) %>%
     rename(rowname = var1) %>%

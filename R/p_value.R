@@ -83,11 +83,15 @@ p_format <- function(x, ..., new.col = FALSE, digits = 2, accuracy = 0.0001, dec
                      leading.zero = TRUE, trailing.zero = FALSE,
                      add.p = FALSE, space = FALSE){
   if(is.data.frame(x)){
-    res <- p_format_at(
-      x, ..., new.col = new.col, digits = digits, accuracy = accuracy,
+    .attributes <- attributes(x)
+    res <- x %>%
+      keep_only_tbl_df_classes() %>%
+      p_format_at(
+      ..., new.col = new.col, digits = digits, accuracy = accuracy,
       decimal.mark = decimal.mark, leading.zero = leading.zero,
       trailing.zero = trailing.zero, add.p = add.p, space = space
       )
+    attributes(res) <- .attributes
     return(res)
   }
   res <- format.pval(
@@ -128,10 +132,14 @@ p_format <- function(x, ..., new.col = FALSE, digits = 2, accuracy = 0.0001, dec
 p_mark_significant <- function(x,  ..., new.col = FALSE, cutpoints = c(0, 1e-04, 0.001, 0.01, 0.05, 1),
                                symbols = c("****", "***", "**", "*", "")){
   if(is.data.frame(x)){
-    res <- p_mark_significant_at(
-      x, ..., new.col = new.col, cutpoints = cutpoints,
+    .attributes <- attributes(x)
+    res <- x %>%
+      keep_only_tbl_df_classes() %>%
+      p_mark_significant_at(
+      ..., new.col = new.col, cutpoints = cutpoints,
       symbols = symbols
     )
+    attributes(res) <- .attributes
     return(res)
   }
   contains.leading.zero <- TRUE
@@ -199,7 +207,7 @@ p_format_at <- function(data, ..., new.col = FALSE, digits = 2, accuracy = 0.000
   results <- data
   p.cols <- p_select(data, ...)
   if(!is.null(p.cols)){
-    results %<>% mutate_func(
+    results <- results %>% mutate_func(
       p.cols, p_format, digits = digits, accuracy = accuracy,
       decimal.mark = decimal.mark, leading.zero = leading.zero,
       trailing.zero = trailing.zero, add.p = add.p, space = space

@@ -21,7 +21,6 @@ NULL
 #' @rdname adjust_pvalue
 #' @export
 adjust_pvalue <- function(data, p.col = NULL, output.col = NULL, method = "holm"){
-
   if (is_grouped_df(data)) {
     res <- data %>%
       doo(adjust_pvalue, p.col, output.col, method = method)
@@ -45,8 +44,10 @@ adjust_pvalue <- function(data, p.col = NULL, output.col = NULL, method = "holm"
     output.col <- paste0(p.col, ".adj")
   # Adjust p-value
   data %>%
+    keep_only_tbl_df_classes() %>%
     mutate(
       !!output.col := p.adjust(!!sym(p.col), method = p.adjust.method)
     ) %>%
     set_test_attributes(.attributes)
 }
+

@@ -5,6 +5,8 @@
 
 ## Minor changes
 
+- Maintenance for adapting to the future dplyr 1.0.0 version [#32](https://github.com/kassambara/rstatix/issues/32)
+  
 ## Bug fixes
   
   

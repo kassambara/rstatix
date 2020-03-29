@@ -95,6 +95,7 @@ pairwise_chisq_gof_test <- function(x, p.adjust.method = "holm", ...){
     .possible_pairs()
   results <- comparisons %>%
     map(compare_pair, x, ...) %>%
+    map(keep_only_tbl_df_classes) %>%
     bind_rows() %>%
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj") %>%
@@ -131,6 +132,7 @@ pairwise_chisq_test_against_p <- function(x, p = rep(1/length(x), length(x)), p.
     results[[i]] <- res.chisq
   }
   results <- results %>%
+    map(keep_only_tbl_df_classes) %>%
     bind_rows() %>%
     add_columns(group = names(x), .before = 1) %>%
     adjust_pvalue("p", method = p.adjust.method) %>%

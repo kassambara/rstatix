@@ -240,7 +240,7 @@ summary_aov <- function(res.anova){
       tibble::rownames_to_column("Effect")  %>%
       add_column(DFd = .residuals$Df, .after = "DFn") %>%
       add_column(SSd = .residuals$`Sum Sq`, .after = "SSn") %>%
-      mutate(`p<.05` = ifelse(.data$p < 0.05, "*",'')) %>%
+      mutate(`p<.05` = as.character(ifelse(.data$p < 0.05, "*",''))) %>%
       mutate(Effect = remove_empty_space(.data$Effect)) %>%
       filter(!is.na(.data$p)) %>%
       select(-.data$MS)

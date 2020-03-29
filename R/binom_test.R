@@ -118,7 +118,10 @@ pairwise_binom_test <- function(x, p.adjust.method = "holm", alternative = "two.
   comparisons <- names(x) %>%
     .possible_pairs()
   results <- comparisons %>%
+    map(compare_pair, x)
+  results <- comparisons %>%
     map(compare_pair, x) %>%
+    map(keep_only_tbl_df_classes) %>%
     bind_rows() %>%
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj") %>%
@@ -157,6 +160,7 @@ pairwise_binom_test_against_p <- function(x, p = rep(1/length(x), length(x)), p.
     input, binom_test, alternative = alternative,
     conf.level = conf.level
     ) %>%
+    map(keep_only_tbl_df_classes) %>%
     bind_rows() %>%
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj") %>%

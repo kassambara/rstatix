@@ -36,10 +36,11 @@ cochran_qtest <- function(data, formula){
   args <- as.list(environment()) %>%
     add_item(method = "cochran_qtest")
  friedman_test(data, formula) %>%
-    mutate(method = "Cochran's Q test") %>%
+   keep_only_tbl_df_classes() %>%
+   mutate(method = "Cochran's Q test") %>%
    remove_class("friedman_test") %>%
-    set_attrs(args = args) %>%
-    add_class(c("rstatix_test", "cochran_qtest"))
+   set_attrs(args = args) %>%
+   add_class(c("rstatix_test", "cochran_qtest"))
 }
 
 # http://geai.univ-brest.fr/carpentier/2008-2009/Notes-Cochran-Q.pdf
