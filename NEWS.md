@@ -5,6 +5,7 @@
 
 ## Minor changes
 
+- Missing values ar now correctly handled in `anova_test()` (@benediktclaus, [#31](https://github.com/kassambara/rstatix/issues/31))
 - Maintenance for adapting to the future dplyr 1.0.0 version [#32](https://github.com/kassambara/rstatix/issues/32)
   
 ## Bug fixes

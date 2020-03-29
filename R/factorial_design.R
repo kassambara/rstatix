@@ -146,7 +146,11 @@ check_factorial_design <- function(.args){
 
 # Remove missing values
 remove_missing_values_in_data <- function(.args){
-  complete.rows <- stats::complete.cases(.args$data)
+  model.variables <- c(
+    .args$dv, .args$wid, .args$between,
+    .args$within, .args$covariate
+    )
+  complete.rows <- stats::complete.cases(.args$data[, model.variables])
   na.rows <- which(!complete.rows)
   na.exists <- length(na.rows) > 0
   if(na.exists){
