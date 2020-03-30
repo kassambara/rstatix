@@ -1,7 +1,13 @@
 #rstatix 0.4.0.999
   
 ## New features
-
+   
+- New functions added for easy data frame manipulation: 
+      - df_select
+      - df_nest_by
+      - df_split_by
+      - df_unite
+      - df_get_var_names
 
 ## Minor changes
 
