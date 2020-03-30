@@ -548,7 +548,7 @@ select_numeric_columns <- function(data){
 # Add a class to an object
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 add_class <- function(x, .class){
-  class(x) <- unique(c(class(x), .class))
+  class(x) <- unique(c(.class, class(x)))
   x
 }
 
