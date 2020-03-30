@@ -5,14 +5,31 @@
 \alias{pairwise_t_test}
 \title{T-test}
 \usage{
-t_test(data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", paired = FALSE, var.equal = FALSE,
-  alternative = "two.sided", mu = 0, conf.level = 0.95,
-  detailed = FALSE)
+t_test(
+  data,
+  formula,
+  comparisons = NULL,
+  ref.group = NULL,
+  p.adjust.method = "holm",
+  paired = FALSE,
+  var.equal = FALSE,
+  alternative = "two.sided",
+  mu = 0,
+  conf.level = 0.95,
+  detailed = FALSE
+)
 
-pairwise_t_test(data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", paired = FALSE, pool.sd = !paired,
-  detailed = FALSE, ...)
+pairwise_t_test(
+  data,
+  formula,
+  comparisons = NULL,
+  ref.group = NULL,
+  p.adjust.method = "holm",
+  paired = FALSE,
+  pool.sd = !paired,
+  detailed = FALSE,
+  ...
+)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}

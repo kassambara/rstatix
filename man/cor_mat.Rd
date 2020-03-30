@@ -6,11 +6,23 @@
 \alias{cor_get_pval}
 \title{Compute Correlation Matrix with P-values}
 \usage{
-cor_mat(data, ..., vars = NULL, method = "pearson",
-  alternative = "two.sided", conf.level = 0.95)
+cor_mat(
+  data,
+  ...,
+  vars = NULL,
+  method = "pearson",
+  alternative = "two.sided",
+  conf.level = 0.95
+)
 
-cor_pmat(data, ..., vars = NULL, method = "pearson",
-  alternative = "two.sided", conf.level = 0.95)
+cor_pmat(
+  data,
+  ...,
+  vars = NULL,
+  method = "pearson",
+  alternative = "two.sided",
+  conf.level = 0.95
+)
 
 cor_get_pval(x)
 }

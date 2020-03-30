@@ -6,15 +6,29 @@
 \alias{pairwise_binom_test_against_p}
 \title{Exact Binomial Test}
 \usage{
-binom_test(x, n, p = 0.5, alternative = "two.sided",
-  conf.level = 0.95, detailed = FALSE)
+binom_test(
+  x,
+  n,
+  p = 0.5,
+  alternative = "two.sided",
+  conf.level = 0.95,
+  detailed = FALSE
+)
 
-pairwise_binom_test(x, p.adjust.method = "holm",
-  alternative = "two.sided", conf.level = 0.95)
+pairwise_binom_test(
+  x,
+  p.adjust.method = "holm",
+  alternative = "two.sided",
+  conf.level = 0.95
+)
 
-pairwise_binom_test_against_p(x, p = rep(1/length(x), length(x)),
-  p.adjust.method = "holm", alternative = "two.sided",
-  conf.level = 0.95)
+pairwise_binom_test_against_p(
+  x,
+  p = rep(1/length(x), length(x)),
+  p.adjust.method = "holm",
+  alternative = "two.sided",
+  conf.level = 0.95
+)
 }
 \arguments{
 \item{x}{numeric vector containing the counts.}

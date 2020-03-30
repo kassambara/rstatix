@@ -7,9 +7,21 @@
 \alias{plot.anova_test}
 \title{Anova Test}
 \usage{
-anova_test(data, formula, dv, wid, between, within, covariate,
-  type = NULL, effect.size = "ges", error = NULL,
-  white.adjust = FALSE, observed = NULL, detailed = FALSE)
+anova_test(
+  data,
+  formula,
+  dv,
+  wid,
+  between,
+  within,
+  covariate,
+  type = NULL,
+  effect.size = "ges",
+  error = NULL,
+  white.adjust = FALSE,
+  observed = NULL,
+  detailed = FALSE
+)
 
 get_anova_table(x, correction = c("auto", "GG", "HF", "none"))
 

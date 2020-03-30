@@ -4,10 +4,14 @@
 \alias{get_summary_stats}
 \title{Compute Summary Statistics}
 \usage{
-get_summary_stats(data, ..., type = c("full", "common", "robust",
-  "five_number", "mean_sd", "mean_se", "mean_ci", "median_iqr",
-  "median_mad", "quantile", "mean", "median", "min", "max"), show = NULL,
-  probs = seq(0, 1, 0.25))
+get_summary_stats(
+  data,
+  ...,
+  type = c("full", "common", "robust", "five_number", "mean_sd", "mean_se", "mean_ci",
+    "median_iqr", "median_mad", "quantile", "mean", "median", "min", "max"),
+  show = NULL,
+  probs = seq(0, 1, 0.25)
+)
 }
 \arguments{
 \item{data}{a data frame}

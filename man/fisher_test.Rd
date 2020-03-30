@@ -6,15 +6,21 @@
 \alias{row_wise_fisher_test}
 \title{Fisher's Exact Test for Count Data}
 \usage{
-fisher_test(xtab, workspace = 2e+05, alternative = "two.sided",
-  conf.int = TRUE, conf.level = 0.95, simulate.p.value = FALSE,
-  B = 2000, detailed = FALSE, ...)
+fisher_test(
+  xtab,
+  workspace = 2e+05,
+  alternative = "two.sided",
+  conf.int = TRUE,
+  conf.level = 0.95,
+  simulate.p.value = FALSE,
+  B = 2000,
+  detailed = FALSE,
+  ...
+)
 
-pairwise_fisher_test(xtab, p.adjust.method = "holm", detailed = FALSE,
-  ...)
+pairwise_fisher_test(xtab, p.adjust.method = "holm", detailed = FALSE, ...)
 
-row_wise_fisher_test(xtab, p.adjust.method = "holm", detailed = FALSE,
-  ...)
+row_wise_fisher_test(xtab, p.adjust.method = "holm", detailed = FALSE, ...)
 }
 \arguments{
 \item{xtab}{a contingency table in a matrix form.}

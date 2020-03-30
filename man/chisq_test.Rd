@@ -11,13 +11,24 @@
 \alias{std_residuals}
 \title{Chi-squared Test for Count Data}
 \usage{
-chisq_test(x, y = NULL, correct = TRUE, p = rep(1/length(x),
-  length(x)), rescale.p = FALSE, simulate.p.value = FALSE, B = 2000)
+chisq_test(
+  x,
+  y = NULL,
+  correct = TRUE,
+  p = rep(1/length(x), length(x)),
+  rescale.p = FALSE,
+  simulate.p.value = FALSE,
+  B = 2000
+)
 
 pairwise_chisq_gof_test(x, p.adjust.method = "holm", ...)
 
-pairwise_chisq_test_against_p(x, p = rep(1/length(x), length(x)),
-  p.adjust.method = "holm", ...)
+pairwise_chisq_test_against_p(
+  x,
+  p = rep(1/length(x), length(x)),
+  p.adjust.method = "holm",
+  ...
+)
 
 chisq_descriptives(res.chisq)
 

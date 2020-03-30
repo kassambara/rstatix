@@ -8,14 +8,28 @@
 \usage{
 get_pwc_label(stat.test, type = c("expression", "text"))
 
-get_test_label(stat.test, description = NULL, p.col = "p",
-  type = c("expression", "text"), correction = c("auto", "GG", "HF",
-  "none"), row = NULL, detailed = FALSE)
+get_test_label(
+  stat.test,
+  description = NULL,
+  p.col = "p",
+  type = c("expression", "text"),
+  correction = c("auto", "GG", "HF", "none"),
+  row = NULL,
+  detailed = FALSE
+)
 
-create_test_label(statistic.text, statistic, p, parameter = NA,
-  description = NULL, n = NA, effect.size = NA,
-  effect.size.text = NA, type = c("expression", "text"),
-  detailed = FALSE)
+create_test_label(
+  statistic.text,
+  statistic,
+  p,
+  parameter = NA,
+  description = NULL,
+  n = NA,
+  effect.size = NA,
+  effect.size.text = NA,
+  type = c("expression", "text"),
+  detailed = FALSE
+)
 }
 \arguments{
 \item{stat.test}{statistical test results returned by \code{rstatix}

@@ -6,7 +6,6 @@ NULL
 #'
 #'  Wrappers around the R base function \code{\link[stats]{prop.trend.test}()} but
 #'  returns a data frame for easy data visualization.
-#'@inheritParams stats::prop.test
 #'@param xtab a cross-tabulation (or contingency table) with two columns and
 #'  multiple rows (rx2 design). The columns give the counts of successes and
 #'  failures respectively.

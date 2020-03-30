@@ -4,9 +4,20 @@
 \alias{wilcox_effsize}
 \title{Wilcoxon Effect Size}
 \usage{
-wilcox_effsize(data, formula, comparisons = NULL, ref.group = NULL,
-  paired = FALSE, alternative = "two.sided", mu = 0, ci = FALSE,
-  conf.level = 0.95, ci.type = "perc", nboot = 1000, ...)
+wilcox_effsize(
+  data,
+  formula,
+  comparisons = NULL,
+  ref.group = NULL,
+  paired = FALSE,
+  alternative = "two.sided",
+  mu = 0,
+  ci = FALSE,
+  conf.level = 0.95,
+  ci.type = "perc",
+  nboot = 1000,
+  ...
+)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}

@@ -7,8 +7,13 @@
 \usage{
 mcnemar_test(x, y = NULL, correct = TRUE)
 
-pairwise_mcnemar_test(data, formula, type = c("mcnemar", "exact"),
-  correct = TRUE, p.adjust.method = "bonferroni")
+pairwise_mcnemar_test(
+  data,
+  formula,
+  type = c("mcnemar", "exact"),
+  correct = TRUE,
+  p.adjust.method = "bonferroni"
+)
 }
 \arguments{
 \item{x}{either a two-dimensional contingency table in matrix form,

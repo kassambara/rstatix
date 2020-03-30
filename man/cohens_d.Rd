@@ -4,10 +4,20 @@
 \alias{cohens_d}
 \title{Compute Cohen's d Measure of Effect Size}
 \usage{
-cohens_d(data, formula, comparisons = NULL, ref.group = NULL,
-  paired = FALSE, mu = 0, var.equal = FALSE,
-  hedges.correction = FALSE, ci = FALSE, conf.level = 0.95,
-  ci.type = "perc", nboot = 1000)
+cohens_d(
+  data,
+  formula,
+  comparisons = NULL,
+  ref.group = NULL,
+  paired = FALSE,
+  mu = 0,
+  var.equal = FALSE,
+  hedges.correction = FALSE,
+  ci = FALSE,
+  conf.level = 0.95,
+  ci.type = "perc",
+  nboot = 1000
+)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}

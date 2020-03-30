@@ -4,8 +4,11 @@
 \alias{cor_mark_significant}
 \title{Add Significance Levels To a Correlation Matrix}
 \usage{
-cor_mark_significant(x, cutpoints = c(0, 1e-04, 0.001, 0.01, 0.05, 1),
-  symbols = c("****", "***", "**", "*", ""))
+cor_mark_significant(
+  x,
+  cutpoints = c(0, 1e-04, 0.001, 0.01, 0.05, 1),
+  symbols = c("****", "***", "**", "*", "")
+)
 }
 \arguments{
 \item{x}{an object of class \code{\link{cor_mat}()}.}

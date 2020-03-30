@@ -4,8 +4,7 @@
 \alias{anova_summary}
 \title{Create Nice Summary Tables of ANOVA Results}
 \usage{
-anova_summary(object, effect.size = "ges", detailed = FALSE,
-  observed = NULL)
+anova_summary(object, effect.size = "ges", detailed = FALSE, observed = NULL)
 }
 \arguments{
 \item{object}{an object of returned by either \code{\link[car]{Anova}()}, or

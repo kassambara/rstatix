@@ -5,12 +5,27 @@
 \alias{pairwise_sign_test}
 \title{Sign Test}
 \usage{
-sign_test(data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", alternative = "two.sided", mu = 0,
-  conf.level = 0.95, detailed = FALSE)
+sign_test(
+  data,
+  formula,
+  comparisons = NULL,
+  ref.group = NULL,
+  p.adjust.method = "holm",
+  alternative = "two.sided",
+  mu = 0,
+  conf.level = 0.95,
+  detailed = FALSE
+)
 
-pairwise_sign_test(data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", detailed = FALSE, ...)
+pairwise_sign_test(
+  data,
+  formula,
+  comparisons = NULL,
+  ref.group = NULL,
+  p.adjust.method = "holm",
+  detailed = FALSE,
+  ...
+)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}

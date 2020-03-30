@@ -4,8 +4,14 @@
 \alias{kruskal_effsize}
 \title{Kruskal-Wallis Effect Size}
 \usage{
-kruskal_effsize(data, formula, ci = FALSE, conf.level = 0.95,
-  ci.type = "perc", nboot = 1000)
+kruskal_effsize(
+  data,
+  formula,
+  ci = FALSE,
+  conf.level = 0.95,
+  ci.type = "perc",
+  nboot = 1000
+)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}

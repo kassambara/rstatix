@@ -4,9 +4,16 @@
 \alias{cor_test}
 \title{Correlation Test}
 \usage{
-cor_test(data, ..., vars = NULL, vars2 = NULL,
-  alternative = "two.sided", method = "pearson", conf.level = 0.95,
-  use = "pairwise.complete.obs")
+cor_test(
+  data,
+  ...,
+  vars = NULL,
+  vars2 = NULL,
+  alternative = "two.sided",
+  method = "pearson",
+  conf.level = 0.95,
+  use = "pairwise.complete.obs"
+)
 }
 \arguments{
 \item{data}{a data.frame containing the variables.}

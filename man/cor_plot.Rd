@@ -4,9 +4,17 @@
 \alias{cor_plot}
 \title{Visualize Correlation Matrix Using Base Plot}
 \usage{
-cor_plot(cor.mat, method = "circle", type = "full", palette = NULL,
-  p.mat = NULL, significant.level = 0.05, insignificant = c("cross",
-  "blank"), label = FALSE, font.label = list())
+cor_plot(
+  cor.mat,
+  method = "circle",
+  type = "full",
+  palette = NULL,
+  p.mat = NULL,
+  significant.level = 0.05,
+  insignificant = c("cross", "blank"),
+  label = FALSE,
+  font.label = list()
+)
 }
 \arguments{
 \item{cor.mat}{the correlation matrix to visualize}

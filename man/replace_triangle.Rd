@@ -6,8 +6,7 @@
 \alias{replace_lower_triangle}
 \title{Replace Lower and Upper Triangular Part of a Matrix}
 \usage{
-replace_triangle(x, triangle = c("lower", "upper"), by = "",
-  diagonal = FALSE)
+replace_triangle(x, triangle = c("lower", "upper"), by = "", diagonal = FALSE)
 
 replace_upper_triangle(x, by = "", diagonal = FALSE)
 

@@ -4,8 +4,11 @@
 \alias{cor_as_symbols}
 \title{Replace Correlation Coefficients by Symbols}
 \usage{
-cor_as_symbols(x, cutpoints = c(0, 0.25, 0.5, 0.75, 1),
-  symbols = c(" ", ".", "+", "*"))
+cor_as_symbols(
+  x,
+  cutpoints = c(0, 0.25, 0.5, 0.75, 1),
+  symbols = c(" ", ".", "+", "*")
+)
 }
 \arguments{
 \item{x}{a correlation matrix. Particularly, an object of class \code{cor_mat}.}

@@ -7,17 +7,37 @@
 \alias{add_xy_position}
 \title{Autocompute P-value Positions For Plotting Significance}
 \usage{
-get_y_position(data, formula, fun = "max", ref.group = NULL,
-  comparisons = NULL, step.increase = 0.12, y.trans = NULL)
+get_y_position(
+  data,
+  formula,
+  fun = "max",
+  ref.group = NULL,
+  comparisons = NULL,
+  step.increase = 0.12,
+  y.trans = NULL
+)
 
-add_y_position(test, fun = "max", step.increase = 0.12, data = NULL,
-  formula = NULL, ref.group = NULL, comparisons = NULL,
-  y.trans = NULL)
+add_y_position(
+  test,
+  fun = "max",
+  step.increase = 0.12,
+  data = NULL,
+  formula = NULL,
+  ref.group = NULL,
+  comparisons = NULL,
+  y.trans = NULL
+)
 
 add_x_position(test, x = NULL, dodge = 0.8)
 
-add_xy_position(test, x = NULL, dodge = 0.8, fun = "max",
-  step.increase = 0.12, ...)
+add_xy_position(
+  test,
+  x = NULL,
+  dodge = 0.8,
+  fun = "max",
+  step.increase = 0.12,
+  ...
+)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}

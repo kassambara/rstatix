@@ -5,9 +5,17 @@
 \alias{get_emmeans}
 \title{Pairwise Comparisons of Estimated Marginal Means}
 \usage{
-emmeans_test(data, formula, covariate = NULL, ref.group = NULL,
-  comparisons = NULL, p.adjust.method = "bonferroni",
-  conf.level = 0.95, model = NULL, detailed = FALSE)
+emmeans_test(
+  data,
+  formula,
+  covariate = NULL,
+  ref.group = NULL,
+  comparisons = NULL,
+  p.adjust.method = "bonferroni",
+  conf.level = 0.95,
+  model = NULL,
+  detailed = FALSE
+)
 
 get_emmeans(emmeans.test)
 }

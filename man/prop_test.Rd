@@ -6,13 +6,19 @@
 \alias{row_wise_prop_test}
 \title{Proportion Test}
 \usage{
-prop_test(x, n, p = NULL, alternative = c("two.sided", "less",
-  "greater"), correct = TRUE, conf.level = 0.95, detailed = FALSE)
+prop_test(
+  x,
+  n,
+  p = NULL,
+  alternative = c("two.sided", "less", "greater"),
+  correct = TRUE,
+  conf.level = 0.95,
+  detailed = FALSE
+)
 
 pairwise_prop_test(xtab, p.adjust.method = "holm", ...)
 
-row_wise_prop_test(xtab, p.adjust.method = "holm", detailed = FALSE,
-  ...)
+row_wise_prop_test(xtab, p.adjust.method = "holm", detailed = FALSE, ...)
 }
 \arguments{
 \item{x}{a vector of counts of successes, a one-dimensional table with

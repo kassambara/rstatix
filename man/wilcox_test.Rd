@@ -5,13 +5,29 @@
 \alias{pairwise_wilcox_test}
 \title{Wilcoxon Tests}
 \usage{
-wilcox_test(data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", paired = FALSE, exact = NULL,
-  alternative = "two.sided", mu = 0, conf.level = 0.95,
-  detailed = FALSE)
+wilcox_test(
+  data,
+  formula,
+  comparisons = NULL,
+  ref.group = NULL,
+  p.adjust.method = "holm",
+  paired = FALSE,
+  exact = NULL,
+  alternative = "two.sided",
+  mu = 0,
+  conf.level = 0.95,
+  detailed = FALSE
+)
 
-pairwise_wilcox_test(data, formula, comparisons = NULL,
-  ref.group = NULL, p.adjust.method = "holm", detailed = FALSE, ...)
+pairwise_wilcox_test(
+  data,
+  formula,
+  comparisons = NULL,
+  ref.group = NULL,
+  p.adjust.method = "holm",
+  detailed = FALSE,
+  ...
+)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}

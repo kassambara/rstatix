@@ -4,8 +4,15 @@
 \alias{friedman_effsize}
 \title{Friedman Test Effect Size (Kendall's W Value)}
 \usage{
-friedman_effsize(data, formula, ci = FALSE, conf.level = 0.95,
-  ci.type = "perc", nboot = 1000, ...)
+friedman_effsize(
+  data,
+  formula,
+  ci = FALSE,
+  conf.level = 0.95,
+  ci.type = "perc",
+  nboot = 1000,
+  ...
+)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
