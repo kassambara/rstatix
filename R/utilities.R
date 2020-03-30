@@ -20,7 +20,7 @@
 #' @importFrom dplyr tibble
 #' @importFrom dplyr everything
 #' @importFrom dplyr left_join
-#' @importFrom purrr map
+#' @importFrom purrr map map2
 #' @importFrom broom tidy
 #' @importFrom stats t.test
 #' @importFrom rlang sym
@@ -532,6 +532,9 @@ get_dot_vars <- function(...){
 get_existing_dot_vars <- function(data, ...){
   tidyselect::vars_select(colnames(data), !!!rlang::quos(...))
 }
+
+
+
 
 
 # Select numeric columns
