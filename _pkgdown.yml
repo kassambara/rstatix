@@ -87,6 +87,7 @@ reference:
       - df_nest_by
       - df_split_by
       - df_unite
+      - df_label
       - df_get_var_names
   - title: Others
     contents:

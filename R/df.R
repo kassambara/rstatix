@@ -65,15 +65,18 @@ df_nest_by <- function(data, ..., vars = NULL){
 #' @description Split a data frame by groups into subsets or data panel. Very
 #'   similar to the function \code{\link{df_nest_by}()}. The only difference is
 #'   that, it adds label to each data subset. Labels are the combination of the
-#'   grouping variable levels. The column holding labels are named "panel".
+#'   grouping variable levels. The column holding labels are named "label".
 #' @inheritParams df_nest_by
-#' @param label_col column to hold the label of the data subsets. Default column
-#'   name is "panel".
+#' @inheritParams df_label_both
+#' @param labeller A function that takes a data frame, the grouping variables,
+#'   label_col and label_sep arguments, and add labels into the data frame.
+#'   Example of possible values are: \code{\link{df_label_both}()} and
+#'   \code{\link{df_label_value}()}.
 #'
 #' @return A tbl with one row per unique combination of the grouping variables.
 #'   The first columns are the grouping variables, followed by a list column of
 #'   tibbles with matching rows of the remaining columns, and a column named
-#'   panel, containing labels.
+#'   label, containing labels.
 #' @examples
 #'
 #' # Split a data frame
@@ -92,17 +95,82 @@ df_nest_by <- function(data, ..., vars = NULL){
 #' res
 #' @rdname df_split_by
 #' @export
-df_split_by <- function(data, ..., vars = NULL, label_col = "panel"){
+df_split_by <- function(data, ..., vars = NULL, label_col = "label",
+                        labeller = df_label_both, sep = c(", ", ":")){
   groups <- df_get_var_names(data, ..., vars = vars)
   data %>%
     df_nest_by(vars = groups) %>%
-    add_panel_label(groups, col = label_col) %>%
-    mutate(data = map2(.data$data, .data$panel, add_panel_name, col = label_col))
+    labeller(vars = groups, label_col = label_col, sep = sep) %>%
+    mutate(data = map2(.data$data, .data[[label_col]], add_panel_name, col = label_col))
 }
+
+#' Functions to Label Data Frames by Grouping Variables
+#'
+#' @description Functions to label data frame rows by one or multiple grouping
+#'   variables.
+#'
+#' @inheritParams df_nest_by
+#' @param label_col column to hold the label of the data subsets. Default column
+#'   name is "label".
+#' @param sep String separating labelling variables and values. Should be of
+#'   length 2 in the function \code{df_label_both()}. 1) One sep is used to
+#'   separate groups, for example ','; 2) The other sep between group name and
+#'   levels; for example ':'.
+#' @return a modified data frame with a column containing row labels.
+#' @examples
+#' # Data preparation
+#' df <- head(ToothGrowth)
+#'
+#' # Labelling: Non standard evaluation
+#' df %>%
+#'   df_label_both(dose, supp)
+#'
+#' # Standard evaluation
+#' df %>%
+#'   df_label_both(dose, supp)
+#'
+#' # Nesting the data then label each subset by groups
+#' ToothGrowth %>%
+#'   df_nest_by(dose, supp) %>%
+#'   df_label_both(supp, dose)
+#'
+#' @describeIn df_label Displays both the variable name and the factor value.
+#' @export
+df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c(", ", ":")){
+  vars <- df_get_var_names(data, ..., vars = vars)
+  if(length(sep) < 2){
+    warning(
+      "Argument sep sould be of length 2, otherwise it will be ignored; example: sep = c(', ', ':', )\n",
+      "  2. One sep is used to separate groups, for example ','\n",
+      "  1. The other sep between group name and levels; for example ':'",
+      call. = FALSE
+    )
+    sep <- c(":", ", ")
+  }
+  label <- data %>%
+    df_select(vars = vars) %>%
+    concat_groupname_to_levels(vars, sep = sep[2]) %>%
+    df_unite_factors(col = label_col, vars = vars, sep = sep[1]) %>%
+    pull(!!label_col)
+  data %>% mutate(!!label_col := label)
+}
+
+
+#' @describeIn df_label Displays only the value of a factor.
+#' @export
+df_label_value <- function(data, ..., vars = NULL, label_col = "label", sep = ", "){
+  vars <- df_get_var_names(data, ..., vars = vars)
+  label <- data %>%
+    df_select(vars = vars) %>%
+    df_unite_factors(col = label_col, vars = vars, sep = sep[1]) %>%
+    pull(!!label_col)
+  data %>% mutate(!!label_col := label)
+}
+
 
 # Add panel label to a data
 # Labels are the combination of the grouping variable labels
-add_panel_label <- function(data, groups, col = "panel") {
+add_panel_label <- function(data, groups, col = "label") {
   label <- data %>%
     df_select(vars = groups) %>%
     concat_groupname_to_levels(groups, sep = ":") %>%
@@ -111,7 +179,7 @@ add_panel_label <- function(data, groups, col = "panel") {
   data %>% mutate(!!col := label)
 }
 # Add a column containing panel name
-add_panel_name <- function(data, panel, col = "panel") {
+add_panel_name <- function(data, panel, col = "label") {
   data %>% mutate(!!col := !!panel)
 }
 concat_groupname_to_levels <- function(group.data, groups, sep = ":"){

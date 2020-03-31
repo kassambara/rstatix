@@ -4,7 +4,14 @@
 \alias{df_split_by}
 \title{Split a Data Frame into Subset}
 \usage{
-df_split_by(data, ..., vars = NULL, label_col = "panel")
+df_split_by(
+  data,
+  ...,
+  vars = NULL,
+  label_col = "label",
+  labeller = df_label_both,
+  sep = c(", ", ":")
+)
 }
 \arguments{
 \item{data}{a data frame}
@@ -15,19 +22,29 @@ commas. Used as grouping variables.}
 \item{vars}{a character vector containing the grouping variables of interest.}
 
 \item{label_col}{column to hold the label of the data subsets. Default column
-name is "panel".}
+name is "label".}
+
+\item{labeller}{A function that takes a data frame, the grouping variables,
+label_col and label_sep arguments, and add labels into the data frame.
+Example of possible values are: \code{\link{df_label_both}()} and
+\code{\link{df_label_value}()}.}
+
+\item{sep}{String separating labelling variables and values. Should be of
+length 2 in the function \code{df_label_both()}. 1) One sep is used to
+separate groups, for example ','; 2) The other sep between group name and
+levels; for example ':'.}
 }
 \value{
 A tbl with one row per unique combination of the grouping variables.
   The first columns are the grouping variables, followed by a list column of
   tibbles with matching rows of the remaining columns, and a column named
-  panel, containing labels.
+  label, containing labels.
 }
 \description{
 Split a data frame by groups into subsets or data panel. Very
   similar to the function \code{\link{df_nest_by}()}. The only difference is
   that, it adds label to each data subset. Labels are the combination of the
-  grouping variable levels. The column holding labels are named "panel".
+  grouping variable levels. The column holding labels are named "label".
 }
 \examples{
 
