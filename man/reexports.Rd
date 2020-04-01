@@ -9,6 +9,7 @@
 \alias{filter}
 \alias{group_by}
 \alias{select}
+\alias{desc}
 \alias{drop_na}
 \alias{gather}
 \alias{spread}
@@ -27,7 +28,7 @@ below to see their documentation.
 
   \item{car}{\code{\link[car]{Anova}}, \code{\link[car]{Manova}}}
 
-  \item{dplyr}{\code{\link[dplyr]{filter}}, \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{mutate}}, \code{\link[dplyr]{select}}}
+  \item{dplyr}{\code{\link[dplyr]{desc}}, \code{\link[dplyr]{filter}}, \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{mutate}}, \code{\link[dplyr]{select}}}
 
   \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
 

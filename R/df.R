@@ -28,6 +28,67 @@ df_select <- function(data, ...,  vars = NULL){
   data %>% select(!!!syms(vars))
 }
 
+#' Arrange Rows by Column Values
+#'
+#' @description Order the rows of a data frame by values of specified columns.
+#'   Wrapper arround the \code{\link[dplyr]{arrange}()} function. Supports
+#'   standard and non standard evaluation.
+#' @param data a data frame
+#' @param vars a character vector containing the variable names of interest.
+#' @param ... One or more unquoted expressions (or variable names) separated by
+#'   commas. Used to select a variable of interest. Use
+#'   \code{\link[dplyr]{desc}()} to sort a variable in descending order.
+#' @param .by_group If TRUE, will sort first by grouping variable. Applies to
+#'   grouped data frames only.
+#'
+#' @return a data frame
+#' @examples
+#' df <- head(ToothGrowth)
+#' df
+#'
+#' # Select column using standard evaluation
+#' df %>% df_arrange(vars = c("dose", "len"))
+#'
+#' # Select column using non-standard evaluation
+#' df %>% df_arrange(dose, desc(len))
+#' @rdname df_arrange
+#' @export
+df_arrange <- function(data, ..., vars = NULL, .by_group = FALSE ){
+  if(!is.null(vars)){
+    results <- data %>%
+      dplyr::arrange(!!!syms(vars), .by_group = .by_group)
+  }
+  else{
+    results <- data %>%
+      dplyr::arrange(..., .by_group = .by_group)
+  }
+  results
+}
+
+
+#' Group a Data Frame by One or more Variables
+#'
+#' @description Group a data frame by one or more variables. Supports standard
+#'   and non standard evaluation.
+#' @inheritParams df_select
+#' @examples
+#'
+#' # Non standard evaluation
+#' by_dose <- head(ToothGrowth) %>%
+#'    df_group_by(dose)
+#' by_dose
+#'
+#' # Standard evaluation
+#' head(ToothGrowth) %>%
+#'    df_group_by(vars = c("dose", "supp"))
+#' @rdname df_group_by
+#' @export
+df_group_by <- function(data, ..., vars = NULL){
+  vars <- df_get_var_names(data, ..., vars = vars)
+  data %>% group_by(!!!syms(vars))
+}
+
+
 #' Nest a Tibble By Groups
 #'
 #' @description Nest a tibble data frame using grouping specification. Supports standard and non standard evaluation.

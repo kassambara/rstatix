@@ -16,6 +16,9 @@ dplyr::group_by
 #' @importFrom dplyr select
 #' @export
 dplyr::select
+#' @importFrom dplyr desc
+#' @export
+dplyr::desc
 #' @importFrom tidyr drop_na
 #' @export
 tidyr::drop_na

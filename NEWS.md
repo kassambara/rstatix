@@ -2,8 +2,10 @@
   
 ## New features
    
-- New functions added for easy data frame manipulation: 
+- New functions added for easy data frame manipulation. These functions make it easy to program with tidyverse packages using non standard evaluation.
       - df_select
+      - df_arrange
+      - df_group_by
       - df_nest_by
       - df_split_by
       - df_unite
