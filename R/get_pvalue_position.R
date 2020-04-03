@@ -150,6 +150,7 @@ add_y_position <- function(test, fun = "max", step.increase = 0.12,
   asserttat_group_columns_exists(test)
   .attributes <- get_test_attributes(test)
   args  <- get_test_arguments(test)
+  test <- keep_only_tbl_df_classes(test)
   if(!is.null(args)){
     if(missing(data)) data <- args$data
     if(missing(formula)) formula <- args$formula
