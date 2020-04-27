@@ -122,7 +122,7 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
     p.adjust.method = "none"
   ) %>% tidy_squared_matrix()
 
-  t <- mean.diff$value/weltch.sd$value
+  t <- abs(mean.diff$value)/weltch.sd$value
   p <- stats::ptukey(t*sqrt(2), nb.groups, df$value, lower.tail = FALSE)
   se <- weltch.sd$value*sqrt(0.5)
 
