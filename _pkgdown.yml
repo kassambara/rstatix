@@ -82,7 +82,7 @@ reference:
       - get_test_label
       - get_pwc_label
   - title: Data Manipulation Helper Functions
-    desc: These functions make it easy to program with tidyverse packages using non standard evaluation.
+    desc: These functions are internally used in rstatix and in ggpubr R package to make it easy to program with tidyverse packages using non standard evaluation.
     contents:
       - df_select
       - df_arrange
