@@ -221,13 +221,13 @@ These functions are internally used in the `rstatix` and in the `ggpubr`
 R package to make it easy to program with tidyverse packages using non
 standard evaluation.
 
--   `df_select()`, `df_arrange()`, `df_group_by()`: wrapper arround
-    dplyr functions for suporting standard and non standard evaluation.
+-   `df_select()`, `df_arrange()`, `df_group_by()`: wrappers arround
+    dplyr functions for suporting standard and non standard evaluations.
 -   `df_nest_by()`: Nest a tibble data frame using grouping
-    specification. Supports standard and non standard evaluation.
+    specification. Supports standard and non standard evaluations.
 -   `df_split_by()`: Split a data frame by groups into subsets or data
     panel. Very similar to the function `df_nest_by()`. The only
-    difference is that, it adds label to each data subset. Labels are
+    difference is that, it adds labels to each data subset. Labels are
     the combination of the grouping variable levels.
 -   `df_unite()`: Unite multiple columns into one.
 -   `df_unite_factors()`: Unite factor columns. First, order factors

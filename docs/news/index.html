@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -104,6 +104,37 @@
       
     </div>
 
+    <div id="rstatix-0-5-0" class="section level1">
+<h1 class="page-header">
+<a href="#rstatix-0-5-0" class="anchor"></a>rstatix 0.5.0<small> Unreleased </small>
+</h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New features</h2>
+<ul>
+<li>New functions added for easy data frame manipulation. These functions are internally used in the <code>rstatix</code> and the <code>ggpubr</code> package and makes it easy to program with tidyverse packages using non standard evaluation. - df_select - df_arrange - df_group_by - df_nest_by - df_split_by - df_unite - df_get_var_names - df_label_both - df_label_value</li>
+</ul>
+</div>
+<div id="minor-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-changes" class="anchor"></a>Minor changes</h2>
+<ul>
+<li>Now, in <code><a href="../reference/freq_table.html">freq_table()</a></code> the option <code>na.rm</code> removes only missing values in the variables used to create the frequency table (<a href='https://github.com/JuhlinF'>@JuhlinF</a>, <a href="https://github.com/kassambara/rstatix/issues/25">#25</a>).</li>
+<li>Missing values are now correctly handled in <code><a href="../reference/anova_test.html">anova_test()</a></code> (<a href='https://github.com/benediktclaus'>@benediktclaus</a>, <a href="https://github.com/kassambara/rstatix/issues/31">#31</a>)</li>
+<li>Maintenance for adapting to the future dplyr 1.0.0 version <a href="https://github.com/kassambara/rstatix/issues/32">#32</a>
+</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>An informative message is now displayed when users try to apply Hedge’s correction when computing the Cohen’s D for one sample test (<a href='https://github.com/GegznaV'>@GegznaV</a>, <a href="https://github.com/kassambara/rstatix/issues/36">#36</a>).</li>
+<li>Bug fixes in the <code><a href="../reference/games_howell_test.html">games_howell_test()</a></code> function : the t-statistic is now calculated using the <strong>absolute</strong> mean difference between groups (<a href='https://github.com/GegznaV'>@GegznaV</a>, <a href="https://github.com/kassambara/rstatix/issues/37">#37</a>).</li>
+<li>x position is now correctly computed when when making custom comparisons (<a href='https://github.com/barrel0luck'>@barrel0luck</a>, <a href="https://github.com/kassambara/rstatix/issues/28">#28</a>).</li>
+</ul>
+</div>
+</div>
     <div id="rstatix-0-4-0" class="section level1">
 <h1 class="page-header">
 <a href="#rstatix-0-4-0" class="anchor"></a>rstatix 0.4.0<small> 2020-02-13 </small>
@@ -285,6 +316,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#rstatix-0-5-0">0.5.0</a></li>
         <li><a href="#rstatix-0-4-0">0.4.0</a></li>
         <li><a href="#rstatix-0-3-1">0.3.1</a></li>
         <li><a href="#rstatix-0-3-0">0.3.0</a></li>
