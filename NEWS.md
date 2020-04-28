@@ -15,6 +15,7 @@
 
 ## Minor changes
 
+- Now, in `freq_table()` the option `na.rm` removes only missing values in the variables used to create the frequency table (@JuhlinF, [#25](https://github.com/kassambara/rstatix/issues/25)).
 - Missing values are now correctly handled in `anova_test()` (@benediktclaus, [#31](https://github.com/kassambara/rstatix/issues/31))
 - Maintenance for adapting to the future dplyr 1.0.0 version [#32](https://github.com/kassambara/rstatix/issues/32)
   

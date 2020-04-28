@@ -1,24 +1,26 @@
 #' @include utilities.R
 NULL
-#' Compute Frequency Table
-#' @description compute frequency table.
-#' @param data a data frame
-#'@param ... One or more unquoted expressions (or variable names)
-#'  separated by commas. Used to specify variables of interest.
-#' @param vars optional character vector containing variable names.
-#' @param na.rm logical value. If TRUE (default), remove missing values.
-#' @return a data frame
+#'Compute Frequency Table
+#'@description compute frequency table.
+#'@param data a data frame
+#'@param ... One or more unquoted expressions (or variable names) separated by
+#'  commas. Used to specify variables of interest.
+#'@param vars optional character vector containing variable names.
+#'@param na.rm logical value. If TRUE (default), remove missing values in the
+#'  variables used to create the frequency table.
+#'@return a data frame
 #' @examples
 #' data("ToothGrowth")
 #' ToothGrowth %>% freq_table(supp, dose)
-#' @export
+#'@export
 freq_table <- function(data, ..., vars = NULL, na.rm = TRUE){
   if(is.vector(data) | is.factor(data)){
     data <- data.frame(group = data)
     vars <- "group"
   }
-  vars <- c(get_dot_vars(...), vars) %>%
-    unique()
+  data <- data %>%
+    df_select(..., vars = vars)
+  vars <- colnames(data)
   if(length(vars) == 0){
     stop("Specify at least one variable")
   }

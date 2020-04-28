@@ -9,12 +9,13 @@ freq_table(data, ..., vars = NULL, na.rm = TRUE)
 \arguments{
 \item{data}{a data frame}
 
-\item{...}{One or more unquoted expressions (or variable names)
-separated by commas. Used to specify variables of interest.}
+\item{...}{One or more unquoted expressions (or variable names) separated by
+commas. Used to specify variables of interest.}
 
 \item{vars}{optional character vector containing variable names.}
 
-\item{na.rm}{logical value. If TRUE (default), remove missing values.}
+\item{na.rm}{logical value. If TRUE (default), remove missing values in the
+variables used to create the frequency table.}
 }
 \value{
 a data frame
