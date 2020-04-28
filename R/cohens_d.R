@@ -188,6 +188,9 @@ get_cohens_d <- function(data, formula, subset = NULL, paired = FALSE, mu = 0, v
   else
     number.of.groups <- data %>%
     pull(group) %>% unique() %>% length()
+
+  unpaired.two.samples <- paired == FALSE & number.of.groups == 2
+
   if(number.of.groups == 1){
     x <- data %>% pull(outcome)
     d <- one_sample_d(x, mu)
@@ -213,9 +216,16 @@ get_cohens_d <- function(data, formula, subset = NULL, paired = FALSE, mu = 0, v
       n <- length(x)
       d <- d*(n - 2)/(n - 1.25)
     }
-    else{
+    else if (unpaired.two.samples){
       n <- length(x) + length(y)
       d <- d * (n - 3)/(n - 2.25)
+    }
+    else{
+      stop(
+        "Hedge's Correction for One Sample Test is not supported.\n",
+        "Please use `hedges.correction = FALSE` (default) for one sample test.",
+        call. = FALSE
+        )
     }
   }
 

@@ -20,6 +20,7 @@
   
 ## Bug fixes
   
+- An informative message is now displayed when users try to apply Hedge's correction when computing the Cohen's D for one sample test (@GegznaV, [#36](https://github.com/kassambara/rstatix/issues/36)).
 - Bug fixes in the `games_howell_test()` function : the t-statistic is now calculated using the **absolute** mean difference between groups (@GegznaV, [#37](https://github.com/kassambara/rstatix/issues/37)).
 - x position is now correctly computed when when making custom comparisons (@barrel0luck, [#28](https://github.com/kassambara/rstatix/issues/28)).
    
