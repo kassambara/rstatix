@@ -1,3 +1,16 @@
+# rstatix 0.5.0.999
+
+  
+## New features
+   
+## Minor changes
+
+
+## Bug fixes
+   
+- Now, the option `type = "quantile"` of `get_summary_stats()` works properly (@Boyoron, [#39](https://github.com/kassambara/rstatix/issues/39)).
+
+
 # rstatix 0.5.0
   
 ## New features

@@ -164,7 +164,7 @@ quantile_summary <- function(data, probs = seq(0, 1, 0.25)){
     nest() %>%
     mutate(.results. = map(data, core_func, probs)) %>%
     select(.data$variable, .data$.results.) %>%
-    unnest()
+    unnest(cols = ".results.")
   results
 }
 
