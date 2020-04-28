@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -114,9 +114,13 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>add_significance</span>(<span class='no'>data</span>, <span class='kw'>p.col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>output.col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cutpoints</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1e-04</span>, <span class='fl'>0.001</span>, <span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>1</span>), <span class='kw'>symbols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"****"</span>,
-  <span class='st'>"***"</span>, <span class='st'>"**"</span>, <span class='st'>"*"</span>, <span class='st'>"ns"</span>))</pre>
+    <pre class="usage"><span class='fu'>add_significance</span>(
+  <span class='no'>data</span>,
+  <span class='kw'>p.col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>output.col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cutpoints</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1e-04</span>, <span class='fl'>0.001</span>, <span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>1</span>),
+  <span class='kw'>symbols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"****"</span>, <span class='st'>"***"</span>, <span class='st'>"**"</span>, <span class='st'>"*"</span>, <span class='st'>"ns"</span>)
+)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,7 +160,7 @@ significance symbols.</p></td>
  <span class='fu'><a href='adjust_pvalue.html'>adjust_pvalue</a></span>() <span class='kw'>%&gt;%</span>
  <span class='fu'>add_significance</span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 10</span><span>
 #&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
 #&gt; </span><span style='color: #555555;'>1</span><span> len   0.5    1         20    20     -</span><span style='color: #BB0000;'>6.48</span><span>  38.0 1.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 2.54</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
 #&gt; </span><span style='color: #555555;'>2</span><span> len   0.5    2         20    20    -</span><span style='color: #BB0000;'>11.8</span><span>   36.9 4.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-14</span><span> 1.32</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span> ****        
 #&gt; </span><span style='color: #555555;'>3</span><span> len   1      2         20    20     -</span><span style='color: #BB0000;'>4.90</span><span>  37.1 1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> 1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        </div><div class='input'>

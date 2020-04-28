@@ -2,7 +2,7 @@
   
 ## New features
    
-- New functions added for easy data frame manipulation. These functions make it easy to program with tidyverse packages using non standard evaluation.
+- New functions added for easy data frame manipulation. These functions are internally used in the `rstatix` and the `ggpubr` package and makes it easy to program with tidyverse packages using non standard evaluation.
       - df_select
       - df_arrange
       - df_group_by

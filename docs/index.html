@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@
 <li>
 <code><a href="reference/anova_test.html">anova_test()</a></code>: an easy-to-use wrapper around <code><a href="https://rdrr.io/pkg/car/man/Anova.html">car::Anova()</a></code> to perform different types of ANOVA tests, including <strong>independent measures ANOVA</strong>, <strong>repeated measures ANOVA</strong> and <strong>mixed ANOVA</strong>.</li>
 <li>
-<code>get_anova_test_table()</code>: extract ANOVA table from <code><a href="reference/anova_test.html">anova_test()</a></code> results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs. <code>- welch_anova_test()</code>: Welch one-Way ANOVA test. A pipe-frindly wrapper around the base function <code><a href="https://rdrr.io/r/stats/oneway.test.html">stats::oneway.test()</a></code>. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.</li>
+<code>get_anova_test_table()</code>: extract ANOVA table from <code><a href="reference/anova_test.html">anova_test()</a></code> results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs. <code>- welch_anova_test()</code>: Welch one-Way ANOVA test. A pipe-freindly wrapper around the base function <code><a href="https://rdrr.io/r/stats/oneway.test.html">stats::oneway.test()</a></code>. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.</li>
 <li>
 <code><a href="reference/kruskal_test.html">kruskal_test()</a></code>: perform kruskal-wallis rank sum test</li>
 <li>
@@ -267,6 +267,27 @@
 <code><a href="reference/get_test_label.html">create_test_label()</a></code>: Create labels from user specified test results.</li>
 </ul>
 </div>
+<div id="data-manipulation-helper-functions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#data-manipulation-helper-functions" class="anchor"></a>Data manipulation helper functions</h3>
+<p>These functions are internally used in the <code>rstatix</code> and in the <code>ggpubr</code> R package to make it easy to program with tidyverse packages using non standard evaluation.</p>
+<ul>
+<li>
+<code><a href="reference/df_select.html">df_select()</a></code>, <code><a href="reference/df_arrange.html">df_arrange()</a></code>, <code><a href="reference/df_group_by.html">df_group_by()</a></code>: wrapper arround dplyr functions for suporting standard and non standard evaluation.</li>
+<li>
+<code><a href="reference/df_nest_by.html">df_nest_by()</a></code>: Nest a tibble data frame using grouping specification. Supports standard and non standard evaluation.</li>
+<li>
+<code><a href="reference/df_split_by.html">df_split_by()</a></code>: Split a data frame by groups into subsets or data panel. Very similar to the function <code><a href="reference/df_nest_by.html">df_nest_by()</a></code>. The only difference is that, it adds label to each data subset. Labels are the combination of the grouping variable levels.</li>
+<li>
+<code><a href="reference/df_unite.html">df_unite()</a></code>: Unite multiple columns into one.</li>
+<li>
+<code><a href="reference/df_unite.html">df_unite_factors()</a></code>: Unite factor columns. First, order factors levels then merge them into one column. The output column is a factor.</li>
+<li>
+<code><a href="reference/df_label.html">df_label_both()</a></code>, <code><a href="reference/df_label.html">df_label_value()</a></code>: functions to label data frames rows by by one or multiple grouping variables.</li>
+<li>
+<code><a href="reference/df_get_var_names.html">df_get_var_names()</a></code>: Returns user specified variable names. Supports standard and non standard evaluation.</li>
+</ul>
+</div>
 <div id="others" class="section level3">
 <h3 class="hasAnchor">
 <a href="#others" class="anchor"></a>Others</h3>
@@ -311,7 +332,7 @@
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="reference/get_summary_stats.html">get_summary_stats</a></span>(Sepal.Length, Sepal.Width, <span class="dt">type =</span> <span class="st">"common"</span>)</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;   variable         n   min   max median   iqr  mean    sd    se    ci</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; * &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 1 Sepal.Length   150   4.3   7.9    5.8   1.3  5.84 0.828 0.068 0.134</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 2 Sepal.Width    150   2     4.4    3     0.5  3.06 0.436 0.036 0.07</span></a>
 <a class="sourceLine" id="cb4-10" data-line-number="10"></a>
@@ -320,7 +341,7 @@
 <a class="sourceLine" id="cb4-13" data-line-number="13">iris <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/get_summary_stats.html">get_summary_stats</a></span>(<span class="dt">type =</span> <span class="st">"common"</span>)</a>
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; # A tibble: 4 x 10</span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;   variable         n   min   max median   iqr  mean    sd    se    ci</span></a>
-<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; * &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 1 Petal.Length   150   1     6.9   4.35   3.5  3.76 1.76  0.144 0.285</span></a>
 <a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 2 Petal.Width    150   0.1   2.5   1.3    1.5  1.20 0.762 0.062 0.123</span></a>
 <a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 3 Sepal.Length   150   4.3   7.9   5.8    1.3  5.84 0.828 0.068 0.134</span></a>
@@ -419,7 +440,7 @@
 <a class="sourceLine" id="cb9-7" data-line-number="7">stat.test</a>
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; # A tibble: 3 x 11</span></a>
 <a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;   dose  .y.   group1 group2    n1    n2 statistic    df       p   p.adj</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;   &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; * &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; 1 0.5   len   OJ     VC        10    10    3.17    15.0 0.00636 0.0127 </span></a>
 <a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; 2 1     len   OJ     VC        10    10    4.03    15.4 0.00104 0.00312</span></a>
 <a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 3 2     len   OJ     VC        10    10   -0.0461  14.0 0.964   0.964  </span></a>
@@ -464,18 +485,17 @@
 <a class="sourceLine" id="cb11-2" data-line-number="2">pairwise.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>dose)</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">pairwise.test</a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 10</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 2.54e- 7</span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 1.32e-13</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; 3 len   1      2         20    20     -4.90  37.1 1.91e- 5 1.91e- 5</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co"># Box plot</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(</a>
-<a class="sourceLine" id="cb11-14" data-line-number="14">    pairwise.test, <span class="dt">label =</span> <span class="st">"p.adj"</span>, </a>
-<a class="sourceLine" id="cb11-15" data-line-number="15">    <span class="dt">y.position =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>, <span class="dv">39</span>)</a>
-<a class="sourceLine" id="cb11-16" data-line-number="16">    )</a></code></pre></div>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       </span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 2.54e- 7 ****        </span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 1.32e-13 ****        </span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; 3 len   1      2         20    20     -4.90  37.1 1.91e- 5 1.91e- 5 ****</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co"># Box plot</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(</a>
+<a class="sourceLine" id="cb11-13" data-line-number="13">    pairwise.test, <span class="dt">label =</span> <span class="st">"p.adj"</span>, </a>
+<a class="sourceLine" id="cb11-14" data-line-number="14">    <span class="dt">y.position =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>, <span class="dv">39</span>)</a>
+<a class="sourceLine" id="cb11-15" data-line-number="15">    )</a></code></pre></div>
 <p><img src="tools/README-pairwise-comparisons-1.png"></p>
 <ul>
 <li>Multiple pairwise comparisons against reference group: each level is compared to the ref group</li>
@@ -486,17 +506,16 @@
 <a class="sourceLine" id="cb12-4" data-line-number="4">stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>dose, <span class="dt">ref.group =</span> <span class="st">"0.5"</span>)</a>
 <a class="sourceLine" id="cb12-5" data-line-number="5">stat.test</a>
 <a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; # A tibble: 2 x 10</span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 1.27e- 7</span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 8.80e-14</span></a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co"># Box plot</span></a>
-<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(</a>
-<a class="sourceLine" id="cb12-15" data-line-number="15">    stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, </a>
-<a class="sourceLine" id="cb12-16" data-line-number="16">    <span class="dt">y.position =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>)</a>
-<a class="sourceLine" id="cb12-17" data-line-number="17">    )</a></code></pre></div>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       </span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 1.27e- 7 ****        </span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 8.80e-14 ****</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co"># Box plot</span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(</a>
+<a class="sourceLine" id="cb12-14" data-line-number="14">    stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, </a>
+<a class="sourceLine" id="cb12-15" data-line-number="15">    <span class="dt">y.position =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">29</span>, <span class="dv">35</span>)</a>
+<a class="sourceLine" id="cb12-16" data-line-number="16">    )</a></code></pre></div>
 <p><img src="tools/README-comaprison-against-reference-group-1.png"></p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Remove bracket</span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>, <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">40</span>)) <span class="op">+</span></a>
@@ -513,20 +532,19 @@
 <a class="sourceLine" id="cb14-2" data-line-number="2">stat.test &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/t_test.html">t_test</a></span>(len <span class="op">~</span><span class="st"> </span>dose, <span class="dt">ref.group =</span> <span class="st">"all"</span>)</a>
 <a class="sourceLine" id="cb14-3" data-line-number="3">stat.test</a>
 <a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">#&gt; # A tibble: 3 x 10</span></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt;   .y.   group1 group2    n1    n2 statistic    df       p   p.adj</span></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; 1 len   all    0.5       60    20     5.82   56.4 2.90e-7 8.70e-7</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; 2 len   all    1         60    20    -0.660  57.5 5.12e-1 5.12e-1</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; 3 len   all    2         60    20    -5.61   66.5 4.25e-7 8.70e-7</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co"># Box plot with horizontal mean line</span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(</a>
-<a class="sourceLine" id="cb14-14" data-line-number="14">    stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, </a>
-<a class="sourceLine" id="cb14-15" data-line-number="15">    <span class="dt">y.position =</span> <span class="dv">35</span>,</a>
-<a class="sourceLine" id="cb14-16" data-line-number="16">    <span class="dt">remove.bracket =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb14-17" data-line-number="17">    ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb14-18" data-line-number="18"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(df<span class="op">$</span>len), <span class="dt">linetype =</span> <span class="dv">2</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt;   .y.   group1 group2    n1    n2 statistic    df         p   p.adj p.adj.signif</span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;       </span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; 1 len   all    0.5       60    20     5.82   56.4   2.90e-7 8.70e-7 ****        </span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; 2 len   all    1         60    20    -0.660  57.5   5.12e-1 5.12e-1 ns          </span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; 3 len   all    2         60    20    -5.61   66.5   4.25e-7 8.70e-7 ****</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co"># Box plot with horizontal mean line</span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/ggboxplot.html">ggboxplot</a></span>(df, <span class="dt">x =</span> <span class="st">"dose"</span>, <span class="dt">y =</span> <span class="st">"len"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html">stat_pvalue_manual</a></span>(</a>
+<a class="sourceLine" id="cb14-13" data-line-number="13">    stat.test, <span class="dt">label =</span> <span class="st">"p.adj.signif"</span>, </a>
+<a class="sourceLine" id="cb14-14" data-line-number="14">    <span class="dt">y.position =</span> <span class="dv">35</span>,</a>
+<a class="sourceLine" id="cb14-15" data-line-number="15">    <span class="dt">remove.bracket =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb14-16" data-line-number="16">    ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="st">  </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(df<span class="op">$</span>len), <span class="dt">linetype =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p><img src="tools/README-comparison-against-base-mean-1.png"></p>
 </div>
 </div>
@@ -572,12 +590,12 @@
 <a class="sourceLine" id="cb15-37" data-line-number="37"><span class="co">#&gt; 2 supp:dose 0.934 0.761      </span></a>
 <a class="sourceLine" id="cb15-38" data-line-number="38"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb15-39" data-line-number="39"><span class="co">#&gt; $`Sphericity Corrections`</span></a>
-<a class="sourceLine" id="cb15-40" data-line-number="40"><span class="co">#&gt;      Effect   GGe      DF[GG]    p[GG] p[GG]&lt;.05   HFe      DF[HF]</span></a>
-<a class="sourceLine" id="cb15-41" data-line-number="41"><span class="co">#&gt; 1      dose 0.838 1.68, 15.09 2.79e-09         * 1.008 2.02, 18.15</span></a>
-<a class="sourceLine" id="cb15-42" data-line-number="42"><span class="co">#&gt; 2 supp:dose 0.938 1.88, 16.88 1.12e-01           1.176 2.35, 21.17</span></a>
-<a class="sourceLine" id="cb15-43" data-line-number="43"><span class="co">#&gt;      p[HF] p[HF]&lt;.05</span></a>
-<a class="sourceLine" id="cb15-44" data-line-number="44"><span class="co">#&gt; 1 1.06e-10         *</span></a>
-<a class="sourceLine" id="cb15-45" data-line-number="45"><span class="co">#&gt; 2 1.07e-01</span></a>
+<a class="sourceLine" id="cb15-40" data-line-number="40"><span class="co">#&gt;      Effect   GGe      DF[GG]    p[GG] p[GG]&lt;.05   HFe      DF[HF]    p[HF]</span></a>
+<a class="sourceLine" id="cb15-41" data-line-number="41"><span class="co">#&gt; 1      dose 0.838 1.68, 15.09 2.79e-09         * 1.008 2.02, 18.15 1.06e-10</span></a>
+<a class="sourceLine" id="cb15-42" data-line-number="42"><span class="co">#&gt; 2 supp:dose 0.938 1.88, 16.88 1.12e-01           1.176 2.35, 21.17 1.07e-01</span></a>
+<a class="sourceLine" id="cb15-43" data-line-number="43"><span class="co">#&gt;   p[HF]&lt;.05</span></a>
+<a class="sourceLine" id="cb15-44" data-line-number="44"><span class="co">#&gt; 1         *</span></a>
+<a class="sourceLine" id="cb15-45" data-line-number="45"><span class="co">#&gt; 2</span></a>
 <a class="sourceLine" id="cb15-46" data-line-number="46"></a>
 <a class="sourceLine" id="cb15-47" data-line-number="47"><span class="co"># Use model as arguments</span></a>
 <a class="sourceLine" id="cb15-48" data-line-number="48"><span class="co">#:::::::::::::::::::::::::::::::::::::::::</span></a>
@@ -611,14 +629,14 @@
 <a class="sourceLine" id="cb16-11" data-line-number="11">mydata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_test.html">cor_test</a></span>(wt, mpg, <span class="dt">method =</span> <span class="st">"pearson"</span>)</a>
 <a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt; # A tibble: 1 x 8</span></a>
 <a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt;   var1  var2    cor statistic        p conf.low conf.high method </span></a>
-<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span></a>
 <a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co">#&gt; 1 wt    mpg   -0.87     -9.56 1.29e-10   -0.934    -0.744 Pearson</span></a>
 <a class="sourceLine" id="cb16-16" data-line-number="16"></a>
 <a class="sourceLine" id="cb16-17" data-line-number="17"><span class="co"># Correlation of one variable against all</span></a>
 <a class="sourceLine" id="cb16-18" data-line-number="18">mydata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_test.html">cor_test</a></span>(mpg, <span class="dt">method =</span> <span class="st">"pearson"</span>)</a>
 <a class="sourceLine" id="cb16-19" data-line-number="19"><span class="co">#&gt; # A tibble: 5 x 8</span></a>
 <a class="sourceLine" id="cb16-20" data-line-number="20"><span class="co">#&gt;   var1  var2    cor statistic        p conf.low conf.high method </span></a>
-<a class="sourceLine" id="cb16-21" data-line-number="21"><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb16-21" data-line-number="21"><span class="co">#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span></a>
 <a class="sourceLine" id="cb16-22" data-line-number="22"><span class="co">#&gt; 1 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson</span></a>
 <a class="sourceLine" id="cb16-23" data-line-number="23"><span class="co">#&gt; 2 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson</span></a>
 <a class="sourceLine" id="cb16-24" data-line-number="24"><span class="co">#&gt; 3 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson</span></a>
@@ -629,7 +647,7 @@
 <a class="sourceLine" id="cb16-29" data-line-number="29">mydata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/cor_test.html">cor_test</a></span>(<span class="dt">method =</span> <span class="st">"pearson"</span>)</a>
 <a class="sourceLine" id="cb16-30" data-line-number="30"><span class="co">#&gt; # A tibble: 36 x 8</span></a>
 <a class="sourceLine" id="cb16-31" data-line-number="31"><span class="co">#&gt;    var1  var2    cor statistic        p conf.low conf.high method </span></a>
-<a class="sourceLine" id="cb16-32" data-line-number="32"><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span></a>
+<a class="sourceLine" id="cb16-32" data-line-number="32"><span class="co">#&gt;  * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  </span></a>
 <a class="sourceLine" id="cb16-33" data-line-number="33"><span class="co">#&gt;  1 mpg   mpg    1       Inf    0.         1          1     Pearson</span></a>
 <a class="sourceLine" id="cb16-34" data-line-number="34"><span class="co">#&gt;  2 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson</span></a>
 <a class="sourceLine" id="cb16-35" data-line-number="35"><span class="co">#&gt;  3 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson</span></a>

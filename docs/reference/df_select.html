@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Effect Size for ANOVA — eta_squared • rstatix</title>
+<title>Select Columns in a Data Frame — df_select • rstatix</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -34,10 +34,11 @@
 
   
   <script src="../extra.js"></script>
-<meta property="og:title" content="Effect Size for ANOVA — eta_squared" />
+<meta property="og:title" content="Select Columns in a Data Frame — df_select" />
 
-<meta property="og:description" content="Compute eta-squared and partial eta-squared for all terms in an
-  ANOVA model." />
+<meta property="og:description" content="A wrapper around the select() function for
+  selection data frame columns. Supports standard and non standard
+  evaluations. Usefull to easily program with dplyr" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -104,62 +105,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Effect Size for ANOVA</h1>
+    <h1>Select Columns in a Data Frame</h1>
     
-    <div class="hidden name"><code>eta_squared.Rd</code></div>
+    <div class="hidden name"><code>df_select.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Compute eta-squared and partial eta-squared for all terms in an
-  ANOVA model.</p>
+    <p>A wrapper around the <code><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a>()</code> function for
+  selection data frame columns. Supports standard and non standard
+  evaluations. Usefull to easily program with <code>dplyr</code></p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>eta_squared</span>(<span class='no'>model</span>)
-
-<span class='fu'>partial_eta_squared</span>(<span class='no'>model</span>)</pre>
+    <pre class="usage"><span class='fu'>df_select</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model</th>
-      <td><p>an object of class aov or anova.</p></td>
+      <th>data</th>
+      <td><p>a data frame</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>One or more unquoted expressions (or variable names) separated by
+commas. Used to select a variable of interest.</p></td>
+    </tr>
+    <tr>
+      <th>vars</th>
+      <td><p>a character vector containing the variable names of interest.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a numeric vector with the effect size statistics</p>
-    
-    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
-
-    
-<ul>
-<li><p><code>eta_squared</code>: compute eta squared</p></li>
-<li><p><code>partial_eta_squared</code>: compute partial eta squared.</p></li>
-</ul>
+    <p>a data frame</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Data preparation</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span>
-<span class='no'>df</span>$<span class='no'>dose</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='no'>df</span>$<span class='no'>dose</span>)
-
-<span class='co'># Compute ANOVA</span>
-<span class='no'>res.aov</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/aov.html'>aov</a></span>(<span class='no'>len</span> ~ <span class='no'>supp</span>*<span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>res.aov</span>)</div><div class='output co'>#&gt;             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
-#&gt; supp         1  205.4   205.4  15.572 0.000231 ***
-#&gt; dose         2 2426.4  1213.2  92.000  &lt; 2e-16 ***
-#&gt; supp:dose    2  108.3    54.2   4.107 0.021860 *  
-#&gt; Residuals   54  712.1    13.2                     
-#&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'>
-<span class='co'># Effect size</span>
-<span class='fu'>eta_squared</span>(<span class='no'>res.aov</span>)</div><div class='output co'>#&gt;       supp       dose  supp:dose 
-#&gt; 0.05948365 0.70286419 0.03137672 </div><div class='input'><span class='fu'>partial_eta_squared</span>(<span class='no'>res.aov</span>)</div><div class='output co'>#&gt;      supp      dose supp:dose 
-#&gt; 0.2238254 0.7731092 0.1320279 </div></pre>
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ToothGrowth</span>)
+<span class='no'>df</span></div><div class='output co'>#&gt;    len supp dose
+#&gt; 1  4.2   VC  0.5
+#&gt; 2 11.5   VC  0.5
+#&gt; 3  7.3   VC  0.5
+#&gt; 4  5.8   VC  0.5
+#&gt; 5  6.4   VC  0.5
+#&gt; 6 10.0   VC  0.5</div><div class='input'>
+<span class='co'># Select column using standard evaluation</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>df_select</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dose"</span>, <span class='st'>"len"</span>))</div><div class='output co'>#&gt;   dose  len
+#&gt; 1  0.5  4.2
+#&gt; 2  0.5 11.5
+#&gt; 3  0.5  7.3
+#&gt; 4  0.5  5.8
+#&gt; 5  0.5  6.4
+#&gt; 6  0.5 10.0</div><div class='input'>
+<span class='co'># Select column using non-standard evaluation</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>df_select</span>(<span class='no'>dose</span>, <span class='no'>len</span>)</div><div class='output co'>#&gt;   dose  len
+#&gt; 1  0.5  4.2
+#&gt; 2  0.5 11.5
+#&gt; 3  0.5  7.3
+#&gt; 4  0.5  5.8
+#&gt; 5  0.5  6.4
+#&gt; 6  0.5 10.0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -167,8 +175,6 @@
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#functions">Functions</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -118,14 +118,28 @@
 
     <pre class="usage"><span class='fu'>get_pwc_label</span>(<span class='no'>stat.test</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"expression"</span>, <span class='st'>"text"</span>))
 
-<span class='fu'>get_test_label</span>(<span class='no'>stat.test</span>, <span class='kw'>description</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>p.col</span> <span class='kw'>=</span> <span class='st'>"p"</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"expression"</span>, <span class='st'>"text"</span>), <span class='kw'>correction</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"GG"</span>, <span class='st'>"HF"</span>,
-  <span class='st'>"none"</span>), <span class='kw'>row</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>get_test_label</span>(
+  <span class='no'>stat.test</span>,
+  <span class='kw'>description</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>p.col</span> <span class='kw'>=</span> <span class='st'>"p"</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"expression"</span>, <span class='st'>"text"</span>),
+  <span class='kw'>correction</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"GG"</span>, <span class='st'>"HF"</span>, <span class='st'>"none"</span>),
+  <span class='kw'>row</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
-<span class='fu'>create_test_label</span>(<span class='no'>statistic.text</span>, <span class='no'>statistic</span>, <span class='no'>p</span>, <span class='kw'>parameter</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>description</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>effect.size</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>effect.size.text</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"expression"</span>, <span class='st'>"text"</span>),
-  <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>create_test_label</span>(
+  <span class='no'>statistic.text</span>,
+  <span class='no'>statistic</span>,
+  <span class='no'>p</span>,
+  <span class='kw'>parameter</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>description</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>effect.size</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>effect.size.text</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"expression"</span>, <span class='st'>"text"</span>),
+  <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

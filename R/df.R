@@ -204,7 +204,7 @@ df_split_by <- function(data, ..., vars = NULL, label_col = "label",
 #'   df_nest_by(dose, supp) %>%
 #'   df_label_both(supp, dose)
 #'
-#' @describeIn df_label Displays both the variable name and the factor value.
+#' @describeIn df_label_value Displays both the variable name and the factor value.
 #' @export
 df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c(", ", ":")){
   vars <- df_get_var_names(data, ..., vars = vars)
@@ -226,7 +226,7 @@ df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c("
 }
 
 
-#' @describeIn df_label Displays only the value of a factor.
+#' @describeIn df_label_value Displays only the value of a factor.
 #' @export
 df_label_value <- function(data, ..., vars = NULL, label_col = "label", sep = ", "){
   vars <- df_get_var_names(data, ..., vars = vars)

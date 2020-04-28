@@ -74,7 +74,7 @@ Wrappers around the R base function prop.test() but have
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -126,13 +126,19 @@ Wrappers around the R base function prop.test() but have
     
     </div>
 
-    <pre class="usage"><span class='fu'>prop_test</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>,
-  <span class='st'>"greater"</span>), <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>prop_test</span>(
+  <span class='no'>x</span>,
+  <span class='no'>n</span>,
+  <span class='kw'>p</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"two.sided"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>),
+  <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
 <span class='fu'>pairwise_prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>, <span class='no'>...</span>)
 
-<span class='fu'>row_wise_prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>)</pre>
+<span class='fu'>row_wise_prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -266,8 +272,8 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
 #&gt;       n    n1    n2 estimate1 estimate2 statistic        p    df conf.low
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>000   500   500      0.98       0.8      80.9 2.36</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-19</span><span>     1    0.141
-#&gt; </span><span style='color: #555555;'># … with 4 more variables: conf.high </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, method </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, alternative </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
-#&gt; #   p.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'># … with 4 more variables: conf.high </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, method </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, alternative </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   p.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
 <span class='co'># Homogeneity of proportions between groups</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># H0: the proportion of smokers is similar in the four groups</span>
@@ -294,8 +300,8 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
 #&gt;       n    n1    n2    n3    n4 estimate1 estimate2 estimate3 estimate4
 #&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </span><span style='color: #555555;'>1</span><span>   477   106   113   156   102     0.472     0.885     0.891     0.784
-#&gt; </span><span style='color: #555555;'># … with 6 more variables: statistic </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, p </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, df </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, method </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,
-#&gt; #   alternative </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, p.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+#&gt; </span><span style='color: #555555;'># … with 6 more variables: statistic </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, p </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, df </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, method </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   alternative </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, p.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
 <span class='co'># Pairwise comparison between groups</span>
 <span class='fu'>pairwise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 5</span><span>
 #&gt;   group1 group2        p    p.adj p.adj.signif

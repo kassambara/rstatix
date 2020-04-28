@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -116,8 +116,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>replace_triangle</span>(<span class='no'>x</span>, <span class='kw'>triangle</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lower"</span>, <span class='st'>"upper"</span>), <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>replace_triangle</span>(<span class='no'>x</span>, <span class='kw'>triangle</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lower"</span>, <span class='st'>"upper"</span>), <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>replace_upper_triangle</span>(<span class='no'>x</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>diagonal</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
@@ -199,21 +198,21 @@ Returns an object of class <code>lower_tri</code></p></li>
 <span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>replace_upper_triangle</span>(<span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>NA</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='cor_reshape.html'>cor_gather</a></span>()</div><div class='output co'>#&gt;    var1 var2    cor        p
-#&gt; 2  disp  mpg -0.850 9.38e-10
-#&gt; 3    hp  mpg -0.780 1.79e-07
-#&gt; 4  drat  mpg  0.680 1.78e-05
-#&gt; 5    wt  mpg -0.870 1.29e-10
-#&gt; 6  qsec  mpg  0.420 1.71e-02
-#&gt; 9    hp disp  0.790 7.14e-08
-#&gt; 10 drat disp -0.710 5.28e-06
-#&gt; 11   wt disp  0.890 1.22e-11
-#&gt; 12 qsec disp -0.430 1.31e-02
-#&gt; 16 drat   hp -0.450 9.99e-03
-#&gt; 17   wt   hp  0.660 4.15e-05
-#&gt; 18 qsec   hp -0.710 5.77e-06
-#&gt; 23   wt drat -0.710 4.78e-06
-#&gt; 24 qsec drat  0.091 6.20e-01
-#&gt; 30 qsec   wt -0.170 3.39e-01</div></span></pre>
+#&gt; 1  disp  mpg -0.850 9.38e-10
+#&gt; 2    hp  mpg -0.780 1.79e-07
+#&gt; 3  drat  mpg  0.680 1.78e-05
+#&gt; 4    wt  mpg -0.870 1.29e-10
+#&gt; 5  qsec  mpg  0.420 1.71e-02
+#&gt; 6    hp disp  0.790 7.14e-08
+#&gt; 7  drat disp -0.710 5.28e-06
+#&gt; 8    wt disp  0.890 1.22e-11
+#&gt; 9  qsec disp -0.430 1.31e-02
+#&gt; 10 drat   hp -0.450 9.99e-03
+#&gt; 11   wt   hp  0.660 4.15e-05
+#&gt; 12 qsec   hp -0.710 5.77e-06
+#&gt; 13   wt drat -0.710 4.78e-06
+#&gt; 14 qsec drat  0.091 6.20e-01
+#&gt; 15 qsec   wt -0.170 3.39e-01</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

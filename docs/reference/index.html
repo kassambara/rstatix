@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -266,6 +266,62 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-comparing-proportions" class="hasAnchor"><a href="#section-comparing-proportions" class="anchor"></a>Comparing Proportions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="prop_test.html">prop_test()</a></code> <code><a href="prop_test.html">pairwise_prop_test()</a></code> <code><a href="prop_test.html">row_wise_prop_test()</a></code> </p>
+        </td>
+        <td><p>Proportion Test</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="chisq_test.html">chisq_test()</a></code> <code><a href="chisq_test.html">pairwise_chisq_gof_test()</a></code> <code><a href="chisq_test.html">pairwise_chisq_test_against_p()</a></code> <code><a href="chisq_test.html">chisq_descriptives()</a></code> <code><a href="chisq_test.html">expected_freq()</a></code> <code><a href="chisq_test.html">observed_freq()</a></code> <code><a href="chisq_test.html">pearson_residuals()</a></code> <code><a href="chisq_test.html">std_residuals()</a></code> </p>
+        </td>
+        <td><p>Chi-squared Test for Count Data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="fisher_test.html">fisher_test()</a></code> <code><a href="fisher_test.html">pairwise_fisher_test()</a></code> <code><a href="fisher_test.html">row_wise_fisher_test()</a></code> </p>
+        </td>
+        <td><p>Fisher's Exact Test for Count Data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="binom_test.html">binom_test()</a></code> <code><a href="binom_test.html">pairwise_binom_test()</a></code> <code><a href="binom_test.html">pairwise_binom_test_against_p()</a></code> </p>
+        </td>
+        <td><p>Exact Binomial Test</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="multinom_test.html">multinom_test()</a></code> </p>
+        </td>
+        <td><p>Exact Multinomial Test</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mcnemar_test.html">mcnemar_test()</a></code> <code><a href="mcnemar_test.html">pairwise_mcnemar_test()</a></code> </p>
+        </td>
+        <td><p>McNemar's Chi-squared Test for Count Data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cochran_qtest.html">cochran_qtest()</a></code> </p>
+        </td>
+        <td><p>Cochran's Q Test</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="prop_trend_test.html">prop_trend_test()</a></code> </p>
+        </td>
+        <td><p>Test for Trend in Proportions</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-comparing-variances" class="hasAnchor"><a href="#section-comparing-variances" class="anchor"></a>Comparing Variances</h2>
           <p class="section-desc"></p>
         </th>
@@ -438,6 +494,62 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-data-manipulation-helper-functions" class="hasAnchor"><a href="#section-data-manipulation-helper-functions" class="anchor"></a>Data Manipulation Helper Functions</h2>
+          <p class="section-desc"><p>These functions are internally used in rstatix and in ggpubr R package to make it easy to program with tidyverse packages using non standard evaluation.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="df_select.html">df_select()</a></code> </p>
+        </td>
+        <td><p>Select Columns in a Data Frame</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="df_arrange.html">df_arrange()</a></code> </p>
+        </td>
+        <td><p>Arrange Rows by Column Values</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="df_group_by.html">df_group_by()</a></code> </p>
+        </td>
+        <td><p>Group a Data Frame by One or more Variables</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="df_nest_by.html">df_nest_by()</a></code> </p>
+        </td>
+        <td><p>Nest a Tibble By Groups</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="df_split_by.html">df_split_by()</a></code> </p>
+        </td>
+        <td><p>Split a Data Frame into Subset</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="df_unite.html">df_unite()</a></code> <code><a href="df_unite.html">df_unite_factors()</a></code> </p>
+        </td>
+        <td><p>Unite Multiple Columns into One</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="df_label_value.html">df_label_both()</a></code> <code><a href="df_label_value.html">df_label_value()</a></code> </p>
+        </td>
+        <td><p>Functions to Label Data Frames by Grouping Variables</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="df_get_var_names.html">df_get_var_names()</a></code> </p>
+        </td>
+        <td><p>Get User Specified Variable Names</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-others" class="hasAnchor"><a href="#section-others" class="anchor"></a>Others</h2>
           <p class="section-desc"></p>
         </th>
@@ -490,11 +602,13 @@
       <li><a href="#section-comparing-means">Comparing Means</a></li>
       <li><a href="#section-anova-helpers">ANOVA helpers</a></li>
       <li><a href="#section-post-hoc-analyses">Post-Hoc Analyses</a></li>
+      <li><a href="#section-comparing-proportions">Comparing Proportions</a></li>
       <li><a href="#section-comparing-variances">Comparing Variances</a></li>
       <li><a href="#section-effect-size">Effect Size</a></li>
       <li><a href="#section-correlation-analysis">Correlation analysis</a></li>
       <li><a href="#section-adjust-p-values-and-add-significance-symbols">Adjust p-values and add significance symbols</a></li>
       <li><a href="#section-extract-information-from-statistical-tests">Extract Information From Statistical Tests</a></li>
+      <li><a href="#section-data-manipulation-helper-functions">Data Manipulation Helper Functions</a></li>
       <li><a href="#section-others">Others</a></li>
     </ul>
   </div>

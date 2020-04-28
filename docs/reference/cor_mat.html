@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -118,11 +118,23 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>cor_mat</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>,
-  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>)
+    <pre class="usage"><span class='fu'>cor_mat</span>(
+  <span class='no'>data</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>,
+  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>,
+  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>
+)
 
-<span class='fu'>cor_pmat</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>,
-  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>)
+<span class='fu'>cor_pmat</span>(
+  <span class='no'>data</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>,
+  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>,
+  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>
+)
 
 <span class='fu'>cor_get_pval</span>(<span class='no'>x</span>)</pre>
     

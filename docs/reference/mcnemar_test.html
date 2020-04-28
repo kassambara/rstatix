@@ -70,7 +70,7 @@ Wrappers around the R base function mcnemar.test(), but
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -120,8 +120,13 @@ Wrappers around the R base function mcnemar.test(), but
 
     <pre class="usage"><span class='fu'>mcnemar_test</span>(<span class='no'>x</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>pairwise_mcnemar_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mcnemar"</span>, <span class='st'>"exact"</span>),
-  <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>)</pre>
+<span class='fu'>pairwise_mcnemar_test</span>(
+  <span class='no'>data</span>,
+  <span class='no'>formula</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"mcnemar"</span>, <span class='st'>"exact"</span>),
+  <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>
+)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -116,12 +116,27 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>sign_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>sign_test</span>(
+  <span class='no'>data</span>,
+  <span class='no'>formula</span>,
+  <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>,
+  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>,
+  <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
-<span class='fu'>pairwise_sign_test</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>pairwise_sign_test</span>(
+  <span class='no'>data</span>,
+  <span class='no'>formula</span>,
+  <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>,
+  <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -255,7 +270,7 @@ shown.</p></td>
   <span class='fu'><a href='adjust_pvalue.html'>adjust_pvalue</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='add_significance.html'>add_significance</a></span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 11</span><span>
 #&gt;    dose .y.   group1 group2    n1    n2 statistic    df     p p.adj p.adj.signif
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
 #&gt; </span><span style='color: #555555;'>1</span><span>   0.5 len   OJ     VC        10    10         7     9 0.18  0.54  ns          
 #&gt; </span><span style='color: #555555;'>2</span><span>   1   len   OJ     VC        10    10         8    10 0.109 0.327 ns          
 #&gt; </span><span style='color: #555555;'>3</span><span>   2   len   OJ     VC        10    10         4    10 0.754 1     ns          </div><div class='input'>

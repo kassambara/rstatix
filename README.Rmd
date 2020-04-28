@@ -55,7 +55,7 @@ It's also possible to compute several effect size metrics, including "eta square
 - `sign_test()`: perform sign test to determine whether there is a median difference between paired or matched observations.
 - `anova_test()`: an easy-to-use wrapper around `car::Anova()` to perform different types of ANOVA tests, including **independent measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
 - `get_anova_test_table()`: extract ANOVA table from `anova_test()` results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs.
-`- welch_anova_test()`: Welch one-Way ANOVA test. A pipe-frindly wrapper around the base function `stats::oneway.test()`. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.
+`- welch_anova_test()`: Welch one-Way ANOVA test. A pipe-freindly wrapper around the base function `stats::oneway.test()`. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.
 - `kruskal_test()`: perform kruskal-wallis rank sum test
 - `friedman_test()`: Provides a pipe-friendly framework to perform a Friedman rank sum test, which is the non-parametric alternative to the one-way repeated measures ANOVA test.
 - `get_comparisons()`: Create a list of possible pairwise comparisons between groups.
@@ -74,7 +74,8 @@ It's also possible to compute several effect size metrics, including "eta square
 - `dunn_test()`: compute multiple pairwise comparisons following Kruskal-Wallis test.
 - `games_howell_test()`: Performs Games-Howell test, which is used to compare all possible combinations of group differences when the assumption of homogeneity of variances is violated.
 - `emmeans_test()`: pipe-friendly wrapper arround `emmeans` function to perform pairwise comparisons of estimated marginal means. Useful for post-hoc analyses following up ANOVA/ANCOVA tests.
-
+     
+     
 ### Comparing proportions
    
 - `prop_test()`, `pairwise_prop_test()` and `row_wise_prop_test()`. Performs one-sample and two-samples z-test of proportions. Wrappers around the R base function `prop.test()` but have the advantage of performing pairwise and row-wise z-test of two proportions, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables. 
@@ -147,6 +148,20 @@ Extract information from statistical test results. Useful for labelling plots wi
 - `get_pwc_label()`: Extract label from pairwise comparisons.
 - `get_test_label()`: Extract label from statistical tests.
 - `create_test_label()`: Create labels from user specified test results.
+   
+   
+### Data manipulation helper functions
+
+These functions are internally used in the `rstatix` and in the `ggpubr` R package to make it easy to program with tidyverse packages using non standard evaluation.
+ 
+- `df_select()`, `df_arrange()`, `df_group_by()`: wrapper arround dplyr functions for suporting standard and non standard evaluation. 
+- `df_nest_by()`: Nest a tibble data frame using grouping specification. Supports standard and non standard evaluation.
+- `df_split_by()`: Split a data frame by groups into subsets or data panel. Very similar to the function `df_nest_by()`. The only difference is that, it adds label to each data subset. Labels are the combination of the grouping variable levels. 
+- `df_unite()`: Unite multiple columns into one.
+- `df_unite_factors()`: Unite factor columns. First, order factors levels then merge them into one column. The output column is a factor.
+- `df_label_both()`, `df_label_value()`: functions to label data frames rows by  by one or multiple grouping variables.
+- `df_get_var_names()`: Returns user specified variable names. Supports standard and non standard evaluation.
+   
    
 ### Others
    

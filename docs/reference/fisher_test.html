@@ -73,7 +73,7 @@ Wrappers around the R base function fisher.test() but
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -124,15 +124,21 @@ Wrappers around the R base function fisher.test() but
     
     </div>
 
-    <pre class="usage"><span class='fu'>fisher_test</span>(<span class='no'>xtab</span>, <span class='kw'>workspace</span> <span class='kw'>=</span> <span class='fl'>2e+05</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>,
-  <span class='kw'>conf.int</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>simulate.p.value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>2000</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>fisher_test</span>(
+  <span class='no'>xtab</span>,
+  <span class='kw'>workspace</span> <span class='kw'>=</span> <span class='fl'>2e+05</span>,
+  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"two.sided"</span>,
+  <span class='kw'>conf.int</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>conf.level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>simulate.p.value</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>2000</span>,
+  <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)
 
-<span class='fu'>pairwise_fisher_test</span>(<span class='no'>xtab</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>)
+<span class='fu'>pairwise_fisher_test</span>(<span class='no'>xtab</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
-<span class='fu'>row_wise_fisher_test</span>(<span class='no'>xtab</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>)</pre>
+<span class='fu'>row_wise_fisher_test</span>(<span class='no'>xtab</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

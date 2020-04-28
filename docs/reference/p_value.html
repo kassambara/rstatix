@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -116,12 +116,26 @@
 
     <pre class="usage"><span class='fu'>p_round</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 
-<span class='fu'>p_format</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>new.col</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>accuracy</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
-  <span class='kw'>decimal.mark</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>leading.zero</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>trailing.zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>add.p</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>space</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>p_format</span>(
+  <span class='no'>x</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>new.col</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>accuracy</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+  <span class='kw'>decimal.mark</span> <span class='kw'>=</span> <span class='st'>"."</span>,
+  <span class='kw'>leading.zero</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>trailing.zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>add.p</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>space</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)
 
-<span class='fu'>p_mark_significant</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='kw'>new.col</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>cutpoints</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1e-04</span>,
-  <span class='fl'>0.001</span>, <span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>1</span>), <span class='kw'>symbols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"****"</span>, <span class='st'>"***"</span>, <span class='st'>"**"</span>, <span class='st'>"*"</span>, <span class='st'>""</span>))
+<span class='fu'>p_mark_significant</span>(
+  <span class='no'>x</span>,
+  <span class='no'>...</span>,
+  <span class='kw'>new.col</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>cutpoints</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1e-04</span>, <span class='fl'>0.001</span>, <span class='fl'>0.01</span>, <span class='fl'>0.05</span>, <span class='fl'>1</span>),
+  <span class='kw'>symbols</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"****"</span>, <span class='st'>"***"</span>, <span class='st'>"**"</span>, <span class='st'>"*"</span>, <span class='st'>""</span>)
+)
 
 <span class='fu'>p_detect</span>(<span class='no'>data</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"p"</span>, <span class='st'>"p.adj"</span>))
 
@@ -250,7 +264,7 @@ significance symbols.</p></td>
   <span class='fu'>p_format</span>(<span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>leading.zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>p_mark_significant</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 9</span><span>
 #&gt;    dose .y.   group1 group2    n1    n2 statistic    df p      
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
+#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  
 #&gt; </span><span style='color: #555555;'>1</span><span>   0.5 len   OJ     VC        10    10    3.17    15.0 .0064**
 #&gt; </span><span style='color: #555555;'>2</span><span>   1   len   OJ     VC        10    10    4.03    15.4 .001***
 #&gt; </span><span style='color: #555555;'>3</span><span>   2   len   OJ     VC        10    10   -</span><span style='color: #BB0000;'>0.046</span><span style='color: #BB0000;text-decoration: underline;'>1</span><span>  14.0 .964   </div><div class='input'>

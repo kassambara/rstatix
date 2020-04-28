@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0.999</span>
       </span>
     </div>
 
@@ -108,23 +108,23 @@
 <h1 class="page-header">
 <a href="#rstatix-0-4-0" class="anchor"></a>rstatix 0.4.0<small> 2020-02-13 </small>
 </h1>
-<div id="new-features" class="section level2">
+<div id="new-features-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New features</h2>
+<a href="#new-features-1" class="anchor"></a>New features</h2>
 <ul>
 <li>The <code><a href="../reference/cohens_d.html">cohens_d()</a></code> function now supports Hedge’s correction. New argument <code>hedge.correction</code> added . logical indicating whether apply the Hedges correction by multiplying the usual value of Cohen’s d by <code>(N-3)/(N-2.25)</code> (for unpaired t-test) and by <code>(n1-2)/(n1-1.25)</code> for paired t-test; where N is the total size of the two groups being compared (N = n1 + n2) (<a href='https://github.com/IndrajeetPatil'>@IndrajeetPatil</a>, <a href="https://github.com/kassambara/rstatix/issues/9">#9</a>).</li>
 </ul>
 </div>
-<div id="minor-changes" class="section level2">
+<div id="minor-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes" class="anchor"></a>Minor changes</h2>
+<a href="#minor-changes-1" class="anchor"></a>Minor changes</h2>
 <ul>
 <li>Now, the function <code><a href="../reference/cohens_d.html">cohens_d()</a></code> outputs values with directionality. The absolute value is no longer returned. It can now be positive or negative depending on the data (<a href='https://github.com/narunpat'>@narunpat</a>, <a href="https://github.com/kassambara/rstatix/issues/13">#9</a>).</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>The value of <code>mu</code> is now considered when calculating <code><a href="../reference/cohens_d.html">cohens_d()</a></code> for one sample t-test (<a href='https://github.com/mllewis'>@mllewis</a>, <a href="https://github.com/kassambara/rstatix/issues/22">#22</a>).</li>
 <li>The function <code><a href="../reference/tukey_hsd.html">tukey_hsd()</a></code> now handles situation where minus <code><a href="https://rdrr.io/r/base/Arithmetic.html">-</a></code> symbols are present in factor levels (<a href='https://github.com/IndrajeetPatil'>@IndrajeetPatil</a>, <a href="https://github.com/kassambara/rstatix/issues/19">#19</a>).</li>
@@ -135,9 +135,9 @@
 <h1 class="page-header">
 <a href="#rstatix-0-3-1" class="anchor"></a>rstatix 0.3.1<small> 2019-12-16 </small>
 </h1>
-<div id="minor-changes-1" class="section level2">
+<div id="minor-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-1" class="anchor"></a>Minor changes</h2>
+<a href="#minor-changes-2" class="anchor"></a>Minor changes</h2>
 <ul>
 <li>tidyr &gt; 1.0.0 now required</li>
 <li>know, <code>identify_outliers</code> returns a basic data frame instead of tibble when nrow = 0 (for nice printing)</li>
@@ -149,9 +149,9 @@
 <h1 class="page-header">
 <a href="#rstatix-0-3-0" class="anchor"></a>rstatix 0.3.0<small> 2019-11-14 </small>
 </h1>
-<div id="new-features-1" class="section level2">
+<div id="new-features-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-1" class="anchor"></a>New features</h2>
+<a href="#new-features-2" class="anchor"></a>New features</h2>
 <ul>
 <li>
 <code><a href="../reference/prop_test.html">prop_test()</a></code>, <code><a href="../reference/prop_test.html">pairwise_prop_test()</a></code> and <code><a href="../reference/prop_test.html">row_wise_prop_test()</a></code>. Performs one-sample and two-samples z-test of proportions. Wrappers around the R base function <code><a href="https://rdrr.io/r/stats/prop.test.html">prop.test()</a></code> but have the advantage of performing pairwise and row-wise z-test of two proportions, the post-hoc tests following a significant chi-square test of homogeneity for 2xc and rx2 contingency tables.</li>
@@ -168,9 +168,9 @@
 <code><a href="../reference/prop_trend_test.html">prop_trend_test()</a></code>: Performs chi-squared test for trend in proportion. This test is also known as Cochran-Armitage trend test.</li>
 </ul>
 </div>
-<div id="minor-changes-2" class="section level2">
+<div id="minor-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-2" class="anchor"></a>Minor changes</h2>
+<a href="#minor-changes-3" class="anchor"></a>Minor changes</h2>
 <ul>
 <li>Now <code><a href="../reference/get_test_label.html">get_test_label()</a></code> and <code><a href="../reference/get_test_label.html">get_pwc_label()</a></code> return expression by default</li>
 <li>Unit testing and spelling check added</li>
@@ -182,9 +182,9 @@
 <h1 class="page-header">
 <a href="#rstatix-0-2-0" class="anchor"></a>rstatix 0.2.0<small> 2019-09-03 </small>
 </h1>
-<div id="minor-changes-3" class="section level2">
+<div id="minor-changes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-3" class="anchor"></a>Minor changes</h2>
+<a href="#minor-changes-4" class="anchor"></a>Minor changes</h2>
 <ul>
 <li>
 <code><a href="../reference/anova_test.html">get_anova_table()</a></code> supports now an object of class <code>grouped_anova_test</code>
@@ -199,9 +199,9 @@
 <li>Adapting to tidyr v1.0.0 (<a href='https://github.com/jennybc'>@jennybc</a>, <a href="https://github.com/kassambara/rstatix/issues/6">#6</a>)</li>
 </ul>
 </div>
-<div id="new-features-2" class="section level2">
+<div id="new-features-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-2" class="anchor"></a>New features</h2>
+<a href="#new-features-3" class="anchor"></a>New features</h2>
 <ul>
 <li>New function <code><a href="../reference/welch_anova_test.html">welch_anova_test()</a></code>: Welch one-Way ANOVA test. A wrapper around the base function <code><a href="https://rdrr.io/r/stats/oneway.test.html">stats::oneway.test()</a></code>. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.</li>
 <li>New function <code><a href="../reference/friedman_effsize.html">friedman_effsize()</a></code>, computes the effect size of Friedman test using the Kendall’s W value.</li>
@@ -216,9 +216,9 @@
 <li>New function <code><a href="../reference/emmeans_test.html">emmeans_test()</a></code> added for pairwise comparisons of estimated marginal means.</li>
 </ul>
 </div>
-<div id="minor-changes-4" class="section level2">
+<div id="minor-changes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-4" class="anchor"></a>Minor changes</h2>
+<a href="#minor-changes-5" class="anchor"></a>Minor changes</h2>
 <ul>
 <li>the unnecessary column <code>comparison</code> removed from <code><a href="../reference/tukey_hsd.html">tukey_hsd()</a></code> results (breaking change).</li>
 <li>New column <code>n</code> (sample count) added to statistical tests results: <code><a href="../reference/t_test.html">t_test()</a></code>, <code><a href="../reference/wilcox_test.html">wilcox_test()</a></code>, <code><a href="../reference/sign_test.html">sign_test()</a></code>, <code><a href="../reference/dunn_test.html">dunn_test()</a></code> and <code><a href="../reference/kruskal_test.html">kruskal_test()</a></code> (<a href='https://github.com/ShixiangWang'>@ShixiangWang</a>, <a href="https://github.com/kassambara/rstatix/issues/4">#4</a>).</li>
@@ -232,9 +232,9 @@
 <code><a href="../reference/adjust_pvalue.html">adjust_pvalue()</a></code> now supports grouped data</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code>detailed</code> arguments correctly propagated when grouped stats are performed</li>
@@ -245,9 +245,9 @@
 <h1 class="page-header">
 <a href="#rstatix-0-1-1" class="anchor"></a>rstatix 0.1.1<small> 2019-06-20 </small>
 </h1>
-<div id="new-features-3" class="section level2">
+<div id="new-features-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-3" class="anchor"></a>New features</h2>
+<a href="#new-features-4" class="anchor"></a>New features</h2>
 <ul>
 <li>New function <code>get_pvalue_position</code> added to autocompute p-value positions for plotting significance using ggplot2.</li>
 <li>New function <code><a href="../reference/get_comparisons.html">get_comparisons()</a></code> added to create a list of possible pairwise comparisons between groups.</li>
@@ -255,9 +255,9 @@
 <li>New function <code><a href="../reference/sign_test.html">sign_test()</a></code> added.</li>
 </ul>
 </div>
-<div id="minor-changes-5" class="section level2">
+<div id="minor-changes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-5" class="anchor"></a>Minor changes</h2>
+<a href="#minor-changes-6" class="anchor"></a>Minor changes</h2>
 <ul>
 <li>
 <code><a href="../reference/get_summary_stats.html">get_summary_stats()</a></code> now supports type = “min”, “max”, “mean” or “median”</li>
@@ -265,9 +265,9 @@
 <li>The results of <code><a href="../reference/cohens_d.html">cohens_d()</a></code> is now a data frame containing the Cohen’s d and the magnitude.</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>the argument <code>detatiled</code> is now passed to <code>compare_pairs()</code>.</li>
 </ul>
