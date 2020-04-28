@@ -24,8 +24,13 @@ NULL
 #' @rdname df_select
 #' @export
 df_select <- function(data, ...,  vars = NULL){
-  vars <- df_get_var_names(data, ..., vars = vars)
-  data %>% select(!!!syms(vars))
+  if(is.null(vars)){
+    results <- data %>% select(...)
+  }
+  else{
+    results <- data %>% select(!!!syms(vars))
+  }
+  results
 }
 
 #' Arrange Rows by Column Values
@@ -54,13 +59,13 @@ df_select <- function(data, ...,  vars = NULL){
 #' @rdname df_arrange
 #' @export
 df_arrange <- function(data, ..., vars = NULL, .by_group = FALSE ){
-  if(!is.null(vars)){
+  if(is.null(vars)){
     results <- data %>%
-      dplyr::arrange(!!!syms(vars), .by_group = .by_group)
+      dplyr::arrange(..., .by_group = .by_group)
   }
   else{
     results <- data %>%
-      dplyr::arrange(..., .by_group = .by_group)
+      dplyr::arrange(!!!syms(vars), .by_group = .by_group)
   }
   results
 }
@@ -84,8 +89,13 @@ df_arrange <- function(data, ..., vars = NULL, .by_group = FALSE ){
 #' @rdname df_group_by
 #' @export
 df_group_by <- function(data, ..., vars = NULL){
-  vars <- df_get_var_names(data, ..., vars = vars)
-  data %>% group_by(!!!syms(vars))
+  if(is.null(vars)){
+    results <- data %>% group_by(...)
+  }
+  else{
+    results <- data %>% group_by(!!!syms(vars))
+  }
+  results
 }
 
 
@@ -113,9 +123,8 @@ df_group_by <- function(data, ..., vars = NULL){
 #' @rdname df_nest_by
 #' @export
 df_nest_by <- function(data, ..., vars = NULL){
-  groups <- df_get_var_names(data, ..., vars = vars)
   data %>%
-    group_by(!!!syms(groups)) %>%
+    df_group_by(..., vars = vars) %>%
     nest() %>%
     ungroup()
 }
@@ -275,12 +284,21 @@ concat_groupname_to_levels <- function(group.data, groups, sep = ":"){
 #' @describeIn df_unite Unite multiple columns into one.
 #' @export
 df_unite <- function(data, col, ..., vars = NULL, sep = "_", remove = TRUE, na.rm = FALSE){
-  vars <- df_get_var_names(data, ..., vars = vars)
-  data %>%
-    tidyr::unite(
-      col = !!col, !!!syms(vars), sep = sep,
-      remove = remove, na.rm = FALSE
-    )
+  if(is.null(vars)){
+    results <- data %>%
+      tidyr::unite(
+        col = !!col, ..., sep = sep,
+        remove = remove, na.rm = na.rm
+      )
+  }
+  else{
+    results <- data %>%
+      tidyr::unite(
+        col = !!col, !!!syms(vars), sep = sep,
+        remove = remove, na.rm = na.rm
+      )
+  }
+  results
 }
 
 #' @export
@@ -290,7 +308,7 @@ df_unite_factors <- function(data, col, ..., vars = NULL, sep = "_", remove = TR
   vars <- df_get_var_names(data, ..., vars = vars)
   data %>%
     dplyr::arrange(!!!syms(vars)) %>%
-    df_unite(col = col, vars = vars, sep = sep) %>%
+    df_unite(col = col, vars = vars, sep = sep, remove = remove, na.rm = na.rm) %>%
     dplyr::mutate_at(col, function(x){factor(x, levels = unique(x))})
 }
 
