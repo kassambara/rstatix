@@ -8,6 +8,7 @@
 
 ## Bug fixes
    
+- `anova_test()` function: Changing R default contrast setting (`contr.treatment`) into orthogonal contrasts (`contr.sum`) to have comparable results to SPSS when users define the model using formula (@benediktclaus, [#40](https://github.com/kassambara/rstatix/issues/40)).
 - Now, the option `type = "quantile"` of `get_summary_stats()` works properly (@Boyoron, [#39](https://github.com/kassambara/rstatix/issues/39)).
 
 

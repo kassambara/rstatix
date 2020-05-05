@@ -448,7 +448,10 @@ fit_lm <- function(.args){
   .args <- remove_missing_values_in_data(.args)
   lm_data <- droplevels(.args$data)
   lm_formula <- .args$formula
-  stats::lm(lm_formula, lm_data)
+  opt <- options( "contrasts" = c( "contr.sum", "contr.poly" ) )
+  results <- stats::lm(lm_formula, lm_data)
+  options(opt)
+  results
 }
 
 # Compute the different types of ANOVA -----------------------------
