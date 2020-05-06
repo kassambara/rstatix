@@ -36,9 +36,8 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
  specified, for a given grouping variable, each of the group levels will be
  compared to the reference group (i.e. control group).
 
- If \code{ref.group = "all"}, pairwise two sample tests are
- performed for comparing each grouping variable levels against all (i.e.
- basemean).}
+ If \code{ref.group = "all"}, pairwise two sample tests are performed for
+ comparing each grouping variable levels against all (i.e. basemean).}
 
 \item{paired}{a logical indicating whether you want a paired test.}
 

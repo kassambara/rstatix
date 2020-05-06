@@ -36,9 +36,8 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
  specified, for a given grouping variable, each of the group levels will be
  compared to the reference group (i.e. control group).
 
- If \code{ref.group = "all"}, pairwise two sample tests are
- performed for comparing each grouping variable levels against all (i.e.
- basemean).}
+ If \code{ref.group = "all"}, pairwise two sample tests are performed for
+ comparing each grouping variable levels against all (i.e. basemean).}
 
 \item{paired}{a logical indicating whether you want a paired test.}
 
@@ -47,7 +46,8 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
     \code{"greater"} or \code{"less"}.  You can specify just the initial
     letter.}
 
-\item{mu}{a number specifying an optional parameter used to form the null hypothesis.}
+\item{mu}{a number specifying an optional parameter used to form the null
+hypothesis.}
 
 \item{ci}{If TRUE, returns confidence intervals by bootstrap. May be slow.}
 

@@ -4,7 +4,8 @@
 ## New features
    
 ## Minor changes
-
+   
+- `wilcox_test()`: Now, if `detailed = TRUE`,  an estimate of the location parameter (Only present if argument detailed = TRUE). This corresponds to the pseudomedian (for one-sample case) or to the difference of the location parameter (for two-samples case) ([#45](https://github.com/kassambara/rstatix/issues/45)).
 
 ## Bug fixes
    

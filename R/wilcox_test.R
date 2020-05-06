@@ -5,7 +5,9 @@ NULL
 #'
 #'
 #'@description Provides a pipe-friendly framework to performs one and two sample
-#'  Wilcoxon tests. Read more: \href{https://www.datanovia.com/en/lessons/wilcoxon-test-in-r/}{Wilcoxon in R}.
+#'  Wilcoxon tests. Read more:
+#'  \href{https://www.datanovia.com/en/lessons/wilcoxon-test-in-r/}{Wilcoxon in
+#'  R}.
 #'@inheritParams stats::wilcox.test
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a
@@ -17,10 +19,10 @@ NULL
 #'  specified, for a given grouping variable, each of the group levels will be
 #'  compared to the reference group (i.e. control group).
 #'
-#'  If \code{ref.group = "all"}, pairwise two sample tests are
-#'  performed for comparing each grouping variable levels against all (i.e.
-#'  basemean).
-#'@param mu a number specifying an optional parameter used to form the null hypothesis.
+#'  If \code{ref.group = "all"}, pairwise two sample tests are performed for
+#'  comparing each grouping variable levels against all (i.e. basemean).
+#'@param mu a number specifying an optional parameter used to form the null
+#'  hypothesis.
 #'@param comparisons A list of length-2 vectors specifying the groups of
 #'  interest to be compared. For example to compare groups "A" vs "B" and "B" vs
 #'  "C", the argument is as follow: \code{comparisons = list(c("A", "B"), c("B",
@@ -47,6 +49,17 @@ NULL
 #'  - For a grouped data, if pairwise test is performed, then the p-values are
 #'  adjusted for each group level independently.
 #'
+#'
+#'  - a nonparametric confidence interval and an estimator for the pseudomedian
+#'  (one-sample case) or for the difference of the location parameters
+#'  \code{x-y} is computed, where x and y are the compared samples or groups.
+#'  The column \code{estimate} and the confidence intervals are displayed in the
+#'  test result when the option \code{detailed = TRUE} is specified in the
+#'  \code{wilcox_test()} and \code{pairwise_wilcox_test()} functions. Read more
+#'  about the calculation of the estimate in the details section of the R base
+#'  function \code{wilcox.test()} documentation by typing \code{?wilcox.test} in
+#'  the R console.
+#'
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y variable used in the test. \item
 #'  \code{group1,group2}: the compared groups in the pairwise tests. \item
@@ -54,7 +67,19 @@ NULL
 #'  to compute the p-value. \item \code{p}: p-value. \item \code{p.adj}: the
 #'  adjusted p-value. \item \code{method}: the statistical test used to compare
 #'  groups. \item \code{p.signif, p.adj.signif}: the significance level of
-#'  p-values and adjusted p-values, respectively. }
+#'  p-values and adjusted p-values, respectively. \item \code{estimate}: an
+#'  estimate of the location parameter (Only present if argument \code{detailed
+#'  = TRUE}). This corresponds to the pseudomedian (for one-sample case) or to
+#'  the difference of the location parameter (for two-samples case). \itemize{
+#'  \item The pseudomedian of a distribution \code{F} is the median of the
+#'  distribution of \code{(u+v)/2}, where \code{u} and {v} are independent, each
+#'  with distribution \code{F}. If \code{F} is symmetric, then the pseudomedian
+#'  and median coincide. \item Note that in the two-sample case the estimator
+#'  for the difference in location parameters does not estimate the difference
+#'  in medians (a common misconception) but rather the median of the difference
+#'  between a sample from x and a sample from y. } \item \code{conf.low,
+#'  conf.high}: a confidence interval for the location parameter. (Only present
+#'  if argument conf.int = TRUE.) }
 #'
 #'  The \strong{returned object has an attribute called args}, which is a list
 #'  holding the test arguments.
@@ -111,10 +136,10 @@ wilcox_test <- function(
 {
   env <- as.list(environment())
   args <- env %>%
-    .add_item(method = "wilcox_test")
+    add_item(method = "wilcox_test")
   params <- env %>%
     remove_null_items() %>%
-    add_item(method = "wilcox.test")
+    add_item(conf.int = TRUE, method = "wilcox.test")
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
@@ -142,10 +167,12 @@ pairwise_wilcox_test <- function(
   {
   args <- as.list(environment()) %>%
     .add_item(method = "wilcox_test")
+
   res <- pairwise_two_sample_test(
     data, formula, method = "wilcox.test",
     comparisons = comparisons, ref.group = ref.group,
-    p.adjust.method = p.adjust.method, detailed = detailed, ...
+    p.adjust.method = p.adjust.method, detailed = detailed,
+    conf.int = TRUE, ...
   )
   res %>%
     set_attrs(args = args) %>%
