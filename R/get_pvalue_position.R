@@ -8,23 +8,23 @@ NULL
 #'  specified, for a given grouping variable, each of the group levels will be
 #'  compared to the reference group (i.e. control group).
 #'@param fun summary statistics functions used to compute automatically suitable
-#'  y positions of p-value labels and brackets. Possible values include: \code{"max", "mean",
-#'  "mean_sd", "mean_se", "mean_ci", "median", "median_iqr", "median_mad"}.
+#'  y positions of p-value labels and brackets. Possible values include:
+#'  \code{"max", "mean", "mean_sd", "mean_se", "mean_ci", "median",
+#'  "median_iqr", "median_mad"}.
 #'
 #'  For example, if \code{fun = "max"}, the y positions are guessed as follow:
-#'  \itemize{
-#'  \item 1. Compute the maximum of each group (groups.maximum)
-#'  \item 2. Use the highest groups maximum as the first bracket y position
-#'  \item 3. Add successively a step increase for remaining bracket y positions.
-#'  }
+#'  \itemize{ \item 1. Compute the maximum of each group (groups.maximum) \item
+#'  2. Use the highest groups maximum as the first bracket y position \item 3.
+#'  Add successively a step increase for remaining bracket y positions. }
 #'
 #'  When the main plot is a boxplot, you need the option \code{fun = "max"}, to
 #'  have the p-value bracket displayed at the maximum point of the group.
 #'
 #'  In some situations the main plot is a line plot or a barplot showing the
-#'  \code{mean+/-error bars} of the groups, where error can be SE (standard error),
-#'  SD (standard deviation) or CI (confidence interval). In this case, to correctly
-#'  compute the bracket y position you need the option \code{fun = "mean_se"}, etc.
+#'  \code{mean+/-error bars} of the groups, where error can be SE (standard
+#'  error), SD (standard deviation) or CI (confidence interval). In this case,
+#'  to correctly compute the bracket y position you need the option \code{fun =
+#'  "mean_se"}, etc.
 #'@param step.increase numeric vector with the increase in fraction of total
 #'  height for every additional comparison to minimize overlap.
 #'@param y.trans a function for transforming y axis scale. Value can be
@@ -38,7 +38,8 @@ NULL
 #'@param x variable on x axis.
 #'@param dodge dodge width for grouped ggplot/test. Default is 0.8. Used only
 #'  when \code{x} specified.
-#'
+#'@param stack logical. If TRUE, computes y position for a stacked plot. Useful
+#'  when dealing with stacked bar plots.
 #' @examples
 #' # Data preparation
 #' #::::::::::::::::::::::::::::::::::::
@@ -67,7 +68,7 @@ NULL
 #'@describeIn get_pvalue_position compute the p-value y positions
 #'@export
 get_y_position <- function(data, formula, fun = "max", ref.group = NULL, comparisons = NULL,
-                           step.increase = 0.12, y.trans = NULL){
+                           step.increase = 0.12, y.trans = NULL, stack = FALSE){
   # Estimate step increase
   # 1. Get groups y scale
   outcome <- get_formula_left_hand_side(formula)
@@ -76,24 +77,26 @@ get_y_position <- function(data, formula, fun = "max", ref.group = NULL, compari
     group <- NULL
   if(is_grouped_df(data))
     group <- c(group , dplyr::group_vars(data))
-  yscale <- get_y_scale(data, outcome, group, fun)
+  yscale <- get_y_scale(data, outcome, group, fun, stack = stack)
   # 2. Step increase
   step.increase <- step.increase*(yscale$max - yscale$min)
   get_y_position_core(
     data = data, formula = formula, fun = fun, ref.group = ref.group,
-    comparisons = comparisons, step.increase = step.increase, y.trans = y.trans
+    comparisons = comparisons, step.increase = step.increase, y.trans = y.trans,
+    stack = stack
     )
 }
 
 
 get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, comparisons = NULL,
-                            step.increase = 0.12, y.trans = NULL){
+                            step.increase = 0.12, y.trans = NULL, stack = FALSE){
   if(is_grouped_df(data)){
     results <- data %>%
       doo(
         get_y_position_core, formula = formula, fun = fun,
         ref.group = ref.group, comparisons = comparisons,
-        step.increase = step.increase, y.trans = y.trans
+        step.increase = step.increase, y.trans = y.trans,
+        stack = stack
         )
     return(results)
   }
@@ -116,7 +119,7 @@ get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, co
   k <- 1.08
 
   # Estimate y axis scale
-  yscale <- get_y_scale(data, y = outcome, group = group, fun = fun)
+  yscale <- get_y_scale(data, y = outcome, group = group, fun = fun, stack = stack)
   if(is.null(step.increase)) step.increase <- yscale$max/20
   # ystart <- k*yscale$max
   ystart <- yscale$max + step.increase
@@ -145,7 +148,7 @@ get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, co
 #' @export
 add_y_position <- function(test, fun = "max", step.increase = 0.12,
                            data = NULL, formula = NULL,  ref.group = NULL, comparisons = NULL,
-                           y.trans = NULL)
+                           y.trans = NULL, stack = FALSE)
   {
   asserttat_group_columns_exists(test)
   .attributes <- get_test_attributes(test)
@@ -163,7 +166,8 @@ add_y_position <- function(test, fun = "max", step.increase = 0.12,
   positions <- get_y_position(
     data = data, formula = formula, fun = fun,
     ref.group = ref.group, comparisons = comparisons,
-    step.increase = step.increase, y.trans = y.trans
+    step.increase = step.increase, y.trans = y.trans,
+    stack = stack
   )
   if(nrow(test) == nrow(positions)){
     test$y.position <- positions$y.position
@@ -188,7 +192,7 @@ add_y_position <- function(test, fun = "max", step.increase = 0.12,
 }
 
 # Compute y scale depending on fun
-get_y_scale <- function(data, y, group, fun = "max"){
+get_y_scale <- function(data, y, group, fun = "max", stack = FALSE){
   if(!.is_empty(group)){
     desc.stat <- data %>%
       group_by(!!!syms(group)) %>%
@@ -204,6 +208,9 @@ get_y_scale <- function(data, y, group, fun = "max"){
   .error <- ifelse(length(fun.splitted) == 2, fun.splitted[2], 0)
   .center <- desc.stat %>% pull(!!.center)
   if(.error != 0) .error <- desc.stat %>% pull(!!.error)
+  if(stack){
+    .center <- rep(sum(.center), length(.center))
+  }
   y <- .center + .error
   ymax <- max(y, na.rm = TRUE)
   ymin <- min(y, na.rm = TRUE)
@@ -266,9 +273,12 @@ add_x_position <- function(test, x = NULL, dodge = 0.8){
 
 #' @describeIn get_pvalue_position compute and add both x and y positions.
 #' @export
-add_xy_position <- function(test, x = NULL,  dodge = 0.8, fun = "max", step.increase = 0.12, ...){
+add_xy_position <- function(test, x = NULL,  dodge = 0.8, stack = FALSE, fun = "max", step.increase = 0.12, ...){
+  if(missing(dodge)){
+    if(stack) dodge <- 0
+  }
   test %>%
-    add_y_position(fun = fun, step.increase = step.increase, ...) %>%
+    add_y_position(fun = fun, step.increase = step.increase,  stack = stack,...) %>%
     add_x_position(x = x, dodge = dodge)
 }
 
