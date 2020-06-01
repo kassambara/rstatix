@@ -91,6 +91,7 @@ p_format <- function(x, ..., new.col = FALSE, digits = 2, accuracy = 0.0001, dec
       decimal.mark = decimal.mark, leading.zero = leading.zero,
       trailing.zero = trailing.zero, add.p = add.p, space = space
       )
+    .attributes$names <- colnames(res)
     attributes(res) <- .attributes
     return(res)
   }
