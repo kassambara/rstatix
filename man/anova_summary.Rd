@@ -75,8 +75,17 @@ df$dose <- as.factor(df$dose)
 
 # Independent measures ANOVA
 #:::::::::::::::::::::::::::::::::::::::::
+# Compute ANOVA and display the summary
 res.anova <- Anova(lm(len ~ dose*supp, data = df))
 anova_summary(res.anova)
+
+# Display both SSn and SSd using detailed = TRUE
+# Show generalized eta squared using effect.size = "ges"
+anova_summary(res.anova, detailed = TRUE, effect.size = "ges")
+
+# Show partial eta squared using effect.size = "pes"
+anova_summary(res.anova, detailed = TRUE, effect.size = "pes")
+
 # Repeated measures designs using car::Anova()
 #:::::::::::::::::::::::::::::::::::::::::
 # Prepare the data
