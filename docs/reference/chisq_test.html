@@ -8,23 +8,29 @@
 
 <title>Chi-squared Test for Count Data — chisq_test • rstatix</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -34,11 +40,11 @@
 
   
   <script src="../extra.js"></script>
-<meta property="og:title" content="Chi-squared Test for Count Data — chisq_test" />
 
+<meta property="og:title" content="Chi-squared Test for Count Data — chisq_test" />
 <meta property="og:description" content="Performs chi-squared tests, including goodness-of-fit,
  homogeneity and independence tests." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -55,7 +61,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -88,9 +94,13 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kassambara/rstatix/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -105,15 +115,13 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Chi-squared Test for Count Data</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/chisq_test.R'><code>R/chisq_test.R</code></a></small>
     <div class="hidden name"><code>chisq_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Performs chi-squared tests, including goodness-of-fit,
  homogeneity and independence tests.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>chisq_test</span>(
@@ -144,7 +152,7 @@
 <span class='fu'>pearson_residuals</span>(<span class='no'>res.chisq</span>)
 
 <span class='fu'>std_residuals</span>(<span class='no'>res.chisq</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -203,7 +211,7 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
       <td><p>an object of class <code>chisq_test</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>return a data frame with some the following columns:</p><ul>
@@ -226,7 +234,6 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
 <li><p><code>expected</code>: the expected counts under the null hypothesis.</p></li>
 </ul><p>The <strong>returned object has an attribute called args</strong>, which is a list
  holding the test arguments.</p>
-    
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
@@ -247,31 +254,30 @@ residuals and standardized residuals.</p></li>
 <li><p><code>pearson_residuals</code>: returns the Pearson residuals, <code>(observed - expected) / sqrt(expected)</code>.</p></li>
 <li><p><code>std_residuals</code>: returns the standardized residuals</p></li>
 </ul>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Chi-square goodness of fit test</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='no'>tulip</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>red</span> <span class='kw'>=</span> <span class='fl'>81</span>, <span class='kw'>yellow</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>white</span> <span class='kw'>=</span> <span class='fl'>27</span>)
 <span class='co'># Q1: Are the colors equally common?</span>
-<span class='fu'>chisq_test</span>(<span class='no'>tulip</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
+<span class='fu'>chisq_test</span>(<span class='no'>tulip</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
 #&gt;       n statistic          p    df method          p.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>1</span><span>     3      27.9 0.000</span><span style='text-decoration: underline;'>000</span><span>88     2 Chi-square test ****    </div><div class='input'><span class='fu'>pairwise_chisq_gof_test</span>(<span class='no'>tulip</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 8</span><span>
+#&gt; * &lt;int&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;   
+#&gt; 1     3      27.9 0.00000088     2 Chi-square test ****    </div><div class='input'><span class='fu'>pairwise_chisq_gof_test</span>(<span class='no'>tulip</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 8
 #&gt;       n group1 group2 statistic           p    df       p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span>     2 red    yellow      7.34 0.006</span><span style='text-decoration: underline;'>76</span><span>         1 0.013</span><span style='text-decoration: underline;'>5</span><span>      *           
-#&gt; </span><span style='color: #555555;'>2</span><span>     2 red    white      27    0.000</span><span style='text-decoration: underline;'>000</span><span>203     1 0.000</span><span style='text-decoration: underline;'>000</span><span>609 ****        
-#&gt; </span><span style='color: #555555;'>3</span><span>     2 yellow white       6.87 0.008</span><span style='text-decoration: underline;'>76</span><span>         1 0.013</span><span style='text-decoration: underline;'>5</span><span>      *           </div><div class='input'><span class='co'># Q2: comparing observed to expected proportions</span>
-<span class='fu'>chisq_test</span>(<span class='no'>tulip</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>/<span class='fl'>2</span>, <span class='fl'>1</span>/<span class='fl'>3</span>, <span class='fl'>1</span>/<span class='fl'>6</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+#&gt; * &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1     2 red    yellow      7.34 0.00676         1 0.0135      *           
+#&gt; 2     2 red    white      27    0.000000203     1 0.000000609 ****        
+#&gt; 3     2 yellow white       6.87 0.00876         1 0.0135      *           </div><div class='input'><span class='co'># Q2: comparing observed to expected proportions</span>
+<span class='fu'>chisq_test</span>(<span class='no'>tulip</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>/<span class='fl'>2</span>, <span class='fl'>1</span>/<span class='fl'>3</span>, <span class='fl'>1</span>/<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 6
 #&gt;       n statistic     p    df method          p.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>1</span><span>     3     0.203 0.904     2 Chi-square test ns      </div><div class='input'><span class='fu'>pairwise_chisq_test_against_p</span>(<span class='no'>tulip</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.5</span>, <span class='fl'>0.33</span>, <span class='fl'>0.17</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 9</span><span>
+#&gt; * &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;   
+#&gt; 1     3     0.203 0.904     2 Chi-square test ns      </div><div class='input'><span class='fu'>pairwise_chisq_test_against_p</span>(<span class='no'>tulip</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.5</span>, <span class='fl'>0.33</span>, <span class='fl'>0.17</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 9
 #&gt;   group  observed expected     n statistic     p    df p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> red          81     79       2  0.101    0.75      1     1 ns          
-#&gt; </span><span style='color: #555555;'>2</span><span> yellow       50     52.1     2  0.131    0.717     1     1 ns          
-#&gt; </span><span style='color: #555555;'>3</span><span> white        27     26.9     2  0.000</span><span style='text-decoration: underline;'>879</span><span> 0.976     1     1 ns          </div><div class='input'>
+#&gt; * &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 red          81     79       2  0.101    0.75      1     1 ns          
+#&gt; 2 yellow       50     52.1     2  0.131    0.717     1     1 ns          
+#&gt; 3 white        27     26.9     2  0.000879 0.976     1     1 ns          </div><div class='input'>
 <span class='co'># Homogeneity of proportions between groups</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># Data: Titanic</span>
@@ -287,32 +293,24 @@ residuals and standardized residuals.</p></li>
 #&gt; Survived 1st 2nd 3rd Crew
 #&gt;      Yes 203 118 178  212
 #&gt;      No  122 167 528  673</div><div class='input'><span class='co'># Chi-square test</span>
-<span class='fu'>chisq_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+<span class='fu'>chisq_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
 #&gt;       n statistic        p    df method          p.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>2</span><span>201      190. 5.00</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-41</span><span>     3 Chi-square test ****    </div><div class='input'><span class='co'># Compare the proportion of survived between groups</span>
-<span class='fu'><a href='prop_test.html'>pairwise_prop_test</a></span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 5</span><span>
+#&gt; * &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;   
+#&gt; 1  2201      190. 5.00e-41     3 Chi-square test ****    </div><div class='input'><span class='co'># Compare the proportion of survived between groups</span>
+<span class='fu'><a href='prop_test.html'>pairwise_prop_test</a></span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 5
 #&gt;   group1 group2        p    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> 1st    2nd    3.13</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> 1st    3rd    2.55</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-30</span><span> 1.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-29</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> 1st    Crew   1.62</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-35</span><span> 9.73</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-35</span><span> ****        
-#&gt; </span><span style='color: #555555;'>4</span><span> 2nd    3rd    6.90</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 1.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        
-#&gt; </span><span style='color: #555555;'>5</span><span> 2nd    Crew   1.94</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span> 7.75</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span> ****        
-#&gt; </span><span style='color: #555555;'>6</span><span> 3rd    Crew   6.03</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> 6.03</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> ns          </div></span></pre>
+#&gt; * &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 1st    2nd    3.13e- 7 9.38e- 7 ****        
+#&gt; 2 1st    3rd    2.55e-30 1.27e-29 ****        
+#&gt; 3 2nd    3rd    6.90e- 7 1.38e- 6 ****        
+#&gt; 4 1st    Crew   1.62e-35 9.73e-35 ****        
+#&gt; 5 2nd    Crew   1.94e- 8 7.75e- 8 ****        
+#&gt; 6 3rd    Crew   6.03e- 1 6.03e- 1 ns          </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#functions">Functions</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -323,7 +321,7 @@ residuals and standardized residuals.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

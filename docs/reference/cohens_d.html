@@ -8,23 +8,29 @@
 
 <title>Compute Cohen's d Measure of Effect Size — cohens_d • rstatix</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -34,8 +40,8 @@
 
   
   <script src="../extra.js"></script>
-<meta property="og:title" content="Compute Cohen's d Measure of Effect Size — cohens_d" />
 
+<meta property="og:title" content="Compute Cohen's d Measure of Effect Size — cohens_d" />
 <meta property="og:description" content="Compute the effect size for t-test. T-test conventional effect
  sizes, proposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
  0.8 (large effect).
@@ -48,7 +54,7 @@ For independent samples t-test, there are two possibilities implemented. If
 If a paired samples t-test was requested, then effect size desired is based
  on the standard deviation of the differences.
 It can also returns confidence intervals by bootstap." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -65,7 +71,7 @@ It can also returns confidence intervals by bootstap." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +85,7 @@ It can also returns confidence intervals by bootstap." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -98,9 +104,13 @@ It can also returns confidence intervals by bootstap." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kassambara/rstatix/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -115,12 +125,11 @@ It can also returns confidence intervals by bootstap." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compute Cohen's d Measure of Effect Size</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/cohens_d.R'><code>R/cohens_d.R</code></a></small>
     <div class="hidden name"><code>cohens_d.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Compute the effect size for t-test. T-test conventional effect
  sizes, proposed by Cohen, are: 0.2 (small effect), 0.5 (moderate effect) and
  0.8 (large effect).</p>
@@ -133,7 +142,6 @@ It can also returns confidence intervals by bootstap." />
 <p>If a paired samples t-test was requested, then effect size desired is based
  on the standard deviation of the differences.</p>
 <p>It can also returns confidence intervals by bootstap.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>cohens_d</span>(
@@ -150,7 +158,7 @@ It can also returns confidence intervals by bootstap." />
   <span class='kw'>ci.type</span> <span class='kw'>=</span> <span class='st'>"perc"</span>,
   <span class='kw'>nboot</span> <span class='kw'>=</span> <span class='fl'>1000</span>
 )</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -177,9 +185,8 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
       <td><p>a character string specifying the reference group. If
  specified, for a given grouping variable, each of the group levels will be
  compared to the reference group (i.e. control group).</p>
-<p>If <code>ref.group = "all"</code>, pairwise two sample tests are
- performed for comparing each grouping variable levels against all (i.e.
- basemean).</p></td>
+<p>If <code>ref.group = "all"</code>, pairwise two sample tests are performed for
+ comparing each grouping variable levels against all (i.e. basemean).</p></td>
     </tr>
     <tr>
       <th>paired</th>
@@ -222,7 +229,7 @@ n2).</p></td>
       <td><p>The number of replications to use for bootstrap.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>return a data frame with some of the following columns:</p><ul>
@@ -236,14 +243,12 @@ n2).</p></td>
  confidence interval.</p></li>
 </ul>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Quantification of the effect size magnitude is performed using the
  thresholds defined in Cohen (1992). The magnitude is assessed using the
  thresholds provided in (Cohen 1992), i.e. <code>|d| &lt; 0.2</code> "negligible",
  <code>|d| &lt; 0.5</code> "small", <code>|d| &lt; 0.8</code> "medium", otherwise "large".</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     
@@ -259,19 +264,18 @@ n2).</p></td>
  Tutorial for Psychology Students and Other Beginners (Version 0.5).</p></li>
 </ul>
 
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># One-sample t test effect size</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 6</span><span>
+<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
 #&gt;   .y.   group1 group2     effsize     n magnitude
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> len   1      null model    2.46    60 large    </div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt; &lt;ord&gt;    
+#&gt; 1 len   1      null model    2.46    60 large    </div><div class='input'>
 <span class='co'># Two indepedent samples t-test effect size</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 7</span><span>
+<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 7
 #&gt;   .y.   group1 group2 effsize    n1    n2 magnitude
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> len   OJ     VC       0.495    30    30 small    </div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;ord&gt;    
+#&gt; 1 len   OJ     VC       0.495    30    30 small    </div><div class='input'>
 <span class='co'># Paired samples effect size</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>5</span>,
@@ -286,25 +290,15 @@ n2).</p></td>
 #&gt; 4  4       pre   120
 #&gt; 5  5       pre   140
 #&gt; 6  1      post   150</div><div class='input'>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>value</span> ~ <span class='no'>treatment</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 7</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>value</span> ~ <span class='no'>treatment</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 7
 #&gt;   .y.   group1 group2 effsize    n1    n2 magnitude
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;ord&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> value post   pre       1.75     5     5 large    </div></span></pre>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;ord&gt;    
+#&gt; 1 value post   pre       1.75     5     5 large    </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -315,7 +309,7 @@ n2).</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

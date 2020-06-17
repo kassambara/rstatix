@@ -55,7 +55,7 @@ It's also possible to compute several effect size metrics, including "eta square
 - `sign_test()`: perform sign test to determine whether there is a median difference between paired or matched observations.
 - `anova_test()`: an easy-to-use wrapper around `car::Anova()` to perform different types of ANOVA tests, including **independent measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
 - `get_anova_test_table()`: extract ANOVA table from `anova_test()` results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs.
-`- welch_anova_test()`: Welch one-Way ANOVA test. A pipe-freindly wrapper around the base function `stats::oneway.test()`. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.
+`- welch_anova_test()`: Welch one-Way ANOVA test. A pipe-friendly wrapper around the base function `stats::oneway.test()`. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.
 - `kruskal_test()`: perform kruskal-wallis rank sum test
 - `friedman_test()`: Provides a pipe-friendly framework to perform a Friedman rank sum test, which is the non-parametric alternative to the one-way repeated measures ANOVA test.
 - `get_comparisons()`: Create a list of possible pairwise comparisons between groups.
@@ -154,7 +154,7 @@ Extract information from statistical test results. Useful for labelling plots wi
 
 These functions are internally used in the `rstatix` and in the `ggpubr` R package to make it easy to program with tidyverse packages using non standard evaluation.
  
-- `df_select()`, `df_arrange()`, `df_group_by()`: wrappers arround dplyr functions for suporting standard and non standard evaluations. 
+- `df_select()`, `df_arrange()`, `df_group_by()`: wrappers arround dplyr functions for supporting standard and non standard evaluations. 
 - `df_nest_by()`: Nest a tibble data frame using grouping specification. Supports standard and non standard evaluations.
 - `df_split_by()`: Split a data frame by groups into subsets or data panel. Very similar to the function `df_nest_by()`. The only difference is that, it adds labels to each data subset. Labels are the combination of the grouping variable levels. 
 - `df_unite()`: Unite multiple columns into one.
@@ -464,8 +464,14 @@ cor.mat %>%
 
     
 ## Related articles
-   
-    
+
+- [How to Add P-Values onto Basic GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-basic-ggplots/)
+- [How to Add Adjusted P-values to a Multi-Panel GGPlot](https://www.datanovia.com/en/blog/ggpubr-how-to-add-adjusted-p-values-to-a-multi-panel-ggplot/)
+- [How to Add P-values to GGPLOT Facets](https://www.datanovia.com/en/blog/how-to-add-p-values-to-ggplot-facets/)
+- [How to Add P-Values Generated Elsewhere to a GGPLOT](https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/)
+- [How to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/)
+- [How to Create Stacked Bar Plots with Error Bars and P-values](https://www.datanovia.com/en/blog/how-to-create-stacked-bar-plots-with-error-bars-and-p-values/)
+- [How to Add P-Values onto Horizontal GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-horizontal-ggplots/)
 - [Add P-values and Significance Levels to ggplots](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/)
 - [Comparing Means of Two Groups in R](https://www.datanovia.com/en/courses/comparing-means-of-two-groups-in-r/)
     - [T-test in R](https://www.datanovia.com/en/lessons/t-test-in-r/)

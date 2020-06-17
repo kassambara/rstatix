@@ -8,23 +8,29 @@
 
 <title>Pairwise Comparisons of Estimated Marginal Means — emmeans_test • rstatix</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -34,14 +40,14 @@
 
   
   <script src="../extra.js"></script>
-<meta property="og:title" content="Pairwise Comparisons of Estimated Marginal Means — emmeans_test" />
 
+<meta property="og:title" content="Pairwise Comparisons of Estimated Marginal Means — emmeans_test" />
 <meta property="og:description" content="Performs pairwise comparisons between groups using the estimated
  marginal means. Pipe-friendly wrapper arround the functions emmans() +
  contrast() from the emmeans package, which need to be installed
  before using this function. This function is useful for performing post-hoc
  analyses following ANOVA/ANCOVA tests." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -58,7 +64,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -72,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -91,9 +97,13 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kassambara/rstatix/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -108,18 +118,16 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Pairwise Comparisons of Estimated Marginal Means</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/emmeans_test.R'><code>R/emmeans_test.R</code></a></small>
     <div class="hidden name"><code>emmeans_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Performs pairwise comparisons between groups using the estimated
  marginal means. Pipe-friendly wrapper arround the functions <code>emmans() +
  contrast()</code> from the <code>emmeans</code> package, which need to be installed
  before using this function. This function is useful for performing post-hoc
  analyses following ANOVA/ANCOVA tests.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>emmeans_test</span>(
@@ -135,7 +143,7 @@
 )
 
 <span class='fu'>get_emmeans</span>(<span class='no'>emmeans.test</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -196,7 +204,7 @@ shown.</p></td>
       <td><p>an object of class <code>emmeans_test</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>return a data frame with some the following columns:</p><ul>
@@ -222,14 +230,12 @@ shown.</p></td>
 <p>The <strong>returned object has an attribute called args</strong>, which is a list
  holding the test arguments. It has also an attribute named "emmeans", a data
  frame containing the groups emmeans.</p>
-    
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
 <ul>
 <li><p><code>get_emmeans</code>: returns the estimated marginal means from an object of class <code>emmeans_test</code></p></li>
 </ul>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Data preparation</span>
@@ -240,51 +246,44 @@ shown.</p></td>
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span>
  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
  <span class='fu'>emmeans_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>)
-<span class='no'>res</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 9</span><span>
-#&gt;   supp  .y.   group1 group2    df statistic        p    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> OJ    len   0.5    1         54     -</span><span style='color: #BB0000;'>5.83</span><span> 3.18</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 9.53</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> OJ    len   0.5    2         54     -</span><span style='color: #BB0000;'>7.90</span><span> 1.43</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span> 4.29</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> OJ    len   1      2         54     -</span><span style='color: #BB0000;'>2.07</span><span> 4.34</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span> 1.30</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> ns          
-#&gt; </span><span style='color: #555555;'>4</span><span> VC    len   0.5    1         54     -</span><span style='color: #BB0000;'>5.41</span><span> 1.46</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> 4.39</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        
-#&gt; </span><span style='color: #555555;'>5</span><span> VC    len   0.5    2         54    -</span><span style='color: #BB0000;'>11.2</span><span>  1.13</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-15</span><span> 3.39</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-15</span><span> ****        
-#&gt; </span><span style='color: #555555;'>6</span><span> VC    len   1      2         54     -</span><span style='color: #BB0000;'>5.77</span><span> 3.98</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 1.19</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        </div><div class='input'>
+<span class='no'>res</span></div><div class='output co'>#&gt; # A tibble: 6 x 10
+#&gt;   supp  term  .y.   group1 group2    df statistic        p    p.adj p.adj.signif
+#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 OJ    dose  len   0.5    1         54     -5.83 3.18e- 7 9.53e- 7 ****        
+#&gt; 2 OJ    dose  len   0.5    2         54     -7.90 1.43e-10 4.29e-10 ****        
+#&gt; 3 OJ    dose  len   1      2         54     -2.07 4.34e- 2 1.30e- 1 ns          
+#&gt; 4 VC    dose  len   0.5    1         54     -5.41 1.46e- 6 4.39e- 6 ****        
+#&gt; 5 VC    dose  len   0.5    2         54    -11.2  1.13e-15 3.39e-15 ****        
+#&gt; 6 VC    dose  len   1      2         54     -5.77 3.98e- 7 1.19e- 6 ****        </div><div class='input'>
 <span class='co'># Display estimated marginal means</span>
-<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"emmeans"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 8</span><span>
+<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"emmeans"</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 8
 #&gt;   supp  dose  emmean    se    df conf.low conf.high method      
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> OJ    0.5    13.2   1.15    54    10.9       15.5 Emmeans test
-#&gt; </span><span style='color: #555555;'>2</span><span> OJ    1      22.7   1.15    54    20.4       25.0 Emmeans test
-#&gt; </span><span style='color: #555555;'>3</span><span> OJ    2      26.1   1.15    54    23.8       28.4 Emmeans test
-#&gt; </span><span style='color: #555555;'>4</span><span> VC    0.5     7.98  1.15    54     5.68      10.3 Emmeans test
-#&gt; </span><span style='color: #555555;'>5</span><span> VC    1      16.8   1.15    54    14.5       19.1 Emmeans test
-#&gt; </span><span style='color: #555555;'>6</span><span> VC    2      26.1   1.15    54    23.8       28.4 Emmeans test</div><div class='input'>
+#&gt;   &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 OJ    0.5    13.2   1.15    54    10.9       15.5 Emmeans test
+#&gt; 2 OJ    1      22.7   1.15    54    20.4       25.0 Emmeans test
+#&gt; 3 OJ    2      26.1   1.15    54    23.8       28.4 Emmeans test
+#&gt; 4 VC    0.5     7.98  1.15    54     5.68      10.3 Emmeans test
+#&gt; 5 VC    1      16.8   1.15    54    14.5       19.1 Emmeans test
+#&gt; 6 VC    2      26.1   1.15    54    23.8       28.4 Emmeans test</div><div class='input'>
 <span class='co'># Show details</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>emmeans_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 13</span><span>
-#&gt;   supp  .y.   group1 group2 estimate    se    df conf.low conf.high statistic
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> OJ    len   0.5    1         -</span><span style='color: #BB0000;'>9.47</span><span>  1.62    54   -</span><span style='color: #BB0000;'>12.7</span><span>     -</span><span style='color: #BB0000;'>6.21</span><span>      -</span><span style='color: #BB0000;'>5.83</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> OJ    len   0.5    2        -</span><span style='color: #BB0000;'>12.8</span><span>   1.62    54   -</span><span style='color: #BB0000;'>16.1</span><span>     -</span><span style='color: #BB0000;'>9.57</span><span>      -</span><span style='color: #BB0000;'>7.90</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> OJ    len   1      2         -</span><span style='color: #BB0000;'>3.36</span><span>  1.62    54    -</span><span style='color: #BB0000;'>6.62</span><span>    -</span><span style='color: #BB0000;'>0.104</span><span>     -</span><span style='color: #BB0000;'>2.07</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> VC    len   0.5    1         -</span><span style='color: #BB0000;'>8.79</span><span>  1.62    54   -</span><span style='color: #BB0000;'>12.0</span><span>     -</span><span style='color: #BB0000;'>5.53</span><span>      -</span><span style='color: #BB0000;'>5.41</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> VC    len   0.5    2        -</span><span style='color: #BB0000;'>18.2</span><span>   1.62    54   -</span><span style='color: #BB0000;'>21.4</span><span>    -</span><span style='color: #BB0000;'>14.9</span><span>      -</span><span style='color: #BB0000;'>11.2</span><span> 
-#&gt; </span><span style='color: #555555;'>6</span><span> VC    len   1      2         -</span><span style='color: #BB0000;'>9.37</span><span>  1.62    54   -</span><span style='color: #BB0000;'>12.6</span><span>     -</span><span style='color: #BB0000;'>6.11</span><span>      -</span><span style='color: #BB0000;'>5.77</span><span>
-#&gt; </span><span style='color: #555555;'># … with 3 more variables: p </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, p.adj </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, p.adj.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
+ <span class='fu'>emmeans_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 15
+#&gt;   supp  term  .y.   group1 group2 null.value estimate    se    df conf.low
+#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 OJ    dose  len   0.5    1               0    -9.47  1.62    54   -12.7 
+#&gt; 2 OJ    dose  len   0.5    2               0   -12.8   1.62    54   -16.1 
+#&gt; 3 OJ    dose  len   1      2               0    -3.36  1.62    54    -6.62
+#&gt; 4 VC    dose  len   0.5    1               0    -8.79  1.62    54   -12.0 
+#&gt; 5 VC    dose  len   0.5    2               0   -18.2   1.62    54   -21.4 
+#&gt; 6 VC    dose  len   1      2               0    -9.37  1.62    54   -12.6 
+#&gt; # … with 5 more variables: conf.high &lt;dbl&gt;, statistic &lt;dbl&gt;, p &lt;dbl&gt;,
+#&gt; #   p.adj &lt;dbl&gt;, p.adj.signif &lt;chr&gt;</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#functions">Functions</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -295,7 +294,7 @@ shown.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

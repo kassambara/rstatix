@@ -8,23 +8,29 @@
 
 <title>Tukey Honest Significant Differences — tukey_hsd • rstatix</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -34,13 +40,13 @@
 
   
   <script src="../extra.js"></script>
-<meta property="og:title" content="Tukey Honest Significant Differences — tukey_hsd" />
 
+<meta property="og:title" content="Tukey Honest Significant Differences — tukey_hsd" />
 <meta property="og:description" content="Provides a pipe-friendly framework to performs Tukey post-hoc
  tests. Wrapper around the function TukeyHSD(). It is
  essentially a t-test that corrects for multiple testing.
 Can handle different inputs formats: aov, lm, formula." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -57,7 +63,7 @@ Can handle different inputs formats: aov, lm, formula." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -71,7 +77,7 @@ Can handle different inputs formats: aov, lm, formula." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -90,9 +96,13 @@ Can handle different inputs formats: aov, lm, formula." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kassambara/rstatix/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -107,17 +117,15 @@ Can handle different inputs formats: aov, lm, formula." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Tukey Honest Significant Differences</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/tukey_hsd.R'><code>R/tukey_hsd.R</code></a></small>
     <div class="hidden name"><code>tukey_hsd.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Provides a pipe-friendly framework to performs Tukey post-hoc
  tests. Wrapper around the function <code><a href='https://rdrr.io/r/stats/TukeyHSD.html'>TukeyHSD</a>()</code>. It is
  essentially a t-test that corrects for multiple testing.</p>
 <p>Can handle different inputs formats: aov, lm, formula.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>tukey_hsd</span>(<span class='no'>x</span>, <span class='no'>...</span>)
@@ -130,7 +138,7 @@ Can handle different inputs formats: aov, lm, formula." />
 
 <span class='co'># S3 method for data.frame</span>
 <span class='fu'>tukey_hsd</span>(<span class='no'>x</span>, <span class='no'>formula</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -164,12 +172,11 @@ one or multiple levels giving the corresponding groups. For example,
       <td><p>a data.frame containing the variables in the formula.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a tibble data frame containing the results of the different
  comparisons.</p>
-    
     <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
 
     
@@ -180,82 +187,78 @@ one or multiple levels giving the corresponding groups. For example,
 inputs. ANOVA will be automatically performed using the function
 <code><a href='https://rdrr.io/r/stats/aov.html'>aov</a>()</code></p></li>
 </ul>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Data preparation</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span>
 <span class='no'>df</span>$<span class='no'>dose</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='no'>df</span>$<span class='no'>dose</span>)
 <span class='co'># Tukey HSD from ANOVA results</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/aov.html'>aov</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 8</span><span>
-#&gt;   term  group1 group2 estimate conf.low conf.high    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> dose  0.5    1          9.13     5.90     12.4  2.00</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> dose  0.5    2         15.5     12.3      18.7  1.12</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> dose  1      2          6.36     3.14      9.59 4.25</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/stats/aov.html'>aov</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; # A tibble: 3 x 9
+#&gt;   term  group1 group2 null.value estimate conf.low conf.high    p.adj
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 dose  0.5    1               0     9.13     5.90     12.4  2.00e- 8
+#&gt; 2 dose  0.5    2               0    15.5     12.3      18.7  1.12e-11
+#&gt; 3 dose  1      2               0     6.36     3.14      9.59 4.25e- 5
+#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</div><div class='input'>
 <span class='co'># two-way anova with interaction</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/aov.html'>aov</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>*<span class='no'>supp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 19 x 8</span><span>
-#&gt;    term      group1 group2 estimate conf.low conf.high    p.adj p.adj.signif
-#&gt;  </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'> 1</span><span> dose      0.5    1        9.13       6.36    11.9   3.55</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span> ****        
-#&gt; </span><span style='color: #555555;'> 2</span><span> dose      0.5    2       15.5       12.7     18.3   4.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span> ****        
-#&gt; </span><span style='color: #555555;'> 3</span><span> dose      1      2        6.36       3.60     9.13  2.71</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        
-#&gt; </span><span style='color: #555555;'> 4</span><span> supp      OJ     VC      -</span><span style='color: #BB0000;'>3.7</span><span>       -</span><span style='color: #BB0000;'>5.58</span><span>    -</span><span style='color: #BB0000;'>1.82</span><span>  2.31</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 4</span><span> ***         
-#&gt; </span><span style='color: #555555;'> 5</span><span> dose:supp 0.5:OJ 1:OJ     9.47       4.67    14.3   4.61</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        
-#&gt; </span><span style='color: #555555;'> 6</span><span> dose:supp 0.5:OJ 2:OJ    12.8        8.03    17.6   2.13</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 9</span><span> ****        
-#&gt; </span><span style='color: #555555;'> 7</span><span> dose:supp 0.5:OJ 0.5:VC  -</span><span style='color: #BB0000;'>5.25</span><span>     -</span><span style='color: #BB0000;'>10.0</span><span>     -</span><span style='color: #BB0000;'>0.452</span><span> 2.43</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span> *           
-#&gt; </span><span style='color: #555555;'> 8</span><span> dose:supp 0.5:OJ 1:VC     3.54      -</span><span style='color: #BB0000;'>1.26</span><span>     8.34  2.64</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> ns          
-#&gt; </span><span style='color: #555555;'> 9</span><span> dose:supp 0.5:OJ 2:VC    12.9        8.11    17.7   1.77</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 9</span><span> ****        
-#&gt; </span><span style='color: #555555;'>10</span><span> dose:supp 1:OJ   2:OJ     3.36      -</span><span style='color: #BB0000;'>1.44</span><span>     8.16  3.19</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> ns          
-#&gt; </span><span style='color: #555555;'>11</span><span> dose:supp 1:OJ   0.5:VC -</span><span style='color: #BB0000;'>14.7</span><span>      -</span><span style='color: #BB0000;'>19.5</span><span>     -</span><span style='color: #BB0000;'>9.92</span><span>  2.99</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span> ****        
-#&gt; </span><span style='color: #555555;'>12</span><span> dose:supp 1:OJ   1:VC    -</span><span style='color: #BB0000;'>5.93</span><span>     -</span><span style='color: #BB0000;'>10.7</span><span>     -</span><span style='color: #BB0000;'>1.13</span><span>  7.39</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 3</span><span> **          
-#&gt; </span><span style='color: #555555;'>13</span><span> dose:supp 1:OJ   2:VC     3.44      -</span><span style='color: #BB0000;'>1.36</span><span>     8.24  2.94</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> ns          
-#&gt; </span><span style='color: #555555;'>14</span><span> dose:supp 2:OJ   0.5:VC -</span><span style='color: #BB0000;'>18.1</span><span>      -</span><span style='color: #BB0000;'>22.9</span><span>    -</span><span style='color: #BB0000;'>13.3</span><span>   4.86</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span> ****        
-#&gt; </span><span style='color: #555555;'>15</span><span> dose:supp 2:OJ   1:VC    -</span><span style='color: #BB0000;'>9.29</span><span>     -</span><span style='color: #BB0000;'>14.1</span><span>     -</span><span style='color: #BB0000;'>4.49</span><span>  6.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        
-#&gt; </span><span style='color: #555555;'>16</span><span> dose:supp 2:OJ   2:VC     0.080</span><span style='text-decoration: underline;'>0</span><span>    -</span><span style='color: #BB0000;'>4.72</span><span>     4.88  1.00</span><span style='color: #555555;'>e</span><span>+ 0 ns          
-#&gt; </span><span style='color: #555555;'>17</span><span> dose:supp 0.5:VC 1:VC     8.79       3.99    13.6   2.10</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        
-#&gt; </span><span style='color: #555555;'>18</span><span> dose:supp 0.5:VC 2:VC    18.2       13.4     23.0   4.82</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span> ****        
-#&gt; </span><span style='color: #555555;'>19</span><span> dose:supp 1:VC   2:VC     9.37       4.57    14.2   5.77</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/stats/aov.html'>aov</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>*<span class='no'>supp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; # A tibble: 19 x 9
+#&gt;    term  group1 group2 null.value estimate conf.low conf.high    p.adj
+#&gt;  * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt;  1 dose  0.5    1               0   9.13       6.36    11.9   3.55e-10
+#&gt;  2 dose  0.5    2               0  15.5       12.7     18.3   4.38e-13
+#&gt;  3 dose  1      2               0   6.36       3.60     9.13  2.71e- 6
+#&gt;  4 supp  OJ     VC              0  -3.7       -5.58    -1.82  2.31e- 4
+#&gt;  5 dose… 0.5:OJ 1:OJ            0   9.47       4.67    14.3   4.61e- 6
+#&gt;  6 dose… 0.5:OJ 2:OJ            0  12.8        8.03    17.6   2.13e- 9
+#&gt;  7 dose… 0.5:OJ 0.5:VC          0  -5.25     -10.0     -0.452 2.43e- 2
+#&gt;  8 dose… 0.5:OJ 1:VC            0   3.54      -1.26     8.34  2.64e- 1
+#&gt;  9 dose… 0.5:OJ 2:VC            0  12.9        8.11    17.7   1.77e- 9
+#&gt; 10 dose… 1:OJ   2:OJ            0   3.36      -1.44     8.16  3.19e- 1
+#&gt; 11 dose… 1:OJ   0.5:VC          0 -14.7      -19.5     -9.92  2.99e-11
+#&gt; 12 dose… 1:OJ   1:VC            0  -5.93     -10.7     -1.13  7.39e- 3
+#&gt; 13 dose… 1:OJ   2:VC            0   3.44      -1.36     8.24  2.94e- 1
+#&gt; 14 dose… 2:OJ   0.5:VC          0 -18.1      -22.9    -13.3   4.86e-13
+#&gt; 15 dose… 2:OJ   1:VC            0  -9.29     -14.1     -4.49  6.91e- 6
+#&gt; 16 dose… 2:OJ   2:VC            0   0.0800    -4.72     4.88  1.00e+ 0
+#&gt; 17 dose… 0.5:VC 1:VC            0   8.79       3.99    13.6   2.10e- 5
+#&gt; 18 dose… 0.5:VC 2:VC            0  18.2       13.4     23.0   4.82e-13
+#&gt; 19 dose… 1:VC   2:VC            0   9.37       4.57    14.2   5.77e- 6
+#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</div><div class='input'>
 <span class='co'># Tukey HSD from lm() results</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 8</span><span>
-#&gt;   term  group1 group2 estimate conf.low conf.high    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> dose  0.5    1          9.13     5.90     12.4  2.00</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> dose  0.5    2         15.5     12.3      18.7  1.12</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> dose  1      2          6.36     3.14      9.59 4.25</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>df</span>) <span class='kw'>%&gt;%</span> <span class='fu'>tukey_hsd</span>()</div><div class='output co'>#&gt; # A tibble: 3 x 9
+#&gt;   term  group1 group2 null.value estimate conf.low conf.high    p.adj
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 dose  0.5    1               0     9.13     5.90     12.4  2.00e- 8
+#&gt; 2 dose  0.5    2               0    15.5     12.3      18.7  1.12e-11
+#&gt; 3 dose  1      2               0     6.36     3.14      9.59 4.25e- 5
+#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</div><div class='input'>
 <span class='co'># Tukey HSD from data frame and formula</span>
-<span class='fu'>tukey_hsd</span>(<span class='no'>df</span>, <span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 8</span><span>
-#&gt;   term  group1 group2 estimate conf.low conf.high    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> dose  0.5    1          9.13     5.90     12.4  2.00</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> dose  0.5    2         15.5     12.3      18.7  1.12</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> dose  1      2          6.36     3.14      9.59 4.25</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        </div><div class='input'>
+<span class='fu'>tukey_hsd</span>(<span class='no'>df</span>, <span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 9
+#&gt;   term  group1 group2 null.value estimate conf.low conf.high    p.adj
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 dose  0.5    1               0     9.13     5.90     12.4  2.00e- 8
+#&gt; 2 dose  0.5    2               0    15.5     12.3      18.7  1.12e-11
+#&gt; 3 dose  1      2               0     6.36     3.14      9.59 4.25e- 5
+#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</div><div class='input'>
 <span class='co'># Tukey HSD using grouped data</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>tukey_hsd</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 9</span><span>
-#&gt;   supp  term  group1 group2 estimate conf.low conf.high    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> OJ    dose  0.5    1          9.47    5.31      13.6  1.58</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> OJ    dose  0.5    2         12.8     8.67      17.0  9.39</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> OJ    dose  1      2          3.36   -</span><span style='color: #BB0000;'>0.800</span><span>      7.52 1.31</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> ns          
-#&gt; </span><span style='color: #555555;'>4</span><span> VC    dose  0.5    1          8.79    4.90      12.7  1.75</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        
-#&gt; </span><span style='color: #555555;'>5</span><span> VC    dose  0.5    2         18.2    14.3       22.0  1.66</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span> ****        
-#&gt; </span><span style='color: #555555;'>6</span><span> VC    dose  1      2          9.37    5.48      13.3  6.61</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        </div><div class='input'>
-</div></span></pre>
+  <span class='fu'>tukey_hsd</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 10
+#&gt;   supp  term  group1 group2 null.value estimate conf.low conf.high    p.adj
+#&gt; * &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 OJ    dose  0.5    1               0     9.47    5.31      13.6  1.58e- 5
+#&gt; 2 OJ    dose  0.5    2               0    12.8     8.67      17.0  9.39e- 8
+#&gt; 3 OJ    dose  1      2               0     3.36   -0.800      7.52 1.31e- 1
+#&gt; 4 VC    dose  0.5    1               0     8.79    4.90      12.7  1.75e- 5
+#&gt; 5 VC    dose  0.5    2               0    18.2    14.3       22.0  1.66e-11
+#&gt; 6 VC    dose  1      2               0     9.37    5.48      13.3  6.61e- 6
+#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</div><div class='input'>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#methods-by-class-">Methods (by class)</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -266,7 +269,7 @@ inputs. ANOVA will be automatically performed using the function
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

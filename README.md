@@ -61,7 +61,7 @@ Key functions
 -   `get_anova_test_table()`: extract ANOVA table from `anova_test()`
     results. Can apply sphericity correction automatically in the case
     of within-subject (repeated measures) designs.
-    `- welch_anova_test()`: Welch one-Way ANOVA test. A pipe-freindly
+    `- welch_anova_test()`: Welch one-Way ANOVA test. A pipe-friendly
     wrapper around the base function `stats::oneway.test()`. This is is
     an alternative to the standard one-way ANOVA in the situation where
     the homogeneity of variance assumption is violated.
@@ -222,7 +222,8 @@ R package to make it easy to program with tidyverse packages using non
 standard evaluation.
 
 -   `df_select()`, `df_arrange()`, `df_group_by()`: wrappers arround
-    dplyr functions for suporting standard and non standard evaluations.
+    dplyr functions for supporting standard and non standard
+    evaluations.
 -   `df_nest_by()`: Nest a tibble data frame using grouping
     specification. Supports standard and non standard evaluations.
 -   `df_split_by()`: Split a data frame by groups into subsets or data
@@ -288,7 +289,7 @@ iris %>%
   get_summary_stats(Sepal.Length, Sepal.Width, type = "common")
 #> # A tibble: 2 x 10
 #>   variable         n   min   max median   iqr  mean    sd    se    ci
-#> * <chr>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#>   <chr>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
 #> 1 Sepal.Length   150   4.3   7.9    5.8   1.3  5.84 0.828 0.068 0.134
 #> 2 Sepal.Width    150   2     4.4    3     0.5  3.06 0.436 0.036 0.07
 
@@ -297,7 +298,7 @@ iris %>%
 iris %>% get_summary_stats(type = "common")
 #> # A tibble: 4 x 10
 #>   variable         n   min   max median   iqr  mean    sd    se    ci
-#> * <chr>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#>   <chr>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
 #> 1 Petal.Length   150   1     6.9   4.35   3.5  3.76 1.76  0.144 0.285
 #> 2 Petal.Width    150   0.1   2.5   1.3    1.5  1.20 0.762 0.062 0.123
 #> 3 Sepal.Length   150   4.3   7.9   5.8    1.3  5.84 0.828 0.068 0.134
@@ -411,7 +412,7 @@ stat.test <- df %>%
 stat.test
 #> # A tibble: 3 x 11
 #>   dose  .y.   group1 group2    n1    n2 statistic    df       p   p.adj
-#> * <fct> <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>   <dbl>   <dbl>
+#>   <fct> <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>   <dbl>   <dbl>
 #> 1 0.5   len   OJ     VC        10    10    3.17    15.0 0.00636 0.0127 
 #> 2 1     len   OJ     VC        10    10    4.03    15.4 0.00104 0.00312
 #> 3 2     len   OJ     VC        10    10   -0.0461  14.0 0.964   0.964  
@@ -593,7 +594,7 @@ anova_test(.my.model)
 #> ANOVA Table (type II tests)
 #> 
 #>   Effect DFn DFd      F     p p<.05   ges
-#> 1  block   5  12  4.447 0.016     * 0.649
+#> 1  block   4  12  4.959 0.014     * 0.623
 #> 2      N   1  12 12.259 0.004     * 0.505
 #> 3      P   1  12  0.544 0.475       0.043
 #> 4      K   1  12  6.166 0.029     * 0.339
@@ -620,14 +621,14 @@ head(mydata, 3)
 mydata %>% cor_test(wt, mpg, method = "pearson")
 #> # A tibble: 1 x 8
 #>   var1  var2    cor statistic        p conf.low conf.high method 
-#> * <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
+#>   <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
 #> 1 wt    mpg   -0.87     -9.56 1.29e-10   -0.934    -0.744 Pearson
 
 # Correlation of one variable against all
 mydata %>% cor_test(mpg, method = "pearson")
 #> # A tibble: 5 x 8
 #>   var1  var2    cor statistic        p conf.low conf.high method 
-#> * <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
+#>   <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
 #> 1 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
 #> 2 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
 #> 3 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson
@@ -638,7 +639,7 @@ mydata %>% cor_test(mpg, method = "pearson")
 mydata %>% cor_test(method = "pearson")
 #> # A tibble: 36 x 8
 #>    var1  var2    cor statistic        p conf.low conf.high method 
-#>  * <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
+#>    <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
 #>  1 mpg   mpg    1       Inf    0.         1          1     Pearson
 #>  2 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
 #>  3 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
@@ -722,6 +723,20 @@ cor.mat %>%
 Related articles
 ----------------
 
+-   [How to Add P-Values onto Basic
+    GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-basic-ggplots/)
+-   [How to Add Adjusted P-values to a Multi-Panel
+    GGPlot](https://www.datanovia.com/en/blog/ggpubr-how-to-add-adjusted-p-values-to-a-multi-panel-ggplot/)
+-   [How to Add P-values to GGPLOT
+    Facets](https://www.datanovia.com/en/blog/how-to-add-p-values-to-ggplot-facets/)
+-   [How to Add P-Values Generated Elsewhere to a
+    GGPLOT](https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/)
+-   [How to Add P-Values onto a Grouped GGPLOT using the GGPUBR R
+    Package](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/)
+-   [How to Create Stacked Bar Plots with Error Bars and
+    P-values](https://www.datanovia.com/en/blog/how-to-create-stacked-bar-plots-with-error-bars-and-p-values/)
+-   [How to Add P-Values onto Horizontal
+    GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-horizontal-ggplots/)
 -   [Add P-values and Significance Levels to
     ggplots](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/)
 -   [Comparing Means of Two Groups in

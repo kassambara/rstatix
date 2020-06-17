@@ -8,23 +8,29 @@
 
 <title>Autocompute P-value Positions For Plotting Significance — get_y_position • rstatix</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -34,11 +40,16 @@
 
   
   <script src="../extra.js"></script>
-<meta property="og:title" content="Autocompute P-value Positions For Plotting Significance — get_y_position" />
 
+<meta property="og:title" content="Autocompute P-value Positions For Plotting Significance — get_y_position" />
 <meta property="og:description" content="Compute p-value x and y positions for plotting significance
- levels." />
-<meta name="twitter:card" content="summary" />
+ levels. Many examples are provided at :
+How to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package
+How to Add Adjusted P-values to a Multi-Panel GGPlot
+How to Add P-Values Generated Elsewhere to a GGPLOT
+
+" />
+
 
 
 
@@ -55,7 +66,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -88,9 +99,13 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kassambara/rstatix/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -105,15 +120,18 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Autocompute P-value Positions For Plotting Significance</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/get_pvalue_position.R'><code>R/get_pvalue_position.R</code></a></small>
     <div class="hidden name"><code>get_pvalue_position.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Compute p-value x and y positions for plotting significance
- levels.</p>
-    
+ levels. Many examples are provided at :</p><ul>
+<li><p><a href='https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/'>How to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package</a></p></li>
+<li><p><a href='https://www.datanovia.com/en/blog/ggpubr-how-to-add-adjusted-p-values-to-a-multi-panel-ggplot/'>How to Add Adjusted P-values to a Multi-Panel GGPlot</a></p></li>
+<li><p><a href='https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/'>How to Add P-Values Generated Elsewhere to a GGPLOT</a></p></li>
+</ul>
+
     </div>
 
     <pre class="usage"><span class='fu'>get_y_position</span>(
@@ -123,7 +141,8 @@
   <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>step.increase</span> <span class='kw'>=</span> <span class='fl'>0.12</span>,
-  <span class='kw'>y.trans</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>y.trans</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>stack</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )
 
 <span class='fu'>add_y_position</span>(
@@ -134,7 +153,8 @@
   <span class='kw'>formula</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>y.trans</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>y.trans</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>stack</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )
 
 <span class='fu'>add_x_position</span>(<span class='no'>test</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.8</span>)
@@ -143,11 +163,12 @@
   <span class='no'>test</span>,
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
+  <span class='kw'>stack</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"max"</span>,
   <span class='kw'>step.increase</span> <span class='kw'>=</span> <span class='fl'>0.12</span>,
   <span class='no'>...</span>
 )</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -165,20 +186,23 @@ one or multiple levels giving the corresponding groups. For example,
     <tr>
       <th>fun</th>
       <td><p>summary statistics functions used to compute automatically suitable
- y positions of p-value labels and brackets. Possible values include: <code>"max", "mean",
- "mean_sd", "mean_se", "mean_ci", "median", "median_iqr", "median_mad"</code>.</p>
+ y positions of p-value labels and brackets. Possible values include:
+ <code>"max", "mean", "mean_sd", "mean_se", "mean_ci", "median",
+ "median_iqr", "median_mad"</code>.</p>
 <p>For example, if <code>fun = "max"</code>, the y positions are guessed as follow:</p><ul>
 <li><p>1. Compute the maximum of each group (groups.maximum)</p></li>
 <li><p>2. Use the highest groups maximum as the first bracket y position</p></li>
-<li><p>3. Add successively a step increase for remaining bracket y positions.</p></li>
+<li><p>3.
+ Add successively a step increase for remaining bracket y positions.</p></li>
 </ul>
 
 <p>When the main plot is a boxplot, you need the option <code>fun = "max"</code>, to
  have the p-value bracket displayed at the maximum point of the group.</p>
 <p>In some situations the main plot is a line plot or a barplot showing the
- <code>mean+/-error bars</code> of the groups, where error can be SE (standard error),
- SD (standard deviation) or CI (confidence interval). In this case, to correctly
- compute the bracket y position you need the option <code>fun = "mean_se"</code>, etc.</p></td>
+ <code>mean+/-error bars</code> of the groups, where error can be SE (standard
+ error), SD (standard deviation) or CI (confidence interval). In this case,
+ to correctly compute the bracket y position you need the option <code>fun =
+ "mean_se"</code>, etc.</p></td>
     </tr>
     <tr>
       <th>ref.group</th>
@@ -206,6 +230,11 @@ that can take a numeric vector as input and returns a numeric vector,
 example: <code>y.trans = function(x){log2(x+1)}</code></p></td>
     </tr>
     <tr>
+      <th>stack</th>
+      <td><p>logical. If TRUE, computes y position for a stacked plot. Useful
+when dealing with stacked bar plots.</p></td>
+    </tr>
+    <tr>
       <th>test</th>
       <td><p>an object of class <code>rstatix_test</code> as returned by
 <code><a href='t_test.html'>t_test</a>()</code>, <code><a href='wilcox_test.html'>wilcox_test</a>()</code>,
@@ -227,7 +256,7 @@ when <code>x</code> specified.</p></td>
 <code><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
@@ -237,7 +266,6 @@ when <code>x</code> specified.</p></td>
 <li><p><code>add_x_position</code>: compute and add p-value x positions.</p></li>
 <li><p><code>add_xy_position</code>: compute and add both x and y positions.</p></li>
 </ul>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Data preparation</span>
@@ -256,12 +284,12 @@ when <code>x</code> specified.</p></td>
 <span class='co'>#::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>stat.test</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='t_test.html'>t_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)
-<span class='no'>stat.test</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 10</span><span>
+<span class='no'>stat.test</span></div><div class='output co'>#&gt; # A tibble: 3 x 10
 #&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> len   0.5    1         20    20     -</span><span style='color: #BB0000;'>6.48</span><span>  38.0 1.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 2.54</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> len   0.5    2         20    20    -</span><span style='color: #BB0000;'>11.8</span><span>   36.9 4.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-14</span><span> 1.32</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> len   1      2         20    20     -</span><span style='color: #BB0000;'>4.90</span><span>  37.1 1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> 1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        </div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 2.54e- 7 ****        
+#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 1.32e-13 ****        
+#&gt; 3 len   1      2         20    20     -4.90  37.1 1.91e- 5 1.91e- 5 ****        </div><div class='input'>
 <span class='co'># Add the test into box plots</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>stat.test</span> <span class='kw'>&lt;-</span> <span class='no'>stat.test</span> <span class='kw'>%&gt;%</span>
@@ -271,18 +299,12 @@ when <code>x</code> specified.</p></td>
    <span class='fu'><a href='https://rdrr.io/pkg/ggpubr/man/ggboxplot.html'>ggboxplot</a></span>(<span class='no'>df</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"dose"</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='st'>"len"</span>) +
      <span class='fu'><a href='https://rdrr.io/pkg/ggpubr/man/stat_pvalue_manual.html'>stat_pvalue_manual</a></span>(<span class='no'>stat.test</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"p.adj.signif"</span>, <span class='kw'>tip.length</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)
   }</div><div class='img'><img src='get_pvalue_position-1.png' alt='' width='700' height='433' /></div><div class='input'># }
-</div></span></pre>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#functions">Functions</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -293,7 +315,7 @@ when <code>x</code> specified.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

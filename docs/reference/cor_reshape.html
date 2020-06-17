@@ -8,23 +8,29 @@
 
 <title>Reshape Correlation Data — cor_gather • rstatix</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -34,8 +40,8 @@
 
   
   <script src="../extra.js"></script>
-<meta property="og:title" content="Reshape Correlation Data — cor_gather" />
 
+<meta property="og:title" content="Reshape Correlation Data — cor_gather" />
 <meta property="og:description" content="Reshape correlation analysis results. Key functions:
 cor_gather(): takes a correlation matrix and collapses (i.e. melt) it into a paired list
   (long format).
@@ -44,7 +50,7 @@ cor_spread(): spread a long correlation data format across
   and transforms it into a correlation matrix.
 
 " />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -61,7 +67,7 @@ cor_spread(): spread a long correlation data format across
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -75,7 +81,7 @@ cor_spread(): spread a long correlation data format across
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -94,9 +100,13 @@ cor_spread(): spread a long correlation data format across
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kassambara/rstatix/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -111,12 +121,11 @@ cor_spread(): spread a long correlation data format across
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Reshape Correlation Data</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/cor_reshape.R'><code>R/cor_reshape.R</code></a></small>
     <div class="hidden name"><code>cor_reshape.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Reshape correlation analysis results. Key functions:</p><ul>
 <li><p><code>cor_gather()</code>: takes a correlation matrix and collapses (i.e. melt) it into a paired list
   (long format).</p></li>
@@ -125,13 +134,12 @@ cor_spread(): spread a long correlation data format across
   and transforms it into a correlation matrix.</p></li>
 </ul>
 
-    
     </div>
 
     <pre class="usage"><span class='fu'>cor_gather</span>(<span class='no'>data</span>, <span class='kw'>drop.na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='fu'>cor_spread</span>(<span class='no'>data</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"cor"</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -148,7 +156,7 @@ cor_spread(): spread a long correlation data format across
       <td><p>column name containing the value to spread.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
@@ -158,11 +166,9 @@ format data frame (paired list)</p></li>
 <li><p><code>cor_spread</code>: spread a long correlation data frame into wide format
 (correlation matrix).</p></li>
 </ul>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='cor_mat.html'>cor_mat</a>()</code>, <code><a href='cor_reorder.html'>cor_reorder</a>()</code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Data preparation</span>
@@ -177,66 +183,58 @@ format data frame (paired list)</p></li>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Compute a correlation matrix</span>
 <span class='no'>cor.mat</span> <span class='kw'>&lt;-</span> <span class='no'>mydata</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='cor_mat.html'>cor_mat</a></span>()
-<span class='no'>cor.mat</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 7</span><span>
+<span class='no'>cor.mat</span></div><div class='output co'>#&gt; # A tibble: 6 x 7
 #&gt;   rowname   mpg  disp    hp   drat    wt   qsec
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> mpg      1    -</span><span style='color: #BB0000;'>0.85</span><span> -</span><span style='color: #BB0000;'>0.78</span><span>  0.68  -</span><span style='color: #BB0000;'>0.87</span><span>  0.42 
-#&gt; </span><span style='color: #555555;'>2</span><span> disp    -</span><span style='color: #BB0000;'>0.85</span><span>  1     0.79 -</span><span style='color: #BB0000;'>0.71</span><span>   0.89 -</span><span style='color: #BB0000;'>0.43</span><span> 
-#&gt; </span><span style='color: #555555;'>3</span><span> hp      -</span><span style='color: #BB0000;'>0.78</span><span>  0.79  1    -</span><span style='color: #BB0000;'>0.45</span><span>   0.66 -</span><span style='color: #BB0000;'>0.71</span><span> 
-#&gt; </span><span style='color: #555555;'>4</span><span> drat     0.68 -</span><span style='color: #BB0000;'>0.71</span><span> -</span><span style='color: #BB0000;'>0.45</span><span>  1     -</span><span style='color: #BB0000;'>0.71</span><span>  0.091
-#&gt; </span><span style='color: #555555;'>5</span><span> wt      -</span><span style='color: #BB0000;'>0.87</span><span>  0.89  0.66 -</span><span style='color: #BB0000;'>0.71</span><span>   1    -</span><span style='color: #BB0000;'>0.17</span><span> 
-#&gt; </span><span style='color: #555555;'>6</span><span> qsec     0.42 -</span><span style='color: #BB0000;'>0.43</span><span> -</span><span style='color: #BB0000;'>0.71</span><span>  0.091 -</span><span style='color: #BB0000;'>0.17</span><span>  1    </div><div class='input'>
+#&gt; * &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1 mpg      1    -0.85 -0.78  0.68  -0.87  0.42 
+#&gt; 2 disp    -0.85  1     0.79 -0.71   0.89 -0.43 
+#&gt; 3 hp      -0.78  0.79  1    -0.45   0.66 -0.71 
+#&gt; 4 drat     0.68 -0.71 -0.45  1     -0.71  0.091
+#&gt; 5 wt      -0.87  0.89  0.66 -0.71   1    -0.17 
+#&gt; 6 qsec     0.42 -0.43 -0.71  0.091 -0.17  1    </div><div class='input'>
 <span class='co'># Collapse the correlation matrix into long format</span>
 <span class='co'># paired list data frame</span>
 <span class='no'>long.format</span> <span class='kw'>&lt;-</span> <span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_gather</span>()
-<span class='no'>long.format</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 36 x 4</span><span>
+<span class='no'>long.format</span></div><div class='output co'>#&gt; # A tibble: 36 x 4
 #&gt;    var1  var2    cor        p
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> mpg   mpg    1    0.  </span><span style='color: #555555;'> </span><span>   
-#&gt; </span><span style='color: #555555;'> 2</span><span> disp  mpg   -</span><span style='color: #BB0000;'>0.85</span><span> 9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> hp    mpg   -</span><span style='color: #BB0000;'>0.78</span><span> 1.79</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span> drat  mpg    0.68 1.78</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> wt    mpg   -</span><span style='color: #BB0000;'>0.87</span><span> 1.29</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> qsec  mpg    0.42 1.71</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> mpg   disp  -</span><span style='color: #BB0000;'>0.85</span><span> 9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span> disp  disp   1    0.  </span><span style='color: #555555;'> </span><span>   
-#&gt; </span><span style='color: #555555;'> 9</span><span> hp    disp   0.79 7.14</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span>
-#&gt; </span><span style='color: #555555;'>10</span><span> drat  disp  -</span><span style='color: #BB0000;'>0.71</span><span> 5.28</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span>
-#&gt; </span><span style='color: #555555;'># … with 26 more rows</span><span></div><div class='input'>
+#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;
+#&gt;  1 mpg   mpg    1    0.      
+#&gt;  2 disp  mpg   -0.85 9.38e-10
+#&gt;  3 hp    mpg   -0.78 1.79e- 7
+#&gt;  4 drat  mpg    0.68 1.78e- 5
+#&gt;  5 wt    mpg   -0.87 1.29e-10
+#&gt;  6 qsec  mpg    0.42 1.71e- 2
+#&gt;  7 mpg   disp  -0.85 9.38e-10
+#&gt;  8 disp  disp   1    0.      
+#&gt;  9 hp    disp   0.79 7.14e- 8
+#&gt; 10 drat  disp  -0.71 5.28e- 6
+#&gt; # … with 26 more rows</div><div class='input'>
 <span class='co'># Spread a correlation data format</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Spread the correlation coefficient value</span>
-<span class='no'>long.format</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_spread</span>(<span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"cor"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 7</span><span>
+<span class='no'>long.format</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_spread</span>(<span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"cor"</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 7
 #&gt;   rowname   mpg  disp    hp   drat    wt   qsec
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> mpg      1    -</span><span style='color: #BB0000;'>0.85</span><span> -</span><span style='color: #BB0000;'>0.78</span><span>  0.68  -</span><span style='color: #BB0000;'>0.87</span><span>  0.42 
-#&gt; </span><span style='color: #555555;'>2</span><span> disp    -</span><span style='color: #BB0000;'>0.85</span><span>  1     0.79 -</span><span style='color: #BB0000;'>0.71</span><span>   0.89 -</span><span style='color: #BB0000;'>0.43</span><span> 
-#&gt; </span><span style='color: #555555;'>3</span><span> hp      -</span><span style='color: #BB0000;'>0.78</span><span>  0.79  1    -</span><span style='color: #BB0000;'>0.45</span><span>   0.66 -</span><span style='color: #BB0000;'>0.71</span><span> 
-#&gt; </span><span style='color: #555555;'>4</span><span> drat     0.68 -</span><span style='color: #BB0000;'>0.71</span><span> -</span><span style='color: #BB0000;'>0.45</span><span>  1     -</span><span style='color: #BB0000;'>0.71</span><span>  0.091
-#&gt; </span><span style='color: #555555;'>5</span><span> wt      -</span><span style='color: #BB0000;'>0.87</span><span>  0.89  0.66 -</span><span style='color: #BB0000;'>0.71</span><span>   1    -</span><span style='color: #BB0000;'>0.17</span><span> 
-#&gt; </span><span style='color: #555555;'>6</span><span> qsec     0.42 -</span><span style='color: #BB0000;'>0.43</span><span> -</span><span style='color: #BB0000;'>0.71</span><span>  0.091 -</span><span style='color: #BB0000;'>0.17</span><span>  1    </div><div class='input'><span class='co'># Spread the p-value</span>
-<span class='no'>long.format</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_spread</span>(<span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"p"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 7</span><span>
+#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1 mpg      1    -0.85 -0.78  0.68  -0.87  0.42 
+#&gt; 2 disp    -0.85  1     0.79 -0.71   0.89 -0.43 
+#&gt; 3 hp      -0.78  0.79  1    -0.45   0.66 -0.71 
+#&gt; 4 drat     0.68 -0.71 -0.45  1     -0.71  0.091
+#&gt; 5 wt      -0.87  0.89  0.66 -0.71   1    -0.17 
+#&gt; 6 qsec     0.42 -0.43 -0.71  0.091 -0.17  1    </div><div class='input'><span class='co'># Spread the p-value</span>
+<span class='no'>long.format</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_spread</span>(<span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"p"</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 7
 #&gt;   rowname      mpg     disp           hp       drat        wt       qsec
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> mpg     0.  </span><span style='color: #555555;'> </span><span>    9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span> 0.000</span><span style='text-decoration: underline;'>000</span><span>179  0.000</span><span style='text-decoration: underline;'>017</span><span>8  1.29</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 10</span><span> 0.017</span><span style='text-decoration: underline;'>1</span><span>    
-#&gt; </span><span style='color: #555555;'>2</span><span> disp    9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span> 0.  </span><span style='color: #555555;'> </span><span>    0.000</span><span style='text-decoration: underline;'>000</span><span>071</span><span style='text-decoration: underline;'>4</span><span> 0.000</span><span style='text-decoration: underline;'>005</span><span>28 1.22</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 11</span><span> 0.013</span><span style='text-decoration: underline;'>1</span><span>    
-#&gt; </span><span style='color: #555555;'>3</span><span> hp      1.79</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 7.14</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span> 0            0.009</span><span style='text-decoration: underline;'>99</span><span>    4.15</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  5</span><span> 0.000</span><span style='text-decoration: underline;'>005</span><span>77
-#&gt; </span><span style='color: #555555;'>4</span><span> drat    1.78</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> 5.28</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> 0.009</span><span style='text-decoration: underline;'>99</span><span>      0          4.78</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  6</span><span> 0.62      
-#&gt; </span><span style='color: #555555;'>5</span><span> wt      1.29</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span> 1.22</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-11</span><span> 0.000</span><span style='text-decoration: underline;'>041</span><span>5    0.000</span><span style='text-decoration: underline;'>004</span><span>78 2.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-236</span><span> 0.339     
-#&gt; </span><span style='color: #555555;'>6</span><span> qsec    1.71</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span> 1.31</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span> 0.000</span><span style='text-decoration: underline;'>005</span><span>77   0.62       3.39</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-  1</span><span> 0         </div></span></pre>
+#&gt;   &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+#&gt; 1 mpg     0.       9.38e-10 0.000000179  0.0000178  1.29e- 10 0.0171    
+#&gt; 2 disp    9.38e-10 0.       0.0000000714 0.00000528 1.22e- 11 0.0131    
+#&gt; 3 hp      1.79e- 7 7.14e- 8 0            0.00999    4.15e-  5 0.00000577
+#&gt; 4 drat    1.78e- 5 5.28e- 6 0.00999      0          4.78e-  6 0.62      
+#&gt; 5 wt      1.29e-10 1.22e-11 0.0000415    0.00000478 2.27e-236 0.339     
+#&gt; 6 qsec    1.71e- 2 1.31e- 2 0.00000577   0.62       3.39e-  1 0         </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#functions">Functions</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -247,7 +245,7 @@ format data frame (paired list)</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

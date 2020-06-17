@@ -8,23 +8,29 @@
 
 <title>Exact Multinomial Test — multinom_test • rstatix</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -34,11 +40,11 @@
 
   
   <script src="../extra.js"></script>
-<meta property="og:title" content="Exact Multinomial Test — multinom_test" />
 
+<meta property="og:title" content="Exact Multinomial Test — multinom_test" />
 <meta property="og:description" content="Performs an exact multinomial test. Alternative to the chi-square test of goodness-of-fit-test when the sample
  size is small." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -55,7 +61,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -88,9 +94,13 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kassambara/rstatix/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -105,19 +115,17 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Exact Multinomial Test</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/multinom_test.R'><code>R/multinom_test.R</code></a></small>
     <div class="hidden name"><code>multinom_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Performs an exact multinomial test. Alternative to the chi-square test of goodness-of-fit-test when the sample
  size is small.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>multinom_test</span>(<span class='no'>x</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>/<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x</span>), <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x</span>)), <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -137,17 +145,15 @@ greater than 0 and less than 1.</p></td>
 shown.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>return a data frame containing the p-value and its significance.</p>
 <p>The <strong>returned object has an attribute called args</strong>, which is a list
  holding the test arguments.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='binom_test.html'>binom_test</a></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Data</span>
@@ -157,59 +163,51 @@ shown.</p></td>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># this is a test of homogeneity</span>
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>multinom_test</span>(<span class='no'>tulip</span>)
-<span class='no'>res</span></div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 2</span><span>
+<span class='no'>res</span></div><div class='output co'>#&gt; # A tibble: 1 x 2
 #&gt;             p p.signif
-#&gt; </span><span style='color: #555555;'>*</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>1</span><span> 0.000</span><span style='text-decoration: underline;'>000</span><span>711 ****    </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"descriptives"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt; *       &lt;dbl&gt; &lt;chr&gt;   
+#&gt; 1 0.000000711 ****    </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"descriptives"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;   group  observed expected
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> red          81     52.7
-#&gt; </span><span style='color: #555555;'>2</span><span> yellow       50     52.7
-#&gt; </span><span style='color: #555555;'>3</span><span> white        27     52.7</div><div class='input'>
+#&gt;   &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 red          81     52.7
+#&gt; 2 yellow       50     52.7
+#&gt; 3 white        27     52.7</div><div class='input'>
 <span class='co'># Pairwise comparisons between groups</span>
-<span class='fu'><a href='binom_test.html'>pairwise_binom_test</a></span>(<span class='no'>tulip</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 9</span><span>
+<span class='fu'><a href='binom_test.html'>pairwise_binom_test</a></span>(<span class='no'>tulip</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 9
 #&gt;   group1 group2     n estimate conf.low conf.high        p    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> red    yellow   131    0.618    0.529     0.702  8.51</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-3</span><span>  2.55</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-2</span><span> *           
-#&gt; </span><span style='color: #555555;'>2</span><span> red    white    108    0.75     0.657     0.828  1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-7</span><span>  5.72</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-7</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> yellow white     77    0.649    0.532     0.755  1.17</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-2</span><span>  3.50</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-2</span><span> *           </div><div class='input'>
+#&gt; * &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 red    yellow   131    0.618    0.529     0.702  8.51e-3  2.55e-2 *           
+#&gt; 2 red    white    108    0.75     0.657     0.828  1.91e-7  5.72e-7 ****        
+#&gt; 3 yellow white     77    0.649    0.532     0.755  1.17e-2  3.50e-2 *           </div><div class='input'>
 
 <span class='co'># Question 2: comparing observed to expected proportions</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># this is a goodness-of-fit test</span>
 <span class='no'>expected.p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>red</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>yellow</span> <span class='kw'>=</span> <span class='fl'>0.33</span>, <span class='kw'>white</span> <span class='kw'>=</span> <span class='fl'>0.17</span>)
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>multinom_test</span>(<span class='no'>tulip</span>, <span class='no'>expected.p</span>)
-<span class='no'>res</span></div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 2</span><span>
+<span class='no'>res</span></div><div class='output co'>#&gt; # A tibble: 1 x 2
 #&gt;       p p.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>1</span><span> 0.942 ns      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"descriptives"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 3</span><span>
+#&gt; * &lt;dbl&gt; &lt;chr&gt;   
+#&gt; 1 0.942 ns      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"descriptives"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;   group  observed expected
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> red          81     79  
-#&gt; </span><span style='color: #555555;'>2</span><span> yellow       50     52.1
-#&gt; </span><span style='color: #555555;'>3</span><span> white        27     26.9</div><div class='input'>
+#&gt;   &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 red          81     79  
+#&gt; 2 yellow       50     52.1
+#&gt; 3 white        27     26.9</div><div class='input'>
 <span class='co'># Pairwise comparisons against a given probabilities</span>
-<span class='fu'><a href='binom_test.html'>pairwise_binom_test_against_p</a></span>(<span class='no'>tulip</span>, <span class='no'>expected.p</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 10</span><span>
+<span class='fu'><a href='binom_test.html'>pairwise_binom_test_against_p</a></span>(<span class='no'>tulip</span>, <span class='no'>expected.p</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 10
 #&gt;   group observed expected     n estimate conf.low conf.high     p p.adj
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> red         81     79     158    0.513    0.432     0.593 0.811     1
-#&gt; </span><span style='color: #555555;'>2</span><span> yell…       50     52.1   158    0.316    0.245     0.395 0.800     1
-#&gt; </span><span style='color: #555555;'>3</span><span> white       27     26.9   158    0.171    0.116     0.239 1         1
-#&gt; </span><span style='color: #555555;'># … with 1 more variable: p.adj.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div></span></pre>
+#&gt; * &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 red         81     79     158    0.513    0.432     0.593 0.811     1
+#&gt; 2 yell…       50     52.1   158    0.316    0.245     0.395 0.800     1
+#&gt; 3 white       27     26.9   158    0.171    0.116     0.239 1         1
+#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -220,7 +218,7 @@ shown.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

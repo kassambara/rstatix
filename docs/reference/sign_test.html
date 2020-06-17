@@ -8,23 +8,29 @@
 
 <title>Sign Test — sign_test • rstatix</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -34,11 +40,11 @@
 
   
   <script src="../extra.js"></script>
-<meta property="og:title" content="Sign Test — sign_test" />
 
+<meta property="og:title" content="Sign Test — sign_test" />
 <meta property="og:description" content="Performs one-sample and two-sample sign tests. Read more:
  Sign Test in R." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -55,7 +61,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -88,9 +94,13 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kassambara/rstatix/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -105,15 +115,13 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Sign Test</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/sign_test.R'><code>R/sign_test.R</code></a></small>
     <div class="hidden name"><code>sign_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Performs one-sample and two-sample sign tests. Read more:
  <a href='https://www.datanovia.com/en/lessons/sign-test-in-r/'>Sign Test in R</a>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>sign_test</span>(
@@ -137,7 +145,7 @@
   <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -198,7 +206,7 @@ shown.</p></td>
       <td><p>other arguments passed to the function <code>sign_test()</code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>return a data frame with some the following columns:</p><ul>
@@ -227,7 +235,6 @@ shown.</p></td>
 
 <p>The <strong>returned object has an attribute called args</strong>, which is a list
  holding the test arguments.</p>
-    
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
@@ -235,12 +242,10 @@ shown.</p></td>
 <li><p><code>sign_test</code>: Sign test</p></li>
 <li><p><code>pairwise_sign_test</code>: performs pairwise two sample Wilcoxon test.</p></li>
 </ul>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>This function is a reimplementation of the function <code>SignTest()</code>
  from the <code>DescTools</code> package.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Load data</span>
@@ -250,17 +255,17 @@ shown.</p></td>
 
 <span class='co'># One-sample test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>sign_test</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 7</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>sign_test</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 7
 #&gt;   .y.   group1 group2         n statistic    df        p
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> len   1      null model    60        60    60 1.73</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-18</span><span></div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 len   1      null model    60        60    60 1.73e-18</div><div class='input'>
 
 <span class='co'># Two-samples paired test</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>sign_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 8</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>sign_test</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 8
 #&gt;   .y.   group1 group2    n1    n2 statistic    df     p
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> len   OJ     VC        30    30        19    29 0.136</div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 len   OJ     VC        30    30        19    29 0.136</div><div class='input'>
 
 <span class='co'># Compare supp levels after grouping the data by "dose"</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
@@ -268,47 +273,37 @@ shown.</p></td>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>sign_test</span>(<span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='adjust_pvalue.html'>adjust_pvalue</a></span>(<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"bonferroni"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='add_significance.html'>add_significance</a></span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 11</span><span>
+  <span class='fu'><a href='add_significance.html'>add_significance</a></span>(<span class='st'>"p.adj"</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 11
 #&gt;    dose .y.   group1 group2    n1    n2 statistic    df     p p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span>   0.5 len   OJ     VC        10    10         7     9 0.18  0.54  ns          
-#&gt; </span><span style='color: #555555;'>2</span><span>   1   len   OJ     VC        10    10         8    10 0.109 0.327 ns          
-#&gt; </span><span style='color: #555555;'>3</span><span>   2   len   OJ     VC        10    10         4    10 0.754 1     ns          </div><div class='input'>
+#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1   0.5 len   OJ     VC        10    10         7     9 0.18  0.54  ns          
+#&gt; 2   1   len   OJ     VC        10    10         8    10 0.109 0.327 ns          
+#&gt; 3   2   len   OJ     VC        10    10         4    10 0.754 1     ns          </div><div class='input'>
 <span class='co'># pairwise comparisons</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># As dose contains more than two levels ==&gt;</span>
 <span class='co'># pairwise test is automatically performed.</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>sign_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 3 x 10</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>sign_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 10
 #&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> len   0.5    1         20    20         1    20  4.01</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-5</span><span>  8.02</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-5</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> len   0.5    2         20    20         0    20  1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-6</span><span>  5.73</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-6</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> len   1      2         20    20         3    20  3.00</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-3</span><span>  3.00</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-3</span><span> **          </div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   0.5    1         20    20         1    20  4.01e-5  8.02e-5 ****        
+#&gt; 2 len   0.5    2         20    20         0    20  1.91e-6  5.73e-6 ****        
+#&gt; 3 len   1      2         20    20         3    20  3.00e-3  3.00e-3 **          </div><div class='input'>
 <span class='co'># Comparison against reference group</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># each level is compared to the ref group</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>sign_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='st'>"0.5"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 2 x 10</span><span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>sign_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>, <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='st'>"0.5"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 10
 #&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> len   0.5    1         20    20         1    20  4.01</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-5</span><span>  4.01</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-5</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> len   0.5    2         20    20         0    20  1.91</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-6</span><span>  3.82</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-6</span><span> ****        </div><div class='input'>
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   0.5    1         20    20         1    20  4.01e-5  4.01e-5 ****        
+#&gt; 2 len   0.5    2         20    20         0    20  1.91e-6  3.82e-6 ****        </div><div class='input'>
 
-</div></span></pre>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#functions">Functions</a></li>
-
-      <li><a href="#note">Note</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -319,7 +314,7 @@ shown.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

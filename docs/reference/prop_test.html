@@ -8,23 +8,29 @@
 
 <title>Proportion Test — prop_test • rstatix</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -34,8 +40,8 @@
 
   
   <script src="../extra.js"></script>
-<meta property="og:title" content="Proportion Test — prop_test" />
 
+<meta property="og:title" content="Proportion Test — prop_test" />
 <meta property="og:description" content="Performs proportion tests to either evaluate the homogeneity of
  proportions (probabilities of success) in several groups or to test that the
  proportions are equal to certain given values.
@@ -43,7 +49,7 @@ Wrappers around the R base function prop.test() but have
  the advantage of performing pairwise and row-wise z-test of two proportions,
  the post-hoc tests following a significant chi-square test of homogeneity
  for 2xc and rx2 contingency tables." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -60,7 +66,7 @@ Wrappers around the R base function prop.test() but have
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -74,7 +80,7 @@ Wrappers around the R base function prop.test() but have
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -93,9 +99,13 @@ Wrappers around the R base function prop.test() but have
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kassambara/rstatix/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -110,12 +120,11 @@ Wrappers around the R base function prop.test() but have
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Proportion Test</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/prop_test.R'><code>R/prop_test.R</code></a></small>
     <div class="hidden name"><code>prop_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Performs proportion tests to either evaluate the homogeneity of
  proportions (probabilities of success) in several groups or to test that the
  proportions are equal to certain given values.</p>
@@ -123,7 +132,6 @@ Wrappers around the R base function prop.test() but have
  the advantage of performing pairwise and row-wise z-test of two proportions,
  the post-hoc tests following a significant chi-square test of homogeneity
  for 2xc and rx2 contingency tables.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>prop_test</span>(
@@ -139,7 +147,7 @@ Wrappers around the R base function prop.test() but have
 <span class='fu'>pairwise_prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>, <span class='no'>...</span>)
 
 <span class='fu'>row_wise_prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"holm"</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -204,7 +212,7 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
       <td><p>Other arguments passed to the function <code>prop_test()</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>return a data frame with some the following columns:</p><ul>
@@ -233,7 +241,6 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".</p><
 
 <p>The <strong>returned object has an attribute called args</strong>, which is a list
  holding the test arguments.</p>
-    
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
@@ -246,16 +253,15 @@ design. Wrapper around <code><a href='https://rdrr.io/r/stats/pairwise.prop.test
 <li><p><code>row_wise_prop_test</code>: performs row-wise z-test of two proportions, a post-hoc tests following a significant chi-square test
 of homogeneity for rx2 contingency table. The z-test of two proportions is calculated for each category (row).</p></li>
 </ul>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Comparing an observed proportion to an expected proportion</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
-<span class='fu'>prop_test</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>95</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>160</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 11</span><span>
+<span class='fu'>prop_test</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>95</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>160</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 11
 #&gt;       n    n1 estimate statistic      p    df conf.low conf.high method
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> 
-#&gt; </span><span style='color: #555555;'>1</span><span>   160    95    0.594      5.26 0.021</span><span style='text-decoration: underline;'>9</span><span>     1    0.513     0.670 Prop …
-#&gt; </span><span style='color: #555555;'># … with 2 more variables: alternative </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, p.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+#&gt; * &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; 
+#&gt; 1   160    95    0.594      5.26 0.0219     1    0.513     0.670 Prop …
+#&gt; # … with 2 more variables: alternative &lt;chr&gt;, p.signif &lt;chr&gt;</div><div class='input'>
 <span class='co'># Comparing two proportions</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># Data: frequencies of smokers between two groups</span>
@@ -268,12 +274,12 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
 #&gt; group  yes  no
 #&gt;   grp1 490  10
 #&gt;   grp2 400 100</div><div class='input'><span class='co'># compare the proportion of smokers</span>
-<span class='fu'>prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 13</span><span>
+<span class='fu'>prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 13
 #&gt;       n    n1    n2 estimate1 estimate2 statistic        p    df conf.low
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>  </span><span style='text-decoration: underline;'>1</span><span>000   500   500      0.98       0.8      80.9 2.36</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-19</span><span>     1    0.141
-#&gt; </span><span style='color: #555555;'># … with 4 more variables: conf.high </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, method </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, alternative </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   p.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1  1000   500   500      0.98       0.8      80.9 2.36e-19     1    0.141
+#&gt; # … with 4 more variables: conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;,
+#&gt; #   p.signif &lt;chr&gt;</div><div class='input'>
 <span class='co'># Homogeneity of proportions between groups</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># H0: the proportion of smokers is similar in the four groups</span>
@@ -296,22 +302,22 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
 #&gt;     Yes   50  100  139   80
 #&gt;     No    56   13   17   22</div><div class='input'>
 <span class='co'># Compare the proportions of smokers between groups</span>
-<span class='fu'>prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 15</span><span>
+<span class='fu'>prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 15
 #&gt;       n    n1    n2    n3    n4 estimate1 estimate2 estimate3 estimate4
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>   477   106   113   156   102     0.472     0.885     0.891     0.784
-#&gt; </span><span style='color: #555555;'># … with 6 more variables: statistic </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, p </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, df </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, method </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   alternative </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, p.signif </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+#&gt; 1   477   106   113   156   102     0.472     0.885     0.891     0.784
+#&gt; # … with 6 more variables: statistic &lt;dbl&gt;, p &lt;dbl&gt;, df &lt;dbl&gt;, method &lt;chr&gt;,
+#&gt; #   alternative &lt;chr&gt;, p.signif &lt;chr&gt;</div><div class='input'>
 <span class='co'># Pairwise comparison between groups</span>
-<span class='fu'>pairwise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 5</span><span>
+<span class='fu'>pairwise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 5
 #&gt;   group1 group2        p    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> grp1   grp2   1.25</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span> 6.23</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> grp1   grp3   3.09</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-13</span><span> 1.86</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-12</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> grp1   grp4   6.41</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> 2.56</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 5</span><span> ****        
-#&gt; </span><span style='color: #555555;'>4</span><span> grp2   grp3   1.00</span><span style='color: #555555;'>e</span><span>+ 0 1.00</span><span style='color: #555555;'>e</span><span>+ 0 ns          
-#&gt; </span><span style='color: #555555;'>5</span><span> grp2   grp4   7.01</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span> 1.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> ns          
-#&gt; </span><span style='color: #555555;'>6</span><span> grp3   grp4   3.06</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span> 9.19</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span> ns          </div><div class='input'>
+#&gt; * &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 grp1   grp2   1.25e-10 6.23e-10 ****        
+#&gt; 2 grp1   grp3   3.09e-13 1.86e-12 ****        
+#&gt; 3 grp2   grp3   1.00e+ 0 1.00e+ 0 ns          
+#&gt; 4 grp1   grp4   6.41e- 6 2.56e- 5 ****        
+#&gt; 5 grp2   grp4   7.01e- 2 1.40e- 1 ns          
+#&gt; 6 grp3   grp4   3.06e- 2 9.19e- 2 ns          </div><div class='input'>
 
 <span class='co'># Pairwise proportion tests</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
@@ -328,15 +334,15 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
 #&gt; Survived 1st 2nd 3rd Crew
 #&gt;      No  122 167 528  673
 #&gt;      Yes 203 118 178  212</div><div class='input'><span class='co'># Compare the proportion of survived between groups</span>
-<span class='fu'>pairwise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 5</span><span>
+<span class='fu'>pairwise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 5
 #&gt;   group1 group2        p    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> 1st    2nd    3.13</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 9.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> 1st    3rd    2.55</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-30</span><span> 1.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-29</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> 1st    Crew   1.62</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-35</span><span> 9.73</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-35</span><span> ****        
-#&gt; </span><span style='color: #555555;'>4</span><span> 2nd    3rd    6.90</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 1.38</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 6</span><span> ****        
-#&gt; </span><span style='color: #555555;'>5</span><span> 2nd    Crew   1.94</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span> 7.75</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 8</span><span> ****        
-#&gt; </span><span style='color: #555555;'>6</span><span> 3rd    Crew   6.03</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> 6.03</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span> ns          </div><div class='input'>
+#&gt; * &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 1st    2nd    3.13e- 7 9.38e- 7 ****        
+#&gt; 2 1st    3rd    2.55e-30 1.27e-29 ****        
+#&gt; 3 2nd    3rd    6.90e- 7 1.38e- 6 ****        
+#&gt; 4 1st    Crew   1.62e-35 9.73e-35 ****        
+#&gt; 5 2nd    Crew   1.94e- 8 7.75e- 8 ****        
+#&gt; 6 3rd    Crew   6.03e- 1 6.03e- 1 ns          </div><div class='input'>
 <span class='co'># Row-wise proportion tests</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># Data: Titanic</span>
@@ -354,26 +360,18 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
 #&gt;   2nd   179    106
 #&gt;   3rd   510    196
 #&gt;   Crew  862     23</div><div class='input'><span class='co'># Compare the proportion of males and females in each category</span>
-<span class='fu'>row_wise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 7</span><span>
+<span class='fu'>row_wise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 7
 #&gt;   group     n statistic    df        p    p.adj p.adj.signif
-#&gt; </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>       
-#&gt; </span><span style='color: #555555;'>1</span><span> 1st    </span><span style='text-decoration: underline;'>2</span><span>201     121.      1 3.40</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-28</span><span> 1.02</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-27</span><span> ****        
-#&gt; </span><span style='color: #555555;'>2</span><span> 2nd    </span><span style='text-decoration: underline;'>2</span><span>201      47.8     1 4.65</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-12</span><span> 9.30</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-12</span><span> ****        
-#&gt; </span><span style='color: #555555;'>3</span><span> 3rd    </span><span style='text-decoration: underline;'>2</span><span>201      24.9     1 6.18</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> 6.18</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 7</span><span> ****        
-#&gt; </span><span style='color: #555555;'>4</span><span> Crew   </span><span style='text-decoration: underline;'>2</span><span>201     308.      1 5.51</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-69</span><span> 2.20</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-68</span><span> ****        </div></span></pre>
+#&gt; * &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 1st    2201     121.      1 3.40e-28 1.02e-27 ****        
+#&gt; 2 2nd    2201      47.8     1 4.65e-12 9.30e-12 ****        
+#&gt; 3 3rd    2201      24.9     1 6.18e- 7 6.18e- 7 ****        
+#&gt; 4 Crew   2201     308.      1 5.51e-69 2.20e-68 ****        </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#functions">Functions</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -384,7 +382,7 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

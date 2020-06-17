@@ -8,23 +8,29 @@
 
 <title>Functions to Label Data Frames by Grouping Variables — df_label_both • rstatix</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -34,11 +40,11 @@
 
   
   <script src="../extra.js"></script>
-<meta property="og:title" content="Functions to Label Data Frames by Grouping Variables — df_label_both" />
 
+<meta property="og:title" content="Functions to Label Data Frames by Grouping Variables — df_label_both" />
 <meta property="og:description" content="Functions to label data frame rows by one or multiple grouping
   variables." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -55,7 +61,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
       </span>
     </div>
 
@@ -88,9 +94,13 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/kassambara/rstatix/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -105,21 +115,19 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Functions to Label Data Frames by Grouping Variables</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/df.R'><code>R/df.R</code></a></small>
     <div class="hidden name"><code>df_label_value.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
     <p>Functions to label data frame rows by one or multiple grouping
   variables.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'><a href='df_label.html'>df_label_both</a></span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_col</span> <span class='kw'>=</span> <span class='st'>"label"</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>", "</span>, <span class='st'>":"</span>))
+    <pre class="usage"><span class='fu'>df_label_both</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_col</span> <span class='kw'>=</span> <span class='st'>"label"</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>", "</span>, <span class='st'>":"</span>))
 
-<span class='fu'><a href='df_label.html'>df_label_value</a></span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_col</span> <span class='kw'>=</span> <span class='st'>"label"</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>", "</span>)</pre>
-    
+<span class='fu'>df_label_value</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_col</span> <span class='kw'>=</span> <span class='st'>"label"</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>", "</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -144,16 +152,15 @@ name is "label".</p></td>
     <tr>
       <th>sep</th>
       <td><p>String separating labelling variables and values. Should be of
-length 2 in the function <code><a href='df_label.html'>df_label_both()</a></code>. 1) One sep is used to
+length 2 in the function <code>df_label_both()</code>. 1) One sep is used to
 separate groups, for example ','; 2) The other sep between group name and
 levels; for example ':'.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a modified data frame with a column containing row labels.</p>
-    
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
@@ -161,7 +168,6 @@ levels; for example ':'.</p></td>
 <li><p><code>df_label_both</code>: Displays both the variable name and the factor value.</p></li>
 <li><p><code>df_label_value</code>: Displays only the value of a factor.</p></li>
 </ul>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Data preparation</span>
@@ -169,7 +175,7 @@ levels; for example ':'.</p></td>
 
 <span class='co'># Labelling: Non standard evaluation</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='df_label.html'>df_label_both</a></span>(<span class='no'>dose</span>, <span class='no'>supp</span>)</div><div class='output co'>#&gt;    len supp dose             label
+  <span class='fu'>df_label_both</span>(<span class='no'>dose</span>, <span class='no'>supp</span>)</div><div class='output co'>#&gt;    len supp dose             label
 #&gt; 1  4.2   VC  0.5 dose:0.5, supp:VC
 #&gt; 2 11.5   VC  0.5 dose:0.5, supp:VC
 #&gt; 3  7.3   VC  0.5 dose:0.5, supp:VC
@@ -178,7 +184,7 @@ levels; for example ':'.</p></td>
 #&gt; 6 10.0   VC  0.5 dose:0.5, supp:VC</div><div class='input'>
 <span class='co'># Standard evaluation</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='df_label.html'>df_label_both</a></span>(<span class='no'>dose</span>, <span class='no'>supp</span>)</div><div class='output co'>#&gt;    len supp dose             label
+  <span class='fu'>df_label_both</span>(<span class='no'>dose</span>, <span class='no'>supp</span>)</div><div class='output co'>#&gt;    len supp dose             label
 #&gt; 1  4.2   VC  0.5 dose:0.5, supp:VC
 #&gt; 2 11.5   VC  0.5 dose:0.5, supp:VC
 #&gt; 3  7.3   VC  0.5 dose:0.5, supp:VC
@@ -188,29 +194,21 @@ levels; for example ':'.</p></td>
 <span class='co'># Nesting the data then label each subset by groups</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='df_nest_by.html'>df_nest_by</a></span>(<span class='no'>dose</span>, <span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='df_label.html'>df_label_both</a></span>(<span class='no'>supp</span>, <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 4</span><span>
+  <span class='fu'>df_label_both</span>(<span class='no'>supp</span>, <span class='no'>dose</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 4
 #&gt;   supp   dose data              label            
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>            
-#&gt; </span><span style='color: #555555;'>1</span><span> VC      0.5 </span><span style='color: #555555;'>&lt;tibble [10 × 1]&gt;</span><span> supp:OJ, dose:0.5
-#&gt; </span><span style='color: #555555;'>2</span><span> VC      1   </span><span style='color: #555555;'>&lt;tibble [10 × 1]&gt;</span><span> supp:OJ, dose:1  
-#&gt; </span><span style='color: #555555;'>3</span><span> VC      2   </span><span style='color: #555555;'>&lt;tibble [10 × 1]&gt;</span><span> supp:OJ, dose:2  
-#&gt; </span><span style='color: #555555;'>4</span><span> OJ      0.5 </span><span style='color: #555555;'>&lt;tibble [10 × 1]&gt;</span><span> supp:VC, dose:0.5
-#&gt; </span><span style='color: #555555;'>5</span><span> OJ      1   </span><span style='color: #555555;'>&lt;tibble [10 × 1]&gt;</span><span> supp:VC, dose:1  
-#&gt; </span><span style='color: #555555;'>6</span><span> OJ      2   </span><span style='color: #555555;'>&lt;tibble [10 × 1]&gt;</span><span> supp:VC, dose:2  </div><div class='input'>
-</div></span></pre>
+#&gt;   &lt;fct&gt; &lt;dbl&gt; &lt;list&gt;            &lt;fct&gt;            
+#&gt; 1 VC      0.5 &lt;tibble [10 × 1]&gt; supp:OJ, dose:0.5
+#&gt; 2 VC      1   &lt;tibble [10 × 1]&gt; supp:OJ, dose:1  
+#&gt; 3 VC      2   &lt;tibble [10 × 1]&gt; supp:OJ, dose:2  
+#&gt; 4 OJ      0.5 &lt;tibble [10 × 1]&gt; supp:VC, dose:0.5
+#&gt; 5 OJ      1   &lt;tibble [10 × 1]&gt; supp:VC, dose:1  
+#&gt; 6 OJ      2   &lt;tibble [10 × 1]&gt; supp:VC, dose:2  </div><div class='input'>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#functions">Functions</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -221,7 +219,7 @@ levels; for example ':'.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
