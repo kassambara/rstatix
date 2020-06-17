@@ -109,6 +109,7 @@ tukey_hsd_of_model <- function(model, ...){
     replace_eventual_minus_symbols_in_factors(by = magic.text) %>%
     TukeyHSD( ...) %>%
     broom::tidy() %>%
+    replace_contrast_colname_by_comparison() %>%
     separate(comparison, into= c("group2", "group1"), sep = "-") %>%
     revert_back_eventual_minus_symbols(magic.text) %>%
     rename(p.adj = adj.p.value) %>%
@@ -139,4 +140,14 @@ fct_replace_minus <- function(.factor, by = "_XX.MAGIC.XX_"){
     )
   levels(.factor) <- new.levels
   .factor
+}
+
+# in broom v>= 0.7.0; contrast is used instead of comparison
+# so this helper function ensures that "comparison" is used as
+# column name no matter the version of broom
+replace_contrast_colname_by_comparison <- function(data){
+  if("contrast" %in% colnames(data)){
+    data <- data %>% rename(comparison = .data$contrast)
+  }
+  data
 }

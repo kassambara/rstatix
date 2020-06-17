@@ -102,7 +102,7 @@ emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
     mutate(method = "Emmeans test")
 
   if(!detailed){
-    to.remove <- c("estimate", "estimate1", "estimate2", "se", "conf.low", "conf.high", "method")
+    to.remove <- c("estimate", "estimate1", "estimate2", "se", "conf.low", "conf.high", "method", "null.value")
     to.keep <- setdiff(colnames(comparisons), to.remove)
     comparisons <- comparisons[, to.keep]
   }
@@ -131,8 +131,16 @@ pairwise_emmeans_test <- function(res.emmeans, grouping.vars = NULL, method = "p
   comparisons <- emmeans::contrast(
     res.emmeans, by = grouping.vars, method = method,
     adjust = "none"
-  )  %>%
-    tidy(infer = TRUE, level = conf.level) %>%
+  )
+  if(is_pkg_version_sup("broom", "0.5.6")){
+    std.error <- as.data.frame(comparisons)$SE
+    comparisons <- tidy(comparisons, conf.int = TRUE, conf.level = conf.level) %>%
+      add_column(std.error = std.error, .after = "estimate")
+  }
+  else{
+    comparisons <- tidy(comparisons, infer = TRUE, level = conf.level)
+  }
+  comparisons <- comparisons %>%
     tidyr::separate(col = "contrast", into = c("group1", "group2"), sep = "-") %>%
     dplyr::rename(se = .data$std.error, p = .data$p.value) %>%
     dplyr::select(!!!syms(grouping.vars), everything())
@@ -143,7 +151,7 @@ pairwise_emmeans_test <- function(res.emmeans, grouping.vars = NULL, method = "p
       res.emmeans, by = grouping.vars, method = method,
       adjust = p.adjust.method
     )  %>%
-      tidy() %>%
+      as.data.frame() %>%
       pull("p.value")
     comparisons  <- comparisons %>%
       mutate(p.adj = p.adjusted) %>%
