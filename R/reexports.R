@@ -1,6 +1,3 @@
-#' @importFrom magrittr %>%
-#' @export
-magrittr::`%>%`
 #' @importFrom tibble tibble
 #' @export
 tibble::tibble
@@ -28,15 +25,12 @@ tidyr::gather
 #' @importFrom tidyr spread
 #' @export
 tidyr::spread
-#' @importFrom broom tidy
+#' @importFrom generics tidy
 #' @export
-broom::tidy
-#' @importFrom broom augment
+generics::tidy
+#' @importFrom generics augment
 #' @export
-broom::augment
+generics::augment
 #' @importFrom car Anova
 #' @export
 car::Anova
-#' @importFrom car Manova
-#' @export
-car::Manova

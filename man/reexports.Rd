@@ -3,7 +3,6 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{\%>\%}
 \alias{tibble}
 \alias{mutate}
 \alias{filter}
@@ -16,7 +15,6 @@
 \alias{tidy}
 \alias{augment}
 \alias{Anova}
-\alias{Manova}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -24,13 +22,11 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{broom}{\code{\link[broom]{augment}}, \code{\link[broom]{tidy}}}
-
-  \item{car}{\code{\link[car]{Anova}}, \code{\link[car]{Manova}}}
+  \item{car}{\code{\link[car]{Anova}}}
 
   \item{dplyr}{\code{\link[dplyr]{desc}}, \code{\link[dplyr]{filter}}, \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{mutate}}, \code{\link[dplyr]{select}}}
 
-  \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
+  \item{generics}{\code{\link[generics]{augment}}, \code{\link[generics]{tidy}}}
 
   \item{tibble}{\code{\link[tibble]{tibble}}}
 

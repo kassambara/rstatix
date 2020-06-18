@@ -23,14 +23,15 @@ Imports:
     utils,
     tidyr (>= 1.0.0),
     purrr,
-    broom,
+    broom (>= 0.5.6),
     rlang (>= 0.3.1),
     tibble (>= 2.1.3),
     dplyr (>= 0.7.1),
     magrittr,
     corrplot,
     tidyselect (>= 1.0.0),
-    car
+    car,
+    generics (>= 0.0.2)
 Suggests:
     knitr,
     rmarkdown,
@@ -104,6 +105,8 @@ Collate:
     'shapiro_test.R'
     'sign_test.R'
     'tukey_hsd.R'
+    'utils-manova.R'
+    'utils-pipe.R'
     'welch_anova_test.R'
     'wilcox_effsize.R'
     'wilcox_test.R'
