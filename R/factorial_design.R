@@ -61,11 +61,12 @@ factorial_design <- function(data, dv, wid, between, within, covariate){
     remove_null_items() %>%
     add_item(data = data) %>%
     check_factorial_design()
-  data <- .args$data
   dv <- .args$dv
   between <- .args$between
   within <- .args$within
   covariate <- .args$covariate
+  data <- .args$data %>%
+    select(!!!syms(c(.args$wid, dv, between, within, covariate)))
   rhs <- create_formula_right_hand_side(between, covariate)
   # Repeated measures  designs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   if(!is.null(within)){

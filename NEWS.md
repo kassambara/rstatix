@@ -11,6 +11,7 @@
 
 ## Bug fixes
    
+- The function `anova_test()` computes now repeated measures ANOVA without error when unused columns are present in the input data frame (#55)
 
 # rstatix 0.6.0
    
