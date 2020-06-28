@@ -15,7 +15,8 @@ get_y_position(
   comparisons = NULL,
   step.increase = 0.12,
   y.trans = NULL,
-  stack = FALSE
+  stack = FALSE,
+  scales = c("fixed", "free", "free_y")
 )
 
 add_y_position(
@@ -27,7 +28,8 @@ add_y_position(
   ref.group = NULL,
   comparisons = NULL,
   y.trans = NULL,
-  stack = FALSE
+  stack = FALSE,
+  scales = c("fixed", "free", "free_y")
 )
 
 add_x_position(test, x = NULL, dodge = 0.8)
@@ -39,6 +41,7 @@ add_xy_position(
   stack = FALSE,
   fun = "max",
   step.increase = 0.12,
+  scales = c("fixed", "free", "free_y"),
   ...
 )
 }
@@ -89,6 +92,14 @@ example: \code{y.trans = function(x){log2(x+1)}}}
 \item{stack}{logical. If TRUE, computes y position for a stacked plot. Useful
 when dealing with stacked bar plots.}
 
+\item{scales}{Should scales be fixed (\code{"fixed"}, the default), free
+(\code{"free"}), or free in one dimension (\code{"free_y"})?. This option is
+considered only when determining the y position. If the specified value is
+\code{"free"} or \code{"free_y"}, then the step increase of y positions will
+be calculated by plot panels. Note that, using \code{"free"} or
+\code{"free_y"} gives the same result. A global step increase is computed
+when \code{scales = "fixed"}.}
+
 \item{test}{an object of class \code{rstatix_test} as returned by
 \code{\link{t_test}()}, \code{\link{wilcox_test}()},
 \code{\link{sign_test}()}, \code{\link{tukey_hsd}()},
@@ -104,12 +115,13 @@ when \code{x} specified.}
 }
 \description{
 Compute p-value x and y positions for plotting significance
- levels. Many examples are provided at :
- \itemize{
- \item \href{https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/}{How to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package}
- \item \href{https://www.datanovia.com/en/blog/ggpubr-how-to-add-adjusted-p-values-to-a-multi-panel-ggplot/}{How to Add Adjusted P-values to a Multi-Panel GGPlot}
- \item \href{https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/}{How to Add P-Values Generated Elsewhere to a GGPLOT}
- }
+ levels. Many examples are provided at : \itemize{ \item
+ \href{https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/}{How
+  to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package} \item
+ \href{https://www.datanovia.com/en/blog/ggpubr-how-to-add-adjusted-p-values-to-a-multi-panel-ggplot/}{How
+  to Add Adjusted P-values to a Multi-Panel GGPlot} \item
+ \href{https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/}{How
+  to Add P-Values Generated Elsewhere to a GGPLOT} }
 }
 \section{Functions}{
 \itemize{

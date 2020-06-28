@@ -2,12 +2,13 @@
 NULL
 #'Autocompute P-value Positions For Plotting Significance
 #'@description Compute p-value x and y positions for plotting significance
-#'  levels. Many examples are provided at :
-#'  \itemize{
-#'  \item \href{https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/}{How to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package}
-#'  \item \href{https://www.datanovia.com/en/blog/ggpubr-how-to-add-adjusted-p-values-to-a-multi-panel-ggplot/}{How to Add Adjusted P-values to a Multi-Panel GGPlot}
-#'  \item \href{https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/}{How to Add P-Values Generated Elsewhere to a GGPLOT}
-#'  }
+#'  levels. Many examples are provided at : \itemize{ \item
+#'  \href{https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/}{How
+#'   to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package} \item
+#'  \href{https://www.datanovia.com/en/blog/ggpubr-how-to-add-adjusted-p-values-to-a-multi-panel-ggplot/}{How
+#'   to Add Adjusted P-values to a Multi-Panel GGPlot} \item
+#'  \href{https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/}{How
+#'   to Add P-Values Generated Elsewhere to a GGPLOT} }
 #'@inheritParams t_test
 #'@param ref.group a character string specifying the reference group. If
 #'  specified, for a given grouping variable, each of the group levels will be
@@ -45,6 +46,13 @@ NULL
 #'  when \code{x} specified.
 #'@param stack logical. If TRUE, computes y position for a stacked plot. Useful
 #'  when dealing with stacked bar plots.
+#'@param scales Should scales be fixed (\code{"fixed"}, the default), free
+#'  (\code{"free"}), or free in one dimension (\code{"free_y"})?. This option is
+#'  considered only when determining the y position. If the specified value is
+#'  \code{"free"} or \code{"free_y"}, then the step increase of y positions will
+#'  be calculated by plot panels. Note that, using \code{"free"} or
+#'  \code{"free_y"} gives the same result. A global step increase is computed
+#'  when \code{scales = "fixed"}.
 #' @examples
 #' # Data preparation
 #' #::::::::::::::::::::::::::::::::::::
@@ -73,7 +81,8 @@ NULL
 #'@describeIn get_pvalue_position compute the p-value y positions
 #'@export
 get_y_position <- function(data, formula, fun = "max", ref.group = NULL, comparisons = NULL,
-                           step.increase = 0.12, y.trans = NULL, stack = FALSE){
+                           step.increase = 0.12, y.trans = NULL, stack = FALSE,
+                           scales = c("fixed", "free", "free_y")){
   # Estimate step increase
   # 1. Get groups y scale
   outcome <- get_formula_left_hand_side(formula)
@@ -84,24 +93,29 @@ get_y_position <- function(data, formula, fun = "max", ref.group = NULL, compari
     group <- c(group , dplyr::group_vars(data))
   yscale <- get_y_scale(data, outcome, group, fun, stack = stack)
   # 2. Step increase
-  step.increase <- step.increase*(yscale$max - yscale$min)
+  # If fixed scales, then a global step increase is computed,
+  # otherwise step.increase is estimated by panel in get_y_position_core().
+  scales <- match.arg(scales)
+  if(scales == "fixed"){
+    step.increase <- step.increase*(yscale$max - yscale$min)
+  }
   get_y_position_core(
     data = data, formula = formula, fun = fun, ref.group = ref.group,
     comparisons = comparisons, step.increase = step.increase, y.trans = y.trans,
-    stack = stack
+    stack = stack, scales = scales
     )
 }
 
 
 get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, comparisons = NULL,
-                            step.increase = 0.12, y.trans = NULL, stack = FALSE){
+                            step.increase = 0.12, y.trans = NULL, stack = FALSE, scales = "fixed"){
   if(is_grouped_df(data)){
     results <- data %>%
       doo(
         get_y_position_core, formula = formula, fun = fun,
         ref.group = ref.group, comparisons = comparisons,
         step.increase = step.increase, y.trans = y.trans,
-        stack = stack
+        stack = stack, scales = scales
         )
     return(results)
   }
@@ -126,6 +140,9 @@ get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, co
   # Estimate y axis scale
   yscale <- get_y_scale(data, y = outcome, group = group, fun = fun, stack = stack)
   if(is.null(step.increase)) step.increase <- yscale$max/20
+  else if(scales %in% c("free", "free_y")){
+    step.increase <- step.increase*(yscale$max - yscale$min)
+  }
   # ystart <- k*yscale$max
   ystart <- yscale$max + step.increase
   yend <- ystart + (step.increase*ncomparisons)
@@ -153,8 +170,9 @@ get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, co
 #' @export
 add_y_position <- function(test, fun = "max", step.increase = 0.12,
                            data = NULL, formula = NULL,  ref.group = NULL, comparisons = NULL,
-                           y.trans = NULL, stack = FALSE)
+                           y.trans = NULL, stack = FALSE, scales = c("fixed", "free", "free_y"))
   {
+  scales <- match.arg(scales)
   asserttat_group_columns_exists(test)
   .attributes <- get_test_attributes(test)
   args  <- get_test_arguments(test)
@@ -172,7 +190,7 @@ add_y_position <- function(test, fun = "max", step.increase = 0.12,
     data = data, formula = formula, fun = fun,
     ref.group = ref.group, comparisons = comparisons,
     step.increase = step.increase, y.trans = y.trans,
-    stack = stack
+    stack = stack, scales = scales
   )
   if(nrow(test) == nrow(positions)){
     test$y.position <- positions$y.position
@@ -278,12 +296,17 @@ add_x_position <- function(test, x = NULL, dodge = 0.8){
 
 #' @describeIn get_pvalue_position compute and add both x and y positions.
 #' @export
-add_xy_position <- function(test, x = NULL,  dodge = 0.8, stack = FALSE, fun = "max", step.increase = 0.12, ...){
+add_xy_position <- function(test, x = NULL,  dodge = 0.8, stack = FALSE,
+                            fun = "max", step.increase = 0.12,
+                            scales = c("fixed", "free", "free_y"), ...){
   if(missing(dodge)){
     if(stack) dodge <- 0
   }
   test %>%
-    add_y_position(fun = fun, step.increase = step.increase,  stack = stack,...) %>%
+    add_y_position(
+      fun = fun, step.increase = step.increase,
+      stack = stack, scales = scales, ...
+      ) %>%
     add_x_position(x = x, dodge = dodge)
 }
 
