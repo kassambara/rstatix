@@ -427,19 +427,20 @@ get_n <- function(stat.test){
     wid <- .args$wid
     if(is.null(wid)) n <- nrow(.args$data)
     else n <- .args$data %>% pull(!!wid) %>% unique() %>% length()
-    stat.test %<>% mutate(n = !!n)
+    stat.test$n <- n
   }
   n.cols <- c("n", "n1", "n2")
   if(!any(n.cols %in% colnames(stat.test))){
     return(NA)
   }
   if("n" %in% colnames(stat.test)){
-    stat.test$n
+    n <- stat.test$n
   }
   else if(all(c("n1", "n2") %in% colnames(stat.test))){
-    if(is_paired(stat.test)) stat.test$n1
-    else stat.test$n1 + stat.test$n2
+    if(is_paired(stat.test)) n <- stat.test$n1
+    else n <- stat.test$n1 + stat.test$n2
   }
+  n
 }
 
 # Statistical test description ---------------------------------
