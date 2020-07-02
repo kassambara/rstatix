@@ -10,6 +10,8 @@ NULL
 #'  \item \code{.y.}: the y (outcome) variable used in the test. \item
 #'  \code{group1,group2}: the compared groups in the pairwise tests. \item
 #'  \code{n1,n2}: Sample counts. \item \code{estimate}: mean ranks difference.
+#'  \item \code{estimate1, estimate2}: show the mean rank values of
+#'  the two groups, respectively.
 #'  \item \code{statistic}: Test statistic (z-value) used to compute the
 #'  p-value. \item \code{p}: p-value. \item \code{p.adj}: the adjusted p-value.
 #'  \item \code{method}: the statistical test used to compare groups. \item
@@ -50,7 +52,8 @@ dunn_test <- function(data, formula, p.adjust.method = "holm", detailed = FALSE)
   }
 
   if(!detailed){
-    results <- results %>% select(-.data$method, -.data$estimate)
+    results <- results %>%
+      select(-.data$method, -.data$estimate, -.data$estimate1, -.data$estimate2)
   }
   results %>%
     set_attrs(args = args) %>%
@@ -125,7 +128,11 @@ dunn_test <- function(data, formula, p.adjust.method = "holm", detailed = FALSE)
 
   n1 <- group.size[PVAL$group1]
   n2 <- group.size[PVAL$group2]
-  PVAL %>% add_column(n1 = n1, n2 = n2, .after = "group2")
+  mean.ranks1 <- mean.ranks[PVAL$group1]
+  mean.ranks2 <- mean.ranks[PVAL$group2]
+  PVAL %>%
+    add_column(n1 = n1, n2 = n2, .after = "group2") %>%
+    add_column(estimate1 = mean.ranks1, estimate2 = mean.ranks2, .after = "estimate")
 }
 
 
