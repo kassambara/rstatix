@@ -9,6 +9,7 @@ Now, the output of the function `dunn_test()` include `estimate1` and `estimate2
 
 ## Minor changes
 
+- Classes (`rstatix` and `grouped_anova_test`) added to grouped ANOVA test (#61)
 - New argument `scales` added in the function `get_y_position()`. If the specified value is "free" or "free_y", then the step increase of y positions will be calculated by plot panels. Note that, using "free" or "free_y" gives the same result. A global step increase is computed when scales = "fixed" (#56).
 
 ## Bug fixes

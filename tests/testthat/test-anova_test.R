@@ -60,7 +60,7 @@ test_that("Checking that get_anova_table works with any data frame", {
   expect_is(get_anova_table(ToothGrowth), "data.frame")
 })
 
-test_that("Checking that get_anova_table works for grouped repeated measures ANVA", {
+test_that("Checking that get_anova_table works for grouped repeated measures ANOVA", {
   data("ToothGrowth")
   df <- ToothGrowth
   df$id <- rep(1:10, 6)

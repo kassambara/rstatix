@@ -429,6 +429,13 @@ get_n <- function(stat.test){
     else n <- .args$data %>% pull(!!wid) %>% unique() %>% length()
     stat.test$n <- n
   }
+  else if(inherits(stat.test, "grouped_anova_test")){
+    # compute sample size of data subsets
+    .args <- attr(stat.test, "args")
+    stat.test$n <- .args$data %>%
+      dplyr::summarise(n = dplyr::n()) %>%
+      pull(.data$n)
+  }
   n.cols <- c("n", "n1", "n2")
   if(!any(n.cols %in% colnames(stat.test))){
     return(NA)

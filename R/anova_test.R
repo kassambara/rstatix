@@ -172,9 +172,12 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
       result = "anova"
     )
     if("anova" %in% colnames(results)){
+      # This happens for repeated measure anova
       results <- results %>%
         mutate(anova = map(.data$anova, .append_anova_class))
     }
+    results <- results %>% set_attrs(args = list(data = data))
+    class(results) <- c("grouped_anova_test", class(results), "rstatix_test")
   }
   else{
     results <- .anova_test(
@@ -260,9 +263,10 @@ get_anova_table_from_grouped_test <- function(x, correction = "auto"){
   }
   extract_table <- function(x, correction){
     get_anova_table_from_simple_test(x, correction = correction) %>%
-      remove_class(c("anova_test", "rstatix_test"))
+      remove_class(c("anova_test",  "rstatix_test"))
   }
   x %>%
+    keep_only_tbl_df_classes() %>%
     mutate(anova = map(.data$anova, extract_table, correction = correction)) %>%
     unnest(cols = "anova")
 }
