@@ -2,6 +2,7 @@
 
 ## New features
 
+- New function `get_n()` to extract sample count (n) from statistical test results.
 
 ## Major changes
 

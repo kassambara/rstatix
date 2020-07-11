@@ -421,6 +421,21 @@ get_df <- function(stat.test){
 }
 
 # Sample count-------------------------------------------------
+#' Extract Sample Count (n) from Statistical Test Results
+#' @description Extracts sample counts (n) from an rstatix test outputs
+#' @inheritParams get_test_label
+#' @rdname get_n
+#' @export
+#' @examples
+#' # T-Test
+#' stat.test <- t_test(ToothGrowth, len ~ supp)
+#' get_n(stat.test)
+#'
+#' # Grouped test
+#' stat.test <- ToothGrowth %>%
+#'   group_by(dose) %>%
+#'  t_test(len ~ supp)
+#' get_n(stat.test)
 get_n <- function(stat.test){
   if(inherits(stat.test, "anova_test")){
     .args <- attr(stat.test, "args")
