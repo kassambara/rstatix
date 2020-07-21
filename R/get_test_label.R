@@ -94,6 +94,14 @@ NULL
 #'   type = "text"
 #' )
 #'
+#'
+#' # Extract infos
+#' #:::::::::::::::::::::::::::::::::::::::::
+#' stat.test <- df %>% t_test(len ~ dose)
+#' get_n(stat.test)
+#' get_description(stat.test)
+#'
+#'
 #' @describeIn get_test_label Extract label from pairwise comparisons.
 #' @export
 get_pwc_label <- function(stat.test, type = c("expression", "text")){
@@ -421,21 +429,8 @@ get_df <- function(stat.test){
 }
 
 # Sample count-------------------------------------------------
-#' Extract Sample Count (n) from Statistical Test Results
-#' @description Extracts sample counts (n) from an rstatix test outputs
-#' @inheritParams get_test_label
-#' @rdname get_n
+#' @describeIn get_test_label Extracts sample counts (n) from an rstatix test outputs. Returns a numeric vector.
 #' @export
-#' @examples
-#' # T-Test
-#' stat.test <- t_test(ToothGrowth, len ~ supp)
-#' get_n(stat.test)
-#'
-#' # Grouped test
-#' stat.test <- ToothGrowth %>%
-#'   group_by(dose) %>%
-#'  t_test(len ~ supp)
-#' get_n(stat.test)
 get_n <- function(stat.test){
   if(inherits(stat.test, "anova_test")){
     .args <- attr(stat.test, "args")
@@ -466,6 +461,8 @@ get_n <- function(stat.test){
 }
 
 # Statistical test description ---------------------------------
+#' @describeIn get_test_label Extracts the description of an rstatix test outputs. Returns a character vector.
+#' @export
 get_description <- function(stat.test){
   tests <- c(
     t_test = "T test",
@@ -489,6 +486,7 @@ get_description <- function(stat.test){
     chisq_trend_test = "Chi-square trend test"
   )
   args <- attr(stat.test, "args")
+  if(is.null(args)) return("")
   stat.method <- args$method
   if(stat.method %in% names(tests)){
     description <- tests[stat.method]

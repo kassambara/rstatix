@@ -4,6 +4,8 @@
 \alias{get_pwc_label}
 \alias{get_test_label}
 \alias{create_test_label}
+\alias{get_n}
+\alias{get_description}
 \title{Extract Label Information from Statistical Tests}
 \usage{
 get_pwc_label(stat.test, type = c("expression", "text"))
@@ -30,6 +32,10 @@ create_test_label(
   type = c("expression", "text"),
   detailed = FALSE
 )
+
+get_n(stat.test)
+
+get_description(stat.test)
 }
 \arguments{
 \item{stat.test}{statistical test results returned by \code{rstatix}
@@ -96,6 +102,10 @@ Extracts label information from statistical tests. Useful for
 \item \code{get_test_label}: Extract labels for statistical tests.
 
 \item \code{create_test_label}: Create labels from user specified test results.
+
+\item \code{get_n}: Extracts sample counts (n) from an rstatix test outputs. Returns a numeric vector.
+
+\item \code{get_description}: Extracts the description of an rstatix test outputs. Returns a character vector.
 }}
 
 \examples{
@@ -150,5 +160,13 @@ create_test_label(
   description = "ANOVA",
   type = "text"
 )
+
+
+# Extract infos
+#:::::::::::::::::::::::::::::::::::::::::
+stat.test <- df \%>\% t_test(len ~ dose)
+get_n(stat.test)
+get_description(stat.test)
+
 
 }
