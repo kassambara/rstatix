@@ -220,7 +220,7 @@ p_format_at <- function(data, ..., new.col = FALSE, digits = 2, accuracy = 0.000
   }
   results
 }
-# Mark significant at a specifyied column
+# Mark significant at a specified column
 p_mark_significant_at <- function(data, ..., new.col = FALSE, cutpoints = c(0, 1e-04, 0.001, 0.01, 0.05, 1),
                                symbols = c("****", "***", "**", "*", "")){
   mutate_func <- dplyr::mutate_at

@@ -37,9 +37,15 @@ add_significance <- function(
     stop("The column ", p.col, " does not exist in the data")
   if(is.null(output.col))
     output.col <- paste0(p.col, ".signif")
-  .p.signif <- data %>% pull(!!p.col) %>%
-    stats::symnum(cutpoints = cutpoints, symbols = symbols) %>%
+  .p.values <- data %>% pull(!!p.col)
+  if(all(is.na(.p.values))) {
+    .p.signif <- rep("", length(.p.values))
+  }
+  else{
+    .p.signif <- .p.values %>%
+    stats::symnum(cutpoints = cutpoints, symbols = symbols, na = "") %>%
     as.character()
+  }
   data %>%
     keep_only_tbl_df_classes() %>%
     mutate(!!output.col := .p.signif) %>%
