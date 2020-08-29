@@ -1,5 +1,10 @@
 context("test-add_x_position")
 
+# Data preparation
+data("ToothGrowth")
+df <- ToothGrowth
+df$dose <- as.factor(df$dose)
+
 test_that("add_x_position works for any data frame with group1 and group2 cols", {
   stat.test <- data.frame(
     stringsAsFactors = FALSE,
@@ -14,8 +19,7 @@ test_that("add_x_position works for any data frame with group1 and group2 cols",
 
 
 test_that("add_x_position works for rstatix in a basic ggplot setting", {
-  data("ToothGrowth")
-  stat.test <- ToothGrowth %>%
+  stat.test <- df %>%
     t_test(len ~ supp) %>%
     add_x_position()
   expect_equal(stat.test$xmin, 1)
@@ -23,8 +27,7 @@ test_that("add_x_position works for rstatix in a basic ggplot setting", {
 })
 
 test_that("add_x_position works for rstatix in a basic ggplot facet setting", {
-  data("ToothGrowth")
-  stat.test <- ToothGrowth %>%
+  stat.test <- df %>%
     group_by(dose) %>%
     t_test(len ~ supp) %>%
     add_x_position(x = "supp")
@@ -33,9 +36,6 @@ test_that("add_x_position works for rstatix in a basic ggplot facet setting", {
 })
 
 test_that("add_x_position works for comparison against reference groups", {
-  data("ToothGrowth")
-  df <- ToothGrowth
-  df$dose <- as.factor(df$dose)
   stat.test <- df %>%
     t_test(len ~ dose, ref.group = "0.5") %>%
     add_x_position(x = "dose")
@@ -44,9 +44,6 @@ test_that("add_x_position works for comparison against reference groups", {
 })
 
 test_that("add_x_position works for comparison against all (basemean)", {
-  data("ToothGrowth")
-  df <- ToothGrowth
-  df$dose <- as.factor(df$dose)
   stat.test <- df %>%
     t_test(len ~ dose, ref.group = "all") %>%
     add_x_position(x = "dose")
@@ -55,9 +52,6 @@ test_that("add_x_position works for comparison against all (basemean)", {
 })
 
 test_that("add_x_position works for comparison against null (one-sample test)", {
-  data("ToothGrowth")
-  df <- ToothGrowth
-  df$dose <- as.factor(df$dose)
   stat.test <- df %>%
     group_by(dose) %>%
     t_test(len ~ 1) %>%
@@ -66,9 +60,6 @@ test_that("add_x_position works for comparison against null (one-sample test)", 
 })
 
 test_that("add_x_position works for grouped plots: grouping by x-var and performing test between legend groups", {
-  data("ToothGrowth")
-  df <- ToothGrowth
-  df$dose <- as.factor(df$dose)
   stat.test <- df %>%
     group_by(dose) %>%
     t_test(len ~ supp) %>%
@@ -80,9 +71,6 @@ test_that("add_x_position works for grouped plots: grouping by x-var and perform
 
 
 test_that("add_x_position works for grouped plots: grouping by legend-var and performing test between x-group", {
-  data("ToothGrowth")
-  df <- ToothGrowth
-  df$dose <- as.factor(df$dose)
   stat.test <- df %>%
     group_by(supp) %>%
     t_test(len ~ dose) %>%
