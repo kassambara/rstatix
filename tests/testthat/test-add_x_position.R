@@ -59,6 +59,15 @@ test_that("add_x_position works for comparison against null (one-sample test)", 
   expect_equal(stat.test$x, c(1, 2, 3))
 })
 
+
+test_that("add_x_position works for specified comparisons of interest", {
+  stat.test <- df %>%
+    t_test(len ~ dose, comparisons = list(c("0.5", "1"), c("0.5", "2"))) %>%
+    add_x_position(x = "dose")
+  expect_equal(stat.test$xmin, c(1, 1))
+  expect_equal(stat.test$xmax, c(2,3))
+})
+
 test_that("add_x_position works for grouped plots: grouping by x-var and performing test between legend groups", {
   stat.test <- df %>%
     group_by(dose) %>%
