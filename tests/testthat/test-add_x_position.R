@@ -70,6 +70,7 @@ test_that("add_x_position works for grouped plots: grouping by x-var and perform
 })
 
 
+
 test_that("add_x_position works for grouped plots: grouping by legend-var and performing test between x-group", {
   stat.test <- df %>%
     group_by(supp) %>%
@@ -77,4 +78,25 @@ test_that("add_x_position works for grouped plots: grouping by legend-var and pe
     add_x_position(x = "dose")
   expect_equal(stat.test$xmin, c(1, 1, 2, 1, 1, 2))
   expect_equal(stat.test$xmax, c(2, 3, 3, 2, 3, 3))
+})
+
+
+test_that("Grouped pairwise tests: grouping by x-var and performing test between legend groups", {
+  stat.test <- df %>%
+    group_by(supp) %>%
+    t_test(len ~ dose) %>%
+    add_x_position(x = "supp", dodge = 0.8)
+  expect_equal(stat.test$x, c(1, 1, 1, 2, 2, 2))
+  expect_equal(round(stat.test$xmin, 2), c(0.73, 0.73, 1, 1.73, 1.73, 2))
+  expect_equal(round(stat.test$xmax, 2), c(1, 1.27, 1.27, 2, 2.27, 2.27))
+})
+
+test_that("Grouped pairwise tests: grouping by x-var and performing test between legend groups using ref.group", {
+  stat.test <- df %>%
+    group_by(supp) %>%
+    t_test(len ~ dose, ref.group = "0.5") %>%
+    add_x_position(x = "supp", dodge = 0.8)
+  expect_equal(stat.test$x, c(1, 1, 2, 2))
+  expect_equal(round(stat.test$xmin, 2), c(0.73, 0.73, 1.73, 1.73))
+  expect_equal(round(stat.test$xmax, 2), c(1, 1.27, 2, 2.27))
 })
