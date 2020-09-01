@@ -90,7 +90,7 @@ NULL
 #' @export
 cor_plot <- function(cor.mat, method = "circle", type = "full", palette = NULL,
                      p.mat = NULL, significant.level = 0.05, insignificant = c("cross", "blank"),
-                     label = FALSE, font.label = list()) {
+                     label = FALSE, font.label = list(), ...) {
 
 
   insignificant <- match.arg(insignificant)
@@ -153,7 +153,7 @@ cor_plot <- function(cor.mat, method = "circle", type = "full", palette = NULL,
     p.mat = p.mat, sig.level = significant.level,
     insig = insignificant, pch.cex = 2,
     outline = outline, addCoef.col = addCoef.col,
-    number.cex = font$size, number.font = font$style
+    number.cex = font$size, number.font = font$style, ...
     )
 
 }
