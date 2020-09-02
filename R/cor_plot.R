@@ -27,6 +27,7 @@ NULL
 #'   (e.g., 1), color (e.g., "black") and style (e.g., "bold"). Used to
 #'   customize the correlation coefficient labels. For example \code{font.label
 #'   = list(size = 1, color = "black", style = "bold")}.
+#' @param ... additional options not listed (i.e. "tl.cex") here to pass to corrplot.
 #' @seealso \code{\link{cor_as_symbols}()}
 #' @examples
 #' # Compute correlation matrix
