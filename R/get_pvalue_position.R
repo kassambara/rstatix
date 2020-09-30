@@ -313,14 +313,6 @@ add_xy_position <- function(test, x = NULL,  dodge = 0.8, stack = FALSE,
 
 # Helper functions
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-get_group_level_xcoord <- function(xpos, groups, dodge = 0.8){
-  n <- length(groups)
-  xpos <- rep(xpos, n)
-  group.rank <- match(groups, groups)
-  (((dodge - dodge*n) / (2*n)) + ((group.rank - 1) * (dodge / n))) + xpos
-}
-
-
 asserttat_group_columns_exists <- function(data){
   groups.exist <- all(c("group1", "group2") %in% colnames(data))
   if(!groups.exist){
