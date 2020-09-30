@@ -8,7 +8,8 @@
 
 ## Major changes
 
-Now, the output of the function `dunn_test()` include `estimate1` and `estimate2` when the argument `detailed = TRUE` is specified. The `estimate1` and `estimate2` values represent the mean rank values of the two groups being compared, respectively (#59).
+- Rewritting `add_x_position()` to better support different situations (#73).
+- Now, the output of the function `dunn_test()` include `estimate1` and `estimate2` when the argument `detailed = TRUE` is specified. The `estimate1` and `estimate2` values represent the mean rank values of the two groups being compared, respectively (#59).
 
 ## Minor changes
 

@@ -42,6 +42,7 @@ NULL
 #'  \code{\link{sign_test}()}, \code{\link{tukey_hsd}()},
 #'  \code{\link{dunn_test}()}.
 #'@param x variable on x axis.
+#'@param group group variable (legend variable).
 #'@param dodge dodge width for grouped ggplot/test. Default is 0.8. Used only
 #'  when \code{x} specified.
 #'@param stack logical. If TRUE, computes y position for a stacked plot. Useful
@@ -257,7 +258,171 @@ combine_this <- function(...){
 
 #' @describeIn get_pvalue_position compute and add p-value x positions.
 #' @export
-add_x_position <- function(test, x = NULL, dodge = 0.8){
+add_x_position <- function(test, x = NULL, group = NULL, dodge = 0.8){
+
+  # Checking
+  asserttat_group_columns_exists(test)
+  .attributes <- get_test_attributes(test)
+  if(any(test$group1 %in% c("all", ".all."))) {
+    # case when ref.group = "all"
+    test$group1 <- test$group2
+  }
+  groups <- c(as.character(test$group1), as.character(test$group2)) %>%
+    unique() %>%
+    setdiff(c("all", ".all."))   # case when ref.group = "all"
+
+  is_rstatix_test <- inherits(test, "rstatix_test")
+  is.null.model <- ("null model" %in% test$group2) & all(test$group1 %in% 1)
+  is.grouped.by.legend <- test %>% is_stat_test_grouped_by(group)
+  is.grouped.by.x <- test %>% is_stat_test_grouped_by(x)
+  is.basic <- !is.grouped.by.x & !is.grouped.by.legend
+
+  # Data preparation
+  if(is_rstatix_test) {
+    data <- attr(test, "args")$data
+    if(is.basic & is.null(x))
+      x <- get_formula_right_hand_side(.attributes$args$formula)
+    else if(is.grouped.by.x & is.null(group))
+      group <- get_formula_right_hand_side(.attributes$args$formula)
+  }
+  else if(is.basic){
+    data <- data.frame(x = groups, stringsAsFactors = FALSE)
+    x <- "x"
+  }
+  else{
+    if(is.grouped.by.x)
+      data <- expand.grid(x = unique(test[[x]]), group = groups)
+    else if(is.grouped.by.legend)
+      data <- expand.grid(x = groups, group = test[[group]])
+    colnames(data) <- c(x, group)
+  }
+  if(is.null.model) {
+    data$group <- rep(1, nrow(data))
+    group <- "group"
+  }
+
+  # Add xmin and x max
+  if(is.basic){
+    x_coords <- as_numeric_group(data[[x]])
+    xmin_id <- as.character(test$group1)
+    xmax_id <- as.character(test$group2)
+  }
+  else{
+    x_coords <- get_grouped_x_position(data, x = x, group = group, dodge = dodge)
+    if(is.grouped.by.legend){
+      # Add x position to stat test when the test is grouped by the legend variable
+      # Case when you group by legend and pairwise compare between x-axis groups
+      xmin_id <- paste(test$group1, test[[group]], sep = "_")
+      xmax_id <- paste(test$group2, test[[group]], sep = "_")
+    }
+    else if(is.grouped.by.x){
+      # Add x position to stat test when the test is grouped by the x variable
+      # Case when you pairwise compare legend groups at each x-axis position,
+      # so the data is grouped by x position
+      xmin_id <- paste(test[[x]], test$group1, sep = "_")
+      xmax_id <- paste(test[[x]], test$group2, sep = "_")
+      test$x <- unname(as_numeric_group(test[[x]]))
+    }
+  }
+  test$xmin <- unname(x_coords[xmin_id])
+  test$xmax <- unname(x_coords[xmax_id])
+  if(is.null.model) test$xmax <- test$xmin
+  test %>% set_test_attributes(.attributes)
+}
+
+
+# Compute grouped x positions or coordinates
+# data is a dataframe containing the x and the group columns
+get_grouped_x_position<- function(data, x, group, dodge = 0.8){
+  data <- data.frame(x = data[[x]], group = data[[group]]) %>%
+    dplyr::distinct(.data$x, .data$group) %>%
+    dplyr::arrange(.data$x, .data$group)
+  data$x.position <- as_numeric_group(data$x)
+  # Add group.ranks and ngroups at x position
+  data <- data %>%
+    rstatix::df_nest_by(vars = "x") %>%
+    mutate(
+      data = map(.data$data, function(data){data$group.ranks = 1:nrow(data); data}),
+      n = unlist(map(.data$data, nrow))
+    ) %>%
+    tidyr::unnest(cols = "data")
+  # Compute x coords
+  d <- data
+  x_coords <-  (((dodge - dodge*d$n) / (2*d$n)) + ((d$group.ranks - 1) * (dodge / d$n))) + d$x.position
+  names(x_coords) <- paste(d$x, d$group, sep = "_")
+  x_coords
+}
+
+# Check if a stat test is grouped by a given variable
+is_stat_test_grouped_by <- function(test, x = NULL){
+  answer <- FALSE
+  if(!is.null(x)){
+    if(x %in% colnames(test)){
+      answer <- TRUE
+    }
+  }
+  answer
+}
+
+# Return a numeric named vector
+# c("a", "b", "a") -> c(a = 1, b = 2, a = 1)
+as_numeric_group <- function(x){
+  grp <- x %>% as.factor() %>% as.numeric()
+  names(grp) <- x
+  grp
+}
+
+
+
+
+#' @describeIn get_pvalue_position compute and add both x and y positions.
+#' @export
+add_xy_position <- function(test, x = NULL,  group = NULL, dodge = 0.8, stack = FALSE,
+                            fun = "max", step.increase = 0.12,
+                            scales = c("fixed", "free", "free_y"), ...){
+  if(missing(dodge)){
+    if(stack) dodge <- 0
+  }
+  test %>%
+    add_y_position(
+      fun = fun, step.increase = step.increase,
+      stack = stack, scales = scales, ...
+      ) %>%
+    add_x_position(x = x, group = group, dodge = dodge)
+}
+
+
+# Helper functions
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+asserttat_group_columns_exists <- function(data){
+  groups.exist <- all(c("group1", "group2") %in% colnames(data))
+  if(!groups.exist){
+    stop("data should contain group1 and group2 columns")
+  }
+}
+
+.is_grouped_test <- function(test, x = NULL){
+  answer <- FALSE
+  if(!is.null(x)){
+    if(x %in% colnames(test)){
+      answer <- TRUE
+    }
+  }
+  answer
+}
+
+.contains_selected_comparisons <- function(test){
+  answer <- FALSE
+  if(is_rstatix_test(test)){
+    comparisons <- attr(test, "args")$comparisons
+    answer <- !is.null(comparisons)
+  }
+  answer
+}
+
+
+# To be removed
+add_x_position0 <- function(test, x = NULL, dodge = 0.8){
 
   asserttat_group_columns_exists(test)
   .attributes <- get_test_attributes(test)
@@ -292,50 +457,5 @@ add_x_position <- function(test, x = NULL, dodge = 0.8){
   test %>%
     mutate(xmin = group1.coords, xmax = group2.coords) %>%
     set_test_attributes(.attributes)
-}
-
-#' @describeIn get_pvalue_position compute and add both x and y positions.
-#' @export
-add_xy_position <- function(test, x = NULL,  dodge = 0.8, stack = FALSE,
-                            fun = "max", step.increase = 0.12,
-                            scales = c("fixed", "free", "free_y"), ...){
-  if(missing(dodge)){
-    if(stack) dodge <- 0
-  }
-  test %>%
-    add_y_position(
-      fun = fun, step.increase = step.increase,
-      stack = stack, scales = scales, ...
-      ) %>%
-    add_x_position(x = x, dodge = dodge)
-}
-
-
-# Helper functions
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-asserttat_group_columns_exists <- function(data){
-  groups.exist <- all(c("group1", "group2") %in% colnames(data))
-  if(!groups.exist){
-    stop("data should contain group1 and group2 columns")
-  }
-}
-
-.is_grouped_test <- function(test, x = NULL){
-  answer <- FALSE
-  if(!is.null(x)){
-    if(x %in% colnames(test)){
-      answer <- TRUE
-    }
-  }
-  answer
-}
-
-.contains_selected_comparisons <- function(test){
-  answer <- FALSE
-  if(is_rstatix_test(test)){
-    comparisons <- attr(test, "args")$comparisons
-    answer <- !is.null(comparisons)
-  }
-  answer
 }
 
