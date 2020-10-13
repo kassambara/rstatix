@@ -5,6 +5,7 @@
 - New function to extract information from rstatix statistical tests:
       - `get_n()` to extract sample count (n) from statistical test results.
       - `get_description` to extract stat test description or name
+      - `remove_ns()` to remove non-significant rows.
 
 ## Major changes
 
