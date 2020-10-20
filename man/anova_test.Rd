@@ -88,13 +88,15 @@ intercept row, etc.) in the ANOVA table.}
 
 \item{correction}{character. Used only in repeated measures ANOVA test to
 specify which correction of the degrees of freedom should be reported for
-the within-subject factors. Possible values are:
-\itemize{
-\item{"GG"}: applies Greenhouse-Geisser correction to all within-subjects factors even if the assumption of sphericity is met (i.e., Mauchly's test is not significant, p > 0.05).
-\item{"HF"}: applies Hyunh-Feldt correction to all within-subjects factors even if the assumption of sphericity is met,
+the within-subject factors. Possible values are: \itemize{ \item{"GG"}:
+applies Greenhouse-Geisser correction to all within-subjects factors even if
+the assumption of sphericity is met (i.e., Mauchly's test is not
+significant, p > 0.05). \item{"HF"}: applies Hyunh-Feldt correction to all
+within-subjects factors even if the assumption of sphericity is met,
 \item{"none"}: returns the ANOVA table without any correction and
-\item{"auto"}: apply automatically GG correction to only within-subjects factors violating the sphericity assumption (i.e., Mauchly's test p-value is significant, p <= 0.05).
-}}
+\item{"auto"}: apply automatically GG correction to only within-subjects
+factors violating the sphericity assumption (i.e., Mauchly's test p-value is
+significant, p <= 0.05). }}
 
 \item{...}{additional arguments}
 }
@@ -113,10 +115,16 @@ return an object of class \code{anova_test} a data frame containing
 }
 \description{
 Provides a pipe-friendly framework to perform different types of
- ANOVA tests, including: \itemize{ \item \strong{\href{https://www.datanovia.com/en/lessons/anova-in-r/}{Independent measures ANOVA}}:
- between-Subjects designs, \item \strong{\href{https://www.datanovia.com/en/lessons/repeated-measures-anova-in-r/}{Repeated measures ANOVA}}:
- within-Subjects designs \item \strong{\href{https://www.datanovia.com/en/lessons/mixed-anova-in-r/}{Mixed ANOVA}}: Mixed within within- and
- between-Subjects designs, also known as split-plot ANOVA and \item \strong{\href{https://www.datanovia.com/en/lessons/ancova-in-r/}{ANCOVA: Analysis of Covariance}}. }
+ ANOVA tests, including: \itemize{ \item
+ \strong{\href{https://www.datanovia.com/en/lessons/anova-in-r/}{Independent
+ measures ANOVA}}: between-Subjects designs, \item
+ \strong{\href{https://www.datanovia.com/en/lessons/repeated-measures-anova-in-r/}{Repeated
+  measures ANOVA}}: within-Subjects designs \item
+ \strong{\href{https://www.datanovia.com/en/lessons/mixed-anova-in-r/}{Mixed
+ ANOVA}}: Mixed within within- and between-Subjects designs, also known as
+ split-plot ANOVA and \item
+ \strong{\href{https://www.datanovia.com/en/lessons/ancova-in-r/}{ANCOVA:
+ Analysis of Covariance}}. }
 
  The function is an easy to use wrapper around \code{\link[car]{Anova}()} and
  \code{\link[stats]{aov}()}. It makes ANOVA computation handy in R and It's
@@ -126,6 +134,21 @@ Provides a pipe-friendly framework to perform different types of
 
  The results include ANOVA table, generalized effect size and some assumption
  checks.
+}
+\details{
+The setting in \code{anova_test()} is done in such a way that it
+ gives the same results as SPSS, one of the most used commercial software. By
+ default, R uses treatment contrasts, where each of the levels is compared to
+ the first level used as baseline. The default contrast can be checked using
+ \code{options('contrasts')}. In the function \code{anova_test()}, the
+ following setting is used
+ \code{options(contrasts=c('contr.sum','contr.poly'))}, which gives
+ orthogonal contrasts where you compare every level to the overall mean. This
+ setting gives the same output as the most commonly used commercial
+ softwares, like SPSS. If you want to obtain the same result with the
+ function \code{car::Anova()} as the one obtained with
+ \code{rstatix::anova_test()}, then don't forget to set
+ \code{options(contrasts=c('contr.sum','contr.poly'))}.
 }
 \section{Functions}{
 \itemize{

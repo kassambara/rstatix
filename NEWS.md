@@ -14,6 +14,7 @@
 
 ## Minor changes
 
+- The documentation of the function `anova_test()` is updated to explain the internal contrast setting (#74).
 - Now, `p_mark_significance()` works when all p-values are NA. Empty character ("") is returned for NA (#64).
 - Classes (`rstatix` and `grouped_anova_test`) added to grouped ANOVA test (#61)
 - New argument `scales` added in the function `get_y_position()`. If the specified value is "free" or "free_y", then the step increase of y positions will be calculated by plot panels. Note that, using "free" or "free_y" gives the same result. A global step increase is computed when scales = "fixed" (#56).
