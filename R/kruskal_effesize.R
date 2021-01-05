@@ -46,19 +46,19 @@ NULL
 #'   group_by(supp) %>%
 #'   kruskal_effsize(len ~ dose)
 #' @export
-kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000){
+kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, parallel = "multicore", ncpus = parallel::detectCores()){
   args <- as.list(environment()) %>%
     .add_item(method = "kruskal_effsize")
   data %>%
     doo(
       .kruskal_effsize, formula, ci = ci, conf.level = conf.level,
-      ci.type = ci.type, nboot = nboot
+      ci.type = ci.type, nboot = nboot, parallel = parallel, ncpus = ncpus
     ) %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "kruskal_effsize"))
 }
 
-.kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000){
+.kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, parallel = "multicore", ncpus = parallel::detectCores()){
   results <- eta_squared_h(data, formula)
   # Confidence interval of the effect size r
   if (ci == TRUE) {
@@ -67,7 +67,7 @@ kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.ty
     }
     CI <- get_boot_ci(
       data, stat.func, conf.level = conf.level,
-      type = ci.type, nboot = nboot
+      type = ci.type, nboot = nboot, parallel = parallel, ncpus = ncpus
     )
     results <- results %>%
       add_columns(conf.low = CI[1], conf.high = CI[2], .after = "effsize")

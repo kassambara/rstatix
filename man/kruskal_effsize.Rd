@@ -10,7 +10,9 @@ kruskal_effsize(
   ci = FALSE,
   conf.level = 0.95,
   ci.type = "perc",
-  nboot = 1000
+  nboot = 1000,
+  parallel = "multicore",
+  ncpus = parallel::detectCores()
 )
 }
 \arguments{
@@ -29,6 +31,11 @@ one or multiple levels giving the corresponding groups. For example,
 "basic", "perc", or "bca". Passed to \code{boot::boot.ci}.}
 
 \item{nboot}{The number of replications to use for bootstrap.}
+
+\item{parallel}{The type of parallel operation to be used (if any) (Default: "multicore").}
+
+\item{ncpus}{The number of processes to be used in parallel operation:
+typically one would chose this to the number of available CPUs (Default: parallel::detectCores()).}
 }
 \value{
 return a data frame with some of the following columns: \itemize{

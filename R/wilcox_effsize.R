@@ -29,6 +29,9 @@ NULL
 #'@param ci.type The type of confidence interval to use. Can be any of "norm",
 #'  "basic", "perc", or "bca". Passed to \code{boot::boot.ci}.
 #'@param nboot The number of replications to use for bootstrap.
+#'@param parallel The type of parallel operation to be used (if any) (Default: "multicore").
+#'@param ncpus The number of processes to be used in parallel operation:
+#'   typically one would chose this to the number of available CPUs (Default: parallel::detectCores()).
 #'@param ... Additional arguments passed to the functions
 #'  \code{coin::wilcoxsign_test()} (case of one- or paired-samples test) or
 #'  \code{coin::wilcox_test()} (case of independent two-samples test).
@@ -68,7 +71,7 @@ NULL
 wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
                                 paired = FALSE, alternative = "two.sided",
                                 mu = 0, ci = FALSE, conf.level = 0.95, ci.type = "perc",
-                                nboot = 1000,  ...){
+                                nboot = 1000,  parallel = "multicore", ncpus = parallel::detectCores(), ...){
 
   env <- as.list(environment())
   args <- env %>% .add_item(method = "wilcox_effsize")
@@ -100,7 +103,7 @@ wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
 
 # Wilcoxon test using coin R package; returns effect size
 coin.wilcox.test <- function(x, y = NULL, mu = 0, paired = FALSE, alternative = c("two.sided", "less", "greater"),
-                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...){
+                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, parallel = "multicore", ncpus = parallel::detectCores(), ...){
   required_package("coin")
 
   alternative <- match.arg(alternative)
@@ -156,7 +159,7 @@ coin.wilcox.test <- function(x, y = NULL, mu = 0, paired = FALSE, alternative = 
     }
     CI <- get_boot_ci(
       data, stat.func, conf.level = conf.level,
-      type = ci.type, nboot = nboot
+      type = ci.type, nboot = nboot, parallel = parallel, ncpus = ncpus
       )
     results <- results %>% mutate(conf.low = CI[1], conf.high = CI[2])
   }

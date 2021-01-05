@@ -16,6 +16,8 @@ wilcox_effsize(
   conf.level = 0.95,
   ci.type = "perc",
   nboot = 1000,
+  parallel = "multicore",
+  ncpus = parallel::detectCores(),
   ...
 )
 }
@@ -57,6 +59,11 @@ hypothesis.}
 "basic", "perc", or "bca". Passed to \code{boot::boot.ci}.}
 
 \item{nboot}{The number of replications to use for bootstrap.}
+
+\item{parallel}{The type of parallel operation to be used (if any) (Default: "multicore").}
+
+\item{ncpus}{The number of processes to be used in parallel operation:
+typically one would chose this to the number of available CPUs (Default: parallel::detectCores()).}
 
 \item{...}{Additional arguments passed to the functions
 \code{coin::wilcoxsign_test()} (case of one- or paired-samples test) or
