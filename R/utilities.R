@@ -701,10 +701,10 @@ get_pairwise_comparison_methods <- function(){
 }
 
 # Bootstrap confidence intervals -------------------------
-get_boot_ci <- function(data, stat.func, conf.level = 0.95, type = "perc", nboot = 500){
+get_boot_ci <- function(data, stat.func, conf.level = 0.95, type = "perc", nboot = 500, parallel = "multicore", ncpus = parallel::detectCores()){
   required_package("boot")
-  Boot = boot::boot(data, stat.func, R = nboot)
-  BCI = boot::boot.ci(Boot, conf = conf.level, type = type, parallel = "multicore")
+  Boot = boot::boot(data, stat.func, R = nboot, parallel = parallel, ncpus = ncpus)
+  BCI = boot::boot.ci(Boot, conf = conf.level, type = type)
   type <- switch(
     type, norm = "normal", perc = "percent",
     basic = "basic", bca = "bca", stud = "student", type
