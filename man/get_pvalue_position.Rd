@@ -32,11 +32,12 @@ add_y_position(
   scales = c("fixed", "free", "free_y")
 )
 
-add_x_position(test, x = NULL, dodge = 0.8)
+add_x_position(test, x = NULL, group = NULL, dodge = 0.8)
 
 add_xy_position(
   test,
   x = NULL,
+  group = NULL,
   dodge = 0.8,
   stack = FALSE,
   fun = "max",
@@ -106,6 +107,8 @@ when \code{scales = "fixed"}.}
 \code{\link{dunn_test}()}.}
 
 \item{x}{variable on x axis.}
+
+\item{group}{group variable (legend variable).}
 
 \item{dodge}{dodge width for grouped ggplot/test. Default is 0.8. Used only
 when \code{x} specified.}

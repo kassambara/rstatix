@@ -109,3 +109,54 @@ test_that("Grouped pairwise tests: grouping by x-var and performing test between
   expect_equal(round(stat.test$xmin, 2), c(0.73, 0.73, 1.73, 1.73))
   expect_equal(round(stat.test$xmax, 2), c(1, 1.27, 2, 2.27))
 })
+
+
+test_that("Grouped plots: test that add_x_position works with different number of groups at each x pos.", {
+  # https://github.com/kassambara/ggpubr/issues/326
+  demo_data <- data.frame(
+    stringsAsFactors = FALSE,
+    Study = c("A","A","A","A","A","A",
+              "A","A","A","A","B","B","B","B","B","B","B","B",
+              "B","B","C","C","C","C","C","C","C","C","C",
+              "C","C","C","C","C","C","D","D","D","D","D",
+              "D","D","D","D","D","D","D","D","D","D"),
+    Studytype = c("X","X","X","X","X","X",
+                  "X","X","X","X","X","X","X","X","X","X","X","X",
+                  "X","X","Y","Y","Y","Y","Y","Y","Y","Y","Y",
+                  "Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y",
+                  "Y","Y","Y","Y","Y","Y","Y","Y","Y","Y"),
+    Values = c(4469L,4797L,5101L,5397L,
+               4542L,2780L,4326L,3396L,3657L,3199L,9221L,10176L,
+               9277L,10500L,9707L,7406L,7756L,7601L,7586L,7353L,
+               1811L,1485L,3003L,1629L,2495L,4207L,4265L,3629L,
+               4157L,3495L,2075L,2112L,2973L,3086L,2943L,5664L,6690L,
+               3538L,5741L,7880L,5848L,6390L,6569L,6114L,6520L,
+               7389L,6843L,7611L,6621L,7340L),
+    Group = as.factor(c("CTR",
+                        "CTR","CTR","CTR","CTR","Dis1","Dis1","Dis1",
+                        "Dis1","Dis1","CTR","CTR","CTR","CTR",
+                        "CTR","Dis1","Dis1","Dis1","Dis1","Dis1",
+                        "CTR","CTR","CTR","CTR","CTR","Dis2","Dis2",
+                        "Dis2","Dis2","Dis2","Dis3","Dis3",
+                        "Dis3","Dis3","Dis3","CTR","CTR","CTR","CTR",
+                        "CTR","Dis2","Dis2","Dis2","Dis2","Dis2",
+                        "Dis3","Dis3","Dis3","Dis3","Dis3"))
+  )
+
+  stat.test <- demo_data %>%
+    group_by(Study) %>%
+    wilcox_test(Values ~ Group, ref.group = "CTR") %>%
+    add_significance("p")
+  stat.test <- stat.test %>%
+    add_xy_position(x = "Study", dodge = 0.8)
+
+  #bxp <- ggpubr::ggboxplot(demo_data, x = "Study", y = "Values", fill = "Group") +
+  #ggpubr::stat_pvalue_manual(stat.test, label = "p")
+
+  stat.test$x <- round(stat.test$x, 2)
+  stat.test$xmin <- round(stat.test$xmin, 2)
+  stat.test$xmax <- round(stat.test$xmax, 2)
+  expect_equal(stat.test$x, c(1, 2, 3, 3, 4, 4))
+  expect_equal(stat.test$xmin, c(0.8, 1.8, 2.73, 2.73, 3.73, 3.73))
+  expect_equal(stat.test$xmax, c(1.2, 2.2, 3, 3.27, 4, 4.27))
+})
