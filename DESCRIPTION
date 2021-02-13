@@ -23,7 +23,7 @@ Imports:
     utils,
     tidyr (>= 1.0.0),
     purrr,
-    broom (>= 0.5.6),
+    broom (>= 0.7.4),
     rlang (>= 0.3.1),
     tibble (>= 2.1.3),
     dplyr (>= 0.7.1),

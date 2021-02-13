@@ -132,14 +132,7 @@ pairwise_emmeans_test <- function(res.emmeans, grouping.vars = NULL, method = "p
     res.emmeans, by = grouping.vars, method = method,
     adjust = "none"
   )
-  if(is_pkg_version_sup("broom", "0.5.6")){
-    std.error <- as.data.frame(comparisons)$SE
-    comparisons <- tidy(comparisons, conf.int = TRUE, conf.level = conf.level) %>%
-      add_column(std.error = std.error, .after = "estimate")
-  }
-  else{
-    comparisons <- tidy(comparisons, infer = TRUE, level = conf.level)
-  }
+  comparisons <- tidy(comparisons, conf.int = TRUE, conf.level = conf.level)
   comparisons <- comparisons %>%
     tidyr::separate(col = "contrast", into = c("group1", "group2"), sep = "-") %>%
     dplyr::rename(se = .data$std.error, p = .data$p.value) %>%

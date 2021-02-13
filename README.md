@@ -1,6 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Build
-Status](https://api.travis-ci.org/kassambara/rstatix.png)](https://travis-ci.org/kassambara/rstatix)
+
+[![R build
+status](https://github.com/kassambara/rstatix/workflows/R-CMD-check/badge.svg)](https://github.com/kassambara/rstatix/actions)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/rstatix)](https://cran.r-project.org/package=rstatix)
 [![CRAN
 Checks](https://cranchecks.info/badges/summary/rstatix)](https://cran.r-project.org/web/checks/check_results_rstatix.html)

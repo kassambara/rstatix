@@ -14,6 +14,7 @@
 
 ## Minor changes
 
+- Maintenance updates of the functions `emmeans_test()` and `levene_test()` to adapt to broom release 0.7.4 (#89)
 - The documentation of the function `anova_test()` is updated to explain the internal contrast setting (#74).
 - Now, `p_mark_significance()` works when all p-values are NA. Empty character ("") is returned for NA (#64).
 - Classes (`rstatix` and `grouped_anova_test`) added to grouped ANOVA test (#61)
