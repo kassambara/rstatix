@@ -14,9 +14,10 @@ levene_test(data, formula, center = median)
 \item{center}{The name of a function to compute the center of each group;
 mean gives the original Levene's test; the default, median, provides a more
 robust test.}
-
-\item{return}{a data frame with the following columns: df1, df2
-(df.residual), statistic and p.}
+}
+\value{
+a data frame with the following columns: df1, df2
+  (df.residual), statistic and p.
 }
 \description{
 Provide a pipe-friendly framework to easily compute Levene's
