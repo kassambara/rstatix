@@ -2,6 +2,7 @@
 * local OS X install, R 3.2.3
 * win-builder 
 * Travis
+* Github Action
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs. 
