@@ -90,7 +90,7 @@ cor_pmat <- function(data, ..., vars = NULL, method = "pearson",
 
 
 #' @describeIn cor_mat extract a correlation matrix p-values from an object of
-#'   class \code{cor_mat()}.
+#'   class \code{cor_mat()}. P-values are not adjusted.
 #' @export
 cor_get_pval <- function(x){
   res <- x %>% attr("pvalue")

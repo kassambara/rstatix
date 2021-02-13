@@ -68,7 +68,7 @@ test p-values.
 \item \code{cor_pmat}: compute the correlation matrix but returns only the p-values of the tests.
 
 \item \code{cor_get_pval}: extract a correlation matrix p-values from an object of
-class \code{cor_mat()}.
+class \code{cor_mat()}. P-values are not adjusted.
 }}
 
 \examples{
