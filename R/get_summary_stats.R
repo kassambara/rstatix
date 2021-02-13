@@ -86,6 +86,7 @@ get_summary_stats <- function(
     max = max_(data),
     full_summary(data)
   ) %>%
+    dplyr::ungroup() %>%
     dplyr::mutate_if(is.numeric, round, digits = 3)
 
   if(!is.null(show)){
