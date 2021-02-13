@@ -14,6 +14,7 @@
 
 ## Minor changes
 
+- `cor_spread()` doc updated, error is explicitly shown if the input data doesn't contain the columns "var1", "var2" and "cor" (#95)
 - Maintenance updates of the functions `emmeans_test()` and `levene_test()` to adapt to broom release 0.7.4 (#89)
 - The documentation of the function `anova_test()` is updated to explain the internal contrast setting (#74).
 - Now, `p_mark_significance()` works when all p-values are NA. Empty character ("") is returned for NA (#64).

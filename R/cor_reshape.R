@@ -85,11 +85,14 @@ cor_gather <- function(data, drop.na = TRUE){
 }
 
 
-#' @describeIn cor_reshape spread a long correlation data frame into wide format
+#' @describeIn cor_reshape spread a long correlation data frame into wide
+#'   format. Expects the columns "var1", "var2" and "cor" in the data.
 #'   (correlation matrix).
 #' @export
 cor_spread <- function(data, value = "cor"){
-
+  if(!(c("var1", "var2", "cor") %in% colnames(data))){
+    stop("The input data should contains the columns: var1, var2 and cor")
+  }
   var1 <- var2 <- cor <- p <- NULL
   row.vars <- data %>% pull(var1) %>% unique()
   col.vars <- data %>% pull(var2) %>% unique()
