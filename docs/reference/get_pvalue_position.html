@@ -44,9 +44,12 @@
 <meta property="og:title" content="Autocompute P-value Positions For Plotting Significance — get_y_position" />
 <meta property="og:description" content="Compute p-value x and y positions for plotting significance
  levels. Many examples are provided at :
-How to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package
-How to Add Adjusted P-values to a Multi-Panel GGPlot
-How to Add P-Values Generated Elsewhere to a GGPLOT
+How
+  to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package
+How
+  to Add Adjusted P-values to a Multi-Panel GGPlot
+How
+  to Add P-Values Generated Elsewhere to a GGPLOT
 
 " />
 
@@ -80,7 +83,7 @@ How to Add P-Values Generated Elsewhere to a GGPLOT
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -127,9 +130,12 @@ How to Add P-Values Generated Elsewhere to a GGPLOT
     <div class="ref-description">
     <p>Compute p-value x and y positions for plotting significance
  levels. Many examples are provided at :</p><ul>
-<li><p><a href='https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/'>How to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package</a></p></li>
-<li><p><a href='https://www.datanovia.com/en/blog/ggpubr-how-to-add-adjusted-p-values-to-a-multi-panel-ggplot/'>How to Add Adjusted P-values to a Multi-Panel GGPlot</a></p></li>
-<li><p><a href='https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/'>How to Add P-Values Generated Elsewhere to a GGPLOT</a></p></li>
+<li><p><a href='https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/'>How
+  to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package</a></p></li>
+<li><p><a href='https://www.datanovia.com/en/blog/ggpubr-how-to-add-adjusted-p-values-to-a-multi-panel-ggplot/'>How
+  to Add Adjusted P-values to a Multi-Panel GGPlot</a></p></li>
+<li><p><a href='https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/'>How
+  to Add P-Values Generated Elsewhere to a GGPLOT</a></p></li>
 </ul>
 
     </div>
@@ -142,7 +148,8 @@ How to Add P-Values Generated Elsewhere to a GGPLOT
   <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>step.increase</span> <span class='kw'>=</span> <span class='fl'>0.12</span>,
   <span class='kw'>y.trans</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>stack</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>stack</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>scales</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fixed"</span>, <span class='st'>"free"</span>, <span class='st'>"free_y"</span>)
 )
 
 <span class='fu'>add_y_position</span>(
@@ -154,18 +161,21 @@ How to Add P-Values Generated Elsewhere to a GGPLOT
   <span class='kw'>ref.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>y.trans</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>stack</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>stack</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>scales</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fixed"</span>, <span class='st'>"free"</span>, <span class='st'>"free_y"</span>)
 )
 
-<span class='fu'>add_x_position</span>(<span class='no'>test</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.8</span>)
+<span class='fu'>add_x_position</span>(<span class='no'>test</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.8</span>)
 
 <span class='fu'>add_xy_position</span>(
   <span class='no'>test</span>,
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>dodge</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
   <span class='kw'>stack</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"max"</span>,
   <span class='kw'>step.increase</span> <span class='kw'>=</span> <span class='fl'>0.12</span>,
+  <span class='kw'>scales</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fixed"</span>, <span class='st'>"free"</span>, <span class='st'>"free_y"</span>),
   <span class='no'>...</span>
 )</pre>
 
@@ -235,6 +245,16 @@ example: <code>y.trans = function(x){log2(x+1)}</code></p></td>
 when dealing with stacked bar plots.</p></td>
     </tr>
     <tr>
+      <th>scales</th>
+      <td><p>Should scales be fixed (<code>"fixed"</code>, the default), free
+(<code>"free"</code>), or free in one dimension (<code>"free_y"</code>)?. This option is
+considered only when determining the y position. If the specified value is
+<code>"free"</code> or <code>"free_y"</code>, then the step increase of y positions will
+be calculated by plot panels. Note that, using <code>"free"</code> or
+<code>"free_y"</code> gives the same result. A global step increase is computed
+when <code>scales = "fixed"</code>.</p></td>
+    </tr>
+    <tr>
       <th>test</th>
       <td><p>an object of class <code>rstatix_test</code> as returned by
 <code><a href='t_test.html'>t_test</a>()</code>, <code><a href='wilcox_test.html'>wilcox_test</a>()</code>,
@@ -244,6 +264,10 @@ when dealing with stacked bar plots.</p></td>
     <tr>
       <th>x</th>
       <td><p>variable on x axis.</p></td>
+    </tr>
+    <tr>
+      <th>group</th>
+      <td><p>group variable (legend variable).</p></td>
     </tr>
     <tr>
       <th>dodge</th>

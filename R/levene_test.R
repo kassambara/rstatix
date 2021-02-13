@@ -13,6 +13,8 @@ NULL
 #' @param center The name of a function to compute the center of each group;
 #'   mean gives the original Levene's test; the default, median, provides a more
 #'   robust test.
+#' @param return a data frame with the following columns: df1, df2
+#'   (df.residual), statistic and p.
 #'
 #' @examples
 #' # Prepare the data

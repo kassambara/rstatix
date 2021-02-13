@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Unite Multiple Columns into One — df_unite • rstatix</title>
+<title>Remove Non-Significant from Statistical Tests — remove_ns • rstatix</title>
 
 
 <!-- jquery -->
@@ -41,10 +41,9 @@
   
   <script src="../extra.js"></script>
 
-<meta property="og:title" content="Unite Multiple Columns into One — df_unite" />
-<meta property="og:description" content="Paste together multiple columns into one. Wrapper arround
-  unite() that supports standard and non standard
-  evaluation." />
+<meta property="og:title" content="Remove Non-Significant from Statistical Tests — remove_ns" />
+<meta property="og:description" content="Filter out non-significant (NS) p-values from a statistical
+  test. Can detect automatically p-value columns" />
 
 
 
@@ -115,92 +114,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Unite Multiple Columns into One</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/df.R'><code>R/df.R</code></a></small>
-    <div class="hidden name"><code>df_unite.Rd</code></div>
+    <h1>Remove Non-Significant from Statistical Tests</h1>
+    <small class="dont-index">Source: <a href='https://github.com/kassambara/rstatix/blob/master/R/remove_ns.R'><code>R/remove_ns.R</code></a></small>
+    <div class="hidden name"><code>remove_ns.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Paste together multiple columns into one. Wrapper arround
-  <code><a href='https://tidyr.tidyverse.org/reference/unite.html'>unite</a>()</code> that supports standard and non standard
-  evaluation.</p>
+    <p>Filter out non-significant (NS) p-values from a statistical
+  test. Can detect automatically p-value columns</p>
     </div>
 
-    <pre class="usage"><span class='fu'>df_unite</span>(<span class='no'>data</span>, <span class='no'>col</span>, <span class='no'>...</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"_"</span>, <span class='kw'>remove</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
-<span class='fu'>df_unite_factors</span>(
-  <span class='no'>data</span>,
-  <span class='no'>col</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>vars</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>"_"</span>,
-  <span class='kw'>remove</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>remove_ns</span>(<span class='no'>stat.test</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>signif.cutoff</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>a data frame</p></td>
+      <th>stat.test</th>
+      <td><p>statistical test results returned by <code>rstatix</code>
+functions or any data frame containing a p-value column.</p></td>
     </tr>
     <tr>
       <th>col</th>
-      <td><p>the name of the new column as a string or a symbol.</p></td>
+      <td><p>(optional) character specifying the column containing the p-value
+or the significance information, to be used for the filtering step.
+Possible values include: <code>"p"</code>, <code>"p.adj"</code>, <code>"p.signif"</code>,
+<code>"p.adj.signif"</code>. If missing, the function will automatically look for
+p.adj.signif, p.adj, p.signif, p in this order.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>a selection of columns. One or more unquoted expressions (or variable names) separated by
-commas.</p></td>
-    </tr>
-    <tr>
-      <th>vars</th>
-      <td><p>a character vector containing the column names of interest.</p></td>
-    </tr>
-    <tr>
-      <th>sep</th>
-      <td><p>Separator to use between values.</p></td>
-    </tr>
-    <tr>
-      <th>remove</th>
-      <td><p>If <code>TRUE</code>, remove input columns from output data frame.</p></td>
-    </tr>
-    <tr>
-      <th>na.rm</th>
-      <td><p>If <code>TRUE</code>, missing values will be remove prior to uniting
-each value.</p></td>
+      <th>signif.cutoff</th>
+      <td><p>the significance cutoff; default is 0.05. Significance
+is declared at <code>p-value &lt;= signif.cutoff</code></p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-<ul>
-<li><p><code>df_unite</code>: Unite multiple columns into one.</p></li>
-<li><p><code>df_unite_factors</code>: Unite factor columns. First, order factors levels then
-merge them into one column. The output column is a factor.</p></li>
-</ul>
+    <p>a data frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Non standard evaluation</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ToothGrowth</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>df_unite</span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"dose_supp"</span>, <span class='no'>dose</span>, <span class='no'>supp</span>)</div><div class='output co'>#&gt;    len dose_supp
-#&gt; 1  4.2    0.5_VC
-#&gt; 2 11.5    0.5_VC
-#&gt; 3  7.3    0.5_VC
-#&gt; 4  5.8    0.5_VC
-#&gt; 5  6.4    0.5_VC
-#&gt; 6 10.0    0.5_VC</div><div class='input'>
-<span class='co'># Standard evaluation</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ToothGrowth</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>df_unite</span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"dose_supp"</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dose"</span>, <span class='st'>"supp"</span>))</div><div class='output co'>#&gt;    len dose_supp
-#&gt; 1  4.2    0.5_VC
-#&gt; 2 11.5    0.5_VC
-#&gt; 3  7.3    0.5_VC
-#&gt; 4  5.8    0.5_VC
-#&gt; 5  6.4    0.5_VC
-#&gt; 6 10.0    0.5_VC</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># Statistical test</span>
+<span class='no'>stat.test</span> <span class='kw'>&lt;-</span> <span class='no'>PlantGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='wilcox_test.html'>wilcox_test</a></span>(<span class='no'>weight</span> ~ <span class='no'>group</span>)
+<span class='co'># Remove ns: automatic detection of p-value columns</span>
+<span class='no'>stat.test</span> <span class='kw'>%&gt;%</span> <span class='fu'>remove_ns</span>()</div><div class='output co'>#&gt; # A tibble: 1 x 9
+#&gt;   .y.    group1 group2    n1    n2 statistic     p p.adj p.adj.signif
+#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 weight trt1   trt2      10    10        16 0.009 0.027 *           </div><div class='input'><span class='co'># Remove ns by the column p</span>
+<span class='no'>stat.test</span> <span class='kw'>%&gt;%</span> <span class='fu'>remove_ns</span>(<span class='kw'>col</span> <span class='kw'>=</span><span class='st'>"p"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 9
+#&gt;   .y.    group1 group2    n1    n2 statistic     p p.adj p.adj.signif
+#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 weight trt1   trt2      10    10        16 0.009 0.027 *           </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

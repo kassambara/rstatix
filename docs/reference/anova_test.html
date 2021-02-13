@@ -44,13 +44,15 @@
 <meta property="og:title" content="Anova Test — anova_test" />
 <meta property="og:description" content="Provides a pipe-friendly framework to perform different types of
  ANOVA tests, including:
-Independent measures ANOVA:
- between-Subjects designs,
-Repeated measures ANOVA:
- within-Subjects designs
-Mixed ANOVA: Mixed within within- and
- between-Subjects designs, also known as split-plot ANOVA and
-ANCOVA: Analysis of Covariance.
+Independent
+ measures ANOVA: between-Subjects designs,
+Repeated
+  measures ANOVA: within-Subjects designs
+Mixed
+ ANOVA: Mixed within within- and between-Subjects designs, also known as
+ split-plot ANOVA and
+ANCOVA:
+ Analysis of Covariance.
 
 
 The function is an easy to use wrapper around Anova() and
@@ -91,7 +93,7 @@ The results include ANOVA table, generalized effect size and some assumption
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -138,13 +140,15 @@ The results include ANOVA table, generalized effect size and some assumption
     <div class="ref-description">
     <p>Provides a pipe-friendly framework to perform different types of
  ANOVA tests, including:</p><ul>
-<li><p><strong><a href='https://www.datanovia.com/en/lessons/anova-in-r/'>Independent measures ANOVA</a></strong>:
- between-Subjects designs,</p></li>
-<li><p><strong><a href='https://www.datanovia.com/en/lessons/repeated-measures-anova-in-r/'>Repeated measures ANOVA</a></strong>:
- within-Subjects designs</p></li>
-<li><p><strong><a href='https://www.datanovia.com/en/lessons/mixed-anova-in-r/'>Mixed ANOVA</a></strong>: Mixed within within- and
- between-Subjects designs, also known as split-plot ANOVA and</p></li>
-<li><p><strong><a href='https://www.datanovia.com/en/lessons/ancova-in-r/'>ANCOVA: Analysis of Covariance</a></strong>.</p></li>
+<li><p><strong><a href='https://www.datanovia.com/en/lessons/anova-in-r/'>Independent
+ measures ANOVA</a></strong>: between-Subjects designs,</p></li>
+<li><p><strong><a href='https://www.datanovia.com/en/lessons/repeated-measures-anova-in-r/'>Repeated
+  measures ANOVA</a></strong>: within-Subjects designs</p></li>
+<li><p><strong><a href='https://www.datanovia.com/en/lessons/mixed-anova-in-r/'>Mixed
+ ANOVA</a></strong>: Mixed within within- and between-Subjects designs, also known as
+ split-plot ANOVA and</p></li>
+<li><p><strong><a href='https://www.datanovia.com/en/lessons/ancova-in-r/'>ANCOVA:
+ Analysis of Covariance</a></strong>.</p></li>
 </ul>
 
 <p>The function is an easy to use wrapper around <code><a href='https://rdrr.io/pkg/car/man/Anova.html'>Anova</a>()</code> and
@@ -275,10 +279,16 @@ intercept row, etc.) in the ANOVA table.</p></td>
       <td><p>character. Used only in repeated measures ANOVA test to
 specify which correction of the degrees of freedom should be reported for
 the within-subject factors. Possible values are:</p><ul>
-<li><p>"GG": applies Greenhouse-Geisser correction to all within-subjects factors even if the assumption of sphericity is met (i.e., Mauchly's test is not significant, p &gt; 0.05).</p></li>
-<li><p>"HF": applies Hyunh-Feldt correction to all within-subjects factors even if the assumption of sphericity is met,</p></li>
+<li><p>"GG":
+applies Greenhouse-Geisser correction to all within-subjects factors even if
+the assumption of sphericity is met (i.e., Mauchly's test is not
+significant, p &gt; 0.05).</p></li>
+<li><p>"HF": applies Hyunh-Feldt correction to all
+within-subjects factors even if the assumption of sphericity is met,</p></li>
 <li><p>"none": returns the ANOVA table without any correction and</p></li>
-<li><p>"auto": apply automatically GG correction to only within-subjects factors violating the sphericity assumption (i.e., Mauchly's test p-value is significant, p &lt;= 0.05).</p></li>
+<li><p>"auto": apply automatically GG correction to only within-subjects
+factors violating the sphericity assumption (i.e., Mauchly's test p-value is
+significant, p &lt;= 0.05).</p></li>
 </ul></td>
     </tr>
     <tr>
@@ -298,6 +308,21 @@ the within-subject factors. Possible values are:</p><ul>
 <p>The <strong>returned object has an attribute</strong> called <code>args</code>, which is a
  list holding the arguments used to fit the ANOVA model, including: data, dv,
  within, between, type, model, etc.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The setting in <code>anova_test()</code> is done in such a way that it
+ gives the same results as SPSS, one of the most used commercial software. By
+ default, R uses treatment contrasts, where each of the levels is compared to
+ the first level used as baseline. The default contrast can be checked using
+ <code><a href='https://rdrr.io/r/base/options.html'>options('contrasts')</a></code>. In the function <code>anova_test()</code>, the
+ following setting is used
+ <code><a href='https://rdrr.io/r/base/options.html'>options(contrasts=c('contr.sum','contr.poly'))</a></code>, which gives
+ orthogonal contrasts where you compare every level to the overall mean. This
+ setting gives the same output as the most commonly used commercial
+ softwares, like SPSS. If you want to obtain the same result with the
+ function <code><a href='https://rdrr.io/pkg/car/man/Anova.html'>car::Anova()</a></code> as the one obtained with
+ <code>rstatix::anova_test()</code>, then don't forget to set
+ <code><a href='https://rdrr.io/r/base/options.html'>options(contrasts=c('contr.sum','contr.poly'))</a></code>.</p>
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
@@ -329,7 +354,7 @@ sphericity corrected or uncorrected degrees of freedom can be reported.</p></li>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>supp</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>anova_test</span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)</div><div class='output co'>#&gt; <span class='message'>Coefficient covariances computed by hccm()</span></div><div class='output co'>#&gt; <span class='message'>Coefficient covariances computed by hccm()</span></div><div class='output co'>#&gt; # A tibble: 2 x 8
 #&gt;   supp  Effect   DFn   DFd     F        p `p&lt;.05`   ges
-#&gt;   &lt;fct&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
+#&gt; * &lt;fct&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
 #&gt; 1 OJ    dose       1    28  36.0 1.82e- 6 *       0.563
 #&gt; 2 VC    dose       1    28 118.  1.51e-11 *       0.808</div><div class='input'>
 <span class='co'># Two-way ANOVA test</span>

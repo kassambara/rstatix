@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -147,7 +147,11 @@
   <span class='kw'>effect.size.text</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"expression"</span>, <span class='st'>"text"</span>),
   <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+)
+
+<span class='fu'>get_n</span>(<span class='no'>stat.test</span>)
+
+<span class='fu'>get_description</span>(<span class='no'>stat.test</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -242,6 +246,8 @@ can also use plotmath expression as follow <code><a href='https://rdrr.io/r/base
 <li><p><code>get_pwc_label</code>: Extract label from pairwise comparisons.</p></li>
 <li><p><code>get_test_label</code>: Extract labels for statistical tests.</p></li>
 <li><p><code>create_test_label</code>: Create labels from user specified test results.</p></li>
+<li><p><code>get_n</code>: Extracts sample counts (n) from an rstatix test outputs. Returns a numeric vector.</p></li>
+<li><p><code>get_description</code>: Extracts the description of an rstatix test outputs. Returns a character vector.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -295,6 +301,12 @@ can also use plotmath expression as follow <code><a href='https://rdrr.io/r/base
   <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"ANOVA"</span>,
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"text"</span>
 )</div><div class='output co'>#&gt; [1] "ANOVA, p = &lt;0.0001"</div><div class='input'>
+
+<span class='co'># Extract infos</span>
+<span class='co'>#:::::::::::::::::::::::::::::::::::::::::</span>
+<span class='no'>stat.test</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='t_test.html'>t_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)
+<span class='fu'>get_n</span>(<span class='no'>stat.test</span>)</div><div class='output co'>#&gt; [1] 40 40 40</div><div class='input'><span class='fu'>get_description</span>(<span class='no'>stat.test</span>)</div><div class='output co'>#&gt; [1] "T test"</div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

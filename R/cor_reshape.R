@@ -90,7 +90,7 @@ cor_gather <- function(data, drop.na = TRUE){
 #'   (correlation matrix).
 #' @export
 cor_spread <- function(data, value = "cor"){
-  if(!(c("var1", "var2", "cor") %in% colnames(data))){
+  if(!(all(c("var1", "var2", value) %in% colnames(data)))){
     stop("The input data should contains the columns: var1, var2 and cor")
   }
   var1 <- var2 <- cor <- p <- NULL
