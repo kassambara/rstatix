@@ -21,7 +21,7 @@ reference:
       - kruskal_test
       - friedman_test
       - get_comparisons
-      - get_pvalue_position
+      - get_y_position
   - title: ANOVA helpers
     contents:
       - factorial_design
