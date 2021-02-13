@@ -9,6 +9,7 @@
 
 ## Bug fixes
 
+- Now, the function `get_summary_stats()` handles the user defined probabilities for grouped data (#78)
 
 
 # rstatix 0.7.0

@@ -55,7 +55,7 @@ get_summary_stats <- function(
   type = match.arg(type)
   if(is_grouped_df(data)){
     results <- data %>%
-      doo(get_summary_stats, ..., type = type, show = show)
+      doo(get_summary_stats, ..., type = type, show = show, probs = probs)
     return(results)
   }
   data <- data %>% select_numeric_columns()
