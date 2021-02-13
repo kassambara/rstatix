@@ -5,18 +5,25 @@ NULL
 #'@description Performs Dunn's test for pairwise multiple comparisons of the
 #'  ranked data. The mean rank of the different groups is compared. Used for
 #'  post-hoc test following Kruskal-Wallis test.
+#'
+#'  The default of the \code{rstatix::dunn_test()} function is to perform a
+#'  two-sided Dunn test like the well known commercial softwares, such as SPSS
+#'  and GraphPad. This is not the case for some other R packages
+#'  (\code{dunn.test} and \code{jamovi}), where the default is to perform
+#'  one-sided test. This discrepancy is documented at
+#'  \href{https://github.com/kassambara/rstatix/issues/50}{https://github.com/kassambara/rstatix/issues/50}.
+#'
 #'@inheritParams t_test
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y (outcome) variable used in the test. \item
 #'  \code{group1,group2}: the compared groups in the pairwise tests. \item
 #'  \code{n1,n2}: Sample counts. \item \code{estimate}: mean ranks difference.
-#'  \item \code{estimate1, estimate2}: show the mean rank values of
-#'  the two groups, respectively.
-#'  \item \code{statistic}: Test statistic (z-value) used to compute the
-#'  p-value. \item \code{p}: p-value. \item \code{p.adj}: the adjusted p-value.
-#'  \item \code{method}: the statistical test used to compare groups. \item
-#'  \code{p.signif, p.adj.signif}: the significance level of p-values and
-#'  adjusted p-values, respectively. }
+#'  \item \code{estimate1, estimate2}: show the mean rank values of the two
+#'  groups, respectively. \item \code{statistic}: Test statistic (z-value) used
+#'  to compute the p-value. \item \code{p}: p-value. \item \code{p.adj}: the
+#'  adjusted p-value. \item \code{method}: the statistical test used to compare
+#'  groups. \item \code{p.signif, p.adj.signif}: the significance level of
+#'  p-values and adjusted p-values, respectively. }
 #'
 #'  The \strong{returned object has an attribute called args}, which is a list
 #'  holding the test arguments.
