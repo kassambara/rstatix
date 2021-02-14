@@ -159,9 +159,7 @@ cor_test_xy <- function(
     return(results)
   }
   # Correlation test, supress the warning when method = "spearman" or "kendall".
-  x.value <- data %>% pull(x)
-  y.value <- data %>% pull(y)
-  suppressWarnings(cor.test(x.value, y.value, method = method, use = use, ...)) %>%
+  suppressWarnings(cor.test(data[[x]], data[[y]], method = method, use = use, ...)) %>%
     as_tidy_cor() %>%
     add_column(var1 = x, var2 = y, .before = "cor")
 }
