@@ -68,6 +68,7 @@ get_summary_stats <- function(
   data <- data %>%
     gather(key = "variable", value = ".value.") %>%
     filter(!is.na(.value.)) %>%
+    dplyr::mutate(variable = factor(.data$variable, levels = vars)) %>%
     group_by(variable)
   results <- switch(
     type,
