@@ -28,6 +28,7 @@ NULL
 #'   get_comparisons("dose", ref.group = "all")
 #'@export
 get_comparisons <- function(data, variable, ref.group = NULL){
+  data <- droplevels(data)
   group <- rlang::enquo(variable) %>% rlang::as_name()
   ref.group <- rlang::enquo(ref.group)
   if(rlang::quo_is_null(ref.group)) ref.group <- NULL

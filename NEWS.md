@@ -7,6 +7,7 @@
 
 ## Minor changes
 
+- `get_comparisons()` now drops unused levels before creating possible comparisons (#67)
 - Now, the function `get_summary_stats()` keeps the order of columns specified by the user (#46).
 
 ## Bug fixes
