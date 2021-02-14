@@ -55,7 +55,7 @@ shapiro_test <- function(data, ..., vars = NULL){
     select(!!!syms(vars))
   variable <- value <- method <-  NULL
   data <- data %>%
-    gather(key = "variable", value = "value") %>%
+    tidyr::pivot_longer(everything(), names_to = "variable", values_to = "value") %>%
     filter(!is.na(value))
   data %>%
     group_by(variable) %>%

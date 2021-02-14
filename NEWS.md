@@ -11,6 +11,7 @@
 
 ## Bug fixes
 
+- Name collisions bug fixes in the `shapiro_test()` function. Shapiro_test() throws an error if the input data contains column names "value" or "variable". This is fixed now (#52).
 - Bug fixed in the `cor_test()` function, where there was a tidy evaluation conflict when the input data contains "x" and "y" as column names (#68).
 - The `dunn_test()` documentation is updated to describe the discrepancy between the default behavior of the `rstatix::dunn_test()` compared to other packages (`dunn.test` and `jamovi`). The default of the rstatix::dunn_test() function is to perform a two-sided Dunn test like the well known commercial softwares, such as SPSS and GraphPad. This is not the case for some other R packages (dunn.test and jamovi), where the default is to perform one-sided test (#50). 
 - Now, the function `get_summary_stats()` handles the user defined probabilities for grouped data (#78)
