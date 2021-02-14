@@ -7,9 +7,11 @@
 
 ## Minor changes
 
+- Now, the function `get_summary_stats()` keeps the order of columns specified by the user (#46).
+
 ## Bug fixes
 
-- The `dunn_test()` documentation is updated to describe the discrepancy between the default behaviour of the `rstatix::dunn_test()` comapred to other packages (`dunn.test` and `jamovi`). The default of the rstatix::dunn_test() function is to perform a two-sided Dunn test like the well known commercial softwares, such as SPSS and GraphPad. This is not the case for some other R packages (dunn.test and jamovi), where the default is to perform one-sided test (#50). 
+- The `dunn_test()` documentation is updated to describe the discrepancy between the default behavior of the `rstatix::dunn_test()` compared to other packages (`dunn.test` and `jamovi`). The default of the rstatix::dunn_test() function is to perform a two-sided Dunn test like the well known commercial softwares, such as SPSS and GraphPad. This is not the case for some other R packages (dunn.test and jamovi), where the default is to perform one-sided test (#50). 
 - Now, the function `get_summary_stats()` handles the user defined probabilities for grouped data (#78)
 
 
@@ -24,7 +26,7 @@
 
 ## Major changes
 
-- Rewritting `add_x_position()` to better support different situations (#73).
+- Rewriting `add_x_position()` to better support different situations (#73).
 - Now, the output of the function `dunn_test()` include `estimate1` and `estimate2` when the argument `detailed = TRUE` is specified. The `estimate1` and `estimate2` values represent the mean rank values of the two groups being compared, respectively (#59).
 
 ## Minor changes
