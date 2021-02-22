@@ -483,10 +483,10 @@ fit_lm <- function(.args){
 car_anova <- function(.args, ...){
   if(has_model(.args)){
     .model <- get_anova_model(.args)
-    res.anova <- car::Anova(
+    res.anova <- suppressMessages(car::Anova(
       .model, type = .args$type,
       white.adjust = .args$white.adjust, ...
-    )
+    ))
     .args$model <- .model
   }
   else{
@@ -495,16 +495,16 @@ car_anova <- function(.args, ...){
       within = .args$within, covariate = .args$covariate
       )
     if(is_independent_anova(.args)){
-      res.anova <- Anova(
+      res.anova <- suppressMessages(Anova(
         design$model, type = .args$type,
         white.adjust = .args$white.adjust, ...
-      )
+      ))
     }
     else{
-      res.anova <- Anova(
+      res.anova <- suppressMessages(Anova(
         design$model, idata = design$idata,
         idesign = design$idesign, type = .args$type, ...
-      )
+      ))
     }
    .args$model <- design$model
   }
