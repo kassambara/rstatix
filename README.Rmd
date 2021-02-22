@@ -55,11 +55,11 @@ It's also possible to compute several effect size metrics, including "eta square
 - `sign_test()`: perform sign test to determine whether there is a median difference between paired or matched observations.
 - `anova_test()`: an easy-to-use wrapper around `car::Anova()` to perform different types of ANOVA tests, including **independent measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
 - `get_anova_test_table()`: extract ANOVA table from `anova_test()` results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs.
-`- welch_anova_test()`: Welch one-Way ANOVA test. A pipe-friendly wrapper around the base function `stats::oneway.test()`. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.
+- `welch_anova_test()`: Welch one-Way ANOVA test. A pipe-friendly wrapper around the base function `stats::oneway.test()`. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.
 - `kruskal_test()`: perform kruskal-wallis rank sum test
 - `friedman_test()`: Provides a pipe-friendly framework to perform a Friedman rank sum test, which is the non-parametric alternative to the one-way repeated measures ANOVA test.
 - `get_comparisons()`: Create a list of possible pairwise comparisons between groups.
-- `get_pvalue_position`: autocompute p-value positions for plotting significance using ggplot2.
+- `get_pvalue_position()`: autocompute p-value positions for plotting significance using ggplot2.
    
    
 ### Facilitating ANOVA computation in R

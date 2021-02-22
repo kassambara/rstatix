@@ -62,7 +62,7 @@ Key functions
 -   `get_anova_test_table()`: extract ANOVA table from `anova_test()`
     results. Can apply sphericity correction automatically in the case
     of within-subject (repeated measures) designs.
-    `- welch_anova_test()`: Welch one-Way ANOVA test. A pipe-friendly
+-   `welch_anova_test()`: Welch one-Way ANOVA test. A pipe-friendly
     wrapper around the base function `stats::oneway.test()`. This is is
     an alternative to the standard one-way ANOVA in the situation where
     the homogeneity of variance assumption is violated.
@@ -72,7 +72,7 @@ Key functions
     the one-way repeated measures ANOVA test.
 -   `get_comparisons()`: Create a list of possible pairwise comparisons
     between groups.
--   `get_pvalue_position`: autocompute p-value positions for plotting
+-   `get_pvalue_position()`: autocompute p-value positions for plotting
     significance using ggplot2.
 
 ### Facilitating ANOVA computation in R
@@ -290,7 +290,7 @@ iris %>%
   get_summary_stats(Sepal.Length, Sepal.Width, type = "common")
 #> # A tibble: 2 x 10
 #>   variable         n   min   max median   iqr  mean    sd    se    ci
-#>   <chr>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#>   <fct>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
 #> 1 Sepal.Length   150   4.3   7.9    5.8   1.3  5.84 0.828 0.068 0.134
 #> 2 Sepal.Width    150   2     4.4    3     0.5  3.06 0.436 0.036 0.07
 
@@ -299,11 +299,11 @@ iris %>%
 iris %>% get_summary_stats(type = "common")
 #> # A tibble: 4 x 10
 #>   variable         n   min   max median   iqr  mean    sd    se    ci
-#>   <chr>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1 Petal.Length   150   1     6.9   4.35   3.5  3.76 1.76  0.144 0.285
-#> 2 Petal.Width    150   0.1   2.5   1.3    1.5  1.20 0.762 0.062 0.123
-#> 3 Sepal.Length   150   4.3   7.9   5.8    1.3  5.84 0.828 0.068 0.134
-#> 4 Sepal.Width    150   2     4.4   3      0.5  3.06 0.436 0.036 0.07
+#>   <fct>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1 Sepal.Length   150   4.3   7.9   5.8    1.3  5.84 0.828 0.068 0.134
+#> 2 Sepal.Width    150   2     4.4   3      0.5  3.06 0.436 0.036 0.07 
+#> 3 Petal.Length   150   1     6.9   4.35   3.5  3.76 1.76  0.144 0.285
+#> 4 Petal.Width    150   0.1   2.5   1.3    1.5  1.20 0.762 0.062 0.123
 
 
 # Grouped data
@@ -313,7 +313,7 @@ iris %>%
   get_summary_stats(Sepal.Length, type = "mean_sd")
 #> # A tibble: 3 x 5
 #>   Species    variable         n  mean    sd
-#>   <fct>      <chr>        <dbl> <dbl> <dbl>
+#>   <fct>      <fct>        <dbl> <dbl> <dbl>
 #> 1 setosa     Sepal.Length    50  5.01 0.352
 #> 2 versicolor Sepal.Length    50  5.94 0.516
 #> 3 virginica  Sepal.Length    50  6.59 0.636
