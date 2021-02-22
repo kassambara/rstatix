@@ -250,7 +250,7 @@ remove_leading_zero <- function(x){
     as.character()
 }
 remove_trailing_zero <- function(x){
-  gsub("0+$", "", x)
+  gsub("\\.?0+$", "", x)
 }
 
 # Select p-value columns: p and p.adj -----------------------
