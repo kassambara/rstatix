@@ -27,6 +27,7 @@ NULL
 #'   (e.g., 1), color (e.g., "black") and style (e.g., "bold"). Used to
 #'   customize the correlation coefficient labels. For example \code{font.label
 #'   = list(size = 1, color = "black", style = "bold")}.
+#' @param ... additional options not listed (i.e. "tl.cex") here to pass to corrplot.
 #' @seealso \code{\link{cor_as_symbols}()}
 #' @examples
 #' # Compute correlation matrix
@@ -90,7 +91,7 @@ NULL
 #' @export
 cor_plot <- function(cor.mat, method = "circle", type = "full", palette = NULL,
                      p.mat = NULL, significant.level = 0.05, insignificant = c("cross", "blank"),
-                     label = FALSE, font.label = list()) {
+                     label = FALSE, font.label = list(), ...) {
 
 
   insignificant <- match.arg(insignificant)
@@ -153,7 +154,7 @@ cor_plot <- function(cor.mat, method = "circle", type = "full", palette = NULL,
     p.mat = p.mat, sig.level = significant.level,
     insig = insignificant, pch.cex = 2,
     outline = outline, addCoef.col = addCoef.col,
-    number.cex = font$size, number.font = font$style
+    number.cex = font$size, number.font = font$style, ...
     )
 
 }
