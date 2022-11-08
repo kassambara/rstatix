@@ -13,7 +13,8 @@ cor_plot(
   significant.level = 0.05,
   insignificant = c("cross", "blank"),
   label = FALSE,
-  font.label = list()
+  font.label = list(),
+  ...
 )
 }
 \arguments{
@@ -53,6 +54,8 @@ labels.}
 (e.g., 1), color (e.g., "black") and style (e.g., "bold"). Used to
 customize the correlation coefficient labels. For example \code{font.label
 = list(size = 1, color = "black", style = "bold")}.}
+
+\item{...}{additional options not listed (i.e. "tl.cex") here to pass to corrplot.}
 }
 \description{
 Provide a tibble-friendly framework to visualize a correlation
