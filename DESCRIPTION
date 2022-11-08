@@ -14,7 +14,6 @@ Description: Provides a simple and intuitive pipe-friendly framework, coherent w
     'Cramer V' for the association between categorical variables. 
     The package contains helper functions for identifying univariate and multivariate outliers, assessing normality and homogeneity of variances.
 License: GPL-2
-LazyData: TRUE
 Encoding: UTF-8
 Depends:
     R (>= 3.3.0)
