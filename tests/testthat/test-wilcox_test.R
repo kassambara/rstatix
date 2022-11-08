@@ -83,3 +83,21 @@ test_that("Checking grouped tests", {
 })
 
 
+test_that("Empty values are not counting in group n size (104)", {
+  # Data without NA
+  df <- data.frame(
+    g = rep(c("a", "b"), each = 10),
+    v = rnorm(20)
+  )
+
+  # run Wilcoxon test --> sample sizes are correct
+  res <- wilcox_test(df, v ~ g, paired = TRUE)
+  expect_equal(c(res$n1, c(res$n1)), c(10, 10))
+
+  # Insert NAs
+  df$v[c(1, 12:14)] <- NA
+
+  #repeat Wilcox test --> sample sizes are still the same
+  res <- wilcox_test(data = df, v ~ g, paired = TRUE)
+  expect_equal(c(res$n1, res$n2), c(9, 7))
+})
