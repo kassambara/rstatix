@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -150,28 +150,28 @@ commas. Used to select a variable of interest.</p></td>
 <span class='co'># Non standard evaluation</span>
 <span class='no'>by_dose</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ToothGrowth</span>) <span class='kw'>%&gt;%</span>
    <span class='fu'>df_group_by</span>(<span class='no'>dose</span>)
-<span class='no'>by_dose</span></div><div class='output co'>#&gt; # A tibble: 6 x 3
-#&gt; # Groups:   dose [1]
+<span class='no'>by_dose</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 3</span>
+#&gt; <span style='color: #949494;'># Groups:   dose [1]</span>
 #&gt;     len supp   dose
-#&gt;   &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt;
-#&gt; 1   4.2 VC      0.5
-#&gt; 2  11.5 VC      0.5
-#&gt; 3   7.3 VC      0.5
-#&gt; 4   5.8 VC      0.5
-#&gt; 5   6.4 VC      0.5
-#&gt; 6  10   VC      0.5</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>   4.2 VC      0.5
+#&gt; <span style='color: #BCBCBC;'>2</span>  11.5 VC      0.5
+#&gt; <span style='color: #BCBCBC;'>3</span>   7.3 VC      0.5
+#&gt; <span style='color: #BCBCBC;'>4</span>   5.8 VC      0.5
+#&gt; <span style='color: #BCBCBC;'>5</span>   6.4 VC      0.5
+#&gt; <span style='color: #BCBCBC;'>6</span>  10   VC      0.5</div><div class='input'>
 <span class='co'># Standard evaluation</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ToothGrowth</span>) <span class='kw'>%&gt;%</span>
-   <span class='fu'>df_group_by</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dose"</span>, <span class='st'>"supp"</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 3
-#&gt; # Groups:   dose, supp [1]
+   <span class='fu'>df_group_by</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dose"</span>, <span class='st'>"supp"</span>))</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 3</span>
+#&gt; <span style='color: #949494;'># Groups:   dose, supp [1]</span>
 #&gt;     len supp   dose
-#&gt;   &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt;
-#&gt; 1   4.2 VC      0.5
-#&gt; 2  11.5 VC      0.5
-#&gt; 3   7.3 VC      0.5
-#&gt; 4   5.8 VC      0.5
-#&gt; 5   6.4 VC      0.5
-#&gt; 6  10   VC      0.5</div></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>   4.2 VC      0.5
+#&gt; <span style='color: #BCBCBC;'>2</span>  11.5 VC      0.5
+#&gt; <span style='color: #BCBCBC;'>3</span>   7.3 VC      0.5
+#&gt; <span style='color: #BCBCBC;'>4</span>   5.8 VC      0.5
+#&gt; <span style='color: #BCBCBC;'>5</span>   6.4 VC      0.5
+#&gt; <span style='color: #BCBCBC;'>6</span>  10   VC      0.5</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

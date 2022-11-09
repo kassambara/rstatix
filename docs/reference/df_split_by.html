@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -188,118 +188,118 @@ levels; for example ':'.</p></td>
 <span class='co'># Create a grouped data</span>
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>df_split_by</span>(<span class='no'>dose</span>, <span class='no'>supp</span>)
-<span class='no'>res</span></div><div class='output co'>#&gt; # A tibble: 6 x 4
+<span class='no'>res</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 4</span>
 #&gt;   supp   dose data              label            
-#&gt;   &lt;fct&gt; &lt;dbl&gt; &lt;list&gt;            &lt;fct&gt;            
-#&gt; 1 VC      0.5 &lt;tibble [10 × 2]&gt; dose:0.5, supp:OJ
-#&gt; 2 VC      1   &lt;tibble [10 × 2]&gt; dose:0.5, supp:VC
-#&gt; 3 VC      2   &lt;tibble [10 × 2]&gt; dose:1, supp:OJ  
-#&gt; 4 OJ      0.5 &lt;tibble [10 × 2]&gt; dose:1, supp:VC  
-#&gt; 5 OJ      1   &lt;tibble [10 × 2]&gt; dose:2, supp:OJ  
-#&gt; 6 OJ      2   &lt;tibble [10 × 2]&gt; dose:2, supp:VC  </div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>            
+#&gt; <span style='color: #BCBCBC;'>1</span> VC      0.5 <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:0.5, supp:OJ
+#&gt; <span style='color: #BCBCBC;'>2</span> VC      1   <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:0.5, supp:VC
+#&gt; <span style='color: #BCBCBC;'>3</span> VC      2   <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:1, supp:OJ  
+#&gt; <span style='color: #BCBCBC;'>4</span> OJ      0.5 <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:1, supp:VC  
+#&gt; <span style='color: #BCBCBC;'>5</span> OJ      1   <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:2, supp:OJ  
+#&gt; <span style='color: #BCBCBC;'>6</span> OJ      2   <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:2, supp:VC  </div><div class='input'>
 <span class='co'># Show subsets</span>
 <span class='no'>res</span>$<span class='no'>data</span></div><div class='output co'>#&gt; [[1]]
-#&gt; # A tibble: 10 x 2
+#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span>
 #&gt;      len label            
-#&gt;    &lt;dbl&gt; &lt;fct&gt;            
-#&gt;  1   4.2 dose:0.5, supp:OJ
-#&gt;  2  11.5 dose:0.5, supp:OJ
-#&gt;  3   7.3 dose:0.5, supp:OJ
-#&gt;  4   5.8 dose:0.5, supp:OJ
-#&gt;  5   6.4 dose:0.5, supp:OJ
-#&gt;  6  10   dose:0.5, supp:OJ
-#&gt;  7  11.2 dose:0.5, supp:OJ
-#&gt;  8  11.2 dose:0.5, supp:OJ
-#&gt;  9   5.2 dose:0.5, supp:OJ
-#&gt; 10   7   dose:0.5, supp:OJ
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>            
+#&gt; <span style='color: #BCBCBC;'> 1</span>   4.2 dose:0.5, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 2</span>  11.5 dose:0.5, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 3</span>   7.3 dose:0.5, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 4</span>   5.8 dose:0.5, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 5</span>   6.4 dose:0.5, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 6</span>  10   dose:0.5, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 7</span>  11.2 dose:0.5, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 8</span>  11.2 dose:0.5, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 9</span>   5.2 dose:0.5, supp:OJ
+#&gt; <span style='color: #BCBCBC;'>10</span>   7   dose:0.5, supp:OJ
 #&gt; 
 #&gt; [[2]]
-#&gt; # A tibble: 10 x 2
+#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span>
 #&gt;      len label            
-#&gt;    &lt;dbl&gt; &lt;fct&gt;            
-#&gt;  1  16.5 dose:0.5, supp:VC
-#&gt;  2  16.5 dose:0.5, supp:VC
-#&gt;  3  15.2 dose:0.5, supp:VC
-#&gt;  4  17.3 dose:0.5, supp:VC
-#&gt;  5  22.5 dose:0.5, supp:VC
-#&gt;  6  17.3 dose:0.5, supp:VC
-#&gt;  7  13.6 dose:0.5, supp:VC
-#&gt;  8  14.5 dose:0.5, supp:VC
-#&gt;  9  18.8 dose:0.5, supp:VC
-#&gt; 10  15.5 dose:0.5, supp:VC
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>            
+#&gt; <span style='color: #BCBCBC;'> 1</span>  16.5 dose:0.5, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 2</span>  16.5 dose:0.5, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 3</span>  15.2 dose:0.5, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 4</span>  17.3 dose:0.5, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 5</span>  22.5 dose:0.5, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 6</span>  17.3 dose:0.5, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 7</span>  13.6 dose:0.5, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 8</span>  14.5 dose:0.5, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 9</span>  18.8 dose:0.5, supp:VC
+#&gt; <span style='color: #BCBCBC;'>10</span>  15.5 dose:0.5, supp:VC
 #&gt; 
 #&gt; [[3]]
-#&gt; # A tibble: 10 x 2
+#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span>
 #&gt;      len label          
-#&gt;    &lt;dbl&gt; &lt;fct&gt;          
-#&gt;  1  23.6 dose:1, supp:OJ
-#&gt;  2  18.5 dose:1, supp:OJ
-#&gt;  3  33.9 dose:1, supp:OJ
-#&gt;  4  25.5 dose:1, supp:OJ
-#&gt;  5  26.4 dose:1, supp:OJ
-#&gt;  6  32.5 dose:1, supp:OJ
-#&gt;  7  26.7 dose:1, supp:OJ
-#&gt;  8  21.5 dose:1, supp:OJ
-#&gt;  9  23.3 dose:1, supp:OJ
-#&gt; 10  29.5 dose:1, supp:OJ
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>          
+#&gt; <span style='color: #BCBCBC;'> 1</span>  23.6 dose:1, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 2</span>  18.5 dose:1, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 3</span>  33.9 dose:1, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 4</span>  25.5 dose:1, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 5</span>  26.4 dose:1, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 6</span>  32.5 dose:1, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 7</span>  26.7 dose:1, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 8</span>  21.5 dose:1, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 9</span>  23.3 dose:1, supp:OJ
+#&gt; <span style='color: #BCBCBC;'>10</span>  29.5 dose:1, supp:OJ
 #&gt; 
 #&gt; [[4]]
-#&gt; # A tibble: 10 x 2
+#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span>
 #&gt;      len label          
-#&gt;    &lt;dbl&gt; &lt;fct&gt;          
-#&gt;  1  15.2 dose:1, supp:VC
-#&gt;  2  21.5 dose:1, supp:VC
-#&gt;  3  17.6 dose:1, supp:VC
-#&gt;  4   9.7 dose:1, supp:VC
-#&gt;  5  14.5 dose:1, supp:VC
-#&gt;  6  10   dose:1, supp:VC
-#&gt;  7   8.2 dose:1, supp:VC
-#&gt;  8   9.4 dose:1, supp:VC
-#&gt;  9  16.5 dose:1, supp:VC
-#&gt; 10   9.7 dose:1, supp:VC
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>          
+#&gt; <span style='color: #BCBCBC;'> 1</span>  15.2 dose:1, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 2</span>  21.5 dose:1, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 3</span>  17.6 dose:1, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 4</span>   9.7 dose:1, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 5</span>  14.5 dose:1, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 6</span>  10   dose:1, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 7</span>   8.2 dose:1, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 8</span>   9.4 dose:1, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 9</span>  16.5 dose:1, supp:VC
+#&gt; <span style='color: #BCBCBC;'>10</span>   9.7 dose:1, supp:VC
 #&gt; 
 #&gt; [[5]]
-#&gt; # A tibble: 10 x 2
+#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span>
 #&gt;      len label          
-#&gt;    &lt;dbl&gt; &lt;fct&gt;          
-#&gt;  1  19.7 dose:2, supp:OJ
-#&gt;  2  23.3 dose:2, supp:OJ
-#&gt;  3  23.6 dose:2, supp:OJ
-#&gt;  4  26.4 dose:2, supp:OJ
-#&gt;  5  20   dose:2, supp:OJ
-#&gt;  6  25.2 dose:2, supp:OJ
-#&gt;  7  25.8 dose:2, supp:OJ
-#&gt;  8  21.2 dose:2, supp:OJ
-#&gt;  9  14.5 dose:2, supp:OJ
-#&gt; 10  27.3 dose:2, supp:OJ
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>          
+#&gt; <span style='color: #BCBCBC;'> 1</span>  19.7 dose:2, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 2</span>  23.3 dose:2, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 3</span>  23.6 dose:2, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 4</span>  26.4 dose:2, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 5</span>  20   dose:2, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 6</span>  25.2 dose:2, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 7</span>  25.8 dose:2, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 8</span>  21.2 dose:2, supp:OJ
+#&gt; <span style='color: #BCBCBC;'> 9</span>  14.5 dose:2, supp:OJ
+#&gt; <span style='color: #BCBCBC;'>10</span>  27.3 dose:2, supp:OJ
 #&gt; 
 #&gt; [[6]]
-#&gt; # A tibble: 10 x 2
+#&gt; <span style='color: #949494;'># A tibble: 10 x 2</span>
 #&gt;      len label          
-#&gt;    &lt;dbl&gt; &lt;fct&gt;          
-#&gt;  1  25.5 dose:2, supp:VC
-#&gt;  2  26.4 dose:2, supp:VC
-#&gt;  3  22.4 dose:2, supp:VC
-#&gt;  4  24.5 dose:2, supp:VC
-#&gt;  5  24.8 dose:2, supp:VC
-#&gt;  6  30.9 dose:2, supp:VC
-#&gt;  7  26.4 dose:2, supp:VC
-#&gt;  8  27.3 dose:2, supp:VC
-#&gt;  9  29.4 dose:2, supp:VC
-#&gt; 10  23   dose:2, supp:VC
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>          
+#&gt; <span style='color: #BCBCBC;'> 1</span>  25.5 dose:2, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 2</span>  26.4 dose:2, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 3</span>  22.4 dose:2, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 4</span>  24.5 dose:2, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 5</span>  24.8 dose:2, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 6</span>  30.9 dose:2, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 7</span>  26.4 dose:2, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 8</span>  27.3 dose:2, supp:VC
+#&gt; <span style='color: #BCBCBC;'> 9</span>  29.4 dose:2, supp:VC
+#&gt; <span style='color: #BCBCBC;'>10</span>  23   dose:2, supp:VC
 #&gt; </div><div class='input'>
 <span class='co'># Add panel/subset labels</span>
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>df_split_by</span>(<span class='no'>dose</span>, <span class='no'>supp</span>)
-<span class='no'>res</span></div><div class='output co'>#&gt; # A tibble: 6 x 4
+<span class='no'>res</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 4</span>
 #&gt;   supp   dose data              label            
-#&gt;   &lt;fct&gt; &lt;dbl&gt; &lt;list&gt;            &lt;fct&gt;            
-#&gt; 1 VC      0.5 &lt;tibble [10 × 2]&gt; dose:0.5, supp:OJ
-#&gt; 2 VC      1   &lt;tibble [10 × 2]&gt; dose:0.5, supp:VC
-#&gt; 3 VC      2   &lt;tibble [10 × 2]&gt; dose:1, supp:OJ  
-#&gt; 4 OJ      0.5 &lt;tibble [10 × 2]&gt; dose:1, supp:VC  
-#&gt; 5 OJ      1   &lt;tibble [10 × 2]&gt; dose:2, supp:OJ  
-#&gt; 6 OJ      2   &lt;tibble [10 × 2]&gt; dose:2, supp:VC  </div></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>            
+#&gt; <span style='color: #BCBCBC;'>1</span> VC      0.5 <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:0.5, supp:OJ
+#&gt; <span style='color: #BCBCBC;'>2</span> VC      1   <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:0.5, supp:VC
+#&gt; <span style='color: #BCBCBC;'>3</span> VC      2   <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:1, supp:OJ  
+#&gt; <span style='color: #BCBCBC;'>4</span> OJ      0.5 <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:1, supp:VC  
+#&gt; <span style='color: #BCBCBC;'>5</span> OJ      1   <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:2, supp:OJ  
+#&gt; <span style='color: #BCBCBC;'>6</span> OJ      2   <span style='color: #949494;'>&lt;tibble [10 × 2]&gt;</span> dose:2, supp:VC  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

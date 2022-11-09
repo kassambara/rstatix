@@ -83,7 +83,7 @@ How
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -308,12 +308,12 @@ when <code>x</code> specified.</p></td>
 <span class='co'>#::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>stat.test</span> <span class='kw'>&lt;-</span> <span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='t_test.html'>t_test</a></span>(<span class='no'>len</span> ~ <span class='no'>dose</span>)
-<span class='no'>stat.test</span></div><div class='output co'>#&gt; # A tibble: 3 x 10
+<span class='no'>stat.test</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 10</span>
 #&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 2.54e- 7 ****        
-#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 1.32e-13 ****        
-#&gt; 3 len   1      2         20    20     -4.90  37.1 1.91e- 5 1.91e- 5 ****        </div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       
+#&gt; <span style='color: #BCBCBC;'>1</span> len   0.5    1         20    20     -<span style='color: #BB0000;'>6.48</span>  38.0 1.27<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span> 2.54<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span> ****        
+#&gt; <span style='color: #BCBCBC;'>2</span> len   0.5    2         20    20    -<span style='color: #BB0000;'>11.8</span>   36.9 4.4 <span style='color: #949494;'>e</span><span style='color: #BB0000;'>-14</span> 1.32<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-13</span> ****        
+#&gt; <span style='color: #BCBCBC;'>3</span> len   1      2         20    20     -<span style='color: #BB0000;'>4.90</span>  37.1 1.91<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 5</span> 1.91<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 5</span> ****        </div><div class='input'>
 <span class='co'># Add the test into box plots</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::</span>
 <span class='no'>stat.test</span> <span class='kw'>&lt;-</span> <span class='no'>stat.test</span> <span class='kw'>%&gt;%</span>

@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -120,7 +120,9 @@
 <li>
 <code><a href="reference/anova_test.html">anova_test()</a></code>: an easy-to-use wrapper around <code><a href="https://rdrr.io/pkg/car/man/Anova.html">car::Anova()</a></code> to perform different types of ANOVA tests, including <strong>independent measures ANOVA</strong>, <strong>repeated measures ANOVA</strong> and <strong>mixed ANOVA</strong>.</li>
 <li>
-<code>get_anova_test_table()</code>: extract ANOVA table from <code><a href="reference/anova_test.html">anova_test()</a></code> results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs. <code>- welch_anova_test()</code>: Welch one-Way ANOVA test. A pipe-friendly wrapper around the base function <code><a href="https://rdrr.io/r/stats/oneway.test.html">stats::oneway.test()</a></code>. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.</li>
+<code>get_anova_test_table()</code>: extract ANOVA table from <code><a href="reference/anova_test.html">anova_test()</a></code> results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs.</li>
+<li>
+<code><a href="reference/welch_anova_test.html">welch_anova_test()</a></code>: Welch one-Way ANOVA test. A pipe-friendly wrapper around the base function <code><a href="https://rdrr.io/r/stats/oneway.test.html">stats::oneway.test()</a></code>. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.</li>
 <li>
 <code><a href="reference/kruskal_test.html">kruskal_test()</a></code>: perform kruskal-wallis rank sum test</li>
 <li>
@@ -128,7 +130,7 @@
 <li>
 <code><a href="reference/get_comparisons.html">get_comparisons()</a></code>: Create a list of possible pairwise comparisons between groups.</li>
 <li>
-<code>get_pvalue_position</code>: autocompute p-value positions for plotting significance using ggplot2.</li>
+<code>get_pvalue_position()</code>: autocompute p-value positions for plotting significance using ggplot2.</li>
 </ul>
 </div>
 <div id="facilitating-anova-computation-in-r" class="section level3">
@@ -319,7 +321,7 @@
 <li>Install the latest developmental version from <a href="https://github.com/kassambara/rstatix">GitHub</a> as follow:</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="r"><span class="kw">if</span>(!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">devtools</span>)) <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"kassambara/rstatix"</span>)</pre></div>
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html">install_github</a></span>(<span class="st">"kassambara/rstatix"</span>)</pre></div>
 <ul>
 <li>Or install from <a href="https://cran.r-project.org/package=ggpubr">CRAN</a> as follow:</li>
 </ul>
@@ -339,7 +341,7 @@
   <span class="fu"><a href="reference/get_summary_stats.html">get_summary_stats</a></span>(<span class="no">Sepal.Length</span>, <span class="no">Sepal.Width</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"common"</span>)
 <span class="co">#&gt; # A tibble: 2 x 10</span>
 <span class="co">#&gt;   variable         n   min   max median   iqr  mean    sd    se    ci</span>
-<span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Sepal.Length   150   4.3   7.9    5.8   1.3  5.84 0.828 0.068 0.134</span>
 <span class="co">#&gt; 2 Sepal.Width    150   2     4.4    3     0.5  3.06 0.436 0.036 0.07</span>
 
@@ -348,11 +350,11 @@
 <span class="no">iris</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/get_summary_stats.html">get_summary_stats</a></span>(<span class="kw">type</span> <span class="kw">=</span> <span class="st">"common"</span>)
 <span class="co">#&gt; # A tibble: 4 x 10</span>
 <span class="co">#&gt;   variable         n   min   max median   iqr  mean    sd    se    ci</span>
-<span class="co">#&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 Petal.Length   150   1     6.9   4.35   3.5  3.76 1.76  0.144 0.285</span>
-<span class="co">#&gt; 2 Petal.Width    150   0.1   2.5   1.3    1.5  1.20 0.762 0.062 0.123</span>
-<span class="co">#&gt; 3 Sepal.Length   150   4.3   7.9   5.8    1.3  5.84 0.828 0.068 0.134</span>
-<span class="co">#&gt; 4 Sepal.Width    150   2     4.4   3      0.5  3.06 0.436 0.036 0.07</span>
+<span class="co">#&gt;   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Sepal.Length   150   4.3   7.9   5.8    1.3  5.84 0.828 0.068 0.134</span>
+<span class="co">#&gt; 2 Sepal.Width    150   2     4.4   3      0.5  3.06 0.436 0.036 0.07 </span>
+<span class="co">#&gt; 3 Petal.Length   150   1     6.9   4.35   3.5  3.76 1.76  0.144 0.285</span>
+<span class="co">#&gt; 4 Petal.Width    150   0.1   2.5   1.3    1.5  1.20 0.762 0.062 0.123</span>
 
 
 <span class="co"># Grouped data</span>
@@ -362,7 +364,7 @@
   <span class="fu"><a href="reference/get_summary_stats.html">get_summary_stats</a></span>(<span class="no">Sepal.Length</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"mean_sd"</span>)
 <span class="co">#&gt; # A tibble: 3 x 5</span>
 <span class="co">#&gt;   Species    variable         n  mean    sd</span>
-<span class="co">#&gt;   &lt;fct&gt;      &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;fct&gt;      &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 setosa     Sepal.Length    50  5.01 0.352</span>
 <span class="co">#&gt; 2 versicolor Sepal.Length    50  5.94 0.516</span>
 <span class="co">#&gt; 3 virginica  Sepal.Length    50  6.59 0.636</span></pre></div>

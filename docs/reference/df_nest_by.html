@@ -74,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -152,26 +152,26 @@ commas. Used as grouping variables.</p></td>
     <pre class="examples"><div class='input'>
 <span class='co'># Non standard evaluation</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
- <span class='fu'>df_nest_by</span>(<span class='no'>dose</span>, <span class='no'>supp</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 3
+ <span class='fu'>df_nest_by</span>(<span class='no'>dose</span>, <span class='no'>supp</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 3</span>
 #&gt;   supp   dose data             
-#&gt;   &lt;fct&gt; &lt;dbl&gt; &lt;list&gt;           
-#&gt; 1 VC      0.5 &lt;tibble [10 × 1]&gt;
-#&gt; 2 VC      1   &lt;tibble [10 × 1]&gt;
-#&gt; 3 VC      2   &lt;tibble [10 × 1]&gt;
-#&gt; 4 OJ      0.5 &lt;tibble [10 × 1]&gt;
-#&gt; 5 OJ      1   &lt;tibble [10 × 1]&gt;
-#&gt; 6 OJ      2   &lt;tibble [10 × 1]&gt;</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>           
+#&gt; <span style='color: #BCBCBC;'>1</span> VC      0.5 <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>2</span> VC      1   <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>3</span> VC      2   <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>4</span> OJ      0.5 <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>5</span> OJ      1   <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>6</span> OJ      2   <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span></div><div class='input'>
 <span class='co'># Standard evaluation</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
- <span class='fu'>df_nest_by</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dose"</span>, <span class='st'>"supp"</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 3
+ <span class='fu'>df_nest_by</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dose"</span>, <span class='st'>"supp"</span>))</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 3</span>
 #&gt;   supp   dose data             
-#&gt;   &lt;fct&gt; &lt;dbl&gt; &lt;list&gt;           
-#&gt; 1 VC      0.5 &lt;tibble [10 × 1]&gt;
-#&gt; 2 VC      1   &lt;tibble [10 × 1]&gt;
-#&gt; 3 VC      2   &lt;tibble [10 × 1]&gt;
-#&gt; 4 OJ      0.5 &lt;tibble [10 × 1]&gt;
-#&gt; 5 OJ      1   &lt;tibble [10 × 1]&gt;
-#&gt; 6 OJ      2   &lt;tibble [10 × 1]&gt;</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>           
+#&gt; <span style='color: #BCBCBC;'>1</span> VC      0.5 <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>2</span> VC      1   <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>3</span> VC      2   <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>4</span> OJ      0.5 <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>5</span> OJ      1   <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>6</span> OJ      2   <span style='color: #949494;'>&lt;tibble [10 × 1]&gt;</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

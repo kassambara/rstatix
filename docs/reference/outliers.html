@@ -85,7 +85,7 @@ Generally speaking, data points that are labelled outliers in boxplots are
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -217,11 +217,11 @@ and "is.extreme".</p></li>
 <span class='co'># Identify outliers by groups</span>
 <span class='no'>demo.data</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>gender</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>identify_outliers</span>(<span class='st'>"score"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 5
+  <span class='fu'>identify_outliers</span>(<span class='st'>"score"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 x 5</span>
 #&gt;   gender sample score is.outlier is.extreme
-#&gt;   &lt;fct&gt;   &lt;int&gt; &lt;dbl&gt; &lt;lgl&gt;      &lt;lgl&gt;     
-#&gt; 1 Female     18  1.07 TRUE       FALSE     
-#&gt; 2 Female     20 50    TRUE       TRUE      </div></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;lgl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;lgl&gt;</span>     
+#&gt; <span style='color: #BCBCBC;'>1</span> Female     18  1.07 TRUE       FALSE     
+#&gt; <span style='color: #BCBCBC;'>2</span> Female     20 50    TRUE       TRUE      </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

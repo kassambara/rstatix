@@ -82,7 +82,7 @@ The p-values contained in the outputs of the functions
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -147,7 +147,8 @@ The p-values contained in the outputs of the functions
   <span class='kw'>significant.level</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='kw'>insignificant</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"cross"</span>, <span class='st'>"blank"</span>),
   <span class='kw'>label</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>font.label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+  <span class='kw'>font.label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -206,6 +207,10 @@ labels.</p></td>
 (e.g., 1), color (e.g., "black") and style (e.g., "bold"). Used to
 customize the correlation coefficient labels. For example <code>font.label
 = list(size = 1, color = "black", style = "bold")</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional options not listed (i.e. "tl.cex") here to pass to corrplot.</p></td>
     </tr>
     </table>
 

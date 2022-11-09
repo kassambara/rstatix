@@ -80,7 +80,7 @@ Wrappers around the R base function prop.test() but have
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -257,11 +257,11 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Comparing an observed proportion to an expected proportion</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
-<span class='fu'>prop_test</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>95</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>160</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 11
-#&gt;       n    n1 estimate statistic      p    df conf.low conf.high method
-#&gt; * &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; 
-#&gt; 1   160    95    0.594      5.26 0.0219     1    0.513     0.670 Prop …
-#&gt; # … with 2 more variables: alternative &lt;chr&gt;, p.signif &lt;chr&gt;</div><div class='input'>
+<span class='fu'>prop_test</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>95</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>160</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 11</span>
+#&gt;       n    n1 estimate statistic      p    df conf.low conf.high method   
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    
+#&gt; <span style='color: #BCBCBC;'>1</span>   160    95    0.594      5.26 0.021<span style='text-decoration: underline;'>9</span>     1    0.513     0.670 Prop test
+#&gt; <span style='color: #949494;'># … with 2 more variables: alternative &lt;chr&gt;, p.signif &lt;chr&gt;</span></div><div class='input'>
 <span class='co'># Comparing two proportions</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># Data: frequencies of smokers between two groups</span>
@@ -274,12 +274,12 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
 #&gt; group  yes  no
 #&gt;   grp1 490  10
 #&gt;   grp2 400 100</div><div class='input'><span class='co'># compare the proportion of smokers</span>
-<span class='fu'>prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 13
+<span class='fu'>prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 13</span>
 #&gt;       n    n1    n2 estimate1 estimate2 statistic        p    df conf.low
-#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1  1000   500   500      0.98       0.8      80.9 2.36e-19     1    0.141
-#&gt; # … with 4 more variables: conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;,
-#&gt; #   p.signif &lt;chr&gt;</div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>  <span style='text-decoration: underline;'>1</span>000   500   500      0.98       0.8      80.9 2.36<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-19</span>     1    0.141
+#&gt; <span style='color: #949494;'># … with 4 more variables: conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   p.signif &lt;chr&gt;</span></div><div class='input'>
 <span class='co'># Homogeneity of proportions between groups</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># H0: the proportion of smokers is similar in the four groups</span>
@@ -302,22 +302,22 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
 #&gt;     Yes   50  100  139   80
 #&gt;     No    56   13   17   22</div><div class='input'>
 <span class='co'># Compare the proportions of smokers between groups</span>
-<span class='fu'>prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 15
+<span class='fu'>prop_test</span>(<span class='no'>xtab</span>, <span class='kw'>detailed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 15</span>
 #&gt;       n    n1    n2    n3    n4 estimate1 estimate2 estimate3 estimate4
-#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-#&gt; 1   477   106   113   156   102     0.472     0.885     0.891     0.784
-#&gt; # … with 6 more variables: statistic &lt;dbl&gt;, p &lt;dbl&gt;, df &lt;dbl&gt;, method &lt;chr&gt;,
-#&gt; #   alternative &lt;chr&gt;, p.signif &lt;chr&gt;</div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>   477   106   113   156   102     0.472     0.885     0.891     0.784
+#&gt; <span style='color: #949494;'># … with 6 more variables: statistic &lt;dbl&gt;, p &lt;dbl&gt;, df &lt;dbl&gt;, method &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   alternative &lt;chr&gt;, p.signif &lt;chr&gt;</span></div><div class='input'>
 <span class='co'># Pairwise comparison between groups</span>
-<span class='fu'>pairwise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 5
+<span class='fu'>pairwise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 5</span>
 #&gt;   group1 group2        p    p.adj p.adj.signif
-#&gt; * &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 grp1   grp2   1.25e-10 6.23e-10 ****        
-#&gt; 2 grp1   grp3   3.09e-13 1.86e-12 ****        
-#&gt; 3 grp2   grp3   1.00e+ 0 1.00e+ 0 ns          
-#&gt; 4 grp1   grp4   6.41e- 6 2.56e- 5 ****        
-#&gt; 5 grp2   grp4   7.01e- 2 1.40e- 1 ns          
-#&gt; 6 grp3   grp4   3.06e- 2 9.19e- 2 ns          </div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       
+#&gt; <span style='color: #BCBCBC;'>1</span> grp1   grp2   1.25<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span> 6.23<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span> ****        
+#&gt; <span style='color: #BCBCBC;'>2</span> grp1   grp3   3.09<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-13</span> 1.86<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-12</span> ****        
+#&gt; <span style='color: #BCBCBC;'>3</span> grp2   grp3   1   <span style='color: #949494;'>e</span>+ 0 1   <span style='color: #949494;'>e</span>+ 0 ns          
+#&gt; <span style='color: #BCBCBC;'>4</span> grp1   grp4   6.41<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 6</span> 2.56<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 5</span> ****        
+#&gt; <span style='color: #BCBCBC;'>5</span> grp2   grp4   7.01<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span> 1.4 <span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span> ns          
+#&gt; <span style='color: #BCBCBC;'>6</span> grp3   grp4   3.06<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span> 9.19<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span> ns          </div><div class='input'>
 
 <span class='co'># Pairwise proportion tests</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
@@ -334,15 +334,15 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
 #&gt; Survived 1st 2nd 3rd Crew
 #&gt;      No  122 167 528  673
 #&gt;      Yes 203 118 178  212</div><div class='input'><span class='co'># Compare the proportion of survived between groups</span>
-<span class='fu'>pairwise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 5
+<span class='fu'>pairwise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 5</span>
 #&gt;   group1 group2        p    p.adj p.adj.signif
-#&gt; * &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 1st    2nd    3.13e- 7 9.38e- 7 ****        
-#&gt; 2 1st    3rd    2.55e-30 1.27e-29 ****        
-#&gt; 3 2nd    3rd    6.90e- 7 1.38e- 6 ****        
-#&gt; 4 1st    Crew   1.62e-35 9.73e-35 ****        
-#&gt; 5 2nd    Crew   1.94e- 8 7.75e- 8 ****        
-#&gt; 6 3rd    Crew   6.03e- 1 6.03e- 1 ns          </div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       
+#&gt; <span style='color: #BCBCBC;'>1</span> 1st    2nd    3.13<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span> 9.38<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span> ****        
+#&gt; <span style='color: #BCBCBC;'>2</span> 1st    3rd    2.55<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-30</span> 1.27<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-29</span> ****        
+#&gt; <span style='color: #BCBCBC;'>3</span> 2nd    3rd    6.9 <span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span> 1.38<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 6</span> ****        
+#&gt; <span style='color: #BCBCBC;'>4</span> 1st    Crew   1.62<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-35</span> 9.73<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-35</span> ****        
+#&gt; <span style='color: #BCBCBC;'>5</span> 2nd    Crew   1.94<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 8</span> 7.75<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 8</span> ****        
+#&gt; <span style='color: #BCBCBC;'>6</span> 3rd    Crew   6.03<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span> 6.03<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span> ns          </div><div class='input'>
 <span class='co'># Row-wise proportion tests</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># Data: Titanic</span>
@@ -360,13 +360,13 @@ of homogeneity for rx2 contingency table. The z-test of two proportions is calcu
 #&gt;   2nd   179    106
 #&gt;   3rd   510    196
 #&gt;   Crew  862     23</div><div class='input'><span class='co'># Compare the proportion of males and females in each category</span>
-<span class='fu'>row_wise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 7
+<span class='fu'>row_wise_prop_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 7</span>
 #&gt;   group     n statistic    df        p    p.adj p.adj.signif
-#&gt; * &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 1st    2201     121.      1 3.40e-28 1.02e-27 ****        
-#&gt; 2 2nd    2201      47.8     1 4.65e-12 9.30e-12 ****        
-#&gt; 3 3rd    2201      24.9     1 6.18e- 7 6.18e- 7 ****        
-#&gt; 4 Crew   2201     308.      1 5.51e-69 2.20e-68 ****        </div></pre>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       
+#&gt; <span style='color: #BCBCBC;'>1</span> 1st    <span style='text-decoration: underline;'>2</span>201     121.      1 3.4 <span style='color: #949494;'>e</span><span style='color: #BB0000;'>-28</span> 1.02<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-27</span> ****        
+#&gt; <span style='color: #BCBCBC;'>2</span> 2nd    <span style='text-decoration: underline;'>2</span>201      47.8     1 4.65<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-12</span> 9.3 <span style='color: #949494;'>e</span><span style='color: #BB0000;'>-12</span> ****        
+#&gt; <span style='color: #BCBCBC;'>3</span> 3rd    <span style='text-decoration: underline;'>2</span>201      24.9     1 6.18<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span> 6.18<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span> ****        
+#&gt; <span style='color: #BCBCBC;'>4</span> Crew   <span style='text-decoration: underline;'>2</span>201     308.      1 5.51<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-69</span> 2.2 <span style='color: #949494;'>e</span><span style='color: #BB0000;'>-68</span> ****        </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

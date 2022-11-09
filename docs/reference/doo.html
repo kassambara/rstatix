@@ -80,7 +80,7 @@ The output is a data frame. If the applied function returns a data frame,
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -167,7 +167,7 @@ The output is a data frame. If the applied function returns a data frame,
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='no'>stat_test</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>data</span>, <span class='no'>formula</span>){
   <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span>(<span class='no'>formula</span>, <span class='no'>data</span>) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span>()
+    <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span>()
 }
 <span class='co'># Example 1: pipe-friendly stat_test().</span>
 <span class='co'># Two possibilities of usage are available</span>
@@ -175,35 +175,35 @@ The output is a data frame. If the applied function returns a data frame,
 <span class='co'># Use this</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>doo</span>(~<span class='fu'>stat_test</span>(<span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 11
+  <span class='fu'>doo</span>(~<span class='fu'>stat_test</span>(<span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>))</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 11</span>
 #&gt;    dose estimate estimate1 estimate2 statistic p.value parameter conf.low
-#&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1   0.5     5.25      13.2      7.98    3.17   0.00636      15.0     1.72
-#&gt; 2   1       5.93      22.7     16.8     4.03   0.00104      15.4     2.80
-#&gt; 3   2      -0.08      26.1     26.1    -0.0461 0.964        14.0    -3.80
-#&gt; # … with 3 more variables: conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>   0.5   5.25        13.2      7.98    3.17   0.006<span style='text-decoration: underline;'>36</span>      15.0     1.72
+#&gt; <span style='color: #BCBCBC;'>2</span>   1     5.93        22.7     16.8     4.03   0.001<span style='text-decoration: underline;'>04</span>      15.4     2.80
+#&gt; <span style='color: #BCBCBC;'>3</span>   2    -<span style='color: #BB0000;'>0.080</span><span style='color: #BB0000; text-decoration: underline;'>0</span>      26.1     26.1    -<span style='color: #BB0000;'>0.046</span><span style='color: #BB0000; text-decoration: underline;'>1</span> 0.964        14.0    -<span style='color: #BB0000;'>3.80</span>
+#&gt; <span style='color: #949494;'># … with 3 more variables: conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;</span></div><div class='input'>
 <span class='co'># Or this</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>doo</span>(<span class='no'>stat_test</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 11
+  <span class='fu'>doo</span>(<span class='no'>stat_test</span>, <span class='no'>len</span> ~ <span class='no'>supp</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 11</span>
 #&gt;    dose estimate estimate1 estimate2 statistic p.value parameter conf.low
-#&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1   0.5     5.25      13.2      7.98    3.17   0.00636      15.0     1.72
-#&gt; 2   1       5.93      22.7     16.8     4.03   0.00104      15.4     2.80
-#&gt; 3   2      -0.08      26.1     26.1    -0.0461 0.964        14.0    -3.80
-#&gt; # … with 3 more variables: conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;</div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>   0.5   5.25        13.2      7.98    3.17   0.006<span style='text-decoration: underline;'>36</span>      15.0     1.72
+#&gt; <span style='color: #BCBCBC;'>2</span>   1     5.93        22.7     16.8     4.03   0.001<span style='text-decoration: underline;'>04</span>      15.4     2.80
+#&gt; <span style='color: #BCBCBC;'>3</span>   2    -<span style='color: #BB0000;'>0.080</span><span style='color: #BB0000; text-decoration: underline;'>0</span>      26.1     26.1    -<span style='color: #BB0000;'>0.046</span><span style='color: #BB0000; text-decoration: underline;'>1</span> 0.964        14.0    -<span style='color: #BB0000;'>3.80</span>
+#&gt; <span style='color: #949494;'># … with 3 more variables: conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;</span></div><div class='input'>
 <span class='co'># Example 2: R base function t.test() (not pipe friendly)</span>
 <span class='co'># One possibility of usage</span>
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='no'>comparisons</span> <span class='kw'>&lt;-</span> <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
    <span class='fu'>doo</span>(~<span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>))
-<span class='no'>comparisons</span></div><div class='output co'>#&gt; # A tibble: 3 x 2
+<span class='no'>comparisons</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 2</span>
 #&gt;    dose .results.
-#&gt;   &lt;dbl&gt; &lt;list&gt;   
-#&gt; 1   0.5 &lt;htest&gt;  
-#&gt; 2   1   &lt;htest&gt;  
-#&gt; 3   2   &lt;htest&gt;  </div><div class='input'><span class='no'>comparisons</span>$<span class='no'>.results.</span></div><div class='output co'>#&gt; [[1]]
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>   
+#&gt; <span style='color: #BCBCBC;'>1</span>   0.5 <span style='color: #949494;'>&lt;htest&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'>2</span>   1   <span style='color: #949494;'>&lt;htest&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'>3</span>   2   <span style='color: #949494;'>&lt;htest&gt;</span>  </div><div class='input'><span class='no'>comparisons</span>$<span class='no'>.results.</span></div><div class='output co'>#&gt; [[1]]
 #&gt; 
 #&gt; 	Welch Two Sample t-test
 #&gt; 
@@ -249,13 +249,13 @@ The output is a data frame. If the applied function returns a data frame,
 <span class='co'>#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span>
    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>dose</span>) <span class='kw'>%&gt;%</span>
-   <span class='fu'>doo</span>(~<span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span>())</div><div class='output co'>#&gt; # A tibble: 3 x 11
+   <span class='fu'>doo</span>(~<span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>data</span> <span class='kw'>=</span><span class='no'>.</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span>())</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 11</span>
 #&gt;    dose estimate estimate1 estimate2 statistic p.value parameter conf.low
-#&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1   0.5     5.25      13.2      7.98    3.17   0.00636      15.0     1.72
-#&gt; 2   1       5.93      22.7     16.8     4.03   0.00104      15.4     2.80
-#&gt; 3   2      -0.08      26.1     26.1    -0.0461 0.964        14.0    -3.80
-#&gt; # … with 3 more variables: conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;</div></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span>   0.5   5.25        13.2      7.98    3.17   0.006<span style='text-decoration: underline;'>36</span>      15.0     1.72
+#&gt; <span style='color: #BCBCBC;'>2</span>   1     5.93        22.7     16.8     4.03   0.001<span style='text-decoration: underline;'>04</span>      15.4     2.80
+#&gt; <span style='color: #BCBCBC;'>3</span>   2    -<span style='color: #BB0000;'>0.080</span><span style='color: #BB0000; text-decoration: underline;'>0</span>      26.1     26.1    -<span style='color: #BB0000;'>0.046</span><span style='color: #BB0000; text-decoration: underline;'>1</span> 0.964        14.0    -<span style='color: #BB0000;'>3.80</span>
+#&gt; <span style='color: #949494;'># … with 3 more variables: conf.high &lt;dbl&gt;, method &lt;chr&gt;, alternative &lt;chr&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

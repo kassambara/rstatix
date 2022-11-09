@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -201,7 +201,7 @@ an attribute named "pvalue", which contains the matrix of the correlation
 test p-values.</p></li>
 <li><p><code>cor_pmat</code>: compute the correlation matrix but returns only the p-values of the tests.</p></li>
 <li><p><code>cor_get_pval</code>: extract a correlation matrix p-values from an object of
-class <code>cor_mat()</code>.</p></li>
+class <code>cor_mat()</code>. P-values are not adjusted.</p></li>
 </ul>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -223,42 +223,42 @@ class <code>cor_mat()</code>.</p></li>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
 <span class='co'># Correlation matrix between all variables</span>
 <span class='no'>cor.mat</span> <span class='kw'>&lt;-</span> <span class='no'>mydata</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_mat</span>()
-<span class='no'>cor.mat</span></div><div class='output co'>#&gt; # A tibble: 6 x 7
+<span class='no'>cor.mat</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 7</span>
 #&gt;   rowname   mpg  disp    hp   drat    wt   qsec
-#&gt; * &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1 mpg      1    -0.85 -0.78  0.68  -0.87  0.42 
-#&gt; 2 disp    -0.85  1     0.79 -0.71   0.89 -0.43 
-#&gt; 3 hp      -0.78  0.79  1    -0.45   0.66 -0.71 
-#&gt; 4 drat     0.68 -0.71 -0.45  1     -0.71  0.091
-#&gt; 5 wt      -0.87  0.89  0.66 -0.71   1    -0.17 
-#&gt; 6 qsec     0.42 -0.43 -0.71  0.091 -0.17  1    </div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> mpg      1    -<span style='color: #BB0000;'>0.85</span> -<span style='color: #BB0000;'>0.78</span>  0.68  -<span style='color: #BB0000;'>0.87</span>  0.42 
+#&gt; <span style='color: #BCBCBC;'>2</span> disp    -<span style='color: #BB0000;'>0.85</span>  1     0.79 -<span style='color: #BB0000;'>0.71</span>   0.89 -<span style='color: #BB0000;'>0.43</span> 
+#&gt; <span style='color: #BCBCBC;'>3</span> hp      -<span style='color: #BB0000;'>0.78</span>  0.79  1    -<span style='color: #BB0000;'>0.45</span>   0.66 -<span style='color: #BB0000;'>0.71</span> 
+#&gt; <span style='color: #BCBCBC;'>4</span> drat     0.68 -<span style='color: #BB0000;'>0.71</span> -<span style='color: #BB0000;'>0.45</span>  1     -<span style='color: #BB0000;'>0.71</span>  0.091
+#&gt; <span style='color: #BCBCBC;'>5</span> wt      -<span style='color: #BB0000;'>0.87</span>  0.89  0.66 -<span style='color: #BB0000;'>0.71</span>   1    -<span style='color: #BB0000;'>0.17</span> 
+#&gt; <span style='color: #BCBCBC;'>6</span> qsec     0.42 -<span style='color: #BB0000;'>0.43</span> -<span style='color: #BB0000;'>0.71</span>  0.091 -<span style='color: #BB0000;'>0.17</span>  1    </div><div class='input'>
 <span class='co'># Specify some variables of interest</span>
-<span class='no'>mydata</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_mat</span>(<span class='no'>mpg</span>, <span class='no'>hp</span>, <span class='no'>wt</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 4
+<span class='no'>mydata</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_mat</span>(<span class='no'>mpg</span>, <span class='no'>hp</span>, <span class='no'>wt</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 4</span>
 #&gt;   rowname   mpg    hp    wt
-#&gt; * &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1 mpg      1    -0.78 -0.87
-#&gt; 2 hp      -0.78  1     0.66
-#&gt; 3 wt      -0.87  0.66  1   </div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> mpg      1    -<span style='color: #BB0000;'>0.78</span> -<span style='color: #BB0000;'>0.87</span>
+#&gt; <span style='color: #BCBCBC;'>2</span> hp      -<span style='color: #BB0000;'>0.78</span>  1     0.66
+#&gt; <span style='color: #BCBCBC;'>3</span> wt      -<span style='color: #BB0000;'>0.87</span>  0.66  1   </div><div class='input'>
 <span class='co'># Or remove some variables in the data</span>
 <span class='co'># before the analysis</span>
-<span class='no'>mydata</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_mat</span>(-<span class='no'>mpg</span>, -<span class='no'>hp</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 5
+<span class='no'>mydata</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_mat</span>(-<span class='no'>mpg</span>, -<span class='no'>hp</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 x 5</span>
 #&gt;   rowname  disp   drat    wt   qsec
-#&gt; * &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1 disp     1    -0.71   0.89 -0.43 
-#&gt; 2 drat    -0.71  1     -0.71  0.091
-#&gt; 3 wt       0.89 -0.71   1    -0.17 
-#&gt; 4 qsec    -0.43  0.091 -0.17  1    </div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> disp     1    -<span style='color: #BB0000;'>0.71</span>   0.89 -<span style='color: #BB0000;'>0.43</span> 
+#&gt; <span style='color: #BCBCBC;'>2</span> drat    -<span style='color: #BB0000;'>0.71</span>  1     -<span style='color: #BB0000;'>0.71</span>  0.091
+#&gt; <span style='color: #BCBCBC;'>3</span> wt       0.89 -<span style='color: #BB0000;'>0.71</span>   1    -<span style='color: #BB0000;'>0.17</span> 
+#&gt; <span style='color: #BCBCBC;'>4</span> qsec    -<span style='color: #BB0000;'>0.43</span>  0.091 -<span style='color: #BB0000;'>0.17</span>  1    </div><div class='input'>
 <span class='co'># Significance levels</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_get_pval</span>()</div><div class='output co'>#&gt; # A tibble: 6 x 7
+<span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span> <span class='fu'>cor_get_pval</span>()</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 7</span>
 #&gt;   rowname      mpg     disp           hp       drat        wt       qsec
-#&gt;   &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-#&gt; 1 mpg     0.       9.38e-10 0.000000179  0.0000178  1.29e- 10 0.0171    
-#&gt; 2 disp    9.38e-10 0.       0.0000000714 0.00000528 1.22e- 11 0.0131    
-#&gt; 3 hp      1.79e- 7 7.14e- 8 0            0.00999    4.15e-  5 0.00000577
-#&gt; 4 drat    1.78e- 5 5.28e- 6 0.00999      0          4.78e-  6 0.62      
-#&gt; 5 wt      1.29e-10 1.22e-11 0.0000415    0.00000478 2.27e-236 0.339     
-#&gt; 6 qsec    1.71e- 2 1.31e- 2 0.00000577   0.62       3.39e-  1 0         </div><div class='input'>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> mpg     0   <span style='color: #949494;'> </span>    9.38<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span> 0.000<span style='text-decoration: underline;'>000</span>179  0.000<span style='text-decoration: underline;'>017</span>8  1.29<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 10</span> 0.017<span style='text-decoration: underline;'>1</span>    
+#&gt; <span style='color: #BCBCBC;'>2</span> disp    9.38<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span> 0   <span style='color: #949494;'> </span>    0.000<span style='text-decoration: underline;'>000</span>071<span style='text-decoration: underline;'>4</span> 0.000<span style='text-decoration: underline;'>005</span>28 1.22<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 11</span> 0.013<span style='text-decoration: underline;'>1</span>    
+#&gt; <span style='color: #BCBCBC;'>3</span> hp      1.79<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span> 7.14<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 8</span> 0            0.009<span style='text-decoration: underline;'>99</span>    4.15<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-  5</span> 0.000<span style='text-decoration: underline;'>005</span>77
+#&gt; <span style='color: #BCBCBC;'>4</span> drat    1.78<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 5</span> 5.28<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 6</span> 0.009<span style='text-decoration: underline;'>99</span>      0          4.78<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-  6</span> 0.62      
+#&gt; <span style='color: #BCBCBC;'>5</span> wt      1.29<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span> 1.22<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-11</span> 0.000<span style='text-decoration: underline;'>041</span>5    0.000<span style='text-decoration: underline;'>004</span>78 2.27<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-236</span> 0.339     
+#&gt; <span style='color: #BCBCBC;'>6</span> qsec    1.71<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span> 1.31<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span> 0.000<span style='text-decoration: underline;'>005</span>77   0.62       3.39<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-  1</span> 0         </div><div class='input'>
 
 <span class='co'># Visualize</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
@@ -269,20 +269,20 @@ class <code>cor_mat()</code>.</p></li>
   <span class='fu'><a href='cor_plot.html'>cor_plot</a></span>(<span class='kw'>label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='cor_mat-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Gather/collapse correlation matrix into long format</span>
 <span class='co'>#::::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='cor_reshape.html'>cor_gather</a></span>()</div><div class='output co'>#&gt; # A tibble: 36 x 4
+<span class='no'>cor.mat</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='cor_reshape.html'>cor_gather</a></span>()</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 36 x 4</span>
 #&gt;    var1  var2    cor        p
-#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt;
-#&gt;  1 mpg   mpg    1    0.      
-#&gt;  2 disp  mpg   -0.85 9.38e-10
-#&gt;  3 hp    mpg   -0.78 1.79e- 7
-#&gt;  4 drat  mpg    0.68 1.78e- 5
-#&gt;  5 wt    mpg   -0.87 1.29e-10
-#&gt;  6 qsec  mpg    0.42 1.71e- 2
-#&gt;  7 mpg   disp  -0.85 9.38e-10
-#&gt;  8 disp  disp   1    0.      
-#&gt;  9 hp    disp   0.79 7.14e- 8
-#&gt; 10 drat  disp  -0.71 5.28e- 6
-#&gt; # … with 26 more rows</div><div class='input'>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> mpg   mpg    1    0   <span style='color: #949494;'> </span>   
+#&gt; <span style='color: #BCBCBC;'> 2</span> disp  mpg   -<span style='color: #BB0000;'>0.85</span> 9.38<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span> hp    mpg   -<span style='color: #BB0000;'>0.78</span> 1.79<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span> drat  mpg    0.68 1.78<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 5</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span> wt    mpg   -<span style='color: #BB0000;'>0.87</span> 1.29<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span> qsec  mpg    0.42 1.71<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span> mpg   disp  -<span style='color: #BB0000;'>0.85</span> 9.38<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span> disp  disp   1    0   <span style='color: #949494;'> </span>   
+#&gt; <span style='color: #BCBCBC;'> 9</span> hp    disp   0.79 7.14<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 8</span>
+#&gt; <span style='color: #BCBCBC;'>10</span> drat  disp  -<span style='color: #BB0000;'>0.71</span> 5.28<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 6</span>
+#&gt; <span style='color: #949494;'># … with 26 more rows</span></div><div class='input'>
 
 </div></pre>
   </div>

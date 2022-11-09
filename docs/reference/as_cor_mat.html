@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -150,31 +150,31 @@
 <span class='no'>res.cor.test</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>mpg</span>, <span class='no'>disp</span>, <span class='no'>hp</span>, <span class='no'>drat</span>, <span class='no'>wt</span>, <span class='no'>qsec</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='cor_test.html'>cor_test</a></span>()
-<span class='no'>res.cor.test</span></div><div class='output co'>#&gt; # A tibble: 36 x 8
+<span class='no'>res.cor.test</span></div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 36 x 8</span>
 #&gt;    var1  var2    cor statistic        p conf.low conf.high method 
-#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
-#&gt;  1 mpg   mpg    1       Inf    0.         1          1     Pearson
-#&gt;  2 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
-#&gt;  3 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
-#&gt;  4 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson
-#&gt;  5 mpg   wt    -0.87     -9.56 1.29e-10  -0.934     -0.744 Pearson
-#&gt;  6 mpg   qsec   0.42      2.53 1.71e- 2   0.0820     0.670 Pearson
-#&gt;  7 disp  mpg   -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
-#&gt;  8 disp  disp   1       Inf    0.         1          1     Pearson
-#&gt;  9 disp  hp     0.79      7.08 7.14e- 8   0.611      0.893 Pearson
-#&gt; 10 disp  drat  -0.71     -5.53 5.28e- 6  -0.849     -0.481 Pearson
-#&gt; # … with 26 more rows</div><div class='input'>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  
+#&gt; <span style='color: #BCBCBC;'> 1</span> mpg   mpg    1       <span style='color: #BB0000;'>Inf</span>    0   <span style='color: #949494;'> </span>      1          1     Pearson
+#&gt; <span style='color: #BCBCBC;'> 2</span> mpg   disp  -<span style='color: #BB0000;'>0.85</span>     -<span style='color: #BB0000;'>8.75</span> 9.38<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span>  -<span style='color: #BB0000;'>0.923</span>     -<span style='color: #BB0000;'>0.708</span> Pearson
+#&gt; <span style='color: #BCBCBC;'> 3</span> mpg   hp    -<span style='color: #BB0000;'>0.78</span>     -<span style='color: #BB0000;'>6.74</span> 1.79<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 7</span>  -<span style='color: #BB0000;'>0.885</span>     -<span style='color: #BB0000;'>0.586</span> Pearson
+#&gt; <span style='color: #BCBCBC;'> 4</span> mpg   drat   0.68      5.10 1.78<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 5</span>   0.436      0.832 Pearson
+#&gt; <span style='color: #BCBCBC;'> 5</span> mpg   wt    -<span style='color: #BB0000;'>0.87</span>     -<span style='color: #BB0000;'>9.56</span> 1.29<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span>  -<span style='color: #BB0000;'>0.934</span>     -<span style='color: #BB0000;'>0.744</span> Pearson
+#&gt; <span style='color: #BCBCBC;'> 6</span> mpg   qsec   0.42      2.53 1.71<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span>   0.082<span style='text-decoration: underline;'>0</span>     0.670 Pearson
+#&gt; <span style='color: #BCBCBC;'> 7</span> disp  mpg   -<span style='color: #BB0000;'>0.85</span>     -<span style='color: #BB0000;'>8.75</span> 9.38<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span>  -<span style='color: #BB0000;'>0.923</span>     -<span style='color: #BB0000;'>0.708</span> Pearson
+#&gt; <span style='color: #BCBCBC;'> 8</span> disp  disp   1       <span style='color: #BB0000;'>Inf</span>    0   <span style='color: #949494;'> </span>      1          1     Pearson
+#&gt; <span style='color: #BCBCBC;'> 9</span> disp  hp     0.79      7.08 7.14<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 8</span>   0.611      0.893 Pearson
+#&gt; <span style='color: #BCBCBC;'>10</span> disp  drat  -<span style='color: #BB0000;'>0.71</span>     -<span style='color: #BB0000;'>5.53</span> 5.28<span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 6</span>  -<span style='color: #BB0000;'>0.849</span>     -<span style='color: #BB0000;'>0.481</span> Pearson
+#&gt; <span style='color: #949494;'># … with 26 more rows</span></div><div class='input'>
 <span class='co'># Convert the correlation test into a correlation matrix</span>
 <span class='co'>#:::::::::::::::::::::::::::::::::::::::::::::::</span>
-<span class='no'>res.cor.test</span> <span class='kw'>%&gt;%</span> <span class='fu'>as_cor_mat</span>()</div><div class='output co'>#&gt; # A tibble: 6 x 7
+<span class='no'>res.cor.test</span> <span class='kw'>%&gt;%</span> <span class='fu'>as_cor_mat</span>()</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 7</span>
 #&gt;   rowname   mpg  disp    hp   drat    wt   qsec
-#&gt; * &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1 mpg      1    -0.85 -0.78  0.68  -0.87  0.42 
-#&gt; 2 disp    -0.85  1     0.79 -0.71   0.89 -0.43 
-#&gt; 3 hp      -0.78  0.79  1    -0.45   0.66 -0.71 
-#&gt; 4 drat     0.68 -0.71 -0.45  1     -0.71  0.091
-#&gt; 5 wt      -0.87  0.89  0.66 -0.71   1    -0.17 
-#&gt; 6 qsec     0.42 -0.43 -0.71  0.091 -0.17  1    </div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> mpg      1    -<span style='color: #BB0000;'>0.85</span> -<span style='color: #BB0000;'>0.78</span>  0.68  -<span style='color: #BB0000;'>0.87</span>  0.42 
+#&gt; <span style='color: #BCBCBC;'>2</span> disp    -<span style='color: #BB0000;'>0.85</span>  1     0.79 -<span style='color: #BB0000;'>0.71</span>   0.89 -<span style='color: #BB0000;'>0.43</span> 
+#&gt; <span style='color: #BCBCBC;'>3</span> hp      -<span style='color: #BB0000;'>0.78</span>  0.79  1    -<span style='color: #BB0000;'>0.45</span>   0.66 -<span style='color: #BB0000;'>0.71</span> 
+#&gt; <span style='color: #BCBCBC;'>4</span> drat     0.68 -<span style='color: #BB0000;'>0.71</span> -<span style='color: #BB0000;'>0.45</span>  1     -<span style='color: #BB0000;'>0.71</span>  0.091
+#&gt; <span style='color: #BCBCBC;'>5</span> wt      -<span style='color: #BB0000;'>0.87</span>  0.89  0.66 -<span style='color: #BB0000;'>0.71</span>   1    -<span style='color: #BB0000;'>0.17</span> 
+#&gt; <span style='color: #BCBCBC;'>6</span> qsec     0.42 -<span style='color: #BB0000;'>0.43</span> -<span style='color: #BB0000;'>0.71</span>  0.091 -<span style='color: #BB0000;'>0.17</span>  1    </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

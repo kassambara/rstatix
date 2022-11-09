@@ -76,7 +76,7 @@ Wrappers around the R base function mcnemar.test(), but
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -222,10 +222,10 @@ multiple groups. Could be used for post-hoc tests following a significant Cochra
 #&gt;   non.smoker         25      6
 #&gt;   smoker             21     10</div><div class='input'>
 <span class='co'># Compare the proportion of smokers</span>
-<span class='fu'>mcnemar_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
+<span class='fu'>mcnemar_test</span>(<span class='no'>xtab</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 6</span>
 #&gt;       n statistic    df       p p.signif method      
-#&gt; * &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;       
-#&gt; 1    62      7.26     1 0.00705 **       McNemar test</div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       
+#&gt; <span style='color: #BCBCBC;'>1</span>    62      7.26     1 0.007<span style='text-decoration: underline;'>05</span> **       McNemar test</div><div class='input'>
 <span class='co'># Comparing multiple related proportions</span>
 <span class='co'># %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
 <span class='co'># Generate a demo data</span>
@@ -244,17 +244,17 @@ multiple groups. Could be used for post-hoc tests following a significant Cochra
 #&gt;   success  2  5 10
 #&gt;   failure  8  5  0</div><div class='input'>
 <span class='co'># Compare the proportion of success between treatments</span>
-<span class='fu'><a href='cochran_qtest.html'>cochran_qtest</a></span>(<span class='no'>mydata</span>, <span class='no'>outcome</span> ~ <span class='no'>treatment</span><span class='kw'>|</span><span class='no'>participant</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
+<span class='fu'><a href='cochran_qtest.html'>cochran_qtest</a></span>(<span class='no'>mydata</span>, <span class='no'>outcome</span> ~ <span class='no'>treatment</span><span class='kw'>|</span><span class='no'>participant</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 6</span>
 #&gt;   .y.         n statistic    df       p method          
-#&gt; * &lt;chr&gt;   &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;           
-#&gt; 1 outcome    10      10.9     2 0.00432 Cochran's Q test</div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           
+#&gt; <span style='color: #BCBCBC;'>1</span> outcome    10      10.9     2 0.004<span style='text-decoration: underline;'>32</span> Cochran's Q test</div><div class='input'>
 <span class='co'># pairwise comparisons between groups</span>
-<span class='fu'>pairwise_mcnemar_test</span>(<span class='no'>mydata</span>, <span class='no'>outcome</span> ~ <span class='no'>treatment</span><span class='kw'>|</span><span class='no'>participant</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 6
+<span class='fu'>pairwise_mcnemar_test</span>(<span class='no'>mydata</span>, <span class='no'>outcome</span> ~ <span class='no'>treatment</span><span class='kw'>|</span><span class='no'>participant</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 3 x 6</span>
 #&gt;   group1 group2      p  p.adj p.adj.signif method      
-#&gt; * &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;       
-#&gt; 1 A      B      0.371  1      ns           McNemar test
-#&gt; 2 A      C      0.0133 0.0399 *            McNemar test
-#&gt; 3 B      C      0.0736 0.221  ns           McNemar test</div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       
+#&gt; <span style='color: #BCBCBC;'>1</span> A      B      0.371  1      ns           McNemar test
+#&gt; <span style='color: #BCBCBC;'>2</span> A      C      0.013<span style='text-decoration: underline;'>3</span> 0.039<span style='text-decoration: underline;'>9</span> *            McNemar test
+#&gt; <span style='color: #BCBCBC;'>3</span> B      C      0.073<span style='text-decoration: underline;'>6</span> 0.221  ns           McNemar test</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

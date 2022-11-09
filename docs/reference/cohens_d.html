@@ -85,7 +85,7 @@ It can also returns confidence intervals by bootstap." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -267,15 +267,15 @@ n2).</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># One-sample t test effect size</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 6
+<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='fl'>1</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 6</span>
 #&gt;   .y.   group1 group2     effsize     n magnitude
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt; &lt;ord&gt;    
-#&gt; 1 len   1      null model    2.46    60 large    </div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;ord&gt;</span>    
+#&gt; <span style='color: #BCBCBC;'>1</span> len   1      null model    2.46    60 large    </div><div class='input'>
 <span class='co'># Two indepedent samples t-test effect size</span>
-<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 7
+<span class='no'>ToothGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>len</span> ~ <span class='no'>supp</span>, <span class='kw'>var.equal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 7</span>
 #&gt;   .y.   group1 group2 effsize    n1    n2 magnitude
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;ord&gt;    
-#&gt; 1 len   OJ     VC       0.495    30    30 small    </div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;ord&gt;</span>    
+#&gt; <span style='color: #BCBCBC;'>1</span> len   OJ     VC       0.495    30    30 small    </div><div class='input'>
 <span class='co'># Paired samples effect size</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>5</span>,
@@ -290,10 +290,10 @@ n2).</p></td>
 #&gt; 4  4       pre   120
 #&gt; 5  5       pre   140
 #&gt; 6  1      post   150</div><div class='input'>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>value</span> ~ <span class='no'>treatment</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 7
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>cohens_d</span>(<span class='no'>value</span> ~ <span class='no'>treatment</span>, <span class='kw'>paired</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 7</span>
 #&gt;   .y.   group1 group2 effsize    n1    n2 magnitude
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;ord&gt;    
-#&gt; 1 value post   pre       1.75     5     5 large    </div></pre>
+#&gt; <span style='color: #BCBCBC;'>*</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;ord&gt;</span>    
+#&gt; <span style='color: #BCBCBC;'>1</span> value post   pre       1.75     5     5 large    </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

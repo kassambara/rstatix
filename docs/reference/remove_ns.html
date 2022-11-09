@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rstatix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -157,14 +157,14 @@ is declared at <code>p-value &lt;= signif.cutoff</code></p></td>
     <pre class="examples"><div class='input'><span class='co'># Statistical test</span>
 <span class='no'>stat.test</span> <span class='kw'>&lt;-</span> <span class='no'>PlantGrowth</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='wilcox_test.html'>wilcox_test</a></span>(<span class='no'>weight</span> ~ <span class='no'>group</span>)
 <span class='co'># Remove ns: automatic detection of p-value columns</span>
-<span class='no'>stat.test</span> <span class='kw'>%&gt;%</span> <span class='fu'>remove_ns</span>()</div><div class='output co'>#&gt; # A tibble: 1 x 9
+<span class='no'>stat.test</span> <span class='kw'>%&gt;%</span> <span class='fu'>remove_ns</span>()</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 9</span>
 #&gt;   .y.    group1 group2    n1    n2 statistic     p p.adj p.adj.signif
-#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 weight trt1   trt2      10    10        16 0.009 0.027 *           </div><div class='input'><span class='co'># Remove ns by the column p</span>
-<span class='no'>stat.test</span> <span class='kw'>%&gt;%</span> <span class='fu'>remove_ns</span>(<span class='kw'>col</span> <span class='kw'>=</span><span class='st'>"p"</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 9
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       
+#&gt; <span style='color: #BCBCBC;'>1</span> weight trt1   trt2      10    10        16 0.009 0.027 *           </div><div class='input'><span class='co'># Remove ns by the column p</span>
+<span class='no'>stat.test</span> <span class='kw'>%&gt;%</span> <span class='fu'>remove_ns</span>(<span class='kw'>col</span> <span class='kw'>=</span><span class='st'>"p"</span>)</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 1 x 9</span>
 #&gt;   .y.    group1 group2    n1    n2 statistic     p p.adj p.adj.signif
-#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 weight trt1   trt2      10    10        16 0.009 0.027 *           </div></pre>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       
+#&gt; <span style='color: #BCBCBC;'>1</span> weight trt1   trt2      10    10        16 0.009 0.027 *           </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
