@@ -1,3 +1,15 @@
+# rstatix 0.7.1.999
+
+## New features
+   
+## Major changes
+   
+## Minor changes
+
+## Bug fixes
+
+   
+   
 # rstatix 0.7.1
 
 
