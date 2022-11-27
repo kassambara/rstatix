@@ -6,6 +6,8 @@
    
 ## Minor changes
 
+- fix warning in `emmeans_test()`:  "Use of .data in tidyselect expressions was deprecated in tidyselect 1.2.0."
+
 ## Bug fixes
 
    
