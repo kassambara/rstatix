@@ -8,14 +8,15 @@ test_that("emmeans_test works", {
     group_by(supp) %>%
     emmeans_test(len ~ dose, p.adjust.method = "bonferroni") %>%
     as.data.frame(stringsAsFactors = FALSE)
+  # raw emmeans output
+  res_emmeans <- attr(comparisons, "emmeans") %>%
+    as.data.frame(stringsAsFactors = FALSE)
+
   attributes(comparisons) <- list(
     names = colnames(comparisons),
     row.names = row.names(comparisons),
     class = "data.frame"
   )
-  # raw emmeans output
-  res_emmeans <- attr(res, "emmeans") %>%
-    as.data.frame(stringsAsFactors = FALSE)
   attributes(res_emmeans) <- list(
     names = colnames(res_emmeans),
     row.names = row.names(res_emmeans),
