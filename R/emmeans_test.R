@@ -98,7 +98,7 @@ emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
   res.emmeans <- res.emmeans %>%
     tibble::as_tibble() %>%
     dplyr::arrange(!!!syms(grouping.vars)) %>%
-    dplyr::rename(se = .data$SE, conf.low = .data$lower.CL, conf.high = .data$upper.CL) %>%
+    dplyr::rename(se = "SE", conf.low = "lower.CL", conf.high = "upper.CL") %>%
     mutate(method = "Emmeans test")
 
   if(!detailed){
@@ -135,7 +135,7 @@ pairwise_emmeans_test <- function(res.emmeans, grouping.vars = NULL, method = "p
   comparisons <- tidy(comparisons, conf.int = TRUE, conf.level = conf.level)
   comparisons <- comparisons %>%
     tidyr::separate(col = "contrast", into = c("group1", "group2"), sep = "-") %>%
-    dplyr::rename(se = .data$std.error, p = .data$p.value) %>%
+    dplyr::rename(se = "std.error", p = "p.value") %>%
     dplyr::select(!!!syms(grouping.vars), everything())
 
     # Adjust the pvalue. We don't want to use adjust_pvalue here, because
@@ -149,6 +149,20 @@ pairwise_emmeans_test <- function(res.emmeans, grouping.vars = NULL, method = "p
     comparisons  <- comparisons %>%
       mutate(p.adj = p.adjusted) %>%
       add_significance("p.adj")
+
+  # Homogenize variable classes between res.emmeans and comparisons
+  # because: tidy() is converting factor to character -> so restoring back factors
+    res.emmeans.tbl <- tibble::as_tibble(res.emmeans)
+    variables <- intersect(colnames(res.emmeans.tbl), colnames(comparisons))
+    for(variable in variables){
+      if(is.factor(res.emmeans.tbl[[variable]])){
+        comparisons[[variable]] <- factor(
+          comparisons[[variable]],
+          levels = levels(res.emmeans.tbl[[variable]])
+          )
+      }
+    }
+    comparisons <- base::droplevels(comparisons)
 
   comparisons %>%
     dplyr::arrange(!!!syms(grouping.vars))

@@ -28,7 +28,7 @@ Imports:
     dplyr (>= 0.7.1),
     magrittr,
     corrplot,
-    tidyselect (>= 1.0.0),
+    tidyselect (>= 1.2.0),
     car,
     generics (>= 0.0.2)
 Suggests:
