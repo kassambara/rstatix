@@ -150,6 +150,20 @@ pairwise_emmeans_test <- function(res.emmeans, grouping.vars = NULL, method = "p
       mutate(p.adj = p.adjusted) %>%
       add_significance("p.adj")
 
+  # Homogenize variable classes between res.emmeans and comparisons
+  # because: tidy() is converting factor to character -> so restoring back factors
+    res.emmeans.tbl <- tibble::as_tibble(res.emmeans)
+    variables <- intersect(colnames(res.emmeans.tbl), colnames(comparisons))
+    for(variable in variables){
+      if(is.factor(res.emmeans.tbl[[variable]])){
+        comparisons[[variable]] <- factor(
+          comparisons[[variable]],
+          levels = levels(res.emmeans.tbl[[variable]])
+          )
+      }
+    }
+    comparisons <- base::droplevels(comparisons)
+
   comparisons %>%
     dplyr::arrange(!!!syms(grouping.vars))
 }
