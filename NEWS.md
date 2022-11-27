@@ -6,11 +6,12 @@
    
 ## Minor changes
 
-- fix warning in `emmeans_test()`:  "Use of .data in tidyselect expressions was deprecated in tidyselect 1.2.0."
-
+- Required `tidyselect` versions is `>= 1.2.0`
 ## Bug fixes
-
    
+- `emmeans_test()`: restoring grouping variable class (`factor`) in the final results `emmeans_test()` (#169)
+- Fix warning in `emmeans_test()`:  "Use of .data in tidyselect expressions was deprecated in tidyselect 1.2.0."
+  
    
 # rstatix 0.7.1
 
