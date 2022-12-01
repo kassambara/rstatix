@@ -159,7 +159,10 @@ get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, co
       length.out = ncomparisons
     )
   }
-  if(!is.null(y.trans)) y.position <- get(y.trans)(y.position)
+  if(!is.null(y.trans)) {
+    if(is.function(y.trans)) y.position <- y.trans(y.position)
+    else if(is.character(y.trans)) y.position <- get(y.trans)(y.position)
+  }
   results <- tibble(group1, group2, y.position) %>%
     mutate(groups = combine_this(group1, group2))
   results
