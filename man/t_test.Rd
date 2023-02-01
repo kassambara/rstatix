@@ -125,12 +125,12 @@ adjusted for each group level independently.
 }
 \section{Functions}{
 \itemize{
-\item \code{t_test}: t test
+\item \code{t_test()}: t test
 
-\item \code{pairwise_t_test}: performs pairwise two sample t-test. Wrapper around the R
+\item \code{pairwise_t_test()}: performs pairwise two sample t-test. Wrapper around the R
 base function \code{\link[stats]{pairwise.t.test}}.
-}}
 
+}}
 \examples{
 # Load data
 #:::::::::::::::::::::::::::::::::::::::

@@ -97,30 +97,30 @@ Performs chi-squared tests, including goodness-of-fit,
 }
 \section{Functions}{
 \itemize{
-\item \code{chisq_test}: performs chi-square tests including goodness-of-fit,
+\item \code{chisq_test()}: performs chi-square tests including goodness-of-fit,
 homogeneity and independence tests.
 
-\item \code{pairwise_chisq_gof_test}: perform pairwise comparisons between groups following a global
+\item \code{pairwise_chisq_gof_test()}: perform pairwise comparisons between groups following a global
 chi-square goodness of fit test.
 
-\item \code{pairwise_chisq_test_against_p}: perform pairwise comparisons after a global
+\item \code{pairwise_chisq_test_against_p()}: perform pairwise comparisons after a global
 chi-squared test for given probabilities. For each group, the observed and
 the expected proportions are shown. Each group is compared to the sum of
 all others.
 
-\item \code{chisq_descriptives}: returns the descriptive statistics of the chi-square
+\item \code{chisq_descriptives()}: returns the descriptive statistics of the chi-square
 test. These include, observed and expected frequencies, proportions,
 residuals and standardized residuals.
 
-\item \code{expected_freq}: returns the expected counts from the chi-square test result.
+\item \code{expected_freq()}: returns the expected counts from the chi-square test result.
 
-\item \code{observed_freq}: returns the observed counts from the chi-square test result.
+\item \code{observed_freq()}: returns the observed counts from the chi-square test result.
 
-\item \code{pearson_residuals}: returns the Pearson residuals, \code{(observed - expected) / sqrt(expected)}.
+\item \code{pearson_residuals()}: returns the Pearson residuals, \code{(observed - expected) / sqrt(expected)}.
 
-\item \code{std_residuals}: returns the standardized residuals
+\item \code{std_residuals()}: returns the standardized residuals
+
 }}
-
 \examples{
 # Chi-square goodness of fit test
 #\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%

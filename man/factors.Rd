@@ -41,13 +41,13 @@ Provides pipe-friendly functions to convert simultaneously
 }
 \section{Functions}{
 \itemize{
-\item \code{convert_as_factor}: Convert one or multiple variables into factor.
+\item \code{convert_as_factor()}: Convert one or multiple variables into factor.
 
-\item \code{set_ref_level}: Change a factor reference level or group.
+\item \code{set_ref_level()}: Change a factor reference level or group.
 
-\item \code{reorder_levels}: Change the order of a factor levels
+\item \code{reorder_levels()}: Change the order of a factor levels
+
 }}
-
 \examples{
 # Create a demo data
 df <- tibble(

@@ -79,9 +79,9 @@ Provides a pipe-friendly framework to perform correlation test
 }
 \section{Functions}{
 \itemize{
-\item \code{cor_test}: correlation test between two or more variables.
-}}
+\item \code{cor_test()}: correlation test between two or more variables.
 
+}}
 \examples{
 
 # Correlation between the specified variable vs

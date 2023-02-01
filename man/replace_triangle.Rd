@@ -33,15 +33,15 @@ Replace the lower or the upper triangular part of a
 }
 \section{Functions}{
 \itemize{
-\item \code{replace_triangle}: replaces the specified triangle by empty or NA.
+\item \code{replace_triangle()}: replaces the specified triangle by empty or NA.
 
-\item \code{replace_upper_triangle}: replaces the upper triangular part of a matrix.
+\item \code{replace_upper_triangle()}: replaces the upper triangular part of a matrix.
 Returns an object of class \code{lower_tri}.
 
-\item \code{replace_lower_triangle}: replaces the lower triangular part of a matrix.
+\item \code{replace_lower_triangle()}: replaces the lower triangular part of a matrix.
 Returns an object of class \code{lower_tri}
-}}
 
+}}
 \examples{
 # Compute correlation matrix and pull triangles
 #::::::::::::::::::::::::::::::::::::::::::

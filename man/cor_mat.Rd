@@ -60,17 +60,17 @@ Compute correlation matrix with p-values. Numeric columns in the
 }
 \section{Functions}{
 \itemize{
-\item \code{cor_mat}: compute correlation matrix with p-values. Returns a data
+\item \code{cor_mat()}: compute correlation matrix with p-values. Returns a data
 frame containing the matrix of the correlation coefficients. The output has
 an attribute named "pvalue", which contains the matrix of the correlation
 test p-values.
 
-\item \code{cor_pmat}: compute the correlation matrix but returns only the p-values of the tests.
+\item \code{cor_pmat()}: compute the correlation matrix but returns only the p-values of the tests.
 
-\item \code{cor_get_pval}: extract a correlation matrix p-values from an object of
+\item \code{cor_get_pval()}: extract a correlation matrix p-values from an object of
 class \code{cor_mat()}. P-values are not adjusted.
-}}
 
+}}
 \examples{
 # Data preparation
 #:::::::::::::::::::::::::::::::::::::::::::

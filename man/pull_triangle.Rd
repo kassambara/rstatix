@@ -30,15 +30,15 @@ Returns the lower or the upper triangular part of a
 }
 \section{Functions}{
 \itemize{
-\item \code{pull_triangle}: returns either the lower or upper triangular part of a matrix.
+\item \code{pull_triangle()}: returns either the lower or upper triangular part of a matrix.
 
-\item \code{pull_upper_triangle}: returns an object of class \code{upper_tri}, which
+\item \code{pull_upper_triangle()}: returns an object of class \code{upper_tri}, which
 is a data frame containing the upper triangular part of a matrix.
 
-\item \code{pull_lower_triangle}: returns an object of class \code{lower_tri}, which
+\item \code{pull_lower_triangle()}: returns an object of class \code{lower_tri}, which
 is a data frame containing the lower triangular part of a matrix.
-}}
 
+}}
 \examples{
 
 # Data preparation

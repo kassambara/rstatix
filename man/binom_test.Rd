@@ -77,17 +77,17 @@ Performs exact binomial test and pairwise comparisons following a
 }
 \section{Functions}{
 \itemize{
-\item \code{binom_test}: performs exact binomial test. Wrapper around the R
+\item \code{binom_test()}: performs exact binomial test. Wrapper around the R
 base function \code{\link[stats]{binom.test}} that returns a dataframe as a
 result.
 
-\item \code{pairwise_binom_test}: performs pairwise comparisons (binomial test)
+\item \code{pairwise_binom_test()}: performs pairwise comparisons (binomial test)
 following a significant exact multinomial test.
 
-\item \code{pairwise_binom_test_against_p}: performs pairwise comparisons (binomial test)
+\item \code{pairwise_binom_test_against_p()}: performs pairwise comparisons (binomial test)
 following a significant exact multinomial test for given probabilities.
-}}
 
+}}
 \examples{
 # Exact binomial test
 #\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%

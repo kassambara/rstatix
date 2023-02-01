@@ -32,13 +32,13 @@ Provides a pipe-friendly framework to performs Shapiro-Wilk test
 }
 \section{Functions}{
 \itemize{
-\item \code{shapiro_test}: univariate Shapiro-Wilk normality test
+\item \code{shapiro_test()}: univariate Shapiro-Wilk normality test
 
-\item \code{mshapiro_test}: multivariate Shapiro-Wilk normality test. This is a
+\item \code{mshapiro_test()}: multivariate Shapiro-Wilk normality test. This is a
 modified copy of the \code{mshapiro.test()} function of the package
 mvnormtest, for internal convenience.
-}}
 
+}}
 \examples{
 
 # Shapiro Wilk normality test for one variable

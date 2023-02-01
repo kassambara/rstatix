@@ -83,9 +83,9 @@ Performs pairwise comparisons between groups using the estimated
 }
 \section{Functions}{
 \itemize{
-\item \code{get_emmeans}: returns the estimated marginal means from an object of class \code{emmeans_test}
-}}
+\item \code{get_emmeans()}: returns the estimated marginal means from an object of class \code{emmeans_test}
 
+}}
 \examples{
 # Data preparation
 df <- ToothGrowth

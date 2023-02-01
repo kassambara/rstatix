@@ -41,12 +41,12 @@ Paste together multiple columns into one. Wrapper arround
 }
 \section{Functions}{
 \itemize{
-\item \code{df_unite}: Unite multiple columns into one.
+\item \code{df_unite()}: Unite multiple columns into one.
 
-\item \code{df_unite_factors}: Unite factor columns. First, order factors levels then
+\item \code{df_unite_factors()}: Unite factor columns. First, order factors levels then
 merge them into one column. The output column is a factor.
-}}
 
+}}
 \examples{
 # Non standard evaluation
 head(ToothGrowth) \%>\%

@@ -49,15 +49,15 @@ Provides a pipe-friendly framework to performs Tukey post-hoc
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: performs tukey post-hoc test from \code{aov()} results.
+\item \code{tukey_hsd(default)}: performs tukey post-hoc test from \code{aov()} results.
 
-\item \code{lm}: performs tukey post-hoc test from \code{lm()} model.
+\item \code{tukey_hsd(lm)}: performs tukey post-hoc test from \code{lm()} model.
 
-\item \code{data.frame}: performs tukey post-hoc tests using data and formula as
+\item \code{tukey_hsd(data.frame)}: performs tukey post-hoc tests using data and formula as
 inputs. ANOVA will be automatically performed using the function
 \code{\link[stats]{aov}()}
-}}
 
+}}
 \examples{
 # Data preparation
 df <- ToothGrowth

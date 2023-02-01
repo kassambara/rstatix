@@ -25,14 +25,14 @@ Reshape correlation analysis results. Key functions: \itemize{
 }
 \section{Functions}{
 \itemize{
-\item \code{cor_gather}: takes a correlation matrix and collapses (or melt) it into long
+\item \code{cor_gather()}: takes a correlation matrix and collapses (or melt) it into long
 format data frame (paired list)
 
-\item \code{cor_spread}: spread a long correlation data frame into wide
+\item \code{cor_spread()}: spread a long correlation data frame into wide
 format. Expects the columns "var1", "var2" and "cor" in the data.
 (correlation matrix).
-}}
 
+}}
 \examples{
 # Data preparation
 #::::::::::::::::::::::::::::::::::::::::::

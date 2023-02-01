@@ -77,7 +77,7 @@ reference:
     contents:
       - adjust_pvalue
       - add_significance
-      - p_value
+      - p_round
   - title: Extract Information From Statistical Tests
     contents:
       - get_test_label

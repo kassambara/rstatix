@@ -87,19 +87,19 @@ Round and format p-values. Can also mark significant p-values with stars.
 }
 \section{Functions}{
 \itemize{
-\item \code{p_round}: round p-values
+\item \code{p_round()}: round p-values
 
-\item \code{p_format}: format p-values. Add a symbol "<" for small p-values.
+\item \code{p_format()}: format p-values. Add a symbol "<" for small p-values.
 
-\item \code{p_mark_significant}: mark p-values with significance levels
+\item \code{p_mark_significant()}: mark p-values with significance levels
 
-\item \code{p_detect}: detects and returns p-value column names in a data frame.
+\item \code{p_detect()}: detects and returns p-value column names in a data frame.
 
-\item \code{p_names}: returns known p-value column names
+\item \code{p_names()}: returns known p-value column names
 
-\item \code{p_adj_names}: returns known adjust p-value column names
+\item \code{p_adj_names()}: returns known adjust p-value column names
+
 }}
-
 \examples{
 
 # Round and format a vector of p-values

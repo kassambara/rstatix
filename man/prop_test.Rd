@@ -96,17 +96,17 @@ Performs proportion tests to either evaluate the homogeneity of
 }
 \section{Functions}{
 \itemize{
-\item \code{prop_test}: performs one-sample and two-samples z-test of
+\item \code{prop_test()}: performs one-sample and two-samples z-test of
 proportions. Wrapper around the function \code{\link[stats]{prop.test}()}.
 
-\item \code{pairwise_prop_test}: pairwise comparisons between proportions, a post-hoc
+\item \code{pairwise_prop_test()}: pairwise comparisons between proportions, a post-hoc
 tests following a significant chi-square test of homogeneity for 2xc
 design. Wrapper around \code{\link[stats]{pairwise.prop.test}()}
 
-\item \code{row_wise_prop_test}: performs row-wise z-test of two proportions, a post-hoc tests following a significant chi-square test
+\item \code{row_wise_prop_test()}: performs row-wise z-test of two proportions, a post-hoc tests following a significant chi-square test
 of homogeneity for rx2 contingency table. The z-test of two proportions is calculated for each category (row).
-}}
 
+}}
 \examples{
 # Comparing an observed proportion to an expected proportion
 #\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%

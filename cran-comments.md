@@ -8,4 +8,4 @@ There were no ERRORs, WARNINGs or NOTEs.
 
 ## Update
 
-This is an updated version 0.7.1 (see NEWS.md). 
+This is an updated version 0.7.2 (see NEWS.md). 

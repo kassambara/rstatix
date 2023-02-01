@@ -132,11 +132,11 @@ Provides a pipe-friendly framework to performs one and two sample
 }
 \section{Functions}{
 \itemize{
-\item \code{wilcox_test}: Wilcoxon test
+\item \code{wilcox_test()}: Wilcoxon test
 
-\item \code{pairwise_wilcox_test}: performs pairwise two sample Wilcoxon test.
+\item \code{pairwise_wilcox_test()}: performs pairwise two sample Wilcoxon test.
+
 }}
-
 \examples{
 # Load data
 #:::::::::::::::::::::::::::::::::::::::

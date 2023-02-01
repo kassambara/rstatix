@@ -21,11 +21,11 @@ Compute eta-squared and partial eta-squared for all terms in an
 }
 \section{Functions}{
 \itemize{
-\item \code{eta_squared}: compute eta squared
+\item \code{eta_squared()}: compute eta squared
 
-\item \code{partial_eta_squared}: compute partial eta squared.
+\item \code{partial_eta_squared()}: compute partial eta squared.
+
 }}
-
 \examples{
 # Data preparation
 df <- ToothGrowth

@@ -97,17 +97,17 @@ Extracts label information from statistical tests. Useful for
 }
 \section{Functions}{
 \itemize{
-\item \code{get_pwc_label}: Extract label from pairwise comparisons.
+\item \code{get_pwc_label()}: Extract label from pairwise comparisons.
 
-\item \code{get_test_label}: Extract labels for statistical tests.
+\item \code{get_test_label()}: Extract labels for statistical tests.
 
-\item \code{create_test_label}: Create labels from user specified test results.
+\item \code{create_test_label()}: Create labels from user specified test results.
 
-\item \code{get_n}: Extracts sample counts (n) from an rstatix test outputs. Returns a numeric vector.
+\item \code{get_n()}: Extracts sample counts (n) from an rstatix test outputs. Returns a numeric vector.
 
-\item \code{get_description}: Extracts the description of an rstatix test outputs. Returns a character vector.
+\item \code{get_description()}: Extracts the description of an rstatix test outputs. Returns a character vector.
+
 }}
-
 \examples{
 # Load data
 #:::::::::::::::::::::::::::::::::::::::

@@ -128,15 +128,15 @@ Compute p-value x and y positions for plotting significance
 }
 \section{Functions}{
 \itemize{
-\item \code{get_y_position}: compute the p-value y positions
+\item \code{get_y_position()}: compute the p-value y positions
 
-\item \code{add_y_position}: add p-value y positions to an object of class \code{rstatix_test}
+\item \code{add_y_position()}: add p-value y positions to an object of class \code{rstatix_test}
 
-\item \code{add_x_position}: compute and add p-value x positions.
+\item \code{add_x_position()}: compute and add p-value x positions.
 
-\item \code{add_xy_position}: compute and add both x and y positions.
+\item \code{add_xy_position()}: compute and add both x and y positions.
+
 }}
-
 \examples{
 # Data preparation
 #::::::::::::::::::::::::::::::::::::

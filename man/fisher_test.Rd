@@ -89,18 +89,18 @@ Performs Fisher's exact test for testing the null of independence
 }
 \section{Functions}{
 \itemize{
-\item \code{fisher_test}: performs Fisher's exact test for testing the null of
+\item \code{fisher_test()}: performs Fisher's exact test for testing the null of
 independence of rows and columns in a contingency table with fixed
 marginals. Wrapper around the function \code{\link[stats]{fisher.test}()}.
 
-\item \code{pairwise_fisher_test}: pairwise comparisons between proportions, a post-hoc
+\item \code{pairwise_fisher_test()}: pairwise comparisons between proportions, a post-hoc
 tests following a significant Fisher's exact test of homogeneity for 2xc
 design.
 
-\item \code{row_wise_fisher_test}: performs row-wise Fisher's exact test of count data, a post-hoc tests following a significant chi-square test
+\item \code{row_wise_fisher_test()}: performs row-wise Fisher's exact test of count data, a post-hoc tests following a significant chi-square test
 of homogeneity for rx2 contingency table. The test is conducted for each category (row).
-}}
 
+}}
 \examples{
 
 # Comparing two proportions

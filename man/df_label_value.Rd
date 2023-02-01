@@ -34,11 +34,11 @@ Functions to label data frame rows by one or multiple grouping
 }
 \section{Functions}{
 \itemize{
-\item \code{df_label_both}: Displays both the variable name and the factor value.
+\item \code{df_label_both()}: Displays both the variable name and the factor value.
 
-\item \code{df_label_value}: Displays only the value of a factor.
+\item \code{df_label_value()}: Displays only the value of a factor.
+
 }}
-
 \examples{
 # Data preparation
 df <- head(ToothGrowth)

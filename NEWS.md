@@ -1,12 +1,9 @@
-# rstatix 0.7.1.999
+# rstatix 0.7.2
 
-## New features
-   
-## Major changes
-   
 ## Minor changes
 
 - Required `tidyselect` versions is `>= 1.2.0`
+
 ## Bug fixes
    
 - `emmeans_test()`: restoring grouping variable class (`factor`) in the final results `emmeans_test()` (#169)

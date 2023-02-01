@@ -1,7 +1,7 @@
 Package: rstatix
 Type: Package
 Title: Pipe-Friendly Framework for Basic Statistical Tests
-Version: 0.7.1.999
+Version: 0.7.2
 Authors@R: c(
     person("Alboukadel", "Kassambara", role = c("aut", "cre"), email = "alboukadel.kassambara@gmail.com"))
 Description: Provides a simple and intuitive pipe-friendly framework, coherent with the 'tidyverse' design philosophy, 
@@ -43,7 +43,7 @@ Suggests:
     spelling
 URL: https://rpkgs.datanovia.com/rstatix/
 BugReports: https://github.com/kassambara/rstatix/issues
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.3
 Collate:
     'utilities.R'
     'add_significance.R'

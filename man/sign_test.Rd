@@ -89,11 +89,11 @@ Performs one-sample and two-sample sign tests. Read more:
 }
 \section{Functions}{
 \itemize{
-\item \code{sign_test}: Sign test
+\item \code{sign_test()}: Sign test
 
-\item \code{pairwise_sign_test}: performs pairwise two sample Wilcoxon test.
+\item \code{pairwise_sign_test()}: performs pairwise two sample Wilcoxon test.
+
 }}
-
 \note{
 This function is a reimplementation of the function \code{SignTest()}
  from the \code{DescTools} package.

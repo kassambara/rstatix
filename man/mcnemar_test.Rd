@@ -59,13 +59,13 @@ Performs McNemar chi-squared test to compare paired proportions.
 }
 \section{Functions}{
 \itemize{
-\item \code{mcnemar_test}: performs McNemar's chi-squared test for comparing two
+\item \code{mcnemar_test()}: performs McNemar's chi-squared test for comparing two
 paired proportions
 
-\item \code{pairwise_mcnemar_test}: performs pairwise McNemar's chi-squared test between
+\item \code{pairwise_mcnemar_test()}: performs pairwise McNemar's chi-squared test between
 multiple groups. Could be used for post-hoc tests following a significant Cochran's Q test.
-}}
 
+}}
 \examples{
 
 # Comparing two paired proportions

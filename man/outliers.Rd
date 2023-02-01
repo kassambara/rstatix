@@ -51,16 +51,16 @@ Detect outliers using boxplot methods. Boxplots are a popular and
 }
 \section{Functions}{
 \itemize{
-\item \code{identify_outliers}: takes a data frame and extract rows suspected as outliers
+\item \code{identify_outliers()}: takes a data frame and extract rows suspected as outliers
 according to a numeric column. The following columns are added "is.outlier"
 and "is.extreme".
 
-\item \code{is_outlier}: detect outliers in a numeric vector. Returns logical vector.
+\item \code{is_outlier()}: detect outliers in a numeric vector. Returns logical vector.
 
-\item \code{is_extreme}: detect extreme points in a numeric vector. An alias of
+\item \code{is_extreme()}: detect extreme points in a numeric vector. An alias of
 \code{is_outlier()}, where coef = 3. Returns logical vector.
-}}
 
+}}
 \examples{
 # Generate a demo data
 set.seed(123)
