@@ -283,7 +283,7 @@ add_anova_effect_size <- function(res.anova.summary, effect.size = "ges",  obser
     res.anova.summary <- res.anova.summary %>%
       add_partial_eta_squared()
   }
-  else {
+  if("ges" %in% effect.size){
     res.anova.summary <- res.anova.summary %>%
       add_generalized_eta_squared(observed)
   }
