@@ -152,7 +152,7 @@ NULL
 #'
 #'@describeIn anova_test perform anova test
 #'@export
-anova_test <- function(data, formula, dv, wid, between, within, covariate, type = NULL,
+anova_test <- function(data, formula = NULL, dv = NULL, wid = NULL, between = NULL, within = NULL, covariate = NULL, type = NULL,
                        effect.size = "ges", error = NULL,
                        white.adjust = FALSE, observed = NULL, detailed = FALSE){
   .args <- rlang::enquos(
