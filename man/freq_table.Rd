@@ -18,7 +18,7 @@ commas. Used to specify variables of interest.}
 variables used to create the frequency table.}
 }
 \value{
-a data frame
+a data frame or a list if the data is grouped.
 }
 \description{
 compute frequency table.
