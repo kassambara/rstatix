@@ -1,11 +1,10 @@
 ## Test environments
-* local OS X install, R 3.6.3
-* win-builder 
-* Github Action
+* local Ubuntu 22.04.5 LTS install, R 4.4.1
+* Github Action, set up using `usethis::use_github_action("check-standard")`
 
 ## R CMD check results
 There were no ERRORs, WARNINGs or NOTEs. 
 
 ## Update
 
-This is an updated version 0.7.2 (see NEWS.md). 
+This is an updated version 0.7.3 (see NEWS.md).

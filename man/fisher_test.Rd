@@ -28,9 +28,9 @@ row_wise_fisher_test(xtab, p.adjust.method = "holm", detailed = FALSE, ...)
 \item{workspace}{an integer specifying the size of the workspace
     used in the network algorithm.  In units of 4 bytes.  Only used for
     non-simulated p-values larger than \eqn{2 \times 2}{2 by 2} tables.
-    Since \R version 3.5.0, this also increases the internal stack size
-    which allows larger problems to be solved, however sometimes needing
-    hours.  In such cases, \code{simulate.p.values=TRUE} may be more
+    This also increases the internal stack size
+    which allows larger problems to be solved, sometimes needing
+    hours.  In such cases, \code{simulate.p.values = TRUE} may be more
     reasonable.}
 
 \item{alternative}{indicates the alternative hypothesis and must be
@@ -51,7 +51,7 @@ row_wise_fisher_test(xtab, p.adjust.method = "holm", detailed = FALSE, ...)
       2}{2 by 2} tables.}
 
 \item{B}{an integer specifying the number of replicates used in the
-    Monte Carlo test.}
+    Monte Carlo test when \code{simulate.p.value} is true.}
 
 \item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
 shown.}
