@@ -153,7 +153,7 @@ pairwise_sign_test <- function(
     add_class(c("rstatix_test", "sign_test"))
 }
 
-
+#' @noRd
 sign.test <- function(x, y = NULL, alternative = c("two.sided", "less", "greater"),
                              mu = 0, conf.level = 0.95, ...) {
 
