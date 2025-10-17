@@ -88,7 +88,7 @@ return a data frame with some of the following columns: \itemize{
  = TRUE}). This corresponds to the pseudomedian (for one-sample case) or to
  the difference of the location parameter (for two-samples case). \itemize{
  \item The pseudomedian of a distribution \code{F} is the median of the
- distribution of \code{(u+v)/2}, where \code{u} and {v} are independent, each
+ distribution of \code{(u+v)/2}, where \code{u} and \code{v} are independent, each
  with distribution \code{F}. If \code{F} is symmetric, then the pseudomedian
  and median coincide. \item Note that in the two-sample case the estimator
  for the difference in location parameters does not estimate the difference

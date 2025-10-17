@@ -6,6 +6,9 @@
 
 ## Bug fixes
 
+- Fixed CRAN check errors related to R-devel changes in Wilcoxon tests. Updated tests to accept both legacy and R-devel p-values when exact conditional two-sample inference with ties is used (R-devel r88748). Tests now use flexible assertions to ensure compatibility across R versions ([#220](https://github.com/kassambara/rstatix/issues/220)).
+- Fixed documentation formatting errors: removed trailing spaces in `\item{}` syntax in `box_m.Rd` and corrected `{v}` to `\code{v}` in `wilcox_test.Rd` ([#220](https://github.com/kassambara/rstatix/issues/220)).
+
 
 # rstatix 0.7.2
 
