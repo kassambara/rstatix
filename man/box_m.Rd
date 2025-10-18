@@ -15,12 +15,10 @@ observation; it is usually a factor.}
 }
 \value{
 A data frame containing the following components:
-\itemize{
 \item{statistic}{an approximated value of the chi-square distribution.}
 \item{parameter}{the degrees of freedom related of the test statistic in this case that it follows a Chi-square distribution.}
 \item{p.value}{the p-value of the test.}
 \item{method}{the character string "Box's M-test for Homogeneity of Covariance Matrices".}
-}
 }
 \description{
 Performs the Box's M-test for homogeneity of covariance matrices

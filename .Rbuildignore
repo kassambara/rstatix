@@ -9,3 +9,4 @@
 ^pkgdown$
 ^pkgdown/*
 ^\.github$
+^CLAUDE\.md$
