@@ -53,7 +53,7 @@ std_residuals(res.chisq)
     correction will not be bigger than the differences themselves.  No correction
     is done if \code{simulate.p.value = TRUE}.}
 
-\item{p}{a vector of probabilities of the same length of \code{x}.
+\item{p}{a vector of probabilities of the same length as \code{x}.
     An error is given if any entry of \code{p} is negative.}
 
 \item{rescale.p}{a logical scalar; if TRUE then \code{p} is rescaled

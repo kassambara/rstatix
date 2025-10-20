@@ -2,15 +2,14 @@
 
 [![R build
 status](https://github.com/kassambara/rstatix/workflows/R-CMD-check/badge.svg)](https://github.com/kassambara/rstatix/actions)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/rstatix)](https://cran.r-project.org/package=rstatix)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/rstatix)](https://cran.r-project.org/package=rstatix)
 [![CRAN
 Checks](https://cranchecks.info/badges/summary/rstatix)](https://cran.r-project.org/web/checks/check_results_rstatix.html)
 [![Downloads](https://cranlogs.r-pkg.org/badges/rstatix)](https://cran.r-project.org/package=rstatix)
 [![Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rstatix?color=orange)](https://cran.r-project.org/package=rstatix)
 
-rstatix
-=======
+# rstatix
 
 Provides a simple and intuitive pipe-friendly framework, coherent with
 the ‘tidyverse’ design philosophy, for performing basic statistical
@@ -32,8 +31,7 @@ association between categorical variables. The package contains helper
 functions for identifying univariate and multivariate outliers,
 assessing normality and homogeneity of variances.
 
-Key functions
--------------
+## Key functions
 
 ### Descriptive statistics
 
@@ -243,8 +241,8 @@ standard evaluation.
 ### Others
 
 -   `doo()`: alternative to dplyr::do for doing anything. Technically it
-    uses `nest() + mutate() + map()` to apply arbitrary computation to a
-    grouped data frame.
+    uses `nest(...) %>% mutate(...) %>% map(...)` to apply arbitrary
+    computation to a grouped data frame.
 -   `sample_n_by()`: sample n rows by group from a table
 -   `convert_as_factor(), set_ref_level(), reorder_levels()`: Provides
     pipe-friendly functions to convert simultaneously multiple variables
@@ -255,8 +253,7 @@ standard evaluation.
 -   `counts_to_cases()`: converts a contingency table or a data frame of
     counts into a data frame of individual observations.
 
-Installation and loading
-------------------------
+## Installation and loading
 
 -   Install the latest developmental version from
     [GitHub](https://github.com/kassambara/rstatix) as follow:
@@ -280,15 +277,14 @@ library(rstatix)
 library(ggpubr)  # For easy data-visualization
 ```
 
-Descriptive statistics
-----------------------
+## Descriptive statistics
 
 ``` r
 # Summary statistics of some selected variables
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 iris %>% 
   get_summary_stats(Sepal.Length, Sepal.Width, type = "common")
-#> # A tibble: 2 x 10
+#> # A tibble: 2 × 10
 #>   variable         n   min   max median   iqr  mean    sd    se    ci
 #>   <fct>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
 #> 1 Sepal.Length   150   4.3   7.9    5.8   1.3  5.84 0.828 0.068 0.134
@@ -297,7 +293,7 @@ iris %>%
 # Whole data frame
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 iris %>% get_summary_stats(type = "common")
-#> # A tibble: 4 x 10
+#> # A tibble: 4 × 10
 #>   variable         n   min   max median   iqr  mean    sd    se    ci
 #>   <fct>        <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
 #> 1 Sepal.Length   150   4.3   7.9   5.8    1.3  5.84 0.828 0.068 0.134
@@ -311,7 +307,7 @@ iris %>% get_summary_stats(type = "common")
 iris %>%
   group_by(Species) %>% 
   get_summary_stats(Sepal.Length, type = "mean_sd")
-#> # A tibble: 3 x 5
+#> # A tibble: 3 × 5
 #>   Species    variable         n  mean    sd
 #>   <fct>      <fct>        <dbl> <dbl> <dbl>
 #> 1 setosa     Sepal.Length    50  5.01 0.352
@@ -319,8 +315,7 @@ iris %>%
 #> 3 virginica  Sepal.Length    50  6.59 0.636
 ```
 
-Comparing two means
--------------------
+## Comparing two means
 
 To compare the means of two groups, you can use either the function
 `t_test()` (parametric) or `wilcox_test()` (non-parametric). In the
@@ -350,7 +345,7 @@ standard (or theoretical / hypothetical) mean (`mu`).
 
 ``` r
 df %>% t_test(len ~ 1, mu = 0)
-#> # A tibble: 1 x 7
+#> # A tibble: 1 × 7
 #>   .y.   group1 group2         n statistic    df        p
 #> * <chr> <chr>  <chr>      <int>     <dbl> <dbl>    <dbl>
 #> 1 len   1      null model    60      19.1    59 6.94e-27
@@ -358,7 +353,7 @@ df %>% t_test(len ~ 1, mu = 0)
 df %>% 
   group_by(dose) %>%
   t_test(len ~ 1, mu = 0)
-#> # A tibble: 3 x 8
+#> # A tibble: 3 × 8
 #>   dose  .y.   group1 group2         n statistic    df        p
 #> * <fct> <chr> <chr>  <chr>      <int>     <dbl> <dbl>    <dbl>
 #> 1 0.5   len   1      null model    20      10.5    19 2.24e- 9
@@ -375,7 +370,7 @@ df %>%
 stat.test <- df %>% 
   t_test(len ~ supp, paired = FALSE) 
 stat.test
-#> # A tibble: 1 x 8
+#> # A tibble: 1 × 8
 #>   .y.   group1 group2    n1    n2 statistic    df      p
 #> * <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>  <dbl>
 #> 1 len   OJ     VC        30    30      1.92  55.3 0.0606
@@ -411,13 +406,13 @@ stat.test <- df %>%
   adjust_pvalue() %>%
   add_significance("p.adj")
 stat.test
-#> # A tibble: 3 x 11
+#> # A tibble: 3 × 11
 #>   dose  .y.   group1 group2    n1    n2 statistic    df       p   p.adj
 #>   <fct> <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>   <dbl>   <dbl>
 #> 1 0.5   len   OJ     VC        10    10    3.17    15.0 0.00636 0.0127 
 #> 2 1     len   OJ     VC        10    10    4.03    15.4 0.00104 0.00312
 #> 3 2     len   OJ     VC        10    10   -0.0461  14.0 0.964   0.964  
-#> # … with 1 more variable: p.adj.signif <chr>
+#> # ℹ 1 more variable: p.adj.signif <chr>
 
 # Visualization
 ggboxplot(
@@ -437,7 +432,7 @@ ggboxplot(
 stat.test <- df %>% 
   t_test(len ~ supp, paired = TRUE) 
 stat.test
-#> # A tibble: 1 x 8
+#> # A tibble: 1 × 8
 #>   .y.   group1 group2    n1    n2 statistic    df       p
 #> * <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>   <dbl>
 #> 1 len   OJ     VC        30    30      3.30    29 0.00255
@@ -461,7 +456,7 @@ p + stat_pvalue_manual(stat.test, label = "p", y.position = 36)
 # Pairwise t-test
 pairwise.test <- df %>% t_test(len ~ dose)
 pairwise.test
-#> # A tibble: 3 x 10
+#> # A tibble: 3 × 10
 #>   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif
 #> * <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>    <dbl>    <dbl> <chr>       
 #> 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 2.54e- 7 ****        
@@ -486,7 +481,7 @@ ggboxplot(df, x = "dose", y = "len")+
 # T-test: each level is compared to the ref group
 stat.test <- df %>% t_test(len ~ dose, ref.group = "0.5")
 stat.test
-#> # A tibble: 2 x 10
+#> # A tibble: 2 × 10
 #>   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif
 #> * <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>    <dbl>    <dbl> <chr>       
 #> 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 1.27e- 7 ****        
@@ -520,7 +515,7 @@ ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
 # T-test
 stat.test <- df %>% t_test(len ~ dose, ref.group = "all")
 stat.test
-#> # A tibble: 3 x 10
+#> # A tibble: 3 × 10
 #>   .y.   group1 group2    n1    n2 statistic    df         p   p.adj p.adj.signif
 #> * <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>     <dbl>   <dbl> <chr>       
 #> 1 len   all    0.5       60    20     5.82   56.4   2.90e-7 8.70e-7 ****        
@@ -538,8 +533,7 @@ ggboxplot(df, x = "dose", y = "len") +
 
 ![](tools/README-comparison-against-base-mean-1.png)
 
-ANOVA test
-----------
+## ANOVA test
 
 ``` r
 # One-way ANOVA test
@@ -605,8 +599,7 @@ anova_test(.my.model)
 #> 8  N:P:K   0  12     NA    NA  <NA>    NA
 ```
 
-Correlation tests
------------------
+## Correlation tests
 
 ``` r
 # Data preparation
@@ -620,14 +613,14 @@ head(mydata, 3)
 
 # Correlation test between two variables
 mydata %>% cor_test(wt, mpg, method = "pearson")
-#> # A tibble: 1 x 8
+#> # A tibble: 1 × 8
 #>   var1  var2    cor statistic        p conf.low conf.high method 
 #>   <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
 #> 1 wt    mpg   -0.87     -9.56 1.29e-10   -0.934    -0.744 Pearson
 
 # Correlation of one variable against all
 mydata %>% cor_test(mpg, method = "pearson")
-#> # A tibble: 5 x 8
+#> # A tibble: 5 × 8
 #>   var1  var2    cor statistic        p conf.low conf.high method 
 #>   <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
 #> 1 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
@@ -638,31 +631,30 @@ mydata %>% cor_test(mpg, method = "pearson")
 
 # Pairwise correlation test between all variables
 mydata %>% cor_test(method = "pearson")
-#> # A tibble: 36 x 8
+#> # A tibble: 36 × 8
 #>    var1  var2    cor statistic        p conf.low conf.high method 
 #>    <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
-#>  1 mpg   mpg    1       Inf    0.         1          1     Pearson
+#>  1 mpg   mpg    1       Inf    0          1          1     Pearson
 #>  2 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
 #>  3 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
 #>  4 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson
 #>  5 mpg   wt    -0.87     -9.56 1.29e-10  -0.934     -0.744 Pearson
 #>  6 mpg   qsec   0.42      2.53 1.71e- 2   0.0820     0.670 Pearson
 #>  7 disp  mpg   -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
-#>  8 disp  disp   1       Inf    0.         1          1     Pearson
+#>  8 disp  disp   1       Inf    0          1          1     Pearson
 #>  9 disp  hp     0.79      7.08 7.14e- 8   0.611      0.893 Pearson
 #> 10 disp  drat  -0.71     -5.53 5.28e- 6  -0.849     -0.481 Pearson
-#> # … with 26 more rows
+#> # ℹ 26 more rows
 ```
 
-Correlation matrix
-------------------
+## Correlation matrix
 
 ``` r
 # Compute correlation matrix
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 cor.mat <- mydata %>% cor_mat()
 cor.mat
-#> # A tibble: 6 x 7
+#> # A tibble: 6 × 7
 #>   rowname   mpg  disp    hp   drat    wt   qsec
 #> * <chr>   <dbl> <dbl> <dbl>  <dbl> <dbl>  <dbl>
 #> 1 mpg      1    -0.85 -0.78  0.68  -0.87  0.42 
@@ -675,15 +667,15 @@ cor.mat
 # Show the significance levels
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 cor.mat %>% cor_get_pval()
-#> # A tibble: 6 x 7
-#>   rowname      mpg     disp           hp       drat        wt       qsec
-#>   <chr>      <dbl>    <dbl>        <dbl>      <dbl>     <dbl>      <dbl>
-#> 1 mpg     0.       9.38e-10 0.000000179  0.0000178  1.29e- 10 0.0171    
-#> 2 disp    9.38e-10 0.       0.0000000714 0.00000528 1.22e- 11 0.0131    
-#> 3 hp      1.79e- 7 7.14e- 8 0            0.00999    4.15e-  5 0.00000577
-#> 4 drat    1.78e- 5 5.28e- 6 0.00999      0          4.78e-  6 0.62      
-#> 5 wt      1.29e-10 1.22e-11 0.0000415    0.00000478 2.27e-236 0.339     
-#> 6 qsec    1.71e- 2 1.31e- 2 0.00000577   0.62       3.39e-  1 0
+#> # A tibble: 6 × 7
+#>   rowname      mpg     disp           hp      drat       wt       qsec
+#>   <chr>      <dbl>    <dbl>        <dbl>     <dbl>    <dbl>      <dbl>
+#> 1 mpg     0        9.38e-10 0.000000179  1.78e-  5 1.29e-10 0.0171    
+#> 2 disp    9.38e-10 0        0.0000000714 5.28e-  6 1.22e-11 0.0131    
+#> 3 hp      1.79e- 7 7.14e- 8 0            9.99e-  3 4.15e- 5 0.00000577
+#> 4 drat    1.78e- 5 5.28e- 6 0.00999      7.44e-232 4.78e- 6 0.62      
+#> 5 wt      1.29e-10 1.22e-11 0.0000415    4.78e-  6 0        0.339     
+#> 6 qsec    1.71e- 2 1.31e- 2 0.00000577   6.2 e-  1 3.39e- 1 0
 
 # Replacing correlation coefficients by symbols
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -721,8 +713,7 @@ cor.mat %>%
 
 ![](tools/README-unnamed-chunk-10-1.png)
 
-Related articles
-----------------
+## Related articles
 
 -   [How to Add P-Values onto Basic
     GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-basic-ggplots/)
@@ -739,7 +730,7 @@ Related articles
 -   [How to Add P-Values onto Horizontal
     GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-horizontal-ggplots/)
 -   [Add P-values and Significance Levels to
-    ggplots](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/)
+    ggplots](https://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/)
 -   [Comparing Means of Two Groups in
     R](https://www.datanovia.com/en/courses/comparing-means-of-two-groups-in-r/)
     -   [T-test in R](https://www.datanovia.com/en/lessons/t-test-in-r/)

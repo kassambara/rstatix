@@ -11,12 +11,10 @@ NULL
 #' @param group a vector of length n containing the class of each
 #'   observation; it is usually a factor.
 #' @return A data frame containing the following components:
-#' \itemize{
-#' \item{statistic }{an approximated value of the chi-square distribution.}
-#' \item{parameter }{the degrees of freedom related of the test statistic in this case that it follows a Chi-square distribution.}
-#' \item{p.value }{the p-value of the test.}
-#' \item{method }{the character string "Box's M-test for Homogeneity of Covariance Matrices".}
-#' }
+#' \item{statistic}{an approximated value of the chi-square distribution.}
+#' \item{parameter}{the degrees of freedom related of the test statistic in this case that it follows a Chi-square distribution.}
+#' \item{p.value}{the p-value of the test.}
+#' \item{method}{the character string "Box's M-test for Homogeneity of Covariance Matrices".}
 #' @examples
 #' data(iris)
 #' box_m(iris[, -5], iris[, 5])

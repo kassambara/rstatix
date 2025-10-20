@@ -21,18 +21,18 @@ cor_plot(
 \item{cor.mat}{the correlation matrix to visualize}
 
 \item{method}{Character, the visualization method of correlation matrix to be
-  used. Currently, it supports seven methods, named \code{"circle"}
-  (default), \code{"square"}, \code{"ellipse"}, \code{"number"},
-  \code{"pie"}, \code{"shade"} and \code{"color"}. See examples for details.
+  used. Currently, it supports seven methods, named \code{'circle'}
+  (default), \code{'square'}, \code{'ellipse'}, \code{'number'},
+  \code{'pie'}, \code{'shade'} and \code{'color'}. See examples for details.
 
   The areas of circles or squares show the absolute value of corresponding
-  correlation coefficients. Method \code{"pie"} and \code{"shade"} came from
+  correlation coefficients. Method \code{'pie'} and \code{'shade'} came from
   Michael Friendly's job (with some adjustment about the shade added on), and
-  \code{"ellipse"} came from D.J. Murdoch and E.D. Chow's job, see in section
+  \code{'ellipse'} came from D.J. Murdoch and E.D. Chow's job, see in section
   References.}
 
-\item{type}{Character, \code{"full"} (default), \code{"upper"} or
-\code{"lower"}, display full matrix, lower triangular or upper triangular
+\item{type}{Character, \code{'full'} (default), \code{'upper'} or
+\code{'lower'}, display full matrix, lower triangular or upper triangular
 matrix.}
 
 \item{palette}{character vector containing the color palette.}
