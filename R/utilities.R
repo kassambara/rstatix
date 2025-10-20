@@ -271,7 +271,12 @@ get_levels <- function(data, group){
     return(data)
   group.values <- data %>% pull(group.col)
   if(!is.factor(group.values))
-    group.values <- as.factor(group.values)
+    # group.values <- as.factor(group.values) # conflict with ggpubr .check_data
+    if(is.character(group.values))
+      # If not factor, group (x) elements on the plot appear in the same order as in the data (ggpubr::.check_data)
+      #here we maintain the same order
+      group.values <- factor(group.values, levels = unique(group.values))
+  group.values <- as.factor(group.values)
   if(!is.null(ref.group)){
     if(ref.group != "")
       group.values <- stats::relevel(group.values, ref.group)
