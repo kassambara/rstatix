@@ -55,8 +55,11 @@ kruskal_test <- function(data, formula, ...){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   term <- statistic <- p <- df <- method <- NULL
-  stats::kruskal.test(formula, data = data, ...) %>%
+  
+  mf <- stats::model.frame(formula, data = data, ...)
+  
+  stats::kruskal.test(formula, data = mf) %>%
     as_tidy_stat() %>%
     select(statistic, df, p, method) %>%
-    add_column(.y. = outcome, n = nrow(data), .before = "statistic")
+    add_column(.y. = outcome, n = nrow(mf), .before = "statistic")
 }
