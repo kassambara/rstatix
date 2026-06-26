@@ -10,6 +10,7 @@
 
 ## Bug fixes
 
+- `kruskal_effsize()` now clamps the eta-squared effect size to its valid `[0, 1]` range, so a near-null effect no longer returns a negative value (the formula could yield a small negative for a tiny `H`); consequently it is correctly labelled "small" rather than "large" (the magnitude had used the absolute value) ([#217](https://github.com/kassambara/rstatix/issues/217)).
 - `anova_test()` / `anova_summary()` now return **both** effect sizes when `effect.size = c("pes", "ges")` is requested; previously only partial eta squared was kept ([#180](https://github.com/kassambara/rstatix/issues/180)).
 - `tukey_hsd()` now respects `conf.level` (and other `TukeyHSD()` arguments) for the ungrouped data-frame interface; previously `...` was dropped so the confidence interval was always 95% ([#188](https://github.com/kassambara/rstatix/issues/188)).
 - `pairwise_binom_test_against_p()` no longer errors on an unnamed `x`; groups are auto-labelled `grp1`, `grp2`, … (named/table input is unchanged) ([#44](https://github.com/kassambara/rstatix/issues/44)).

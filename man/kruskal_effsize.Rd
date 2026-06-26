@@ -50,6 +50,11 @@ Compute the effect size for Kruskal-Wallis test as the eta
  litterature are: \code{0.01- < 0.06} (small effect), \code{0.06 - < 0.14}
  (moderate effect) and \code{>= 0.14} (large effect).
 
+ Note that \code{eta2[H]} is a bias-corrected estimator, so the raw formula can
+ return a small negative value for a near-null effect (very small \code{H}). In
+ that case the estimate is floored to 0, keeping the reported effect size within
+ its valid \code{[0, 1]} range.
+
 Confidence intervals are calculated by bootstap.
 }
 \examples{
