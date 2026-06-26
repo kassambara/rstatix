@@ -6,6 +6,8 @@
 
 ## Minor changes
 
+- Updated the CRAN checks badge in the README to the current `badges.cranchecks.info` endpoint (the old `cranchecks.info` badge no longer resolves) ([#174](https://github.com/kassambara/rstatix/issues/174)).
+
 ## Bug fixes
 
 - Fixed a missing space in the `anova_test()` error message for single-level factors (now reads "Variable x has only one level") ([#137](https://github.com/kassambara/rstatix/issues/137)).
