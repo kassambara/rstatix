@@ -90,7 +90,7 @@ tukey_hsd.data.frame <- function(x, formula, ...){
     return(results)
   }
 
-  tukey_hsd_core (x, formula) %>%
+  tukey_hsd_core (x, formula, ...) %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "tukey_hsd"))
 }
