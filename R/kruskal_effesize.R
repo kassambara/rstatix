@@ -82,6 +82,10 @@ eta_squared_h <- function(data, formula, subset = NULL, ...){
   nb.groups <- res.kw$df + 1
   nb.samples <- res.kw$n
   etasq <- (res.kw$statistic - nb.groups + 1) / (nb.samples - nb.groups)
+  # eta-squared is bounded in [0, 1]; the formula can yield a small negative
+  # value for a near-null effect (very small H). Clamp to the valid range, as
+  # the effectsize package does, so the reported effect size is never < 0 (#217).
+  etasq <- max(0, min(1, etasq))
   tibble(
     .y. = get_formula_left_hand_side(formula),
     n = nb.samples,
