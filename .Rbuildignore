@@ -11,3 +11,4 @@
 ^\.github$
 ^CLAUDE\.md$
 ^CRAN-SUBMISSION$
+^\.claude$

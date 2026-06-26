@@ -5,3 +5,7 @@ inst/doc
 .Ruserdata
 .DS_Store
 docs/.DS_Store
+
+# Local Claude Code config + maintainer skill bundle (synced from r-pkg-maintainer-kit)
+.claude/
+CLAUDE.md
