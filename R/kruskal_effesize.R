@@ -15,6 +15,11 @@ NULL
 #'  litterature are: \code{0.01- < 0.06} (small effect), \code{0.06 - < 0.14}
 #'  (moderate effect) and \code{>= 0.14} (large effect).
 #'
+#'  Note that \code{eta2[H]} is a bias-corrected estimator, so the raw formula can
+#'  return a small negative value for a near-null effect (very small \code{H}). In
+#'  that case the estimate is floored to 0, keeping the reported effect size within
+#'  its valid \code{[0, 1]} range.
+#'
 #' Confidence intervals are calculated by bootstap.
 #'
 #'@inheritParams wilcox_effsize
@@ -82,9 +87,9 @@ eta_squared_h <- function(data, formula, subset = NULL, ...){
   nb.groups <- res.kw$df + 1
   nb.samples <- res.kw$n
   etasq <- (res.kw$statistic - nb.groups + 1) / (nb.samples - nb.groups)
-  # eta-squared is bounded in [0, 1]; the formula can yield a small negative
-  # value for a near-null effect (very small H). Clamp to the valid range, as
-  # the effectsize package does, so the reported effect size is never < 0 (#217).
+  # eta2[H] is a bias-corrected estimator (like adjusted R-squared / omega-squared)
+  # and can be slightly negative for a near-null effect (small H). Floor it to the
+  # documented [0, 1] range so the reported effect size is never < 0 (#217).
   etasq <- max(0, min(1, etasq))
   tibble(
     .y. = get_formula_left_hand_side(formula),
