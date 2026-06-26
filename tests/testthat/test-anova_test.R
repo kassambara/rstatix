@@ -109,3 +109,18 @@ test_that("anova_test gives a well-formed error for a single-level factor (#137)
   )
   expect_match(msg, "Variable grp has only one level")
 })
+
+test_that("anova_test effect.size = c('pes','ges') returns BOTH columns (#180)", {
+  both <- iris %>%
+    anova_test(Sepal.Length ~ Sepal.Width + Species, effect.size = c("pes", "ges")) %>%
+    get_anova_table()
+  expect_true(all(c("pes", "ges") %in% colnames(both)))
+  # both-call values match the standalone single-effect-size computations (no regression)
+  ges <- iris %>% anova_test(Sepal.Length ~ Sepal.Width + Species, effect.size = "ges") %>% get_anova_table()
+  pes <- iris %>% anova_test(Sepal.Length ~ Sepal.Width + Species, effect.size = "pes") %>% get_anova_table()
+  expect_equal(both$ges, ges$ges)
+  expect_equal(both$pes, pes$pes)
+  # single-effect-size output is unchanged: exactly one of the two columns
+  expect_false("pes" %in% colnames(ges))
+  expect_false("ges" %in% colnames(pes))
+})

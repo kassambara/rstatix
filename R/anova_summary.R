@@ -283,7 +283,10 @@ add_anova_effect_size <- function(res.anova.summary, effect.size = "ges",  obser
     res.anova.summary <- res.anova.summary %>%
       add_partial_eta_squared()
   }
-  else {
+  # Compute ges whenever it is requested, and also when neither is explicitly
+  # "pes" only (preserving the historical ges default for "ges"/unspecified
+  # values). This lets effect.size = c("pes", "ges") return BOTH columns (#180).
+  if(("ges" %in% effect.size) || !("pes" %in% effect.size)){
     res.anova.summary <- res.anova.summary %>%
       add_generalized_eta_squared(observed)
   }
