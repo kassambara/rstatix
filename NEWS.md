@@ -8,6 +8,8 @@
 
 ## Bug fixes
 
+- Fixed a missing space in the `anova_test()` error message for single-level factors (now reads "Variable x has only one level") ([#137](https://github.com/kassambara/rstatix/issues/137)).
+
 
 # rstatix 0.7.3
 

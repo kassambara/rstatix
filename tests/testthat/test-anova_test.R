@@ -95,3 +95,17 @@ test_that("Checking that get_anova_table performs auto sphericity correction", {
   expect_equal(gg$DFd, c(9, 15.09, 16.88))
   expect_equal(gg$p, c(2.28e-04, 2.79e-09, 1.12e-01))
 })
+
+test_that("anova_test gives a well-formed error for a single-level factor (#137)", {
+  d <- data.frame(id = factor(1:6), grp = factor(rep("a", 6)), score = c(1, 2, 3, 4, 5, 6))
+  expect_error(
+    anova_test(d, dv = score, wid = id, between = grp),
+    "has only one level"
+  )
+  # regression for the missing space (#137): must read "grp has", not "grphas"
+  msg <- tryCatch(
+    anova_test(d, dv = score, wid = id, between = grp),
+    error = function(e) conditionMessage(e)
+  )
+  expect_match(msg, "Variable grp has only one level")
+})
