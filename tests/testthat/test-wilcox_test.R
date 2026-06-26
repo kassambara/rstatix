@@ -32,11 +32,17 @@ test_that("Checking two-sample paired test", {
   expect_equal(res$group2, "VC")
   expect_equal(res$n1, 30)
   expect_equal(res$n2, 30)
-  # Accept either 350/0.00431 (legacy) or 369/0.00383 (R-devel)
-  expect_true(as.numeric(res$statistic) %in% c(350, 369),
-              info = paste("Observed statistic =", as.numeric(res$statistic)))
-  expect_true(signif(res$p, 3) %in% c(0.00431, 0.00383),
-              info = paste("Observed p =", signif(res$p, 3)))
+  # Compare against base R computed the same way so the test tracks the active
+  # R version instead of chasing hard-coded values: wilcox.test's paired V
+  # statistic and p-value shifted on R-devel (350/0.00431 on R <= 4.5,
+  # 369/0.00381 on devel).
+  ref <- suppressWarnings(stats::wilcox.test(
+    ToothGrowth$len[ToothGrowth$supp == "OJ"],
+    ToothGrowth$len[ToothGrowth$supp == "VC"],
+    paired = TRUE
+  ))
+  expect_equal(as.numeric(res$statistic), as.numeric(ref$statistic))
+  expect_equal(res$p, ref$p.value, tolerance = 1e-3)
 })
 
 test_that("Checking pairwise comparisons", {
