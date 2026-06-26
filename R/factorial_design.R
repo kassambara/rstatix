@@ -243,7 +243,7 @@ assertthat_iv_has_enough_levels <- function(.args){
   for(.var in vars){
     n.levels <- unique(data[[.var]]) %>% length()
     if(n.levels == 1){
-      stop("Variable ", .var, "has only one level. ",
+      stop("Variable ", .var, " has only one level. ",
            "Remove it from the model.")
     }
   }
