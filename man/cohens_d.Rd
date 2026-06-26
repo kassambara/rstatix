@@ -41,7 +41,10 @@ interest to be compared. For example to compare groups "A" vs "B" and "B" vs
 
 \item{paired}{a logical indicating whether you want a paired test.}
 
-\item{mu}{theoretical mean, use for one-sample t-test. Default is 0.}
+\item{mu}{the theoretical mean (one-sample test) or the hypothesized difference
+in means (two-sample test). It is subtracted from the mean difference before
+standardizing, so a non-zero \code{mu} shifts the effect size accordingly.
+Default is 0.}
 
 \item{var.equal}{a logical variable indicating whether to treat the two
 variances as being equal. If TRUE then the pooled variance is used to

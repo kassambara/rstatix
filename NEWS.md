@@ -10,6 +10,7 @@
 
 ## Bug fixes
 
+- `cohens_d()` now honours the `mu` argument for two-sample tests (independent and paired): `mu` is the hypothesized mean difference and is subtracted before standardizing, consistent with the one-sample case. Previously `mu` was silently ignored for two-sample tests. Calls using the default `mu = 0` are unchanged ([#200](https://github.com/kassambara/rstatix/issues/200)).
 - `emmeans_test()` no longer fails with "Nonconforming number of contrast coefficients" when the `covariate` is a numeric variable with only two distinct values (e.g. a 0/1 indicator). The covariate is now correctly averaged over (ANCOVA) instead of being kept as a grid factor ([#206](https://github.com/kassambara/rstatix/issues/206), [#86](https://github.com/kassambara/rstatix/issues/86)).
 - `kruskal_effsize()` now clamps the eta-squared effect size to its valid `[0, 1]` range, so a near-null effect no longer returns a negative value (the formula could yield a small negative for a tiny `H`); consequently it is correctly labelled "small" rather than "large" (the magnitude had used the absolute value) ([#217](https://github.com/kassambara/rstatix/issues/217)).
 - `anova_test()` / `anova_summary()` now return **both** effect sizes when `effect.size = c("pes", "ges")` is requested; previously only partial eta squared was kept ([#180](https://github.com/kassambara/rstatix/issues/180)).

@@ -29,7 +29,10 @@ NULL
 #'  one or multiple levels giving the corresponding groups. For example,
 #'  \code{formula = TP53 ~ cancer_group}.
 #'@param paired a logical indicating whether you want a paired test.
-#'@param mu theoretical mean, use for one-sample t-test. Default is 0.
+#'@param mu the theoretical mean (one-sample test) or the hypothesized difference
+#'  in means (two-sample test). It is subtracted from the mean difference before
+#'  standardizing, so a non-zero \code{mu} shifts the effect size accordingly.
+#'  Default is 0.
 #'@param var.equal a logical variable indicating whether to treat the two
 #'  variances as being equal. If TRUE then the pooled variance is used to
 #'  estimate the variance otherwise the Welch (or Satterthwaite) approximation
@@ -120,7 +123,8 @@ cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
       OK <- complete.cases(x, y)
       x <- x[OK] - y[OK]
       y <- NULL
-      mu <- 0
+      # keep the user-supplied `mu`: a paired test reduces to a one-sample test
+      # on the differences, where `mu` is the hypothesized mean difference (#200)
       METHOD <- "Paired T-test"
     }
     else {
@@ -201,10 +205,10 @@ get_cohens_d <- function(data, formula, subset = NULL, paired = FALSE, mu = 0, v
     x <- data[[1]] %>% pull(outcome)
     y <- data[[2]] %>% pull(outcome)
     if(paired){
-      d <- paired_sample_d(x, y)
+      d <- paired_sample_d(x, y, mu)
     }
     else{
-      d <- two_independent_sample_d(x, y, var.equal)
+      d <- two_independent_sample_d(x, y, var.equal, mu)
     }
   }
   else{
@@ -238,7 +242,7 @@ get_cohens_d <- function(data, formula, subset = NULL, paired = FALSE, mu = 0, v
 one_sample_d <- function(x, mu = 0){
   (mean(x) - mu)/sd(x)
 }
-two_independent_sample_d <- function(x, y, var.equal = TRUE){
+two_independent_sample_d <- function(x, y, var.equal = TRUE, mu = 0){
   if(var.equal){
     squared.dev <- (c(x - mean(x), y - mean(y)))^2
     n <- length(squared.dev)
@@ -248,10 +252,10 @@ two_independent_sample_d <- function(x, y, var.equal = TRUE){
     SD <- sqrt((var(x) + var(y))/2)
   }
   mean.diff <- mean(x) - mean(y)
-  mean.diff/SD
+  (mean.diff - mu)/SD
 }
-paired_sample_d <- function(x, y){
-  mean(x-y)/sd(x-y)
+paired_sample_d <- function(x, y, mu = 0){
+  (mean(x-y) - mu)/sd(x-y)
 }
 
 
