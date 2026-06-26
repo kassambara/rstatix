@@ -10,6 +10,7 @@
 
 ## Bug fixes
 
+- `pairwise_binom_test_against_p()` no longer errors on an unnamed `x`; groups are auto-labelled `grp1`, `grp2`, … (named/table input is unchanged) ([#44](https://github.com/kassambara/rstatix/issues/44)).
 - Fixed a missing space in the `anova_test()` error message for single-level factors (now reads "Variable x has only one level") ([#137](https://github.com/kassambara/rstatix/issues/137)).
 
 
