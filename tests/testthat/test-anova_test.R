@@ -110,6 +110,34 @@ test_that("anova_test gives a well-formed error for a single-level factor (#137)
   expect_match(msg, "Variable grp has only one level")
 })
 
+test_that("anova_test results are dplyr-compatible: rstatix_test before data.frame (#106)", {
+  g <- ToothGrowth %>% group_by(supp) %>% anova_test(len ~ dose)
+  # class order: the subclasses must come before data.frame (vctrs/dplyr requirement)
+  expect_lt(match("rstatix_test", class(g)), match("data.frame", class(g)))
+  # grouped: filter / mutate must work (previously errored "must be a vector")
+  expect_true(is.data.frame(g %>% dplyr::filter(p < 1)))
+  expect_true(is.data.frame(g %>% dplyr::mutate(z = p)))
+  # ungrouped and get_anova_table() output too
+  u <- ToothGrowth %>% anova_test(len ~ dose)
+  expect_true(is.data.frame(u %>% dplyr::filter(p < 1)))
+  expect_true(is.data.frame(get_anova_table(g) %>% dplyr::filter(p < 1)))
+  # repeated-measures get_anova_table() (with sphericity correction) is dplyr-compatible too
+  set.seed(1)
+  rm <- data.frame(id = factor(rep(1:10, 3)), time = factor(rep(c("t1","t2","t3"), each = 10)),
+                   score = c(rnorm(10, 5), rnorm(10, 6), rnorm(10, 8)))
+  rm.aov <- anova_test(rm, dv = score, wid = id, within = time)
+  expect_true(is.data.frame(get_anova_table(rm.aov, correction = "GG") %>% dplyr::filter(p < 1)))
+  # dispatch is preserved by the reorder
+  expect_true(inherits(u, "anova_test"))
+  expect_true(inherits(g, "grouped_anova_test"))
+})
+
+test_that("add_xy_position on an anova_test gives an informative error, not a class error (#111)", {
+  g <- ToothGrowth %>% group_by(supp) %>% anova_test(len ~ dose)
+  # omnibus ANOVA has no pairwise comparisons: needs a pairwise post-hoc instead
+  expect_error(add_xy_position(g), "group1 and group2")
+})
+
 test_that("anova_test effect.size = c('pes','ges') returns BOTH columns (#180)", {
   both <- iris %>%
     anova_test(Sepal.Length ~ Sepal.Width + Species, effect.size = c("pes", "ges")) %>%
