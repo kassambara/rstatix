@@ -93,7 +93,11 @@ eta_squared_h <- function(data, formula, subset = NULL, ...){
 get_eta_squared_magnitude <- function(d){
   magnitude.levels = c(0.06, 0.14, Inf)
   magnitude = c("small","moderate","large")
-  d.index <- findInterval(abs(d), magnitude.levels)+1
+  # eta-squared is non-negative; a (degenerate) negative value indicates a
+  # negligible effect, so it should map to the smallest bucket. Do NOT take
+  # abs(d) here, otherwise a negative effsize is mislabelled (e.g. -0.184 was
+  # reported as "large") (#217).
+  d.index <- findInterval(d, magnitude.levels)+1
   magnitude <- factor(magnitude[d.index], levels = magnitude, ordered = TRUE)
   magnitude
 }
