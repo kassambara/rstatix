@@ -146,7 +146,7 @@ pairwise_binom_test_against_p <- function(x, p = rep(1/length(x), length(x)), p.
   }
   groups <- names(x)
   if(is.null(groups)) {
-    names(groups) <- paste0("grp", 1:length(x))
+    groups <- paste0("grp", seq_along(x))
   }
   if(inherits(x, "table")){
     x <- as.vector(x)
