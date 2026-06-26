@@ -56,3 +56,30 @@ test_that("emmeans_test works", {
   expect_equal(comparisons, expected_comparisons, tolerance = 1e-4)
   expect_equal(res_emmeans, expected_emmeans, tolerance = 1e-4)
 })
+
+test_that("emmeans_test works with a binary (0/1) numeric covariate (#206, #86)", {
+  skip_if_not_installed("emmeans")
+  df <- mtcars
+  df$am <- factor(df$am)
+  # df$vs is numeric with only 2 distinct values (0/1); this previously errored
+  # with 'Nonconforming number of contrast coefficients'
+  res <- emmeans_test(df, wt ~ am, covariate = vs)
+  expect_s3_class(res, "rstatix_test")
+  expect_equal(nrow(res), 1L)            # am has 2 levels -> a single comparison
+  expect_true(all(c("group1", "group2", "p", "p.adj") %in% colnames(res)))
+  # multiple covariates (incl. a binary one) also work
+  res2 <- emmeans_test(df, wt ~ am, covariate = c(gear, vs))
+  expect_equal(nrow(res2), 1L)
+})
+
+test_that("emmeans_test averages the covariate (correct ANCOVA), not gridding it (#206)", {
+  skip_if_not_installed("emmeans")
+  df <- mtcars
+  df$am <- factor(df$am)
+  res <- emmeans_test(df, wt ~ am, covariate = gear)
+  # equals the ANCOVA emmeans over the group with the covariate held at its mean
+  m   <- stats::lm(wt ~ gear + am, data = df)
+  ref <- as.data.frame(emmeans::contrast(emmeans::emmeans(m, ~ am),
+                                         method = "pairwise", adjust = "none"))
+  expect_equal(abs(res$statistic), abs(ref$t.ratio), tolerance = 1e-6)
+})
