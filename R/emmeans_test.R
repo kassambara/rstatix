@@ -67,6 +67,13 @@ emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
       paste(collapse = "*")
     data <- dplyr::ungroup(data)
   }
+  # Reference grid for emmeans is built over the comparison variable(s) only
+  # (group + grouping vars). The covariate goes into the model but NOT the grid:
+  # emmeans averages over it (ANCOVA). Keeping the covariate in the grid breaks
+  # for a 2-value numeric covariate, which emmeans keeps as a factor by default
+  # (cov.keep = "2"), producing "Nonconforming number of contrast coefficients"
+  # (#206, #86).
+  emmeans.rhs <- rhs
   if(!is.null(covariate)){
     covariate <- paste(covariate, collapse = "+")
     rhs <- paste(covariate, rhs, sep = "+")
@@ -87,7 +94,7 @@ emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
     comparisons <- get_comparisons(data, variable = !!group, ref.group = !!ref.group)
   }
   method <- get_emmeans_contrasts(data, group, comparisons)
-  formula.emmeans <- stats::as.formula(paste0("~", rhs))
+  formula.emmeans <- stats::as.formula(paste0("~", emmeans.rhs))
   res.emmeans <- emmeans::emmeans(model, formula.emmeans)
   comparisons <- pairwise_emmeans_test(
     res.emmeans, grouping.vars, method = method,
