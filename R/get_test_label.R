@@ -149,8 +149,13 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
   )
   stop_ifnot_class(stat.test, .class = names(allowed.tests))
   is_anova_test <- inherits(stat.test, "anova_test")
+  anova.n <- NA
   if(is_anova_test){
     stat.test <- get_anova_table(stat.test, correction = correction)
+    # derive the sample size now, before the slice below strips the anova_test
+    # class/attributes that get_n() needs to compute n for ANOVA (#150). The total
+    # sample size is the same for every effect row, so a single value is taken.
+    anova.n <- get_n(stat.test)[1]
     if(is.null(row)) row <-  nrow(stat.test) # consider the last row
   }
   if(!is.null(row)) {
@@ -163,6 +168,7 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
   statistic <- get_statistic(stat.test)
   df <- get_df(stat.test)
   n <- get_n(stat.test)
+  if(is_anova_test) n <- anova.n   # use the n derived before the class was stripped (#150)
   effect <- get_effect_size(stat.test, type)
   effect.size <- effect$value
   effect.size.text <- effect$text
