@@ -127,3 +127,21 @@ test_that("Empty values are not counting in group n size (104)", {
   res <- wilcox_test(data = df, v ~ g, paired = TRUE)
   expect_equal(c(res$n1, res$n2), c(9, 7))
 })
+
+test_that("wilcox_test does not crash on degenerate/all-tied data (#79, #167)", {
+  set.seed(1)
+  deg <- data.frame(value = c(0,0,0,0, 0,0,0,0,0), g = rep(c("a","b"), c(4, 5)))
+  # default (detailed = FALSE) no longer runs the crash-prone confidence-interval step
+  expect_true(is.data.frame(wilcox_test(deg, value ~ g)))
+  expect_true(is.data.frame(pairwise_wilcox_test(deg, value ~ g)))
+  # grouped data with a fully-constant subgroup no longer errors
+  gdf <- data.frame(value = c(rep(0, 6), rnorm(6, 2)),
+                    sex = rep(c("M", "F"), 6), grp = rep(c("g1", "g2"), each = 6))
+  expect_true(is.data.frame(gdf %>% group_by(grp) %>% wilcox_test(value ~ sex)))
+})
+
+test_that("wilcox_test detailed = TRUE still returns the estimate and CI (#79)", {
+  res <- ToothGrowth %>% wilcox_test(len ~ supp, detailed = TRUE)
+  expect_true(all(c("estimate", "conf.low", "conf.high") %in% colnames(res)))
+  expect_false(is.na(res$conf.low))   # normal data -> a real confidence interval
+})

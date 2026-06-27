@@ -139,7 +139,9 @@ wilcox_test <- function(
     add_item(method = "wilcox_test")
   params <- env %>%
     remove_null_items() %>%
-    add_item(conf.int = TRUE, method = "wilcox.test")
+    # only request the (Hollander-Wolfe) CI/estimate when detailed = TRUE: it is
+    # not shown otherwise, and its uniroot step errors on degenerate/all-tied data (#79, #167)
+    add_item(conf.int = detailed, method = "wilcox.test")
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
@@ -172,7 +174,7 @@ pairwise_wilcox_test <- function(
     data, formula, method = "wilcox.test",
     comparisons = comparisons, ref.group = ref.group,
     p.adjust.method = p.adjust.method, detailed = detailed,
-    conf.int = TRUE, ...
+    conf.int = detailed, ...
   )
   res %>%
     set_attrs(args = args) %>%
