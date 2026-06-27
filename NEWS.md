@@ -2,6 +2,8 @@
 
 ## New features
 
+- `get_summary_stats()` gains a `digits` argument to control the number of decimal places (default 3); useful when summarizing very small values that would otherwise round to 0 ([#145](https://github.com/kassambara/rstatix/issues/145), [#186](https://github.com/kassambara/rstatix/issues/186), [#218](https://github.com/kassambara/rstatix/issues/218)).
+
 ## Main changes
 
 ## Minor changes
