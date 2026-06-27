@@ -83,10 +83,24 @@ round_column <- function(data, ...,  digits = 0){
 
 # Extract or replace number from character string
 extract_number <- function(x){
-  as.numeric(gsub("[^0-9.-]+", "", as.character(x)))
+  x <- as.character(x)
+  # Scientific notation (e.g. "1e-04") loses its exponent under the generic
+  # regex below (the "e" is dropped -> "1-04" -> NA); parse those explicitly,
+  # keeping non-scientific strings on the original byte-identical path (#148)
+  is.sci <- grepl("[0-9](e|E)[-+]?[0-9]", x)
+  res <- numeric(length(x))
+  res[!is.sci] <- as.numeric(gsub("[^0-9.-]+", "", x[!is.sci]))
+  res[is.sci]  <- as.numeric(gsub("[^0-9.eE+-]+", "", x[is.sci]))
+  res
 }
 replace_number <- function(x, replacement = ""){
-  gsub("[0-9.]", replacement, as.character(x))
+  x <- as.character(x)
+  # For scientific notation, strip the whole number (incl. exponent) so the
+  # remaining "leading character" is the genuine prefix and not "e-" (#148)
+  is.sci <- grepl("[0-9](e|E)[-+]?[0-9]", x)
+  out <- gsub("[0-9.]", replacement, x)
+  out[is.sci] <- gsub("[-+]?[0-9.]+([eE][-+]?[0-9]+)?", replacement, x[is.sci])
+  out
 }
 
 # Add columns into data frame
