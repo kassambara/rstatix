@@ -136,7 +136,6 @@ get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, co
   ncomparisons <- length(comparisons)
   group1 <- comparisons %>% get_group(1)
   group2 <- comparisons %>% get_group(2)
-  k <- 1.08
 
   # Estimate y axis scale
   yscale <- get_y_scale(data, y = outcome, group = group, fun = fun, stack = stack)
@@ -144,13 +143,14 @@ get_y_position_core <- function(data, formula, fun = "max", ref.group = NULL, co
   else if(scales %in% c("free", "free_y")){
     step.increase <- step.increase*(yscale$max - yscale$min)
   }
-  # ystart <- k*yscale$max
   ystart <- yscale$max + step.increase
-  yend <- ystart + (step.increase*ncomparisons)
+  # The seq() below spreads ncomparisons brackets over [ystart, yend], so the
+  # gap between consecutive brackets is (yend - ystart)/(ncomparisons - 1).
+  # Using (ncomparisons - 1) here makes that gap exactly step.increase (#201).
+  yend <- ystart + (step.increase*(ncomparisons-1))
 
   if(is.null(ref.group)) ref.group <- ""
   if(ref.group %in% c("all", ".all.")){
-   # y.position <- yscale$y*k
     y.position <- yscale$y + step.increase
   }
   else{
