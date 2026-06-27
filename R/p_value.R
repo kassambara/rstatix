@@ -250,7 +250,11 @@ remove_leading_zero <- function(x){
     as.character()
 }
 remove_trailing_zero <- function(x){
-  gsub("\\.?0+$", "", x)
+  # Don't strip zeros from scientific notation (e.g. "5.1e-10"): the exponent's
+  # zeros are significant. Only the decimal part is padded/trimmed (#112)
+  is.sci <- grepl("e[-+]?[0-9]", x, ignore.case = TRUE)
+  x[!is.sci] <- gsub("\\.?0+$", "", x[!is.sci])
+  x
 }
 
 # Select p-value columns: p and p.adj -----------------------
