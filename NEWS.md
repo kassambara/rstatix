@@ -14,6 +14,7 @@
 
 ## Bug fixes
 
+- `get_y_position()`/`add_y_position()` now space significance brackets by exactly `step.increase`. Previously the gap between consecutive brackets was `step.increase * n/(n-1)` (wider than requested) for `n >= 2` comparisons. **This changes the computed `y.position` values for plots with 3 or more groups** (brackets are slightly closer together); single-comparison (two-group) plots and `ref.group = "all"` are unchanged ([#201](https://github.com/kassambara/rstatix/issues/201)).
 - `get_test_label()` now includes the sample size `n` for ANOVA results (e.g. `Anova, F(1,58) = 105.06, p = <0.0001, eta2[g] = 0.644, n = 60`), consistent with the other tests; it was previously dropped because the slicing step stripped the attributes `get_n()` needs ([#150](https://github.com/kassambara/rstatix/issues/150)).
 - The comparison tests (`t_test()`, `wilcox_test()`, `dunn_test()`, `emmeans_test()`, etc.) now drop unused levels of the grouping factor, so a filtered factor that still carries empty levels no longer triggers "not enough observations" errors — matching `stats::t.test()` ([#133](https://github.com/kassambara/rstatix/issues/133)).
 - `wilcox_test()` and `pairwise_wilcox_test()` no longer error on degenerate (all-tied / constant) data. The location confidence interval (which can fail to compute on such data) is now requested only when `detailed = TRUE`, so the default call returns gracefully; `statistic`/`p` are unchanged ([#79](https://github.com/kassambara/rstatix/issues/79), [#167](https://github.com/kassambara/rstatix/issues/167)).
