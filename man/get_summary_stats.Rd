@@ -10,7 +10,8 @@ get_summary_stats(
   type = c("full", "common", "robust", "five_number", "mean_sd", "mean_se", "mean_ci",
     "median_iqr", "median_mad", "quantile", "mean", "median", "min", "max"),
   show = NULL,
-  probs = seq(0, 1, 0.25)
+  probs = seq(0, 1, 0.25),
+  digits = 3
 )
 }
 \arguments{
@@ -30,6 +31,10 @@ show. Example: \code{show = c("n", "mean", "sd")}. This is used to filter
 the output after computation.}
 
 \item{probs}{numeric vector of probabilities with values in [0,1]. Used only when type = "quantile".}
+
+\item{digits}{integer indicating the number of decimal places to round the
+summary statistics to. Default is 3. Increase it when summarizing very small
+values that would otherwise round to 0.}
 }
 \value{
 A data frame containing descriptive statistics, such as: \itemize{

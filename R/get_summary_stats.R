@@ -14,6 +14,9 @@ NULL
 #'  show. Example: \code{show = c("n", "mean", "sd")}. This is used to filter
 #'  the output after computation.
 #' @param probs numeric vector of probabilities with values in [0,1]. Used only when type = "quantile".
+#'@param digits integer indicating the number of decimal places to round the
+#'  summary statistics to. Default is 3. Increase it when summarizing very small
+#'  values that would otherwise round to 0.
 #'@return A data frame containing descriptive statistics, such as: \itemize{
 #'  \item \strong{n}: the number of individuals \item \strong{min}: minimum
 #'  \item \strong{max}: maximum \item \strong{median}: median \item
@@ -50,12 +53,12 @@ get_summary_stats <- function(
   data, ..., type = c("full", "common", "robust",  "five_number",
                       "mean_sd", "mean_se", "mean_ci", "median_iqr", "median_mad", "quantile",
                       "mean", "median",  "min", "max" ),
-  show = NULL, probs = seq(0, 1, 0.25)
+  show = NULL, probs = seq(0, 1, 0.25), digits = 3
   ){
   type = match.arg(type)
   if(is_grouped_df(data)){
     results <- data %>%
-      doo(get_summary_stats, ..., type = type, show = show, probs = probs)
+      doo(get_summary_stats, ..., type = type, show = show, probs = probs, digits = digits)
     return(results)
   }
   data <- data %>% select_numeric_columns()
@@ -88,7 +91,7 @@ get_summary_stats <- function(
     full_summary(data)
   ) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate_if(is.numeric, round, digits = 3)
+    dplyr::mutate_if(is.numeric, round, digits = digits)
 
   if(!is.null(show)){
     show <- unique(c("variable", "n", show))
