@@ -12,6 +12,7 @@
 
 ## Bug fixes
 
+- The comparison tests (`t_test()`, `wilcox_test()`, `dunn_test()`, `emmeans_test()`, etc.) now drop unused levels of the grouping factor, so a filtered factor that still carries empty levels no longer triggers "not enough observations" errors — matching `stats::t.test()` ([#133](https://github.com/kassambara/rstatix/issues/133)).
 - `wilcox_test()` and `pairwise_wilcox_test()` no longer error on degenerate (all-tied / constant) data. The location confidence interval (which can fail to compute on such data) is now requested only when `detailed = TRUE`, so the default call returns gracefully; `statistic`/`p` are unchanged ([#79](https://github.com/kassambara/rstatix/issues/79), [#167](https://github.com/kassambara/rstatix/issues/167)).
 - `anova_test()` results (grouped and ungrouped) and `get_anova_table()` output are now compatible with `dplyr` verbs again (e.g. `filter()`, `mutate()`, `add_xy_position()`): the class order is corrected so `rstatix_test` precedes `data.frame`, which recent `vctrs`/`dplyr` require ([#106](https://github.com/kassambara/rstatix/issues/106), [#111](https://github.com/kassambara/rstatix/issues/111)).
 - `cohens_d()` now honours the `mu` argument for two-sample tests (independent and paired): `mu` is the hypothesized mean difference and is subtracted before standardizing, consistent with the one-sample case. Previously `mu` was silently ignored for two-sample tests. Calls using the default `mu = 0` are unchanged ([#200](https://github.com/kassambara/rstatix/issues/200)).
