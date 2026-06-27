@@ -128,6 +128,13 @@ test_that("Empty values are not counting in group n size (104)", {
   expect_equal(c(res$n1, res$n2), c(9, 7))
 })
 
+test_that("wilcox_test detailed method reports the variant (#124)", {
+  expect_equal((ToothGrowth %>% wilcox_test(len ~ supp, detailed = TRUE))$method,
+               "Wilcoxon rank sum test")
+  expect_equal((ToothGrowth %>% wilcox_test(len ~ supp, paired = TRUE, detailed = TRUE))$method,
+               "Wilcoxon signed rank test")
+})
+
 test_that("wilcox_test does not crash on degenerate/all-tied data (#79, #167)", {
   set.seed(1)
   deg <- data.frame(value = c(0,0,0,0, 0,0,0,0,0), g = rep(c("a","b"), c(4, 5)))

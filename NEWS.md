@@ -6,6 +6,8 @@
 
 ## Main changes
 
+- The `method` column of detailed test results (`detailed = TRUE`) now reports the specific test variant instead of a generic label: `t_test()` gives "Welch t-test" / "T-test" / "Paired t-test" / "One-sample t-test", and `wilcox_test()` gives "Wilcoxon rank sum test" / "Wilcoxon signed rank test" ([#124](https://github.com/kassambara/rstatix/issues/124)). Non-detailed output and the p-values/statistics are unchanged.
+
 ## Minor changes
 
 - Updated the CRAN checks badge in the README to the current `badges.cranchecks.info` endpoint (the old `cranchecks.info` badge no longer resolves) ([#174](https://github.com/kassambara/rstatix/issues/174)).

@@ -345,6 +345,20 @@ get_stat_method <- function(x){
   if(inherits(x, c("aov", "anova"))){
     return("Anova")
   }
+  # Report the specific t-test / Wilcoxon variant rather than a generic label (#124)
+  test.method <- x$method
+  if(!is.null(test.method)){
+    if(grepl("t-test", test.method, ignore.case = TRUE)){
+      if(grepl("welch", test.method, ignore.case = TRUE)) return("Welch t-test")
+      if(grepl("paired", test.method, ignore.case = TRUE)) return("Paired t-test")
+      if(grepl("one sample", test.method, ignore.case = TRUE)) return("One-sample t-test")
+      return("T-test")  # Student's two-sample t-test (var.equal = TRUE)
+    }
+    if(grepl("wilcoxon", test.method, ignore.case = TRUE)){
+      if(grepl("signed rank", test.method, ignore.case = TRUE)) return("Wilcoxon signed rank test")
+      return("Wilcoxon rank sum test")  # a.k.a. Mann-Whitney (unpaired)
+    }
+  }
   available.methods <- c(
     "T-test", "Wilcoxon", "Kruskal-Wallis",
     "Pearson", "Spearman", "Kendall", "Sign-Test",
