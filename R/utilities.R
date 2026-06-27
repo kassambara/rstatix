@@ -272,6 +272,9 @@ get_levels <- function(data, group){
   group.values <- data %>% pull(group.col)
   if(!is.factor(group.values))
     group.values <- as.factor(group.values)
+  # drop unused factor levels so empty groups don't produce impossible
+  # comparisons ("not enough observations"); matches stats::t.test (#133)
+  group.values <- droplevels(group.values)
   if(!is.null(ref.group)){
     if(ref.group != "")
       group.values <- stats::relevel(group.values, ref.group)
