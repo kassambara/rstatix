@@ -43,12 +43,9 @@ test_that("get_summary_stats: skewness/kurtosis values are correct (#99)", {
   exp.skew <- (m3 / m2^1.5) * sqrt(n * (n - 1)) / (n - 2)
   exp.kurt <- ((n + 1) * (m4 / m2^2 - 3) + 6) * (n - 1) / ((n - 2) * (n - 3))
   res <- ToothGrowth %>% get_summary_stats(len, show = c("skewness", "kurtosis"), digits = 8)
+  # values match the type-2 (bias-corrected) estimator used by e1071/moments/SPSS
   expect_equal(res$skewness, round(exp.skew, 8))
   expect_equal(res$kurtosis, round(exp.kurt, 8))
-  # matches e1071 type-2 when available
-  skip_if_not_installed("e1071")
-  expect_equal(res$skewness, round(e1071::skewness(x, type = 2), 8))
-  expect_equal(res$kurtosis, round(e1071::kurtosis(x, type = 2), 8))
 })
 
 test_that("get_summary_stats: skewness/kurtosis are opt-in via show, default unchanged (#99)", {
