@@ -200,9 +200,23 @@ get_quo_vars <- function (data, vars)
   if(rlang::quo_is_missing(vars)){
     return(NULL)
   }
-  names(data) %>%
-    tidyselect::vars_select(!!vars) %>%
-    magrittr::set_names(NULL)
+  # A bare symbol that names a column is selected directly (original path), so a
+  # same-named object in the caller's environment can never shadow the column.
+  # Otherwise, if the expression resolves to a character vector (an external
+  # vector passed via vars =/vars2 =), select it with all_of() to avoid the
+  # tidyselect external-vector deprecation. Everything else (tidyselect helpers,
+  # numeric positions, ...) keeps the original byte-identical path (#202).
+  expr <- rlang::quo_get_expr(vars)
+  is.bare.column <- is.symbol(expr) && (rlang::as_string(expr) %in% names(data))
+  if(!is.bare.column){
+    resolved <- tryCatch(rlang::eval_tidy(vars), error = function(e) NULL)
+    if(is.character(resolved)){
+      selected <- tidyselect::vars_select(names(data), tidyselect::all_of(resolved))
+      return(magrittr::set_names(selected, NULL))
+    }
+  }
+  selected <- names(data) %>% tidyselect::vars_select(!!vars)
+  magrittr::set_names(selected, NULL)
 }
 # .args <- rlang::enquos(x = x, y = y, ...) %>%
 #   get_quo_vars_list(data, .)
