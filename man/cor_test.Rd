@@ -63,7 +63,8 @@ variable names: \code{c(var1, var2)}.}
 return a data frame with the following columns: \itemize{ \item
  \code{var1, var2}: the variables used in the correlation test. \item
  \code{cor}: the correlation coefficient. \item \code{statistic}: Test
- statistic used to compute the p-value. \item \code{p}: p-value. \item
+ statistic used to compute the p-value. \item \code{df}: the degrees of
+ freedom (Pearson method only). \item \code{p}: p-value. \item
  \code{conf.low,conf.high}: Lower and upper bounds on a confidence interval.
  \item \code{method}: the method used to compute the statistic.}
 }

@@ -1,5 +1,35 @@
 context("test-cor_test")
 
+test_that("cor_test reports df for Pearson (#107)", {
+  res <- mtcars %>% cor_test(mpg, wt)
+  expect_true("df" %in% colnames(res))
+  # the df column carries the name "df" (consistent with t_test's df column), so compare values
+  expect_equal(unname(res$df), as.integer(nrow(mtcars) - 2))                 # n - 2
+  expect_equal(unname(res$df), unname(as.integer(cor.test(mtcars$mpg, mtcars$wt)$parameter)))
+  # df sits next to statistic
+  expect_equal(colnames(res),
+               c("var1", "var2", "cor", "statistic", "df", "p",
+                 "conf.low", "conf.high", "method"))
+})
+
+test_that("cor_test has no df column for Spearman/Kendall (#107 no-regression)", {
+  expect_false("df" %in% colnames(mtcars %>% cor_test(mpg, wt, method = "spearman")))
+  expect_false("df" %in% colnames(mtcars %>% cor_test(mpg, wt, method = "kendall")))
+})
+
+test_that("grouped Pearson cor_test reports df per group (#107)", {
+  g <- iris %>% group_by(Species) %>% cor_test(Sepal.Width, Sepal.Length)
+  expect_true("df" %in% colnames(g))
+  expect_true(all(g$df == 48L))   # 50 per species - 2
+})
+
+test_that("cor_mat / cor_pmat are unaffected by the df column (#107 no-regression)", {
+  cm <- mtcars %>% cor_mat(mpg, disp, hp)
+  expect_false("df" %in% colnames(cm))
+  expect_equal(colnames(cm), c("rowname", "mpg", "disp", "hp"))
+  expect_true(is.data.frame(mtcars %>% cor_pmat(mpg, disp, hp)))
+})
+
 test_that("cor_test with external character vectors does not warn (deprecation) (#202)", {
   # force lifecycle deprecations to always warn (not once-per-session)
   rlang::local_options(lifecycle_verbosity = "warning")
