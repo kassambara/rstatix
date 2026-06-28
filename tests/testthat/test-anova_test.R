@@ -152,3 +152,26 @@ test_that("anova_test effect.size = c('pes','ges') returns BOTH columns (#180)",
   expect_false("pes" %in% colnames(ges))
   expect_false("ges" %in% colnames(pes))
 })
+
+test_that("repeated-measures anova_test gives clear errors for degenerate designs (#216, #146, #116, #134, #102)", {
+  set.seed(1)
+  good <- data.frame(
+    id = factor(rep(1:8, 3)),
+    time = factor(rep(c("t1", "t2", "t3"), each = 8)),
+    y = rnorm(24)
+  )
+  # valid balanced design still works (no false positive)
+  expect_silent(suppressMessages(anova_test(good, dv = y, wid = id, within = time)))
+  # a subject with >1 observation per within-cell -> clear "duplicated cells" message
+  dup <- rbind(good, good[1, ])
+  expect_error(anova_test(dup, dv = y, wid = id, within = time), "duplicated cells")
+  # wid not repeated across within levels (no complete subject) -> clear message
+  notrep <- data.frame(
+    id = factor(1:18),
+    grp = factor(rep(c("w1", "w2", "w3"), each = 6)),
+    y = rnorm(18)
+  )
+  expect_error(anova_test(notrep, dv = y, wid = id, within = grp), "complete set")
+  # a single incomplete subject is NOT rejected (no false positive)
+  expect_silent(suppressMessages(anova_test(good[-1, ], dv = y, wid = id, within = time)))
+})
