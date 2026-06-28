@@ -2,6 +2,7 @@
 
 ## New features
 
+- `get_summary_stats()` can now report **skewness** and **kurtosis** (bias-corrected, type-2 estimator, matching `e1071`'s `type = 2`). They are opt-in via `show`, e.g. `get_summary_stats(data, x, show = c("mean", "sd", "skewness", "kurtosis"))`, and are not added to any default `type`, so existing output is unchanged ([#99](https://github.com/kassambara/rstatix/issues/99)).
 - `get_summary_stats()` gains a `digits` argument to control the number of decimal places (default 3); useful when summarizing very small values that would otherwise round to 0 ([#145](https://github.com/kassambara/rstatix/issues/145), [#186](https://github.com/kassambara/rstatix/issues/186), [#218](https://github.com/kassambara/rstatix/issues/218)).
 
 ## Main changes

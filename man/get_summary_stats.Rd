@@ -28,7 +28,10 @@ data frame is computed.}
 
 \item{show}{a character vector specifying the summary statistics you want to
 show. Example: \code{show = c("n", "mean", "sd")}. This is used to filter
-the output after computation.}
+the output after computation. It can additionally include \code{"skewness"}
+and/or \code{"kurtosis"} (e.g. \code{show = c("mean", "sd", "skewness",
+"kurtosis")}); these two are computed on demand and are not part of any
+default \code{type}.}
 
 \item{probs}{numeric vector of probabilities with values in [0,1]. Used only when type = "quantile".}
 
@@ -44,6 +47,15 @@ A data frame containing descriptive statistics, such as: \itemize{
  respectively. \item \strong{iqr}: interquartile range \item \strong{mad}:
  median absolute deviation (see ?MAD) \item \strong{sd}: standard deviation
  of the mean \item \strong{se}: standard error of the mean \item \strong{ci}: 95 percent confidence interval of the mean }
+
+ When requested through \code{show}, the output can also contain: \itemize{
+ \item \strong{skewness}: bias-corrected sample skewness \item
+ \strong{kurtosis}: bias-corrected sample excess kurtosis (0 for a normal
+ distribution). } Both use the type-2 (bias-corrected) estimator, matching
+ \code{e1071} with \code{type = 2}:
+ skewness \eqn{= g_1\sqrt{n(n-1)}/(n-2)} and kurtosis \eqn{= [(n+1)g_2 + 6]
+ (n-1)/[(n-2)(n-3)]}, where \eqn{g_1 = m_3/m_2^{1.5}} and \eqn{g_2 =
+ m_4/m_2^2 - 3}. Skewness is \code{NA} for n < 3 and kurtosis for n < 4.
 }
 \description{
 Compute summary statistics for one or multiple numeric variables.
@@ -71,5 +83,9 @@ ToothGrowth \%>\% get_summary_stats(len, type = "mean_sd")
 # Compute full summary statistics but show only mean, sd, median, iqr
 ToothGrowth \%>\%
     get_summary_stats(len, show = c("mean", "sd", "median", "iqr"))
+
+# Include skewness and kurtosis (computed on demand via show)
+ToothGrowth \%>\%
+    get_summary_stats(len, show = c("mean", "sd", "skewness", "kurtosis"))
 
 }
