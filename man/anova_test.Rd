@@ -136,19 +136,29 @@ Provides a pipe-friendly framework to perform different types of
  checks.
 }
 \details{
-The setting in \code{anova_test()} is done in such a way that it
- gives the same results as SPSS, one of the most used commercial software. By
- default, R uses treatment contrasts, where each of the levels is compared to
- the first level used as baseline. The default contrast can be checked using
- \code{options('contrasts')}. In the function \code{anova_test()}, the
- following setting is used
- \code{options(contrasts=c('contr.sum','contr.poly'))}, which gives
- orthogonal contrasts where you compare every level to the overall mean. This
- setting gives the same output as the most commonly used commercial
- softwares, like SPSS. If you want to obtain the same result with the
- function \code{car::Anova()} as the one obtained with
- \code{rstatix::anova_test()}, then don't forget to set
- \code{options(contrasts=c('contr.sum','contr.poly'))}.
+\strong{Contrasts}. By default, R uses treatment contrasts
+ (\code{contr.treatment}), where each factor level is compared to the first
+ level used as baseline; the current setting can be checked with
+ \code{options('contrasts')}.
+
+ How \code{anova_test()} handles contrasts depends on the interface you use:
+ \itemize{ \item When you use the \strong{formula interface} (or the \code{dv}
+ + \code{between}/\code{within} arguments), \code{anova_test()} fits the model
+ internally with \code{options(contrasts = c('contr.sum', 'contr.poly'))},
+ restoring your global option afterwards. This gives orthogonal contrasts,
+ where every level is compared to the overall mean, and type-III results that
+ match the most commonly used commercial softwares, like SPSS. \item When you
+ instead pass a \strong{pre-fitted model} (\code{lm()} or \code{aov()}),
+ \code{anova_test()} does not change its contrasts: the model keeps whatever
+ contrasts were in effect when it was fitted (R's default
+ \code{contr.treatment} unless you set otherwise). Fitting with the default
+ treatment contrasts and then requesting \code{type = 3} can therefore give
+ different results from the formula interface. }
+
+ To reproduce the formula-interface (SPSS) result from a pre-fitted model, or
+ to obtain the same result with \code{car::Anova()} directly, set
+ \code{options(contrasts = c('contr.sum', 'contr.poly'))} \emph{before}
+ fitting the model and use \code{type = 3}.
 }
 \section{Functions}{
 \itemize{

@@ -11,9 +11,11 @@
 ## Minor changes
 
 - Updated the CRAN checks badge in the README to the current `badges.cranchecks.info` endpoint (the old `cranchecks.info` badge no longer resolves) ([#174](https://github.com/kassambara/rstatix/issues/174)).
+- Clarified the `?anova_test` documentation about contrasts: the formula / `dv` + `between`/`within` interface fits the model internally with `contr.sum` (matching SPSS / type-III), whereas a pre-fitted `lm()`/`aov()` keeps its own contrasts (R's default `contr.treatment` unless set otherwise) ([#225](https://github.com/kassambara/rstatix/issues/225)).
 
 ## Bug fixes
 
+- `cor_test()` (and `cor_mat()`) no longer emit the tidyselect "Using an external vector in selections was deprecated" warning when `vars`/`vars2` are passed as character vectors (e.g. `cor_test(data, vars = my_vars)`); the columns are now selected via `all_of()`. Bare names and tidyselect helpers are unaffected ([#202](https://github.com/kassambara/rstatix/issues/202)).
 - `p_format()` no longer strips a trailing `0` from the exponent of scientific-notation p-values (e.g. `p_format(5.1e-10)` returned `"5.1e-1"`; it now correctly returns `"5.1e-10"`). Ordinary decimal formatting, including `trailing.zero` padding, is unchanged ([#112](https://github.com/kassambara/rstatix/issues/112)).
 - `p_mark_significant()` no longer produces `"e-NA"` (with a coercion warning) when given a scientific-notation p-value string such as the output of `p_format()` on `1e-4`; it now correctly returns e.g. `"1e-04****"` ([#148](https://github.com/kassambara/rstatix/issues/148)).
 - `get_y_position()`/`add_y_position()` now space significance brackets by exactly `step.increase`. Previously the gap between consecutive brackets was `step.increase * n/(n-1)` (wider than requested) for `n >= 2` comparisons. **This changes the computed `y.position` values for plots with 3 or more groups** (brackets are slightly closer together); single-comparison (two-group) plots and `ref.group = "all"` are unchanged ([#201](https://github.com/kassambara/rstatix/issues/201)).
