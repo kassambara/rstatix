@@ -51,8 +51,8 @@ A data frame containing descriptive statistics, such as: \itemize{
  When requested through \code{show}, the output can also contain: \itemize{
  \item \strong{skewness}: bias-corrected sample skewness \item
  \strong{kurtosis}: bias-corrected sample excess kurtosis (0 for a normal
- distribution). } Both use the type-2 estimator (the convention used by SPSS,
- SAS and Excel, and by \code{e1071}/\code{moments} with \code{type = 2}):
+ distribution). } Both use the type-2 (bias-corrected) estimator, matching
+ \code{e1071} with \code{type = 2}:
  skewness \eqn{= g_1\sqrt{n(n-1)}/(n-2)} and kurtosis \eqn{= [(n+1)g_2 + 6]
  (n-1)/[(n-2)(n-3)]}, where \eqn{g_1 = m_3/m_2^{1.5}} and \eqn{g_2 =
  m_4/m_2^2 - 3}. Skewness is \code{NA} for n < 3 and kurtosis for n < 4.
