@@ -137,7 +137,7 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
     rename(estimate = "value") %>%
     mutate(
       conf.low = conf.low, conf.high = conf.high,
-      se = se, statistic = t, df = df$value, p.adj = p_round(p, digits = 3)
+      se = se, statistic = t, df = df$value, p.adj = p
     ) %>%
     add_column(n1 = n1, n2 = n2, .after = "group2") %>%
     add_column(.y. = outcome, .before = "group1") %>%

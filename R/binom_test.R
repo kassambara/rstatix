@@ -125,7 +125,6 @@ pairwise_binom_test <- function(x, p.adjust.method = "holm", alternative = "two.
     bind_rows() %>%
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj") %>%
-    mutate(p.adj = signif(.data$p.adj, digits = 3)) %>%
     select(-any_of("p.signif"))
     # select(.data$group1, .data$group2, .data$p, .data$p.adj, .data$p.adj.signif)
   results %>%
@@ -164,7 +163,6 @@ pairwise_binom_test_against_p <- function(x, p = rep(1/length(x), length(x)), p.
     bind_rows() %>%
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj") %>%
-    mutate(p.adj = signif(.data$p.adj, digits = 3)) %>%
     select(-any_of("p.signif")) %>%
     # select(.data$p, .data$p.adj, .data$p.adj.signif) %>%
     add_columns(group = groups, observed = x, expected = p*sum(x), .before = 1)

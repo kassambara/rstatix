@@ -135,8 +135,7 @@ pairwise_mcnemar_test <- function (data, formula, type = c("mcnemar", "exact"), 
     map(compare_pair, data, type = type) %>%
     bind_rows() %>%
     adjust_pvalue("p", method = p.adjust.method) %>%
-    add_significance("p.adj") %>%
-    mutate(p.adj = signif(.data$p.adj, digits = 3))
+    add_significance("p.adj")
   results [, c("group1", "group2", "p", "p.adj", "p.adj.signif", "method")] %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", test.class))

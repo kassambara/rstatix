@@ -350,7 +350,7 @@ as_regexp <- function(x){
 # Create a tidy statistical output
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # Generic function to create a tidy statistical output
-as_tidy_stat <- function(x, round.p = TRUE, digits = 3, stat.method = NULL){
+as_tidy_stat <- function(x, round.p = FALSE, digits = 3, stat.method = NULL){
   estimate <- estimate1 <- estimate2 <- p.value <-
     alternative <- p <- NULL
   res <- tidy(x)
