@@ -18,6 +18,8 @@
 
 ## Bug fixes
 
+- `add_xy_position()`/`add_y_position()` now keep significance brackets evenly spaced after the test results have been **filtered** (e.g. to keep only significant comparisons). Previously the y positions were computed for the full comparison set and then joined onto the filtered rows, producing uneven spacing; they are now computed for exactly the comparisons present. Unfiltered results, `ref.group = "all"`, one-sample and grouped tests are unchanged ([#197](https://github.com/kassambara/rstatix/issues/197)).
+
 - `cor_test()` (and `cor_mat()`) no longer emit the tidyselect "Using an external vector in selections was deprecated" warning when `vars`/`vars2` are passed as character vectors (e.g. `cor_test(data, vars = my_vars)`); the columns are now selected via `all_of()`. Bare names and tidyselect helpers are unaffected ([#202](https://github.com/kassambara/rstatix/issues/202)).
 - `p_format()` no longer strips a trailing `0` from the exponent of scientific-notation p-values (e.g. `p_format(5.1e-10)` returned `"5.1e-1"`; it now correctly returns `"5.1e-10"`). Ordinary decimal formatting, including `trailing.zero` padding, is unchanged ([#112](https://github.com/kassambara/rstatix/issues/112)).
 - `p_mark_significant()` no longer produces `"e-NA"` (with a coercion warning) when given a scientific-notation p-value string such as the output of `p_format()` on `1e-4`; it now correctly returns e.g. `"1e-04****"` ([#148](https://github.com/kassambara/rstatix/issues/148)).
