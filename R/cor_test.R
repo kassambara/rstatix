@@ -41,7 +41,8 @@ NULL
 #'@return return a data frame with the following columns: \itemize{ \item
 #'  \code{var1, var2}: the variables used in the correlation test. \item
 #'  \code{cor}: the correlation coefficient. \item \code{statistic}: Test
-#'  statistic used to compute the p-value. \item \code{p}: p-value. \item
+#'  statistic used to compute the p-value. \item \code{df}: the degrees of
+#'  freedom (Pearson method only). \item \code{p}: p-value. \item
 #'  \code{conf.low,conf.high}: Lower and upper bounds on a confidence interval.
 #'  \item \code{method}: the method used to compute the statistic.}
 #'@seealso \code{\link{cor_mat}()}, \code{\link{as_cor_mat}()}
@@ -181,14 +182,15 @@ mcor_test <- function(data, x, y, ...){
 # Tidy output for correlation test
 as_tidy_cor <- function(x){
 
-  estimate <- cor <- statistic <- p <-
+  estimate <- cor <- statistic <- df <- p <-
     conf.low <- conf.high <- method <- NULL
   res <- x %>%
     as_tidy_stat() %>%
     rename(cor = estimate) %>%
     mutate(cor = signif(cor, 2))
   if(res$method == "Pearson"){
-    res %>% select(cor, statistic, p, conf.low, conf.high, method)
+    # Pearson reports the degrees of freedom (n - 2); Spearman/Kendall do not (#107)
+    res %>% select(cor, statistic, df, p, conf.low, conf.high, method)
   }
   else {
     res %>% select(cor, statistic, p, method)
