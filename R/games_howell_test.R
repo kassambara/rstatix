@@ -61,8 +61,8 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
   if(!detailed){
     results <- results %>%
       select(
-        -.data$se, -.data$method, -.data$statistic,
-        -.data$df, -.data$n1, -.data$n2
+        -any_of(c("se", "method", "statistic",
+        "df", "n1", "n2"))
       )
   }
   results %>%
@@ -134,7 +134,7 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
   n2 <- grp.sizes[mean.diff$group2]
 
   results <- mean.diff %>%
-    rename(estimate = .data$value) %>%
+    rename(estimate = "value") %>%
     mutate(
       conf.low = conf.low, conf.high = conf.high,
       se = se, statistic = t, df = df$value, p.adj = p_round(p, digits = 3)

@@ -121,7 +121,7 @@ pairwise_mcnemar_test <- function (data, formula, type = c("mcnemar", "exact"), 
     }
     results %>%
       keep_only_tbl_df_classes() %>%
-      select(.data$p, .data$method) %>%
+      select(all_of(c("p", "method"))) %>%
       add_columns(group1 = grps[1], group2 = grps[2], .before = "p")
   }
   # Convert outcome into factor, then spread.

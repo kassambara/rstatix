@@ -98,8 +98,8 @@ cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired
   test.func <- two_sample_test
   if(number.of.groups > 2) test.func <- pairwise_two_sample_test
   res <- do.call(test.func, params) %>%
-    select(.data$.y., .data$group1, .data$group2, .data$estimate, everything()) %>%
-    rename(effsize = .data$estimate) %>%
+    select(all_of(c(".y.", "group1", "group2", "estimate")), everything()) %>%
+    rename(effsize = "estimate") %>%
     mutate(magnitude = get_cohens_magnitude(.data$effsize)) %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "cohens_d"))

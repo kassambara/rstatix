@@ -19,6 +19,8 @@
 #' @importFrom dplyr filter
 #' @importFrom dplyr tibble
 #' @importFrom dplyr everything
+#' @importFrom dplyr all_of
+#' @importFrom dplyr any_of
 #' @importFrom dplyr left_join
 #' @importFrom purrr map map2
 #' @importFrom broom tidy
@@ -41,7 +43,7 @@
 # Unnesting, adapt to tidyr 1.0.0
 unnest <- function(data, cols = "data", ...){
   if(is_pkg_version_sup("tidyr", "0.8.3")){
-   results <- tidyr::unnest(data, cols = cols, ...)
+   results <- tidyr::unnest(data, cols = all_of(cols), ...)
   }
   else {results <- tidyr::unnest(data, ...)}
   results
@@ -77,7 +79,7 @@ round_column <- function(data, ...,  digits = 0){
   if(.is_empty(dot.vars)){
     data %<>% dplyr::mutate_if(is.numeric, round_value, digits = digits)
   }
-  data %<>% dplyr::mutate_at(dot.vars, round_value, digits = digits)
+  data %<>% dplyr::mutate_at(dplyr::vars(all_of(dot.vars)), round_value, digits = digits)
   data
 }
 
@@ -364,7 +366,7 @@ as_tidy_stat <- function(x, round.p = TRUE, digits = 3, stat.method = NULL){
     if(round.p) res <- res %>% mutate(p = signif(p, digits))
   }
   if("parameter" %in% colnames(res)){
-    res <- res %>% rename(df = .data$parameter)
+    res <- res %>% rename(df = "parameter")
   }
   res
 }
@@ -771,9 +773,9 @@ get_complete_cases <- function(data){
 tidy_squared_matrix <- function(data, value = "value"){
   data %>%
     as_tibble(rownames = "group2") %>%
-    gather(key = "group1", value = !!value, -.data$group2) %>%
+    gather(key = "group1", value = !!value, -any_of("group2")) %>%
     stats::na.omit() %>% as_tibble() %>%
-    select(.data$group1, everything())
+    select(all_of("group1"), everything())
 }
 
 

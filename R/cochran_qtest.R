@@ -62,7 +62,7 @@ exact_cochran_qtest <- function(data, formula, nboot = 500)
   }
   data.wide <- data %>%
     spread(key = "groups", value = "outcome") %>%
-    select(-.data$participant)
+    select(-any_of("participant"))
   nb.row <- nrow(data.wide)
   nb.col <- ncol(data.wide)
 
@@ -84,7 +84,7 @@ exact_cochran_qtest <- function(data, formula, nboot = 500)
     if (qperm >= qobs) {freq <- freq + 1}}
 
   results %>%
-    select(-.data$df) %>%
+    select(-any_of("df")) %>%
     mutate(
       p = freq/nboot,
       method = "Exact Cochran's Q test"

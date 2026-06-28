@@ -42,7 +42,7 @@ spread_table <- function(data, vars){
   grouping.vars <- utils::head(vars, -2)
   if(length(vars) >= 2){
     data <- data %>%
-      select(-.data$prop) %>%
+      select(-any_of("prop")) %>%
       group_by(!!!syms(grouping.vars)) %>%
       nest() %>%
       mutate(data = map(.data$data, spread, key = last.var, value = "n"))

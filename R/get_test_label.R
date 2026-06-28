@@ -187,8 +187,7 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
   }
   stat.test <- stat.test %>%
     keep_only_tbl_df_classes() %>%
-    select(!!sym(p.col)) %>%
-    rename(p = p.col) %>%
+    select(p = all_of(p.col)) %>%
     mutate(
       row.id = 1:nrow(stat.test), n = n,
       statistic = statistic, parameter = df,
@@ -215,7 +214,7 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
     results <- stat.test %>%
       group_by(.data$row.id) %>%
       doo(get_label_func_df) %>%
-      pull(.data$.results.)
+      pull(".results.")
   }
   else{
     results <- get_label_func_df(stat.test)
@@ -442,7 +441,7 @@ get_n <- function(stat.test){
     .args <- attr(stat.test, "args")
     wid <- .args$wid
     if(is.null(wid)) n <- nrow(.args$data)
-    else n <- .args$data %>% pull(!!wid) %>% unique() %>% length()
+    else n <- .args$data %>% pull(tidyselect::all_of(wid)) %>% unique() %>% length()
     stat.test$n <- n
   }
   else if(inherits(stat.test, "grouped_anova_test")){
@@ -450,7 +449,7 @@ get_n <- function(stat.test){
     .args <- attr(stat.test, "args")
     stat.test$n <- .args$data %>%
       dplyr::summarise(n = dplyr::n()) %>%
-      pull(.data$n)
+      pull("n")
   }
   n.cols <- c("n", "n1", "n2")
   if(!any(n.cols %in% colnames(stat.test))){

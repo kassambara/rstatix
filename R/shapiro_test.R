@@ -42,7 +42,7 @@ shapiro_test <- function(data, ..., vars = NULL){
     data.name <- deparse(substitute(data))
     results <-  tidy(results) %>%
       add_column(variable = data.name, .before = 1) %>%
-      select(-.data$method)
+      select(-any_of("method"))
     return(results)
   }
   vars <- c(get_dot_vars(...), vars) %>%
@@ -60,8 +60,8 @@ shapiro_test <- function(data, ..., vars = NULL){
   data %>%
     group_by(variable) %>%
     doo(~tidy(shapiro.test(.$value))) %>%
-    select(-.data$method) %>%
-    rename(p = .data$p.value)
+    select(-any_of("method")) %>%
+    rename(p = "p.value")
 }
 
 
@@ -102,5 +102,5 @@ mshapiro_test <- function(data)
                             ")", sep = "")
 
   tidy(result) %>%
-    select(-.data$method)
+    select(-any_of("method"))
 }

@@ -168,7 +168,7 @@ pairwise_prop_test <- function(xtab, p.adjust.method = "holm", ...){
     ...
     ) %>%
     tidy() %>%
-    select(.data$group2, .data$group1, .data$p.value)
+    select(all_of(c("group2", "group1", "p.value")))
   colnames(results) <- c("group1", "group2", "p")
   results <- results %>%
     adjust_pvalue(method = p.adjust.method) %>%
@@ -210,7 +210,7 @@ row_wise_prop_test <- function(xtab, p.adjust.method = "holm", detailed = FALSE,
       p = signif(.data$p, digits = 3),
       p.adj = signif(.data$p.adj, digits = 3)
     ) %>%
-    select(-.data$p.signif)
+    select(-any_of("p.signif"))
   results %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "prop_test"))

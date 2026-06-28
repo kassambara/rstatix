@@ -80,7 +80,7 @@ multinom_test <- function (x, p = rep(1/length(x), length(x)), detailed = FALSE)
     p = p.val, method = "Exact multinomial test"
   ) %>%
     add_significance() %>%
-    select(.data$p, .data$p.signif, .data$method)
+    select(all_of(c("p", "p.signif", "method")))
   descriptives <- tibble(
     group = names(x),
     observed = x, expected = p*size

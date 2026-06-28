@@ -138,8 +138,8 @@ repeated_anova_summary <- function(res.anova, detailed = FALSE){
     convert_anova_object_as_data_frame() %>%
     set_colnames(c("Effect", "SSn", "DFn", "SSd", "DFd", "F", "p")) %>%
     select(
-      .data$Effect, .data$DFn, .data$DFd,
-      .data$SSn, .data$SSd, .data$F, .data$p
+      all_of(c("Effect", "DFn", "DFd",
+      "SSn", "SSd", "F", "p"))
     ) %>%
     mutate(`p<.05` = ifelse(.data$p < 0.05, "*",''))
   sphericity.test <- corrections <- NULL
@@ -183,18 +183,18 @@ convert_anova_object_as_data_frame <- function(aov.table){
 
 add_corrected_df <- function(.summary){
   aov.table <- .summary$ANOVA %>%
-    select(.data$Effect, .data$DFn, .data$DFd)
+    select(all_of(c("Effect", "DFn", "DFd")))
   corrections <- .summary$`Sphericity Corrections` %>%
     dplyr::left_join(aov.table, by = "Effect") %>%
     mutate(
       df.gg = paste(round_value(.data$GGe*.data$DFn, 2), round_value(.data$GGe*.data$DFd, 2), sep = ", "),
       df.hf = paste(round_value(.data$HFe*.data$DFn, 2), round_value(.data$HFe*.data$DFd, 2), sep = ", ")
     ) %>%
-    select(-.data$DFd, -.data$DFn)
+    select(-any_of(c("DFd", "DFn")))
   df.gg <- corrections$df.gg
   df.hf <- corrections$df.hf
   .summary$`Sphericity Corrections` <- corrections %>%
-    select(-.data$df.gg, -.data$df.hf) %>%
+    select(-any_of(c("df.gg", "df.hf"))) %>%
     add_column(`DF[GG]` = df.gg, .after = "GGe") %>%
     add_column(`DF[HF]` = df.hf, .after = "HFe")
   .summary
@@ -207,11 +207,11 @@ summary_independent_anova <- function(res.anova){
   .residuals <- res.anova["Residuals", 1:2]
   if('Mean Sq' %in% colnames(res.anova)){
     # exists when res.anova is from stats::anova
-    res.anova <- select(res.anova, -.data$`Mean Sq`)
+    res.anova <- select(res.anova, -any_of("Mean Sq"))
   }
   if('Sum Sq' %in% colnames(res.anova)){
     # in stats::anova, Sum Sq is not the first column, so do select
-    res.anova <- res.anova %>% select(.data$`Sum Sq`, dplyr::everything())
+    res.anova <- res.anova %>% select(all_of("Sum Sq"), dplyr::everything())
     colnames(res.anova) <- c('SSn','DFn','F','p')
     ss.exists <- TRUE
   }
@@ -252,7 +252,7 @@ summary_aov <- function(res.anova){
       mutate(`p<.05` = as.character(ifelse(.data$p < 0.05, "*",''))) %>%
       mutate(Effect = remove_empty_space(.data$Effect)) %>%
       filter(!is.na(.data$p)) %>%
-      select(-.data$MS)
+      select(-any_of("MS"))
     aov.summary
   }
   res.anova <- summary(res.anova) %>%

@@ -168,7 +168,7 @@ pairwise_fisher_test <- function(xtab, p.adjust.method = "holm", detailed = FALS
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj") %>%
     mutate(p.adj = signif(.data$p.adj, digits = 3)) %>%
-    select(-.data$p.signif)
+    select(-any_of("p.signif"))
   results %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "fisher_test"))
@@ -205,7 +205,7 @@ row_wise_fisher_test <- function(xtab, p.adjust.method = "holm", detailed = FALS
       p = signif(.data$p, digits = 3),
       p.adj = signif(.data$p.adj, digits = 3)
     ) %>%
-    select(-.data$p.signif)
+    select(-any_of("p.signif"))
   results %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "fisher_test"))

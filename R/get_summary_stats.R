@@ -168,7 +168,7 @@ quantile_summary <- function(data, probs = seq(0, 1, 0.25)){
   results  <- data %>%
     nest() %>%
     mutate(.results. = map(data, core_func, probs)) %>%
-    select(.data$variable, .data$.results.) %>%
+    select(all_of(c("variable", ".results."))) %>%
     unnest(cols = ".results.")
   results
 }
@@ -240,7 +240,7 @@ mean_se <- function(data){
       sd = stats::sd(.value., na.rm = TRUE)
     ) %>%
     mutate(se = .data$sd / sqrt(.data$n))%>%
-    select(-.data$sd)
+    select(-any_of("sd"))
 }
 
 mean_ci <- function(data){
@@ -257,7 +257,7 @@ mean_ci <- function(data){
       se = .data$sd / sqrt(.data$n),
       ci = abs(stats::qt(alpha/2, .data$n-1)*.data$se)
     )%>%
-    select(-.data$se, -.data$sd)
+    select(-any_of(c("se", "sd")))
 }
 
 median_iqr <- function(data){

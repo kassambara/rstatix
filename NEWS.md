@@ -12,6 +12,7 @@
 
 - Updated the CRAN checks badge in the README to the current `badges.cranchecks.info` endpoint (the old `cranchecks.info` badge no longer resolves) ([#174](https://github.com/kassambara/rstatix/issues/174)).
 - Clarified the `?anova_test` documentation about contrasts: the formula / `dv` + `between`/`within` interface fits the model internally with `contr.sum` (matching SPSS / type-III), whereas a pre-fitted `lm()`/`aov()` keeps its own contrasts (R's default `contr.treatment` unless set otherwise) ([#225](https://github.com/kassambara/rstatix/issues/225)).
+- Removed all internal **tidyselect** deprecation warnings (`Use of .data in tidyselect expressions...`, `Using an external vector in selections...`, and `mutate_at()`/`pull()` external-vector usage) across the package by selecting columns with `all_of()`/`any_of()`. This is an internal change only — results are unchanged — but it future-proofs `rstatix` against upcoming `tidyselect` versions and cleans up the test output ([#202](https://github.com/kassambara/rstatix/issues/202)).
 
 ## Bug fixes
 

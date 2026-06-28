@@ -24,7 +24,7 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
 
     if(method == "anova"){
       res <- anova_test(data, formula, ...) %>%
-        select(.data$Effect, .data$F, .data$p) %>%
+        select(all_of(c("Effect", "F", "p"))) %>%
         set_colnames(c("term", "statistic", "p")) %>%
         add_column(method = "Anova", .after = "p") %>%
         add_column(.y. = outcome, .before = "term") %>%
