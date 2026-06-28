@@ -61,7 +61,7 @@ convert_as_factor <- function(data, ..., vars = NULL, make.valid.levels = FALSE)
     }
   }
   else{
-    data <- data %>% dplyr::mutate_at(vars, as.factor)
+    data <- data %>% dplyr::mutate_at(dplyr::vars(all_of(vars)), as.factor)
   }
   data
 }

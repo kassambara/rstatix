@@ -61,9 +61,9 @@ friedman_test <- function(data, formula, ...){
   sample.size <- data %>% pull(vars$wid) %>% unique() %>% length()
   res <- stats::friedman.test(formula, data = data, ...) %>%
     tidy() %>%
-    rename(p = .data$p.value, df = .data$parameter) %>%
+    rename(p = "p.value", df = "parameter") %>%
     mutate(method = "Friedman test") %>%
-    select(.data$statistic, .data$df, .data$p, .data$method)  %>%
+    select(all_of(c("statistic", "df", "p", "method")))  %>%
     add_columns(.y. = vars$dv, n = sample.size, .before = "statistic")
   res
 }

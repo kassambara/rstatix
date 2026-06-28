@@ -44,10 +44,10 @@ levene_test <- function(data, formula, center = median){
   }
   results <- broom::tidy(results) %>%
     rename(
-      df1 = .data$df,
-      df2 = .data$df.residual,
-      p = .data$p.value
+      df1 = "df",
+      df2 = "df.residual",
+      p = "p.value"
       ) %>%
-    select(.data$df1, .data$df2, .data$statistic, .data$p)
+    select(all_of(c("df1", "df2", "statistic", "p")))
   results
 }

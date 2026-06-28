@@ -60,7 +60,7 @@ dunn_test <- function(data, formula, p.adjust.method = "holm", detailed = FALSE)
 
   if(!detailed){
     results <- results %>%
-      select(-.data$method, -.data$estimate, -.data$estimate1, -.data$estimate2)
+      select(-any_of(c("method", "estimate", "estimate1", "estimate2")))
   }
   results %>%
     set_attrs(args = args) %>%
@@ -131,7 +131,7 @@ dunn_test <- function(data, formula, p.adjust.method = "holm", detailed = FALSE)
     add_significance("p.adj") %>%
     add_column(statistic = PSTAT$statistic, .before = "p") %>%
     add_column(estimate = ESTIMATE$diff, .before = "group1") %>%
-    select(.data$.y., .data$group1, .data$group2, .data$estimate, everything())
+    select(all_of(c(".y.", "group1", "group2", "estimate")), everything())
 
   n1 <- group.size[PVAL$group1]
   n2 <- group.size[PVAL$group2]

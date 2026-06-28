@@ -309,7 +309,7 @@ df_unite_factors <- function(data, col, ..., vars = NULL, sep = "_", remove = TR
   data %>%
     dplyr::arrange(!!!syms(vars)) %>%
     df_unite(col = col, vars = vars, sep = sep, remove = remove, na.rm = na.rm) %>%
-    dplyr::mutate_at(col, function(x){factor(x, levels = unique(x))})
+    dplyr::mutate_at(dplyr::vars(all_of(col)), function(x){factor(x, levels = unique(x))})
 }
 
 

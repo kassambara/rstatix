@@ -86,7 +86,7 @@ factorial_design <- function(data, dv, wid, between, within, covariate){
     # then spread the data into wide format
     wide <- nested %>%
       tidyr::unite(!!!syms(within), col = ".group.", sep = "_") %>%
-      select(.data$.group., data) %>%
+      select(all_of(".group."), data) %>%
       unnest() %>%
       spread(key = ".group.", value = dv) %>%
       as_tibble()
@@ -222,7 +222,7 @@ is_id_unique_by_between_vars <- function(.args){
     unnest() %>%
     group_by(!!!syms(c(wid))) %>%
     summarise(count = n()) %>%
-    pull(.data$count)
+    pull("count")
   all(freq == 1)
 }
 create_uniqueId_by_bteween_vars <- function(.args){

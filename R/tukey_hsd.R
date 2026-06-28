@@ -147,7 +147,7 @@ fct_replace_minus <- function(.factor, by = "_XX.MAGIC.XX_"){
 # column name no matter the version of broom
 replace_contrast_colname_by_comparison <- function(data){
   if("contrast" %in% colnames(data)){
-    data <- data %>% rename(comparison = .data$contrast)
+    data <- data %>% rename(comparison = "contrast")
   }
   data
 }

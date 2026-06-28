@@ -56,7 +56,7 @@ prop_trend_test <- function(xtab, score = NULL){
     add_significance("p") %>%
     mutate(method = "Chi-square trend test") %>%
     add_columns(n = total, .before = 1) %>%
-    select(.data$n, .data$statistic, .data$p, .data$p.signif, everything())
+    select(all_of(c("n", "statistic", "p", "p.signif")), everything())
 
   results %>%
     set_attrs(args = args) %>%

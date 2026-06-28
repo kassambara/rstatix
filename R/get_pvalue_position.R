@@ -202,10 +202,10 @@ add_y_position <- function(test, fun = "max", step.increase = 0.12,
     # but y positions are grouped by one variable
     # merging positions and test data frame
     if("y.position" %in% colnames(test)){
-      test <- test %>% select(-.data$y.position)
+      test <- test %>% select(-any_of("y.position"))
     }
     if("groups" %in% colnames(test)){
-      test <- test %>% select(-.data$groups)
+      test <- test %>% select(-any_of("groups"))
     }
     common.columns <- intersect(colnames(test), colnames(positions))
     test <- test %>% dplyr::left_join(positions, by = common.columns)
@@ -230,8 +230,8 @@ get_y_scale <- function(data, y, group, fun = "max", stack = FALSE){
   fun.splitted <- unlist(strsplit(fun, "_", fixed = TRUE))
   .center <- fun.splitted[1]
   .error <- ifelse(length(fun.splitted) == 2, fun.splitted[2], 0)
-  .center <- desc.stat %>% pull(!!.center)
-  if(.error != 0) .error <- desc.stat %>% pull(!!.error)
+  .center <- desc.stat %>% pull(tidyselect::all_of(.center))
+  if(.error != 0) .error <- desc.stat %>% pull(tidyselect::all_of(.error))
   if(stack){
     .center <- rep(sum(.center), length(.center))
   }
@@ -434,7 +434,7 @@ add_x_position0 <- function(test, x = NULL, dodge = 0.8){
     group.var <- get_formula_right_hand_side(.attributes$args$formula)
     groups <- .attributes$args$data %>%
       convert_as_factor(vars = group.var) %>%
-      pull(!!group.var) %>%
+      pull(tidyselect::all_of(group.var)) %>%
       levels()
   }
   group1.coords <- group1.ranks <-  match(group1, groups)
