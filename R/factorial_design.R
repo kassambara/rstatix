@@ -84,10 +84,26 @@ factorial_design <- function(data, dv, wid, between, within, covariate){
       stats::as.formula()
     # Unite intra-subject factors into one grouping column,
     # then spread the data into wide format
-    wide <- nested %>%
+    wide_long <- nested %>%
       tidyr::unite(!!!syms(within), col = ".group.", sep = "_") %>%
       select(all_of(".group."), data) %>%
-      unnest() %>%
+      unnest()
+    # Repeated-measures designs need exactly one observation per subject for each
+    # within-subject cell; duplicated cells would otherwise fail with a cryptic
+    # tidyr "unique combination of keys" error. Fail early with a clear message.
+    if(any(duplicated(wide_long[setdiff(colnames(wide_long), dv)]))){
+      stop(
+        "anova_test(): repeated-measures designs require exactly one observation per subject (",
+        .args$wid, ") for each combination of the within-subject factor level(s) (",
+        paste(within, collapse = ", "),
+        "). The data contains duplicated cells. This happens when a subject has more than one ",
+        "observation per within-cell (aggregate them, e.g. take the mean per cell), or when ",
+        "within-subject factor level names collide once combined (they are joined by '_', so e.g. ",
+        "levels like 'a_b' and 'a' + 'b' clash - rename them). Then call anova_test() again.",
+        call. = FALSE
+      )
+    }
+    wide <- wide_long %>%
       spread(key = ".group.", value = dv) %>%
       as_tibble()
     .args$lm_data <- wide
@@ -107,6 +123,17 @@ factorial_design <- function(data, dv, wid, between, within, covariate){
   # Fit lm
   lm_formula <- .args$lm_formula <- stats::as.formula(lm_formula)
   data <- .args$lm_data
+  # A repeated-measures model needs at least one subject with a complete set of
+  # within-cell observations; otherwise lm() fails with a cryptic
+  # "0 (non-NA) cases" error. Fail early with a clear message.
+  if(!is.null(within) && nrow(stats::model.frame(lm_formula, data = data)) == 0){
+    stop(
+      "anova_test(): no subject has a complete set of observations across the within-subject ",
+      "cell(s) (", paste(within, collapse = ", "), "), so the repeated-measures model cannot be ",
+      "fit. Ensure each subject (", .args$wid, ") has one value for every within-cell.",
+      call. = FALSE
+    )
+  }
   opt <- options( "contrasts" = c( "contr.sum", "contr.poly" ) )
   .args$model <- stats::lm(lm_formula, data)
   options(opt)
