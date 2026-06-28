@@ -187,6 +187,25 @@ add_y_position <- function(test, fun = "max", step.increase = 0.12,
   if(is.null(data) | is.null(formula)){
     stop("data and formula arguments should be specified.")
   }
+  # When no explicit comparisons were used, derive them from the test's own
+  # group1/group2 rows so that y positions are computed for exactly the
+  # comparisons present (e.g. after filtering the test) instead of for the full
+  # comparison set, which would otherwise produce uneven bracket spacing (#197).
+  # Restricted to the standard ungrouped pairwise case; grouped tests,
+  # ref.group = "all" and one-sample tests keep their existing behavior.
+  if(is.null(comparisons) && !is_grouped_df(data) && nrow(test) > 0 &&
+     all(c("group1", "group2") %in% colnames(test))){
+    is.special <- any(test$group1 %in% c("all", ".all.")) ||
+      any(test$group2 %in% c("null model"))
+    if(!is.special){
+      comparisons <- purrr::map2(
+        as.character(test$group1), as.character(test$group2), c
+      )
+      # name like get_comparisons() (V1, V2, ...) so the derived `groups`
+      # list-column is identical to the unfiltered/default path
+      names(comparisons) <- paste0("V", seq_along(comparisons))
+    }
+  }
   positions <- get_y_position(
     data = data, formula = formula, fun = fun,
     ref.group = ref.group, comparisons = comparisons,

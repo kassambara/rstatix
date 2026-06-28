@@ -160,3 +160,33 @@ test_that("Grouped plots: test that add_x_position works with different number o
   expect_equal(stat.test$xmin, c(0.8, 1.8, 2.73, 2.73, 3.73, 3.73))
   expect_equal(stat.test$xmax, c(1.2, 2.2, 3, 3.27, 4, 4.27))
 })
+
+test_that("add_xy_position keeps even bracket spacing after filtering the test (#197)", {
+  set.seed(1)
+  d <- tibble::tibble(
+    A = rnorm(10, 1), B = rnorm(10, 1), c = rnorm(10, 3),
+    D = rnorm(10, 5), E = rnorm(10, 1)
+  ) %>%
+    tidyr::pivot_longer(dplyr::everything(), names_to = "group", values_to = "value")
+  tk <- d %>% tukey_hsd(value ~ group) %>% dplyr::filter(p.adj < 0.05)
+  filt <- tk %>% add_xy_position()
+  # consecutive brackets must be evenly spaced (was uneven before the fix)
+  expect_equal(length(unique(round(diff(filt$y.position), 6))), 1L)
+  # identical to explicitly setting the comparisons (the reported workaround)
+  wk <- tk %>% add_xy_position(comparisons = purrr::map2(tk$group1, tk$group2, c))
+  expect_equal(filt$y.position, wk$y.position)
+})
+
+test_that("add_xy_position y.position is unchanged for unfiltered/edge cases (#197 no-regression)", {
+  # unfiltered ungrouped pairwise
+  expect_equal(round((df %>% t_test(len ~ dose) %>% add_xy_position())$y.position, 3),
+               c(35.388, 36.876, 38.364))
+  # ref.group = "all"
+  expect_equal(round((df %>% t_test(len ~ dose, ref.group = "all") %>% add_xy_position())$y.position, 3),
+               c(22.988, 28.788, 35.388))
+  # grouped (fix is skipped; existing behavior preserved)
+  expect_equal(nrow(df %>% group_by(supp) %>% t_test(len ~ dose) %>% add_xy_position()), 6L)
+  # empty (zero-row) filtered input returns gracefully, no error (#197 edge)
+  empty <- df %>% t_test(len ~ dose) %>% dplyr::filter(p < 0) %>% add_xy_position()
+  expect_equal(nrow(empty), 0L)
+})
