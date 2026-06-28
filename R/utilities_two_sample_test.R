@@ -140,8 +140,7 @@ pairwise_two_sample_test <- function(data, formula, method = "t.test",
   }
   res <- compare_pairs(data, formula, comparisons, method, detailed = detailed, ...) %>%
     adjust_pvalue(method = p.adjust.method) %>%
-    add_significance() %>%
-    p_round(digits = 3)
+    add_significance()
  if(!detailed) res <- remove_details(res, method = method)
  res
 }

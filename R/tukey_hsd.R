@@ -113,7 +113,6 @@ tukey_hsd_of_model <- function(model, ...){
     separate(comparison, into= c("group2", "group1"), sep = "-") %>%
     revert_back_eventual_minus_symbols(magic.text) %>%
     rename(p.adj = adj.p.value) %>%
-    mutate(p.adj = signif(p.adj, 3)) %>%
     select(term, group1, group2, everything()) %>%
     add_significance("p.adj")
 }

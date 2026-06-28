@@ -233,15 +233,10 @@ pairwise_t_test_psd <- function(
       purrr::map_dfr(~ results %>% filter(group1 %in% .x & group2 %in% .x) )
   }
 
-  p <- p.adj <- NULL
   results <- results %>%
     adjust_pvalue(method = p.adjust.method) %>%
     add_significance("p") %>%
-    add_significance("p.adj") %>%
-    mutate(
-      p = signif(p, digits = 3),
-      p.adj = signif(p.adj, digits = 3)
-    )
+    add_significance("p.adj")
   if(!detailed) results <- remove_details(results, method = "t.test")
   results
 }
