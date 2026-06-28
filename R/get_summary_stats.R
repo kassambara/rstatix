@@ -12,7 +12,10 @@ NULL
 #'  "median_iqr", "median_mad", "quantile", "mean", "median",  "min", "max"}
 #'@param show a character vector specifying the summary statistics you want to
 #'  show. Example: \code{show = c("n", "mean", "sd")}. This is used to filter
-#'  the output after computation.
+#'  the output after computation. It can additionally include \code{"skewness"}
+#'  and/or \code{"kurtosis"} (e.g. \code{show = c("mean", "sd", "skewness",
+#'  "kurtosis")}); these two are computed on demand and are not part of any
+#'  default \code{type}.
 #' @param probs numeric vector of probabilities with values in [0,1]. Used only when type = "quantile".
 #'@param digits integer indicating the number of decimal places to round the
 #'  summary statistics to. Default is 3. Increase it when summarizing very small
@@ -24,6 +27,15 @@ NULL
 #'  respectively. \item \strong{iqr}: interquartile range \item \strong{mad}:
 #'  median absolute deviation (see ?MAD) \item \strong{sd}: standard deviation
 #'  of the mean \item \strong{se}: standard error of the mean \item \strong{ci}: 95 percent confidence interval of the mean }
+#'
+#'  When requested through \code{show}, the output can also contain: \itemize{
+#'  \item \strong{skewness}: bias-corrected sample skewness \item
+#'  \strong{kurtosis}: bias-corrected sample excess kurtosis (0 for a normal
+#'  distribution). } Both use the type-2 estimator (the convention used by SPSS,
+#'  SAS and Excel, and by \code{e1071}/\code{moments} with \code{type = 2}):
+#'  skewness \eqn{= g_1\sqrt{n(n-1)}/(n-2)} and kurtosis \eqn{= [(n+1)g_2 + 6]
+#'  (n-1)/[(n-2)(n-3)]}, where \eqn{g_1 = m_3/m_2^{1.5}} and \eqn{g_2 =
+#'  m_4/m_2^2 - 3}. Skewness is \code{NA} for n < 3 and kurtosis for n < 4.
 #' @examples
 #' # Full summary statistics
 #' data("ToothGrowth")
@@ -47,6 +59,10 @@ NULL
 #' # Compute full summary statistics but show only mean, sd, median, iqr
 #' ToothGrowth %>%
 #'     get_summary_stats(len, show = c("mean", "sd", "median", "iqr"))
+#'
+#' # Include skewness and kurtosis (computed on demand via show)
+#' ToothGrowth %>%
+#'     get_summary_stats(len, show = c("mean", "sd", "skewness", "kurtosis"))
 #'
 #'@export
 get_summary_stats <- function(
@@ -90,7 +106,20 @@ get_summary_stats <- function(
     max = max_(data),
     full_summary(data)
   ) %>%
-    dplyr::ungroup() %>%
+    dplyr::ungroup()
+  # Skewness/kurtosis are not part of any default type; compute on demand only
+  # when requested through `show`, then join so rounding/selection cover them.
+  if(!is.null(show) && any(c("skewness", "kurtosis") %in% show)){
+    .value. <- NULL
+    dist <- data %>%
+      dplyr::summarise(
+        skewness = .skewness(.data$.value.),
+        kurtosis = .kurtosis(.data$.value.)
+      ) %>%
+      dplyr::ungroup()
+    results <- dplyr::left_join(results, dist, by = "variable")
+  }
+  results <- results %>%
     dplyr::mutate_if(is.numeric, round, digits = digits)
 
   if(!is.null(show)){
@@ -278,4 +307,30 @@ median_mad <- function(data){
       median = stats::median(.value., na.rm=TRUE),
       mad = stats::mad(.value., na.rm=TRUE)
     )
+}
+
+# Bias-corrected sample skewness/kurtosis (type-2 estimator, as in SPSS/SAS/
+# Excel and e1071/moments with type = 2). NA when n is too small. (#99)
+.skewness <- function(x){
+  x <- x[!is.na(x)]
+  n <- length(x)
+  if(n < 3) return(NA_real_)
+  m <- mean(x)
+  m2 <- mean((x - m)^2)
+  m3 <- mean((x - m)^3)
+  if(m2 == 0) return(NA_real_)
+  g1 <- m3 / m2^1.5
+  g1 * sqrt(n * (n - 1)) / (n - 2)
+}
+
+.kurtosis <- function(x){
+  x <- x[!is.na(x)]
+  n <- length(x)
+  if(n < 4) return(NA_real_)
+  m <- mean(x)
+  m2 <- mean((x - m)^2)
+  m4 <- mean((x - m)^4)
+  if(m2 == 0) return(NA_real_)
+  g2 <- m4 / m2^2 - 3
+  ((n + 1) * g2 + 6) * (n - 1) / ((n - 2) * (n - 3))
 }
