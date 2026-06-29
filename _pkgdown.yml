@@ -32,6 +32,7 @@ reference:
       - tukey_hsd
       - dunn_test
       - conover_test
+      - friedman_conover_test
       - dunnett_test
       - games_howell_test
       - emmeans_test

@@ -82,6 +82,7 @@ Collate:
     'fisher_test.R'
     'freq_table.R'
     'friedman_test.R'
+    'friedman_conover_test.R'
     'friedman_effsize.R'
     'games_howell_test.R'
     'get_comparisons.R'

@@ -249,6 +249,23 @@ get_formula_left_hand_side <- function(formula){
 get_formula_right_hand_side <- function(formula){
   attr(stats::terms(formula), "term.labels")
 }
+# Drop the '| subject' block from a repeated-measures formula such as
+# 'outcome ~ within | subject', returning 'outcome ~ within'. Formulas without a
+# '|' on the right-hand side are returned unchanged (so callers operating on
+# simple 'y ~ group' formulas are unaffected). The right-hand side is rewritten
+# by manipulating the language objects directly (rather than round-tripping
+# through deparse/as.formula), so non-syntactic names (e.g. backticked names
+# with spaces) and the formula environment are preserved.
+drop_formula_block_term <- function(formula){
+  if(!inherits(formula, "formula")) return(formula)
+  rhs.index <- length(formula)            # 3 for 'lhs ~ rhs', 2 for '~ rhs'
+  rhs <- formula[[rhs.index]]
+  if(is.call(rhs) && identical(rhs[[1]], as.name("|"))){
+    # 'within | subject' parses as `|`(within, subject); keep the within term
+    formula[[rhs.index]] <- rhs[[2]]
+  }
+  formula
+}
 .extract_formula_variables <- function(formula){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
@@ -741,6 +758,7 @@ get_pairwise_comparison_methods <- function(){
     ks_test = "Kolmogorov-Smirnov test",
     dunn_test = "Dunn test",
     conover_test = "Conover test",
+    friedman_conover_test = "Durbin-Conover test",
     dunnett_test = "Dunnett test",
     emmeans_test = "Emmeans test",
     tukey_hsd = "Tukey HSD",
