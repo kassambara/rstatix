@@ -410,7 +410,7 @@ get_stat_method <- function(x){
     }
   }
   available.methods <- c(
-    "T-test", "Wilcoxon", "Kruskal-Wallis",
+    "T-test", "Wilcoxon", "Kruskal-Wallis", "Fligner-Killeen",
     "Pearson", "Spearman", "Kendall", "Sign-Test",
     "Cohen's d", "Chi-squared test"
   )
