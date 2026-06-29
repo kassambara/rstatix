@@ -91,6 +91,7 @@ Collate:
     'get_test_label.R'
     'kruskal_effesize.R'
     'kruskal_test.R'
+    'ks_test.R'
     'levene_test.R'
     'mahalanobis_distance.R'
     'make_clean_names.R'

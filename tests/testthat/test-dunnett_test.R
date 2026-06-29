@@ -48,6 +48,12 @@ test_that("dunnett_test works on grouped data (#129)", {
   expect_equal(nrow(res), 4L)                        # 2 supp x 2 comparisons
 })
 
+test_that("get_description gives a friendly dunnett_test label (#129)", {
+  skip_if_not_installed("emmeans")
+  res <- ToothGrowth %>% dunnett_test(len ~ dose)
+  expect_equal(get_description(res), "Dunnett test")   # not the raw "dunnett_test"
+})
+
 test_that("dunnett_test gives an informative error for an invalid ref.group (#129)", {
   skip_if_not_installed("emmeans")
   expect_error(
