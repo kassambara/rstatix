@@ -152,3 +152,48 @@ test_that("wilcox_test detailed = TRUE still returns the estimate and CI (#79)",
   expect_true(all(c("estimate", "conf.low", "conf.high") %in% colnames(res)))
   expect_false(is.na(res$conf.low))   # normal data -> a real confidence interval
 })
+
+
+# #127: surface a warning when wilcox.test silently reduced the CI confidence level.
+# Whether a given data set forces a reduced CI is R-version dependent (newer
+# wilcox.test can achieve the exact level where older versions could not), so the
+# tests assert the warning fires *iff* the running R's wilcox.test actually
+# reduced the level - tracking the active R version rather than a hard-coded value.
+ci127_data <- function(){
+  data.frame(
+    Result = c(0,9,6,8,0,0,0,0,0,0,0,0,1,2,3,3,1,2,1,1,3,3,7,7),
+    Timepoint = rep(c("Baseline", "Month 3"), 12)
+  )
+}
+
+test_that("wilcox_test surfaces a reduced CI confidence level when one occurs (#127)", {
+  d <- ci127_data()
+  x <- d$Result[d$Timepoint == "Baseline"]
+  y <- d$Result[d$Timepoint == "Month 3"]
+  raw <- suppressWarnings(stats::wilcox.test(x, y, paired = TRUE, conf.int = TRUE))
+  reduced <- isTRUE(attr(raw$conf.int, "conf.level") < 0.95)
+
+  w <- testthat::capture_warnings(
+    res <- wilcox_test(d, Result ~ Timepoint, paired = TRUE, detailed = TRUE)
+  )
+  # the CI warning is present exactly when this R version reduced the CI level
+  expect_equal(any(grepl("confidence interval", w)), reduced)
+  # returned values are unchanged either way (only a warning is ever added)
+  expect_equal(res$p, raw$p.value)
+})
+
+test_that("wilcox_test default (non-detailed) call never warns about the CI (#127)", {
+  d <- ci127_data()
+  w <- testthat::capture_warnings(wilcox_test(d, Result ~ Timepoint, paired = TRUE))
+  expect_false(any(grepl("confidence interval", w)))   # no CI requested -> no warning
+})
+
+test_that("clean-data wilcox and t_test never warn about the CI (#127)", {
+  set.seed(1)
+  cd <- data.frame(v = c(rnorm(15), rnorm(15) + 1), g = rep(c("a", "b"), each = 15))
+  w1 <- testthat::capture_warnings(wilcox_test(cd, v ~ g, detailed = TRUE))
+  expect_false(any(grepl("confidence interval", w1)))   # full conf.level achievable
+  d <- ci127_data()
+  w2 <- testthat::capture_warnings(t_test(d, Result ~ Timepoint, paired = TRUE, detailed = TRUE))
+  expect_false(any(grepl("confidence interval", w2)))   # t.test never reduces
+})
