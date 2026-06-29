@@ -55,8 +55,16 @@ kruskal_test <- function(data, formula, ...){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   term <- statistic <- p <- df <- method <- NULL
+  # Report the number of observations actually used by the test. kruskal.test()
+  # always drops rows with missing outcome/group values via complete.cases()
+  # (regardless of any na.action), so n must be the complete-case count, not
+  # nrow(data) which would be inflated when the data contain NAs (#224). Forcing
+  # na.action = na.omit here makes n match the test's effective sample size
+  # irrespective of a global na.action option or one passed via ...; for data
+  # without NAs it equals nrow(data), leaving the reported n unchanged.
+  n <- nrow(stats::model.frame(formula, data = data, na.action = stats::na.omit))
   stats::kruskal.test(formula, data = data, ...) %>%
     as_tidy_stat() %>%
     select(statistic, df, p, method) %>%
-    add_column(.y. = outcome, n = nrow(data), .before = "statistic")
+    add_column(.y. = outcome, n = n, .before = "statistic")
 }
