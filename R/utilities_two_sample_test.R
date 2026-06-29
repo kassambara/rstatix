@@ -61,12 +61,12 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
 
 
 # Performs one or two samples mean comparisons
-two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, id = NULL, detailed = FALSE, ...) {
+two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, id = NULL, error.as.na = FALSE, detailed = FALSE, ...) {
 
   if (is_grouped_df(data)) {
     res <- data %>%
       doo(two_sample_test, formula, method = method,
-          ref.group = ref.group, id = id, detailed = detailed, ...)
+          ref.group = ref.group, id = id, error.as.na = error.as.na, detailed = detailed, ...)
     return(res)
   }
   test.function <- method
@@ -111,7 +111,35 @@ two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, 
   }
 
   statistic <- p <- NULL
-  res.raw <- suppressWarnings(do.call(test.function, test.args))
+  # error.as.na (#208, #158): a comparison can fail because a group has too few
+  # observations or the data are essentially constant. By default this stops with
+  # an error (unchanged). When error.as.na = TRUE, catch that error, warn (naming
+  # the comparison), and return an NA result row so the remaining comparisons /
+  # groups are still computed.
+  res.raw <- tryCatch(
+    suppressWarnings(do.call(test.function, test.args)),
+    error = function(e){
+      if(isTRUE(error.as.na)){
+        comparison <- if(grp2 == "null model") grp1 else paste(grp1, "vs", grp2)
+        warning(
+          "Could not compute the comparison (", comparison, "): ",
+          conditionMessage(e), ". Returning NA for this comparison.",
+          call. = FALSE
+        )
+        return(NULL)
+      }
+      stop(e)
+    }
+  )
+  if(is.null(res.raw)){
+    # Degenerate comparison turned into an NA row (error.as.na = TRUE).
+    res <- tibble(statistic = NA_real_, df = NA_real_, p = NA_real_) %>%
+      add_columns(
+        .y. = outcome, group1 = grp1, group2 = grp2,
+        .before = "statistic"
+      )
+  }
+  else {
   # #127: wilcox.test silently lowers the confidence interval's confidence level
   # when the requested one cannot be achieved (ties / zeroes), which can make the
   # CI contradict the p-value (e.g. p > 0.05 while the CI excludes 0). Surface
@@ -137,6 +165,7 @@ two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, 
       .y. = outcome, group1 = grp1, group2 = grp2,
       .before = "statistic"
     )
+  }
   # Add n columns
   if(grp2 == "null model"){
     res <- res %>% add_columns(n = n, .before = "statistic")
@@ -151,13 +180,13 @@ two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, 
 # Pairwise mean comparisons
 pairwise_two_sample_test <- function(data, formula, method = "t.test",
                                comparisons = NULL, ref.group = NULL,
-                               p.adjust.method = "holm", id = NULL, detailed = FALSE, ...) {
+                               p.adjust.method = "holm", id = NULL, error.as.na = FALSE, detailed = FALSE, ...) {
   if (is_grouped_df(data)) {
     res <- data %>%
       doo(
         pairwise_two_sample_test, formula, method,
         comparisons, ref.group, p.adjust.method,
-        id = id, detailed = detailed, ...
+        id = id, error.as.na = error.as.na, detailed = detailed, ...
         )
     return(res)
   }
@@ -170,7 +199,7 @@ pairwise_two_sample_test <- function(data, formula, method = "t.test",
   if (is.null(comparisons)) {
     comparisons <- group.levels %>% .possible_pairs(ref.group = ref.group)
   }
-  res <- compare_pairs(data, formula, comparisons, method, id = id, detailed = detailed, ...) %>%
+  res <- compare_pairs(data, formula, comparisons, method, id = id, error.as.na = error.as.na, detailed = detailed, ...) %>%
     adjust_pvalue(method = p.adjust.method) %>%
     add_significance()
  if(!detailed) res <- remove_details(res, method = method)
@@ -263,17 +292,17 @@ align_paired_by_id <- function(data, outcome, group, id, grp1, grp2){
 }
 
 # compare_pair(ToothGrowth, len ~ dose, c("0.5", "1"))
-compare_pair <- function(data, formula, pair, method = "t.test", id = NULL, ...){
+compare_pair <- function(data, formula, pair, method = "t.test", id = NULL, error.as.na = FALSE, ...){
   group <- get_formula_right_hand_side(formula)
   data %>%
     filter(!!sym(group) %in% pair) %>%
     droplevels() %>%
-    two_sample_test(formula, method = method, id = id, ...)
+    two_sample_test(formula, method = method, id = id, error.as.na = error.as.na, ...)
 }
 # compare_pairs(ToothGrowth, len ~ dose, list(c("0.5", "1"), c("1", "2")))
-compare_pairs <- function(data, formula, pairs, method = "t.test", id = NULL, ...){
+compare_pairs <- function(data, formula, pairs, method = "t.test", id = NULL, error.as.na = FALSE, ...){
   .f <- function(pair, data, formula, method, ...){
-    compare_pair(data, formula, pair, method, id = id, ...)
+    compare_pair(data, formula, pair, method, id = id, error.as.na = error.as.na, ...)
   }
   pairs %>%
     map(.f, data, formula, method, ...) %>%
