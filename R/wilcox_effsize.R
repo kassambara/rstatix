@@ -40,6 +40,11 @@ NULL
 #'@param ci.type The type of confidence interval to use. Can be any of "norm",
 #'  "basic", "perc", or "bca". Passed to \code{boot::boot.ci}.
 #'@param nboot The number of replications to use for bootstrap.
+#'@param detailed logical value. Default is FALSE. If TRUE, the output
+#'  additionally includes the \code{Z} \code{statistic} (extracted from the
+#'  \code{coin} package and used to compute \code{r = Z/sqrt(N)}), the p-value
+#'  (\code{p}) and the test \code{method}/\code{alternative}, so the effect size
+#'  and the underlying Z are reported together in one data frame.
 #'@param ... Additional arguments passed to the functions
 #'  \code{coin::wilcoxsign_test()} (case of one- or paired-samples test) or
 #'  \code{coin::wilcox_test()} (case of independent two-samples test).
@@ -49,7 +54,8 @@ NULL
 #'  \code{n,n1,n2}: Sample counts. \item \code{effsize}: estimate of the effect
 #'  size (\code{r} value). \item \code{magnitude}: magnitude of effect size.
 #'  \item \code{conf.low,conf.high}: lower and upper bound of the effect size
-#'  confidence interval.}
+#'  confidence interval. \item \code{statistic}: the \code{Z} statistic and
+#'  \code{p}: the p-value (only when \code{detailed = TRUE}).}
 #'@references Maciej Tomczak and Ewa Tomczak. The need to report effect size
 #'  estimates revisited. An overview of some recommended measures of effect
 #'  size. Trends in Sport Sciences. 2014; 1(21):19-25.
@@ -79,13 +85,13 @@ NULL
 wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
                                 paired = FALSE, alternative = "two.sided",
                                 mu = 0, ci = FALSE, conf.level = 0.95, ci.type = "perc",
-                                nboot = 1000,  ...){
+                                nboot = 1000, detailed = FALSE, ...){
 
   env <- as.list(environment())
   args <- env %>% .add_item(method = "wilcox_effsize")
   params <- c(env, list(...)) %>%
     remove_null_items() %>%
-    add_item(method = "coin.wilcox.test", detailed = FALSE)
+    add_item(method = "coin.wilcox.test", detailed = detailed)
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
@@ -171,7 +177,10 @@ coin.wilcox.test <- function(x, y = NULL, mu = 0, paired = FALSE, alternative = 
       )
     results <- results %>% mutate(conf.low = CI[1], conf.high = CI[2])
   }
-  RVAL <- list(statistic = results$z, parameter = results$n, p.value = results$p,
+  # Note: no 'parameter' is set. The Wilcoxon test has no degrees of freedom; the
+  # sample size is already reported as n1/n2, and tidying a 'parameter' here would
+  # surface a spurious 'df' column equal to N in the detailed output (#122).
+  RVAL <- list(statistic = results$z, p.value = results$p,
                null.value = mu, alternative = alternative, method = METHOD,
                data.name = DNAME, estimate = results$r)
   if (ci) {
@@ -179,7 +188,6 @@ coin.wilcox.test <- function(x, y = NULL, mu = 0, paired = FALSE, alternative = 
     RVAL <- c(RVAL, list(conf.int = CI))
   }
   names(RVAL$statistic) <- "Z"
-  names(RVAL$parameter) <- "n"
   names(RVAL$estimate) <- "Effect size (r)"
   class(RVAL) <- "htest"
   RVAL
