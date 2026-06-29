@@ -44,8 +44,8 @@ return a data frame with some of the following columns: \itemize{
  to compute the p-value. \item \code{df}: degrees of freedom (\eqn{N - k},
  the same for every comparison). \item \code{p}: p-value. \item \code{p.adj}:
  the adjusted p-value. \item \code{method}: the statistical test used to
- compare groups. \item \code{p.signif, p.adj.signif}: the significance level
- of p-values and adjusted p-values, respectively. }
+ compare groups. \item \code{p.adj.signif}: the significance level of the
+ adjusted p-values. }
 
  The \strong{returned object has an attribute called args}, which is a list
  holding the test arguments.

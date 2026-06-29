@@ -32,8 +32,8 @@ NULL
 #'  to compute the p-value. \item \code{df}: degrees of freedom (\eqn{N - k},
 #'  the same for every comparison). \item \code{p}: p-value. \item \code{p.adj}:
 #'  the adjusted p-value. \item \code{method}: the statistical test used to
-#'  compare groups. \item \code{p.signif, p.adj.signif}: the significance level
-#'  of p-values and adjusted p-values, respectively. }
+#'  compare groups. \item \code{p.adj.signif}: the significance level of the
+#'  adjusted p-values. }
 #'
 #'  The \strong{returned object has an attribute called args}, which is a list
 #'  holding the test arguments.
@@ -136,6 +136,21 @@ conover_test <- function(data, formula, p.adjust.method = "holm", ref.group = NU
   H <- H.uncorrected / tie.correction
   S2 <- (1 / (n - 1)) * (sum(x.rank^2) - n * (n + 1)^2 / 4)
   pooled.scale <- S2 * ((n - 1 - H) / (n - k))
+
+  # The Conover-Iman statistic is undefined when there is no residual degree of
+  # freedom (N - k < 1, e.g. one observation per group) or no rank variability
+  # (all values tied, or every group internally constant), in which case the
+  # pooled scale is zero or non-finite and the t-ratio would be NaN/Inf. Fail
+  # with a clear message rather than a cryptic downstream error.
+  if(df.value < 1 || !is.finite(pooled.scale) || pooled.scale <= 0){
+    stop(
+      "Conover test is undefined for these data: there is no residual variability ",
+      "in the ranks (e.g. each group has a single observation, or all values are ",
+      "tied). The Kruskal-Wallis test and its post-hoc require N - k >= 1 and some ",
+      "within-group rank variation.",
+      call. = FALSE
+    )
+  }
 
   compare.meanrank <- function(i, j){
     mean.ranks[i] - mean.ranks[j]

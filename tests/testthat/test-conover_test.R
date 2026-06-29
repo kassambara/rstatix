@@ -88,6 +88,29 @@ test_that("conover_test errors when all observations are in one group (#222)", {
   expect_error(df %>% conover_test(y ~ g), "same group")
 })
 
+test_that("conover_test fails cleanly on degenerate (undefined) data (#222)", {
+  # one observation per group -> N - k = 0 residual df
+  singletons <- data.frame(y = 1:6, g = factor(1:6))
+  expect_error(singletons %>% conover_test(y ~ g), "undefined")
+  # all values identical -> no rank variability
+  constant <- data.frame(y = rep(5, 9), g = factor(rep(c("a", "b", "c"), each = 3)))
+  expect_error(constant %>% conover_test(y ~ g), "undefined")
+})
+
+test_that("conover_test guard does NOT fire for ordinary inputs (#222)", {
+  # representative valid inputs must still run and return finite statistics
+  expect_silent_run <- function(expr) {
+    res <- expr
+    expect_false(any(is.na(res$statistic)))
+    expect_true(all(is.finite(res$statistic)))
+  }
+  expect_silent_run(ToothGrowth %>% conover_test(len ~ dose))
+  expect_silent_run(iris %>% conover_test(Sepal.Length ~ Species))
+  # two groups, and a group with a single observation (still has residual df)
+  df2 <- data.frame(y = c(1, 2, 3, 10, 11, 12), g = factor(rep(c("a", "b"), each = 3)))
+  expect_silent_run(df2 %>% conover_test(y ~ g))
+})
+
 test_that("get_description gives a friendly conover_test label (#222)", {
   res <- ToothGrowth %>% conover_test(len ~ dose)
   expect_equal(get_description(res), "Conover test")   # not the raw "conover_test"
