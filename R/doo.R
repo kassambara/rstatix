@@ -64,7 +64,17 @@ doo <- function(data, .f, ..., result = ".results."){
     dplyr::ungroup() %>%
     mutate(data = map(.data$data, droplevels)) %>%
     mutate(data = map(.data$data, .f, ...))
-  if(inherits(.results$data[[1]], c("data.frame", "tbl_df"))){
+  # Only unnest when EVERY group's result is a data frame. Checking just the
+  # first element is unsafe when per-group results are heterogeneous: e.g. a
+  # grouped repeated-measures anova_test() can return a plain data frame for one
+  # group (no sphericity correction) and a list (ANOVA + Mauchly + sphericity
+  # corrections) for others; unnest() then fails trying to combine a data.frame
+  # with a list (#83). In that case keep the results in a list-column, which the
+  # downstream extractor (e.g. get_anova_table()) already handles.
+  all.data.frames <- all(purrr::map_lgl(
+    .results$data, ~inherits(.x, c("data.frame", "tbl_df"))
+  ))
+  if(all.data.frames){
     # Suppress warning such as:
     #  Binding character and factor vector, coercing into character vector
     .results <- suppressWarnings(unnest(.results))
