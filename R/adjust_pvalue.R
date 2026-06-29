@@ -3,6 +3,14 @@ NULL
 #' Adjust P-values for Multiple Comparisons
 #' @description A pipe-friendly function to add an adjusted p-value column into
 #'   a data frame. Supports grouped data.
+#' @details For \strong{grouped data} (and, equivalently, when a test is run on
+#'   data grouped with \code{dplyr::group_by()} using an in-test
+#'   \code{p.adjust.method}), the p-value adjustment is computed \strong{within
+#'   each group separately}, not across all groups. If you instead want a single
+#'   family of comparisons adjusted across all groups, run the test without
+#'   adjustment (\code{p.adjust.method = "none"}) and then call
+#'   \code{adjust_pvalue()} on the combined result (see the grouped example
+#'   below).
 #' @param data a data frame containing a p-value column
 #' @param p.col column name containing p-values
 #' @param output.col the output column name to hold the adjusted p-values
@@ -17,6 +25,18 @@ NULL
 #' ToothGrowth %>%
 #'  t_test(len ~ dose) %>%
 #'  adjust_pvalue()
+#'
+#' # Grouped data: adjustment within vs across groups
+#' # Per-group adjustment (within each supp level):
+#' ToothGrowth %>%
+#'   group_by(supp) %>%
+#'   t_test(len ~ dose)                    # in-test holm, adjusted within each group
+#'
+#' # One family across ALL comparisons (all groups together):
+#' ToothGrowth %>%
+#'   group_by(supp) %>%
+#'   t_test(len ~ dose, p.adjust.method = "none") %>%
+#'   adjust_pvalue(method = "holm")
 #'
 #' @rdname adjust_pvalue
 #' @export
