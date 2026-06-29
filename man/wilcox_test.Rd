@@ -16,7 +16,8 @@ wilcox_test(
   alternative = "two.sided",
   mu = 0,
   conf.level = 0.95,
-  detailed = FALSE
+  detailed = FALSE,
+  id = NULL
 )
 
 pairwise_wilcox_test(
@@ -71,6 +72,17 @@ hypothesis.}
 
 \item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
 shown.}
+
+\item{id}{(optional) character string specifying the column that contains the
+sample/subject identifier, used only for a \strong{paired} test
+(\code{paired = TRUE}). When supplied, observations of the two compared
+groups are matched by \code{id} (instead of by row order), and only subjects
+present in both groups are used. For more than two groups, the matching is
+done independently for each pairwise comparison, so different comparisons can
+be based on different numbers of pairs (per-comparison pairwise deletion).
+This makes paired tests work when some observations are missing or the groups
+have unequal sizes. The default (\code{id = NULL}) keeps the previous
+behaviour (groups paired in row order).}
 
 \item{...}{other arguments to be passed to the function
 \code{\link[stats]{wilcox.test}}.}

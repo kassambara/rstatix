@@ -16,7 +16,8 @@ t_test(
   alternative = "two.sided",
   mu = 0,
   conf.level = 0.95,
-  detailed = FALSE
+  detailed = FALSE,
+  id = NULL
 )
 
 pairwise_t_test(
@@ -74,6 +75,17 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
 \item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
 shown.}
+
+\item{id}{(optional) character string specifying the column that contains the
+sample/subject identifier, used only for a \strong{paired} test
+(\code{paired = TRUE}). When supplied, observations of the two compared
+groups are matched by \code{id} (instead of by row order), and only subjects
+present in both groups are used. For more than two groups, the matching is
+done independently for each pairwise comparison, so different comparisons can
+be based on different numbers of pairs (per-comparison pairwise deletion).
+This makes paired tests work when some observations are missing or the groups
+have unequal sizes. The default (\code{id = NULL}) keeps the previous
+behaviour (groups paired in row order).}
 
 \item{pool.sd}{logical value used in the function \code{pairwise_t_test()}.
  Switch to allow/disallow the use of a pooled SD.
