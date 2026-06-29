@@ -32,10 +32,12 @@ shown.}
 \value{
 a data frame with some of the following columns: \itemize{ \item
  \code{.y.}: the outcome variable used in the test. \item
- \code{group1,group2}: the compared groups; \code{group1} is the treatment and
- \code{group2} is the control (reference). \item \code{n1,n2}: sample sizes of
- the treatment and control groups. \item \code{estimate}: the estimated mean
- difference (treatment minus control, i.e. \code{group1 - group2}). \item
+ \code{group1,group2}: the compared groups; \code{group1} is the control
+ (reference) and \code{group2} is the treatment, consistent with the
+ \code{ref.group} convention of \code{t_test()}/\code{wilcox_test()}/
+ \code{dunn_test()}/\code{emmeans_test()}. \item \code{n1,n2}: sample sizes of
+ the control and treatment groups. \item \code{estimate}: the estimated mean
+ difference \code{group1 - group2} (control minus treatment). \item
  \code{conf.low,conf.high}: simultaneous confidence interval for the
  difference. \item \code{statistic}: the t-statistic. \item \code{df}:
  degrees of freedom. \item \code{p.adj}: the Dunnett-adjusted p-value. \item

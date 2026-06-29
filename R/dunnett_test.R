@@ -22,10 +22,12 @@ NULL
 #'@param conf.level confidence level of the (simultaneous) confidence intervals.
 #'@return a data frame with some of the following columns: \itemize{ \item
 #'  \code{.y.}: the outcome variable used in the test. \item
-#'  \code{group1,group2}: the compared groups; \code{group1} is the treatment and
-#'  \code{group2} is the control (reference). \item \code{n1,n2}: sample sizes of
-#'  the treatment and control groups. \item \code{estimate}: the estimated mean
-#'  difference (treatment minus control, i.e. \code{group1 - group2}). \item
+#'  \code{group1,group2}: the compared groups; \code{group1} is the control
+#'  (reference) and \code{group2} is the treatment, consistent with the
+#'  \code{ref.group} convention of \code{t_test()}/\code{wilcox_test()}/
+#'  \code{dunn_test()}/\code{emmeans_test()}. \item \code{n1,n2}: sample sizes of
+#'  the control and treatment groups. \item \code{estimate}: the estimated mean
+#'  difference \code{group1 - group2} (control minus treatment). \item
 #'  \code{conf.low,conf.high}: simultaneous confidence interval for the
 #'  difference. \item \code{statistic}: the t-statistic. \item \code{df}:
 #'  degrees of freedom. \item \code{p.adj}: the Dunnett-adjusted p-value. \item
@@ -102,10 +104,11 @@ dunnett_test <- function(data, formula, ref.group = NULL, conf.level = 0.95,
   if(is.null(ref.group)) ref.group <- group.levels[1]
   group.size <- data %>% get_group_size(group)
 
-  # Each treatment vs the control, oriented as group1 = treatment, group2 =
-  # control so that estimate = treatment - control (= group1 - group2).
+  # Each treatment vs the control, oriented as group1 = control (reference),
+  # group2 = treatment, so estimate = control - treatment (= group1 - group2),
+  # consistent with t_test()/wilcox_test()/dunn_test()/emmeans_test() ref.group.
   treatments <- setdiff(group.levels, ref.group)
-  comparisons <- treatments %>% map(~c(.x, ref.group))
+  comparisons <- treatments %>% map(~c(ref.group, .x))
   contrasts <- get_emmeans_contrasts(data, group, comparisons)
 
   # Fit the model and apply the exact Dunnett (multivariate-t) adjustment.
