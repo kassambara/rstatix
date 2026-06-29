@@ -36,10 +36,10 @@ NULL
 #'  samples in each group, the it is more tolerant the type I error control.
 #'  Thus, this method can be applied when the number of samples is six or more.
 #'
-#'  Because the test relies on Welch's variance correction, a comparison between
-#'  two groups that both have zero variance is undefined; such pairs are returned
-#'  as \code{NA} (with a warning) while all other comparisons are computed as
-#'  usual.
+#'  Because the test relies on Welch's variance correction, comparisons involving
+#'  a group with zero variance (constant values) or undefined variance (a single
+#'  observation) can be undefined; such pairs are returned as \code{NA} (with a
+#'  warning) while all other comparisons are computed as usual.
 #'
 #'@references \itemize{ \item Aaron Schlege,
 #'  https://rpubs.com/aaronsc32/games-howell-test. \item Sangseok Lee, Dong Kyu
@@ -117,44 +117,49 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
     p.adjust.method = "none"
   ) %>% tidy_squared_matrix()
 
-  weltch.sd <- stats::pairwise.table(
+  # A group with zero variance (constant values) or undefined variance (a single
+  # observation, so var() = NA) makes the Welch sd and/or degrees of freedom
+  # NA/NaN for the affected pairs; tidy_squared_matrix() drops those rows via
+  # na.omit(), which would desynchronise these vectors from the full comparison
+  # set and crash (#183). Align both derived tables back onto mean.diff (whose
+  # group means are always finite, so it is the complete grid) by joining, so
+  # undefined pairs become NA instead of being dropped or silently recycled.
+  weltch.tab <- stats::pairwise.table(
     get_weltch_sd, levels(g),
     p.adjust.method = "none"
-  ) %>% tidy_squared_matrix()
-
-  # When two groups in a pair both have zero variance, the Welch degrees of
-  # freedom are 0/0 = NaN; tidy_squared_matrix() drops those rows, which would
-  # desynchronise the df vector from the other (full-length) tables and crash
-  # (#183). Join the df table back onto all comparisons so undefined pairs become
-  # NA instead of being dropped.
+  ) %>% tidy_squared_matrix("welch.sd")
   df.tab <- stats::pairwise.table(
     get_degree_of_freedom, levels(g),
     p.adjust.method = "none"
   ) %>% tidy_squared_matrix("df")
-  # align to the full comparison set without altering mean.diff's columns
-  df.value <- mean.diff %>%
-    left_join(df.tab, by = c("group1", "group2")) %>%
-    pull("df")
+  aligned <- mean.diff %>%
+    left_join(weltch.tab, by = c("group1", "group2")) %>%
+    left_join(df.tab, by = c("group1", "group2"))
+  welch.value <- aligned$welch.sd
+  df.value <- aligned$df
 
-  t <- abs(mean.diff$value)/weltch.sd$value
+  t <- abs(mean.diff$value)/welch.value
   p <- stats::ptukey(t*sqrt(2), nb.groups, df.value, lower.tail = FALSE)
-  se <- weltch.sd$value*sqrt(0.5)
+  se <- welch.value*sqrt(0.5)
 
   q <- stats::qtukey(p = conf.level, nb.groups, df = df.value)
   conf.high <- mean.diff$value + q*se
   conf.low <- mean.diff$value - q*se
 
-  # Pairs between two zero-variance groups are undefined: return NA (not Inf/NaN)
-  # for the affected statistics and warn once.
-  undefined <- is.na(df.value)
+  # Comparisons involving a group with zero or undefined variance can be
+  # undefined (NA Welch sd or NA df): return NA (not Inf/NaN/recycled) for the
+  # affected statistics and warn once.
+  undefined <- is.na(df.value) | is.na(welch.value)
   if(any(undefined)){
     t[undefined] <- NA
+    se[undefined] <- NA
     p[undefined] <- NA
     conf.high[undefined] <- NA
     conf.low[undefined] <- NA
     warning(
-      "Some groups have zero variance. Games-Howell comparisons between two ",
-      "zero-variance groups are undefined and are returned as NA.",
+      "Some groups have zero or undefined variance (constant values or a single ",
+      "observation). The affected Games-Howell comparisons are undefined and ",
+      "are returned as NA.",
       call. = FALSE
     )
   }

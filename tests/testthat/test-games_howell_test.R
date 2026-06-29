@@ -15,7 +15,7 @@ test_that("games_howell_test does not crash on zero-variance groups (#183)", {
   df <- make_183_data()
   expect_warning(
     res <- games_howell_test(df, Tillering ~ Genotype, detailed = TRUE),
-    "zero variance"
+    "zero or undefined variance"
   )
   expect_equal(nrow(res), 15L)                  # all 6*5/2 comparisons present
 })
@@ -25,13 +25,34 @@ test_that("games_howell_test returns NA only for both-zero-variance pairs (#183)
   res <- suppressWarnings(games_howell_test(df, Tillering ~ Genotype, detailed = TRUE))
   zero.var <- c("Geno2", "Geno4", "Geno6")
   both_zero <- res$group1 %in% zero.var & res$group2 %in% zero.var
-  # undefined pairs -> NA statistic/df/p.adj
+  # undefined pairs -> NA statistic/df/se/p.adj/conf
   expect_true(all(is.na(res$statistic[both_zero])))
   expect_true(all(is.na(res$df[both_zero])))
+  expect_true(all(is.na(res$se[both_zero])))
   expect_true(all(is.na(res$p.adj[both_zero])))
+  expect_true(all(is.na(res$conf.low[both_zero])))
   # every other comparison is computable (finite)
   expect_true(all(is.finite(res$statistic[!both_zero])))
   expect_true(all(is.finite(res$p.adj[!both_zero])))
+})
+
+test_that("games_howell_test handles a single-observation (n=1) group without crashing (#183)", {
+  # groups A and B each have n = 1 (var = NA). A df-only alignment still crashed
+  # here (`se must be size 10 or 1, ...`) for mixed group sizes; aligning the
+  # Welch sd too fixes it.
+  df <- data.frame(
+    val = c(5,  9,  1,2,3,  6,7,8,  4,5,6),
+    grp = rep(c("A","B","C","D","E"), times = c(1,1,3,3,3))
+  )
+  expect_warning(
+    res <- games_howell_test(df, val ~ grp, detailed = TRUE),
+    "undefined variance"
+  )
+  expect_equal(nrow(res), 10L)                       # 5*4/2 comparisons, none dropped
+  involves_n1 <- res$group1 %in% c("A","B") | res$group2 %in% c("A","B")
+  expect_true(all(is.na(res$statistic[involves_n1])))
+  expect_true(all(is.na(res$se[involves_n1])))
+  expect_true(all(is.finite(res$statistic[!involves_n1])))   # C/D/E pairs compute
 })
 
 test_that("games_howell_test with a single zero-variance group works (#183)", {
