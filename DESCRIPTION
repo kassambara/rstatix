@@ -75,6 +75,7 @@ Collate:
     't_test.R'
     'dunn_test.R'
     'emmeans_test.R'
+    'dunnett_test.R'
     'eta_squared.R'
     'factors.R'
     'fisher_test.R'
