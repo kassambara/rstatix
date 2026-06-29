@@ -4,7 +4,13 @@
 \alias{dunn_test}
 \title{Dunn's Test of Multiple Comparisons}
 \usage{
-dunn_test(data, formula, p.adjust.method = "holm", detailed = FALSE)
+dunn_test(
+  data,
+  formula,
+  p.adjust.method = "holm",
+  ref.group = NULL,
+  detailed = FALSE
+)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -18,6 +24,13 @@ one or multiple levels giving the corresponding groups. For example,
 Used when pairwise comparisons are performed. Allowed values include "holm",
 "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't
 want to adjust the p value (not recommended), use p.adjust.method = "none".}
+
+\item{ref.group}{a character string specifying the reference group. If
+specified, for a given grouping variable, each of the group levels will be
+compared to the reference (control) group, and the p-value adjustment is
+computed over only these comparisons. Note that, unlike \code{t_test()} and
+\code{wilcox_test()}, \code{dunn_test()} does not support \code{ref.group =
+"all"}.}
 
 \item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
 shown.}
@@ -48,6 +61,14 @@ Performs Dunn's test for pairwise multiple comparisons of the
  (\code{dunn.test} and \code{jamovi}), where the default is to perform
  one-sided test. This discrepancy is documented at
  \href{https://github.com/kassambara/rstatix/issues/50}{https://github.com/kassambara/rstatix/issues/50}.
+
+ If a reference group is specified (via \code{ref.group}), then each of the
+ remaining group levels is compared only to the reference (control) group, and
+ the p-value adjustment for multiple comparisons is computed over only these
+ \code{k - 1} comparisons (instead of all \code{k(k - 1)/2} pairwise
+ comparisons). Note that this affects the adjusted p-values: it is not
+ equivalent to filtering the full pairwise result afterwards, which would still
+ adjust over all pairs.
 }
 \details{
 DunnTest performs the post hoc pairwise multiple comparisons
@@ -62,6 +83,11 @@ DunnTest performs the post hoc pairwise multiple comparisons
 \examples{
 # Simple test
 ToothGrowth \%>\% dunn_test(len ~ dose)
+
+# Comparison against a reference (control) group
+# each group is compared to the reference; the p-value
+# adjustment corrects for only these k - 1 comparisons
+ToothGrowth \%>\% dunn_test(len ~ dose, ref.group = "0.5")
 
 # Grouped data
 ToothGrowth \%>\%
