@@ -112,6 +112,34 @@ test_that("friedman_conover_test errors for an invalid ref.group (#8)", {
   )
 })
 
+test_that("friedman_conover_test rejects missing outcome values (#8)", {
+  na_df <- demo_df
+  na_df$score[1] <- NA
+  expect_error(
+    na_df %>% friedman_conover_test(score ~ treatment | id),
+    "missing values"
+  )
+})
+
+test_that("friedman_conover_test output works with add_xy_position (ggpubr brackets) (#8)", {
+  res <- demo_df %>% friedman_conover_test(score ~ treatment | id)
+  pos <- res %>% add_xy_position(x = "treatment")
+  expect_true(all(c("xmin", "xmax", "y.position") %in% colnames(pos)))
+  expect_equal(nrow(pos), 3L)
+  expect_false(any(is.na(pos$y.position)))
+})
+
+test_that("drop_formula_block_term strips '| subject' but leaves simple formulas intact", {
+  # repeated-measures formula -> only the within term remains
+  expect_equal(
+    deparse(drop_formula_block_term(score ~ treatment | id)),
+    "score ~ treatment"
+  )
+  # ordinary pairwise formulas are returned unchanged (no-regression)
+  expect_equal(deparse(drop_formula_block_term(len ~ dose)), "len ~ dose")
+  expect_equal(deparse(drop_formula_block_term(len ~ supp)), "len ~ supp")
+})
+
 test_that("get_description gives a friendly friedman_conover_test label (#8)", {
   res <- demo_df %>% friedman_conover_test(score ~ treatment | id)
   expect_equal(get_description(res), "Durbin-Conover test")

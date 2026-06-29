@@ -187,6 +187,13 @@ add_y_position <- function(test, fun = "max", step.increase = 0.12,
   if(is.null(data) | is.null(formula)){
     stop("data and formula arguments should be specified.")
   }
+  # Repeated-measures pairwise tests (e.g. friedman_conover_test) carry a
+  # 'outcome ~ within | subject' formula. For bracket positioning only the
+  # 'outcome ~ within' part is relevant, so drop the '| subject' block to let the
+  # grouping (x) variable be parsed correctly. This is a no-op for the usual
+  # 'outcome ~ group' formulas (which contain no '|'), so existing behavior is
+  # unchanged.
+  formula <- drop_formula_block_term(formula)
   # When no explicit comparisons were used, derive them from the test's own
   # group1/group2 rows so that y positions are computed for exactly the
   # comparisons present (e.g. after filtering the test) instead of for the full

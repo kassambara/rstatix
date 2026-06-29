@@ -127,6 +127,19 @@ friedman_conover_test <- function(data, formula, p.adjust.method = "holm", ref.g
   block.values <- data %>% pull(!!block)
   treat.values <- factor(data %>% pull(!!treatment), levels = treatments)
   outcome.values <- data %>% pull(!!outcome)
+  # A missing outcome would still count as a present cell below (table() counts
+  # rows, not non-NA values) and rank() would then assign the missing cell a
+  # rank, silently corrupting the rank sums. Reject NA outcomes outright, as the
+  # omnibus friedman_test() does (an unreplicated complete block design has no
+  # missing cells).
+  if(any(is.na(outcome.values))){
+    stop(
+      "friedman_conover_test() does not allow missing values in the outcome: ",
+      "an unreplicated complete block design must have one non-missing ",
+      "observation per subject and treatment.",
+      call. = FALSE
+    )
+  }
   counts <- table(block.values, treat.values)
   if(any(counts != 1)){
     stop(

@@ -249,6 +249,19 @@ get_formula_left_hand_side <- function(formula){
 get_formula_right_hand_side <- function(formula){
   attr(stats::terms(formula), "term.labels")
 }
+# Drop the '| subject' block from a repeated-measures formula such as
+# 'outcome ~ within | subject', returning 'outcome ~ within'. Formulas without a
+# '|' are returned unchanged (so callers operating on simple 'y ~ group'
+# formulas are unaffected).
+drop_formula_block_term <- function(formula){
+  if(!inherits(formula, "formula")) return(formula)
+  rhs <- paste(deparse(formula[[length(formula)]]), collapse = " ")
+  if(!grepl("\\|", rhs)) return(formula)
+  within.var <- trimws(strsplit(rhs, "\\|", fixed = FALSE)[[1]][1])
+  lhs <- if(length(formula) == 3) paste(deparse(formula[[2]]), collapse = " ") else NULL
+  new.text <- if(is.null(lhs)) paste("~", within.var) else paste(lhs, "~", within.var)
+  stats::as.formula(new.text, env = environment(formula))
+}
 .extract_formula_variables <- function(formula){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
