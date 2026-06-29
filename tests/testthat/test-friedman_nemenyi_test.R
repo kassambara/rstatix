@@ -85,6 +85,15 @@ test_that("friedman_nemenyi_test errors on an incomplete/unbalanced design (#141
   expect_error(demo_df[-1, ] %>% friedman_nemenyi_test(score ~ treatment | id), "complete block")
 })
 
+test_that("friedman_nemenyi_test requires at least two blocks (#141)", {
+  one_block <- data.frame(
+    id = factor(c(1, 1, 1)), treatment = factor(c("A", "B", "C")), score = c(3, 5, 8)
+  )
+  expect_error(one_block %>% friedman_nemenyi_test(score ~ treatment | id), "two blocks")
+  # the valid design (6 blocks) is unaffected
+  expect_silent(suppressWarnings(demo_df %>% friedman_nemenyi_test(score ~ treatment | id)))
+})
+
 test_that("friedman_nemenyi_test output works with add_xy_position (ggpubr brackets) (#141)", {
   res <- demo_df %>% friedman_nemenyi_test(score ~ treatment | id)
   pos <- res %>% add_xy_position(x = "treatment")

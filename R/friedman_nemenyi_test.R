@@ -118,6 +118,13 @@ friedman_nemenyi_test <- function(data, formula, detailed = FALSE){
   m <- tapply(outcome.values, list(block.values, treat.values), function(z) z[1])
   m <- m[, treatments, drop = FALSE]
   b <- nrow(m)
+  if(b < 2){
+    stop(
+      "friedman_nemenyi_test() requires at least two blocks (subjects); a ",
+      "single block does not provide a meaningful post-hoc comparison.",
+      call. = FALSE
+    )
+  }
 
   R <- t(apply(m, 1, rank))                 # within-block ranks (ties: average)
   rank.sums <- colSums(R)
