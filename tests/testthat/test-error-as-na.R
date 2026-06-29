@@ -62,6 +62,21 @@ test_that("error.as.na = TRUE also works for wilcox_test (#208)", {
   expect_equal(res$n1, 0); expect_equal(res$n2, 2)
 })
 
+test_that("error.as.na = TRUE keeps the wilcox_test schema (no phantom df column) (#208)", {
+  df <- data.frame(g = rep(c("a", "b", "c"), each = 4),
+                   v = c(NA, NA, NA, NA, 1, 2, 3, 4, 5, 6, 7, 8))   # a -> NA row
+  res <- suppressWarnings(df %>% wilcox_test(v ~ g, error.as.na = TRUE))
+  expect_false("df" %in% colnames(res))           # wilcox_test never has df
+  # a t_test NA row, by contrast, keeps df
+  dt <- data.frame(g = rep(c("a", "b"), each = 4), v = c(rep(7, 4), rep(3, 4)))
+  expect_true("df" %in% colnames(suppressWarnings(dt %>% t_test(v ~ g, error.as.na = TRUE))))
+})
+
+test_that("error.as.na = TRUE does NOT swallow non-degenerate errors (e.g. non-numeric outcome) (#208)", {
+  d <- data.frame(y = c("a", "b", "c", "d"), g = factor(rep(c("p", "q"), 2)))
+  expect_error(suppressWarnings(d %>% t_test(y ~ g, error.as.na = TRUE)))   # type error still surfaces
+})
+
 test_that("error.as.na = TRUE does not alter results on valid data (no-regression)", {
   with.flag <- ToothGrowth %>% t_test(len ~ dose, error.as.na = TRUE)
   without   <- ToothGrowth %>% t_test(len ~ dose)

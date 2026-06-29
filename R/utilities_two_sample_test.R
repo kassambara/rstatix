@@ -119,8 +119,15 @@ two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, 
   res.raw <- tryCatch(
     suppressWarnings(do.call(test.function, test.args)),
     error = function(e){
-      if(isTRUE(error.as.na)){
-        comparison <- if(grp2 == "null model") grp1 else paste(grp1, "vs", grp2)
+      # Only convert genuine "cannot be computed" failures on numeric data (too
+      # few observations, essentially constant data) into an NA row. Structural
+      # problems such as a non-numeric outcome must still surface as an error,
+      # so we re-raise when the inputs are not numeric.
+      inputs.numeric <- is.numeric(test.args$x) &&
+        (is.null(test.args$y) || is.numeric(test.args$y))
+      if(isTRUE(error.as.na) && inputs.numeric){
+        comparison <- if(isTRUE(grp2 == "null model")) paste("one-sample:", grp1)
+                      else paste(grp1, "vs", grp2)
         warning(
           "Could not compute the comparison (", comparison, "): ",
           conditionMessage(e), ". Returning NA for this comparison.",
@@ -132,8 +139,15 @@ two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, 
     }
   )
   if(is.null(res.raw)){
-    # Degenerate comparison turned into an NA row (error.as.na = TRUE).
-    res <- tibble(statistic = NA_real_, df = NA_real_, p = NA_real_) %>%
+    # Degenerate comparison turned into an NA row (error.as.na = TRUE). Match the
+    # method's normal schema: t.test has a `df` column, wilcox.test does not, so
+    # only add `df` for tests that report it (avoids injecting a phantom df column
+    # into wilcox_test output).
+    res <- tibble(statistic = NA_real_, p = NA_real_)
+    if(identical(method, "t.test")){
+      res <- tibble(statistic = NA_real_, df = NA_real_, p = NA_real_)
+    }
+    res <- res %>%
       add_columns(
         .y. = outcome, group1 = grp1, group2 = grp2,
         .before = "statistic"
