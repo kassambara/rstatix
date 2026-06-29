@@ -98,5 +98,6 @@ Conover, W. J. (1999) Practical Nonparametric Statistics, 3rd
  edition. Wiley.
 }
 \seealso{
-\code{\link{friedman_test}}, \code{\link{friedman_effsize}}
+\code{\link{friedman_test}}, \code{\link{friedman_nemenyi_test}},
+  \code{\link{friedman_effsize}}
 }

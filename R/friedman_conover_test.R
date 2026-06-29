@@ -58,7 +58,8 @@ NULL
 #'
 #'@references Conover, W. J. (1999) Practical Nonparametric Statistics, 3rd
 #'  edition. Wiley.
-#' @seealso \code{\link{friedman_test}}, \code{\link{friedman_effsize}}
+#' @seealso \code{\link{friedman_test}}, \code{\link{friedman_nemenyi_test}},
+#'   \code{\link{friedman_effsize}}
 #' @examples
 #' # A balanced complete block design: 3 treatments measured on 6 subjects
 #' df <- data.frame(
