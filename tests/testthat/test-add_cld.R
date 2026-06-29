@@ -94,6 +94,32 @@ test_that("add_cld respects the significance threshold (#110)", {
   expect_equal((oj %>% add_cld(threshold = 0.20))$cld, c("a", "b", "c"))
 })
 
+test_that("add_cld keeps single-character labels beyond 26 groups (#110)", {
+  # 30 mutually-significant groups -> 30 distinct single-character letters; the
+  # cld string must stay tokenizable (no multi-char labels that would corrupt it)
+  g <- sprintf("G%02d", 1:30)
+  res <- make_pairwise(g, utils::combn(g, 2, simplify = FALSE)) %>% add_cld()
+  expect_equal(length(unique(res$cld)), 30L)
+  expect_true(all(nchar(res$cld) == 1L))
+  expect_false(any(duplicated(res$cld)))   # all differ -> no shared letters
+})
+
+test_that("add_cld warns on an incomplete (e.g. ref.group) comparison set (#110)", {
+  dn <- ToothGrowth %>% dunn_test(len ~ dose, ref.group = "0.5")   # only k-1 pairs
+  expect_warning(dn %>% add_cld(), "all-pairwise|misleading")
+})
+
+test_that("add_cld orders groups by factor levels when group columns are factors (#110)", {
+  df <- tibble::tibble(
+    .y.    = "y",
+    group1 = factor(c("lo", "lo", "mid"), levels = c("lo", "mid", "hi")),
+    group2 = factor(c("mid", "hi", "hi"), levels = c("lo", "mid", "hi")),
+    p.adj  = c(0.001, 0.001, 0.001)
+  )
+  res <- df %>% add_cld()
+  expect_equal(res$group, c("lo", "mid", "hi"))    # factor-level order, not appearance
+})
+
 test_that("add_cld errors clearly on invalid input (#110)", {
   expect_error(tibble::tibble(x = 1) %>% add_cld(), "group1")
   expect_error(

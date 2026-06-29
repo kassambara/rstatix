@@ -16,7 +16,8 @@ and \code{group2} columns and a p-value column.}
 (default), \code{"p.adj"} is used when present, otherwise \code{"p"}.}
 
 \item{threshold}{the significance threshold (default 0.05). Comparisons with a
-p-value below \code{threshold} are treated as significant.}
+p-value below \code{threshold} are treated as significant; comparisons with a
+missing (\code{NA}) p-value are treated as non-significant.}
 
 \item{reversed}{logical. If \code{TRUE}, reverses the order in which the
 letters are assigned (so that, with groups ordered by increasing level, the

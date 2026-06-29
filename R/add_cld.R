@@ -21,7 +21,8 @@ NULL
 #'@param p.col character. The p-value column to threshold. If \code{NULL}
 #'  (default), \code{"p.adj"} is used when present, otherwise \code{"p"}.
 #'@param threshold the significance threshold (default 0.05). Comparisons with a
-#'  p-value below \code{threshold} are treated as significant.
+#'  p-value below \code{threshold} are treated as significant; comparisons with a
+#'  missing (\code{NA}) p-value are treated as non-significant.
 #'@param reversed logical. If \code{TRUE}, reverses the order in which the
 #'  letters are assigned (so that, with groups ordered by increasing level, the
 #'  later groups receive the earlier letters). Default is \code{FALSE}.
@@ -86,11 +87,32 @@ add_cld <- function(test, p.col = NULL, threshold = 0.05, reversed = FALSE, ...)
 
 # Compute the compact letter display for a single ungrouped pairwise table.
 .add_cld_core <- function(data, p.col, threshold = 0.05, reversed = FALSE){
-  group1 <- as.character(data$group1)
-  group2 <- as.character(data$group2)
-  # Preserve the level order: use factor levels if the input columns are factors,
-  # otherwise the order of first appearance across group1 then group2.
-  groups <- unique(c(group1, group2))
+  raw1 <- data$group1; raw2 <- data$group2
+  group1 <- as.character(raw1)
+  group2 <- as.character(raw2)
+  # Display/letter order is deterministic: follow the factor levels when the
+  # group columns are factors, otherwise the order of first appearance (group1
+  # then group2). rstatix test outputs are already level-ordered.
+  if(is.factor(raw1) || is.factor(raw2)){
+    levs <- union(levels(as.factor(raw1)), levels(as.factor(raw2)))
+    groups <- levs[levs %in% c(group1, group2)]
+  }
+  else {
+    groups <- unique(c(group1, group2))
+  }
+  # The compact letter display is only meaningful for an ALL-pairwise input.
+  # A reduced set (e.g. a ref.group result with only k - 1 comparisons) would
+  # treat the missing pairs as non-significant and produce a misleading display.
+  n.expected <- choose(length(groups), 2)
+  if(nrow(data) < n.expected){
+    warning(
+      "add_cld(): the input has ", nrow(data), " comparison(s) but a complete ",
+      "all-pairwise display of ", length(groups), " groups needs ", n.expected,
+      ". Missing comparisons are treated as non-significant, which can make the ",
+      "compact letter display misleading (e.g. for a `ref.group` result).",
+      call. = FALSE
+    )
+  }
   pvals <- data[[p.col]]
   is.sig <- !is.na(pvals) & pvals < threshold
   sig.pairs <- mapply(
@@ -125,7 +147,7 @@ add_cld <- function(test, p.col = NULL, threshold = 0.05, reversed = FALSE, ...)
     # drop empty columns and exact duplicates
     new.columns <- Filter(function(x) length(x) > 0, new.columns)
     new.columns <- new.columns[!duplicated(
-      lapply(new.columns, function(x) paste(sort(x), collapse = "\r"))
+      lapply(new.columns, function(x) paste(sort(x), collapse = ""))
     )]
     # absorb: drop any column whose groups are a strict subset of another column
     keep <- rep(TRUE, length(new.columns))
@@ -145,13 +167,16 @@ add_cld <- function(test, p.col = NULL, threshold = 0.05, reversed = FALSE, ...)
   first.pos <- sapply(columns, function(col) min(match(col, groups)))
   columns <- columns[order(first.pos)]
   if(reversed) columns <- rev(columns)
-  # letter labels: a..z, then aa, bb, cc, ... for the rare case of > 26 columns
+  # Letter labels MUST stay single characters so the concatenated cld string
+  # remains tokenizable (e.g. "ab" = letters a and b). Extend past z into A..Z
+  # for the rare case of > 26 columns (matching multcompView's behavior).
   n.col <- length(columns)
-  labels <- if(n.col <= length(letters)) letters[seq_len(n.col)]
-            else vapply(seq_len(n.col), function(i){
-              strrep(letters[((i - 1) %% length(letters)) + 1],
-                     ((i - 1) %/% length(letters)) + 1)
-            }, character(1))
+  alphabet <- c(letters, LETTERS)
+  if(n.col > length(alphabet)){
+    stop("add_cld() supports at most ", length(alphabet), " letter groups; ",
+         "this comparison needs ", n.col, ".", call. = FALSE)
+  }
+  labels <- alphabet[seq_len(n.col)]
   letters.map <- stats::setNames(rep("", length(groups)), groups)
   for(ci in seq_along(columns)){
     this.letter <- labels[ci]
