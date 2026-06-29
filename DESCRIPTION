@@ -46,6 +46,7 @@ BugReports: https://github.com/kassambara/rstatix/issues
 RoxygenNote: 7.3.3
 Collate:
     'utilities.R'
+    'add_cld.R'
     'add_significance.R'
     'adjust_pvalue.R'
     'factorial_design.R'

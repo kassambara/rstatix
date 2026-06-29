@@ -82,6 +82,7 @@ reference:
     contents:
       - adjust_pvalue
       - add_significance
+      - add_cld
       - p_round
   - title: Extract Information From Statistical Tests
     contents:
