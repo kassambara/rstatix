@@ -12,6 +12,12 @@ test_that("kruskal_test reports the complete-case n when the data contain NAs (#
   expect_equal(kruskal_test(df, value ~ group, na.action = stats::na.omit)$n, 25)
   # pre-cleaned data gives the same n
   expect_equal(kruskal_test(na.omit(df), value ~ group)$n, 25)
+  # n stays the complete-case count even under na.pass (kruskal.test always uses
+  # complete cases regardless of na.action), passed explicitly or set globally
+  expect_equal(kruskal_test(df, value ~ group, na.action = stats::na.pass)$n, 25)
+  old <- getOption("na.action"); on.exit(options(na.action = old))
+  options(na.action = "na.pass")
+  expect_equal(kruskal_test(df, value ~ group)$n, 25)
 })
 
 test_that("kruskal_test statistic/p are unchanged and match stats::kruskal.test (#224)", {
