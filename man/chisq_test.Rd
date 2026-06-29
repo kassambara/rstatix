@@ -124,7 +124,8 @@ all others.
 
 \item \code{chisq_descriptives()}: returns the descriptive statistics of the chi-square
 test. These include, observed and expected frequencies, proportions,
-residuals and standardized residuals.
+residuals and standardized residuals. Only available for a single
+(ungrouped) \code{chisq_test()} result.
 
 \item \code{expected_freq()}: returns the expected counts from the chi-square test result.
 

@@ -81,6 +81,15 @@ test_that("chisq_descriptives works on the data-frame interface (#43)", {
   expect_true(is.matrix(expected_freq(res)))
 })
 
+test_that("descriptive accessors error clearly on a grouped result (#43)", {
+  df <- make_df()
+  df$site <- rep(c("A", "B"), each = 100)
+  res <- df %>% dplyr::group_by(site) %>% chisq_test(eyes, hair)
+  expect_error(chisq_descriptives(res), "single \\(ungrouped\\)")
+  expect_error(expected_freq(res), "single \\(ungrouped\\)")
+  expect_error(std_residuals(res), "single \\(ungrouped\\)")
+})
+
 # ---- No-regression: existing table / vector interfaces unchanged ----
 
 test_that("chisq_test goodness-of-fit (vector) is unchanged (#43 no-regression)", {

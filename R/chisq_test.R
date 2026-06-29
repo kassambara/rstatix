@@ -124,8 +124,9 @@ chisq_test <- function(x, y = NULL, correct = TRUE,
         stop(
           "chisq_test(): the data-frame interface needs exactly two columns of ",
           "`x`, e.g. `data %>% chisq_test(var1, var2)` or ",
-          "`data %>% chisq_test(vars = c(\"var1\", \"var2\"))`. When setting ",
-          "`correct =` by name, use the `vars =` form.",
+          "`data %>% chisq_test(vars = c(\"var1\", \"var2\"))`. If you are also ",
+          "passing other arguments by name (e.g. `correct`, `p`), use the ",
+          "`vars =` form.",
           call. = FALSE
         )
       }
@@ -245,11 +246,29 @@ pairwise_chisq_test_against_p <- function(x, p = rep(1/length(x), length(x)), p.
 }
 
 
+# The descriptive accessors below need the stored chisq.test object
+# (attr "test"). A grouped chisq_test() result holds one test per group, so no
+# single test object is stored; fail with a clear message instead of silently
+# returning empty output.
+assert_chisq_has_test <- function(res.chisq){
+  if(is.null(attr(res.chisq, "test"))){
+    stop(
+      "No chi-square test object is stored on this result, so descriptive ",
+      "statistics are unavailable. These are only available for a single ",
+      "(ungrouped) `chisq_test()` result.",
+      call. = FALSE
+    )
+  }
+  invisible(res.chisq)
+}
+
 #' @describeIn chisq_test returns the descriptive statistics of the chi-square
 #'   test. These include, observed and expected frequencies, proportions,
-#'   residuals and standardized residuals.
+#'   residuals and standardized residuals. Only available for a single
+#'   (ungrouped) \code{chisq_test()} result.
 #' @export
 chisq_descriptives <- function(res.chisq){
+  assert_chisq_has_test(res.chisq)
   res <- attr(res.chisq, "test") %>% augment()
   colnames(res) <- gsub(pattern = "^\\.", replacement = "", colnames(res))
   res
@@ -258,24 +277,28 @@ chisq_descriptives <- function(res.chisq){
 #' @describeIn chisq_test returns the expected counts from the chi-square test result.
 #' @export
 expected_freq <- function(res.chisq){
+  assert_chisq_has_test(res.chisq)
   attr(res.chisq, "test")$expected
 }
 
 #' @describeIn chisq_test returns the observed counts from the chi-square test result.
 #' @export
 observed_freq <- function(res.chisq){
+  assert_chisq_has_test(res.chisq)
   attr(res.chisq, "test")$observed
 }
 
 #' @describeIn chisq_test returns the Pearson residuals, \code{(observed - expected) / sqrt(expected)}.
 #' @export
 pearson_residuals <- function(res.chisq){
+  assert_chisq_has_test(res.chisq)
   attr(res.chisq, "test")$residuals
 }
 
 #' @describeIn chisq_test returns the standardized residuals
 #' @export
 std_residuals <- function(res.chisq){
+  assert_chisq_has_test(res.chisq)
   attr(res.chisq, "test")$stdres
 }
 
