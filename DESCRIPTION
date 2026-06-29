@@ -81,6 +81,7 @@ Collate:
     'eta_squared.R'
     'factors.R'
     'fisher_test.R'
+    'fligner_test.R'
     'freq_table.R'
     'friedman_test.R'
     'friedman_conover_test.R'

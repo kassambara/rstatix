@@ -50,6 +50,7 @@ reference:
   - title: Comparing Variances
     contents:
       - levene_test
+      - fligner_test
       - box_m
   - title: Effect Size
     contents:
