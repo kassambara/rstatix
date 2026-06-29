@@ -386,6 +386,9 @@ get_stat_method <- function(x){
     }
     if(grepl("wilcoxon", test.method, ignore.case = TRUE)){
       if(grepl("signed rank", test.method, ignore.case = TRUE)) return("Wilcoxon signed rank test")
+      # coin's wilcoxsign_test reports "Paired/One-sample Wilcoxon test (coin)" -
+      # both are signed-rank tests (used by wilcox_effsize) (#122)
+      if(grepl("paired|one.sample", test.method, ignore.case = TRUE)) return("Wilcoxon signed rank test")
       return("Wilcoxon rank sum test")  # a.k.a. Mann-Whitney (unpaired)
     }
   }

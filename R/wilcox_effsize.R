@@ -177,7 +177,10 @@ coin.wilcox.test <- function(x, y = NULL, mu = 0, paired = FALSE, alternative = 
       )
     results <- results %>% mutate(conf.low = CI[1], conf.high = CI[2])
   }
-  RVAL <- list(statistic = results$z, parameter = results$n, p.value = results$p,
+  # Note: no 'parameter' is set. The Wilcoxon test has no degrees of freedom; the
+  # sample size is already reported as n1/n2, and tidying a 'parameter' here would
+  # surface a spurious 'df' column equal to N in the detailed output (#122).
+  RVAL <- list(statistic = results$z, p.value = results$p,
                null.value = mu, alternative = alternative, method = METHOD,
                data.name = DNAME, estimate = results$r)
   if (ci) {
@@ -185,7 +188,6 @@ coin.wilcox.test <- function(x, y = NULL, mu = 0, paired = FALSE, alternative = 
     RVAL <- c(RVAL, list(conf.int = CI))
   }
   names(RVAL$statistic) <- "Z"
-  names(RVAL$parameter) <- "n"
   names(RVAL$estimate) <- "Effect size (r)"
   class(RVAL) <- "htest"
   RVAL

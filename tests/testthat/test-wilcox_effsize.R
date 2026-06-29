@@ -6,6 +6,18 @@ test_that("wilcox_effsize detailed exposes the Z statistic (#122)", {
   expect_true(all(c("effsize", "statistic", "p") %in% colnames(res)))
   # statistic is the Z used to compute r = |Z| / sqrt(N), N = number of pairs (30)
   expect_equal(unname(abs(res$statistic) / sqrt(30)), unname(res$effsize), tolerance = 1e-7)
+  # no spurious 'df' column (Wilcoxon has no degrees of freedom) (#122 review)
+  expect_false("df" %in% colnames(res))
+  # method correctly labels the paired case as signed-rank (#122 review)
+  expect_equal(unique(res$method), "Wilcoxon signed rank test")
+})
+
+test_that("wilcox_effsize detailed labels the method correctly per case (#122)", {
+  skip_if_not_installed("coin")
+  expect_equal(unique((ToothGrowth %>% wilcox_effsize(len ~ supp, detailed = TRUE))$method),
+               "Wilcoxon rank sum test")                                   # independent
+  expect_equal(unique((ToothGrowth %>% wilcox_effsize(len ~ 1, mu = 20, detailed = TRUE))$method),
+               "Wilcoxon signed rank test")                               # one-sample
 })
 
 test_that("wilcox_effsize detailed works for the independent and pairwise cases (#122)", {
