@@ -17,7 +17,8 @@ t_test(
   mu = 0,
   conf.level = 0.95,
   detailed = FALSE,
-  id = NULL
+  id = NULL,
+  error.as.na = FALSE
 )
 
 pairwise_t_test(
@@ -86,6 +87,13 @@ be based on different numbers of pairs (per-comparison pairwise deletion).
 This makes paired tests work when some observations are missing or the groups
 have unequal sizes. The default (\code{id = NULL}) keeps the previous
 behaviour (groups paired in row order).}
+
+\item{error.as.na}{logical. If \code{TRUE}, a comparison that cannot be
+computed (for example a group with fewer than two observations, or data that
+are essentially constant) returns an \code{NA} result row with a warning
+instead of stopping with an error; the other comparisons (or groups, for a
+grouped analysis) are still computed. Default is \code{FALSE} (the comparison
+errors as before).}
 
 \item{pool.sd}{logical value used in the function \code{pairwise_t_test()}.
  Switch to allow/disallow the use of a pooled SD.

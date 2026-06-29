@@ -52,6 +52,12 @@ NULL
 #'  This makes paired tests work when some observations are missing or the groups
 #'  have unequal sizes. The default (\code{id = NULL}) keeps the previous
 #'  behaviour (groups paired in row order).
+#'@param error.as.na logical. If \code{TRUE}, a comparison that cannot be
+#'  computed (for example a group with fewer than two observations, or data that
+#'  are essentially constant) returns an \code{NA} result row with a warning
+#'  instead of stopping with an error; the other comparisons (or groups, for a
+#'  grouped analysis) are still computed. Default is \code{FALSE} (the comparison
+#'  errors as before).
 #'@param ... other arguments to be passed to the function
 #'  \code{\link[stats]{t.test}}.
 #'
@@ -130,7 +136,7 @@ t_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm",
   paired = FALSE, var.equal = FALSE, alternative = "two.sided",
-  mu = 0, conf.level = 0.95, detailed = FALSE, id = NULL
+  mu = 0, conf.level = 0.95, detailed = FALSE, id = NULL, error.as.na = FALSE
 )
 {
   env <- as.list(environment())
