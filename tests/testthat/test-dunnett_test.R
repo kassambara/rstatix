@@ -55,6 +55,36 @@ test_that("dunnett_test gives an informative error for an invalid ref.group (#12
   )
 })
 
+test_that("dunnett_test works with exactly two groups (k = 2) (#129)", {
+  skip_if_not_installed("emmeans")
+  set.seed(1)
+  df <- data.frame(y = c(rnorm(12), rnorm(12) + 1), g = rep(c("ctrl", "trt"), each = 12))
+  res <- df %>% dunnett_test(y ~ g, ref.group = "ctrl", detailed = TRUE)
+  expect_equal(nrow(res), 1L)                        # single treatment vs control
+  expect_equal(res$group1, "trt")
+  expect_equal(res$group2, "ctrl")
+  expect_false(is.na(res$p.adj))
+  # with one comparison the Dunnett p equals the plain emmeans p
+  emm <- emmeans::emmeans(stats::lm(y ~ g, df), ~g)
+  ref <- as.data.frame(emmeans::contrast(emm, method = list(c(-1, 1))))
+  expect_equal(res$p.adj, ref$p.value, tolerance = 1e-6)
+})
+
+test_that("dunnett_test handles factor levels containing '-' (#129)", {
+  skip_if_not_installed("emmeans")
+  set.seed(1)
+  df <- data.frame(
+    y = c(rnorm(10), rnorm(10) + 1, rnorm(10) + 2),
+    g = rep(c("ctrl", "low-dose", "high-dose"), each = 10)
+  )
+  res <- df %>% dunnett_test(y ~ g, ref.group = "ctrl")
+  expect_equal(nrow(res), 2L)
+  expect_true(all(res$group2 == "ctrl"))            # control label intact
+  expect_setequal(res$group1, c("low-dose", "high-dose"))  # dashed labels intact
+  expect_false(any(is.na(res$n1)))                  # n lookups succeed
+  expect_equal(unique(res$n1), 10L)
+})
+
 # Note: correctness is validated above against emmeans' own trt.vs.ctrl + mvt
 # contrast (a declared Suggests). DescTools / multcomp would be unstated test
 # dependencies, so they are intentionally not used here (cf. R CMD check

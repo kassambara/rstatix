@@ -113,21 +113,31 @@ dunnett_test <- function(data, formula, ref.group = NULL, conf.level = 0.95,
   model <- stats::lm(lm.formula, data)
   emm <- emmeans::emmeans(model, stats::as.formula(paste0("~", group)))
   res <- emmeans::contrast(emm, method = contrasts, adjust = "mvt") %>%
-    broom::tidy(conf.int = TRUE, conf.level = conf.level)
+    broom::tidy(conf.int = TRUE, conf.level = conf.level) %>%
+    keep_only_tbl_df_classes()
 
-  res <- res %>%
-    keep_only_tbl_df_classes() %>%
-    tidyr::separate(col = "contrast", into = c("group1", "group2"), sep = "-") %>%
-    dplyr::rename(se = "std.error", p.adj = "adj.p.value") %>%
-    add_significance("p.adj") %>%
+  # group1/group2 are taken from the (ordered) comparison list rather than parsed
+  # from the contrast name, so factor levels containing "-" are handled correctly.
+  # The contrast rows are returned in the same order as `contrasts`.
+  group1 <- vapply(comparisons, function(x) x[[1]], character(1))
+  group2 <- vapply(comparisons, function(x) x[[2]], character(1))
+  # With a single contrast (k = 2) there is no multiplicity column: emmeans
+  # returns "p.value" (which is the Dunnett p for one comparison) instead of
+  # "adj.p.value". Use whichever is present.
+  p.col <- intersect(c("adj.p.value", "p.value"), colnames(res))[1]
+  colnames(res)[colnames(res) == "std.error"] <- "se"
+  colnames(res)[colnames(res) == p.col] <- "p.adj"
+
+  res %>%
     mutate(
       .y. = outcome, method = "Dunnett",
-      n1 = group.size[.data$group1], n2 = group.size[.data$group2]
+      group1 = group1, group2 = group2,
+      n1 = group.size[group1], n2 = group.size[group2]
     ) %>%
+    add_significance("p.adj") %>%
     select(all_of(c(
       ".y.", "group1", "group2", "n1", "n2", "estimate",
       "conf.low", "conf.high", "se", "statistic", "df", "p.adj",
       "p.adj.signif", "method"
     )))
-  res
 }
