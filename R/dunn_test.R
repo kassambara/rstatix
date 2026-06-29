@@ -13,7 +13,21 @@ NULL
 #'  one-sided test. This discrepancy is documented at
 #'  \href{https://github.com/kassambara/rstatix/issues/50}{https://github.com/kassambara/rstatix/issues/50}.
 #'
+#'  If a reference group is specified (via \code{ref.group}), then each of the
+#'  remaining group levels is compared only to the reference (control) group, and
+#'  the p-value adjustment for multiple comparisons is computed over only these
+#'  \code{k - 1} comparisons (instead of all \code{k(k - 1)/2} pairwise
+#'  comparisons). Note that this affects the adjusted p-values: it is not
+#'  equivalent to filtering the full pairwise result afterwards, which would still
+#'  adjust over all pairs.
+#'
 #'@inheritParams t_test
+#'@param ref.group a character string specifying the reference group. If
+#'  specified, for a given grouping variable, each of the group levels will be
+#'  compared to the reference (control) group, and the p-value adjustment is
+#'  computed over only these comparisons. Note that, unlike \code{t_test()} and
+#'  \code{wilcox_test()}, \code{dunn_test()} does not support \code{ref.group =
+#'  "all"}.
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y (outcome) variable used in the test. \item
 #'  \code{group1,group2}: the compared groups in the pairwise tests. \item
@@ -42,20 +56,26 @@ NULL
 #' # Simple test
 #' ToothGrowth %>% dunn_test(len ~ dose)
 #'
+#' # Comparison against a reference (control) group
+#' # each group is compared to the reference; the p-value
+#' # adjustment corrects for only these k - 1 comparisons
+#' ToothGrowth %>% dunn_test(len ~ dose, ref.group = "0.5")
+#'
 #' # Grouped data
 #' ToothGrowth %>%
 #'   group_by(supp) %>%
 #'   dunn_test(len ~ dose)
 #'@export
-dunn_test <- function(data, formula, p.adjust.method = "holm", detailed = FALSE){
+dunn_test <- function(data, formula, p.adjust.method = "holm", ref.group = NULL, detailed = FALSE){
+  if(!is.null(ref.group)) ref.group <- as.character(ref.group)
   args <- as.list(environment()) %>%
     .add_item(method = "dunn_test")
   if(is_grouped_df(data)){
     results <- data %>%
-      doo(.dunn_test, formula, p.adjust.method )
+      doo(.dunn_test, formula, p.adjust.method, ref.group = ref.group)
   }
   else{
-    results <- .dunn_test(data, formula, p.adjust.method)
+    results <- .dunn_test(data, formula, p.adjust.method, ref.group = ref.group)
   }
 
   if(!detailed){
@@ -68,7 +88,7 @@ dunn_test <- function(data, formula, p.adjust.method = "holm", detailed = FALSE)
 }
 
 
-.dunn_test <- function(data, formula, p.adjust.method = "holm"){
+.dunn_test <- function(data, formula, p.adjust.method = "holm", ref.group = NULL){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
@@ -86,6 +106,17 @@ dunn_test <- function(data, formula, p.adjust.method = "holm", detailed = FALSE)
   group.size <- data %>% get_group_size(group)
   if (!all(is.finite(g)))
     stop("all group levels must be finite")
+  if(!is.null(ref.group)){
+    ref.group <- as.character(ref.group)
+    if(!(ref.group %in% levels(g))){
+      stop(
+        "Specified reference group ('", ref.group, "') is not a level of the ",
+        "grouping variable. Valid levels are: ",
+        paste(levels(g), collapse = ", "), ".",
+        call. = FALSE
+      )
+    }
+  }
 
   x.rank <- rank(x)
   mean.ranks <- tapply(x.rank, g, mean, na.rm=TRUE)
@@ -121,17 +152,40 @@ dunn_test <- function(data, formula, p.adjust.method = "holm", detailed = FALSE)
     p.adjust.method = "none"
   ) %>% tidy_squared_matrix("statistic")
 
+  # Assemble the full per-pair table (estimate, statistic, raw p) BEFORE adjusting
+  # p-values, so that, when a reference group is specified, the multiple-comparison
+  # adjustment is applied to only the retained (k - 1) comparisons (#101).
   PVAL <- stats::pairwise.table(
     compare.levels, levels(g),
     p.adjust.method = "none"
     ) %>%
     tidy_squared_matrix("p") %>%
     mutate(method = "Dunn Test", .y. = outcome) %>%
-    adjust_pvalue(method = p.adjust.method) %>%
-    add_significance("p.adj") %>%
     add_column(statistic = PSTAT$statistic, .before = "p") %>%
     add_column(estimate = ESTIMATE$diff, .before = "group1") %>%
     select(all_of(c(".y.", "group1", "group2", "estimate")), everything())
+
+  # Reference group: keep only comparisons against the reference and orient it as
+  # group1 (consistent with t_test()/wilcox_test()). The per-pair z-statistic and
+  # the two-sided raw p are unchanged; only the set of comparisons (and thus the
+  # p-value adjustment) differs.
+  if(!is.null(ref.group)){
+    PVAL <- PVAL %>%
+      filter(.data$group1 == ref.group | .data$group2 == ref.group)
+    to.flip <- PVAL$group2 == ref.group
+    if(any(to.flip)){
+      g1 <- PVAL$group1; g2 <- PVAL$group2
+      PVAL$group1[to.flip] <- g2[to.flip]
+      PVAL$group2[to.flip] <- g1[to.flip]
+      # estimate (mean-rank difference) and statistic (z) are direction-dependent
+      PVAL$estimate[to.flip]  <- -PVAL$estimate[to.flip]
+      PVAL$statistic[to.flip] <- -PVAL$statistic[to.flip]
+    }
+  }
+
+  PVAL <- PVAL %>%
+    adjust_pvalue(method = p.adjust.method) %>%
+    add_significance("p.adj")
 
   n1 <- group.size[PVAL$group1]
   n2 <- group.size[PVAL$group2]
