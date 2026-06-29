@@ -12,3 +12,4 @@
 ^CLAUDE\.md$
 ^CRAN-SUBMISSION$
 ^\.claude$
+^.*\.tar\.gz$

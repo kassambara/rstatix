@@ -740,6 +740,7 @@ get_pairwise_comparison_methods <- function(){
     sign_test = "Sign test",
     ks_test = "Kolmogorov-Smirnov test",
     dunn_test = "Dunn test",
+    dunnett_test = "Dunnett test",
     emmeans_test = "Emmeans test",
     tukey_hsd = "Tukey HSD",
     games_howell_test = "Games Howell",

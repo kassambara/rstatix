@@ -23,10 +23,11 @@ test_that("ks_test default (non-detailed) keeps n1, n2 and statistic, like wilco
   expect_false(is.na(res$statistic))
 })
 
-test_that("get_test_label recognizes a ks_test result (#92)", {
+test_that("get_test_label/get_description give a friendly ks_test label (#92)", {
   res <- ToothGrowth %>% ks_test(len ~ supp)
-  expect_silent(lab <- get_test_label(res, type = "text"))
-  expect_true(is.character(lab) && nzchar(lab))
+  expect_equal(get_description(res), "Kolmogorov-Smirnov test")   # not the raw "ks_test"
+  lab <- get_test_label(res, type = "text")
+  expect_true(is.character(lab) && grepl("Kolmogorov-Smirnov test", lab))
 })
 
 test_that("ks_test performs pairwise comparisons for >2 groups (#92)", {
