@@ -15,8 +15,19 @@ NULL
 #'  paired-samples test) or \code{coin::wilcox_test()} (case of independent
 #'  two-samples test).
 #'
-#'  Note that \code{N} corresponds to total sample size for independent samples
-#'  test and to total number of pairs for paired samples test.
+#'  Here, \code{N} is the number of independent observations contributing to the
+#'  test: the total sample size for the independent two-samples test, and the
+#'  \strong{number of pairs} (equivalently, the number of difference scores) for
+#'  the one-sample and paired tests. This is because the paired test reduces to a
+#'  one-sample signed-rank test on the pairwise differences, so each pair counts
+#'  once. This convention matches the default of
+#'  \code{rcompanion::wilcoxonPairedR()} (its \code{cases = TRUE} setting).
+#'
+#'  Some references instead define \code{N} as the total number of observations,
+#'  i.e. twice the number of pairs (Field, 2012; Tomczak & Tomczak, 2014), which
+#'  yields a smaller \code{r}. If you need that convention for a paired test,
+#'  divide the reported \code{r} (or the \code{Z}) by \eqn{\sqrt 2}; it is also
+#'  available via \code{rcompanion::wilcoxonPairedR(..., cases = FALSE)}.
 #'
 #'  The \code{r} value varies from 0 to close to 1. The interpretation values
 #'  for r commonly in published litterature and on the internet are: \code{0.10
