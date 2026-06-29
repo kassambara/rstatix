@@ -103,13 +103,16 @@ add_cld <- function(test, p.col = NULL, threshold = 0.05, reversed = FALSE, ...)
   # The compact letter display is only meaningful for an ALL-pairwise input.
   # A reduced set (e.g. a ref.group result with only k - 1 comparisons) would
   # treat the missing pairs as non-significant and produce a misleading display.
+  # Count DISTINCT unordered pairs (not rows) so a duplicated comparison can't
+  # mask a genuinely missing one.
   n.expected <- choose(length(groups), 2)
-  if(nrow(data) < n.expected){
+  n.present <- length(unique(paste(pmin(group1, group2), pmax(group1, group2))))
+  if(n.present < n.expected){
     warning(
-      "add_cld(): the input has ", nrow(data), " comparison(s) but a complete ",
-      "all-pairwise display of ", length(groups), " groups needs ", n.expected,
-      ". Missing comparisons are treated as non-significant, which can make the ",
-      "compact letter display misleading (e.g. for a `ref.group` result).",
+      "add_cld(): the input has ", n.present, " of the ", n.expected,
+      " pairwise comparisons needed for a complete display of ", length(groups),
+      " groups. Missing comparisons are treated as non-significant, which can ",
+      "make the compact letter display misleading (e.g. for a `ref.group` result).",
       call. = FALSE
     )
   }
@@ -147,7 +150,7 @@ add_cld <- function(test, p.col = NULL, threshold = 0.05, reversed = FALSE, ...)
     # drop empty columns and exact duplicates
     new.columns <- Filter(function(x) length(x) > 0, new.columns)
     new.columns <- new.columns[!duplicated(
-      lapply(new.columns, function(x) paste(sort(x), collapse = ""))
+      lapply(new.columns, function(x) paste(sort(x), collapse = "\\u0001"))
     )]
     # absorb: drop any column whose groups are a strict subset of another column
     keep <- rep(TRUE, length(new.columns))

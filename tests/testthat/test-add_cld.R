@@ -104,6 +104,12 @@ test_that("add_cld keeps single-character labels beyond 26 groups (#110)", {
   expect_false(any(duplicated(res$cld)))   # all differ -> no shared letters
 })
 
+test_that("add_cld errors clearly beyond 52 letter groups (#110)", {
+  g <- sprintf("G%03d", 1:53)
+  df <- make_pairwise(g, utils::combn(g, 2, simplify = FALSE))
+  expect_error(suppressWarnings(add_cld(df)), "at most 52")
+})
+
 test_that("add_cld warns on an incomplete (e.g. ref.group) comparison set (#110)", {
   dn <- ToothGrowth %>% dunn_test(len ~ dose, ref.group = "0.5")   # only k-1 pairs
   expect_warning(dn %>% add_cld(), "all-pairwise|misleading")
