@@ -735,6 +735,7 @@ get_pairwise_comparison_methods <- function(){
     t_test = "T test",
     wilcox_test = "Wilcoxon test",
     sign_test = "Sign test",
+    ks_test = "Kolmogorov-Smirnov test",
     dunn_test = "Dunn test",
     emmeans_test = "Emmeans test",
     tukey_hsd = "Tukey HSD",

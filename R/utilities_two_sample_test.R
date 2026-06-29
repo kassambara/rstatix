@@ -248,7 +248,7 @@ remove_details <- function(res, method){
     intercept.row <- grepl("Intercept", aov.table$Effect)
     res$ANOVA<- aov.table[!intercept.row, ]
   }
-  else if(method %in% c("t.test", "wilcox.test", "kruskal.test", "sign.test") ){
+  else if(method %in% c("t.test", "wilcox.test", "kruskal.test", "sign.test", "ks.test") ){
     columns.to.keep <- intersect(
       c(".y.", "group1", "group2", "n", "n1", "n2",  "statistic",
         "df", "p", "p.signif", "p.adj", "p.adj.signif"),

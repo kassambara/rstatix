@@ -13,6 +13,22 @@ test_that("ks_test two-sample matches stats::ks.test (#92, #168)", {
   expect_equal(res$p, ref$p.value)
 })
 
+test_that("ks_test default (non-detailed) keeps n1, n2 and statistic, like wilcox_test (#92)", {
+  res <- ToothGrowth %>% ks_test(len ~ supp)
+  expect_equal(
+    colnames(res),
+    c(".y.", "group1", "group2", "n1", "n2", "statistic", "p")
+  )
+  expect_equal(res$n1, 30); expect_equal(res$n2, 30)
+  expect_false(is.na(res$statistic))
+})
+
+test_that("get_test_label recognizes a ks_test result (#92)", {
+  res <- ToothGrowth %>% ks_test(len ~ supp)
+  expect_silent(lab <- get_test_label(res, type = "text"))
+  expect_true(is.character(lab) && nzchar(lab))
+})
+
 test_that("ks_test performs pairwise comparisons for >2 groups (#92)", {
   res <- ToothGrowth %>% ks_test(len ~ dose)
   expect_equal(nrow(res), 3L)
