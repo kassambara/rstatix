@@ -55,6 +55,11 @@ The Games-Howell method is an improved version of the Tukey-Kramer
  the size of the sample is different. However, the smaller the number of
  samples in each group, the it is more tolerant the type I error control.
  Thus, this method can be applied when the number of samples is six or more.
+
+ Because the test relies on Welch's variance correction, comparisons involving
+ a group with zero variance (constant values) or undefined variance (a single
+ observation) can be undefined; such pairs are returned as \code{NA} (with a
+ warning) while all other comparisons are computed as usual.
 }
 \examples{
 # Simple test

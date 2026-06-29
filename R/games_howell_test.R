@@ -36,6 +36,11 @@ NULL
 #'  samples in each group, the it is more tolerant the type I error control.
 #'  Thus, this method can be applied when the number of samples is six or more.
 #'
+#'  Because the test relies on Welch's variance correction, comparisons involving
+#'  a group with zero variance (constant values) or undefined variance (a single
+#'  observation) can be undefined; such pairs are returned as \code{NA} (with a
+#'  warning) while all other comparisons are computed as usual.
+#'
 #'@references \itemize{ \item Aaron Schlege,
 #'  https://rpubs.com/aaronsc32/games-howell-test. \item Sangseok Lee, Dong Kyu
 #'  Lee. What is the proper way to apply the multiple comparison test?. Korean J
@@ -112,23 +117,52 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
     p.adjust.method = "none"
   ) %>% tidy_squared_matrix()
 
-  weltch.sd <- stats::pairwise.table(
+  # A group with zero variance (constant values) or undefined variance (a single
+  # observation, so var() = NA) makes the Welch sd and/or degrees of freedom
+  # NA/NaN for the affected pairs; tidy_squared_matrix() drops those rows via
+  # na.omit(), which would desynchronise these vectors from the full comparison
+  # set and crash (#183). Align both derived tables back onto mean.diff (whose
+  # group means are always finite, so it is the complete grid) by joining, so
+  # undefined pairs become NA instead of being dropped or silently recycled.
+  weltch.tab <- stats::pairwise.table(
     get_weltch_sd, levels(g),
     p.adjust.method = "none"
-  ) %>% tidy_squared_matrix()
-
-  df <- stats::pairwise.table(
+  ) %>% tidy_squared_matrix("welch.sd")
+  df.tab <- stats::pairwise.table(
     get_degree_of_freedom, levels(g),
     p.adjust.method = "none"
-  ) %>% tidy_squared_matrix()
+  ) %>% tidy_squared_matrix("df")
+  aligned <- mean.diff %>%
+    left_join(weltch.tab, by = c("group1", "group2")) %>%
+    left_join(df.tab, by = c("group1", "group2"))
+  welch.value <- aligned$welch.sd
+  df.value <- aligned$df
 
-  t <- abs(mean.diff$value)/weltch.sd$value
-  p <- stats::ptukey(t*sqrt(2), nb.groups, df$value, lower.tail = FALSE)
-  se <- weltch.sd$value*sqrt(0.5)
+  t <- abs(mean.diff$value)/welch.value
+  p <- stats::ptukey(t*sqrt(2), nb.groups, df.value, lower.tail = FALSE)
+  se <- welch.value*sqrt(0.5)
 
-  q <- stats::qtukey(p = conf.level, nb.groups, df = df$value)
+  q <- stats::qtukey(p = conf.level, nb.groups, df = df.value)
   conf.high <- mean.diff$value + q*se
   conf.low <- mean.diff$value - q*se
+
+  # Comparisons involving a group with zero or undefined variance can be
+  # undefined (NA Welch sd or NA df): return NA (not Inf/NaN/recycled) for the
+  # affected statistics and warn once.
+  undefined <- is.na(df.value) | is.na(welch.value)
+  if(any(undefined)){
+    t[undefined] <- NA
+    se[undefined] <- NA
+    p[undefined] <- NA
+    conf.high[undefined] <- NA
+    conf.low[undefined] <- NA
+    warning(
+      "Some groups have zero or undefined variance (constant values or a single ",
+      "observation). The affected Games-Howell comparisons are undefined and ",
+      "are returned as NA.",
+      call. = FALSE
+    )
+  }
 
   n1 <- grp.sizes[mean.diff$group1]
   n2 <- grp.sizes[mean.diff$group2]
@@ -137,7 +171,7 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
     rename(estimate = "value") %>%
     mutate(
       conf.low = conf.low, conf.high = conf.high,
-      se = se, statistic = t, df = df$value, p.adj = p
+      se = se, statistic = t, df = df.value, p.adj = p
     ) %>%
     add_column(n1 = n1, n2 = n2, .after = "group2") %>%
     add_column(.y. = outcome, .before = "group1") %>%
