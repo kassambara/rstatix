@@ -16,6 +16,7 @@ reference:
       - t_test
       - wilcox_test
       - sign_test
+      - ks_test
       - anova_test
       - welch_anova_test
       - kruskal_test
