@@ -759,6 +759,7 @@ get_pairwise_comparison_methods <- function(){
     dunn_test = "Dunn test",
     conover_test = "Conover test",
     friedman_conover_test = "Durbin-Conover test",
+    friedman_nemenyi_test = "Nemenyi test",
     dunnett_test = "Dunnett test",
     emmeans_test = "Emmeans test",
     tukey_hsd = "Tukey HSD",

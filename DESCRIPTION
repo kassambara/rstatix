@@ -84,6 +84,7 @@ Collate:
     'friedman_test.R'
     'friedman_conover_test.R'
     'friedman_effsize.R'
+    'friedman_nemenyi_test.R'
     'games_howell_test.R'
     'get_comparisons.R'
     'get_manova_table.R'
