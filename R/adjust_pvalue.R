@@ -8,9 +8,9 @@ NULL
 #'   \code{p.adjust.method}), the p-value adjustment is computed \strong{within
 #'   each group separately}, not across all groups. If you instead want a single
 #'   family of comparisons adjusted across all groups, run the test without
-#'   adjustment (\code{p.adjust.method = "none"}), \code{ungroup()} if needed, and
-#'   then call \code{adjust_pvalue()} on the combined result (see the grouped
-#'   example below).
+#'   adjustment (\code{p.adjust.method = "none"}) and then call
+#'   \code{adjust_pvalue()} on the combined result (see the grouped example
+#'   below).
 #' @param data a data frame containing a p-value column
 #' @param p.col column name containing p-values
 #' @param output.col the output column name to hold the adjusted p-values
@@ -36,7 +36,6 @@ NULL
 #' ToothGrowth %>%
 #'   group_by(supp) %>%
 #'   t_test(len ~ dose, p.adjust.method = "none") %>%
-#'   ungroup() %>%
 #'   adjust_pvalue(method = "holm")
 #'
 #' @rdname adjust_pvalue
