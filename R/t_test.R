@@ -143,6 +143,11 @@ t_test <- function(
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
+  if(!is.null(id) && !is.null(ref.group) && ref.group %in% c("all", ".all.")){
+    stop("`id` (paired matching) is not supported with ref.group = 'all': ",
+         "pairing subjects against the pooled grand-mean group is not defined.",
+         call. = FALSE)
+  }
   if(number.of.groups > 2 & !is.null(ref.group)){
     if(ref.group %in% c("all", ".all.")){
       params$data <- create_data_with_all_ref_group(data, outcome, group)

@@ -242,19 +242,22 @@ align_paired_by_id <- function(data, outcome, group, id, grp1, grp2){
   id.values <- data %>% pull(!!sym(id))
   keep1 <- group.values == grp1
   keep2 <- group.values == grp2
-  d1 <- tibble(.id = id.values[keep1], x = outcome.values[keep1])
-  d2 <- tibble(.id = id.values[keep2], y = outcome.values[keep2])
+  # Drop rows with a missing id up front: an unidentified subject (NA id) cannot
+  # be matched, and would otherwise be cartesian-joined (dplyr matches NA keys by
+  # default), inflating the pair count.
+  d1 <- tibble(.id = id.values[keep1], x = outcome.values[keep1]) %>%
+    filter(!is.na(.data$.id))
+  d2 <- tibble(.id = id.values[keep2], y = outcome.values[keep2]) %>%
+    filter(!is.na(.data$.id))
   # A proper paired design has at most one observation per subject and group.
-  d1.dup <- anyDuplicated(d1$.id[!is.na(d1$.id)])
-  d2.dup <- anyDuplicated(d2$.id[!is.na(d2$.id)])
-  if(d1.dup > 0 || d2.dup > 0){
+  if(anyDuplicated(d1$.id) > 0 || anyDuplicated(d2$.id) > 0){
     stop(
       "Each id ('", id, "') must be unique within a group for a paired test, ",
       "but duplicated ids were found. Check the data or aggregate replicates ",
       "before testing.", call. = FALSE
     )
   }
-  dplyr::inner_join(d1, d2, by = ".id") %>%
+  dplyr::inner_join(d1, d2, by = ".id", na_matches = "never") %>%
     filter(!is.na(.data$x), !is.na(.data$y)) %>%
     dplyr::arrange(.data$.id)
 }

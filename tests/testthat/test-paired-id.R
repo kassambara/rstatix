@@ -97,6 +97,29 @@ test_that("id= errors on duplicated ids within a group (#136)", {
   expect_error(df %>% t_test(y ~ g, paired = TRUE, id = "id"), "unique")
 })
 
+test_that("id= drops rows with a missing (NA) id instead of cross-joining them (#136)", {
+  # 3 clean pairs (ids 1,2,3) plus 2 unidentified (NA-id) rows per group
+  df <- data.frame(
+    y  = rnorm(10),
+    g  = rep(c("a", "b"), each = 5),
+    id = c(1, 2, 3, NA, NA, 1, 2, 3, NA, NA)
+  )
+  res <- df %>% t_test(y ~ g, paired = TRUE, id = "id")
+  expect_equal(res$n1, 3); expect_equal(res$n2, 3)   # only the 3 identified pairs
+})
+
+test_that("id= is rejected with ref.group = 'all' (#136)", {
+  df <- make_paired()
+  expect_error(
+    df %>% t_test(y ~ g, paired = TRUE, id = "id", ref.group = "all"),
+    "ref.group = 'all'"
+  )
+  expect_error(
+    df %>% wilcox_test(y ~ g, paired = TRUE, id = "id", ref.group = "all"),
+    "ref.group = 'all'"
+  )
+})
+
 test_that("id= errors when the id column is missing (#136)", {
   df <- make_paired(); df <- df[df$g %in% c("a", "b"), ]
   expect_error(df %>% t_test(y ~ g, paired = TRUE, id = "subject"), "not found")
