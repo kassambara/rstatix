@@ -18,7 +18,8 @@ chisq_test(
   p = rep(1/length(x), length(x)),
   rescale.p = FALSE,
   simulate.p.value = FALSE,
-  B = 2000
+  B = 2000,
+  vars = NULL
 )
 
 pairwise_chisq_gof_test(x, p.adjust.method = "holm", ...)
@@ -66,6 +67,10 @@ std_residuals(res.chisq)
 \item{B}{an integer specifying the number of replicates used in the
     Monte Carlo test.}
 
+\item{vars}{optional character vector of length two giving the names of two
+columns in the data frame \code{x} to cross-tabulate for a test of
+independence. An alternative to passing the two columns positionally.}
+
 \item{p.adjust.method}{method to adjust p values for multiple comparisons.
 Used when pairwise comparisons are performed. Allowed values include "holm",
 "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none". If you don't
@@ -94,6 +99,15 @@ return a data frame with some the following columns: \itemize{ \item
 \description{
 Performs chi-squared tests, including goodness-of-fit,
  homogeneity and independence tests.
+
+ \code{chisq_test()} also accepts a pipe-friendly data-frame interface for the
+ test of independence between two categorical variables: pass a data frame as
+ \code{x} and the two columns either positionally
+ (\code{data \%>\% chisq_test(var1, var2)}) or via \code{vars}
+ (\code{data \%>\% chisq_test(vars = c("var1", "var2"))}). The contingency
+ table is built internally. Note that in the positional form the second column
+ occupies the \code{correct} argument slot, so use the \code{vars} form (or the
+ table interface) if you need to set \code{correct}/\code{simulate.p.value}.
 }
 \section{Functions}{
 \itemize{
@@ -110,7 +124,8 @@ all others.
 
 \item \code{chisq_descriptives()}: returns the descriptive statistics of the chi-square
 test. These include, observed and expected frequencies, proportions,
-residuals and standardized residuals.
+residuals and standardized residuals. Only available for a single
+(ungrouped) \code{chisq_test()} result.
 
 \item \code{expected_freq()}: returns the expected counts from the chi-square test result.
 
@@ -148,4 +163,15 @@ xtab
 chisq_test(xtab)
 # Compare the proportion of survived between groups
 pairwise_prop_test(xtab)
+
+# Test of independence using the data-frame interface
+#\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%\%
+df <- data.frame(
+  gender = rep(c("M", "F"), each = 100),
+  smoker = rep(c("yes", "no", "yes", "no"), times = c(30, 70, 60, 40))
+)
+# Positional columns
+df \%>\% chisq_test(gender, smoker)
+# Equivalent, using vars (keeps `correct` settable)
+df \%>\% chisq_test(vars = c("gender", "smoker"), correct = FALSE)
 }

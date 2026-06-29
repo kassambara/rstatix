@@ -3,7 +3,19 @@ NULL
 #'Chi-squared Test for Count Data
 #'@description Performs chi-squared tests, including goodness-of-fit,
 #'  homogeneity and independence tests.
+#'
+#'  \code{chisq_test()} also accepts a pipe-friendly data-frame interface for the
+#'  test of independence between two categorical variables: pass a data frame as
+#'  \code{x} and the two columns either positionally
+#'  (\code{data \%>\% chisq_test(var1, var2)}) or via \code{vars}
+#'  (\code{data \%>\% chisq_test(vars = c("var1", "var2"))}). The contingency
+#'  table is built internally. Note that in the positional form the second column
+#'  occupies the \code{correct} argument slot, so use the \code{vars} form (or the
+#'  table interface) if you need to set \code{correct}/\code{simulate.p.value}.
 #'@inheritParams  stats::chisq.test
+#'@param vars optional character vector of length two giving the names of two
+#'  columns in the data frame \code{x} to cross-tabulate for a test of
+#'  independence. An alternative to passing the two columns positionally.
 #'@param res.chisq an object of class \code{chisq_test}.
 #'@param p.adjust.method method to adjust p values for multiple comparisons.
 #'  Used when pairwise comparisons are performed. Allowed values include "holm",
@@ -53,6 +65,17 @@ NULL
 #' chisq_test(xtab)
 #' # Compare the proportion of survived between groups
 #' pairwise_prop_test(xtab)
+#'
+#' # Test of independence using the data-frame interface
+#' #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#' df <- data.frame(
+#'   gender = rep(c("M", "F"), each = 100),
+#'   smoker = rep(c("yes", "no", "yes", "no"), times = c(30, 70, 60, 40))
+#' )
+#' # Positional columns
+#' df %>% chisq_test(gender, smoker)
+#' # Equivalent, using vars (keeps `correct` settable)
+#' df %>% chisq_test(vars = c("gender", "smoker"), correct = FALSE)
 
 
 #' @describeIn chisq_test performs chi-square tests including goodness-of-fit,
@@ -60,7 +83,87 @@ NULL
 #' @export
 chisq_test <- function(x, y = NULL, correct = TRUE,
                        p = rep(1/length(x), length(x)), rescale.p = FALSE,
-                       simulate.p.value = FALSE, B = 2000){
+                       simulate.p.value = FALSE, B = 2000, vars = NULL){
+  # Data-frame / two-column interface (#43): build the contingency table from two
+  # columns and run the test of independence. This is dispatched BEFORE the
+  # `args <- as.list(environment())` line below, because forcing `correct` (which
+  # holds the bare column name in the positional form) is exactly what errored
+  # before. The branch fires only for data frames with column references - inputs
+  # that previously threw an error - so the table/vector interface is untouched.
+  if(is.data.frame(x)){
+    y_quo <- rlang::enquo(y)
+    correct_quo <- rlang::enquo(correct)
+    p_quo <- rlang::enquo(p)
+    selected.vars <- NULL
+    if(!is.null(vars)){
+      selected.vars <- as.character(vars)
+    } else if(!rlang::quo_is_null(y_quo)){
+      # positional form: chisq_test(data, var1, var2) -> var1 in `y`. The second
+      # column lands in the `correct` slot; but if `correct =` is passed by name,
+      # it lands in the next free positional slot `p` instead. A slot is treated
+      # as a column only when it holds a name/string naming a column of `x`.
+      var1 <- get_quo_vars(x, y_quo)
+      var2 <- NULL
+      for(slot in c("correct", "p")){
+        cand <- switch(slot, correct = correct_quo, p = p_quo)
+        cexpr <- rlang::quo_get_expr(cand)
+        if(is.symbol(cexpr) || is.character(cexpr)){
+          v <- tryCatch(get_quo_vars(x, cand), error = function(e) NULL)
+          if(length(v) && all(v %in% names(x))){
+            var2 <- v
+            # if the column occupied the `correct` slot, restore the default
+            if(slot == "correct") correct <- TRUE
+            break
+          }
+        }
+      }
+      selected.vars <- c(var1, var2)
+    }
+    if(!is.null(selected.vars)){
+      if(length(selected.vars) != 2 || !all(selected.vars %in% names(x))){
+        stop(
+          "chisq_test(): the data-frame interface needs exactly two columns of ",
+          "`x`, e.g. `data %>% chisq_test(var1, var2)` or ",
+          "`data %>% chisq_test(vars = c(\"var1\", \"var2\"))`. If you are also ",
+          "passing other arguments by name (e.g. `correct`, `p`), use the ",
+          "`vars =` form.",
+          call. = FALSE
+        )
+      }
+      args <- list(
+        x = x, y = NULL, correct = correct, rescale.p = rescale.p,
+        simulate.p.value = simulate.p.value, B = B, vars = selected.vars,
+        method = "chisq_test"
+      )
+      # Grouped data: run the test independently per group (consistent with the
+      # other rstatix tests) instead of pooling all rows.
+      if(is_grouped_df(x)){
+        results <- x %>%
+          doo(
+            chisq_test, vars = selected.vars, correct = correct,
+            simulate.p.value = simulate.p.value, B = B
+          )
+        return(
+          results %>%
+            set_attrs(args = args) %>%
+            add_class(c("rstatix_test", "chisq_test"))
+        )
+      }
+      xtab <- table(x[[selected.vars[1]]], x[[selected.vars[2]]])
+      n <- sum(xtab)
+      res.chisq <- stats::chisq.test(
+        xtab, correct = correct,
+        simulate.p.value = simulate.p.value, B = B
+      )
+      return(
+        as_tidy_stat(res.chisq, stat.method = "Chi-square test") %>%
+          add_significance("p") %>%
+          add_columns(n = n, .before = 1) %>%
+          set_attrs(args = args, test = res.chisq) %>%
+          add_class(c("rstatix_test", "chisq_test"))
+      )
+    }
+  }
   args <- as.list(environment()) %>%
     add_item(method = "chisq_test")
   if(is.data.frame(x)) x <- as.matrix(x)
@@ -143,11 +246,29 @@ pairwise_chisq_test_against_p <- function(x, p = rep(1/length(x), length(x)), p.
 }
 
 
+# The descriptive accessors below need the stored chisq.test object
+# (attr "test"). A grouped chisq_test() result holds one test per group, so no
+# single test object is stored; fail with a clear message instead of silently
+# returning empty output.
+assert_chisq_has_test <- function(res.chisq){
+  if(is.null(attr(res.chisq, "test"))){
+    stop(
+      "No chi-square test object is stored on this result, so descriptive ",
+      "statistics are unavailable. These are only available for a single ",
+      "(ungrouped) `chisq_test()` result.",
+      call. = FALSE
+    )
+  }
+  invisible(res.chisq)
+}
+
 #' @describeIn chisq_test returns the descriptive statistics of the chi-square
 #'   test. These include, observed and expected frequencies, proportions,
-#'   residuals and standardized residuals.
+#'   residuals and standardized residuals. Only available for a single
+#'   (ungrouped) \code{chisq_test()} result.
 #' @export
 chisq_descriptives <- function(res.chisq){
+  assert_chisq_has_test(res.chisq)
   res <- attr(res.chisq, "test") %>% augment()
   colnames(res) <- gsub(pattern = "^\\.", replacement = "", colnames(res))
   res
@@ -156,24 +277,28 @@ chisq_descriptives <- function(res.chisq){
 #' @describeIn chisq_test returns the expected counts from the chi-square test result.
 #' @export
 expected_freq <- function(res.chisq){
+  assert_chisq_has_test(res.chisq)
   attr(res.chisq, "test")$expected
 }
 
 #' @describeIn chisq_test returns the observed counts from the chi-square test result.
 #' @export
 observed_freq <- function(res.chisq){
+  assert_chisq_has_test(res.chisq)
   attr(res.chisq, "test")$observed
 }
 
 #' @describeIn chisq_test returns the Pearson residuals, \code{(observed - expected) / sqrt(expected)}.
 #' @export
 pearson_residuals <- function(res.chisq){
+  assert_chisq_has_test(res.chisq)
   attr(res.chisq, "test")$residuals
 }
 
 #' @describeIn chisq_test returns the standardized residuals
 #' @export
 std_residuals <- function(res.chisq){
+  assert_chisq_has_test(res.chisq)
   attr(res.chisq, "test")$stdres
 }
 
