@@ -27,6 +27,11 @@ NULL
 #'  p-value. \item \code{method}: the used statistical test. \item
 #'  \code{p.signif}: the significance level of p-values.}
 #'
+#'  For \code{pairwise_mcnemar_test()}, the \code{statistic} and \code{df}
+#'  columns are returned for \code{type = "mcnemar"} (the default); they are
+#'  omitted for \code{type = "exact"}, which is based on an exact binomial test
+#'  and has no chi-squared statistic or degrees of freedom.
+#'
 #'  The \strong{returned object has an attribute called args}, which is a list
 #'  holding the test arguments.
 #' @examples
@@ -112,16 +117,21 @@ pairwise_mcnemar_test <- function (data, formula, type = c("mcnemar", "exact"), 
     xtab <- stats::xtabs(~grp1+grp2, grps.data)
     if(type == "mcnemar"){
       results <- mcnemar_test(xtab, correct = correct)
+      # Keep the McNemar chi-squared statistic and df (#122): documented for the
+      # pairwise output but previously dropped.
+      cols.to.keep <- c("statistic", "df", "p", "method")
     }
     else if(type == "exact"){
-      # Get off-diagonal values
+      # Get off-diagonal values (avoid shadowing base::c())
       b <- xtab[2, 1]
-      c <- xtab[1, 2]
-      results <- binom_test(b, (b + c), p = 0.5, detailed = TRUE)
+      cc <- xtab[1, 2]
+      results <- binom_test(b, (b + cc), p = 0.5, detailed = TRUE)
+      # The exact binomial test has no chi-squared statistic / df.
+      cols.to.keep <- c("p", "method")
     }
     results %>%
       keep_only_tbl_df_classes() %>%
-      select(all_of(c("p", "method"))) %>%
+      select(all_of(cols.to.keep)) %>%
       add_columns(group1 = grps[1], group2 = grps[2], .before = "p")
   }
   # Convert outcome into factor, then spread.
@@ -136,7 +146,14 @@ pairwise_mcnemar_test <- function (data, formula, type = c("mcnemar", "exact"), 
     bind_rows() %>%
     adjust_pvalue("p", method = p.adjust.method) %>%
     add_significance("p.adj")
-  results [, c("group1", "group2", "p", "p.adj", "p.adj.signif", "method")] %>%
+  # The McNemar type carries the chi-squared statistic and df (#122); the exact
+  # binomial type does not.
+  final.cols <- if(type == "mcnemar"){
+    c("group1", "group2", "statistic", "df", "p", "p.adj", "p.adj.signif", "method")
+  } else {
+    c("group1", "group2", "p", "p.adj", "p.adj.signif", "method")
+  }
+  results [, final.cols] %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", test.class))
 }
