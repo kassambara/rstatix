@@ -152,3 +152,42 @@ test_that("wilcox_test detailed = TRUE still returns the estimate and CI (#79)",
   expect_true(all(c("estimate", "conf.low", "conf.high") %in% colnames(res)))
   expect_false(is.na(res$conf.low))   # normal data -> a real confidence interval
 })
+
+
+# #127: surface a warning when wilcox.test silently reduced the CI confidence level
+test_that("wilcox_test warns when the CI confidence level was reduced (#127)", {
+  d <- data.frame(
+    Result = c(0,9,6,8,0,0,0,0,0,0,0,0,1,2,3,3,1,2,1,1,3,3,7,7),
+    Timepoint = rep(c("Baseline", "Month 3"), 12)
+  )
+  # detailed -> CI requested; ties/zeroes force a reduced-confidence CI -> warn
+  expect_warning(
+    res <- wilcox_test(d, Result ~ Timepoint, paired = TRUE, detailed = TRUE),
+    "confidence interval"
+  )
+  # the returned values are unchanged (only a warning is added)
+  x <- d$Result[d$Timepoint == "Baseline"]
+  y <- d$Result[d$Timepoint == "Month 3"]
+  expect_equal(res$p, suppressWarnings(
+    stats::wilcox.test(x, y, paired = TRUE, conf.int = TRUE)$p.value
+  ))
+})
+
+test_that("wilcox_test does not warn about the CI on the default (non-detailed) call (#127)", {
+  d <- data.frame(
+    Result = c(0,9,6,8,0,0,0,0,0,0,0,0,1,2,3,3,1,2,1,1,3,3,7,7),
+    Timepoint = rep(c("Baseline", "Month 3"), 12)
+  )
+  expect_silent(wilcox_test(d, Result ~ Timepoint, paired = TRUE))      # no CI -> no warning
+})
+
+test_that("wilcox_test does not warn on clean data, and t_test never warns about CI (#127)", {
+  set.seed(1)
+  cd <- data.frame(v = c(rnorm(15), rnorm(15) + 1), g = rep(c("a", "b"), each = 15))
+  expect_silent(wilcox_test(cd, v ~ g, detailed = TRUE))               # full conf.level achievable
+  d <- data.frame(
+    Result = c(0,9,6,8,0,0,0,0,0,0,0,0,1,2,3,3,1,2,1,1,3,3,7,7),
+    Timepoint = rep(c("Baseline", "Month 3"), 12)
+  )
+  expect_silent(t_test(d, Result ~ Timepoint, paired = TRUE, detailed = TRUE))  # t.test never reduces
+})

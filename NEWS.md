@@ -24,6 +24,7 @@
 
 ## Bug fixes
 
+- `wilcox_test()` no longer hides the warning when the underlying `wilcox.test()` **silently lowers the confidence interval's confidence level** (e.g. to 60% instead of the requested 95%) because it cannot be achieved with tied or zero data. Previously this was suppressed, so the returned interval looked like a 95% CI and could contradict the p-value (e.g. `p > 0.05` while the CI excludes 0). A clear warning is now emitted in that case (only when `detailed = TRUE`, i.e. when a CI is requested). The returned values are unchanged; `t_test()` and clean-data calls are unaffected ([#127](https://github.com/kassambara/rstatix/issues/127)).
 - `add_xy_position()`/`add_y_position()` now keep significance brackets evenly spaced after the test results have been **filtered** (e.g. to keep only significant comparisons). Previously the y positions were computed for the full comparison set and then joined onto the filtered rows, producing uneven spacing; they are now computed for exactly the comparisons present. Unfiltered results, `ref.group = "all"`, one-sample and grouped tests are unchanged ([#197](https://github.com/kassambara/rstatix/issues/197)).
 
 - `cor_test()` (and `cor_mat()`) no longer emit the tidyselect "Using an external vector in selections was deprecated" warning when `vars`/`vars2` are passed as character vectors (e.g. `cor_test(data, vars = my_vars)`); the columns are now selected via `all_of()`. Bare names and tidyselect helpers are unaffected ([#202](https://github.com/kassambara/rstatix/issues/202)).
