@@ -55,6 +55,7 @@ ToothGrowth \%>\% dunn_test(len ~ dose) \%>\% add_cld()
 
 # Grouped pairwise test -> one CLD per group
 ToothGrowth \%>\%
+  mutate(dose = factor(dose)) \%>\%
   group_by(supp) \%>\%
   tukey_hsd(len ~ dose) \%>\%
   add_cld()
