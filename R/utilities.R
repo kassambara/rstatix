@@ -757,6 +757,7 @@ get_pairwise_comparison_methods <- function(){
     sign_test = "Sign test",
     ks_test = "Kolmogorov-Smirnov test",
     dunn_test = "Dunn test",
+    conover_test = "Conover test",
     friedman_conover_test = "Durbin-Conover test",
     dunnett_test = "Dunnett test",
     emmeans_test = "Emmeans test",
