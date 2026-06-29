@@ -15,8 +15,7 @@ NULL
 #'  If a reference group is specified (via \code{ref.group}), then each of the
 #'  remaining treatments is compared only to the reference (control) treatment,
 #'  and the p-value adjustment for multiple comparisons is computed over only
-#'  these \code{k - 1} comparisons (as for \code{\link{dunn_test}()} /
-#'  \code{\link{conover_test}()}).
+#'  these \code{k - 1} comparisons (as for \code{\link{dunn_test}()}).
 #'
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{a ~ b | c}, where \code{a}

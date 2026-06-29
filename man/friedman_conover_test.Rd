@@ -63,8 +63,7 @@ Performs Conover's all-pairs comparison test (also known as the
  If a reference group is specified (via \code{ref.group}), then each of the
  remaining treatments is compared only to the reference (control) treatment,
  and the p-value adjustment for multiple comparisons is computed over only
- these \code{k - 1} comparisons (as for \code{\link{dunn_test}()} /
- \code{\link{conover_test}()}).
+ these \code{k - 1} comparisons (as for \code{\link{dunn_test}()}).
 }
 \details{
 For a balanced complete block design with \eqn{b} blocks and \eqn{k}
