@@ -35,6 +35,17 @@ test_that("fligner_test n is unchanged for data without NAs (no-regression) (#17
   expect_equal((ToothGrowth %>% fligner_test(len ~ dose))$n, nrow(ToothGrowth))
 })
 
+test_that("fligner_test surfaces the base-R error for a single group (#179)", {
+  df <- data.frame(y = rnorm(10), g = factor(rep("a", 10)))
+  # base fligner.test() errors (message is locale-translated, so don't match text)
+  expect_error(df %>% fligner_test(y ~ g))
+})
+
+test_that("fligner_test grouped reports per-group n (#179)", {
+  res <- ToothGrowth %>% dplyr::group_by(supp) %>% fligner_test(len ~ dose)
+  expect_equal(res$n, c(30, 30))
+})
+
 test_that("get_description/get_test_label give a friendly fligner_test label (#179)", {
   res <- ToothGrowth %>% fligner_test(len ~ dose)
   expect_equal(get_description(res), "Fligner-Killeen")
