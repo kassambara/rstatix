@@ -251,16 +251,20 @@ get_formula_right_hand_side <- function(formula){
 }
 # Drop the '| subject' block from a repeated-measures formula such as
 # 'outcome ~ within | subject', returning 'outcome ~ within'. Formulas without a
-# '|' are returned unchanged (so callers operating on simple 'y ~ group'
-# formulas are unaffected).
+# '|' on the right-hand side are returned unchanged (so callers operating on
+# simple 'y ~ group' formulas are unaffected). The right-hand side is rewritten
+# by manipulating the language objects directly (rather than round-tripping
+# through deparse/as.formula), so non-syntactic names (e.g. backticked names
+# with spaces) and the formula environment are preserved.
 drop_formula_block_term <- function(formula){
   if(!inherits(formula, "formula")) return(formula)
-  rhs <- paste(deparse(formula[[length(formula)]]), collapse = " ")
-  if(!grepl("\\|", rhs)) return(formula)
-  within.var <- trimws(strsplit(rhs, "\\|", fixed = FALSE)[[1]][1])
-  lhs <- if(length(formula) == 3) paste(deparse(formula[[2]]), collapse = " ") else NULL
-  new.text <- if(is.null(lhs)) paste("~", within.var) else paste(lhs, "~", within.var)
-  stats::as.formula(new.text, env = environment(formula))
+  rhs.index <- length(formula)            # 3 for 'lhs ~ rhs', 2 for '~ rhs'
+  rhs <- formula[[rhs.index]]
+  if(is.call(rhs) && identical(rhs[[1]], as.name("|"))){
+    # 'within | subject' parses as `|`(within, subject); keep the within term
+    formula[[rhs.index]] <- rhs[[2]]
+  }
+  formula
 }
 .extract_formula_variables <- function(formula){
   outcome <- get_formula_left_hand_side(formula)

@@ -135,9 +135,26 @@ test_that("drop_formula_block_term strips '| subject' but leaves simple formulas
     deparse(drop_formula_block_term(score ~ treatment | id)),
     "score ~ treatment"
   )
-  # ordinary pairwise formulas are returned unchanged (no-regression)
-  expect_equal(deparse(drop_formula_block_term(len ~ dose)), "len ~ dose")
+  # ordinary pairwise formulas are returned unchanged (no-regression):
+  # the exact same object is returned, attributes/environment preserved
+  expect_true(identical(len ~ dose, drop_formula_block_term(len ~ dose)))
   expect_equal(deparse(drop_formula_block_term(len ~ supp)), "len ~ supp")
+  # non-syntactic (backticked) names and compound within terms are preserved
+  expect_equal(deparse(drop_formula_block_term(`my score` ~ trt | id)), "`my score` ~ trt")
+  expect_equal(deparse(drop_formula_block_term(y ~ a + b | id)), "y ~ a + b")
+})
+
+test_that("add_xy_position works on results with non-syntactic outcome names (#8)", {
+  df <- data.frame(
+    `my score` = c(10, 12, 9, 22, 18, 20, 28, 33, 30, 17, 14, 15, 5, 9, 7),
+    trt        = factor(rep(c("a", "b", "c"), 5)),
+    id         = factor(rep(1:5, each = 3)),
+    check.names = FALSE
+  )
+  res <- df %>% friedman_conover_test(`my score` ~ trt | id)
+  pos <- res %>% add_xy_position(x = "trt")
+  expect_true(all(c("xmin", "xmax", "y.position") %in% colnames(pos)))
+  expect_false(any(is.na(pos$y.position)))
 })
 
 test_that("get_description gives a friendly friedman_conover_test label (#8)", {
