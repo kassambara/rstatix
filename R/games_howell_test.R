@@ -36,6 +36,11 @@ NULL
 #'  samples in each group, the it is more tolerant the type I error control.
 #'  Thus, this method can be applied when the number of samples is six or more.
 #'
+#'  Because the test relies on Welch's variance correction, a comparison between
+#'  two groups that both have zero variance is undefined; such pairs are returned
+#'  as \code{NA} (with a warning) while all other comparisons are computed as
+#'  usual.
+#'
 #'@references \itemize{ \item Aaron Schlege,
 #'  https://rpubs.com/aaronsc32/games-howell-test. \item Sangseok Lee, Dong Kyu
 #'  Lee. What is the proper way to apply the multiple comparison test?. Korean J
@@ -117,18 +122,42 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
     p.adjust.method = "none"
   ) %>% tidy_squared_matrix()
 
-  df <- stats::pairwise.table(
+  # When two groups in a pair both have zero variance, the Welch degrees of
+  # freedom are 0/0 = NaN; tidy_squared_matrix() drops those rows, which would
+  # desynchronise the df vector from the other (full-length) tables and crash
+  # (#183). Join the df table back onto all comparisons so undefined pairs become
+  # NA instead of being dropped.
+  df.tab <- stats::pairwise.table(
     get_degree_of_freedom, levels(g),
     p.adjust.method = "none"
-  ) %>% tidy_squared_matrix()
+  ) %>% tidy_squared_matrix("df")
+  # align to the full comparison set without altering mean.diff's columns
+  df.value <- mean.diff %>%
+    left_join(df.tab, by = c("group1", "group2")) %>%
+    pull("df")
 
   t <- abs(mean.diff$value)/weltch.sd$value
-  p <- stats::ptukey(t*sqrt(2), nb.groups, df$value, lower.tail = FALSE)
+  p <- stats::ptukey(t*sqrt(2), nb.groups, df.value, lower.tail = FALSE)
   se <- weltch.sd$value*sqrt(0.5)
 
-  q <- stats::qtukey(p = conf.level, nb.groups, df = df$value)
+  q <- stats::qtukey(p = conf.level, nb.groups, df = df.value)
   conf.high <- mean.diff$value + q*se
   conf.low <- mean.diff$value - q*se
+
+  # Pairs between two zero-variance groups are undefined: return NA (not Inf/NaN)
+  # for the affected statistics and warn once.
+  undefined <- is.na(df.value)
+  if(any(undefined)){
+    t[undefined] <- NA
+    p[undefined] <- NA
+    conf.high[undefined] <- NA
+    conf.low[undefined] <- NA
+    warning(
+      "Some groups have zero variance. Games-Howell comparisons between two ",
+      "zero-variance groups are undefined and are returned as NA.",
+      call. = FALSE
+    )
+  }
 
   n1 <- grp.sizes[mean.diff$group1]
   n2 <- grp.sizes[mean.diff$group2]
@@ -137,7 +166,7 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
     rename(estimate = "value") %>%
     mutate(
       conf.low = conf.low, conf.high = conf.high,
-      se = se, statistic = t, df = df$value, p.adj = p
+      se = se, statistic = t, df = df.value, p.adj = p
     ) %>%
     add_column(n1 = n1, n2 = n2, .after = "group2") %>%
     add_column(.y. = outcome, .before = "group1") %>%

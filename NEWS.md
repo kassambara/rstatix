@@ -24,6 +24,7 @@
 
 ## Bug fixes
 
+- `games_howell_test()` no longer crashes (`` `df` must be size 15 or 1, not 12 ``) when two or more groups have **zero variance**. Comparisons between two zero-variance groups are undefined (the Welch degrees of freedom are `0/0`) and are now returned as `NA` with a warning, while all other comparisons are computed as usual. Results for data without zero-variance groups are unchanged ([#183](https://github.com/kassambara/rstatix/issues/183)).
 - `add_xy_position()`/`add_y_position()` now keep significance brackets evenly spaced after the test results have been **filtered** (e.g. to keep only significant comparisons). Previously the y positions were computed for the full comparison set and then joined onto the filtered rows, producing uneven spacing; they are now computed for exactly the comparisons present. Unfiltered results, `ref.group = "all"`, one-sample and grouped tests are unchanged ([#197](https://github.com/kassambara/rstatix/issues/197)).
 
 - `cor_test()` (and `cor_mat()`) no longer emit the tidyselect "Using an external vector in selections was deprecated" warning when `vars`/`vars2` are passed as character vectors (e.g. `cor_test(data, vars = my_vars)`); the columns are now selected via `all_of()`. Bare names and tidyselect helpers are unaffected ([#202](https://github.com/kassambara/rstatix/issues/202)).
