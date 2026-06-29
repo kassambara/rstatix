@@ -55,12 +55,7 @@ test_that("dunnett_test gives an informative error for an invalid ref.group (#12
   )
 })
 
-test_that("dunnett_test matches DescTools::DunnettTest when available (#129)", {
-  skip_if_not_installed("emmeans")
-  skip_if_not_installed("DescTools")
-  df <- ToothGrowth; df$dose <- factor(df$dose)
-  dt <- DescTools::DunnettTest(df$len, df$dose)[["0.5"]]
-  res <- ToothGrowth %>% dunnett_test(len ~ dose, detailed = TRUE)
-  expect_equal(res$estimate, unname(dt[, "diff"]), tolerance = 1e-5)
-  expect_equal(res$p.adj, unname(dt[, "pval"]), tolerance = 1e-5)
-})
+# Note: correctness is validated above against emmeans' own trt.vs.ctrl + mvt
+# contrast (a declared Suggests). DescTools / multcomp would be unstated test
+# dependencies, so they are intentionally not used here (cf. R CMD check
+# "unstated dependencies in tests").
