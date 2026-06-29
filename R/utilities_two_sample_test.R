@@ -99,7 +99,27 @@ two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, 
   }
 
   statistic <- p <- NULL
-  res <- suppressWarnings(do.call(test.function, test.args)) %>%
+  res.raw <- suppressWarnings(do.call(test.function, test.args))
+  # #127: wilcox.test silently lowers the confidence interval's confidence level
+  # when the requested one cannot be achieved (ties / zeroes), which can make the
+  # CI contradict the p-value (e.g. p > 0.05 while the CI excludes 0). Surface
+  # this clearly. Locale-independent: read the achieved level off the conf.int.
+  ci <- res.raw$conf.int
+  if(!is.null(ci)){
+    achieved  <- attr(ci, "conf.level")
+    requested <- test.args$conf.level
+    if(is.null(requested)) requested <- 0.95
+    if(!is.null(achieved) && isTRUE(achieved < requested)){
+      warning(
+        "The requested ", round(requested*100), "% confidence interval could ",
+        "not be computed (likely due to ties or zeroes); the reported interval ",
+        "is at ", round(achieved*100), "% confidence and may be inconsistent ",
+        "with the p-value. Interpret the confidence interval with caution.",
+        call. = FALSE
+      )
+    }
+  }
+  res <- res.raw %>%
     as_tidy_stat() %>%
     add_columns(
       .y. = outcome, group1 = grp1, group2 = grp2,
