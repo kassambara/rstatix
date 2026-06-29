@@ -61,12 +61,12 @@ compare_mean <- function(  data, formula, method = "t.test", paired = FALSE,
 
 
 # Performs one or two samples mean comparisons
-two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, detailed = FALSE, ...) {
+two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, id = NULL, detailed = FALSE, ...) {
 
   if (is_grouped_df(data)) {
     res <- data %>%
       doo(two_sample_test, formula, method = method,
-          ref.group = ref.group, detailed = detailed, ...)
+          ref.group = ref.group, id = id, detailed = detailed, ...)
     return(res)
   }
   test.function <- method
@@ -95,6 +95,18 @@ two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, 
     y <- outcome.values[group.values == grp2]
     n1 <- sum(!is.na(x))
     n2 <- sum(!is.na(y))
+    # Paired test with an explicit subject identifier (#136, #175, #192): align
+    # the two groups by `id` so that x[i] and y[i] are the same subject, keeping
+    # only subjects measured in BOTH groups (complete pairs, i.e. per-comparison
+    # pairwise deletion). Only fires for a paired test with id supplied; the
+    # default id = NULL path is unchanged (groups taken in row order as before).
+    if(!is.null(id) && isTRUE(list(...)$paired)){
+      x <- y <- NULL
+      paired.data <- align_paired_by_id(data, outcome, group, id, grp1, grp2)
+      x <- paired.data$x
+      y <- paired.data$y
+      n1 <- n2 <- nrow(paired.data)
+    }
     test.args <- list(x = x, y = y, ...)
   }
 
@@ -139,13 +151,13 @@ two_sample_test <- function(data, formula, method = "t.test", ref.group = NULL, 
 # Pairwise mean comparisons
 pairwise_two_sample_test <- function(data, formula, method = "t.test",
                                comparisons = NULL, ref.group = NULL,
-                               p.adjust.method = "holm", detailed = FALSE, ...) {
+                               p.adjust.method = "holm", id = NULL, detailed = FALSE, ...) {
   if (is_grouped_df(data)) {
     res <- data %>%
       doo(
         pairwise_two_sample_test, formula, method,
         comparisons, ref.group, p.adjust.method,
-        detailed = detailed, ...
+        id = id, detailed = detailed, ...
         )
     return(res)
   }
@@ -158,7 +170,7 @@ pairwise_two_sample_test <- function(data, formula, method = "t.test",
   if (is.null(comparisons)) {
     comparisons <- group.levels %>% .possible_pairs(ref.group = ref.group)
   }
-  res <- compare_pairs(data, formula, comparisons, method, detailed = detailed, ...) %>%
+  res <- compare_pairs(data, formula, comparisons, method, id = id, detailed = detailed, ...) %>%
     adjust_pvalue(method = p.adjust.method) %>%
     add_significance()
  if(!detailed) res <- remove_details(res, method = method)
@@ -218,18 +230,50 @@ create_data_with_all_ref_group <- function(data, outcome, group){
 }
 
 
+# Align two groups of a paired test by a subject identifier, keeping only
+# subjects present (and non-missing) in BOTH groups (complete pairs). Returns a
+# data frame with columns x (grp1 values) and y (grp2 values), row-matched by id.
+align_paired_by_id <- function(data, outcome, group, id, grp1, grp2){
+  if(!(id %in% colnames(data))){
+    stop("The id column '", id, "' was not found in the data.", call. = FALSE)
+  }
+  outcome.values <- data %>% pull(!!sym(outcome))
+  group.values <- as.character(data %>% pull(!!sym(group)))
+  id.values <- data %>% pull(!!sym(id))
+  keep1 <- group.values == grp1
+  keep2 <- group.values == grp2
+  # Drop rows with a missing id up front: an unidentified subject (NA id) cannot
+  # be matched, and would otherwise be cartesian-joined (dplyr matches NA keys by
+  # default), inflating the pair count.
+  d1 <- tibble(.id = id.values[keep1], x = outcome.values[keep1]) %>%
+    filter(!is.na(.data$.id))
+  d2 <- tibble(.id = id.values[keep2], y = outcome.values[keep2]) %>%
+    filter(!is.na(.data$.id))
+  # A proper paired design has at most one observation per subject and group.
+  if(anyDuplicated(d1$.id) > 0 || anyDuplicated(d2$.id) > 0){
+    stop(
+      "Each id ('", id, "') must be unique within a group for a paired test, ",
+      "but duplicated ids were found. Check the data or aggregate replicates ",
+      "before testing.", call. = FALSE
+    )
+  }
+  dplyr::inner_join(d1, d2, by = ".id", na_matches = "never") %>%
+    filter(!is.na(.data$x), !is.na(.data$y)) %>%
+    dplyr::arrange(.data$.id)
+}
+
 # compare_pair(ToothGrowth, len ~ dose, c("0.5", "1"))
-compare_pair <- function(data, formula, pair, method = "t.test", ...){
+compare_pair <- function(data, formula, pair, method = "t.test", id = NULL, ...){
   group <- get_formula_right_hand_side(formula)
   data %>%
     filter(!!sym(group) %in% pair) %>%
     droplevels() %>%
-    two_sample_test(formula, method = method, ...)
+    two_sample_test(formula, method = method, id = id, ...)
 }
 # compare_pairs(ToothGrowth, len ~ dose, list(c("0.5", "1"), c("1", "2")))
-compare_pairs <- function(data, formula, pairs, method = "t.test", ...){
+compare_pairs <- function(data, formula, pairs, method = "t.test", id = NULL, ...){
   .f <- function(pair, data, formula, method, ...){
-    compare_pair(data, formula, pair, method, ...)
+    compare_pair(data, formula, pair, method, id = id, ...)
   }
   pairs %>%
     map(.f, data, formula, method, ...) %>%
