@@ -48,6 +48,11 @@ return a data frame with the following columns: \itemize{
  p-value. \item \code{method}: the used statistical test. \item
  \code{p.signif}: the significance level of p-values.}
 
+ For \code{pairwise_mcnemar_test()}, the \code{statistic} and \code{df}
+ columns are returned for \code{type = "mcnemar"} (the default); they are
+ omitted for \code{type = "exact"}, which is based on an exact binomial test
+ and has no chi-squared statistic or degrees of freedom.
+
  The \strong{returned object has an attribute called args}, which is a list
  holding the test arguments.
 }
