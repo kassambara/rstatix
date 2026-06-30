@@ -50,7 +50,7 @@ NULL
 #'  Passing \code{weights =} therefore raises an error rather than silently
 #'  returning the unweighted result. For a weighted Pearson correlation use base
 #'  R, e.g. \code{stats::cov.wt(data[, c("x", "y")], wt = data$w, cor =
-#'  TRUE)$cor}, or \code{psych::corr.test(..., weight = )}.
+#'  TRUE)$cor}.
 #'@seealso \code{\link{cor_mat}()}, \code{\link{as_cor_mat}()}
 #' @examples
 #'
@@ -110,8 +110,7 @@ cor_test <- function(
       "cor_test() does not support weighted correlation: stats::cor.test() ",
       "has no 'weights' argument, so the weights would be ignored.\n",
       "For a weighted Pearson correlation use base R, e.g.\n",
-      "  stats::cov.wt(data[, c('x','y')], wt = data$w, cor = TRUE)$cor\n",
-      "or psych::corr.test(..., weight = ).",
+      "  stats::cov.wt(data[, c('x','y')], wt = data$w, cor = TRUE)$cor",
       call. = FALSE
     )
   }

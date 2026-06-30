@@ -89,7 +89,7 @@ Provides a pipe-friendly framework to perform correlation test
  Passing \code{weights =} therefore raises an error rather than silently
  returning the unweighted result. For a weighted Pearson correlation use base
  R, e.g. \code{stats::cov.wt(data[, c("x", "y")], wt = data$w, cor =
- TRUE)$cor}, or \code{psych::corr.test(..., weight = )}.
+ TRUE)$cor}.
 }
 \examples{
 
