@@ -22,17 +22,20 @@ test_that("ci adds conf.low/conf.high bracketing pes (#18)", {
   expect_true(all(res$conf.low >= 0 & res$conf.high <= 1))
 })
 
-test_that("ci matches effectsize::eta_squared (partial, two.sided) (#18)", {
-  skip_if_not_installed("effectsize")
+test_that("ci reproduces the known effectsize partial-eta-squared interval (#18)", {
+  # Expected bounds validated during development against
+  # effectsize::eta_squared(model, partial = TRUE, ci = 0.95,
+  # alternative = "two.sided") on aov(len ~ supp * dose). Hard-coded here so the
+  # test needs no dependency on effectsize (which is not imported/suggested).
   d <- tg()
   res <- d %>% anova_test(len ~ supp * dose, effect.size = "pes", ci = 0.95)
-  m <- stats::aov(len ~ supp * dose, data = d)
-  es <- suppressMessages(effectsize::eta_squared(
-    m, partial = TRUE, ci = 0.95, alternative = "two.sided"
-  ))
-  # align by effect order (both follow the model term order)
-  expect_equal(res$conf.low,  round(es$CI_low, 3),  tolerance = 0.005)
-  expect_equal(res$conf.high, round(es$CI_high, 3), tolerance = 0.005)
+  res <- res[order(res$Effect), ]
+  expect_equal(res$conf.low[res$Effect == "supp"],      0.059, tolerance = 0.002)
+  expect_equal(res$conf.high[res$Effect == "supp"],     0.402, tolerance = 0.002)
+  expect_equal(res$conf.low[res$Effect == "dose"],      0.662, tolerance = 0.002)
+  expect_equal(res$conf.high[res$Effect == "dose"],     0.838, tolerance = 0.002)
+  expect_equal(res$conf.low[res$Effect == "supp:dose"], 0.001, tolerance = 0.002)
+  expect_equal(res$conf.high[res$Effect == "supp:dose"],0.295, tolerance = 0.002)
 })
 
 test_that("ci works for one-way and repeated-measures designs (#18)", {
