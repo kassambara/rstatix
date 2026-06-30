@@ -56,6 +56,14 @@ NULL
 #'@param effect.size the effect size to compute and to show in the ANOVA
 #'  results. Allowed values can be either "ges" (generalized eta squared) or
 #'  "pes" (partial eta squared) or both. Default is "ges".
+#'@param ci confidence level for a confidence interval on the effect size. If a
+#'  number between 0 and 1 (e.g. \code{0.95}), two columns \code{conf.low} and
+#'  \code{conf.high} are added giving the confidence interval for \strong{partial
+#'  eta squared} (\code{effect.size} must include \code{"pes"}). The interval is
+#'  computed from the noncentral F distribution (Steiger, 2004) in base R. No
+#'  interval is provided for generalized eta squared (\code{"ges"}), which has no
+#'  standard closed-form interval. Default is \code{NULL} (no interval; output
+#'  unchanged).
 #'@param white.adjust Default is FALSE. If TRUE, heteroscedasticity correction
 #'  is applied to the coefficient of covariance matrix. Used only for
 #'  independent measures ANOVA.
@@ -164,7 +172,18 @@ NULL
 #'@export
 anova_test <- function(data, formula, dv, wid, between, within, covariate, type = NULL,
                        effect.size = "ges", error = NULL,
-                       white.adjust = FALSE, observed = NULL, detailed = FALSE){
+                       white.adjust = FALSE, observed = NULL, detailed = FALSE,
+                       ci = NULL){
+  # Confidence intervals are available for partial eta-squared only (#18). Other
+  # effect sizes are returned without a CI; ges (generalized eta-squared) has no
+  # standard closed-form interval.
+  if(!is.null(ci)){
+    if(!(is.numeric(ci) && length(ci) == 1 && ci > 0 && ci < 1))
+      stop("`ci` must be a single number between 0 and 1 (e.g. 0.95), or NULL.", call. = FALSE)
+    if(!("pes" %in% effect.size))
+      stop("`ci` provides a confidence interval for partial eta-squared only; ",
+           "set effect.size = \"pes\" (or include \"pes\").", call. = FALSE)
+  }
   .args <- rlang::enquos(
     dv = dv, wid = wid, between = between,
     within = within, covariate = covariate) %>%
@@ -173,7 +192,7 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
   if(!missing(formula)) .args$formula <- formula
 
   .anova_test <- function(data, .args, effect.size = "ges", error = NULL,
-                          observed = NULL, detailed = FALSE){
+                          observed = NULL, detailed = FALSE, ci = NULL){
     .args <- .args %>%
       add_item(data = data) %>%
       check_anova_arguments()
@@ -186,7 +205,7 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
     results <- res.anova %>%
       anova_summary(
         effect.size = effect.size, detailed = detailed,
-        observed = observed
+        observed = observed, ci = ci
       )
     results
   }
@@ -199,7 +218,7 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
   if(is_grouped_df(data)){
     results <- data %>% doo(
       ~.anova_test(data = ., .args = .args, effect.size = effect.size,
-                   error = error, observed = observed, detailed = detailed),
+                   error = error, observed = observed, detailed = detailed, ci = ci),
       result = "anova"
     )
     if("anova" %in% colnames(results)){
@@ -214,7 +233,7 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
   else{
     results <- .anova_test(
       data, .args = .args, effect.size = effect.size,
-      error = error, observed = observed, detailed = detailed
+      error = error, observed = observed, detailed = detailed, ci = ci
       ) %>%
       .append_anova_class()
   }

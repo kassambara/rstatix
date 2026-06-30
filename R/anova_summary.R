@@ -17,6 +17,10 @@ NULL
 #'  eta-squared) requires correct specification of the observed variables.
 #'@param detailed If TRUE, returns extra information (sums of squares columns,
 #'  intercept row, etc.) in the ANOVA table.
+#'@param ci confidence level for a confidence interval on partial eta squared.
+#'  If a number between 0 and 1 (e.g. \code{0.95}) and \code{effect.size}
+#'  includes \code{"pes"}, adds \code{conf.low}/\code{conf.high} columns computed
+#'  from the noncentral F distribution. Default \code{NULL} (no interval).
 #'@param object an object of returned by either \code{\link[car]{Anova}()}, or
 #'  \code{\link[stats]{aov}()}.
 #'
@@ -97,7 +101,7 @@ NULL
 
 #'@name anova_summary
 #'@export
-anova_summary <- function(object, effect.size = "ges", detailed = FALSE, observed = NULL){
+anova_summary <- function(object, effect.size = "ges", detailed = FALSE, observed = NULL, ci = NULL){
   if(inherits(object, "Anova.mlm")){
     results <- repeated_anova_summary(object)
   }
@@ -114,7 +118,7 @@ anova_summary <- function(object, effect.size = "ges", detailed = FALSE, observe
   }
   .args <- attr(object, "args") # exist only in anova_test()
   results <- results %>%
-    add_anova_effect_size(effect.size, observed)
+    add_anova_effect_size(effect.size, observed, ci = ci)
 
   if(!detailed){
     results <- remove_details(results, method = "anova")
@@ -274,14 +278,14 @@ order_by_interaction_levels <- function(aov.table){
 
 # Add effect size
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-add_anova_effect_size <- function(res.anova.summary, effect.size = "ges",  observed = NULL){
+add_anova_effect_size <- function(res.anova.summary, effect.size = "ges",  observed = NULL, ci = NULL){
   ss.exists <- "SSn" %in% colnames(res.anova.summary$ANOVA)
   if(!ss.exists){
     return(res.anova.summary)
   }
   if("pes" %in% effect.size){
     res.anova.summary <- res.anova.summary %>%
-      add_partial_eta_squared()
+      add_partial_eta_squared(ci = ci)
   }
   # Compute ges whenever it is requested, and also when neither is explicitly
   # "pes" only (preserving the historical ges default for "ges"/unspecified
@@ -316,10 +320,59 @@ add_generalized_eta_squared <- function(res.anova.summary, observed = NULL){
   res.anova.summary
 }
 # Partial eta squared
-add_partial_eta_squared <- function(res.anova.summary){
-  res.anova.summary$ANOVA <- res.anova.summary$ANOVA %>%
+add_partial_eta_squared <- function(res.anova.summary, ci = NULL){
+  aov.table <- res.anova.summary$ANOVA %>%
     mutate(pes = .data$SSn/(.data$SSn + .data$SSd))
+  if(!is.null(ci)){
+    # Confidence interval for partial eta-squared via the noncentral F
+    # distribution (Steiger, 2004), computed in base R from each effect's F and
+    # (uncorrected) degrees of freedom. The point estimate F * DFn / (F * DFn +
+    # DFd) equals SSn / (SSn + SSd), so the CI brackets the reported `pes`.
+    bounds <- mapply(
+      partial_eta_squared_ci,
+      aov.table$F, aov.table$DFn, aov.table$DFd,
+      MoreArgs = list(conf.level = ci)
+    )
+    aov.table$conf.low  <- bounds[1, ]
+    aov.table$conf.high <- bounds[2, ]
+  }
+  res.anova.summary$ANOVA <- aov.table
   res.anova.summary
+}
+
+# Noncentral-F confidence interval for partial eta-squared, for a single effect.
+# Inverts the noncentral F to bound the noncentrality parameter (lambda), then
+# maps lambda to partial eta-squared via lambda / (lambda + DFd). This matches
+# the convention used by the effectsize package (F_to_eta2), so the intervals
+# agree with effectsize::eta_squared(partial = TRUE, ci = , alternative =
+# "two.sided"). Pure base R (stats); returns c(conf.low, conf.high).
+partial_eta_squared_ci <- function(F.value, df1, df2, conf.level = 0.95){
+  if(any(is.na(c(F.value, df1, df2))) || F.value <= 0 || df1 <= 0 || df2 <= 0)
+    return(c(NA_real_, NA_real_))
+  alpha <- 1 - conf.level
+  # smallest lambda for which P(F <= observed | ncp = lambda) == target.prob;
+  # lambda = 0 when even the central F already gives a smaller probability.
+  # suppressWarnings(): at pathological noncentrality (very large F) base R's
+  # noncentral-beta routine can warn about non-convergence; the returned bound
+  # is still valid and this keeps such warnings from leaking out of anova_test().
+  find_lambda <- function(target.prob){
+    suppressWarnings({
+      if(stats::pf(F.value, df1, df2, ncp = 0) < target.prob) return(0)
+      upper <- 2
+      while(stats::pf(F.value, df1, df2, ncp = upper) > target.prob){
+        upper <- upper * 2
+        if(upper > 1e8) return(upper)
+      }
+      stats::uniroot(
+        function(lambda) stats::pf(F.value, df1, df2, ncp = lambda) - target.prob,
+        interval = c(0, upper)
+      )$root
+    })
+  }
+  lambda.low  <- find_lambda(1 - alpha/2)
+  lambda.high <- find_lambda(alpha/2)
+  to_eta <- function(lambda) lambda / (lambda + df2)
+  c(to_eta(lambda.low), to_eta(lambda.high))
 }
 
 

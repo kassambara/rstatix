@@ -331,7 +331,7 @@ remove_details <- function(res, method){
   if(method == "anova"){
     # Remove details from ANOVA summary: such as intercept row, Sum Sq columns
     aov.table <- res$ANOVA
-    aov.table = aov.table[, names(aov.table) %in% c('Effect','DFn','DFd','F','p','p<.05', 'ges', 'pes')]
+    aov.table = aov.table[, names(aov.table) %in% c('Effect','DFn','DFd','F','p','p<.05', 'ges', 'pes', 'conf.low', 'conf.high')]
     intercept.row <- grepl("Intercept", aov.table$Effect)
     res$ANOVA<- aov.table[!intercept.row, ]
   }

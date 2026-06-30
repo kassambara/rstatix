@@ -20,7 +20,8 @@ anova_test(
   error = NULL,
   white.adjust = FALSE,
   observed = NULL,
-  detailed = FALSE
+  detailed = FALSE,
+  ci = NULL
 )
 
 get_anova_table(x, correction = c("auto", "GG", "HF", "none"))
@@ -83,6 +84,15 @@ eta-squared) requires correct specification of the observed variables.}
 
 \item{detailed}{If TRUE, returns extra information (sums of squares columns,
 intercept row, etc.) in the ANOVA table.}
+
+\item{ci}{confidence level for a confidence interval on the effect size. If a
+number between 0 and 1 (e.g. \code{0.95}), two columns \code{conf.low} and
+\code{conf.high} are added giving the confidence interval for \strong{partial
+eta squared} (\code{effect.size} must include \code{"pes"}). The interval is
+computed from the noncentral F distribution (Steiger, 2004) in base R. No
+interval is provided for generalized eta squared (\code{"ges"}), which has no
+standard closed-form interval. Default is \code{NULL} (no interval; output
+unchanged).}
 
 \item{x}{an object of class \code{anova_test}}
 

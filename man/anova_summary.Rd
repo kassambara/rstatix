@@ -4,7 +4,13 @@
 \alias{anova_summary}
 \title{Create Nice Summary Tables of ANOVA Results}
 \usage{
-anova_summary(object, effect.size = "ges", detailed = FALSE, observed = NULL)
+anova_summary(
+  object,
+  effect.size = "ges",
+  detailed = FALSE,
+  observed = NULL,
+  ci = NULL
+)
 }
 \arguments{
 \item{object}{an object of returned by either \code{\link[car]{Anova}()}, or
@@ -20,6 +26,11 @@ intercept row, etc.) in the ANOVA table.}
 \item{observed}{Variables that are observed (i.e, measured) as compared to
 experimentally manipulated. The default effect size reported (generalized
 eta-squared) requires correct specification of the observed variables.}
+
+\item{ci}{confidence level for a confidence interval on partial eta squared.
+If a number between 0 and 1 (e.g. \code{0.95}) and \code{effect.size}
+includes \code{"pes"}, adds \code{conf.low}/\code{conf.high} columns computed
+from the noncentral F distribution. Default \code{NULL} (no interval).}
 }
 \value{
 return an object of class \code{anova_test} a data frame containing
