@@ -356,21 +356,26 @@ add_x_position <- function(test, x = NULL, group = NULL, dodge = 0.8,
   test$xmax <- unname(x_coords[xmax_id])
   if(is.null.model) test$xmax <- test$xmin
   # Free x scales in facets (#203): for a faceted test (grouped by one or more
-  # variables) plotted with facet_*(scales = "free"/"free_x"), each facet shows
-  # only its own x levels at positions 1..m, but x_coords above are global. Remap
-  # xmin/xmax to per-facet consecutive positions so the brackets line up within
-  # each facet. Only the basic (non-dodged) case is affected; scales = "fixed"
-  # (the default) leaves the global positions unchanged.
-  if(is.basic && scales %in% c("free", "free_x")){
-    facet.vars <- .get_facet_vars(test)
-    if(length(facet.vars) > 0){
-      facet.id <- interaction(test[facet.vars], drop = TRUE)
-      for(f in unique(facet.id)){
-        rows <- facet.id == f
-        present <- sort(unique(c(test$xmin[rows], test$xmax[rows])))
-        test$xmin[rows] <- match(test$xmin[rows], present)
-        test$xmax[rows] <- match(test$xmax[rows], present)
-      }
+  # variables) plotted with facet_*(scales = "free"), each facet shows only its
+  # own x levels at positions 1..m, but x_coords above are global. Remap
+  # xmin/xmax to each facet's positions so the brackets line up within the panel.
+  # The panel's x levels are taken from the facet's actual DATA (in factor order),
+  # not from the comparison endpoints, so a level that is plotted but not part of
+  # any (retained) comparison still occupies its position. Only the basic
+  # (non-dodged) case is affected; scales = "fixed" (default) / "free_y" leave the
+  # global positions unchanged.
+  facet.vars <- if(is.basic && scales == "free") .get_facet_vars(test) else character(0)
+  facet.data <- attr(test, "args")$data
+  if(length(facet.vars) > 0 && !is.null(facet.data) && !is.null(x) &&
+     all(facet.vars %in% colnames(facet.data)) && x %in% colnames(facet.data)){
+    x.levels <- levels(as.factor(facet.data[[x]]))   # global factor order
+    test.fid <- do.call(paste, c(as.list(test[facet.vars]), sep = "\r"))
+    data.fid <- do.call(paste, c(as.list(facet.data[facet.vars]), sep = "\r"))
+    for(f in unique(test.fid)){
+      present <- x.levels[x.levels %in% as.character(facet.data[[x]][data.fid == f])]
+      rows <- test.fid == f
+      test$xmin[rows] <- match(as.character(test$group1[rows]), present)
+      test$xmax[rows] <- match(as.character(test$group2[rows]), present)
     }
   }
   test %>% set_test_attributes(.attributes)
