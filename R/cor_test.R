@@ -45,6 +45,12 @@ NULL
 #'  freedom (Pearson method only). \item \code{p}: p-value. \item
 #'  \code{conf.low,conf.high}: Lower and upper bounds on a confidence interval.
 #'  \item \code{method}: the method used to compute the statistic.}
+#'@note \code{cor_test()} does not support weighted correlations: it wraps
+#'  \code{\link[stats]{cor.test}()}, which has no \code{weights} argument.
+#'  Passing \code{weights =} therefore raises an error rather than silently
+#'  returning the unweighted result. For a weighted Pearson correlation use base
+#'  R, e.g. \code{stats::cov.wt(data[, c("x", "y")], wt = data$w, cor =
+#'  TRUE)$cor}, or \code{psych::corr.test(..., weight = )}.
 #'@seealso \code{\link{cor_mat}()}, \code{\link{as_cor_mat}()}
 #' @examples
 #'
@@ -93,6 +99,22 @@ cor_test <- function(
 )
 {
   . <- NULL
+  # #47: stats::cor.test() -- and therefore cor_test() -- has no `weights`
+  # argument, so a weighted correlation is not supported. A `weights =` passed
+  # here used to be silently mis-handled (treated as an extra variable to
+  # correlate, or dropped), returning the *unweighted* result without warning.
+  # Fail loudly instead. Only a NAMED `weights =` triggers this; a bare column
+  # named `weights` selected for correlation is unaffected.
+  if("weights" %in% names(rlang::enquos(..., .ignore_empty = "all"))){
+    stop(
+      "cor_test() does not support weighted correlation: stats::cor.test() ",
+      "has no 'weights' argument, so the weights would be ignored.\n",
+      "For a weighted Pearson correlation use base R, e.g.\n",
+      "  stats::cov.wt(data[, c('x','y')], wt = data$w, cor = TRUE)$cor\n",
+      "or psych::corr.test(..., weight = ).",
+      call. = FALSE
+    )
+  }
   # Accept unquoted variables
   .args <- rlang::enquos(vars = vars, vars2 = vars2) %>%
     get_quo_vars_list(data, .)
