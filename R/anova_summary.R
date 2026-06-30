@@ -352,17 +352,22 @@ partial_eta_squared_ci <- function(F.value, df1, df2, conf.level = 0.95){
   alpha <- 1 - conf.level
   # smallest lambda for which P(F <= observed | ncp = lambda) == target.prob;
   # lambda = 0 when even the central F already gives a smaller probability.
+  # suppressWarnings(): at pathological noncentrality (very large F) base R's
+  # noncentral-beta routine can warn about non-convergence; the returned bound
+  # is still valid and this keeps such warnings from leaking out of anova_test().
   find_lambda <- function(target.prob){
-    if(stats::pf(F.value, df1, df2, ncp = 0) < target.prob) return(0)
-    upper <- 2
-    while(stats::pf(F.value, df1, df2, ncp = upper) > target.prob){
-      upper <- upper * 2
-      if(upper > 1e8) return(upper)
-    }
-    stats::uniroot(
-      function(lambda) stats::pf(F.value, df1, df2, ncp = lambda) - target.prob,
-      interval = c(0, upper)
-    )$root
+    suppressWarnings({
+      if(stats::pf(F.value, df1, df2, ncp = 0) < target.prob) return(0)
+      upper <- 2
+      while(stats::pf(F.value, df1, df2, ncp = upper) > target.prob){
+        upper <- upper * 2
+        if(upper > 1e8) return(upper)
+      }
+      stats::uniroot(
+        function(lambda) stats::pf(F.value, df1, df2, ncp = lambda) - target.prob,
+        interval = c(0, upper)
+      )$root
+    })
   }
   lambda.low  <- find_lambda(1 - alpha/2)
   lambda.high <- find_lambda(alpha/2)
