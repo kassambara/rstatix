@@ -55,6 +55,14 @@ NULL
 #'  \strong{per facet}, so that brackets align correctly when a faceted plot
 #'  (\code{facet_*(scales = "free")}) shows a different set of x-axis levels in
 #'  each panel (\code{"free_y"} keeps the global x positions).
+#'@section Added columns: \code{add_y_position()} adds \code{y.position};
+#'  \code{add_x_position()} adds \code{x}, \code{xmin}, \code{xmax}; and
+#'  \code{add_xy_position()} adds all of these. A column named \code{groups} (the
+#'  pair of compared groups, used internally to position dodged grouped
+#'  comparisons) is also added. \strong{\code{groups} is a reserved internal
+#'  column}: do not rely on it and avoid using \code{groups} as one of your own
+#'  column names in the test object, since it is overwritten here. (It may be
+#'  renamed to a dotted, less collision-prone name in a future major version.)
 #' @examples
 #' # Data preparation
 #' #::::::::::::::::::::::::::::::::::::
