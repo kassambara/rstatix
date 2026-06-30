@@ -27,5 +27,7 @@ Highlights:
 
 ## Reverse dependencies
 
-We checked the reverse dependencies; no new problems were found.
-(See revdep/ results.)
+rstatix has 33 strong reverse dependencies (43 including Suggests). Reverse
+dependency checks (revdepcheck) are in progress; the summary ("checked N
+revdeps; no new problems" or any breakages + maintainer notifications) will be
+recorded here before submission.
