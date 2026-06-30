@@ -89,3 +89,7 @@ ToothGrowth \%>\%
     get_summary_stats(len, show = c("mean", "sd", "skewness", "kurtosis"))
 
 }
+\seealso{
+\code{\link{rstatix-programming}} for selecting columns by names held
+ in strings (\code{!!}, \code{\{\{ \}\}}, \code{vars=}, \code{all_of()}).
+}

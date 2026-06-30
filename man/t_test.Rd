@@ -207,3 +207,7 @@ df \%>\% t_test(len ~ dose, ref.group = "0.5")
 df \%>\% t_test(len ~ dose, ref.group = "all")
 
 }
+\seealso{
+\code{\link{rstatix-programming}} for building the formula from
+ variable names held in strings (e.g. \code{reformulate()}).
+}

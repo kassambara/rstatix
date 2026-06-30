@@ -130,3 +130,6 @@ dunn
 github
 jamovi
 kassambara
+namespaced
+quosure
+tidyselect
