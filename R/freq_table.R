@@ -12,15 +12,25 @@ NULL
 #' @examples
 #' data("ToothGrowth")
 #' ToothGrowth %>% freq_table(supp, dose)
+#'
+#' # Grouped data: frequencies are computed within each group
+#' ToothGrowth %>% group_by(supp) %>% freq_table(dose)
 #'@export
 freq_table <- function(data, ..., vars = NULL, na.rm = TRUE){
   if(is.vector(data) | is.factor(data)){
     data <- data.frame(group = data)
     vars <- "group"
   }
+  # Grouped data (#191): compute the frequency table within each group by
+  # treating the grouping variables as leading frequency variables. Returns a
+  # single tidy data frame (the grouping columns are kept and the proportions
+  # sum to 100% within each group), consistent with the rest of rstatix. For
+  # ungrouped data the behaviour is unchanged.
+  grouping.vars <- if(is_grouped_df(data)) dplyr::group_vars(data) else character(0)
   data <- data %>%
-    df_select(..., vars = vars)
-  vars <- colnames(data)
+    df_select(..., vars = vars) %>%
+    dplyr::ungroup()
+  vars <- unique(c(grouping.vars, colnames(data)))
   if(length(vars) == 0){
     stop("Specify at least one variable")
   }
