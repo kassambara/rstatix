@@ -48,9 +48,16 @@ want to adjust the p value (not recommended), use p.adjust.method = "none".}
 
 \item{conf.level}{confidence level of the interval.}
 
-\item{model}{a fitted-model objects such as the result of a call to
-\code{lm()}, from which the overall degrees of
-freedom are to be calculated.}
+\item{model}{a fitted-model object such as the result of a call to
+\code{lm()}, \code{stats::aov()} (including a within-subject \code{Error()}
+term) or \code{nlme::lme()}, on which the estimated marginal means are
+computed. Supplying \code{model} lets you (i) average over factors that are
+in the model but not in \code{formula} (e.g. for a factorial design, fit
+\code{lm(y ~ a * b)} and compare \code{a} with \code{formula = y ~ a},
+averaging over \code{b}), and (ii) run pairwise comparisons for
+repeated-measures / mixed designs (pass a within-subject model). When
+\code{model = NULL} (default), a simple \code{lm()} is fitted from
+\code{formula} (plus the grouping and covariate variables). See examples.}
 
 \item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
 shown.}
@@ -104,4 +111,24 @@ attr(res, "emmeans")
 df \%>\%
  group_by(supp) \%>\%
  emmeans_test(len ~ dose, p.adjust.method = "bonferroni", detailed = TRUE)
+
+# Marginal means averaged over another factor (e.g. a 2x3 design).
+# Fit the full model and pass it with `model =` so that the estimated
+# marginal means for `dose` are averaged over `supp` (instead of fitting
+# `len ~ dose` alone, which would ignore `supp`):
+model <- lm(len ~ supp * dose, data = df)
+df \%>\% emmeans_test(len ~ dose, model = model)
+
+# Repeated-measures / mixed designs: pass a fitted within-subject model
+# (e.g. stats::aov() with an Error() term, or nlme::lme()) with `model =`:
+\donttest{
+set.seed(123)
+d <- data.frame(
+  id    = factor(rep(1:10, 3)),
+  time  = factor(rep(c("t1", "t2", "t3"), each = 10)),
+  score = rnorm(30)
+)
+rm_model <- stats::aov(score ~ time + Error(id / time), data = d)
+d \%>\% emmeans_test(score ~ time, model = rm_model)
+}
 }
