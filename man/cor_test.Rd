@@ -130,5 +130,6 @@ mtcars \%>\% cor_test(
 
 }
 \seealso{
-\code{\link{cor_mat}()}, \code{\link{as_cor_mat}()}
+\code{\link{cor_mat}()}, \code{\link{as_cor_mat}()},
+ \code{\link{rstatix-programming}} (using variable names held in strings)
 }

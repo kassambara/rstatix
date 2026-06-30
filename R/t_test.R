@@ -100,6 +100,8 @@ NULL
 #'  reference group. To orient results so that a positive sign means "higher in
 #'  the non-reference group", flip the sign yourself, e.g.
 #'  \code{mutate(statistic = -statistic, estimate = -estimate)}.
+#'@seealso \code{\link{rstatix-programming}} for building the formula from
+#'  variable names held in strings (e.g. \code{reformulate()}).
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::

@@ -1,0 +1,81 @@
+#' Programming with rstatix (tidy evaluation)
+#'
+#' @description
+#' How to use \code{rstatix} functions programmatically — i.e. when the variable
+#' names are held in character strings or passed into your own wrapper functions,
+#' as is common in package development, loops, and Shiny apps.
+#'
+#' \code{rstatix} has two kinds of interfaces, and each supports a standard way of
+#' "programming over variables":
+#'
+#' \itemize{
+#'   \item \strong{Selection interface} (functions that select columns through
+#'   \code{...} or \code{vars=}, e.g. \code{\link{cor_test}()},
+#'   \code{\link{get_summary_stats}()}, \code{\link{cor_mat}()},
+#'   \code{\link{freq_table}()}). These support full tidy-evaluation: bare names,
+#'   the injection operators \code{!!}/\code{!!!}, the embracing operator
+#'   \code{\{\{ \}\}} inside your own functions, a character vector via
+#'   \code{vars=}, and tidyselect helpers such as \code{all_of()}/\code{any_of()}.
+#'
+#'   \item \strong{Formula interface} (tests that take a \code{formula}, e.g.
+#'   \code{\link{t_test}()}, \code{\link{wilcox_test}()}, \code{\link{kruskal_test}()},
+#'   \code{\link{anova_test}()}, \code{\link{friedman_test}()}). A formula is an
+#'   ordinary R object, so build it from strings with \code{\link[stats]{reformulate}()}
+#'   or \code{stats::as.formula(paste(...))} and pass it in.
+#' }
+#'
+#' @details
+#' Injecting a string directly into a raw formula (e.g. \code{t_test(df, y ~ \{\{var\}\})})
+#' is \strong{not} supported: a formula is captured as a syntax tree, not a quosure,
+#' so the embracing/injection operators do not apply there. Build the formula
+#' instead with \code{reformulate(rhs, lhs)} — see the examples.
+#'
+#' In examples below, helpers that \code{rstatix} does not re-export are namespaced
+#' (\code{rlang::sym}, \code{dplyr::all_of}, \code{dplyr::across}); attach
+#' \code{rlang}/\code{dplyr} and you can drop the prefixes.
+#'
+#' @examples
+#' # Selection interface -----------------------------------------------------
+#'
+#' # A variable name held in a string, injected with !!
+#' x <- "mpg"; y <- "wt"
+#' mtcars %>% cor_test(!!rlang::sym(x), !!rlang::sym(y))
+#'
+#' # Several names at once, spliced with !!!
+#' vars <- c("mpg", "disp", "hp")
+#' mtcars %>% cor_test(!!!rlang::syms(vars))
+#'
+#' # A character vector via `vars =` (no rlang needed)
+#' mtcars %>% cor_test(vars = c("mpg", "disp"))
+#'
+#' # tidyselect helpers
+#' iris %>% get_summary_stats(dplyr::all_of(c("Sepal.Length", "Sepal.Width")))
+#'
+#' # Your own wrapper function: embrace the argument with {{ }}
+#' my_summary <- function(data, var) {
+#'   data %>% get_summary_stats({{ var }}, type = "mean_sd")
+#' }
+#' my_summary(iris, Sepal.Length)
+#'
+#' # Formula interface -------------------------------------------------------
+#'
+#' # Build the formula from strings with reformulate(rhs, lhs)
+#' outcome <- "len"; group <- "supp"
+#' ToothGrowth %>% t_test(reformulate(group, outcome))
+#'
+#' # The same inside a wrapper function
+#' my_test <- function(data, outcome, group) {
+#'   data %>% t_test(reformulate(group, outcome))
+#' }
+#' my_test(ToothGrowth, "len", "supp")
+#'
+#' # Programmatic grouping + a built formula (a common end-to-end pattern)
+#' gv <- "supp"
+#' ToothGrowth %>%
+#'   group_by(dplyr::across(dplyr::all_of(gv))) %>%
+#'   t_test(reformulate("dose", "len"))
+#'
+#' @seealso \code{\link{cor_test}()}, \code{\link{get_summary_stats}()},
+#'   \code{\link{t_test}()}.
+#' @name rstatix-programming
+NULL

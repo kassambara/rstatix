@@ -51,7 +51,8 @@ NULL
 #'  returning the unweighted result. For a weighted Pearson correlation use base
 #'  R, e.g. \code{stats::cov.wt(data[, c("x", "y")], wt = data$w, cor =
 #'  TRUE)$cor}.
-#'@seealso \code{\link{cor_mat}()}, \code{\link{as_cor_mat}()}
+#'@seealso \code{\link{cor_mat}()}, \code{\link{as_cor_mat}()},
+#'  \code{\link{rstatix-programming}} (using variable names held in strings)
 #' @examples
 #'
 #' # Correlation between the specified variable vs

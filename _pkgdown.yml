@@ -102,6 +102,7 @@ reference:
       - df_get_var_names
   - title: Others
     contents:
+      - rstatix-programming
       - reexports
       - doo
       - sample_n_by

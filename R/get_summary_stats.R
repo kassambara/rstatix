@@ -36,6 +36,8 @@ NULL
 #'  skewness \eqn{= g_1\sqrt{n(n-1)}/(n-2)} and kurtosis \eqn{= [(n+1)g_2 + 6]
 #'  (n-1)/[(n-2)(n-3)]}, where \eqn{g_1 = m_3/m_2^{1.5}} and \eqn{g_2 =
 #'  m_4/m_2^2 - 3}. Skewness is \code{NA} for n < 3 and kurtosis for n < 4.
+#'@seealso \code{\link{rstatix-programming}} for selecting columns by names held
+#'  in strings (\code{!!}, \code{\{\{ \}\}}, \code{vars=}, \code{all_of()}).
 #' @examples
 #' # Full summary statistics
 #' data("ToothGrowth")

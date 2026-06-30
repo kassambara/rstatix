@@ -108,6 +108,7 @@ Collate:
     'prop_trend_test.R'
     'reexports.R'
     'remove_ns.R'
+    'rstatix-programming.R'
     'sample_n_by.R'
     'shapiro_test.R'
     'sign_test.R'
