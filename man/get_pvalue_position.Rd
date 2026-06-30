@@ -32,7 +32,13 @@ add_y_position(
   scales = c("fixed", "free", "free_y")
 )
 
-add_x_position(test, x = NULL, group = NULL, dodge = 0.8)
+add_x_position(
+  test,
+  x = NULL,
+  group = NULL,
+  dodge = 0.8,
+  scales = c("fixed", "free", "free_y")
+)
 
 add_xy_position(
   test,
@@ -94,12 +100,13 @@ example: \code{y.trans = function(x){log2(x+1)}}}
 when dealing with stacked bar plots.}
 
 \item{scales}{Should scales be fixed (\code{"fixed"}, the default), free
-(\code{"free"}), or free in one dimension (\code{"free_y"})?. This option is
-considered only when determining the y position. If the specified value is
-\code{"free"} or \code{"free_y"}, then the step increase of y positions will
-be calculated by plot panels. Note that, using \code{"free"} or
-\code{"free_y"} gives the same result. A global step increase is computed
-when \code{scales = "fixed"}.}
+(\code{"free"}), or free in one dimension (\code{"free_y"})?. For the y
+position, \code{"free"} or \code{"free_y"} compute the step increase per plot
+panel (otherwise a global step increase is used). For the x position, when
+\code{scales = "free"} the x positions (\code{xmin}/\code{xmax}) are computed
+\strong{per facet}, so that brackets align correctly when a faceted plot
+(\code{facet_*(scales = "free")}) shows a different set of x-axis levels in
+each panel (\code{"free_y"} keeps the global x positions).}
 
 \item{test}{an object of class \code{rstatix_test} as returned by
 \code{\link{t_test}()}, \code{\link{wilcox_test}()},

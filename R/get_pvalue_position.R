@@ -48,12 +48,13 @@ NULL
 #'@param stack logical. If TRUE, computes y position for a stacked plot. Useful
 #'  when dealing with stacked bar plots.
 #'@param scales Should scales be fixed (\code{"fixed"}, the default), free
-#'  (\code{"free"}), or free in one dimension (\code{"free_y"})?. This option is
-#'  considered only when determining the y position. If the specified value is
-#'  \code{"free"} or \code{"free_y"}, then the step increase of y positions will
-#'  be calculated by plot panels. Note that, using \code{"free"} or
-#'  \code{"free_y"} gives the same result. A global step increase is computed
-#'  when \code{scales = "fixed"}.
+#'  (\code{"free"}), or free in one dimension (\code{"free_y"})?. For the y
+#'  position, \code{"free"} or \code{"free_y"} compute the step increase per plot
+#'  panel (otherwise a global step increase is used). For the x position, when
+#'  \code{scales = "free"} the x positions (\code{xmin}/\code{xmax}) are computed
+#'  \strong{per facet}, so that brackets align correctly when a faceted plot
+#'  (\code{facet_*(scales = "free")}) shows a different set of x-axis levels in
+#'  each panel (\code{"free_y"} keeps the global x positions).
 #' @examples
 #' # Data preparation
 #' #::::::::::::::::::::::::::::::::::::
@@ -284,8 +285,9 @@ combine_this <- function(...){
 
 #' @describeIn get_pvalue_position compute and add p-value x positions.
 #' @export
-add_x_position <- function(test, x = NULL, group = NULL, dodge = 0.8){
-
+add_x_position <- function(test, x = NULL, group = NULL, dodge = 0.8,
+                           scales = c("fixed", "free", "free_y")){
+  scales <- match.arg(scales)
   # Checking
   asserttat_group_columns_exists(test)
   .attributes <- get_test_attributes(test)
@@ -353,7 +355,41 @@ add_x_position <- function(test, x = NULL, group = NULL, dodge = 0.8){
   test$xmin <- unname(x_coords[xmin_id])
   test$xmax <- unname(x_coords[xmax_id])
   if(is.null.model) test$xmax <- test$xmin
+  # Free x scales in facets (#203): for a faceted test (grouped by one or more
+  # variables) plotted with facet_*(scales = "free"), each facet shows only its
+  # own x levels at positions 1..m, but x_coords above are global. Remap
+  # xmin/xmax to each facet's positions so the brackets line up within the panel.
+  # The panel's x levels are taken from the facet's actual DATA (in factor order),
+  # not from the comparison endpoints, so a level that is plotted but not part of
+  # any (retained) comparison still occupies its position. Only the basic
+  # (non-dodged) case is affected; scales = "fixed" (default) / "free_y" leave the
+  # global positions unchanged.
+  facet.vars <- if(is.basic && scales == "free") .get_facet_vars(test) else character(0)
+  facet.data <- attr(test, "args")$data
+  if(length(facet.vars) > 0 && !is.null(facet.data) && !is.null(x) &&
+     all(facet.vars %in% colnames(facet.data)) && x %in% colnames(facet.data)){
+    x.levels <- levels(as.factor(facet.data[[x]]))   # global factor order
+    test.fid <- do.call(paste, c(as.list(test[facet.vars]), sep = "\r"))
+    data.fid <- do.call(paste, c(as.list(facet.data[facet.vars]), sep = "\r"))
+    for(f in unique(test.fid)){
+      present <- x.levels[x.levels %in% as.character(facet.data[[x]][data.fid == f])]
+      rows <- test.fid == f
+      test$xmin[rows] <- match(as.character(test$group1[rows]), present)
+      test$xmax[rows] <- match(as.character(test$group2[rows]), present)
+    }
+  }
   test %>% set_test_attributes(.attributes)
+}
+
+# Leading grouping/facet variables of a (grouped) test result: the columns that
+# appear before the first comparison/outcome column (.y., term or group1).
+.get_facet_vars <- function(test){
+  stop.cols <- c(".y.", "term", "group1")
+  idx <- match(stop.cols, colnames(test))
+  idx <- idx[!is.na(idx)]
+  if(length(idx) == 0) return(character(0))
+  first <- min(idx)
+  if(first > 1) colnames(test)[seq_len(first - 1)] else character(0)
 }
 
 
@@ -414,7 +450,7 @@ add_xy_position <- function(test, x = NULL,  group = NULL, dodge = 0.8, stack = 
       fun = fun, step.increase = step.increase,
       stack = stack, scales = scales, ...
       ) %>%
-    add_x_position(x = x, group = group, dodge = dodge)
+    add_x_position(x = x, group = group, dodge = dodge, scales = scales)
 }
 
 
