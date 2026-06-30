@@ -48,11 +48,17 @@ NULL
 #'@param within (optional) within-subjects factor variables
 #'@param covariate (optional) covariate names (for ANCOVA)
 #'@param type the type of sums of squares for ANOVA. Allowed values are either
-#'  1, 2 or 3. \code{type = 2} is the default because this will yield identical
-#'  ANOVA results as type = 1 when data are balanced but type = 2 will
-#'  additionally yield various assumption tests where appropriate. When the data
-#'  are unbalanced the \code{type = 3} is used by popular commercial softwares
-#'  including SPSS.
+#'  1, 2 or 3. \code{type = 2} is the recommended default because it yields
+#'  identical ANOVA results to type = 1 when data are balanced, while also
+#'  producing various assumption tests where appropriate. When the data are
+#'  unbalanced, \code{type = 3} is the choice used by popular commercial
+#'  softwares including SPSS.
+#'
+#'  \strong{Default when \code{type} is not specified:} the chosen default
+#'  depends on the interface (see Note), so for unbalanced designs the two
+#'  interfaces can differ. To get reproducible, interface-independent results,
+#'  \strong{set \code{type} explicitly} (e.g. \code{type = 3} for an unbalanced
+#'  factorial design with interactions).
 #'@param effect.size the effect size to compute and to show in the ANOVA
 #'  results. Allowed values can be either "ges" (generalized eta squared) or
 #'  "pes" (partial eta squared) or both. Default is "ges".
@@ -123,6 +129,29 @@ NULL
 #'  to obtain the same result with \code{car::Anova()} directly, set
 #'  \code{options(contrasts = c('contr.sum', 'contr.poly'))} \emph{before}
 #'  fitting the model and use \code{type = 3}.
+#'@note \strong{Default sums-of-squares type differs between the two interfaces
+#'  for unbalanced designs.} When \code{type} is not supplied:
+#'  \itemize{
+#'  \item the \strong{formula} interface (\code{anova_test(data, y ~ a*b)}) uses
+#'  \strong{type II} for between-subjects designs, regardless of balance;
+#'  \item the \strong{\code{dv=}/\code{between=}/\code{within=}} interface uses
+#'  type II for \emph{balanced} between-subjects designs but switches to
+#'  \strong{type III} for \emph{unbalanced} between-subjects designs with more
+#'  than one factor (both interfaces use type III for repeated-measures designs).
+#'  }
+#'  For a \strong{balanced} design the SS types coincide, so the two interfaces
+#'  agree. For an \strong{unbalanced} factorial design they can give different
+#'  main-effect F/p values unless you \strong{pass \code{type} explicitly} — which
+#'  is recommended for reproducibility. Example:
+#'  \preformatted{
+#'  d <- mtcars \%>\% dplyr::mutate(cyl = factor(cyl), am = factor(am))
+#'  # differ (unbalanced): formula -> type II, dv/between -> type III
+#'  d \%>\% anova_test(mpg ~ cyl * am)
+#'  d \%>\% anova_test(dv = mpg, between = c(cyl, am))
+#'  # agree once type is explicit:
+#'  d \%>\% anova_test(mpg ~ cyl * am, type = 3)
+#'  d \%>\% anova_test(dv = mpg, between = c(cyl, am), type = 3)
+#'  }
 #'@author Alboukadel Kassambara, \email{alboukadel.kassambara@@gmail.com}
 #' @examples
 #' # Load data
