@@ -26,4 +26,7 @@ compute frequency table.
 \examples{
 data("ToothGrowth")
 ToothGrowth \%>\% freq_table(supp, dose)
+
+# Grouped data: frequencies are computed within each group
+ToothGrowth \%>\% group_by(supp) \%>\% freq_table(dose)
 }
