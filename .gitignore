@@ -4,7 +4,10 @@ inst/doc
 .RData
 .Ruserdata
 .DS_Store
-docs/.DS_Store
+
+# pkgdown site — generated locally via build_site(); the live site is
+# deployed separately (rpkgs.datanovia.com), so the build artifact is not tracked.
+docs/
 
 # Local Claude Code config + maintainer skill bundle (synced from r-pkg-maintainer-kit)
 .claude/
