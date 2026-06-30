@@ -122,11 +122,13 @@ return a data frame with some the following columns: \itemize{ \item
  of p-values and adjusted p-values, respectively. \item \code{estimate}:
  estimate of the effect size. It corresponds to the estimated mean or
  difference in means depending on whether it was a one-sample test or a
- two-sample test. \item \code{estimate1, estimate2}: show the mean values of
- the two groups, respectively, for independent samples t-tests. \item
- \code{alternative}: a character string describing the alternative
- hypothesis. \item \code{conf.low,conf.high}: Lower and upper bound on a
- confidence interval. }
+ two-sample test. For a two-sample test the difference is taken as
+ \code{estimate1 - estimate2}, i.e. \code{mean(group1) - mean(group2)}
+ (following \code{\link[stats]{t.test}}). \item \code{estimate1, estimate2}:
+ show the mean values of the two groups, respectively, for independent
+ samples t-tests. \item \code{alternative}: a character string describing the
+ alternative hypothesis. \item \code{conf.low,conf.high}: Lower and upper
+ bound on a confidence interval. }
 
  The \strong{returned object has an attribute called args}, which is a list
  holding the test arguments.
@@ -151,6 +153,17 @@ adjusted for each group level independently.
 base function \code{\link[stats]{pairwise.t.test}}.
 
 }}
+\note{
+On the sign of \code{statistic} and \code{estimate} when a
+ \code{ref.group} is specified: the reference group is taken as \code{group1}
+ and the other group as \code{group2}, and the difference is computed as
+ \code{estimate = mean(group1) - mean(group2) = mean(ref.group) -
+ mean(other)} (the \code{\link[stats]{t.test}} convention). A positive
+ \code{statistic}/\code{estimate} therefore means the value is higher in the
+ reference group. To orient results so that a positive sign means "higher in
+ the non-reference group", flip the sign yourself, e.g.
+ \code{mutate(statistic = -statistic, estimate = -estimate)}.
+}
 \examples{
 # Load data
 #:::::::::::::::::::::::::::::::::::::::

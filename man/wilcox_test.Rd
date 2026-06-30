@@ -157,6 +157,15 @@ Provides a pipe-friendly framework to performs one and two sample
 \item \code{pairwise_wilcox_test()}: performs pairwise two sample Wilcoxon test.
 
 }}
+\note{
+When a \code{ref.group} is specified, the reference group is taken as
+ \code{group1} and the other group as \code{group2}, and the comparison is
+ computed as \code{group1} versus \code{group2} (i.e. \code{ref.group} versus
+ the other group), following the \code{\link[stats]{wilcox.test}} convention.
+ A positive \code{statistic}/\code{estimate} therefore reflects a shift
+ relative to the reference group; flip the sign yourself if you want a
+ positive sign to mean "higher in the non-reference group".
+}
 \examples{
 # Load data
 #:::::::::::::::::::::::::::::::::::::::
