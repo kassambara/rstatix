@@ -17,6 +17,10 @@ NULL
 #'  eta-squared) requires correct specification of the observed variables.
 #'@param detailed If TRUE, returns extra information (sums of squares columns,
 #'  intercept row, etc.) in the ANOVA table.
+#'@param ci confidence level for a confidence interval on partial eta squared.
+#'  If a number between 0 and 1 (e.g. \code{0.95}) and \code{effect.size}
+#'  includes \code{"pes"}, adds \code{conf.low}/\code{conf.high} columns computed
+#'  from the noncentral F distribution. Default \code{NULL} (no interval).
 #'@param object an object of returned by either \code{\link[car]{Anova}()}, or
 #'  \code{\link[stats]{aov}()}.
 #'
