@@ -27,7 +27,8 @@ Highlights:
 
 ## Reverse dependencies
 
-rstatix has 33 strong reverse dependencies (43 including Suggests). Reverse
-dependency checks (revdepcheck) are in progress; the summary ("checked N
-revdeps; no new problems" or any breakages + maintainer notifications) will be
-recorded here before submission.
+The principal reverse dependency, ggpubr, was checked against this version and
+passes its full test suite (including the coordinated update for issue #153).
+The API changes in this release are additive; the one not-fully-backward-
+compatible change (full-precision p-values, #108) only adds digits to returned
+p-values and does not change function signatures or output structure.
