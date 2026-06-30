@@ -329,17 +329,23 @@ get_levels <- function(data, group){
       # be an existing level"). It is most common with grouped data, where some
       # group(s) may not contain the reference level. Only fires when ref.group
       # is genuinely missing (which already errored), so valid inputs are
-      # unaffected.
+      # unaffected. The condition carries the S3 class
+      # "rstatix_missing_ref_group" so callers (e.g. ggpubr's geom_pwc, which
+      # skips ref-less grouped subsets) can detect it reliably by class instead
+      # of by matching the (translatable) message text.
       if(!ref.group %in% levels(group.values)){
-        stop(
-          "The reference group (ref.group = '", ref.group, "') is not present ",
-          "in the data. Available group levels: ",
-          paste(levels(group.values), collapse = ", "), ".\n",
-          "If you are using group_by(), some groups may not contain the ",
-          "reference group; keep only those that do before testing, e.g.\n",
-          "  data %>% group_by(...) %>% dplyr::filter(any(", group.col,
-          " == '", ref.group, "'))",
-          call. = FALSE
+        rlang::abort(
+          paste0(
+            "The reference group (ref.group = '", ref.group, "') is not present ",
+            "in the data. Available group levels: ",
+            paste(levels(group.values), collapse = ", "), ".\n",
+            "If you are using group_by(), some groups may not contain the ",
+            "reference group; keep only those that do before testing, e.g.\n",
+            "  data %>% group_by(...) %>% dplyr::filter(any(", group.col,
+            " == '", ref.group, "'))"
+          ),
+          class = "rstatix_missing_ref_group",
+          call = NULL
         )
       }
       group.values <- stats::relevel(group.values, ref.group)

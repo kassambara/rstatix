@@ -53,3 +53,25 @@ test_that("missing ref.group is also clear for wilcox_test (#153)", {
   d <- data.frame(g = rep(c("x", "y"), each = 4), y = c(1, 2, 3, 4, 5, 6, 7, 8))
   expect_error(d %>% wilcox_test(y ~ g, ref.group = "ref"), "reference group")
 })
+
+test_that("missing ref.group raises a classed condition for reliable detection (#153)", {
+  # The condition carries class 'rstatix_missing_ref_group' so downstream
+  # callers (e.g. ggpubr::geom_pwc) can detect it by class, not by matching the
+  # translatable message text.
+  d <- data.frame(g = rep(c("x", "y"), each = 4), y = c(1, 2, 3, 4, 5, 6, 7, 8))
+  expect_error(d %>% t_test(y ~ g, ref.group = "ref"),
+               class = "rstatix_missing_ref_group")
+  # the class survives the grouped (doo/purrr) path too
+  d2 <- data.frame(
+    blk = c(rep("A", 6), rep("B", 4)),
+    g   = c("ref", "ref", "x", "x", "y", "y", "x", "x", "y", "y"),
+    y   = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+  )
+  err <- tryCatch(
+    d2 %>% dplyr::group_by(blk) %>% t_test(y ~ g, ref.group = "ref"),
+    error = function(e) e
+  )
+  # in the grouped path the condition is wrapped by dplyr/purrr, so the class
+  # lives in the parent chain; rlang::cnd_inherits() walks it.
+  expect_true(rlang::cnd_inherits(err, "rstatix_missing_ref_group"))
+})
