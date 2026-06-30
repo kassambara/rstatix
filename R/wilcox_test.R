@@ -104,9 +104,12 @@ NULL
 #'  \code{group1} and the other group as \code{group2}, and the comparison is
 #'  computed as \code{group1} versus \code{group2} (i.e. \code{ref.group} versus
 #'  the other group), following the \code{\link[stats]{wilcox.test}} convention.
-#'  A positive \code{statistic}/\code{estimate} therefore reflects a shift
-#'  relative to the reference group; flip the sign yourself if you want a
-#'  positive sign to mean "higher in the non-reference group".
+#'  With \code{detailed = TRUE}, the \code{estimate} is the Hodges-Lehmann
+#'  location shift of \code{group1} relative to \code{group2}, so a positive
+#'  \code{estimate} means the reference group is shifted higher; flip its sign
+#'  (\code{mutate(estimate = -estimate)}) if you want a positive sign to mean
+#'  "higher in the non-reference group". (The \code{statistic} is the
+#'  rank-sum/signed-rank \code{W}, which is not a signed difference.)
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::
