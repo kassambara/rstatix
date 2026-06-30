@@ -323,8 +323,27 @@ get_levels <- function(data, group){
   # comparisons ("not enough observations"); matches stats::t.test (#133)
   group.values <- droplevels(group.values)
   if(!is.null(ref.group)){
-    if(ref.group != "")
+    if(ref.group != ""){
+      # Clear, actionable error when the reference group is absent (#153). This
+      # previously surfaced as a cryptic stats::relevel() error ("'<ref>' must
+      # be an existing level"). It is most common with grouped data, where some
+      # group(s) may not contain the reference level. Only fires when ref.group
+      # is genuinely missing (which already errored), so valid inputs are
+      # unaffected.
+      if(!ref.group %in% levels(group.values)){
+        stop(
+          "The reference group (ref.group = '", ref.group, "') is not present ",
+          "in the data. Available group levels: ",
+          paste(levels(group.values), collapse = ", "), ".\n",
+          "If you are using group_by(), some groups may not contain the ",
+          "reference group; keep only those that do before testing, e.g.\n",
+          "  data %>% group_by(...) %>% dplyr::filter(any(", group.col,
+          " == '", ref.group, "'))",
+          call. = FALSE
+        )
+      }
       group.values <- stats::relevel(group.values, ref.group)
+    }
   }
   data %>% mutate(!!group.col := group.values)
 }
