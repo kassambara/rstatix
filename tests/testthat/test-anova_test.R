@@ -132,6 +132,27 @@ test_that("anova_test results are dplyr-compatible: rstatix_test before data.fra
   expect_true(inherits(g, "grouped_anova_test"))
 })
 
+test_that("anova_test class contract: rstatix_test first, specific class at [2] (#283 revdep)", {
+  # Reverse dependencies (e.g. GimmeMyStats, GimmeMyPlot) dispatch on class()[2]
+  # (method <- sub('_test', '', class(x)[2])). The class vector must keep
+  # 'rstatix_test' first (dplyr/vctrs, #106) AND the specific test class at
+  # position 2, so class()[2] resolves to the test name -- do not silently
+  # reorder these again (that broke revdeps in the 1.0.0 pretest).
+  u <- ToothGrowth %>% anova_test(len ~ dose)
+  expect_identical(class(u), c("rstatix_test", "anova_test", "data.frame"))
+  expect_identical(class(u)[2], "anova_test")            # class[2] -> "anova"
+  # grouped output follows the same contract
+  g <- ToothGrowth %>% group_by(supp) %>% anova_test(len ~ dose)
+  expect_identical(class(g)[1], "rstatix_test")
+  expect_identical(class(g)[2], "grouped_anova_test")
+  # #106 invariant restated: rstatix_test strictly before data.frame
+  expect_lt(match("rstatix_test", class(u)), match("data.frame", class(u)))
+  # the exact downstream idiom must resolve to the intended method
+  method <- sub("_test", "", class(u)[2])
+  method <- ifelse(method == "data.frame", "anova", method)
+  expect_identical(method, "anova")
+})
+
 test_that("add_xy_position on an anova_test gives an informative error, not a class error (#111)", {
   g <- ToothGrowth %>% group_by(supp) %>% anova_test(len ~ dose)
   # omnibus ANOVA has no pairwise comparisons: needs a pairwise post-hoc instead
