@@ -239,8 +239,11 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
     results
   }
   .append_anova_class <- function(x){
-    # rstatix_test must come before data.frame for dplyr/vctrs compatibility (#106)
-    class(x) <- c("anova_test", "rstatix_test", class(x))
+    # Class order contract: "rstatix_test" first (consistent with every other
+    # rstatix test, and required before "data.frame" for dplyr/vctrs, #106),
+    # then the specific test class in position 2 so downstream code keying on
+    # class()[2] keeps resolving to "anova" (revdep compatibility, #283).
+    class(x) <- c("rstatix_test", "anova_test", class(x))
     x
   }
 
@@ -257,7 +260,7 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
     }
     results <- results %>% set_attrs(args = list(data = data))
     # rstatix_test must come before data.frame for dplyr/vctrs compatibility (#106)
-    class(results) <- c("grouped_anova_test", "rstatix_test", class(results))
+    class(results) <- c("rstatix_test", "grouped_anova_test", class(results))
   }
   else{
     results <- .anova_test(
@@ -300,7 +303,7 @@ get_anova_table_from_simple_test <- function(x, correction = "auto"){
   if(correction.method == "none"){
     res.aov <- x$ANOVA
     attr(res.aov, "args") <- attr(x, "args")
-    class(res.aov) <- c("anova_test", "rstatix_test", class(res.aov))
+    class(res.aov) <- c("rstatix_test", "anova_test", class(res.aov))
     return(res.aov)
   }
   # repeated/mixed design
@@ -333,7 +336,7 @@ get_anova_table_from_simple_test <- function(x, correction = "auto"){
     rownames(res.aov) <- 1:nrow(res.aov)
   }
   res.aov <- res.aov %>% set_attrs(args = .args)
-  class(res.aov) <- c("anova_test", "rstatix_test", class(res.aov))
+  class(res.aov) <- c("rstatix_test", "anova_test", class(res.aov))
   res.aov
 }
 
