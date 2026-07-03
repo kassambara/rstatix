@@ -1,4 +1,4 @@
-# rstatix 0.7.3.999
+# rstatix 1.0.0
 
 ## New features
 
@@ -67,6 +67,7 @@
 - `tukey_hsd()` now respects `conf.level` (and other `TukeyHSD()` arguments) for the ungrouped data-frame interface; previously `...` was dropped so the confidence interval was always 95% ([#188](https://github.com/kassambara/rstatix/issues/188)).
 - `pairwise_binom_test_against_p()` no longer errors on an unnamed `x`; groups are auto-labelled `grp1`, `grp2`, … (named/table input is unchanged) ([#44](https://github.com/kassambara/rstatix/issues/44)).
 - Fixed a missing space in the `anova_test()` error message for single-level factors (now reads "Variable x has only one level") ([#137](https://github.com/kassambara/rstatix/issues/137)).
+- `anova_test()` results now carry `rstatix_test` as the **first** class, with the specific test class (`anova_test` / `grouped_anova_test`) in second position — matching every other rstatix test. The [#106](https://github.com/kassambara/rstatix/issues/106) dplyr/vctrs invariant (`rstatix_test` before `data.frame`) is preserved, but the earlier `c("anova_test", "rstatix_test", "data.frame")` order had shifted the specific class out of position 2, breaking reverse dependencies that dispatch on `class(x)[2]` (e.g. GimmeMyStats, GimmeMyPlot). `inherits()`, `print()`/`plot()` dispatch, dplyr verbs and ggpubr are unaffected.
 
 
 # rstatix 0.7.3

@@ -54,6 +54,9 @@ assessing normality and homogeneity of variances.
     Wilcoxon tests
 -   `sign_test()`: perform sign test to determine whether there is a
     median difference between paired or matched observations.
+-   `ks_test()`: perform two-sample and pairwise Kolmogorov-Smirnov tests
+    comparing the empirical distributions of a numeric variable between
+    groups.
 -   `anova_test()`: an easy-to-use wrapper around `car::Anova()` to
     perform different types of ANOVA tests, including **independent
     measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
@@ -91,6 +94,15 @@ assessing normality and homogeneity of variances.
     inputs formats: aov, lm, formula.
 -   `dunn_test()`: compute multiple pairwise comparisons following
     Kruskal-Wallis test.
+-   `conover_test()`: compute Conover's all-pairs rank comparison test, a
+    more powerful alternative to Dunn's test for post-hoc analysis
+    following a significant Kruskal-Wallis test.
+-   `dunnett_test()`: performs Dunnett's many-to-one comparisons test,
+    comparing each treatment group to a single control group following a
+    one-way ANOVA.
+-   `friedman_conover_test()` and `friedman_nemenyi_test()`: post-hoc
+    pairwise comparisons (Conover and Nemenyi tests) following a
+    significant Friedman test.
 -   `games_howell_test()`: Performs Games-Howell test, which is used to
     compare all possible combinations of group differences when the
     assumption of homogeneity of variances is violated.
@@ -136,6 +148,10 @@ assessing normality and homogeneity of variances.
 -   `levene_test()`: Pipe-friendly framework to easily compute Levene’s
     test for homogeneity of variance across groups. Handles grouped
     data.
+-   `fligner_test()`: Pipe-friendly wrapper around `stats::fligner.test()`
+    to compute the Fligner-Killeen test, a non-parametric test for
+    homogeneity of variances that is robust against departures from
+    normality.
 -   `box_m()`: Box’s M-test for homogeneity of covariance matrices
 
 ### Effect Size
@@ -201,6 +217,9 @@ assessing normality and homogeneity of variances.
     containing statistical test p-values
 -   `add_significance()`: add a column containing the p-value
     significance level
+-   `add_cld()`: add a compact letter display (CLD) column to a data
+    frame of all-pairwise comparisons, grouping levels that are not
+    significantly different under a shared letter.
 -   `p_round(), p_format(), p_mark_significant()`: rounding and
     formatting p-values
 

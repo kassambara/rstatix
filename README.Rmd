@@ -53,6 +53,7 @@ It's also possible to compute several effect size metrics, including "eta square
 - `t_test()`: perform one-sample, two-sample and pairwise t-tests
 - `wilcox_test()`: perform one-sample, two-sample and pairwise Wilcoxon tests
 - `sign_test()`: perform sign test to determine whether there is a median difference between paired or matched observations.
+- `ks_test()`: perform two-sample and pairwise Kolmogorov-Smirnov tests comparing the empirical distributions of a numeric variable between groups.
 - `anova_test()`: an easy-to-use wrapper around `car::Anova()` to perform different types of ANOVA tests, including **independent measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
 - `get_anova_test_table()`: extract ANOVA table from `anova_test()` results. Can apply sphericity correction automatically in the case of within-subject (repeated measures) designs.
 - `welch_anova_test()`: Welch one-Way ANOVA test. A pipe-friendly wrapper around the base function `stats::oneway.test()`. This is is an alternative to the standard one-way ANOVA in the situation where the homogeneity of variance assumption is violated.
@@ -72,6 +73,9 @@ It's also possible to compute several effect size metrics, including "eta square
    
 - `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
 - `dunn_test()`: compute multiple pairwise comparisons following Kruskal-Wallis test.
+- `conover_test()`: compute Conover's all-pairs rank comparison test, a more powerful alternative to Dunn's test for post-hoc analysis following a significant Kruskal-Wallis test.
+- `dunnett_test()`: performs Dunnett's many-to-one comparisons test, comparing each treatment group to a single control group following a one-way ANOVA.
+- `friedman_conover_test()` and `friedman_nemenyi_test()`: post-hoc pairwise comparisons (Conover and Nemenyi tests) following a significant Friedman test.
 - `games_howell_test()`: Performs Games-Howell test, which is used to compare all possible combinations of group differences when the assumption of homogeneity of variances is violated.
 - `emmeans_test()`: pipe-friendly wrapper arround `emmeans` function to perform pairwise comparisons of estimated marginal means. Useful for post-hoc analyses following up ANOVA/ANCOVA tests.
      
@@ -91,6 +95,7 @@ It's also possible to compute several effect size metrics, including "eta square
 ### Comparing variances
    
 - `levene_test()`: Pipe-friendly framework to easily compute Levene's test for homogeneity of variance across groups. Handles grouped data.
+- `fligner_test()`: Pipe-friendly wrapper around `stats::fligner.test()` to compute the Fligner-Killeen test, a non-parametric test for homogeneity of variances that is robust against departures from normality.
 - `box_m()`: Box's M-test for homogeneity of covariance matrices
    
    
@@ -138,6 +143,7 @@ It's also possible to compute several effect size metrics, including "eta square
       
 - `adjust_pvalue()`: add an adjusted p-values column to a data frame containing statistical test p-values
 - `add_significance()`: add a column containing the p-value significance level
+- `add_cld()`: add a compact letter display (CLD) column to a data frame of all-pairwise comparisons, grouping levels that are not significantly different under a shared letter.
 - `p_round(), p_format(), p_mark_significant()`: rounding and formatting p-values
    
    
