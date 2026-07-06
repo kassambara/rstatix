@@ -2,14 +2,15 @@
 
 [![R build
 status](https://github.com/kassambara/rstatix/workflows/R-CMD-check/badge.svg)](https://github.com/kassambara/rstatix/actions)
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/rstatix)](https://cran.r-project.org/package=rstatix)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/rstatix)](https://cran.r-project.org/package=rstatix)
 [![CRAN
 Checks](https://badges.cranchecks.info/summary/rstatix.svg)](https://cran.r-project.org/web/checks/check_results_rstatix.html)
 [![Downloads](https://cranlogs.r-pkg.org/badges/rstatix)](https://cran.r-project.org/package=rstatix)
 [![Total
 Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rstatix?color=orange)](https://cran.r-project.org/package=rstatix)
 
-# rstatix
+rstatix
+=======
 
 Provides a simple and intuitive pipe-friendly framework, coherent with
 the ‘tidyverse’ design philosophy, for performing basic statistical
@@ -31,7 +32,8 @@ association between categorical variables. The package contains helper
 functions for identifying univariate and multivariate outliers,
 assessing normality and homogeneity of variances.
 
-## Key functions
+Key functions
+-------------
 
 ### Descriptive statistics
 
@@ -54,9 +56,9 @@ assessing normality and homogeneity of variances.
     Wilcoxon tests
 -   `sign_test()`: perform sign test to determine whether there is a
     median difference between paired or matched observations.
--   `ks_test()`: perform two-sample and pairwise Kolmogorov-Smirnov tests
-    comparing the empirical distributions of a numeric variable between
-    groups.
+-   `ks_test()`: perform two-sample and pairwise Kolmogorov-Smirnov
+    tests comparing the empirical distributions of a numeric variable
+    between groups.
 -   `anova_test()`: an easy-to-use wrapper around `car::Anova()` to
     perform different types of ANOVA tests, including **independent
     measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
@@ -94,10 +96,10 @@ assessing normality and homogeneity of variances.
     inputs formats: aov, lm, formula.
 -   `dunn_test()`: compute multiple pairwise comparisons following
     Kruskal-Wallis test.
--   `conover_test()`: compute Conover's all-pairs rank comparison test, a
-    more powerful alternative to Dunn's test for post-hoc analysis
+-   `conover_test()`: compute Conover’s all-pairs rank comparison test,
+    a more powerful alternative to Dunn’s test for post-hoc analysis
     following a significant Kruskal-Wallis test.
--   `dunnett_test()`: performs Dunnett's many-to-one comparisons test,
+-   `dunnett_test()`: performs Dunnett’s many-to-one comparisons test,
     comparing each treatment group to a single control group following a
     one-way ANOVA.
 -   `friedman_conover_test()` and `friedman_nemenyi_test()`: post-hoc
@@ -148,10 +150,10 @@ assessing normality and homogeneity of variances.
 -   `levene_test()`: Pipe-friendly framework to easily compute Levene’s
     test for homogeneity of variance across groups. Handles grouped
     data.
--   `fligner_test()`: Pipe-friendly wrapper around `stats::fligner.test()`
-    to compute the Fligner-Killeen test, a non-parametric test for
-    homogeneity of variances that is robust against departures from
-    normality.
+-   `fligner_test()`: Pipe-friendly wrapper around
+    `stats::fligner.test()` to compute the Fligner-Killeen test, a
+    non-parametric test for homogeneity of variances that is robust
+    against departures from normality.
 -   `box_m()`: Box’s M-test for homogeneity of covariance matrices
 
 ### Effect Size
@@ -272,7 +274,8 @@ standard evaluation.
 -   `counts_to_cases()`: converts a contingency table or a data frame of
     counts into a data frame of individual observations.
 
-## Installation and loading
+Installation and loading
+------------------------
 
 -   Install the latest developmental version from
     [GitHub](https://github.com/kassambara/rstatix) as follow:
@@ -296,7 +299,8 @@ library(rstatix)
 library(ggpubr)  # For easy data-visualization
 ```
 
-## Descriptive statistics
+Descriptive statistics
+----------------------
 
 ``` r
 # Summary statistics of some selected variables
@@ -334,7 +338,8 @@ iris %>%
 #> 3 virginica  Sepal.Length    50  6.59 0.636
 ```
 
-## Comparing two means
+Comparing two means
+-------------------
 
 To compare the means of two groups, you can use either the function
 `t_test()` (parametric) or `wilcox_test()` (non-parametric). In the
@@ -403,7 +408,7 @@ p <- ggboxplot(
 p + stat_pvalue_manual(stat.test, label = "p", y.position = 35)
 ```
 
-![](tools/README-unpaired-two-sample-t-test-1.png)
+![](man/figures/README-unpaired-two-sample-t-test-1.png)
 
 -   Customize labels using [glue
     expression](https://github.com/tidyverse/glue):
@@ -413,7 +418,7 @@ p +stat_pvalue_manual(stat.test, label = "T-test, p = {p}",
                       y.position = 36)
 ```
 
-![](tools/README-custoize-p-value-labels-1.png)
+![](man/figures/README-custoize-p-value-labels-1.png)
 
 -   Grouped data: compare supp levels after grouping the data by “dose”
 
@@ -442,7 +447,7 @@ ggboxplot(
   stat_pvalue_manual(stat.test, label = "p.adj", y.position = 35)
 ```
 
-![](tools/README-grouped-two-sample-t-test-1.png)
+![](man/figures/README-grouped-two-sample-t-test-1.png)
 
 ### Compare paired samples
 
@@ -464,7 +469,7 @@ p <- ggpaired(
 p + stat_pvalue_manual(stat.test, label = "p", y.position = 36)
 ```
 
-![](tools/README-paired-t-test-1.png)
+![](man/figures/README-paired-t-test-1.png)
 
 ### Multiple pairwise comparisons
 
@@ -489,7 +494,7 @@ ggboxplot(df, x = "dose", y = "len")+
     )
 ```
 
-![](tools/README-pairwise-comparisons-1.png)
+![](man/figures/README-pairwise-comparisons-1.png)
 
 -   Multiple pairwise comparisons against reference group: each level is
     compared to the ref group
@@ -513,7 +518,7 @@ ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
     )
 ```
 
-![](tools/README-comaprison-against-reference-group-1.png)
+![](man/figures/README-comaprison-against-reference-group-1.png)
 
 ``` r
 # Remove bracket
@@ -525,7 +530,7 @@ ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
     )
 ```
 
-![](tools/README-comaprison-against-reference-group-2.png)
+![](man/figures/README-comaprison-against-reference-group-2.png)
 
 -   Multiple pairwise comparisons against all (base-mean): Comparison of
     each group against base-mean.
@@ -537,9 +542,9 @@ stat.test
 #> # A tibble: 3 × 10
 #>   .y.   group1 group2    n1    n2 statistic    df         p   p.adj p.adj.signif
 #> * <chr> <chr>  <chr>  <int> <int>     <dbl> <dbl>     <dbl>   <dbl> <chr>       
-#> 1 len   all    0.5       60    20     5.82   56.4   2.90e-7 8.70e-7 ****        
+#> 1 len   all    0.5       60    20     5.82   56.4   2.90e-7 8.69e-7 ****        
 #> 2 len   all    1         60    20    -0.660  57.5   5.12e-1 5.12e-1 ns          
-#> 3 len   all    2         60    20    -5.61   66.5   4.25e-7 8.70e-7 ****
+#> 3 len   all    2         60    20    -5.61   66.5   4.25e-7 8.69e-7 ****
 # Box plot with horizontal mean line
 ggboxplot(df, x = "dose", y = "len") +
   stat_pvalue_manual(
@@ -550,9 +555,10 @@ ggboxplot(df, x = "dose", y = "len") +
   geom_hline(yintercept = mean(df$len), linetype = 2)
 ```
 
-![](tools/README-comparison-against-base-mean-1.png)
+![](man/figures/README-comparison-against-base-mean-1.png)
 
-## ANOVA test
+ANOVA test
+----------
 
 ``` r
 # One-way ANOVA test
@@ -618,7 +624,8 @@ anova_test(.my.model)
 #> 8  N:P:K   0  12     NA    NA  <NA>    NA
 ```
 
-## Correlation tests
+Correlation tests
+-----------------
 
 ``` r
 # Data preparation
@@ -632,41 +639,42 @@ head(mydata, 3)
 
 # Correlation test between two variables
 mydata %>% cor_test(wt, mpg, method = "pearson")
-#> # A tibble: 1 × 8
-#>   var1  var2    cor statistic        p conf.low conf.high method 
-#>   <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
-#> 1 wt    mpg   -0.87     -9.56 1.29e-10   -0.934    -0.744 Pearson
+#> # A tibble: 1 × 9
+#>   var1  var2    cor statistic    df        p conf.low conf.high method 
+#>   <chr> <chr> <dbl>     <dbl> <int>    <dbl>    <dbl>     <dbl> <chr>  
+#> 1 wt    mpg   -0.87     -9.56    30 1.29e-10   -0.934    -0.744 Pearson
 
 # Correlation of one variable against all
 mydata %>% cor_test(mpg, method = "pearson")
-#> # A tibble: 5 × 8
-#>   var1  var2    cor statistic        p conf.low conf.high method 
-#>   <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
-#> 1 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
-#> 2 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
-#> 3 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson
-#> 4 mpg   wt    -0.87     -9.56 1.29e-10  -0.934     -0.744 Pearson
-#> 5 mpg   qsec   0.42      2.53 1.71e- 2   0.0820     0.670 Pearson
+#> # A tibble: 5 × 9
+#>   var1  var2    cor statistic    df        p conf.low conf.high method 
+#>   <chr> <chr> <dbl>     <dbl> <int>    <dbl>    <dbl>     <dbl> <chr>  
+#> 1 mpg   disp  -0.85     -8.75    30 9.38e-10  -0.923     -0.708 Pearson
+#> 2 mpg   hp    -0.78     -6.74    30 1.79e- 7  -0.885     -0.586 Pearson
+#> 3 mpg   drat   0.68      5.10    30 1.78e- 5   0.436      0.832 Pearson
+#> 4 mpg   wt    -0.87     -9.56    30 1.29e-10  -0.934     -0.744 Pearson
+#> 5 mpg   qsec   0.42      2.53    30 1.71e- 2   0.0820     0.670 Pearson
 
 # Pairwise correlation test between all variables
 mydata %>% cor_test(method = "pearson")
-#> # A tibble: 36 × 8
-#>    var1  var2    cor statistic        p conf.low conf.high method 
-#>    <chr> <chr> <dbl>     <dbl>    <dbl>    <dbl>     <dbl> <chr>  
-#>  1 mpg   mpg    1       Inf    0          1          1     Pearson
-#>  2 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
-#>  3 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
-#>  4 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson
-#>  5 mpg   wt    -0.87     -9.56 1.29e-10  -0.934     -0.744 Pearson
-#>  6 mpg   qsec   0.42      2.53 1.71e- 2   0.0820     0.670 Pearson
-#>  7 disp  mpg   -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
-#>  8 disp  disp   1       Inf    0          1          1     Pearson
-#>  9 disp  hp     0.79      7.08 7.14e- 8   0.611      0.893 Pearson
-#> 10 disp  drat  -0.71     -5.53 5.28e- 6  -0.849     -0.481 Pearson
+#> # A tibble: 36 × 9
+#>    var1  var2    cor statistic    df        p conf.low conf.high method 
+#>    <chr> <chr> <dbl>     <dbl> <int>    <dbl>    <dbl>     <dbl> <chr>  
+#>  1 mpg   mpg    1       Inf       30 0          1          1     Pearson
+#>  2 mpg   disp  -0.85     -8.75    30 9.38e-10  -0.923     -0.708 Pearson
+#>  3 mpg   hp    -0.78     -6.74    30 1.79e- 7  -0.885     -0.586 Pearson
+#>  4 mpg   drat   0.68      5.10    30 1.78e- 5   0.436      0.832 Pearson
+#>  5 mpg   wt    -0.87     -9.56    30 1.29e-10  -0.934     -0.744 Pearson
+#>  6 mpg   qsec   0.42      2.53    30 1.71e- 2   0.0820     0.670 Pearson
+#>  7 disp  mpg   -0.85     -8.75    30 9.38e-10  -0.923     -0.708 Pearson
+#>  8 disp  disp   1       Inf       30 0          1          1     Pearson
+#>  9 disp  hp     0.79      7.08    30 7.14e- 8   0.611      0.893 Pearson
+#> 10 disp  drat  -0.71     -5.53    30 5.28e- 6  -0.849     -0.481 Pearson
 #> # ℹ 26 more rows
 ```
 
-## Correlation matrix
+Correlation matrix
+------------------
 
 ``` r
 # Compute correlation matrix
@@ -692,9 +700,9 @@ cor.mat %>% cor_get_pval()
 #> 1 mpg     0        9.38e-10 0.000000179  1.78e-  5 1.29e-10 0.0171    
 #> 2 disp    9.38e-10 0        0.0000000714 5.28e-  6 1.22e-11 0.0131    
 #> 3 hp      1.79e- 7 7.14e- 8 0            9.99e-  3 4.15e- 5 0.00000577
-#> 4 drat    1.78e- 5 5.28e- 6 0.00999      7.44e-232 4.78e- 6 0.62      
+#> 4 drat    1.78e- 5 5.28e- 6 0.00999      7.44e-232 4.78e- 6 0.620     
 #> 5 wt      1.29e-10 1.22e-11 0.0000415    4.78e-  6 0        0.339     
-#> 6 qsec    1.71e- 2 1.31e- 2 0.00000577   6.2 e-  1 3.39e- 1 0
+#> 6 qsec    1.71e- 2 1.31e- 2 0.00000577   6.20e-  1 3.39e- 1 0
 
 # Replacing correlation coefficients by symbols
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -730,9 +738,10 @@ cor.mat %>%
   cor_plot()
 ```
 
-![](tools/README-unnamed-chunk-10-1.png)
+![](man/figures/README-unnamed-chunk-10-1.png)
 
-## Related articles
+Related articles
+----------------
 
 -   [How to Add P-Values onto Basic
     GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-basic-ggplots/)
