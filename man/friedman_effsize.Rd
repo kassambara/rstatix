@@ -11,6 +11,8 @@ friedman_effsize(
   conf.level = 0.95,
   ci.type = "perc",
   nboot = 1000,
+  parallel = "no",
+  ncpus = getOption("boot.ncpus", 1L),
   ...
 )
 }
@@ -30,6 +32,11 @@ individuals/subjects identifier. Should be unique per individual.}
 "basic", "perc", or "bca". Passed to \code{boot::boot.ci}.}
 
 \item{nboot}{The number of replications to use for bootstrap.}
+
+\item{parallel}{The type of parallel operation to be used for bootstrap.
+Allowed values are "no", "multicore" and "snow".}
+
+\item{ncpus}{The number of processes to be used in parallel operation.}
 
 \item{...}{other arguments passed to the function \code{\link[stats]{friedman.test}()}}
 }

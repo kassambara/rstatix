@@ -16,6 +16,8 @@ wilcox_effsize(
   conf.level = 0.95,
   ci.type = "perc",
   nboot = 1000,
+  parallel = "no",
+  ncpus = getOption("boot.ncpus", 1L),
   detailed = FALSE,
   ...
 )
@@ -58,6 +60,11 @@ hypothesis.}
 "basic", "perc", or "bca". Passed to \code{boot::boot.ci}.}
 
 \item{nboot}{The number of replications to use for bootstrap.}
+
+\item{parallel}{The type of parallel operation to be used for bootstrap.
+Allowed values are "no", "multicore" and "snow".}
+
+\item{ncpus}{The number of processes to be used in parallel operation.}
 
 \item{detailed}{logical value. Default is FALSE. If TRUE, the output
 additionally includes the \code{Z} \code{statistic} (extracted from the
