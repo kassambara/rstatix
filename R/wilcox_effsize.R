@@ -88,9 +88,8 @@ NULL
 wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
                                 paired = FALSE, alternative = "two.sided",
                                 mu = 0, ci = FALSE, conf.level = 0.95, ci.type = "perc",
-                                nboot = 1000, parallel = "no",
-                                ncpus = getOption("boot.ncpus", 1L),
-                                detailed = FALSE, ...){
+                                nboot = 1000, detailed = FALSE, ...,
+                                parallel = "no", ncpus = getOption("boot.ncpus", 1L)){
 
   env <- as.list(environment())
   args <- env %>% .add_item(method = "wilcox_effsize")
@@ -122,8 +121,8 @@ wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
 
 # Wilcoxon test using coin R package; returns effect size
 coin.wilcox.test <- function(x, y = NULL, mu = 0, paired = FALSE, alternative = c("two.sided", "less", "greater"),
-                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
-                     parallel = "no", ncpus = getOption("boot.ncpus", 1L), ...){
+                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...,
+                     parallel = "no", ncpus = getOption("boot.ncpus", 1L)){
   required_package("coin")
 
   alternative <- match.arg(alternative)

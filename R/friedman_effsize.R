@@ -45,7 +45,7 @@ NULL
 
 #' @export
 friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
-                             parallel = "no", ncpus = getOption("boot.ncpus", 1L), ...){
+                             ..., parallel = "no", ncpus = getOption("boot.ncpus", 1L)){
   args <- as.list(environment()) %>%
     .add_item(method = "friedman_effsize")
   if(is_grouped_df(data)){
@@ -68,7 +68,7 @@ friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.t
 
 
 .friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
-                              parallel = "no", ncpus = getOption("boot.ncpus", 1L), ...){
+                              ..., parallel = "no", ncpus = getOption("boot.ncpus", 1L)){
   results <- kendall_w(data, formula, ...)
   # Confidence interval of the effect size
   if (ci == TRUE) {

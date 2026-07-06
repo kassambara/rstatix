@@ -112,8 +112,8 @@ cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired
 # Cohens d core function -------------------------------
 cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
                      hedges.correction = FALSE,
-                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
-                     parallel = "no", ncpus = getOption("boot.ncpus", 1L), ...){
+                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...,
+                     parallel = "no", ncpus = getOption("boot.ncpus", 1L)){
   check_two_samples_test_args(
     x = x, y = y, mu = mu, paired = paired,
     conf.level = conf.level
