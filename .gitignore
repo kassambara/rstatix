@@ -20,3 +20,6 @@ Makefile
 .github/aw/logs/
 *.tar.gz
 rstatix.Rcheck/
+
+# CRAN submission tracking file (regenerated per submission by usethis/devtools)
+CRAN-SUBMISSION
