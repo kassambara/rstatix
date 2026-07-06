@@ -10,6 +10,7 @@
 ^pkgdown/*
 ^\.github$
 ^CLAUDE\.md$
+^Makefile$
 ^CRAN-SUBMISSION$
 ^\.claude$
 ^.*\.tar\.gz$
