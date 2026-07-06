@@ -16,3 +16,14 @@ test_that("kruskal_effsize magnitude is unchanged for valid effect sizes (no reg
   expect_true(res$effsize > 0.14)
   expect_equal(as.character(res$magnitude), "large")
 })
+
+test_that("kruskal_effsize accepts bootstrap parallel options", {
+  skip_if_not_installed("boot")
+  set.seed(123)
+
+  res <- ToothGrowth %>%
+    kruskal_effsize(len ~ dose, ci = TRUE, nboot = 50, parallel = "no", ncpus = 1)
+
+  expect_true(all(c("conf.low", "conf.high") %in% colnames(res)))
+  expect_equal(nrow(res), 1L)
+})
