@@ -44,20 +44,21 @@ NULL
 #' df %>% friedman_effsize(len ~ dose | id)
 
 #' @export
-friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...){
+friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
+                             parallel = "no", ncpus = getOption("boot.ncpus", 1L), ...){
   args <- as.list(environment()) %>%
     .add_item(method = "friedman_effsize")
   if(is_grouped_df(data)){
     results <- data %>%
       doo(
         .friedman_effsize, formula, ci = ci, conf.level = conf.level,
-        ci.type = ci.type, nboot = nboot, ...
+        ci.type = ci.type, nboot = nboot, parallel = parallel, ncpus = ncpus, ...
       )
   }
   else{
     results <- .friedman_effsize(
       data, formula, ci = ci, conf.level = conf.level,
-      ci.type = ci.type, nboot = nboot, ...
+      ci.type = ci.type, nboot = nboot, parallel = parallel, ncpus = ncpus, ...
     )
   }
   results %>%
@@ -66,7 +67,8 @@ friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.t
 }
 
 
-.friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...){
+.friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
+                              parallel = "no", ncpus = getOption("boot.ncpus", 1L), ...){
   results <- kendall_w(data, formula, ...)
   # Confidence interval of the effect size
   if (ci == TRUE) {
@@ -85,7 +87,7 @@ friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.t
     }
     CI <- get_boot_ci(
       data.wide, stat.func, conf.level = conf.level,
-      type = ci.type, nboot = nboot
+      type = ci.type, nboot = nboot, parallel = parallel, ncpus = ncpus
     )
     results <- results %>%
       add_columns(conf.low = CI[1], conf.high = CI[2], .after = "effsize")

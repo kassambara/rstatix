@@ -79,7 +79,8 @@ NULL
 #'@export
 cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired = FALSE, mu = 0,
                      var.equal = FALSE, hedges.correction = FALSE,
-                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000){
+                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
+                     parallel = "no", ncpus = getOption("boot.ncpus", 1L)){
   env <- as.list(environment())
   args <- env %>% .add_item(method = "cohens_d")
   params <- env %>%
@@ -111,7 +112,8 @@ cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired
 # Cohens d core function -------------------------------
 cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
                      hedges.correction = FALSE,
-                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...){
+                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
+                     parallel = "no", ncpus = getOption("boot.ncpus", 1L), ...){
   check_two_samples_test_args(
     x = x, y = y, mu = mu, paired = paired,
     conf.level = conf.level
@@ -166,7 +168,7 @@ cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
     }
     CI <- get_boot_ci(
       data, stat.func, conf.level = conf.level,
-      type = ci.type, nboot = nboot
+      type = ci.type, nboot = nboot, parallel = parallel, ncpus = ncpus
     )
     results <- results %>% mutate(conf.low = CI[1], conf.high = CI[2])
   }
