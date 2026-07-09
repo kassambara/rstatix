@@ -4,7 +4,7 @@
 \alias{cramer_v}
 \title{Compute Cramer's V}
 \usage{
-cramer_v(x, y = NULL, correct = TRUE, ...)
+cramer_v(x, y = NULL, correct = TRUE, ..., ci = FALSE, conf.level = 0.95)
 }
 \arguments{
 \item{x}{a numeric vector or matrix. \code{x} and \code{y} can also
@@ -21,10 +21,42 @@ cramer_v(x, y = NULL, correct = TRUE, ...)
 
 \item{...}{other arguments passed to the function
 \code{\link[stats]{chisq.test}()}.}
+
+\item{ci}{logical. If TRUE, a confidence interval for Cramer's V is added to
+the result and a named numeric vector is returned instead of a single value.
+Default is FALSE.}
+
+\item{conf.level}{The level of the confidence interval. Default is 0.95. Only
+used when \code{ci = TRUE}.}
+}
+\value{
+By default, a single numeric value: Cramer's V.
+
+ When \code{ci = TRUE}, a named numeric vector with the elements
+ \code{effsize} (Cramer's V), \code{conf.low} and \code{conf.high}.
 }
 \description{
 Compute Cramer's V, which measures the strength of the
  association between categorical variables.
+}
+\details{
+The confidence interval is obtained by inverting the noncentral
+ chi-square distribution (Smithson, 2003; Steiger, 2004): the noncentrality
+ parameters \eqn{\lambda} whose distributions place the observed chi-square
+ statistic at the \eqn{1 - \alpha/2} and \eqn{\alpha/2} quantiles are found by
+ root finding, and each is converted with \eqn{V = \sqrt{\lambda / (N (k -
+ 1))}}, where \eqn{N} is the total count and \eqn{k} the smaller of the two
+ table dimensions. The interval is computed from the same chi-square statistic
+ as the point estimate, so it always brackets the reported \code{effsize} --
+ note that this means the default \code{correct = TRUE} (Yates' continuity
+ correction, applied by \code{\link[stats]{chisq.test}()} to 2x2 tables)
+ affects both. The bounds are clipped to \eqn{[0, 1]}, the range of Cramer's
+ V, and are returned as \code{NA} when the statistic is undefined (for
+ example, when the table has an empty row or column).
+
+ With \code{correct = FALSE}, the interval matches
+ \code{effectsize::cramers_v(adjust = FALSE, ci = , alternative =
+ "two.sided")}.
 }
 \examples{
 
@@ -38,4 +70,14 @@ df
 # Compute cramer's V
 cramer_v(df)
 
+# Add a confidence interval
+cramer_v(df, ci = TRUE)
+
+}
+\references{
+Smithson, M. (2003). Confidence Intervals. Sage Publications.
+
+ Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals
+ and tests of close fit in the analysis of variance and contrast analysis.
+ Psychological Methods, 9, 164-182.
 }

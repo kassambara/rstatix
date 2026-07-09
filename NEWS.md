@@ -1,5 +1,9 @@
 # rstatix 1.0.0.999
 
+## New features
+
+- `cramer_v()` gains a `ci` argument to return a confidence interval for Cramer's V, computed in base R by inverting the noncentral chi-square distribution (Smithson, 2003; Steiger, 2004) — the same approach `anova_test(ci = )` already uses for partial eta squared, with the chi-square in place of the F distribution. With `ci = TRUE` the function returns a named numeric vector (`effsize`, `conf.low`, `conf.high`) and takes a `conf.level` argument (default 0.95); the default `ci = FALSE` still returns the bare numeric value, unchanged. The interval is computed from the same chi-square statistic as the point estimate, so it always brackets it (note that Yates' continuity correction, on by default for 2x2 tables, therefore shifts both); the bounds are clipped to the `[0, 1]` range of Cramer's V, and are `NA` when the statistic is undefined. With `correct = FALSE` the interval matches `effectsize::cramers_v(adjust = FALSE, ci = , alternative = "two.sided")`.
+
 ## Minor changes
 
 - `cohens_d()`, `wilcox_effsize()`, `kruskal_effsize()` and `friedman_effsize()` gain `boot.parallel` and `boot.ncpus` arguments to compute the bootstrap confidence interval (`ci = TRUE`) in parallel, for example `cohens_d(df, len ~ supp, ci = TRUE, boot.parallel = "multicore", boot.ncpus = 4)`. They default to `getOption("boot.parallel", "no")` and `getOption("boot.ncpus", 1L)`, so the bootstrap stays serial by default, the corresponding global options keep working, and all existing results are unchanged. The parallel settings are now passed to `boot::boot()`, which performs the resampling, rather than to `boot::boot.ci()`, which has no such argument and silently ignored them. Based on the contribution by @HannesOberreiter ([#289](https://github.com/kassambara/rstatix/pull/289), [#87](https://github.com/kassambara/rstatix/pull/87)).

@@ -7,6 +7,37 @@ NULL
 #'@inheritParams stats::chisq.test
 #'@param ... other arguments passed to the function
 #'  \code{\link[stats]{chisq.test}()}.
+#'@param ci logical. If TRUE, a confidence interval for Cramer's V is added to
+#'  the result and a named numeric vector is returned instead of a single value.
+#'  Default is FALSE.
+#'@param conf.level The level of the confidence interval. Default is 0.95. Only
+#'  used when \code{ci = TRUE}.
+#'@return By default, a single numeric value: Cramer's V.
+#'
+#'  When \code{ci = TRUE}, a named numeric vector with the elements
+#'  \code{effsize} (Cramer's V), \code{conf.low} and \code{conf.high}.
+#'@details The confidence interval is obtained by inverting the noncentral
+#'  chi-square distribution (Smithson, 2003; Steiger, 2004): the noncentrality
+#'  parameters \eqn{\lambda} whose distributions place the observed chi-square
+#'  statistic at the \eqn{1 - \alpha/2} and \eqn{\alpha/2} quantiles are found by
+#'  root finding, and each is converted with \eqn{V = \sqrt{\lambda / (N (k -
+#'  1))}}, where \eqn{N} is the total count and \eqn{k} the smaller of the two
+#'  table dimensions. The interval is computed from the same chi-square statistic
+#'  as the point estimate, so it always brackets the reported \code{effsize} --
+#'  note that this means the default \code{correct = TRUE} (Yates' continuity
+#'  correction, applied by \code{\link[stats]{chisq.test}()} to 2x2 tables)
+#'  affects both. The bounds are clipped to \eqn{[0, 1]}, the range of Cramer's
+#'  V, and are returned as \code{NA} when the statistic is undefined (for
+#'  example, when the table has an empty row or column).
+#'
+#'  With \code{correct = FALSE}, the interval matches
+#'  \code{effectsize::cramers_v(adjust = FALSE, ci = , alternative =
+#'  "two.sided")}.
+#'@references Smithson, M. (2003). Confidence Intervals. Sage Publications.
+#'
+#'  Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals
+#'  and tests of close fit in the analysis of variance and contrast analysis.
+#'  Psychological Methods, 9, 164-182.
 #'@examples
 #'
 #' # Data preparation
@@ -19,12 +50,61 @@ NULL
 #' # Compute cramer's V
 #' cramer_v(df)
 #'
+#' # Add a confidence interval
+#' cramer_v(df, ci = TRUE)
+#'
 #'@export
-cramer_v <- function(x, y = NULL, correct = TRUE, ...) {
+cramer_v <- function(x, y = NULL, correct = TRUE, ..., ci = FALSE, conf.level = 0.95) {
   test <- stats::chisq.test(x, y, correct = correct, ...)
   chi2 <- test$statistic
   N <- sum(test$observed)
   k <- min(dim(test$observed))
   V <- sqrt(chi2/(N * (k - 1)))
-  as.numeric(V)
+  V <- as.numeric(V)
+  if(!isTRUE(ci)) return(V)
+  if(!is.numeric(conf.level) || length(conf.level) != 1L ||
+     is.na(conf.level) || conf.level <= 0 || conf.level >= 1){
+    stop("`conf.level` must be a single number between 0 and 1.", call. = FALSE)
+  }
+  bounds <- cramer_v_ci(
+    chi2 = as.numeric(chi2), df = as.numeric(test$parameter),
+    N = N, k = k, conf.level = conf.level
+  )
+  c(effsize = V, conf.low = bounds[1], conf.high = bounds[2])
+}
+
+# Confidence interval for Cramer's V by inverting the noncentral chi-square
+# distribution. The noncentral-F analogue used for partial eta squared lives in
+# R/anova_summary.R (partial_eta_squared_ci); the two share the same structure.
+cramer_v_ci <- function(chi2, df, N, k, conf.level = 0.95){
+  undefined <- c(NA_real_, NA_real_)
+  if(any(is.na(c(chi2, df, N, k))) || !is.finite(chi2) || chi2 < 0 ||
+     df <= 0 || N <= 0 || k <= 1) return(undefined)
+  alpha <- 1 - conf.level
+  # Smallest lambda for which P(chi2 <= observed | ncp = lambda) == target.prob;
+  # lambda = 0 when even the central chi-square already gives a smaller
+  # probability (the observed statistic is too small to bound the ncp away
+  # from 0). suppressWarnings(): at extreme noncentrality base R's noncentral
+  # chi-square routine can warn about non-convergence while still returning a
+  # usable bound.
+  find_lambda <- function(target.prob){
+    suppressWarnings({
+      if(stats::pchisq(chi2, df, ncp = 0) < target.prob) return(0)
+      upper <- 2
+      while(stats::pchisq(chi2, df, ncp = upper) > target.prob){
+        upper <- upper * 2
+        if(upper > 1e8) return(upper)
+      }
+      stats::uniroot(
+        function(lambda) stats::pchisq(chi2, df, ncp = lambda) - target.prob,
+        interval = c(0, upper)
+      )$root
+    })
+  }
+  lambda.low <- find_lambda(1 - alpha/2)
+  lambda.high <- find_lambda(alpha/2)
+  to_v <- function(lambda) sqrt(lambda / (N * (k - 1)))
+  # Cramer's V lies in [0, 1]; the inversion can put the upper bound past 1 when
+  # the association is near-perfect, so clip (as kruskal_effsize does for eta2).
+  pmin(pmax(c(to_v(lambda.low), to_v(lambda.high)), 0), 1)
 }
