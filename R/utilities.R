@@ -821,6 +821,14 @@ get_boot_ci <- function(data, stat.func, conf.level = 0.95, type = "perc", nboot
                         parallel = getOption("boot.parallel", "no"),
                         ncpus = getOption("boot.ncpus", 1L)){
   required_package("boot")
+  # boot.ci() silently ignores an interval type it does not know, which would send
+  # a misspelled ci.type down the "interval could not be computed" path below and
+  # return NA instead of failing. Reject it here (#290).
+  allowed.ci.types <- c("norm", "basic", "perc", "bca", "stud")
+  if(length(type) != 1L || !(type %in% allowed.ci.types)){
+    stop("`ci.type` must be one of ",
+         paste0("\"", allowed.ci.types, "\"", collapse = ", "), ".", call. = FALSE)
+  }
   ci.type.given <- type
   # boot::boot() resolves getOption("boot.parallel") only when `parallel` is
   # missing; passing the option's own value keeps that behavior while allowing

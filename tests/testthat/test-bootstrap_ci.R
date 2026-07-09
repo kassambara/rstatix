@@ -306,3 +306,25 @@ test_that("a well-behaved bootstrap CI still warns about nothing (#290 no-regres
   expect_equal(res$conf.low, -0.06)
   expect_equal(res$conf.high, 1.2)
 })
+
+test_that("an unknown ci.type errors rather than returning NA bounds (#290)", {
+  skip_if_not_installed("boot")
+  # boot.ci() ignores a type it does not know, so a typo would otherwise slip
+  # through the "interval could not be computed" guard and return NA silently.
+  expect_error(
+    cohens_d(ToothGrowth, len ~ supp, ci = TRUE, nboot = 50, ci.type = "bogus"),
+    "ci.type"
+  )
+  expect_error(
+    get_boot_ci(data.frame(x = 1:10), function(d, i) mean(d$x[i]),
+                nboot = 10, type = "percentile"),
+    "ci.type"
+  )
+  # the documented types keep working
+  set.seed(42)
+  for (ty in c("norm", "basic", "perc", "bca")) {
+    res <- cohens_d(ToothGrowth, len ~ supp, ci = TRUE, nboot = 200, ci.type = ty)
+    expect_type(res$conf.low, "double")
+    expect_false(is.na(res$conf.low))
+  }
+})
