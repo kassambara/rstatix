@@ -797,21 +797,78 @@ get_pairwise_comparison_methods <- function(){
   )
 }
 
+# two_sample_test() suppresses the warnings raised inside the test function, which
+# would swallow get_boot_ci()'s note. Re-raise it from the exported function when
+# an effect size was computed but its bootstrap interval was not (#290).
+warn_undefined_boot_ci <- function(res, ci){
+  if(!isTRUE(ci)) return(invisible(res))
+  if(!"conf.low" %in% colnames(res)) return(invisible(res))
+  undefined <- is.na(res$conf.low)
+  if(any(undefined)){
+    warning(
+      "The bootstrap confidence interval could not be computed for ",
+      sum(undefined), " of ", nrow(res), " comparison(s) (this happens when the ",
+      "bootstrap replicates are all identical or all missing, e.g. with constant ",
+      "data or a perfect effect size). `conf.low` and `conf.high` are NA there.",
+      call. = FALSE
+    )
+  }
+  invisible(res)
+}
+
 # Bootstrap confidence intervals -------------------------
 get_boot_ci <- function(data, stat.func, conf.level = 0.95, type = "perc", nboot = 500,
                         parallel = getOption("boot.parallel", "no"),
                         ncpus = getOption("boot.ncpus", 1L)){
   required_package("boot")
+  # boot.ci() silently ignores an interval type it does not know, which would send
+  # a misspelled ci.type down the "interval could not be computed" path below and
+  # return NA instead of failing. Reject it here (#290).
+  allowed.ci.types <- c("norm", "basic", "perc", "bca", "stud")
+  if(length(type) != 1L || !(type %in% allowed.ci.types)){
+    stop("`ci.type` must be one of ",
+         paste0("\"", allowed.ci.types, "\"", collapse = ", "), ".", call. = FALSE)
+  }
+  ci.type.given <- type
   # boot::boot() resolves getOption("boot.parallel") only when `parallel` is
   # missing; passing the option's own value keeps that behavior while allowing
   # a per-call override. boot::boot.ci() has no `parallel` formal.
   Boot = boot::boot(data, stat.func, R = nboot, parallel = parallel, ncpus = ncpus)
+  # The interval is undefined when the bootstrap replicates are degenerate: all
+  # identical (a perfect effect size) or all missing (constant data). Left to
+  # itself boot.ci() prints a note and returns NULL in the first case, and errors
+  # in its own checks in the second; the NULL then became a list-column (#290).
+  # Detect it here rather than catching boot.ci()'s error, so that genuine errors
+  # (e.g. type = "stud" without a variance) keep being raised.
+  replicates <- as.vector(Boot$t)
+  if (all(is.na(replicates)) ||
+      length(unique(replicates[!is.na(replicates)])) < 2L) {
+    warning(
+      "The bootstrap confidence interval could not be computed because the ",
+      "bootstrap replicates are all identical or all missing (this happens with ",
+      "constant data, or with a perfect effect size). `conf.low` and `conf.high` ",
+      "are returned as NA.", call. = FALSE
+    )
+    return(c(NA_real_, NA_real_))
+  }
   BCI = boot::boot.ci(Boot, conf = conf.level, type = type)
   type <- switch(
     type, norm = "normal", perc = "percent",
     basic = "basic", bca = "bca", stud = "student", type
   )
-  CI <- as.vector(BCI[[type]]) %>%
+  # boot.ci() can also return an object without the requested component (e.g.
+  # type = "stud" without bootstrap variances). Guard the same way, so the bounds
+  # are always a length-2 double and never a zero-length list (#290).
+  bounds <- as.vector(BCI[[type]])
+  if (length(bounds) < 2L) {
+    warning(
+      "The requested bootstrap confidence interval (ci.type = \"", ci.type.given,
+      "\") could not be computed. `conf.low` and `conf.high` are returned as NA.",
+      call. = FALSE
+    )
+    return(c(NA_real_, NA_real_))
+  }
+  CI <- bounds %>%
     utils::tail(2) %>% round_value(digits = 2)
   CI
 }

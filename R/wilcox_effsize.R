@@ -126,6 +126,7 @@ wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
     mutate(magnitude = get_wilcox_effsize_magnitude(.data$effsize)) %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "wilcox_effsize"))
+  warn_undefined_boot_ci(res, ci)
   res
 }
 

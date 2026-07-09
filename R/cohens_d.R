@@ -110,6 +110,7 @@ cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired
     mutate(magnitude = get_cohens_magnitude(.data$effsize)) %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "cohens_d"))
+  warn_undefined_boot_ci(res, ci)
   res
 }
 
