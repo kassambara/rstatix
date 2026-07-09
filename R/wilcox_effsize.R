@@ -40,6 +40,16 @@ NULL
 #'@param ci.type The type of confidence interval to use. Can be any of "norm",
 #'  "basic", "perc", or "bca". Passed to \code{boot::boot.ci}.
 #'@param nboot The number of replications to use for bootstrap.
+#'@param boot.parallel The type of parallel operation to be used when computing
+#'  the bootstrap confidence interval. Allowed values are \code{"no"} (default),
+#'  \code{"multicore"} and \code{"snow"}. Passed to \code{\link[boot]{boot}()}.
+#'  Defaults to \code{getOption("boot.parallel", "no")}, so it can also be set
+#'  globally with \code{options(boot.parallel = "multicore")}. Only used when
+#'  \code{ci = TRUE}.
+#'@param boot.ncpus Integer. The number of processes to be used in the parallel
+#'  bootstrap. Defaults to \code{getOption("boot.ncpus", 1L)}. Note that
+#'  \code{boot.parallel} has no effect unless \code{boot.ncpus > 1}. Only used
+#'  when \code{ci = TRUE}.
 #'@param detailed logical value. Default is FALSE. If TRUE, the output
 #'  additionally includes the \code{Z} \code{statistic} (extracted from the
 #'  \code{coin} package and used to compute \code{r = Z/sqrt(N)}), the p-value
@@ -85,10 +95,16 @@ NULL
 wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
                                 paired = FALSE, alternative = "two.sided",
                                 mu = 0, ci = FALSE, conf.level = 0.95, ci.type = "perc",
-                                nboot = 1000, detailed = FALSE, ...){
+                                nboot = 1000, detailed = FALSE, ...,
+                                boot.parallel = getOption("boot.parallel", "no"),
+                                boot.ncpus = getOption("boot.ncpus", 1L)){
 
   env <- as.list(environment())
-  args <- env %>% .add_item(method = "wilcox_effsize")
+  # See cohens_d(): the bootstrap-execution arguments are not part of the
+  # statistical call, so they are excluded from the stashed args.
+  args <- env %>%
+    remove_item(c("boot.parallel", "boot.ncpus")) %>%
+    .add_item(method = "wilcox_effsize")
   params <- c(env, list(...)) %>%
     remove_null_items() %>%
     add_item(method = "coin.wilcox.test", detailed = detailed)
@@ -117,7 +133,9 @@ wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
 
 # Wilcoxon test using coin R package; returns effect size
 coin.wilcox.test <- function(x, y = NULL, mu = 0, paired = FALSE, alternative = c("two.sided", "less", "greater"),
-                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...){
+                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...,
+                     boot.parallel = getOption("boot.parallel", "no"),
+                     boot.ncpus = getOption("boot.ncpus", 1L)){
   required_package("coin")
 
   alternative <- match.arg(alternative)
@@ -173,7 +191,7 @@ coin.wilcox.test <- function(x, y = NULL, mu = 0, paired = FALSE, alternative = 
     }
     CI <- get_boot_ci(
       data, stat.func, conf.level = conf.level,
-      type = ci.type, nboot = nboot
+      type = ci.type, nboot = nboot, parallel = boot.parallel, ncpus = boot.ncpus
       )
     results <- results %>% mutate(conf.low = CI[1], conf.high = CI[2])
   }

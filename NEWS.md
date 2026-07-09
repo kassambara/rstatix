@@ -1,5 +1,9 @@
 # rstatix 1.0.0.999
 
+## Minor changes
+
+- `cohens_d()`, `wilcox_effsize()`, `kruskal_effsize()` and `friedman_effsize()` gain `boot.parallel` and `boot.ncpus` arguments to compute the bootstrap confidence interval (`ci = TRUE`) in parallel, for example `cohens_d(df, len ~ supp, ci = TRUE, boot.parallel = "multicore", boot.ncpus = 4)`. They default to `getOption("boot.parallel", "no")` and `getOption("boot.ncpus", 1L)`, so the bootstrap stays serial by default, the corresponding global options keep working, and all existing results are unchanged. The parallel settings are now passed to `boot::boot()`, which performs the resampling, rather than to `boot::boot.ci()`, which has no such argument and silently ignored them. Based on the contribution by @HannesOberreiter ([#289](https://github.com/kassambara/rstatix/pull/289), [#87](https://github.com/kassambara/rstatix/pull/87)).
+
 
 # rstatix 1.0.0
 

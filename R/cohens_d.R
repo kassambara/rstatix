@@ -79,9 +79,16 @@ NULL
 #'@export
 cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired = FALSE, mu = 0,
                      var.equal = FALSE, hedges.correction = FALSE,
-                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000){
+                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
+                     boot.parallel = getOption("boot.parallel", "no"),
+                     boot.ncpus = getOption("boot.ncpus", 1L)){
   env <- as.list(environment())
-  args <- env %>% .add_item(method = "cohens_d")
+  # boot.parallel/boot.ncpus only steer how the bootstrap is computed, never the
+  # result, and their defaults depend on the user's options(); keep them out of
+  # the stashed args so attr(x, "args") stays deterministic.
+  args <- env %>%
+    remove_item(c("boot.parallel", "boot.ncpus")) %>%
+    .add_item(method = "cohens_d")
   params <- env %>%
     remove_null_items() %>%
     add_item(method = "cohens.d", detailed = FALSE)
@@ -111,7 +118,9 @@ cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired
 # Cohens d core function -------------------------------
 cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
                      hedges.correction = FALSE,
-                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...){
+                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...,
+                     boot.parallel = getOption("boot.parallel", "no"),
+                     boot.ncpus = getOption("boot.ncpus", 1L)){
   check_two_samples_test_args(
     x = x, y = y, mu = mu, paired = paired,
     conf.level = conf.level
@@ -166,7 +175,7 @@ cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
     }
     CI <- get_boot_ci(
       data, stat.func, conf.level = conf.level,
-      type = ci.type, nboot = nboot
+      type = ci.type, nboot = nboot, parallel = boot.parallel, ncpus = boot.ncpus
     )
     results <- results %>% mutate(conf.low = CI[1], conf.high = CI[2])
   }
