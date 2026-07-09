@@ -185,3 +185,124 @@ test_that("the default bootstrap confidence interval is unchanged (no regression
   expect_equal(res2$conf.low, -0.21)
   expect_equal(res2$conf.high, 1.05)
 })
+
+# Degenerate bootstrap replicates (#290) -------------------------------------
+
+# Perfectly concordant rankings give Kendall's W == 1, so every bootstrap
+# replicate equals 1 and no interval exists.
+concordant_df <- function() {
+  data.frame(
+    id = factor(rep(1:4, each = 3)),
+    time = factor(rep(c("t1", "t2", "t3"), times = 4)),
+    score = c(1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3)
+  )
+}
+
+# Constant data: the statistic is NaN, so every replicate is NA.
+constant_df <- function() {
+  data.frame(g = factor(rep(c("a", "b"), each = 6)), v = rep(1, 12))
+}
+
+test_that("get_boot_ci returns NA bounds and warns on degenerate replicates (#290)", {
+  skip_if_not_installed("boot")
+  d <- data.frame(x = 1:10)
+
+  set.seed(1)
+  expect_warning(
+    ci_identical <- get_boot_ci(d, function(data, i) 1, nboot = 50),
+    "could not be computed"
+  )
+  expect_equal(ci_identical, c(NA_real_, NA_real_))
+  expect_type(ci_identical, "double")
+
+  set.seed(1)
+  expect_warning(
+    ci_missing <- get_boot_ci(d, function(data, i) NA_real_, nboot = 50),
+    "could not be computed"
+  )
+  expect_equal(ci_missing, c(NA_real_, NA_real_))
+
+  # a well-behaved bootstrap is untouched
+  set.seed(1)
+  ci_ok <- get_boot_ci(d, function(data, i) mean(data$x[i]), nboot = 100)
+  expect_type(ci_ok, "double")
+  expect_length(ci_ok, 2)
+  expect_false(anyNA(ci_ok))
+})
+
+test_that("friedman_effsize returns NA bounds instead of list-columns (#290)", {
+  skip_if_not_installed("boot")
+  set.seed(1)
+  expect_warning(
+    res <- friedman_effsize(concordant_df(), score ~ time | id, ci = TRUE, nboot = 50),
+    "could not be computed"
+  )
+  # the bug returned a <list> column of NULLs
+  expect_type(res$conf.low, "double")
+  expect_type(res$conf.high, "double")
+  expect_true(is.na(res$conf.low))
+  expect_true(is.na(res$conf.high))
+  expect_equal(as.numeric(res$effsize), 1)
+})
+
+test_that("grouped friedman_effsize no longer errors when one group is degenerate (#290)", {
+  skip_if_not_installed("boot")
+  df <- data.frame(
+    id = factor(rep(1:8, each = 3)),
+    time = factor(rep(c("t1", "t2", "t3"), times = 8)),
+    grp = factor(rep(c("A", "B"), each = 12)),
+    score = c(1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3,
+              1, 3, 2, 2, 1, 3, 1, 2, 3, 3, 1, 2)
+  )
+  set.seed(1)
+  expect_warning(
+    res <- friedman_effsize(dplyr::group_by(df, grp), score ~ time | id,
+                            ci = TRUE, nboot = 50),
+    "could not be computed"
+  )
+  expect_equal(nrow(res), 2L)
+  expect_type(res$conf.low, "double")
+  expect_true(is.na(res$conf.low[1]))   # group A: W == 1, undefined
+  expect_false(is.na(res$conf.low[2]))  # group B: computed as usual
+})
+
+test_that("the effect size functions return NA bounds on constant data (#290)", {
+  skip_if_not_installed("boot")
+  const <- constant_df()
+
+  set.seed(1)
+  expect_warning(d <- cohens_d(const, v ~ g, ci = TRUE, nboot = 50), "could not be computed")
+  expect_type(d$conf.low, "double")
+  expect_true(is.na(d$conf.low))
+
+  set.seed(1)
+  expect_warning(k <- kruskal_effsize(const, v ~ g, ci = TRUE, nboot = 50), "could not be computed")
+  expect_type(k$conf.low, "double")
+  expect_true(is.na(k$conf.low))
+
+  skip_if_not_installed("coin")
+  set.seed(1)
+  expect_warning(w <- wilcox_effsize(const, v ~ g, ci = TRUE, nboot = 50), "could not be computed")
+  expect_type(w$conf.low, "double")
+  expect_true(is.na(w$conf.low))
+})
+
+test_that("an interval type boot.ci cannot build yields NA bounds, not a list-column (#290)", {
+  skip_if_not_installed("boot")
+  # "stud" needs bootstrap variances, which are not supplied
+  set.seed(1)
+  expect_warning(
+    res <- cohens_d(ToothGrowth, len ~ supp, ci = TRUE, nboot = 50, ci.type = "stud"),
+    "could not be computed"
+  )
+  expect_type(res$conf.low, "double")
+  expect_true(is.na(res$conf.low))
+})
+
+test_that("a well-behaved bootstrap CI still warns about nothing (#290 no-regression)", {
+  skip_if_not_installed("boot")
+  set.seed(42)
+  expect_silent(res <- cohens_d(ToothGrowth, len ~ supp, ci = TRUE, nboot = 200))
+  expect_equal(res$conf.low, -0.06)
+  expect_equal(res$conf.high, 1.2)
+})
