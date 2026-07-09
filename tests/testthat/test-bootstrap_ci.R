@@ -106,6 +106,55 @@ test_that("the effect size functions forward boot.parallel and boot.ncpus", {
   expect_equal(record2$ncpus, 3)
 })
 
+test_that("the arguments placed after `...` also reach boot::boot()", {
+  # friedman_effsize() and wilcox_effsize() take boot.parallel/boot.ncpus after
+  # `...`, so they must be matched exactly rather than swallowed by the dots.
+  skip_if_not_installed("boot")
+
+  df <- data.frame(
+    id = factor(rep(1:8, each = 3)),
+    time = factor(rep(c("t1", "t2", "t3"), times = 8)),
+    score = c(12, 15, 18, 11, 14, 20, 13, 17, 19, 10, 16, 21,
+              14, 13, 22, 15, 12, 17, 11, 18, 20, 16, 14, 23)
+  )
+  record <- new.env()
+  local_mocked_bindings(boot = mock_boot(record), .package = "boot")
+  expect_error(
+    friedman_effsize(df, score ~ time | id, ci = TRUE, nboot = 10,
+                     boot.parallel = "multicore", boot.ncpus = 3),
+    class = "mock_boot_called"
+  )
+  expect_equal(record$parallel, "multicore")
+  expect_equal(record$ncpus, 3)
+
+  skip_if_not_installed("coin")
+  record2 <- new.env()
+  local_mocked_bindings(boot = mock_boot(record2), .package = "boot")
+  expect_error(
+    wilcox_effsize(ToothGrowth, len ~ supp, ci = TRUE, nboot = 10,
+                   boot.parallel = "multicore", boot.ncpus = 3),
+    class = "mock_boot_called"
+  )
+  expect_equal(record2$parallel, "multicore")
+  expect_equal(record2$ncpus, 3)
+})
+
+test_that("grouped data forward the bootstrap arguments for every group", {
+  skip_if_not_installed("boot")
+  df <- ToothGrowth
+  df$dose <- factor(df$dose)
+
+  record <- new.env()
+  local_mocked_bindings(boot = mock_boot(record), .package = "boot")
+  expect_error(
+    kruskal_effsize(dplyr::group_by(df, supp), len ~ dose, ci = TRUE, nboot = 10,
+                    boot.parallel = "multicore", boot.ncpus = 3),
+    class = "mock_boot_called"
+  )
+  expect_equal(record$parallel, "multicore")
+  expect_equal(record$ncpus, 3)
+})
+
 test_that("boot.parallel and boot.ncpus are not stored in the test arguments", {
   # attr(x, "args") records the statistical call (ggpubr reads it back via
   # get_test_arguments()). The bootstrap-execution arguments cannot change any
