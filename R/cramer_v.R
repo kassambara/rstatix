@@ -23,12 +23,24 @@ NULL
 #'  root finding, and each is converted with \eqn{V = \sqrt{\lambda / (N (k -
 #'  1))}}, where \eqn{N} is the total count and \eqn{k} the smaller of the two
 #'  table dimensions. The interval is computed from the same chi-square statistic
-#'  as the point estimate, so it always brackets the reported \code{effsize} --
-#'  note that this means the default \code{correct = TRUE} (Yates' continuity
-#'  correction, applied by \code{\link[stats]{chisq.test}()} to 2x2 tables)
-#'  affects both. The bounds are clipped to \eqn{[0, 1]}, the range of Cramer's
-#'  V, and are returned as \code{NA} when the statistic is undefined (for
-#'  example, when the table has an empty row or column).
+#'  as the point estimate, so the default \code{correct = TRUE} (Yates'
+#'  continuity correction, applied by \code{\link[stats]{chisq.test}()} to 2x2
+#'  tables) affects both.
+#'
+#'  The bounds are clipped to \eqn{[0, 1]}, the range of Cramer's V. They are
+#'  \code{NA}, with a warning, when the statistic or its degrees of freedom are
+#'  undefined -- for instance when the table has an empty row or column, or when
+#'  \code{simulate.p.value = TRUE} is passed on to
+#'  \code{\link[stats]{chisq.test}()}, which then reports no degrees of freedom.
+#'
+#'  The interval usually brackets the reported \code{effsize}, but it does not in
+#'  the near-independence corner: when the observed chi-square falls below the
+#'  \eqn{\alpha/2} quantile of its central distribution, no noncentrality is
+#'  consistent with the data at that quantile, both bounds collapse to
+#'  \eqn{[0, 0]}, and the (necessarily positive) point estimate lies above them.
+#'  This is a property of the noncentral inversion rather than of this
+#'  implementation, and it only arises for effect sizes indistinguishable from
+#'  zero.
 #'
 #'  With \code{correct = FALSE}, the interval matches
 #'  \code{effectsize::cramers_v(adjust = FALSE, ci = , alternative =
@@ -70,6 +82,15 @@ cramer_v <- function(x, y = NULL, correct = TRUE, ..., ci = FALSE, conf.level = 
     chi2 = as.numeric(chi2), df = as.numeric(test$parameter),
     N = N, k = k, conf.level = conf.level
   )
+  if(anyNA(bounds)){
+    warning(
+      "The confidence interval for Cramer's V could not be computed because the ",
+      "chi-square statistic or its degrees of freedom are undefined (this happens ",
+      "with an empty row or column, and with `simulate.p.value = TRUE`, which ",
+      "reports no degrees of freedom). `conf.low` and `conf.high` are returned as NA.",
+      call. = FALSE
+    )
+  }
   c(effsize = V, conf.low = bounds[1], conf.high = bounds[2])
 }
 

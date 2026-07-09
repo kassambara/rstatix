@@ -89,14 +89,48 @@ test_that("the cramer_v interval is clipped to the [0, 1] range of the statistic
   expect_equal(unname(res0), c(0, 0, 0))
 })
 
-test_that("the cramer_v interval is NA when the statistic is undefined", {
+test_that("the cramer_v interval is NA, with a warning, when the statistic is undefined", {
   # An empty row makes the chi-square statistic NaN; the interval must be NA
-  # rather than a fabricated bound.
+  # rather than a fabricated bound, and must say so.
   empty_row <- as.table(rbind(c(0, 0), c(30, 20)))
-  res <- suppressWarnings(cramer_v(empty_row, correct = FALSE, ci = TRUE))
+  expect_warning(
+    res <- suppressMessages(cramer_v(empty_row, correct = FALSE, ci = TRUE)),
+    "could not be computed"
+  )
   expect_true(is.na(res[["conf.low"]]))
   expect_true(is.na(res[["conf.high"]]))
   expect_type(res, "double")
+
+  # simulate.p.value = TRUE reports no degrees of freedom, so the noncentral
+  # inversion has nothing to invert.
+  set.seed(1)
+  expect_warning(
+    sim <- cramer_v(gender_party(), simulate.p.value = TRUE, B = 200, ci = TRUE),
+    "could not be computed"
+  )
+  expect_false(is.na(sim[["effsize"]]))
+  expect_true(is.na(sim[["conf.low"]]))
+})
+
+test_that("the cramer_v interval collapses to [0, 0] near independence", {
+  # When the observed chi-square falls below the alpha/2 quantile of its central
+  # distribution, no noncentrality is consistent with it: both bounds are 0 and
+  # the positive point estimate lies above them. This documents the contract --
+  # it is a property of the noncentral inversion, not of this implementation.
+  near_independent <- as.table(rbind(c(1000, 1000), c(1000, 1001)))
+  res <- suppressWarnings(cramer_v(near_independent, correct = FALSE, ci = TRUE))
+  chi2 <- suppressWarnings(stats::chisq.test(near_independent, correct = FALSE)$statistic)
+  expect_lt(as.numeric(chi2), stats::qchisq(0.025, df = 1))
+  expect_gt(res[["effsize"]], 0)
+  expect_equal(res[["conf.low"]], 0)
+  expect_equal(res[["conf.high"]], 0)
+
+  # just above the quantile the upper bound becomes positive again
+  ordinary <- as.table(rbind(c(60, 40), c(40, 60)))
+  res2 <- cramer_v(ordinary, correct = FALSE, ci = TRUE)
+  expect_gt(res2[["conf.high"]], 0)
+  expect_lte(res2[["conf.low"]], res2[["effsize"]])
+  expect_gte(res2[["conf.high"]], res2[["effsize"]])
 })
 
 test_that("cramer_v validates conf.level", {
