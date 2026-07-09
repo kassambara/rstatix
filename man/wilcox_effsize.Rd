@@ -18,8 +18,8 @@ wilcox_effsize(
   nboot = 1000,
   detailed = FALSE,
   ...,
-  parallel = "no",
-  ncpus = getOption("boot.ncpus", 1L)
+  boot.parallel = getOption("boot.parallel", "no"),
+  boot.ncpus = getOption("boot.ncpus", 1L)
 )
 }
 \arguments{
@@ -71,10 +71,17 @@ and the underlying Z are reported together in one data frame.}
 \code{coin::wilcoxsign_test()} (case of one- or paired-samples test) or
 \code{coin::wilcox_test()} (case of independent two-samples test).}
 
-\item{parallel}{The type of parallel operation to be used for bootstrap.
-Allowed values are "no", "multicore" and "snow".}
+\item{boot.parallel}{The type of parallel operation to be used when computing
+the bootstrap confidence interval. Allowed values are \code{"no"} (default),
+\code{"multicore"} and \code{"snow"}. Passed to \code{\link[boot]{boot}()}.
+Defaults to \code{getOption("boot.parallel", "no")}, so it can also be set
+globally with \code{options(boot.parallel = "multicore")}. Only used when
+\code{ci = TRUE}.}
 
-\item{ncpus}{The number of processes to be used in parallel operation.}
+\item{boot.ncpus}{Integer. The number of processes to be used in the parallel
+bootstrap. Defaults to \code{getOption("boot.ncpus", 1L)}. Note that
+\code{boot.parallel} has no effect unless \code{boot.ncpus > 1}. Only used
+when \code{ci = TRUE}.}
 }
 \value{
 return a data frame with some of the following columns: \itemize{

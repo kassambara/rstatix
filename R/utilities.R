@@ -799,8 +799,12 @@ get_pairwise_comparison_methods <- function(){
 
 # Bootstrap confidence intervals -------------------------
 get_boot_ci <- function(data, stat.func, conf.level = 0.95, type = "perc", nboot = 500,
-                        parallel = "no", ncpus = getOption("boot.ncpus", 1L)){
+                        parallel = getOption("boot.parallel", "no"),
+                        ncpus = getOption("boot.ncpus", 1L)){
   required_package("boot")
+  # boot::boot() resolves getOption("boot.parallel") only when `parallel` is
+  # missing; passing the option's own value keeps that behavior while allowing
+  # a per-call override. boot::boot.ci() has no `parallel` formal.
   Boot = boot::boot(data, stat.func, R = nboot, parallel = parallel, ncpus = ncpus)
   BCI = boot::boot.ci(Boot, conf = conf.level, type = type)
   type <- switch(

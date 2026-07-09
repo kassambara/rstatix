@@ -30,3 +30,18 @@ test_that("cohens_d default (mu = 0) is the standard Cohen's d (no regression, #
   os <- ToothGrowth %>% cohens_d(len ~ 1, mu = 20)
   expect_equal(as.numeric(os$effsize), (mean(ToothGrowth$len) - 20) / sd(ToothGrowth$len), tolerance = 1e-4)
 })
+
+test_that("cohens_d still accepts abbreviated argument names (no regression)", {
+  # The bootstrap arguments are named boot.parallel / boot.ncpus (not parallel /
+  # ncpus) so that `p`/`pa` keep partial-matching unambiguously to `paired`, and
+  # `n` to `nboot`.
+  diffs <- oj - vc
+  expect_equal(as.numeric(cohens_d(ToothGrowth, len ~ supp, p = TRUE)$effsize),
+               mean(diffs) / sd(diffs), tolerance = 1e-4)
+  expect_equal(as.numeric(cohens_d(ToothGrowth, len ~ supp, pa = TRUE)$effsize),
+               mean(diffs) / sd(diffs), tolerance = 1e-4)
+  skip_if_not_installed("boot")
+  set.seed(42)
+  res <- cohens_d(ToothGrowth, len ~ supp, ci = TRUE, n = 200)
+  expect_true(all(c("conf.low", "conf.high") %in% colnames(res)))
+})
