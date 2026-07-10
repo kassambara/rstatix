@@ -112,6 +112,7 @@ Collate:
     'sample_n_by.R'
     'shapiro_test.R'
     'sign_test.R'
+    'tidy_glance.R'
     'tukey_hsd.R'
     'utils-manova.R'
     'utils-pipe.R'
