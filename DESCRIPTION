@@ -44,7 +44,6 @@ Suggests:
     spelling
 URL: https://rpkgs.datanovia.com/rstatix/
 BugReports: https://github.com/kassambara/rstatix/issues
-RoxygenNote: 7.3.3
 Collate:
     'utilities.R'
     'add_cld.R'
@@ -120,3 +119,4 @@ Collate:
     'wilcox_effsize.R'
     'wilcox_test.R'
 Language: en-US
+Config/roxygen2/version: 8.0.0

@@ -22,14 +22,14 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{car}{\code{\link[car]{Anova}}}
+  \item{car}{\code{\link[car:Anova]{Anova()}}}
 
-  \item{dplyr}{\code{\link[dplyr]{desc}}, \code{\link[dplyr]{filter}}, \code{\link[dplyr]{group_by}}, \code{\link[dplyr]{mutate}}, \code{\link[dplyr]{select}}}
+  \item{dplyr}{\code{\link[dplyr:desc]{desc()}}, \code{\link[dplyr:filter]{filter()}}, \code{\link[dplyr:group_by]{group_by()}}, \code{\link[dplyr:mutate]{mutate()}}, \code{\link[dplyr:select]{select()}}}
 
-  \item{generics}{\code{\link[generics]{augment}}, \code{\link[generics]{tidy}}}
+  \item{generics}{\code{\link[generics:augment]{augment()}}, \code{\link[generics:tidy]{tidy()}}}
 
-  \item{tibble}{\code{\link[tibble]{tibble}}}
+  \item{tibble}{\code{\link[tibble:tibble]{tibble()}}}
 
-  \item{tidyr}{\code{\link[tidyr]{drop_na}}, \code{\link[tidyr]{gather}}, \code{\link[tidyr]{spread}}}
+  \item{tidyr}{\code{\link[tidyr:drop_na]{drop_na()}}, \code{\link[tidyr:gather]{gather()}}, \code{\link[tidyr:spread]{spread()}}}
 }}
 

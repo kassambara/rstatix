@@ -4,7 +4,7 @@
 \alias{cramer_v}
 \title{Compute Cramer's V}
 \usage{
-cramer_v(x, y = NULL, correct = TRUE, ...)
+cramer_v(x, y = NULL, correct = TRUE, ..., ci = FALSE, conf.level = 0.95)
 }
 \arguments{
 \item{x}{a numeric vector or matrix. \code{x} and \code{y} can also
@@ -21,10 +21,55 @@ cramer_v(x, y = NULL, correct = TRUE, ...)
 
 \item{...}{other arguments passed to the function
 \code{\link[stats]{chisq.test}()}.}
+
+\item{ci}{logical. If TRUE, a confidence interval for Cramer's V is added to
+the result and a one-row data frame is returned instead of a single value.
+Default is FALSE.}
+
+\item{conf.level}{The level of the confidence interval. Default is 0.95. Only
+used when \code{ci = TRUE}.}
+}
+\value{
+By default, a single numeric value: Cramer's V.
+
+ When \code{ci = TRUE}, a one-row tibble with the columns \code{effsize}
+ (Cramer's V), \code{conf.low} and \code{conf.high} -- the same confidence
+ interval columns that \code{\link{anova_test}(ci = )} returns.
 }
 \description{
 Compute Cramer's V, which measures the strength of the
  association between categorical variables.
+}
+\details{
+The confidence interval is obtained by inverting the noncentral
+ chi-square distribution (Smithson, 2003; Steiger, 2004): the noncentrality
+ parameters \eqn{\lambda} whose distributions place the observed chi-square
+ statistic at the \eqn{1 - \alpha/2} and \eqn{\alpha/2} quantiles are found by
+ root finding, and each is converted with \eqn{V = \sqrt{\lambda / (N (k -
+ 1))}}, where \eqn{N} is the total count and \eqn{k} the smaller of the two
+ table dimensions. The interval is computed from the same chi-square statistic
+ as the point estimate, so the default \code{correct = TRUE} (Yates'
+ continuity correction, applied by \code{\link[stats]{chisq.test}()} to 2x2
+ tables) affects both.
+
+ The bounds are clipped to \eqn{[0, 1]}, the range of Cramer's V. They are
+ \code{NA}, with a warning, when the statistic or its degrees of freedom are
+ undefined -- for instance when the table has an empty row or column, or when
+ \code{simulate.p.value = TRUE} is passed on to
+ \code{\link[stats]{chisq.test}()}, which then reports no degrees of freedom.
+
+ The interval usually brackets the reported \code{effsize}, but it does not in
+ the near-independence corner: when the observed chi-square falls below the
+ \eqn{\alpha/2} quantile of its central distribution, no noncentrality is
+ consistent with the data at that quantile, both bounds collapse to
+ \eqn{[0, 0]}, and the (necessarily positive) point estimate lies above them.
+ This is a property of the noncentral inversion rather than of this
+ implementation, and it only arises for effect sizes indistinguishable from
+ zero.
+
+ With \code{correct = FALSE}, the interval matches
+ \code{effectsize::cramers_v(adjust = FALSE, ci = , alternative =
+ "two.sided")}.
 }
 \examples{
 
@@ -38,4 +83,14 @@ df
 # Compute cramer's V
 cramer_v(df)
 
+# Add a confidence interval
+cramer_v(df, ci = TRUE)
+
+}
+\references{
+Smithson, M. (2003). Confidence Intervals. Sage Publications.
+
+ Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals
+ and tests of close fit in the analysis of variance and contrast analysis.
+ Psychological Methods, 9, 164-182.
 }
