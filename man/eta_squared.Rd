@@ -5,15 +5,28 @@
 \alias{partial_eta_squared}
 \title{Effect Size for ANOVA}
 \usage{
-eta_squared(model)
+eta_squared(model, ci = NULL)
 
-partial_eta_squared(model)
+partial_eta_squared(model, ci = NULL)
 }
 \arguments{
-\item{model}{an object of class aov or anova.}
+\item{model}{an object of class \code{aov} or \code{anova}.}
+
+\item{ci}{confidence level for a confidence interval on the effect size. If a
+number between 0 and 1 (e.g. \code{0.95}), the function returns a tibble with
+one row per model term and the columns \code{Effect}, \code{effsize},
+\code{conf.low} and \code{conf.high} instead of the bare named vector. The
+interval is computed in base R by inverting the noncentral F distribution
+(Steiger, 2004), and matches
+\code{effectsize::eta_squared(ci = , alternative = "two.sided")} —
+\code{partial = FALSE} for \code{eta_squared()} and \code{partial = TRUE} for
+\code{partial_eta_squared()}. Default is \code{NULL} (no interval; the bare
+named vector is returned, unchanged).}
 }
 \value{
-a numeric vector with the effect size statistics
+a named numeric vector of effect sizes, one per model term; or, when
+  \code{ci} is a confidence level, a tibble with the columns \code{Effect},
+  \code{effsize}, \code{conf.low} and \code{conf.high}.
 }
 \description{
 Compute eta-squared and partial eta-squared for all terms in an
@@ -38,4 +51,13 @@ summary(res.aov)
 # Effect size
 eta_squared(res.aov)
 partial_eta_squared(res.aov)
+
+# Effect size with confidence interval
+eta_squared(res.aov, ci = 0.95)
+partial_eta_squared(res.aov, ci = 0.95)
+}
+\references{
+Steiger, J. H. (2004). Beyond the F test: Effect size confidence
+  intervals and tests of close fit in the analysis of variance and contrast
+  analysis. \emph{Psychological Methods}, 9, 164-182.
 }
