@@ -114,9 +114,16 @@ test_that("dunnett_test matches the DescTools and multcomp Dunnett implementatio
   # scale, so a pin written that way would accept anything below roughly 2e-8 --
   # it would read like nine-digit agreement while allowing a 50% error. Assert
   # the relative error instead.
+  #
+  # The probability is obtained by numerical integration (mvtnorm), so the last
+  # few digits depend on the mvtnorm build: this machine reproduces the multcomp
+  # value to 1e-12, other platforms only to about 1e-8. 1e-5 keeps two orders of
+  # margin over that while still failing a 0.24% error in p.adj.
+  # multcomp reports 1.3367834395e-08 and DescTools 1.33678340619e-08; they agree
+  # with each other to 2.5e-8 relative, well inside the tolerance, so one
+  # assertion covers both.
   rel_error <- function(observed, reference) abs(observed - reference) / reference
-  expect_lt(rel_error(res$p.adj[1], 1.3367834395e-08), 1e-9)    # multcomp: exact
-  expect_lt(rel_error(res$p.adj[1], 1.33678340619e-08), 1e-7)   # DescTools: 9 sig digits
+  expect_lt(rel_error(res$p.adj[1], 1.336783e-08), 1e-5)
 
   # The second comparison lies at the floating-point floor: rstatix and multcomp
   # both report 3.33e-16, DescTools 2.22e-16. All three mean "indistinguishable
