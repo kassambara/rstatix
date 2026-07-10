@@ -48,6 +48,8 @@ NULL
 #'  statistic is referred to a \emph{t}-distribution with \eqn{N - k} degrees of
 #'  freedom.
 #'
+#'  The results match \code{PMCMRplus::kwAllPairsConoverTest()}.
+#'
 #'@references Conover, W. J. (1999) Practical Nonparametric Statistics, 3rd
 #'  edition. Wiley.
 #'

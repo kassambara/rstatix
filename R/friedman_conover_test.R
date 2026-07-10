@@ -56,6 +56,10 @@ NULL
 #'  freedom. This is the Conover (1999) post-hoc, also known as the
 #'  Durbin-Conover test.
 #'
+#'  The p-values match \code{PMCMRplus::frdAllPairsConoverTest()}. That function
+#'  reports the \emph{t} statistic for the reversed comparison, so its sign is
+#'  the opposite of the one returned here; the magnitude is the same.
+#'
 #'@references Conover, W. J. (1999) Practical Nonparametric Statistics, 3rd
 #'  edition. Wiley.
 #' @seealso \code{\link{friedman_test}}, \code{\link{friedman_nemenyi_test}},

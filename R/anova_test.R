@@ -66,7 +66,10 @@ NULL
 #'  number between 0 and 1 (e.g. \code{0.95}), two columns \code{conf.low} and
 #'  \code{conf.high} are added giving the confidence interval for \strong{partial
 #'  eta squared} (\code{effect.size} must include \code{"pes"}). The interval is
-#'  computed from the noncentral F distribution (Steiger, 2004) in base R. No
+#'  computed from the noncentral F distribution (Steiger, 2004) in base R. The
+#'  interval is two-sided, and matches
+#'  \code{effectsize::eta_squared(partial = TRUE, ci = , alternative = "two.sided")};
+#'  that function defaults to a one-sided interval, whose upper bound is 1. No
 #'  interval is provided for generalized eta squared (\code{"ges"}), which has no
 #'  standard closed-form interval. Default is \code{NULL} (no interval; output
 #'  unchanged).

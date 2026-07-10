@@ -41,6 +41,11 @@ NULL
 #'  the studentized range distribution with \eqn{k} groups and infinite degrees
 #'  of freedom.
 #'
+#'  The p-values match \code{PMCMRplus::frdAllPairsNemenyiTest()}. That function
+#'  reports the magnitude of the statistic; the value returned here carries the
+#'  sign of the rank-sum difference between the two groups, so the two agree
+#'  only where that difference is positive.
+#'
 #'@references Nemenyi, P. (1963) Distribution-free Multiple Comparisons. PhD
 #'  Thesis, Princeton University.
 #'

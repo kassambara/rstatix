@@ -92,7 +92,42 @@ test_that("dunnett_test handles factor levels containing '-' (#129)", {
   expect_equal(unique(res$n2), 10L)
 })
 
-# Note: correctness is validated above against emmeans' own trt.vs.ctrl + mvt
-# contrast (a declared Suggests). DescTools / multcomp would be unstated test
-# dependencies, so they are intentionally not used here (cf. R CMD check
-# "unstated dependencies in tests").
+test_that("dunnett_test matches the DescTools and multcomp Dunnett implementations", {
+  skip_if_not_installed("emmeans")
+  # The documentation of dunnett_test() claims its results match
+  # DescTools::DunnettTest() and multcomp::glht(..., mcp(dose = "Dunnett")).
+  # Neither package is a dependency, and calling one from a test is an
+  # unstated-dependency WARNING under --as-cran, so their output is recorded here
+  # as fixed numbers. Pinned snapshot: DescTools 0.99.60, multcomp 1.4.30,
+  # 2026-07-10. A recorded number cannot notice either package changing its
+  # algorithm; re-verify when refreshing the snapshot.
+  df <- ToothGrowth
+  df$dose <- factor(df$dose)
+  res <- dunnett_test(df, len ~ dose)
+
+  # multcomp::glht() reports the control-minus-treatment contrast with the
+  # opposite sign; the t statistics are otherwise identical to machine precision.
+  glht_tstat <- c(6.80584650754, 11.5505576817)
+  expect_equal(res$statistic, -glht_tstat, tolerance = 1e-10)
+
+  # p-values from the multivariate-t distribution. These are of order 1e-8, and
+  # `expect_equal(tolerance = )` compares numbers this small on an ABSOLUTE
+  # scale, so a pin written that way would accept anything below roughly 2e-8 --
+  # it would read like nine-digit agreement while allowing a 50% error. Assert
+  # the relative error instead.
+  #
+  # The probability is obtained by numerical integration (mvtnorm), so the last
+  # few digits depend on the mvtnorm build: this machine reproduces the multcomp
+  # value to 1e-12, other platforms only to about 1e-8. 1e-5 keeps two orders of
+  # margin over that while still failing a 0.24% error in p.adj.
+  # multcomp reports 1.3367834395e-08 and DescTools 1.33678340619e-08; they agree
+  # with each other to 2.5e-8 relative, well inside the tolerance, so one
+  # assertion covers both.
+  rel_error <- function(observed, reference) abs(observed - reference) / reference
+  expect_lt(rel_error(res$p.adj[1], 1.336783e-08), 1e-5)
+
+  # The second comparison lies at the floating-point floor: rstatix and multcomp
+  # both report 3.33e-16, DescTools 2.22e-16. All three mean "indistinguishable
+  # from zero", so only the magnitude is worth asserting.
+  expect_lt(res$p.adj[2], 1e-15)
+})

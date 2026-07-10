@@ -1,0 +1,100 @@
+#' References and related packages
+#'
+#' @description
+#' Where the methods in \code{rstatix} come from, and which other packages
+#' implement them.
+#'
+#' Most of the statistical methods in \code{rstatix} are implemented in base R
+#' from the published formulas. A few call another package to compute the
+#' result, and one is adapted from another package's code; \emph{Adapted code}
+#' below says which. Where a function records the source of its method, it does
+#' so in its own \code{References} section; cite those authors, not this
+#' package, when you report a result.
+#'
+#' @section Method sources:
+#' \itemize{
+#'   \item \strong{Cramer's V} — Cramer, H. (1946) \emph{Mathematical Methods of
+#'   Statistics}. See \code{\link{cramer_v}()}.
+#'
+#'   \item \strong{Effect-size confidence intervals} (partial eta squared,
+#'   Cramer's V) — obtained by inverting a noncentral distribution: Smithson, M.
+#'   (2003) \emph{Confidence Intervals}; Steiger, J. H. (2004) Beyond the F test.
+#'   \emph{Psychological Methods}, 9, 164-182. See \code{\link{anova_test}()} and
+#'   \code{\link{cramer_v}()}.
+#'
+#'   \item \strong{Conover's all-pairs test} — Conover, W. J. (1999)
+#'   \emph{Practical Nonparametric Statistics}, 3rd edition. See
+#'   \code{\link{conover_test}()} and \code{\link{friedman_conover_test}()}.
+#'
+#'   \item \strong{Nemenyi's all-pairs test} — Nemenyi, P. (1963)
+#'   \emph{Distribution-free Multiple Comparisons}. See
+#'   \code{\link{friedman_nemenyi_test}()}.
+#'
+#'   \item \strong{Compact letter display} — Piepho, H.-P. (2004) An algorithm
+#'   for a letter-based representation of all-pairwise comparisons. \emph{Journal
+#'   of Computational and Graphical Statistics}, 13, 456-466. See
+#'   \code{\link{add_cld}()}.
+#'
+#'   \item \strong{Dunnett's many-to-one comparisons} — Dunnett, C. W. (1955) A
+#'   multiple comparison procedure for comparing several treatments with a
+#'   control. \emph{Journal of the American Statistical Association}, 50,
+#'   1096-1121. See \code{\link{dunnett_test}()}.
+#' }
+#'
+#' @section Related packages:
+#' The following packages implement some of the same methods. \code{rstatix}
+#' compares its results against them while developing, and they offer
+#' functionality that \code{rstatix} does not:
+#'
+#' \itemize{
+#'   \item \code{effectsize} — a broad effect-size toolkit;
+#'   \code{effectsize::cramers_v()} and \code{effectsize::eta_squared()} produce
+#'   the same intervals as \code{\link{cramer_v}(ci = TRUE)} and
+#'   \code{\link{anova_test}(ci = )} when called with
+#'   \code{alternative = "two.sided"}, which is not their default.
+#'   \item \code{DescTools} — \code{DescTools::CramerV()} and
+#'   \code{DescTools::DunnettTest()}.
+#'   \item \code{multcomp} — \code{multcomp::glht()} for general linear
+#'   hypotheses, including Dunnett contrasts.
+#'   \item \code{multcompView} — \code{multcompView::multcompLetters()} for
+#'   compact letter displays.
+#'   \item \code{PMCMRplus} — a large collection of all-pairs and many-to-one
+#'   nonparametric procedures, including the Conover and Nemenyi tests.
+#' }
+#'
+#' These packages are not dependencies of \code{rstatix}. The values they return
+#' are recorded in the \code{rstatix} test suite as fixed numbers, checked
+#' against the package they came from at the time they were written; a recorded
+#' number cannot detect a later change in the package that produced it.
+#'
+#' @section Adapted code:
+#' Of the functions documented in this package, \code{\link{sign_test}()} is the
+#' exception to the description above. Its one- and two-sample test code, and
+#' the confidence interval it reports for the median, are adapted with
+#' modifications from \code{DescTools::SignTest()} and
+#' \code{DescTools::MedianCI()}, written by Andri Signorell. \code{DescTools} is
+#' distributed under GPL (>= 2); \code{rstatix} is distributed under GPL-2.
+#'
+#' No other source file in \code{rstatix} carries a statistical method adapted
+#' from a contributed package. Argument-validation idioms are shared with base R
+#' — \code{check_two_samples_test_args()} follows the preamble of
+#' \code{stats::wilcox.test()}, as \code{DescTools} and \code{PMCMRplus} do — and
+#' those are not methods anyone cites. The test suite scans the sources for the
+#' phrases that declare an adaptation and fails when one appears in a file this
+#' section does not name; code copied without a word about it would not be caught
+#' that way.
+#'
+#' Copying code is not the same as calling it. Several functions compute their
+#' result by calling another package, as each of them states in its own
+#' documentation: \code{\link{anova_test}()} uses
+#' \code{car::Anova()} for type II and type III sums of squares, and
+#' \code{stats::aov()} for type I; \code{\link{dunnett_test}()} and
+#' \code{\link{emmeans_test}()} use \code{emmeans::emmeans()}; and
+#' \code{\link{wilcox_effsize}()} takes its statistic from
+#' \code{coin::wilcoxsign_test()} or \code{coin::wilcox_test()}.
+#'
+#' @seealso \code{\link{cramer_v}()}, \code{\link{anova_test}()},
+#'   \code{\link{conover_test}()}, \code{\link{add_cld}()},
+#'   \code{\link{dunnett_test}()}.
+#' @name rstatix-references
+NULL

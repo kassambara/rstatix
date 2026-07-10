@@ -27,15 +27,28 @@ test_that("ci reproduces the known effectsize partial-eta-squared interval (#18)
   # effectsize::eta_squared(model, partial = TRUE, ci = 0.95,
   # alternative = "two.sided") on aov(len ~ supp * dose). Hard-coded here so the
   # test needs no dependency on effectsize (which is not imported/suggested).
+  #
+  # The @param ci of anova_test() must quote this call with the same arguments.
+  # It once omitted alternative = "two.sided"; that function defaults to a
+  # one-sided interval whose upper bound is 1, so the documented claim was false
+  # while this test passed. A pinned value checks the implementation, not the
+  # sentence describing it.
+  # Pinned snapshot: effectsize 1.0.1, 2026-07-10. Unrounded reference bounds:
+  #   supp       0.05864864488  0.4020763240
+  #   dose       0.66166186318  0.8382110163
+  #   supp:dose  0.00146556212  0.2949720386
+  # anova_test() rounds to three decimals, so it reproduces each of them exactly.
+  # A tolerance of 0.002 was used here previously; on a bound of 0.001 that also
+  # admits 0.000, an interval touching zero, which is a different claim.
   d <- tg()
   res <- d %>% anova_test(len ~ supp * dose, effect.size = "pes", ci = 0.95)
   res <- res[order(res$Effect), ]
-  expect_equal(res$conf.low[res$Effect == "supp"],      0.059, tolerance = 0.002)
-  expect_equal(res$conf.high[res$Effect == "supp"],     0.402, tolerance = 0.002)
-  expect_equal(res$conf.low[res$Effect == "dose"],      0.662, tolerance = 0.002)
-  expect_equal(res$conf.high[res$Effect == "dose"],     0.838, tolerance = 0.002)
-  expect_equal(res$conf.low[res$Effect == "supp:dose"], 0.001, tolerance = 0.002)
-  expect_equal(res$conf.high[res$Effect == "supp:dose"],0.295, tolerance = 0.002)
+  expect_equal(res$conf.low[res$Effect == "supp"],      0.059, tolerance = 1e-6)
+  expect_equal(res$conf.high[res$Effect == "supp"],     0.402, tolerance = 1e-6)
+  expect_equal(res$conf.low[res$Effect == "dose"],      0.662, tolerance = 1e-6)
+  expect_equal(res$conf.high[res$Effect == "dose"],     0.838, tolerance = 1e-6)
+  expect_equal(res$conf.low[res$Effect == "supp:dose"], 0.001, tolerance = 1e-6)
+  expect_equal(res$conf.high[res$Effect == "supp:dose"],0.295, tolerance = 1e-6)
 })
 
 test_that("ci works for one-way and repeated-measures designs (#18)", {
