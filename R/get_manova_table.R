@@ -1,8 +1,15 @@
 #' @include utilities.R
 NULL
 
-# Helper function to get MANOVA table
-# The codes is from: getAnywhere("print.Anova.mlm")
+# Helper function to get MANOVA table.
+#
+# Adapted from the print.Anova.mlm method of the car package (John Fox and
+# Sanford Weisberg), distributed under GPL (>= 2), with the eigenvalue
+# computation rewritten and the table returned rather than printed. Pillai(),
+# Wilks(), HL() and Roy() below are the multivariate test statistics base R
+# uses in stats::summary.manova().
+#
+# Nothing in rstatix calls these functions.
 #
 # x a manova test result
 get_manova_table <- function (x)

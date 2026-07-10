@@ -73,20 +73,23 @@ number cannot detect a later change in the package that produced it.
 
 \section{Adapted code}{
 
-\code{\link{sign_test}()} is the exception to the description above. Its
-one- and two-sample test code, and the confidence interval it reports for the
-median, are adapted with modifications from \code{DescTools::SignTest()} and
+Of the functions documented in this package, \code{\link{sign_test}()} is the
+exception to the description above. Its one- and two-sample test code, and
+the confidence interval it reports for the median, are adapted with
+modifications from \code{DescTools::SignTest()} and
 \code{DescTools::MedianCI()}, written by Andri Signorell. \code{DescTools} is
 distributed under GPL (>= 2); \code{rstatix} is distributed under GPL-2.
+Where an internal, undocumented helper is adapted from another package, the
+source file that carries it names its origin.
 
-Copying code is not the same as calling it. Some functions compute their
+Copying code is not the same as calling it. Several functions compute their
 result by calling a package that \code{rstatix} depends on, as each of them
-states in its own documentation: \code{\link{anova_test}()} calls
-\code{car::Anova()}, \code{\link{dunnett_test}()} and
-\code{\link{emmeans_test}()} call \code{emmeans::emmeans()}, and
-\code{\link{wilcox_effsize}()} calls \code{coin::wilcoxsign_test()} or
-\code{coin::wilcox_test()}. \code{\link{sign_test}()} is the only function
-whose code was copied from another package rather than called.
+states in its own documentation: \code{\link{anova_test}()} uses
+\code{car::Anova()} for type II and type III sums of squares, and
+\code{stats::aov()} for type I; \code{\link{dunnett_test}()} and
+\code{\link{emmeans_test}()} use \code{emmeans::emmeans()}; and
+\code{\link{wilcox_effsize}()} takes its statistic from
+\code{coin::wilcoxsign_test()} or \code{coin::wilcox_test()}.
 }
 
 \seealso{
