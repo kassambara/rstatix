@@ -57,7 +57,10 @@ For a balanced complete block design with \eqn{b} blocks and \eqn{k}
  the studentized range distribution with \eqn{k} groups and infinite degrees
  of freedom.
 
- The results match \code{PMCMRplus::frdAllPairsNemenyiTest()}.
+ The p-values match \code{PMCMRplus::frdAllPairsNemenyiTest()}. That function
+ reports the magnitude of the statistic; the value returned here carries the
+ sign of the rank-sum difference between the two groups, so the two agree
+ only where that difference is positive.
 }
 \examples{
 # A balanced complete block design: 3 treatments measured on 6 subjects

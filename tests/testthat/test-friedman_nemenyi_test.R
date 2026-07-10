@@ -40,11 +40,28 @@ test_that("friedman_nemenyi_test matches the Nemenyi formula (#141)", {
 
 test_that("friedman_nemenyi_test reproduces PMCMRplus::frdAllPairsNemenyiTest values (#141)", {
   # Reference produced by PMCMRplus::frdAllPairsNemenyiTest(...); hard-coded so
-  # the test has no external dependency.
+  # the test has no external dependency. Pinned snapshot: PMCMRplus 1.9.12,
+  # 2026-07-10. PMCMRplus reports the magnitude of the statistic. This function
+  # reports it with the sign of the rank-sum difference, which is positive for
+  # every pair of demo_df (A < B < C), so the two coincide here. Reverse the
+  # groups and the signs flip; the block below checks that.
   res <- demo_df %>% friedman_nemenyi_test(score ~ treatment | id, detailed = TRUE)
   res <- res[order(res$group1, res$group2), ]
-  expect_equal(abs(res$statistic), c(3.2659863, 4.0824829, 0.8164966), tolerance = 1e-5)
+  expect_equal(res$statistic, c(3.2659863, 4.0824829, 0.8164966), tolerance = 1e-5)
   expect_equal(res$p.adj, c(0.05450063, 0.01086516, 0.83222922), tolerance = 1e-6)
+})
+
+test_that("friedman_nemenyi_test reports the statistic with the sign of the rank-sum difference", {
+  # Same scores with A and C exchanged: every rank-sum difference reverses, so
+  # every statistic reverses while its magnitude and p-value are unchanged. This
+  # is where the returned value parts company with PMCMRplus, which reports only
+  # the magnitude.
+  reversed <- demo_df
+  reversed$score <- c(6, 9, 7, 8, 8, 9,   7, 8, 6, 7, 9, 6,   4, 6, 3, 5, 4, 5)
+  res <- reversed %>% friedman_nemenyi_test(score ~ treatment | id, detailed = TRUE)
+  res <- res[order(res$group1, res$group2), ]
+  expect_equal(res$statistic, c(-0.8164966, -4.0824829, -3.2659863), tolerance = 1e-5)
+  expect_equal(res$p.adj, c(0.83222922, 0.01086516, 0.05450063), tolerance = 1e-6)
 })
 
 test_that("friedman_nemenyi_test default returns the expected columns (tukey-style p.adj) (#141)", {
