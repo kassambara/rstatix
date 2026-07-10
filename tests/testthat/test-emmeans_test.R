@@ -1,5 +1,6 @@
 
 test_that("emmeans_test works", {
+  skip_if_not_installed("emmeans")
   # Data preparation
   df <- ToothGrowth
   df$dose <- as.factor(df$dose)

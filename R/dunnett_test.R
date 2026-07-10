@@ -44,6 +44,8 @@ NULL
 #'@seealso \code{\link{tukey_hsd}()}, \code{\link{games_howell_test}()},
 #'  \code{\link{emmeans_test}()}
 #' @examples
+#' if (requireNamespace("emmeans", quietly = TRUE)) {
+#'
 #' # Compare each dose to the control dose ("0.5")
 #' ToothGrowth %>% dunnett_test(len ~ dose)
 #'
@@ -54,6 +56,8 @@ NULL
 #' ToothGrowth %>%
 #'   group_by(supp) %>%
 #'   dunnett_test(len ~ dose)
+#'
+#' }
 #'@export
 dunnett_test <- function(data, formula, ref.group = NULL, conf.level = 0.95,
                          detailed = FALSE){

@@ -12,7 +12,7 @@ jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
 
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }}${{ matrix.config.label && format(', {0}', matrix.config.label) || '' }})
 
     strategy:
       fail-fast: false
@@ -23,10 +23,16 @@ jobs:
           - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
+          # CRAN checks one flavour with only Depends/Imports/LinkingTo installed.
+          # dunnett_test(), emmeans_test() and wilcox_effsize() stop() without their
+          # Suggests package, so an unguarded example or test errors there and
+          # nowhere else. Without this entry that failure is invisible to us.
+          - {os: ubuntu-latest,   r: 'release', label: 'noSuggests', deps: 'hard', depends-only: 'true'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      _R_CHECK_DEPENDS_ONLY_: ${{ matrix.config.depends-only || 'false' }}
 
     steps:
       - uses: actions/checkout@v3
@@ -42,6 +48,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
+          dependencies: ${{ matrix.config.deps && '"hard"' || '"all"' }}
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2

@@ -28,6 +28,8 @@ tidyselect_deprecations <- function(expr) {
 }
 
 test_that("core test functions emit no tidyselect deprecation (#202)", {
+  # wilcox_effsize() below reaches coin, which stops when it is not installed.
+  skip_if_not_installed("coin")
   df <- ToothGrowth
   df$dose <- factor(df$dose)
   deps <- tidyselect_deprecations({

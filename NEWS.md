@@ -20,6 +20,8 @@
 
 ## Bug fixes
 
+- `R CMD check` no longer fails when the packages in `Suggests` are absent, the configuration CRAN checks with `_R_CHECK_DEPENDS_ONLY_=true`. `dunnett_test()` and `emmeans_test()` stop without `emmeans`, and `wilcox_effsize()` stops without `coin`; their examples now run only when the package is installed, and the two test blocks that reached them without a guard now skip. The examples of `dunnett_test()` and `emmeans_test()` are wrapped in `requireNamespace()` rather than `\donttest{}`, which does not help: `R CMD check --as-cran` runs those blocks as well. A `noSuggests` job is added to the check matrix so the configuration is exercised ([#296](https://github.com/kassambara/rstatix/issues/296)).
+
 - The bootstrap confidence interval (`ci = TRUE`) of `cohens_d()`, `wilcox_effsize()`, `kruskal_effsize()` and `friedman_effsize()` no longer breaks when the bootstrap replicates are **degenerate** — all identical (a perfect effect size, e.g. Kendall's *W* = 1) or all missing (constant data). Such an interval is undefined: `conf.low` and `conf.high` are now returned as `NA` with a warning, and the remaining groups or comparisons are still computed. Previously an ungrouped call silently returned empty **list-columns** in place of the bounds, a grouped call failed with `Can't combine ... <list> and ... <double>`, and constant data errored with `missing value where TRUE/FALSE needed`. An interval type that cannot be built (for instance `ci.type = "stud"`, which needs bootstrap variances) is likewise returned as `NA` with a warning instead of a malformed column. Well-behaved bootstrap intervals are unchanged ([#290](https://github.com/kassambara/rstatix/issues/290)).
 
 
