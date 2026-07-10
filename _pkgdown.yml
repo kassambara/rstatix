@@ -103,6 +103,7 @@ reference:
   - title: Others
     contents:
       - rstatix-programming
+      - rstatix-references
       - reexports
       - doo
       - sample_n_by

@@ -10,6 +10,8 @@
 
 ## Minor changes
 
+- New documentation topic `?rstatix-references` collecting the sources of the methods `rstatix` implements — Cramer (1946), Smithson (2003), Steiger (2004), Conover (1999), Nemenyi (1963), Piepho (2004), Dunnett (1955) — and naming the packages that implement some of the same methods and offer functionality `rstatix` does not: `effectsize`, `DescTools`, `multcomp`, `multcompView` and `PMCMRplus`. The `@details` of `conover_test()`, `friedman_conover_test()` and `friedman_nemenyi_test()` now also record the `PMCMRplus` function their results agree with, as the other cross-checked functions already did.
+
 - `cohens_d()`, `wilcox_effsize()`, `kruskal_effsize()` and `friedman_effsize()` gain `boot.parallel` and `boot.ncpus` arguments to compute the bootstrap confidence interval (`ci = TRUE`) in parallel, for example `cohens_d(df, len ~ supp, ci = TRUE, boot.parallel = "multicore", boot.ncpus = 4)`. They default to `getOption("boot.parallel", "no")` and `getOption("boot.ncpus", 1L)`, so the bootstrap stays serial by default, the corresponding global options keep working, and all existing results are unchanged. The parallel settings are now passed to `boot::boot()`, which performs the resampling, rather than to `boot::boot.ci()`, which has no such argument and silently ignored them. Based on the contribution by @HannesOberreiter ([#289](https://github.com/kassambara/rstatix/pull/289), [#87](https://github.com/kassambara/rstatix/pull/87)).
 
 ## Bug fixes

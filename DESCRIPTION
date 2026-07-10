@@ -109,6 +109,7 @@ Collate:
     'reexports.R'
     'remove_ns.R'
     'rstatix-programming.R'
+    'rstatix-references.R'
     'sample_n_by.R'
     'shapiro_test.R'
     'sign_test.R'

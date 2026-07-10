@@ -56,6 +56,8 @@ For a balanced complete block design with \eqn{b} blocks and \eqn{k}
  \frac{|R_i - R_j|}{\sqrt{b\,k\,(k+1)/12}}} and the p-value is obtained from
  the studentized range distribution with \eqn{k} groups and infinite degrees
  of freedom.
+
+ The results match \code{PMCMRplus::frdAllPairsNemenyiTest()}.
 }
 \examples{
 # A balanced complete block design: 3 treatments measured on 6 subjects

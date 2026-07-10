@@ -75,9 +75,9 @@ test_that("the cramer_v confidence interval matches the noncentral chi-square re
   # Reference values from effectsize::cramers_v(adjust = FALSE, ci = 0.95,
   # alternative = "two.sided"), which uses the same noncentral chi-square
   # inversion. Pinned snapshot: effectsize 1.0.1, 2026-07-10. Hard-coded on
-  # purpose -- effectsize is not a dependency, and `pkg::fun` in a test is an
-  # unstated-dependency WARNING under --as-cran. A pinned literal cannot notice
-  # the oracle changing its algorithm; re-verify when bumping the reference.
+  # purpose -- effectsize is not a dependency, and calling a non-dependency from
+  # a test is an unstated-dependency WARNING under --as-cran. A pinned literal
+  # cannot notice the reference changing its algorithm; re-verify when bumping it.
   res <- cramer_v(gender_party(), correct = FALSE, ci = TRUE)
   expect_equal(res[["conf.low"]], 0.06490742, tolerance = 1e-5)
   expect_equal(res[["conf.high"]], 0.14026390, tolerance = 1e-5)

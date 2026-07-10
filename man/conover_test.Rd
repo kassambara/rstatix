@@ -77,6 +77,8 @@ The Conover-Iman pairwise statistic for comparing groups \eqn{i} and
  \eqn{S^2 = \frac{1}{N - 1}\left(\sum r^2 - \frac{N(N+1)^2}{4}\right)}). The
  statistic is referred to a \emph{t}-distribution with \eqn{N - k} degrees of
  freedom.
+
+ The results match \code{PMCMRplus::kwAllPairsConoverTest()}.
 }
 \examples{
 # Simple test

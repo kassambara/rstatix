@@ -41,6 +41,8 @@ NULL
 #'  the studentized range distribution with \eqn{k} groups and infinite degrees
 #'  of freedom.
 #'
+#'  The results match \code{PMCMRplus::frdAllPairsNemenyiTest()}.
+#'
 #'@references Nemenyi, P. (1963) Distribution-free Multiple Comparisons. PhD
 #'  Thesis, Princeton University.
 #'

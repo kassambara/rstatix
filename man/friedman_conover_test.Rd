@@ -75,6 +75,8 @@ For a balanced complete block design with \eqn{b} blocks and \eqn{k}
  referred to a \emph{t}-distribution with \eqn{(b - 1)(k - 1)} degrees of
  freedom. This is the Conover (1999) post-hoc, also known as the
  Durbin-Conover test.
+
+ The results match \code{PMCMRplus::frdAllPairsConoverTest()}.
 }
 \examples{
 # A balanced complete block design: 3 treatments measured on 6 subjects
