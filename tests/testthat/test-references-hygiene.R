@@ -125,6 +125,11 @@ test_that("no source file carries adapted code without being documented", {
   # never reached a user. Any new file that admits an adaptation must be added to
   # `adapted_source_files` above and recorded in ?rstatix-references.
   #
+  # This scans for files that STATE an adaptation. It cannot detect code copied
+  # in silence, which is how R/get_manova_table.R went unnoticed for six years:
+  # only a reader comparing it against car's source would have seen it. Use a
+  # deparse-and-compare sweep against the candidate packages for that.
+  #
   # The markers require a source to be named ("adapted from", "code is from"), so
   # ordinary prose such as "levels are taken from the data" does not match. The
   # word boundaries matter: without them, "ported from" matches "exported from",
