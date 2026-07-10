@@ -43,10 +43,13 @@ test_that("friedman_conover_test matches the Durbin-Conover formula (#8)", {
 
 test_that("friedman_conover_test reproduces PMCMRplus::frdAllPairsConoverTest values (#8)", {
   # Reference produced by PMCMRplus::frdAllPairsConoverTest(...); hard-coded so the
-  # test has no external dependency. PMCMRplus reports unsigned t and raw p.
+  # test has no external dependency. Pinned snapshot: PMCMRplus 1.9.12, 2026-07-10.
+  # PMCMRplus reports the t statistic for the reversed comparison, so its values
+  # are the negatives of these: -4.472136, -5.590170, -1.118034. The p-values are
+  # identical.
   res <- demo_df %>% friedman_conover_test(score ~ treatment | id, p.adjust.method = "none", detailed = TRUE)
   res <- res[order(res$group1, res$group2), ]
-  expect_equal(abs(res$statistic), c(4.472136, 5.590170, 1.118034), tolerance = 1e-5)
+  expect_equal(res$statistic, c(4.472136, 5.590170, 1.118034), tolerance = 1e-5)
   expect_equal(res$p, c(0.0011934670, 0.0002308192, 0.2896916), tolerance = 1e-6)
 })
 

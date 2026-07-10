@@ -76,7 +76,9 @@ For a balanced complete block design with \eqn{b} blocks and \eqn{k}
  freedom. This is the Conover (1999) post-hoc, also known as the
  Durbin-Conover test.
 
- The results match \code{PMCMRplus::frdAllPairsConoverTest()}.
+ The p-values match \code{PMCMRplus::frdAllPairsConoverTest()}. That function
+ reports the \emph{t} statistic for the reversed comparison, so its sign is
+ the opposite of the one returned here; the magnitude is the same.
 }
 \examples{
 # A balanced complete block design: 3 treatments measured on 6 subjects

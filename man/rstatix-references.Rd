@@ -56,7 +56,8 @@ functionality that \code{rstatix} does not:
   \item \code{effectsize} — a broad effect-size toolkit;
   \code{effectsize::cramers_v()} and \code{effectsize::eta_squared()} produce
   the same intervals as \code{\link{cramer_v}(ci = TRUE)} and
-  \code{\link{anova_test}(ci = )}.
+  \code{\link{anova_test}(ci = )} when called with
+  \code{alternative = "two.sided"}, which is not their default.
   \item \code{DescTools} — \code{DescTools::CramerV()} and
   \code{DescTools::DunnettTest()}.
   \item \code{multcomp} — \code{multcomp::glht()} for general linear
@@ -80,11 +81,16 @@ exception to the description above. Its one- and two-sample test code, and
 the confidence interval it reports for the median, are adapted with
 modifications from \code{DescTools::SignTest()} and
 \code{DescTools::MedianCI()}, written by Andri Signorell. \code{DescTools} is
-distributed under GPL (>= 2); \code{rstatix} is distributed under GPL-2. No
-other source file in \code{rstatix} carries code adapted from another package.
-The test suite scans the sources for the phrases that declare an adaptation
-and fails when one appears in a file this section does not name; code copied
-without a word about it would not be caught that way.
+distributed under GPL (>= 2); \code{rstatix} is distributed under GPL-2.
+
+No other source file in \code{rstatix} carries a statistical method adapted
+from a contributed package. Argument-validation idioms are shared with base R
+— \code{check_two_samples_test_args()} follows the preamble of
+\code{stats::wilcox.test()}, as \code{DescTools} and \code{PMCMRplus} do — and
+those are not methods anyone cites. The test suite scans the sources for the
+phrases that declare an adaptation and fails when one appears in a file this
+section does not name; code copied without a word about it would not be caught
+that way.
 
 Copying code is not the same as calling it. Several functions compute their
 result by calling another package, as each of them states in its own
