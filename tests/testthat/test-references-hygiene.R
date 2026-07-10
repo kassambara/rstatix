@@ -125,19 +125,24 @@ test_that("no source file carries adapted code without being documented", {
   # never reached a user. Any new file that admits an adaptation must be added to
   # `adapted_source_files` above and recorded in ?rstatix-references.
   #
-  # This scans for files that STATE an adaptation. It cannot detect code copied
-  # in silence, which is how R/get_manova_table.R went unnoticed for six years:
-  # only a reader comparing it against car's source would have seen it. Use a
-  # deparse-and-compare sweep against the candidate packages for that.
+  # This scans for the phrases a file uses when it DECLARES an adaptation. Two
+  # things escape it, and neither is a reason to drop it:
   #
-  # The markers require a source to be named ("adapted from", "code is from"), so
-  # ordinary prose such as "levels are taken from the data" does not match. The
-  # word boundaries matter: without them, "ported from" matches "exported from",
-  # which R/utils-manova.R says of car's Manova().
+  #   * code copied in silence. R/get_manova_table.R was copied from car's
+  #     print.Anova.mlm and went unnoticed from 2019 until someone deparsed the
+  #     two side by side. Only a deparse-and-compare sweep against the candidate
+  #     packages finds that.
+  #   * a declaration worded outside the list below ("based on car's code",
+  #     "after DescTools::SignTest", "following car", "cf. SignTest").
+  #
+  # The markers require a source to be named, so ordinary prose such as "levels
+  # are taken from the data" or "derived analytically" does not match. The word
+  # boundaries matter: without them "ported from" matches "exported from", which
+  # R/utils-manova.R says of car's Manova(). A "based on ... code" marker was
+  # tried and dropped: roxygen's \code{} put the word "code" beside every
+  # "based on" in R/kruskal_effesize.R.
   markers <- paste(
-    "\\badapted\\b[^.]{0,40}?\\bfrom\\b",
-    "\\bcopied from\\b",
-    "\\bported from\\b",
+    "\\b(adapted|derived|modified|lifted|translated|copied|ported)\\b[^.]{0,40}?\\bfrom\\b",
     "\\breimplementation of\\b",
     "\\breimplements\\b",
     "\\bcodes? (is|are) from\\b",

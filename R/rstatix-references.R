@@ -73,9 +73,10 @@
 #' modifications from \code{DescTools::SignTest()} and
 #' \code{DescTools::MedianCI()}, written by Andri Signorell. \code{DescTools} is
 #' distributed under GPL (>= 2); \code{rstatix} is distributed under GPL-2. No
-#' other source file in \code{rstatix} carries code adapted from another
-#' package. The test suite checks that every source file stating an adaptation is
-#' recorded here; a file that copied code and said nothing would escape it.
+#' other source file in \code{rstatix} carries code adapted from another package.
+#' The test suite scans the sources for the phrases that declare an adaptation
+#' and fails when one appears in a file this section does not name; code copied
+#' without a word about it would not be caught that way.
 #'
 #' Copying code is not the same as calling it. Several functions compute their
 #' result by calling another package, as each of them states in its own
