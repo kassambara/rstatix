@@ -95,8 +95,9 @@ Performs one-sample and two-sample sign tests. Read more:
 
 }}
 \note{
-This function is a reimplementation of the function \code{SignTest()}
- from the \code{DescTools} package.
+The test is computed in base R, from the binomial distribution of the
+ number of positive differences (\code{stats::binom.test()}). The results
+ match \code{DescTools::SignTest()}.
 }
 \examples{
 # Load data

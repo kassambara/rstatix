@@ -36,8 +36,9 @@ NULL
 #'
 #'  The \strong{returned object has an attribute called args}, which is a list
 #'  holding the test arguments.
-#'@note This function is a reimplementation of the function \code{SignTest()}
-#'  from the \code{DescTools} package.
+#'@note The test is computed in base R, from the binomial distribution of the
+#'  number of positive differences (\code{stats::binom.test()}). The results
+#'  match \code{DescTools::SignTest()}.
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::
