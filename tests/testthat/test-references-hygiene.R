@@ -7,6 +7,11 @@ context("test-references-hygiene")
 cross_check_packages <- c("effectsize", "DescTools", "multcomp",
                           "multcompView", "PMCMRplus")
 
+# The source files whose code is adapted from another package rather than written
+# from a published formula. ?rstatix-references states that this is the complete
+# list, so the test below has to be able to prove it.
+adapted_source_files <- "sign_test.R"
+
 declared_dependencies <- function() {
   d <- utils::packageDescription("rstatix")
   fields <- paste(c(d$Depends, d$Imports, d$Suggests, d$LinkingTo), collapse = ",")
@@ -16,6 +21,18 @@ declared_dependencies <- function() {
 
 test_files <- function() {
   list.files(".", pattern = "^test.*\\.[Rr]$", full.names = TRUE)
+}
+
+# The package's own R/ sources. They sit at ../../R in a source checkout, and at
+# ../../00_pkg_src/rstatix/R inside <pkg>.Rcheck when `R CMD check` unpacks the
+# tarball, so the scan below runs in both places rather than skipping on CRAN.
+package_r_files <- function() {
+  root <- normalizePath(file.path("..", ".."), mustWork = FALSE)
+  for (dir in c(file.path(root, "R"),
+                file.path(root, "00_pkg_src", "rstatix", "R"))) {
+    if (dir.exists(dir)) return(list.files(dir, pattern = "\\.[Rr]$", full.names = TRUE))
+  }
+  character(0)
 }
 
 # This file names every cross-check package in `cross_check_packages` above, so
@@ -98,6 +115,58 @@ test_that("no undeclared package is referenced by a test without being listed", 
              rownames(utils::installed.packages(priority = "base")))
   unlisted <- setdiff(referenced, c(known, cross_check_packages))
   expect_equal(unlisted, character(0))
+})
+
+test_that("no source file carries adapted code without being documented", {
+  # ?rstatix-references states that sign_test() is the only adapted code in the
+  # package. Before this test existed, R/get_manova_table.R was copied from car's
+  # print.Anova.mlm and said so only in a comment -- "The codes is from:
+  # getAnywhere(...)" -- which named no package, no author and no licence, and
+  # never reached a user. Any new file that admits an adaptation must be added to
+  # `adapted_source_files` above and recorded in ?rstatix-references.
+  #
+  # The markers require a source to be named ("adapted from", "code is from"), so
+  # ordinary prose such as "levels are taken from the data" does not match. The
+  # word boundaries matter: without them, "ported from" matches "exported from",
+  # which R/utils-manova.R says of car's Manova().
+  markers <- paste(
+    "\\badapted\\b[^.]{0,40}?\\bfrom\\b",
+    "\\bcopied from\\b",
+    "\\bported from\\b",
+    "\\breimplementation of\\b",
+    "\\breimplements\\b",
+    "\\bcodes? (is|are) from\\b",
+    sep = "|"
+  )
+  files <- package_r_files()
+  skip_if(length(files) == 0, "package sources not available")
+
+  admits_adaptation <- vapply(files, function(f) {
+    any(grepl(markers, readLines(f, warn = FALSE), ignore.case = TRUE, perl = TRUE))
+  }, logical(1))
+
+  found <- basename(files)[admits_adaptation]
+  # The topic itself describes the adaptation, so it is not evidence of one.
+  found <- setdiff(found, "rstatix-references.R")
+  expect_equal(sort(found), sort(adapted_source_files))
+})
+
+test_that("?rstatix-references documents each adapted source file", {
+  db <- rd_database()
+  skip_if(is.null(db) || !("rstatix-references.Rd" %in% names(db)),
+          "rstatix-references topic not available")
+  txt <- paste(utils::capture.output(print(db[["rstatix-references.Rd"]])), collapse = "\n")
+  for (f in adapted_source_files) {
+    topic <- sub("\\.[Rr]$", "", f)
+    expect_true(names_package(topic, txt),
+                info = paste(f, "carries adapted code but", topic,
+                             "is absent from ?rstatix-references"))
+  }
+  # and the adapted function's own help page must say so
+  rd <- db[[paste0(sub("\\.[Rr]$", "", adapted_source_files[1]), ".Rd")]]
+  fn_txt <- paste(utils::capture.output(print(rd)), collapse = "\n")
+  expect_true(grepl("adapted", fn_txt, ignore.case = TRUE))
+  expect_true(grepl("DescTools", fn_txt, fixed = TRUE))
 })
 
 test_that("?rstatix-references names every cross-check package", {

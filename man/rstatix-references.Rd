@@ -7,10 +7,12 @@
 Where the methods in \code{rstatix} come from, and which other packages
 implement them.
 
-\code{rstatix} implements its statistical methods in base R, from the
-published formulas, with the exception noted under \emph{Adapted code} below.
-Each function documents the source of its method in its own \code{References}
-section; cite those authors, not this package, when you report a result.
+Most of the statistical methods in \code{rstatix} are implemented in base R
+from the published formulas. A few call another package to compute the
+result, and one is adapted from another package's code; \emph{Adapted code}
+below says which. Where a function records the source of its method, it does
+so in its own \code{References} section; cite those authors, not this
+package, when you report a result.
 }
 \section{Method sources}{
 
@@ -78,13 +80,13 @@ exception to the description above. Its one- and two-sample test code, and
 the confidence interval it reports for the median, are adapted with
 modifications from \code{DescTools::SignTest()} and
 \code{DescTools::MedianCI()}, written by Andri Signorell. \code{DescTools} is
-distributed under GPL (>= 2); \code{rstatix} is distributed under GPL-2.
-Where an internal, undocumented helper is adapted from another package, the
-source file that carries it names its origin.
+distributed under GPL (>= 2); \code{rstatix} is distributed under GPL-2. No
+other source file in \code{rstatix} carries code adapted from another
+package; the test suite checks this.
 
 Copying code is not the same as calling it. Several functions compute their
-result by calling a package that \code{rstatix} depends on, as each of them
-states in its own documentation: \code{\link{anova_test}()} uses
+result by calling another package, as each of them states in its own
+documentation: \code{\link{anova_test}()} uses
 \code{car::Anova()} for type II and type III sums of squares, and
 \code{stats::aov()} for type I; \code{\link{dunnett_test}()} and
 \code{\link{emmeans_test}()} use \code{emmeans::emmeans()}; and
