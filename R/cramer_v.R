@@ -5,6 +5,14 @@ NULL
 #'@description Compute Cramer's V, which measures the strength of the
 #'  association between categorical variables.
 #'@inheritParams stats::chisq.test
+#'@param correct logical. If TRUE, Yates' continuity correction is applied when
+#'  computing the chi-square statistic, which only affects 2x2 tables. Default is
+#'  FALSE. Yates' correction improves the chi-square approximation to the
+#'  \emph{null} distribution of the test statistic, so it belongs to the
+#'  \emph{test} (see \code{\link{chisq_test}()}) rather than to an effect size:
+#'  it shrinks the statistic and therefore biases Cramer's V downward. Set
+#'  \code{correct = TRUE} to reproduce the value returned by earlier versions of
+#'  rstatix, which applied the correction by default.
 #'@param ... other arguments passed to the function
 #'  \code{\link[stats]{chisq.test}()}.
 #'@param ci logical. If TRUE, a confidence interval for Cramer's V is added to
@@ -17,16 +25,17 @@ NULL
 #'  When \code{ci = TRUE}, a one-row tibble with the columns \code{effsize}
 #'  (Cramer's V), \code{conf.low} and \code{conf.high} -- the same confidence
 #'  interval columns that \code{\link{anova_test}(ci = )} returns.
-#'@details The confidence interval is obtained by inverting the noncentral
-#'  chi-square distribution (Smithson, 2003; Steiger, 2004): the noncentrality
-#'  parameters \eqn{\lambda} whose distributions place the observed chi-square
-#'  statistic at the \eqn{1 - \alpha/2} and \eqn{\alpha/2} quantiles are found by
-#'  root finding, and each is converted with \eqn{V = \sqrt{\lambda / (N (k -
-#'  1))}}, where \eqn{N} is the total count and \eqn{k} the smaller of the two
-#'  table dimensions. The interval is computed from the same chi-square statistic
-#'  as the point estimate, so the default \code{correct = TRUE} (Yates'
-#'  continuity correction, applied by \code{\link[stats]{chisq.test}()} to 2x2
-#'  tables) affects both.
+#'@details Cramer's V is \eqn{V = \sqrt{\chi^2 / (N (k - 1))}} (Cramer, 1946),
+#'  where \eqn{\chi^2} is the Pearson chi-square statistic, \eqn{N} the total
+#'  count and \eqn{k} the smaller of the two table dimensions.
+#'
+#'  The confidence interval is obtained by inverting the noncentral chi-square
+#'  distribution (Smithson, 2003; Steiger, 2004): the noncentrality parameters
+#'  \eqn{\lambda} whose distributions place the observed chi-square statistic at
+#'  the \eqn{1 - \alpha/2} and \eqn{\alpha/2} quantiles are found by root finding,
+#'  and each is converted with \eqn{V = \sqrt{\lambda / (N (k - 1))}}. The
+#'  interval is computed from the same chi-square statistic as the point estimate,
+#'  so \code{correct = TRUE} shifts both.
 #'
 #'  The bounds are clipped to \eqn{[0, 1]}, the range of Cramer's V. They are
 #'  \code{NA}, with a warning, when the statistic or its degrees of freedom are
@@ -43,10 +52,12 @@ NULL
 #'  implementation, and it only arises for effect sizes indistinguishable from
 #'  zero.
 #'
-#'  With \code{correct = FALSE}, the interval matches
-#'  \code{effectsize::cramers_v(adjust = FALSE, ci = , alternative =
-#'  "two.sided")}.
-#'@references Smithson, M. (2003). Confidence Intervals. Sage Publications.
+#'  The results match \code{effectsize::cramers_v(adjust = FALSE, ci = ,
+#'  alternative = "two.sided")} and \code{DescTools::CramerV()}.
+#'@references Cramer, H. (1946). Mathematical Methods of Statistics. Princeton
+#'  University Press.
+#'
+#'  Smithson, M. (2003). Confidence Intervals. Sage Publications.
 #'
 #'  Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals
 #'  and tests of close fit in the analysis of variance and contrast analysis.
@@ -66,8 +77,14 @@ NULL
 #' # Add a confidence interval
 #' cramer_v(df, ci = TRUE)
 #'
+#' # Yates' continuity correction only affects 2x2 tables. It belongs to the
+#' # test, not to the effect size, so it is off by default.
+#' tab <- as.table(rbind(c(20, 30), c(35, 15)))
+#' cramer_v(tab)
+#' cramer_v(tab, correct = TRUE)
+#'
 #'@export
-cramer_v <- function(x, y = NULL, correct = TRUE, ..., ci = FALSE, conf.level = 0.95) {
+cramer_v <- function(x, y = NULL, correct = FALSE, ..., ci = FALSE, conf.level = 0.95) {
   test <- stats::chisq.test(x, y, correct = correct, ...)
   chi2 <- test$statistic
   N <- sum(test$observed)

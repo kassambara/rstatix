@@ -4,7 +4,7 @@
 \alias{cramer_v}
 \title{Compute Cramer's V}
 \usage{
-cramer_v(x, y = NULL, correct = TRUE, ..., ci = FALSE, conf.level = 0.95)
+cramer_v(x, y = NULL, correct = FALSE, ..., ci = FALSE, conf.level = 0.95)
 }
 \arguments{
 \item{x}{a numeric vector or matrix. \code{x} and \code{y} can also
@@ -13,11 +13,14 @@ cramer_v(x, y = NULL, correct = TRUE, ..., ci = FALSE, conf.level = 0.95)
 \item{y}{a numeric vector; ignored if \code{x} is a matrix.  If
     \code{x} is a factor, \code{y} should be a factor of the same length.}
 
-\item{correct}{a logical indicating whether to apply continuity
-    correction when computing the test statistic for 2 by 2 tables: one
-    half is subtracted from all \eqn{|O - E|} differences; however, the
-    correction will not be bigger than the differences themselves.  No correction
-    is done if \code{simulate.p.value = TRUE}.}
+\item{correct}{logical. If TRUE, Yates' continuity correction is applied when
+computing the chi-square statistic, which only affects 2x2 tables. Default is
+FALSE. Yates' correction improves the chi-square approximation to the
+\emph{null} distribution of the test statistic, so it belongs to the
+\emph{test} (see \code{\link{chisq_test}()}) rather than to an effect size:
+it shrinks the statistic and therefore biases Cramer's V downward. Set
+\code{correct = TRUE} to reproduce the value returned by earlier versions of
+rstatix, which applied the correction by default.}
 
 \item{...}{other arguments passed to the function
 \code{\link[stats]{chisq.test}()}.}
@@ -41,16 +44,17 @@ Compute Cramer's V, which measures the strength of the
  association between categorical variables.
 }
 \details{
-The confidence interval is obtained by inverting the noncentral
- chi-square distribution (Smithson, 2003; Steiger, 2004): the noncentrality
- parameters \eqn{\lambda} whose distributions place the observed chi-square
- statistic at the \eqn{1 - \alpha/2} and \eqn{\alpha/2} quantiles are found by
- root finding, and each is converted with \eqn{V = \sqrt{\lambda / (N (k -
- 1))}}, where \eqn{N} is the total count and \eqn{k} the smaller of the two
- table dimensions. The interval is computed from the same chi-square statistic
- as the point estimate, so the default \code{correct = TRUE} (Yates'
- continuity correction, applied by \code{\link[stats]{chisq.test}()} to 2x2
- tables) affects both.
+Cramer's V is \eqn{V = \sqrt{\chi^2 / (N (k - 1))}} (Cramer, 1946),
+ where \eqn{\chi^2} is the Pearson chi-square statistic, \eqn{N} the total
+ count and \eqn{k} the smaller of the two table dimensions.
+
+ The confidence interval is obtained by inverting the noncentral chi-square
+ distribution (Smithson, 2003; Steiger, 2004): the noncentrality parameters
+ \eqn{\lambda} whose distributions place the observed chi-square statistic at
+ the \eqn{1 - \alpha/2} and \eqn{\alpha/2} quantiles are found by root finding,
+ and each is converted with \eqn{V = \sqrt{\lambda / (N (k - 1))}}. The
+ interval is computed from the same chi-square statistic as the point estimate,
+ so \code{correct = TRUE} shifts both.
 
  The bounds are clipped to \eqn{[0, 1]}, the range of Cramer's V. They are
  \code{NA}, with a warning, when the statistic or its degrees of freedom are
@@ -67,9 +71,8 @@ The confidence interval is obtained by inverting the noncentral
  implementation, and it only arises for effect sizes indistinguishable from
  zero.
 
- With \code{correct = FALSE}, the interval matches
- \code{effectsize::cramers_v(adjust = FALSE, ci = , alternative =
- "two.sided")}.
+ The results match \code{effectsize::cramers_v(adjust = FALSE, ci = ,
+ alternative = "two.sided")} and \code{DescTools::CramerV()}.
 }
 \examples{
 
@@ -86,9 +89,18 @@ cramer_v(df)
 # Add a confidence interval
 cramer_v(df, ci = TRUE)
 
+# Yates' continuity correction only affects 2x2 tables. It belongs to the
+# test, not to the effect size, so it is off by default.
+tab <- as.table(rbind(c(20, 30), c(35, 15)))
+cramer_v(tab)
+cramer_v(tab, correct = TRUE)
+
 }
 \references{
-Smithson, M. (2003). Confidence Intervals. Sage Publications.
+Cramer, H. (1946). Mathematical Methods of Statistics. Princeton
+ University Press.
+
+ Smithson, M. (2003). Confidence Intervals. Sage Publications.
 
  Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals
  and tests of close fit in the analysis of variance and contrast analysis.

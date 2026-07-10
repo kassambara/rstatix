@@ -19,9 +19,33 @@ test_that("cramer_v returns the same bare numeric as before (no regression)", {
 
   expect_equal(cramer_v(tab_3x4()), 0.2726207805, tolerance = 1e-7)
 
-  # Yates' continuity correction applies to 2x2 tables and is ON by default
-  expect_equal(cramer_v(tab_2x2()), 0.2814105883, tolerance = 1e-7)
+  # Yates' continuity correction only affects 2x2 tables, and is OFF by default:
+  # the default equals the definition sqrt(chi2 / (N * (k - 1))) computed from the
+  # uncorrected Pearson statistic (#293).
+  expect_equal(cramer_v(tab_2x2()), 0.3015113446, tolerance = 1e-7)
   expect_equal(cramer_v(tab_2x2(), correct = FALSE), 0.3015113446, tolerance = 1e-7)
+})
+
+test_that("cramer_v(correct = TRUE) recovers the previous default value (#293)", {
+  # The old default is one argument away; nothing is lost by the flip.
+  expect_equal(cramer_v(tab_2x2(), correct = TRUE), 0.2814105883, tolerance = 1e-7)
+  expect_lt(cramer_v(tab_2x2(), correct = TRUE), cramer_v(tab_2x2()))
+
+  # Yates never applies beyond 2x2, so larger tables are untouched by either value
+  expect_equal(cramer_v(gender_party(), correct = TRUE), cramer_v(gender_party()))
+  expect_equal(cramer_v(tab_3x4(), correct = TRUE), cramer_v(tab_3x4()))
+})
+
+test_that("the cramer_v default matches the standard definition (#293)", {
+  # Hand-computed from the uncorrected Pearson statistic; the same value returned
+  # by DescTools::CramerV() and effectsize::cramers_v(adjust = FALSE). Hard-coded
+  # on purpose: neither package is a dependency.
+  tt <- suppressWarnings(stats::chisq.test(tab_2x2(), correct = FALSE))
+  N <- sum(tt$observed)
+  k <- min(dim(tt$observed))
+  expect_equal(cramer_v(tab_2x2()),
+               sqrt(as.numeric(tt$statistic) / (N * (k - 1))), tolerance = 1e-10)
+  expect_equal(cramer_v(tab_2x2()), 0.3015113446, tolerance = 1e-7)
 })
 
 test_that("cramer_v still accepts positional and abbreviated arguments (no regression)", {
@@ -50,7 +74,10 @@ test_that("cramer_v(ci = TRUE) returns a one-row tibble with the interval", {
 test_that("the cramer_v confidence interval matches the noncentral chi-square reference", {
   # Reference values from effectsize::cramers_v(adjust = FALSE, ci = 0.95,
   # alternative = "two.sided"), which uses the same noncentral chi-square
-  # inversion. Hard-coded on purpose: effectsize is not a dependency.
+  # inversion. Pinned snapshot: effectsize 1.0.1, 2026-07-10. Hard-coded on
+  # purpose -- effectsize is not a dependency, and `pkg::fun` in a test is an
+  # unstated-dependency WARNING under --as-cran. A pinned literal cannot notice
+  # the oracle changing its algorithm; re-verify when bumping the reference.
   res <- cramer_v(gender_party(), correct = FALSE, ci = TRUE)
   expect_equal(res[["conf.low"]], 0.06490742, tolerance = 1e-5)
   expect_equal(res[["conf.high"]], 0.14026390, tolerance = 1e-5)
@@ -67,8 +94,8 @@ test_that("the cramer_v confidence interval matches the noncentral chi-square re
 test_that("the cramer_v interval is computed from the same statistic as the estimate", {
   # Yates' correction shrinks the 2x2 chi-square, so it must shift the interval
   # too: both the estimate and the bounds derive from the same statistic.
-  corrected <- cramer_v(tab_2x2(), ci = TRUE)
-  uncorrected <- cramer_v(tab_2x2(), correct = FALSE, ci = TRUE)
+  corrected <- cramer_v(tab_2x2(), correct = TRUE, ci = TRUE)
+  uncorrected <- cramer_v(tab_2x2(), ci = TRUE)
   expect_lt(corrected[["effsize"]], uncorrected[["effsize"]])
   expect_lt(corrected[["conf.low"]], uncorrected[["conf.low"]])
   expect_lte(corrected[["conf.low"]], corrected[["effsize"]])
