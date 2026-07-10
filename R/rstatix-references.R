@@ -70,7 +70,15 @@
 #' median, are adapted with modifications from \code{DescTools::SignTest()} and
 #' \code{DescTools::MedianCI()}, written by Andri Signorell. \code{DescTools} is
 #' distributed under GPL (>= 2); \code{rstatix} is distributed under GPL-2.
-#' Every other function listed above is written from the published formula.
+#'
+#' Copying code is not the same as calling it. Some functions compute their
+#' result by calling a package that \code{rstatix} depends on, as each of them
+#' states in its own documentation: \code{\link{anova_test}()} calls
+#' \code{car::Anova()}, \code{\link{dunnett_test}()} and
+#' \code{\link{emmeans_test}()} call \code{emmeans::emmeans()}, and
+#' \code{\link{wilcox_effsize}()} calls \code{coin::wilcoxsign_test()} or
+#' \code{coin::wilcox_test()}. \code{\link{sign_test}()} is the only function
+#' whose code was copied from another package rather than called.
 #'
 #' @seealso \code{\link{cramer_v}()}, \code{\link{anova_test}()},
 #'   \code{\link{conover_test}()}, \code{\link{add_cld}()},
