@@ -13,6 +13,7 @@
 \alias{gather}
 \alias{spread}
 \alias{tidy}
+\alias{glance}
 \alias{augment}
 \alias{Anova}
 \title{Objects exported from other packages}
@@ -26,7 +27,7 @@ below to see their documentation.
 
   \item{dplyr}{\code{\link[dplyr:desc]{desc()}}, \code{\link[dplyr:filter]{filter()}}, \code{\link[dplyr:group_by]{group_by()}}, \code{\link[dplyr:mutate]{mutate()}}, \code{\link[dplyr:select]{select()}}}
 
-  \item{generics}{\code{\link[generics:augment]{augment()}}, \code{\link[generics:tidy]{tidy()}}}
+  \item{generics}{\code{\link[generics:augment]{augment()}}, \code{\link[generics:glance]{glance()}}, \code{\link[generics:tidy]{tidy()}}}
 
   \item{tibble}{\code{\link[tibble:tibble]{tibble()}}}
 
