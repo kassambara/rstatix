@@ -32,14 +32,19 @@ test_that("cramer_v still accepts positional and abbreviated arguments (no regre
   expect_equal(cramer_v(gender_party(), c = FALSE), 0.1044358024, tolerance = 1e-7)
 })
 
-test_that("cramer_v(ci = TRUE) returns the effect size with a confidence interval", {
+test_that("cramer_v(ci = TRUE) returns a one-row tibble with the interval", {
   res <- cramer_v(gender_party(), ci = TRUE)
-  expect_type(res, "double")
-  expect_length(res, 3)
-  expect_named(res, c("effsize", "conf.low", "conf.high"))
+  expect_s3_class(res, "tbl_df")
+  expect_equal(nrow(res), 1L)
+  expect_equal(colnames(res), c("effsize", "conf.low", "conf.high"))
+  expect_type(res$effsize, "double")
+  expect_type(res$conf.low, "double")
   # the interval brackets its own point estimate
   expect_lte(res[["conf.low"]], res[["effsize"]])
   expect_gte(res[["conf.high"]], res[["effsize"]])
+
+  # the default is still a bare numeric, not a tibble
+  expect_false(inherits(cramer_v(gender_party()), "data.frame"))
 })
 
 test_that("the cramer_v confidence interval matches the noncentral chi-square reference", {
@@ -61,7 +66,7 @@ test_that("the cramer_v confidence interval matches the noncentral chi-square re
 
 test_that("the cramer_v interval is computed from the same statistic as the estimate", {
   # Yates' correction shrinks the 2x2 chi-square, so it must shift the interval
-  # too; otherwise the interval would not bracket the reported effect size.
+  # too: both the estimate and the bounds derive from the same statistic.
   corrected <- cramer_v(tab_2x2(), ci = TRUE)
   uncorrected <- cramer_v(tab_2x2(), correct = FALSE, ci = TRUE)
   expect_lt(corrected[["effsize"]], uncorrected[["effsize"]])
@@ -86,7 +91,7 @@ test_that("the cramer_v interval is clipped to the [0, 1] range of the statistic
   # exact independence: the statistic is 0 and so are both bounds
   independent <- as.table(rbind(c(50, 50), c(50, 50)))
   res0 <- suppressWarnings(cramer_v(independent, correct = FALSE, ci = TRUE))
-  expect_equal(unname(res0), c(0, 0, 0))
+  expect_equal(as.numeric(res0[1, ]), c(0, 0, 0))
 })
 
 test_that("the cramer_v interval is NA, with a warning, when the statistic is undefined", {
@@ -99,7 +104,7 @@ test_that("the cramer_v interval is NA, with a warning, when the statistic is un
   )
   expect_true(is.na(res[["conf.low"]]))
   expect_true(is.na(res[["conf.high"]]))
-  expect_type(res, "double")
+  expect_type(res$conf.low, "double")
 
   # simulate.p.value = TRUE reports no degrees of freedom, so the noncentral
   # inversion has nothing to invert.

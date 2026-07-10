@@ -8,14 +8,15 @@ NULL
 #'@param ... other arguments passed to the function
 #'  \code{\link[stats]{chisq.test}()}.
 #'@param ci logical. If TRUE, a confidence interval for Cramer's V is added to
-#'  the result and a named numeric vector is returned instead of a single value.
+#'  the result and a one-row data frame is returned instead of a single value.
 #'  Default is FALSE.
 #'@param conf.level The level of the confidence interval. Default is 0.95. Only
 #'  used when \code{ci = TRUE}.
 #'@return By default, a single numeric value: Cramer's V.
 #'
-#'  When \code{ci = TRUE}, a named numeric vector with the elements
-#'  \code{effsize} (Cramer's V), \code{conf.low} and \code{conf.high}.
+#'  When \code{ci = TRUE}, a one-row tibble with the columns \code{effsize}
+#'  (Cramer's V), \code{conf.low} and \code{conf.high} -- the same confidence
+#'  interval columns that \code{\link{anova_test}(ci = )} returns.
 #'@details The confidence interval is obtained by inverting the noncentral
 #'  chi-square distribution (Smithson, 2003; Steiger, 2004): the noncentrality
 #'  parameters \eqn{\lambda} whose distributions place the observed chi-square
@@ -91,7 +92,7 @@ cramer_v <- function(x, y = NULL, correct = TRUE, ..., ci = FALSE, conf.level = 
       call. = FALSE
     )
   }
-  c(effsize = V, conf.low = bounds[1], conf.high = bounds[2])
+  tibble(effsize = V, conf.low = bounds[1], conf.high = bounds[2])
 }
 
 # Confidence interval for Cramer's V by inverting the noncentral chi-square

@@ -23,7 +23,7 @@ cramer_v(x, y = NULL, correct = TRUE, ..., ci = FALSE, conf.level = 0.95)
 \code{\link[stats]{chisq.test}()}.}
 
 \item{ci}{logical. If TRUE, a confidence interval for Cramer's V is added to
-the result and a named numeric vector is returned instead of a single value.
+the result and a one-row data frame is returned instead of a single value.
 Default is FALSE.}
 
 \item{conf.level}{The level of the confidence interval. Default is 0.95. Only
@@ -32,8 +32,9 @@ used when \code{ci = TRUE}.}
 \value{
 By default, a single numeric value: Cramer's V.
 
- When \code{ci = TRUE}, a named numeric vector with the elements
- \code{effsize} (Cramer's V), \code{conf.low} and \code{conf.high}.
+ When \code{ci = TRUE}, a one-row tibble with the columns \code{effsize}
+ (Cramer's V), \code{conf.low} and \code{conf.high} -- the same confidence
+ interval columns that \code{\link{anova_test}(ci = )} returns.
 }
 \description{
 Compute Cramer's V, which measures the strength of the
