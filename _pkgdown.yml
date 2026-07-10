@@ -89,6 +89,7 @@ reference:
     contents:
       - get_test_label
       - remove_ns
+      - tidy.rstatix_test
   - title: Data Manipulation Helper Functions
     desc: These functions are internally used in rstatix and in ggpubr R package to make it easy to program with tidyverse packages using non standard evaluation.
     contents:
