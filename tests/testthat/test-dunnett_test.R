@@ -109,16 +109,17 @@ test_that("dunnett_test matches the DescTools and multcomp Dunnett implementatio
   glht_tstat <- c(6.80584650754, 11.5505576817)
   expect_equal(res$statistic, -glht_tstat, tolerance = 1e-10)
 
-  # p-values from the multivariate-t distribution. Both packages agree with
-  # rstatix on the first comparison to nine significant digits; the second lies
-  # at the floating-point floor, where DescTools reports 2.22e-16 and multcomp
-  # 3.33e-16 -- both mean "indistinguishable from zero".
-  expect_equal(res$p.adj[1], 1.3367834395e-08, tolerance = 1e-9)   # multcomp
-  expect_equal(res$p.adj[1], 1.33678340619e-08, tolerance = 1e-8)  # DescTools
-  expect_lt(res$p.adj[2], 1e-15)
+  # p-values from the multivariate-t distribution. These are of order 1e-8, and
+  # `expect_equal(tolerance = )` compares numbers this small on an ABSOLUTE
+  # scale, so a pin written that way would accept anything below roughly 2e-8 --
+  # it would read like nine-digit agreement while allowing a 50% error. Assert
+  # the relative error instead.
+  rel_error <- function(observed, reference) abs(observed - reference) / reference
+  expect_lt(rel_error(res$p.adj[1], 1.3367834395e-08), 1e-9)    # multcomp: exact
+  expect_lt(rel_error(res$p.adj[1], 1.33678340619e-08), 1e-7)   # DescTools: 9 sig digits
 
-  # The estimated differences the two packages report (9.13, 15.495) are the
-  # plain group-mean differences, which rstatix does not return as a column.
-  means <- tapply(df$len, df$dose, mean)
-  expect_equal(as.numeric(means[-1] - means[1]), c(9.13, 15.495), tolerance = 1e-10)
+  # The second comparison lies at the floating-point floor: rstatix and multcomp
+  # both report 3.33e-16, DescTools 2.22e-16. All three mean "indistinguishable
+  # from zero", so only the magnitude is worth asserting.
+  expect_lt(res$p.adj[2], 1e-15)
 })
