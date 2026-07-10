@@ -36,9 +36,13 @@ NULL
 #'
 #'  The \strong{returned object has an attribute called args}, which is a list
 #'  holding the test arguments.
-#'@note The test is computed in base R, from the binomial distribution of the
-#'  number of positive differences (\code{stats::binom.test()}). The results
-#'  match \code{DescTools::SignTest()}.
+#'@note The sign test and the confidence interval for the median are adapted,
+#'  with modifications, from \code{DescTools::SignTest()} and
+#'  \code{DescTools::MedianCI()}, written by Andri Signorell. The results match
+#'  \code{DescTools::SignTest()}.
+#'@source Adapted from \code{DescTools::SignTest()} and
+#'  \code{DescTools::MedianCI()} (Andri Signorell), distributed under GPL
+#'  (>= 2). See \code{\link{rstatix-references}}.
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::

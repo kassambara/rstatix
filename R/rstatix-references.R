@@ -5,9 +5,9 @@
 #' implement them.
 #'
 #' \code{rstatix} implements its statistical methods in base R, from the
-#' published formulas. Each function documents the source of its method in its
-#' own \code{References} section; cite those authors, not this package, when you
-#' report a result.
+#' published formulas, with the exception noted under \emph{Adapted code} below.
+#' Each function documents the source of its method in its own \code{References}
+#' section; cite those authors, not this package, when you report a result.
 #'
 #' @section Method sources:
 #' \itemize{
@@ -63,6 +63,14 @@
 #' are recorded in the \code{rstatix} test suite as fixed numbers, checked
 #' against the package they came from at the time they were written; a recorded
 #' number cannot detect a later change in the package that produced it.
+#'
+#' @section Adapted code:
+#' \code{\link{sign_test}()} is the exception to the description above. Its
+#' one- and two-sample test code, and the confidence interval it reports for the
+#' median, are adapted with modifications from \code{DescTools::SignTest()} and
+#' \code{DescTools::MedianCI()}, written by Andri Signorell. \code{DescTools} is
+#' distributed under GPL (>= 2); \code{rstatix} is distributed under GPL-2.
+#' Every other function listed above is written from the published formula.
 #'
 #' @seealso \code{\link{cramer_v}()}, \code{\link{anova_test}()},
 #'   \code{\link{conover_test}()}, \code{\link{add_cld}()},
