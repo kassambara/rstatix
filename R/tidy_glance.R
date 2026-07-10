@@ -34,6 +34,7 @@ NULL
 #' @rdname tidy.rstatix_test
 #' @exportS3Method generics::tidy
 tidy.rstatix_test <- function(x, ...){
+  x <- rstatix_test_table(x)
   attr(x, "args") <- NULL
   tibble::as_tibble(keep_only_tbl_df_classes(x))
 }
@@ -43,8 +44,19 @@ tidy.rstatix_test <- function(x, ...){
 glance.rstatix_test <- function(x, ...){
   method <- attr(x, "args")$method
   if(is.null(method) || !nzchar(method)){
-    method <- setdiff(class(x), c("rstatix_test", "tbl_df", "tbl", "data.frame"))
+    method <- setdiff(class(x), c("rstatix_test", "tbl_df", "tbl", "data.frame", "list"))
     method <- if(length(method)) method[1] else NA_character_
   }
-  tibble::tibble(method = method, n = nrow(x))
+  tibble::tibble(method = method, n = nrow(rstatix_test_table(x)))
+}
+
+# Most rstatix_test objects are already rectangular tibbles. The exception is a
+# repeated-measures or mixed anova_test() result, classed
+# c("rstatix_test", "anova_test", "list"), which holds the ANOVA table together
+# with Mauchly's test and the sphericity corrections. get_anova_table() extracts
+# the corrected ANOVA table -- one row per term -- which is the tidy form.
+rstatix_test_table <- function(x){
+  if(is.data.frame(x)) return(x)
+  if(inherits(x, "anova_test")) return(get_anova_table(x))
+  stop("Cannot tidy this result: it is not a rectangular table.", call. = FALSE)
 }

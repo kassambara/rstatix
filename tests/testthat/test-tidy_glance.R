@@ -70,6 +70,42 @@ test_that("glance() falls back to the class when no method is stashed", {
   expect_equal(gl$n, nrow(res))
 })
 
+test_that("tidy()/glance() handle repeated-measures and mixed anova_test (list objects)", {
+  # anova_test() with within=/between= returns a list, not a rectangular tibble:
+  # the ANOVA table plus Mauchly's test and the sphericity corrections. tidy()
+  # must return the corrected ANOVA table (one row per term), not a tibble whose
+  # columns are packed data frames; glance()'s n must be the number of terms, not
+  # dropped (nrow() of the list is NULL).
+  set.seed(1)
+  d <- data.frame(
+    id = factor(rep(1:12, 3)),
+    t  = factor(rep(c("t1", "t2", "t3"), each = 12)),
+    g  = factor(rep(rep(c("a", "b"), each = 6), 3)),
+    score = rnorm(36)
+  )
+  rm <- anova_test(d, dv = score, wid = id, within = t)
+  mx <- anova_test(d, dv = score, wid = id, within = t, between = g)
+
+  for (obj in list(rm, mx)) {
+    td <- generics::tidy(obj)
+    expect_s3_class(td, "tbl_df")
+    expect_false(inherits(td, "rstatix_test"))
+    # one row per term, matching the corrected ANOVA table
+    tab <- get_anova_table(obj)
+    expect_equal(nrow(td), nrow(tab))
+    expect_true("Effect" %in% colnames(td))
+    # every column is an atomic vector, never a packed data frame
+    expect_true(all(vapply(td, is.atomic, logical(1))))
+
+    gl <- generics::glance(obj)
+    expect_equal(colnames(gl), c("method", "n"))   # n not dropped
+    expect_equal(gl$method, "anova_test")
+    expect_equal(gl$n, nrow(tab))
+  }
+  # the mixed design has three terms
+  expect_equal(generics::glance(mx)$n, 3L)
+})
+
 test_that("tidy() and glance() are dispatched through the generics", {
   # tidy()/glance() called as the bare generic (as broom / gtsummary would)
   # reach the rstatix_test methods, not broom's deprecated data-frame tidier.
