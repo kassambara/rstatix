@@ -49,8 +49,9 @@
 #' \itemize{
 #'   \item \code{effectsize} — a broad effect-size toolkit;
 #'   \code{effectsize::cramers_v()} and \code{effectsize::eta_squared()} produce
-#'   the same intervals as \code{\link{cramer_v}(ci = TRUE)} and
-#'   \code{\link{anova_test}(ci = )} when called with
+#'   the same intervals as \code{\link{cramer_v}(ci = TRUE)},
+#'   \code{\link{anova_test}(ci = )}, and \code{\link{eta_squared}(ci = )} /
+#'   \code{\link{partial_eta_squared}(ci = )} when called with
 #'   \code{alternative = "two.sided"}, which is not their default.
 #'   \item \code{DescTools} — \code{DescTools::CramerV()} and
 #'   \code{DescTools::DunnettTest()}.
