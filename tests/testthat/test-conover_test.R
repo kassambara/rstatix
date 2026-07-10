@@ -40,10 +40,14 @@ test_that("conover_test matches the Conover-Iman formula (#222, #17)", {
 test_that("conover_test reproduces PMCMRplus::kwAllPairsConoverTest reference values (#222)", {
   # Reference produced by PMCMRplus::kwAllPairsConoverTest(len ~ factor(dose),
   # ToothGrowth, p.adjust.method = "none"); hard-coded so the test has no external
-  # dependency. PMCMRplus reports the unsigned t and the raw (unadjusted) p.
+  # dependency. Pinned snapshot: PMCMRplus 1.9.12, 2026-07-10. PMCMRplus reports
+  # the signed t and the raw (unadjusted) p, and its sign agrees with this
+  # function's in both directions -- unlike frdAllPairsConoverTest(), whose sign
+  # is reversed, and frdAllPairsNemenyiTest(), which reports the magnitude. The
+  # statistic is pinned with its sign so the agreement is actually checked.
   res <- ToothGrowth %>% conover_test(len ~ dose, p.adjust.method = "none", detailed = TRUE)
   res <- res[order(res$group1, res$group2), ]
-  expect_equal(abs(res$statistic), c(6.268626, 11.219642, 4.951016), tolerance = 1e-5)
+  expect_equal(res$statistic, c(6.268626, 11.219642, 4.951016), tolerance = 1e-5)
   expect_equal(res$p, c(5.203093e-08, 4.683820e-16, 6.915398e-06), tolerance = 1e-6)
 })
 
