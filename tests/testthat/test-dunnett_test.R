@@ -92,7 +92,33 @@ test_that("dunnett_test handles factor levels containing '-' (#129)", {
   expect_equal(unique(res$n2), 10L)
 })
 
-# Note: correctness is validated above against emmeans' own trt.vs.ctrl + mvt
-# contrast (a declared Suggests). DescTools / multcomp would be unstated test
-# dependencies, so they are intentionally not used here (cf. R CMD check
-# "unstated dependencies in tests").
+test_that("dunnett_test matches the DescTools and multcomp Dunnett implementations", {
+  # The documentation of dunnett_test() claims its results match
+  # DescTools::DunnettTest() and multcomp::glht(..., mcp(dose = "Dunnett")).
+  # Neither package is a dependency, and calling one from a test is an
+  # unstated-dependency WARNING under --as-cran, so their output is recorded here
+  # as fixed numbers. Pinned snapshot: DescTools 0.99.60, multcomp 1.4.30,
+  # 2026-07-10. A recorded number cannot notice either package changing its
+  # algorithm; re-verify when refreshing the snapshot.
+  df <- ToothGrowth
+  df$dose <- factor(df$dose)
+  res <- dunnett_test(df, len ~ dose)
+
+  # multcomp::glht() reports the control-minus-treatment contrast with the
+  # opposite sign; the t statistics are otherwise identical to machine precision.
+  glht_tstat <- c(6.80584650754, 11.5505576817)
+  expect_equal(res$statistic, -glht_tstat, tolerance = 1e-10)
+
+  # p-values from the multivariate-t distribution. Both packages agree with
+  # rstatix on the first comparison to nine significant digits; the second lies
+  # at the floating-point floor, where DescTools reports 2.22e-16 and multcomp
+  # 3.33e-16 -- both mean "indistinguishable from zero".
+  expect_equal(res$p.adj[1], 1.3367834395e-08, tolerance = 1e-9)   # multcomp
+  expect_equal(res$p.adj[1], 1.33678340619e-08, tolerance = 1e-8)  # DescTools
+  expect_lt(res$p.adj[2], 1e-15)
+
+  # The estimated differences the two packages report (9.13, 15.495) are the
+  # plain group-mean differences, which rstatix does not return as a column.
+  means <- tapply(df$len, df$dose, mean)
+  expect_equal(as.numeric(means[-1] - means[1]), c(9.13, 15.495), tolerance = 1e-10)
+})

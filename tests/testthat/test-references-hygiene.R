@@ -18,14 +18,32 @@ test_files <- function() {
   list.files(".", pattern = "^test.*\\.[Rr]$", full.names = TRUE)
 }
 
-# The Rd database comes from the installed package under `R CMD check`, and from
-# the source `man/` directory when the package is loaded from source.
+# This file names every cross-check package in `cross_check_packages` above, so
+# it would vouch for itself if it scanned its own source: a package listed here
+# but compared against nowhere would still look "used by a test".
+other_test_files <- function() {
+  files <- test_files()
+  files[basename(files) != "test-references-hygiene.R"]
+}
+
+# `multcompView` contains `multcomp` as a substring, so a fixed match on the
+# shorter name is satisfied by the longer one. Match on word boundaries instead.
+names_package <- function(pkg, txt) {
+  any(grepl(paste0("\\b", pkg, "\\b"), txt, perl = TRUE))
+}
+
+# The source `man/` directory is preferred, so that a run from a source tree
+# checks the Rd files that are actually about to be committed rather than
+# whichever version of rstatix happens to be installed. Under `R CMD check` the
+# tests run inside `<pkg>.Rcheck/tests`, which has no `man/`, so the database
+# falls back to the package being checked -- again the right one.
 rd_database <- function() {
-  db <- tryCatch(tools::Rd_db("rstatix"), error = function(e) NULL)
-  if (!is.null(db) && length(db)) return(db)
   root <- normalizePath(file.path("..", ".."), mustWork = FALSE)
-  if (!dir.exists(file.path(root, "man"))) return(NULL)
-  tryCatch(tools::Rd_db(dir = root), error = function(e) NULL)
+  if (dir.exists(file.path(root, "man"))) {
+    db <- tryCatch(tools::Rd_db(dir = root), error = function(e) NULL)
+    if (!is.null(db) && length(db)) return(db)
+  }
+  tryCatch(tools::Rd_db("rstatix"), error = function(e) NULL)
 }
 
 test_that("no cross-check package is declared as a dependency", {
@@ -50,14 +68,17 @@ test_that("no Rd file cross-links a package that is not a dependency", {
   expect_equal(setdiff(targets, c(declared_dependencies(), "rstatix")), character(0))
 })
 
-test_that("every cross-check package named in the docs is used by a test", {
-  # Guards against naming a package we do not actually compare against.
-  files <- test_files()
+test_that("every cross-check package named in the docs is named by a test", {
+  # Guards against listing a package that has left the test suite entirely. This
+  # is a text scan: it cannot tell a pinned comparison from a passing mention, so
+  # it catches drift, not a fabricated claim. The comparison itself is what the
+  # individual test files assert.
+  files <- other_test_files()
   skip_if(length(files) == 0, "test sources not available")
   txt <- unlist(lapply(files, readLines, warn = FALSE))
   for (pkg in cross_check_packages) {
-    expect_true(any(grepl(pkg, txt, fixed = TRUE)),
-                info = paste(pkg, "is named in the documentation but no test uses it"))
+    expect_true(names_package(pkg, txt),
+                info = paste(pkg, "is named in the documentation but no test names it"))
   }
 })
 
@@ -82,7 +103,7 @@ test_that("?rstatix-references names every cross-check package", {
           "rstatix-references topic not available")
   txt <- paste(utils::capture.output(print(db[["rstatix-references.Rd"]])), collapse = "\n")
   for (pkg in cross_check_packages) {
-    expect_true(grepl(pkg, txt, fixed = TRUE),
+    expect_true(names_package(pkg, txt),
                 info = paste(pkg, "is used as a cross-check but is absent from ?rstatix-references"))
   }
 })
