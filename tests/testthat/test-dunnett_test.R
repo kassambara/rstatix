@@ -93,6 +93,7 @@ test_that("dunnett_test handles factor levels containing '-' (#129)", {
 })
 
 test_that("dunnett_test matches the DescTools and multcomp Dunnett implementations", {
+  skip_if_not_installed("emmeans")
   # The documentation of dunnett_test() claims its results match
   # DescTools::DunnettTest() and multcomp::glht(..., mcp(dose = "Dunnett")).
   # Neither package is a dependency, and calling one from a test is an

@@ -65,6 +65,9 @@ test_that("no Rd file cross-links a package that is not a dependency", {
     regmatches(txt, gregexpr("\\\\link\\[[^]]+\\]", txt))[[1]]
   }))
   targets <- unique(sub("^\\\\link\\[([^]:]+).*$", "\\1", links))
+  # `\link[=topic]{text}` links within this package; its bracket holds a topic
+  # name, not a package name, and must not be mistaken for an undeclared package.
+  targets <- targets[!startsWith(targets, "=")]
   expect_equal(setdiff(targets, c(declared_dependencies(), "rstatix")), character(0))
 })
 
