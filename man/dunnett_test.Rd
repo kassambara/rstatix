@@ -64,6 +64,8 @@ Performs Dunnett's test for comparing each of several treatment
  "Dunnett"))}.
 }
 \examples{
+if (requireNamespace("emmeans", quietly = TRUE)) {
+
 # Compare each dose to the control dose ("0.5")
 ToothGrowth \%>\% dunnett_test(len ~ dose)
 
@@ -74,6 +76,8 @@ ToothGrowth \%>\% dunnett_test(len ~ dose, detailed = TRUE)
 ToothGrowth \%>\%
   group_by(supp) \%>\%
   dunnett_test(len ~ dose)
+
+}
 }
 \references{
 Dunnett, C. W. (1955) A multiple comparison procedure for comparing

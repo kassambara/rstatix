@@ -94,6 +94,8 @@ Performs pairwise comparisons between groups using the estimated
 
 }}
 \examples{
+if (requireNamespace("emmeans", quietly = TRUE)) {
+
 # Data preparation
 df <- ToothGrowth
 df$dose <- as.factor(df$dose)
@@ -130,5 +132,7 @@ d <- data.frame(
 )
 rm_model <- stats::aov(score ~ time + Error(id / time), data = d)
 d \%>\% emmeans_test(score ~ time, model = rm_model)
+}
+
 }
 }

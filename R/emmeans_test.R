@@ -36,6 +36,8 @@ NULL
 #'  holding the test arguments. It has also an attribute named "emmeans", a data
 #'  frame containing the groups emmeans.
 #'@examples
+#' if (requireNamespace("emmeans", quietly = TRUE)) {
+#'
 #' # Data preparation
 #' df <- ToothGrowth
 #' df$dose <- as.factor(df$dose)
@@ -72,6 +74,8 @@ NULL
 #' )
 #' rm_model <- stats::aov(score ~ time + Error(id / time), data = d)
 #' d %>% emmeans_test(score ~ time, model = rm_model)
+#' }
+#'
 #' }
 #'@export
 emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
