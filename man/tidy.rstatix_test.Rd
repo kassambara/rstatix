@@ -23,14 +23,16 @@
   comparisons or model terms).
 }
 \description{
-\code{tidy()} and \code{glance()} methods for the objects
-  returned by the \code{rstatix} test functions (\code{\link{t_test}()},
-  \code{\link{wilcox_test}()}, \code{\link{anova_test}()},
-  \code{\link{kruskal_test}()}, and the rest). The results are already tidy
-  tibbles; these methods drop the internal \code{rstatix} classes and the
-  stashed test arguments so the object passes cleanly to tools that dispatch
-  on \code{\link[generics]{tidy}} / \code{\link[generics]{glance}}, such as
-  \code{broom}, \code{gtsummary} and \code{gt}.
+\code{tidy()} and \code{glance()} methods for objects of class
+  \code{rstatix_test} — the result of a test function such as
+  \code{\link{t_test}()}, \code{\link{wilcox_test}()},
+  \code{\link{anova_test}()} or \code{\link{kruskal_test}()}. The results are
+  already tidy tibbles; these methods drop the internal \code{rstatix} classes
+  and the stashed test arguments so the object passes cleanly to tools that
+  dispatch on \code{\link[generics]{tidy}} / \code{\link[generics]{glance}},
+  such as \code{broom}, \code{gtsummary} and \code{gt}. Correlation results
+  (\code{\link{cor_test}()}, \code{\link{cor_mat}()}) carry a different class
+  and are not covered by these methods.
 }
 \examples{
 res <- ToothGrowth \%>\% t_test(len ~ dose)
