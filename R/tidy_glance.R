@@ -47,16 +47,22 @@ glance.rstatix_test <- function(x, ...){
     method <- setdiff(class(x), c("rstatix_test", "tbl_df", "tbl", "data.frame", "list"))
     method <- if(length(method)) method[1] else NA_character_
   }
+  # a grouped result is classed grouped_<test>; report the underlying test
+  method <- sub("^grouped_", "", method)
   tibble::tibble(method = method, n = nrow(rstatix_test_table(x)))
 }
 
-# Most rstatix_test objects are already rectangular tibbles. The exception is a
-# repeated-measures or mixed anova_test() result, classed
-# c("rstatix_test", "anova_test", "list"), which holds the ANOVA table together
-# with Mauchly's test and the sphericity corrections. get_anova_table() extracts
-# the corrected ANOVA table -- one row per term -- which is the tidy form.
+# Most rstatix_test objects are already rectangular tibbles. anova_test() is the
+# exception, in four shapes: a between-subjects result is already flat; a
+# repeated-measures or mixed result is a list (the ANOVA table plus Mauchly's
+# test and the sphericity corrections); and either can be grouped, in which case
+# the object is a data frame carrying a packed `anova` list-column. get_anova_table()
+# returns the corrected ANOVA table -- one row per term (per group) -- for all of
+# them, and is a no-op on an already-flat table, so route every anova object
+# through it BEFORE the plain data-frame case, or the grouped list-column slips out.
 rstatix_test_table <- function(x){
+  if(inherits(x, "anova_test") || inherits(x, "grouped_anova_test"))
+    return(get_anova_table(x))
   if(is.data.frame(x)) return(x)
-  if(inherits(x, "anova_test")) return(get_anova_table(x))
   stop("Cannot tidy this result: it is not a rectangular table.", call. = FALSE)
 }

@@ -106,6 +106,43 @@ test_that("tidy()/glance() handle repeated-measures and mixed anova_test (list o
   expect_equal(generics::glance(mx)$n, 3L)
 })
 
+test_that("tidy()/glance() handle GROUPED anova_test in every design", {
+  # A grouped anova_test -- data %>% group_by(g) %>% anova_test(...) -- is a data
+  # frame classed grouped_anova_test. For a repeated-measures or mixed grouped
+  # design it carries a packed `anova` list-column, so a plain data-frame path
+  # would return that list-column instead of the flat table; get_anova_table()
+  # unpacks it to one row per group x term.
+  set.seed(1)
+  tg <- ToothGrowth
+  tg$dose <- factor(tg$dose)
+  d <- data.frame(
+    id = factor(rep(1:12, 3)),
+    t  = factor(rep(c("t1", "t2", "t3"), each = 12)),
+    g  = factor(rep(rep(c("a", "b"), each = 6), 3)),
+    site = factor(rep(c("x", "y"), 18)),
+    y = rnorm(36)
+  )
+  cases <- list(
+    tg %>% dplyr::group_by(supp) %>% anova_test(len ~ dose),                     # grouped between
+    d  %>% dplyr::group_by(site) %>% anova_test(dv = y, wid = id, within = t),   # grouped RM
+    d  %>% dplyr::group_by(site) %>% anova_test(dv = y, wid = id, within = t, between = g)  # grouped mixed
+  )
+  for (obj in cases) {
+    td <- generics::tidy(obj)
+    expect_s3_class(td, "tbl_df")
+    expect_false(inherits(td, "rstatix_test"))
+    # never a packed list-column: every column is atomic
+    expect_true(all(vapply(td, is.atomic, logical(1))))
+    tab <- get_anova_table(obj)
+    expect_equal(nrow(td), nrow(tab))
+
+    gl <- generics::glance(obj)
+    expect_equal(colnames(gl), c("method", "n"))
+    expect_equal(gl$method, "anova_test")   # not "grouped_anova_test"
+    expect_equal(gl$n, nrow(tab))           # terms across groups, not the group count
+  }
+})
+
 test_that("tidy() and glance() are dispatched through the generics", {
   # tidy()/glance() called as the bare generic (as broom / gtsummary would)
   # reach the rstatix_test methods, not broom's deprecated data-frame tidier.
