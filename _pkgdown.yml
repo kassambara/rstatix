@@ -29,6 +29,7 @@ reference:
       - anova_summary
   - title: Post-Hoc Analyses
     contents:
+      - posthoc_test
       - tukey_hsd
       - dunn_test
       - conover_test
