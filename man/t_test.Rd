@@ -101,8 +101,9 @@ errors as before).}
 (Cohen's d) and its \code{magnitude} are added. \code{t_test()} reports the
 per-pair d (consistent with its per-pair t-test); \code{pairwise_t_test()}
 with the default \code{pool.sd = TRUE} reports the common-SD (pooled-model) d
-so the estimate and the pooled-SD p-value share a variance basis. Not
-supported together with \code{id} (Cohen's d has no id-aware paired form).}
+so the estimate and the pooled-SD p-value share a variance basis. For a
+paired test the d is computed on the same paired differences the test used,
+matched by \code{id} when it is supplied.}
 
 \item{pool.sd}{logical value used in the function \code{pairwise_t_test()}.
  Switch to allow/disallow the use of a pooled SD.

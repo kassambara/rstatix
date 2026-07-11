@@ -29,6 +29,12 @@ NULL
 #'  one or multiple levels giving the corresponding groups. For example,
 #'  \code{formula = TP53 ~ cancer_group}.
 #'@param paired a logical indicating whether you want a paired test.
+#'@param id (optional) character string with the name of the column holding the
+#'  sample/subject identifier, used only for a \strong{paired} test
+#'  (\code{paired = TRUE}). When supplied, the two groups are matched by
+#'  \code{id} (instead of by row order) before the paired d is computed, as in
+#'  \code{\link{t_test}()}. Only complete pairs (subjects measured in both
+#'  groups) are used.
 #'@param mu the theoretical mean (one-sample test) or the hypothesized difference
 #'  in means (two-sample test). It is subtracted from the mean difference before
 #'  standardizing, so a non-zero \code{mu} shifts the effect size accordingly.
@@ -81,7 +87,7 @@ cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired
                      var.equal = FALSE, hedges.correction = FALSE,
                      ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
                      boot.parallel = getOption("boot.parallel", "no"),
-                     boot.ncpus = getOption("boot.ncpus", 1L)){
+                     boot.ncpus = getOption("boot.ncpus", 1L), id = NULL){
   env <- as.list(environment())
   # boot.parallel/boot.ncpus only steer how the bootstrap is computed, never the
   # result, and their defaults depend on the user's options(); keep them out of
@@ -89,6 +95,9 @@ cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired
   args <- env %>%
     remove_item(c("boot.parallel", "boot.ncpus")) %>%
     .add_item(method = "cohens_d")
+  # id (paired matching by subject) is optional; keep it out of the stashed args
+  # when unused so attr(x, "args") is unchanged for existing calls.
+  if(is.null(id)) args <- remove_item(args, "id")
   params <- env %>%
     remove_null_items() %>%
     add_item(method = "cohens.d", detailed = FALSE)

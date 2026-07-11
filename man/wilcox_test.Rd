@@ -94,10 +94,12 @@ instead of stopping with an error; the other comparisons (or groups, for a
 grouped analysis) are still computed. Default is \code{FALSE} (the comparison
 errors as before).}
 
-\item{effect.size}{logical. Default is FALSE. If TRUE, a \code{cliff.delta}
-column (Cliff's delta) and its \code{magnitude} are added. Cliff's delta is
-an independent-samples statistic, so \code{effect.size = TRUE} is not
-supported for a paired or one-sample Wilcoxon test.}
+\item{effect.size}{logical. Default is FALSE. If TRUE, a rank effect-size
+column is added: for an independent-samples test \code{cliff.delta} (Cliff's
+delta) and its \code{magnitude}; for a paired test the matched-pairs
+\code{rank.biserial} correlation (no magnitude, as no threshold set is
+calibrated for it), computed on the same paired differences the test used
+(matched by \code{id} when supplied). Not defined for a one-sample test.}
 
 \item{...}{other arguments to be passed to the function
 \code{\link[stats]{wilcox.test}}.}
