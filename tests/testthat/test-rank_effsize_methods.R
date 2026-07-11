@@ -19,6 +19,8 @@ test_that("kruskal_effsize(method = 'epsilon2') matches effectsize::rank_epsilon
   res <- d %>% kruskal_effsize(len ~ dose, method = "epsilon2")
   expect_equal(res$method, "epsilon2")
   expect_equal(unname(res$effsize), 0.689303987542, tolerance = 1e-9)
+  # non-default metric is recorded in the stashed args (reproducibility)
+  expect_equal(attr(res, "args")$effsize.method, "epsilon2")
   # independent recompute: H / (N - 1)
   kt <- d %>% kruskal_test(len ~ dose)
   expect_equal(unname(res$effsize), unname(kt$statistic / (nrow(d) - 1)))
@@ -62,6 +64,11 @@ test_that("wilcox_effsize(method = 'rank_biserial') handles pairwise and paired 
   paired <- dp %>% wilcox_effsize(y ~ g, paired = TRUE, method = "rank_biserial")
   from.column <- dp %>% wilcox_test(y ~ g, paired = TRUE, id = "id", effect.size = TRUE)
   expect_equal(unname(paired$effsize), unname(from.column$rank.biserial))
+  # no calibrated magnitude for the matched-pairs rank-biserial (as wilcox_test);
+  # the independent case keeps the Romano thresholds
+  expect_true(is.na(paired$magnitude))
+  indep <- dp %>% wilcox_effsize(y ~ g, method = "rank_biserial")
+  expect_false(is.na(indep$magnitude))
 })
 
 test_that("wilcox_effsize(method = 'rank_biserial', ci = TRUE) adds a bootstrap CI", {

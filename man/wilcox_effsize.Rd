@@ -89,9 +89,11 @@ rank correlation \code{r = Z / sqrt(N)}, or \code{"rank_biserial"} for the
 rank-biserial correlation --- Cliff's delta for an independent-samples test
 (equal to \code{\link{cliff_delta}()}) or the matched-pairs rank-biserial for
 a paired test, both equal to \code{effectsize::rank_biserial()}. The
-\code{"rank_biserial"} option is labelled with the Romano et al. magnitude
-thresholds, and its confidence interval (\code{ci = TRUE}) is a percentile
-bootstrap.}
+independent-samples case is labelled with the Romano et al. magnitude
+thresholds (those thresholds define Cliff's delta); the paired case carries
+no \code{magnitude} (\code{NA}), because no threshold set is calibrated for
+the matched-pairs rank-biserial. The confidence interval (\code{ci = TRUE})
+is a percentile bootstrap.}
 }
 \value{
 return a data frame with some of the following columns: \itemize{

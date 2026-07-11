@@ -55,9 +55,11 @@ NULL
 #'  rank-biserial correlation --- Cliff's delta for an independent-samples test
 #'  (equal to \code{\link{cliff_delta}()}) or the matched-pairs rank-biserial for
 #'  a paired test, both equal to \code{effectsize::rank_biserial()}. The
-#'  \code{"rank_biserial"} option is labelled with the Romano et al. magnitude
-#'  thresholds, and its confidence interval (\code{ci = TRUE}) is a percentile
-#'  bootstrap.
+#'  independent-samples case is labelled with the Romano et al. magnitude
+#'  thresholds (those thresholds define Cliff's delta); the paired case carries
+#'  no \code{magnitude} (\code{NA}), because no threshold set is calibrated for
+#'  the matched-pairs rank-biserial. The confidence interval (\code{ci = TRUE})
+#'  is a percentile bootstrap.
 #'@param detailed logical value. Default is FALSE. If TRUE, the output
 #'  additionally includes the \code{Z} \code{statistic} (extracted from the
 #'  \code{coin} package and used to compute \code{r = Z/sqrt(N)}), the p-value
@@ -123,7 +125,12 @@ wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
   # the Romano magnitude thresholds those metrics use.
   stat.method <- if(method == "r") "coin.wilcox.test"
                  else if(isTRUE(paired)) "rank.biserial" else "cliff.delta"
+  # An independent-samples rank_biserial IS Cliff's delta, so its Romano
+  # thresholds apply. The matched-pairs rank-biserial (paired) has no calibrated
+  # threshold set, so -- like wilcox_test(effect.size = TRUE, paired = TRUE) --
+  # no magnitude is assigned (the column stays, filled with NA).
   magnitude.fun <- if(method == "r") get_wilcox_effsize_magnitude
+                   else if(isTRUE(paired)) no_effsize_magnitude
                    else get_cliff_delta_magnitude
   params <- c(env, list(...)) %>%
     remove_null_items() %>%
@@ -255,4 +262,12 @@ get_wilcox_effsize_magnitude <- function(d){
   d.index <- findInterval(abs(d), magnitude.levels)+1
   magnitude <- factor(magnitude[d.index], levels = magnitude, ordered = TRUE)
   magnitude
+}
+
+# No calibrated magnitude thresholds exist for the matched-pairs rank-biserial,
+# so return an all-NA ordered factor (same levels/type as the other magnitude
+# helpers) rather than mis-applying the independent-sample Romano thresholds.
+no_effsize_magnitude <- function(d){
+  factor(rep(NA_character_, length(d)),
+         levels = c("small", "moderate", "large"), ordered = TRUE)
 }

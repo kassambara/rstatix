@@ -62,12 +62,15 @@ kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.ty
                             method = c("eta2", "epsilon2")){
   method <- match.arg(method)
   # See cohens_d(): the bootstrap-execution arguments are not part of the
-  # statistical call, so they are excluded from the stashed args. `method`
-  # (eta2/epsilon2) is captured below but overwritten by .add_item("kruskal_effsize"),
-  # so the stashed args are unchanged when the default method is used.
+  # statistical call, so they are excluded from the stashed args. The `method`
+  # key is overwritten by .add_item("kruskal_effsize"), so the stashed args are
+  # unchanged for the default; the metric choice is recorded as `effsize.method`
+  # only when non-default (mirroring wilcox_effsize), so a downstream consumer
+  # reconstructing the call keeps the epsilon2 selection.
   args <- as.list(environment()) %>%
     remove_item(c("boot.parallel", "boot.ncpus")) %>%
     .add_item(method = "kruskal_effsize")
+  if(method != "eta2") args <- args %>% .add_item(effsize.method = method)
   data %>%
     doo(
       .kruskal_effsize, formula, ci = ci, conf.level = conf.level,
