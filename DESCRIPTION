@@ -57,6 +57,7 @@ Collate:
     'binom_test.R'
     'box_m.R'
     'chisq_test.R'
+    'cliff_delta.R'
     'cochran_qtest.R'
     'cohens_d.R'
     't_test.R'
