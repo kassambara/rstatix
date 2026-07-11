@@ -41,9 +41,11 @@ checked them). Default \code{NULL} (compute the assumptions here).}
 \item{omnibus}{(optional) an omnibus test result --- from
 \code{\link{anova_test}()}, \code{\link{welch_anova_test}()} or
 \code{\link{kruskal_test}()} --- that you already ran. If the post-hoc route
-chosen here belongs to a different family (parametric vs non-parametric) than
-that omnibus, a warning is issued so the two stay coherent. Default
-\code{NULL} (no check).}
+chosen here belongs to a different family than that omnibus --- the families
+being parametric equal-variance (ANOVA / Tukey), parametric unequal-variance
+(Welch / Games-Howell) and non-parametric (Kruskal-Wallis / Dunn) --- a
+warning is issued so the two stay coherent (for example an \code{anova_test()}
+omnibus followed by a Games-Howell route). Default \code{NULL} (no check).}
 
 \item{x}{an object of class \code{posthoc_test}.}
 }

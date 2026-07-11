@@ -66,9 +66,11 @@ NULL
 #' @param omnibus (optional) an omnibus test result --- from
 #'   \code{\link{anova_test}()}, \code{\link{welch_anova_test}()} or
 #'   \code{\link{kruskal_test}()} --- that you already ran. If the post-hoc route
-#'   chosen here belongs to a different family (parametric vs non-parametric) than
-#'   that omnibus, a warning is issued so the two stay coherent. Default
-#'   \code{NULL} (no check).
+#'   chosen here belongs to a different family than that omnibus --- the families
+#'   being parametric equal-variance (ANOVA / Tukey), parametric unequal-variance
+#'   (Welch / Games-Howell) and non-parametric (Kruskal-Wallis / Dunn) --- a
+#'   warning is issued so the two stay coherent (for example an \code{anova_test()}
+#'   omnibus followed by a Games-Howell route). Default \code{NULL} (no check).
 #' @name posthoc_test
 #' @export
 posthoc_test <- function(data, formula, significance = 0.05, ...,
@@ -189,6 +191,9 @@ get_omnibus_family <- function(omnibus){
   else if(inherits(omnibus, "kruskal_test")) "nonparametric"
   else {
     method <- attr(omnibus, "args")$method
+    # An unrecognized object (no method, or not an omnibus) yields NA -> no
+    # warning, rather than erroring in switch() on a zero/multi-length value.
+    if(length(method) != 1) return(NA_character_)
     switch(as.character(method),
       anova_test = "parametric", welch_anova_test = "welch",
       kruskal_test = "nonparametric", NA_character_)

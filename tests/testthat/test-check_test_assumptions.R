@@ -61,6 +61,16 @@ test_that("posthoc_test(omnibus=) warns only on a parametric/non-parametric mism
                  "different family")
   # coherent: kruskal omnibus + dunn route -> no warning
   expect_silent(d %>% posthoc_test(y ~ g, omnibus = d %>% kruskal_test(y ~ g)))
+  # parametric equal-var (ANOVA) omnibus followed by a Games-Howell route (unequal
+  # variances) is also a family mismatch -> warns
+  set.seed(2)
+  d.gh <- data.frame(y = c(rnorm(30, 0, 1), rnorm(30, 5, 4), rnorm(30, 10, 8)),
+                     g = factor(rep(1:3, each = 30)))
+  expect_warning(d.gh %>% posthoc_test(y ~ g, omnibus = d.gh %>% anova_test(y ~ g)),
+                 "different family")
+  # an unrecognized omnibus object degrades to no warning, not an error
+  expect_silent(d %>% posthoc_test(y ~ g, omnibus = list(not = "an omnibus")))
+  expect_silent(d %>% posthoc_test(y ~ g, omnibus = d %>% t_test(y ~ g)))
 })
 
 test_that("check_test_assumptions rejects invalid designs", {
