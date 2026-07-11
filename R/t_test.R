@@ -344,7 +344,14 @@ pairwise_t_test_psd <- function(
     # pairwise.t.test used for the pooled p-value).
     n.complete  <- tapply(outcome.values, group.values, function(v) sum(!is.na(v)))
     df.each     <- n.complete - 1
-    common.sd   <- sqrt(sum(df.each * group.vars[names(n.complete)]) / sum(df.each))
+    # A group with a single complete observation has 0 df and an undefined
+    # (NA) variance; it contributes no sum-of-squares to the pool. Zero that
+    # contribution explicitly so `0 * NA` does not poison the whole pooled SD
+    # to NA (which would blank the effect size for every pair). This matches
+    # sigma(lm), where such a group also contributes 0 residual df.
+    ss <- df.each * group.vars[names(n.complete)]
+    ss[df.each == 0] <- 0
+    common.sd   <- sqrt(sum(ss) / sum(df.each))
     d <- as.numeric(
       (group.means[results$group1] - group.means[results$group2]) / common.sd
     )

@@ -67,6 +67,17 @@ test_that("the pooled-SD d uses complete-case counts, matching emmeans under mis
                tolerance = 1e-6)
 })
 
+test_that("a group collapsed to one complete observation does not blank the pooled d", {
+  # 0 df + an undefined variance for one group must not poison the pooled SD to
+  # NA (0 * NA): every pair still gets a finite d, matching emmeans, which also
+  # gives that group 0 residual df. Pinned from emmeans (2026-07-11).
+  d <- tg_f()
+  d$len[d$dose == "0.5"][-1] <- NA          # dose 0.5 keeps a single value
+  res <- d %>% pairwise_t_test(len ~ dose, effect.size = TRUE)
+  expect_false(anyNA(res$cohens.d))
+  expect_equal(res$cohens.d, c(-3.782264, -5.331933, -1.549669), tolerance = 1e-5)
+})
+
 test_that("the pooled and per-pair d genuinely differ on unbalanced data", {
   d <- both_dir_data()
   pooled  <- (d %>% pairwise_t_test(y ~ g, effect.size = TRUE))$cohens.d
