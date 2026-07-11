@@ -68,9 +68,11 @@ test_that("posthoc_test(omnibus=) warns only on a parametric/non-parametric mism
                      g = factor(rep(1:3, each = 30)))
   expect_warning(d.gh %>% posthoc_test(y ~ g, omnibus = d.gh %>% anova_test(y ~ g)),
                  "different family")
-  # an unrecognized omnibus object degrades to no warning, not an error
+  # an unrecognized omnibus object degrades to no warning, not an error --
+  # including a malformed object whose `args` attribute is not a list
   expect_silent(d %>% posthoc_test(y ~ g, omnibus = list(not = "an omnibus")))
   expect_silent(d %>% posthoc_test(y ~ g, omnibus = d %>% t_test(y ~ g)))
+  expect_silent(d %>% posthoc_test(y ~ g, omnibus = structure(1, args = "not-a-list")))
 })
 
 test_that("check_test_assumptions rejects invalid designs", {

@@ -190,9 +190,10 @@ get_omnibus_family <- function(omnibus){
   else if(inherits(omnibus, "welch_anova_test")) "welch"
   else if(inherits(omnibus, "kruskal_test")) "nonparametric"
   else {
-    method <- attr(omnibus, "args")$method
-    # An unrecognized object (no method, or not an omnibus) yields NA -> no
-    # warning, rather than erroring in switch() on a zero/multi-length value.
+    # An unrecognized object (no stashed args list, no method, or a multi-length
+    # method) yields NA -> no warning, rather than erroring on `$` or in switch().
+    args <- attr(omnibus, "args")
+    method <- if(is.list(args)) args$method else NULL
     if(length(method) != 1) return(NA_character_)
     switch(as.character(method),
       anova_test = "parametric", welch_anova_test = "welch",
