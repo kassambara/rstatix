@@ -54,6 +54,19 @@ test_that("pairwise_t_test(pool.sd = FALSE) reports the per-pair cohens_d", {
   expect_equal(res$cohens.d, (d %>% cohens_d(len ~ dose))$effsize %>% as.numeric())
 })
 
+test_that("the pooled-SD d uses complete-case counts, matching emmeans under missing data", {
+  # A missing outcome value must not inflate the pooled-SD weights: the common SD
+  # is weighted by each group's COMPLETE-CASE count, so cohens.d stays equal to
+  # emmeans::eff_size(sigma = sigma(m), edf = df.residual(m)) even with NAs.
+  # Pinned from emmeans on ToothGrowth with a fixed NA pattern (emmeans 1.x,
+  # 2026-07-11); a get_group_size()-weighted SD would give different values.
+  d <- tg_f()
+  d$len[c(1, 8, 15, 22, 29, 36, 43, 50)] <- NA
+  res <- d %>% pairwise_t_test(len ~ dose, effect.size = TRUE)
+  expect_equal(res$cohens.d, c(-1.937440610, -3.840655342, -1.903214732),
+               tolerance = 1e-6)
+})
+
 test_that("the pooled and per-pair d genuinely differ on unbalanced data", {
   d <- both_dir_data()
   pooled  <- (d %>% pairwise_t_test(y ~ g, effect.size = TRUE))$cohens.d
@@ -91,8 +104,14 @@ test_that("games_howell_test(effect.size = TRUE) adds a Welch cohens.d oriented 
   d <- tg_f()
   res <- d %>% games_howell_test(len ~ dose, effect.size = TRUE)
   expect_true(all(c("cohens.d", "magnitude") %in% colnames(res)))
-  # sign of d equals sign of the reported mean difference (never contradicts it)
-  expect_equal(sign(res$cohens.d), sign(res$estimate))
+  # The d is oriented like Games-Howell's own estimate (group2 - group1), which
+  # is the OPPOSITE of t_test's group1 - group2 cohens.d for the same pair. Pin
+  # the signed 0.5-vs-1 value (dose 1 > dose 0.5, so POSITIVE here) so the check
+  # is a real oracle, not the tautology d = estimate / sqrt(.) makes it.
+  row01 <- res$group1 == "0.5" & res$group2 == "1"
+  expect_equal(res$cohens.d[row01], 2.048095842, tolerance = 1e-7)
+  expect_equal((d %>% t_test(len ~ dose, effect.size = TRUE))$cohens.d[row01],
+               -2.048095842, tolerance = 1e-7)   # opposite orientation
   # magnitude equals cohens_d(var.equal = FALSE) up to orientation
   cd <- d %>% cohens_d(len ~ dose, var.equal = FALSE)
   expect_equal(abs(res$cohens.d), abs(as.numeric(cd$effsize)), tolerance = 1e-9)

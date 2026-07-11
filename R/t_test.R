@@ -337,8 +337,14 @@ pairwise_t_test_psd <- function(
     # recoverable from the pooled-SD t statistic. Oriented group1 - group2.
     group.means <- tapply(outcome.values, group.values, mean, na.rm = TRUE)
     group.vars  <- tapply(outcome.values, group.values, stats::var, na.rm = TRUE)
-    df.each     <- group.size - 1
-    common.sd   <- sqrt(sum(df.each * group.vars[names(group.size)]) / sum(df.each))
+    # Weight the pooled SD by each group's COMPLETE-CASE count (mean/var already
+    # drop NAs), not get_group_size()'s NA-inclusive row count. Otherwise a
+    # missing outcome value inflates the df weights and common.sd no longer
+    # equals the ANOVA residual SD / emmeans::eff_size (and the SD that
+    # pairwise.t.test used for the pooled p-value).
+    n.complete  <- tapply(outcome.values, group.values, function(v) sum(!is.na(v)))
+    df.each     <- n.complete - 1
+    common.sd   <- sqrt(sum(df.each * group.vars[names(n.complete)]) / sum(df.each))
     d <- as.numeric(
       (group.means[results$group1] - group.means[results$group2]) / common.sd
     )
