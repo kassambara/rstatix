@@ -34,10 +34,12 @@ NULL
 #'
 #'@param detailed logical value. Default is FALSE. If TRUE, a detailed result is
 #'  shown.
-#'@param effect.size logical. Default is FALSE. If TRUE, a \code{cliff.delta}
-#'  column (Cliff's delta) and its \code{magnitude} are added. Cliff's delta is
-#'  an independent-samples statistic, so \code{effect.size = TRUE} is not
-#'  supported for a paired or one-sample Wilcoxon test.
+#'@param effect.size logical. Default is FALSE. If TRUE, a rank effect-size
+#'  column is added: for an independent-samples test \code{cliff.delta} (Cliff's
+#'  delta) and its \code{magnitude}; for a paired test the matched-pairs
+#'  \code{rank.biserial} correlation (no magnitude, as no threshold set is
+#'  calibrated for it), computed on the same paired differences the test used
+#'  (matched by \code{id} when supplied). Not defined for a one-sample test.
 #'@param id (optional) character string specifying the column that contains the
 #'  sample/subject identifier, used only for a \strong{paired} test
 #'  (\code{paired = TRUE}). When supplied, observations of the two compared
@@ -79,6 +81,14 @@ NULL
 #'  about the calculation of the estimate in the details section of the R base
 #'  function \code{wilcox.test()} documentation by typing \code{?wilcox.test} in
 #'  the R console.
+#'
+#'  - With \code{effect.size = TRUE}, an independent-samples test is annotated
+#'  with Cliff's delta and a paired test with the matched-pairs rank-biserial
+#'  correlation, \eqn{(R^+ - R^-)/(R^+ + R^-)} over the signed ranks of the
+#'  paired differences (Kerby, 2014).
+#'
+#'@references Kerby, D. S. (2014). The simple difference formula: An approach to
+#'  teaching nonparametric correlation. \emph{Comprehensive Psychology}, 3, 11.IT.3.1.
 #'
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y variable used in the test. \item
@@ -180,15 +190,9 @@ wilcox_test <- function(
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
-  if(isTRUE(effect.size)){
-    if(isTRUE(paired))
-      stop("`effect.size = TRUE` is not supported for a paired Wilcoxon test: ",
-           "Cliff's delta is an independent-samples effect size. Compute a ",
-           "matched-pairs effect size separately.", call. = FALSE)
-    if(number.of.groups < 2)
-      stop("`effect.size = TRUE` requires two or more groups: Cliff's delta is ",
-           "not defined for a one-sample Wilcoxon test.", call. = FALSE)
-  }
+  if(isTRUE(effect.size) && number.of.groups < 2)
+    stop("`effect.size = TRUE` requires two or more groups: a rank effect size ",
+         "is not defined for a one-sample Wilcoxon test.", call. = FALSE)
   if(!is.null(id) && !is.null(ref.group) && ref.group %in% c("all", ".all.")){
     stop("`id` (paired matching) is not supported with ref.group = 'all': ",
          "pairing subjects against the pooled grand-mean group is not defined.",
@@ -204,9 +208,9 @@ wilcox_test <- function(
   if(number.of.groups > 2) test.func <- pairwise_two_sample_test
   res <- do.call(test.func, params)
   if(isTRUE(effect.size)){
-    res <- add_cliff_delta_effsize(
+    res <- add_wilcox_effsize(
       res, data, formula, comparisons = comparisons, ref.group = ref.group,
-      paired = paired, number.of.groups = number.of.groups
+      paired = paired, id = id, number.of.groups = number.of.groups
     )
   }
   res %>%
@@ -214,23 +218,78 @@ wilcox_test <- function(
     add_class(c("rstatix_test", "wilcox_test"))
 }
 
-# Join Cliff's delta as a `cliff.delta` column (with a Romano `magnitude`) onto a
-# Wilcoxon result. Cliff's delta is an independent-samples statistic (and has no
-# one-sample form), so paired and one-sample Wilcoxon tests are forbidden rather
-# than reporting a metric that does not match the test.
-add_cliff_delta_effsize <- function(res, data, formula, comparisons, ref.group,
-                                    paired, number.of.groups){
-  if(isTRUE(paired))
-    stop("`effect.size = TRUE` is not supported for a paired Wilcoxon test: ",
-         "Cliff's delta is an independent-samples effect size. Compute a ",
-         "matched-pairs effect size separately.", call. = FALSE)
+# Join the Wilcoxon effect size onto a Wilcoxon result. For an INDEPENDENT test
+# that is Cliff's delta (`cliff.delta` + Romano `magnitude`); for a PAIRED test
+# it is the matched-pairs rank-biserial correlation (`rank.biserial`, no
+# magnitude -- no threshold set is calibrated for it), computed on the SAME
+# paired differences the test used (id-matched when id is supplied).
+add_wilcox_effsize <- function(res, data, formula, comparisons, ref.group,
+                               paired, id, number.of.groups){
   if(number.of.groups < 2)
-    stop("`effect.size = TRUE` requires two or more groups: Cliff's delta is ",
-         "not defined for a one-sample Wilcoxon test.", call. = FALSE)
+    stop("`effect.size = TRUE` requires two or more groups: a rank effect size ",
+         "is not defined for a one-sample Wilcoxon test.", call. = FALSE)
+  if(isTRUE(paired)){
+    es <- paired_rank_biserial_table(data, formula, comparisons, ref.group, id)
+    return(join_effect_size(res, es, "rank.biserial"))
+  }
   es <- cliff_delta(
     data, formula, comparisons = comparisons, ref.group = ref.group
   )
   join_effect_size(res, keep_only_tbl_df_classes(es), "cliff.delta")
+}
+
+# Matched-pairs rank-biserial table, one row per comparison, routed through the
+# same two_sample_test()/pairwise_two_sample_test() engine (with paired = TRUE
+# and, when supplied, id) that the paired Wilcoxon test uses -- so the effect
+# size rests on exactly the paired differences the test did. Returns a tibble
+# with the identifying columns and an `effsize` column (no magnitude).
+paired_rank_biserial_table <- function(data, formula, comparisons, ref.group, id){
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
+  number.of.groups <- guess_number_of_groups(data, group)
+  params <- list(
+    data = data, formula = formula, method = "rank.biserial",
+    paired = TRUE, id = id, ref.group = ref.group,
+    comparisons = comparisons, detailed = FALSE
+  ) %>% remove_null_items()
+  if(number.of.groups > 2 && !is.null(ref.group) && ref.group %in% c("all", ".all.")){
+    params$data <- create_data_with_all_ref_group(data, outcome, group)
+    params$ref.group <- "all"
+  }
+  test.func <- two_sample_test
+  if(number.of.groups > 2) test.func <- pairwise_two_sample_test
+  do.call(test.func, params) %>%
+    select(all_of(c(".y.", "group1", "group2", "estimate")), everything()) %>%
+    rename(effsize = "estimate") %>%
+    keep_only_tbl_df_classes()
+}
+
+# The stat function called by two_sample_test()/pairwise_two_sample_test() for a
+# paired comparison: the matched-pairs rank-biserial correlation of the Wilcoxon
+# signed-rank test. Rank the absolute non-zero paired differences; then
+# r = (R+ - R-) / (R+ + R-), the difference in the proportions of favourable and
+# unfavourable signed ranks (Kerby, 2014). Equals effectsize::rank_biserial(paired
+# = TRUE). x and y are the paired-aligned vectors the engine supplies.
+rank.biserial <- function(x, y = NULL, ...){
+  DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
+  if(is.null(y))
+    stop("The matched-pairs rank-biserial requires two paired samples.", call. = FALSE)
+  differences <- x - y
+  differences <- differences[is.finite(differences)]
+  differences <- differences[differences != 0]     # Wilcoxon drops zero differences
+  if(length(differences) < 1L)
+    stop("no non-zero paired differences to rank", call. = FALSE)
+  ranks <- rank(abs(differences))
+  r.plus  <- sum(ranks[differences > 0])
+  r.minus <- sum(ranks[differences < 0])
+  estimate <- (r.plus - r.minus) / (r.plus + r.minus)
+  RVAL <- list(
+    statistic = NA, p.value = NA, method = "Matched-pairs rank-biserial",
+    data.name = DNAME, estimate = estimate
+  )
+  names(RVAL$estimate) <- "rank-biserial"
+  class(RVAL) <- "htest"
+  RVAL
 }
 
 
@@ -252,9 +311,9 @@ pairwise_wilcox_test <- function(
     conf.int = detailed, ...
   )
   if(isTRUE(effect.size)){
-    res <- add_cliff_delta_effsize(
+    res <- add_wilcox_effsize(
       res, data, formula, comparisons = comparisons, ref.group = ref.group,
-      paired = isTRUE(list(...)$paired), number.of.groups = 2
+      paired = isTRUE(list(...)$paired), id = list(...)$id, number.of.groups = 2
     )
   }
   res %>%

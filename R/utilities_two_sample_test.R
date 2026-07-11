@@ -365,7 +365,7 @@ remove_details <- function(res, method){
     )
     res <- res[, columns.to.keep]
   }
-  else if(method %in% c("coin.wilcox.test", "cohens.d", "cliff.delta")){
+  else if(method %in% c("coin.wilcox.test", "cohens.d", "cliff.delta", "rank.biserial")){
     columns.to.remove <- c("p", "p.adj", "p.adj.signif", "p.signif",
                            "statistic", "method", "alternative", "df")
     columns.to.keep  <- setdiff(colnames(res), columns.to.remove)

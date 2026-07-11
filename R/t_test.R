@@ -46,8 +46,9 @@ NULL
 #'  (Cohen's d) and its \code{magnitude} are added. \code{t_test()} reports the
 #'  per-pair d (consistent with its per-pair t-test); \code{pairwise_t_test()}
 #'  with the default \code{pool.sd = TRUE} reports the common-SD (pooled-model) d
-#'  so the estimate and the pooled-SD p-value share a variance basis. Not
-#'  supported together with \code{id} (Cohen's d has no id-aware paired form).
+#'  so the estimate and the pooled-SD p-value share a variance basis. For a
+#'  paired test the d is computed on the same paired differences the test used,
+#'  matched by \code{id} when it is supplied.
 #'@param id (optional) character string specifying the column that contains the
 #'  sample/subject identifier, used only for a \strong{paired} test
 #'  (\code{paired = TRUE}). When supplied, observations of the two compared
@@ -174,11 +175,6 @@ t_test <- function(
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
-  if(isTRUE(effect.size) && !is.null(id)){
-    stop("`effect.size = TRUE` is not supported together with `id` (paired ",
-         "matching by subject): Cohen's d has no id-aware form. Compute the ",
-         "effect size separately, or omit `id`.", call. = FALSE)
-  }
   if(!is.null(id) && !is.null(ref.group) && ref.group %in% c("all", ".all.")){
     stop("`id` (paired matching) is not supported with ref.group = 'all': ",
          "pairing subjects against the pooled grand-mean group is not defined.",
@@ -207,17 +203,14 @@ t_test <- function(
 
 # Compute Cohen's d per pair (consistent with the per-pair t.test the public
 # t_test() runs) and join it as a `cohens.d` column with a Cohen `magnitude`.
-# Paired matching by `id` has no cohens_d() equivalent (cohens_d pairs by row
-# order), so it is forbidden rather than risk pairing the wrong subjects.
+# When `id` is supplied for a paired test, cohens_d() matches the pairs by
+# subject (same alignment the test used), so the d rests on the same
+# differences as the p-value.
 add_cohens_d_effsize <- function(res, data, formula, comparisons, ref.group,
                                  paired, var.equal, mu, id){
-  if(!is.null(id))
-    stop("`effect.size = TRUE` is not supported together with `id` (paired ",
-         "matching by subject): Cohen's d has no id-aware form. Compute the ",
-         "effect size separately, or omit `id`.", call. = FALSE)
   es <- cohens_d(
     data, formula, comparisons = comparisons, ref.group = ref.group,
-    paired = paired, mu = mu, var.equal = var.equal
+    paired = paired, mu = mu, var.equal = var.equal, id = id
   )
   join_effect_size(res, keep_only_tbl_df_classes(es), "cohens.d")
 }
@@ -235,10 +228,6 @@ pairwise_t_test <- function(
   args <- c(as.list(environment()), list(...)) %>%
     .add_item(method = "t_test")
   if(!isTRUE(effect.size)) args <- remove_item(args, "effect.size")
-  if(isTRUE(effect.size) && !is.null(list(...)$id))
-    stop("`effect.size = TRUE` is not supported together with `id` (paired ",
-         "matching by subject): Cohen's d has no id-aware form. Compute the ",
-         "effect size separately, or omit `id`.", call. = FALSE)
   if(paired) pool.sd <- FALSE
   if(pool.sd){
     res <- pairwise_t_test_psd(
@@ -256,11 +245,12 @@ pairwise_t_test <- function(
     )
     if(isTRUE(effect.size)){
       # pool.sd = FALSE runs per-pair t-tests, so the per-pair Cohen's d
-      # (var.equal matching the test) shares each pair's variance basis.
+      # (var.equal matching the test) shares each pair's variance basis. Pass
+      # id so a paired test matched by subject gets the id-aligned d.
       var.equal <- isTRUE(list(...)$var.equal)
       es <- cohens_d(
         data, formula, comparisons = comparisons, ref.group = ref.group,
-        paired = paired, var.equal = var.equal
+        paired = paired, var.equal = var.equal, id = list(...)$id
       )
       res <- join_effect_size(res, keep_only_tbl_df_classes(es), "cohens.d")
     }

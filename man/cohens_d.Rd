@@ -18,7 +18,8 @@ cohens_d(
   ci.type = "perc",
   nboot = 1000,
   boot.parallel = getOption("boot.parallel", "no"),
-  boot.ncpus = getOption("boot.ncpus", 1L)
+  boot.ncpus = getOption("boot.ncpus", 1L),
+  id = NULL
 )
 }
 \arguments{
@@ -79,6 +80,13 @@ globally with \code{options(boot.parallel = "multicore")}. Only used when
 bootstrap. Defaults to \code{getOption("boot.ncpus", 1L)}. Note that
 \code{boot.parallel} has no effect unless \code{boot.ncpus > 1}. Only used
 when \code{ci = TRUE}.}
+
+\item{id}{(optional) character string with the name of the column holding the
+sample/subject identifier, used only for a \strong{paired} test
+(\code{paired = TRUE}). When supplied, the two groups are matched by
+\code{id} (instead of by row order) before the paired d is computed, as in
+\code{\link{t_test}()}. Only complete pairs (subjects measured in both
+groups) are used.}
 }
 \value{
 return a data frame with some of the following columns: \itemize{

@@ -129,19 +129,11 @@ test_that("games_howell_test(effect.size = TRUE) adds a Welch cohens.d oriented 
 })
 
 # ---- guards on unsupported combinations -----------------------------------
-test_that("effect.size = TRUE is forbidden where the metric would be wrong", {
-  d <- data.frame(
-    id = factor(rep(1:10, 2)),
-    g  = factor(rep(c("a", "b"), each = 10)),
-    y  = c(1, 3, 2, 5, 4, 7, 6, 9, 8, 11,  8, 6, 9, 7, 12, 10, 13, 11, 15, 14)
-  )
-  # paired t-test with id has no id-aware cohens_d
-  expect_error(d %>% t_test(y ~ g, paired = TRUE, id = "id", effect.size = TRUE),
-               "id")
-  # paired Wilcoxon: Cliff's delta is independent-samples only
-  expect_error(d %>% wilcox_test(y ~ g, paired = TRUE, effect.size = TRUE),
-               "paired")
-  # one-sample Wilcoxon: Cliff's delta undefined
+# NOTE: paired t (matched by id) and paired Wilcoxon are now SUPPORTED via the
+# id-aware Cohen's d and the matched-pairs rank-biserial; see
+# test-paired_effect_sizes.R. Only the one-sample Wilcoxon has no rank effect
+# size and still rejects effect.size = TRUE.
+test_that("effect.size = TRUE is still rejected for a one-sample Wilcoxon", {
   expect_error(tg_f() %>% wilcox_test(len ~ 1, mu = 20, effect.size = TRUE),
                "one-sample|two or more")
 })
