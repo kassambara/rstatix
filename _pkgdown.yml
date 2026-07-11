@@ -56,6 +56,7 @@ reference:
     contents:
       - cohens_d
       - wilcox_effsize
+      - cliff_delta
       - eta_squared
       - omega_squared
       - kruskal_effsize
