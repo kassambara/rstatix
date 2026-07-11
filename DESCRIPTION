@@ -105,6 +105,7 @@ Collate:
     'omega_squared.R'
     'outliers.R'
     'p_value.R'
+    'posthoc_test.R'
     'prop_test.R'
     'prop_trend_test.R'
     'reexports.R'
