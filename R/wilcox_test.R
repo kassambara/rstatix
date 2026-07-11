@@ -82,6 +82,14 @@ NULL
 #'  function \code{wilcox.test()} documentation by typing \code{?wilcox.test} in
 #'  the R console.
 #'
+#'  - With \code{effect.size = TRUE}, an independent-samples test is annotated
+#'  with Cliff's delta and a paired test with the matched-pairs rank-biserial
+#'  correlation, \eqn{(R^+ - R^-)/(R^+ + R^-)} over the signed ranks of the
+#'  paired differences (Kerby, 2014).
+#'
+#'@references Kerby, D. S. (2014). The simple difference formula: An approach to
+#'  teaching nonparametric correlation. \emph{Comprehensive Psychology}, 3, 11.IT.3.1.
+#'
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y variable used in the test. \item
 #'  \code{group1,group2}: the compared groups in the pairwise tests. \item

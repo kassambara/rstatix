@@ -158,6 +158,11 @@ Provides a pipe-friendly framework to performs one and two sample
  about the calculation of the estimate in the details section of the R base
  function \code{wilcox.test()} documentation by typing \code{?wilcox.test} in
  the R console.
+
+ - With \code{effect.size = TRUE}, an independent-samples test is annotated
+ with Cliff's delta and a paired test with the matched-pairs rank-biserial
+ correlation, \eqn{(R^+ - R^-)/(R^+ + R^-)} over the signed ranks of the
+ paired differences (Kerby, 2014).
 }
 \section{Functions}{
 \itemize{
@@ -220,4 +225,8 @@ df \%>\% wilcox_test(len ~ dose, ref.group = "0.5")
 #::::::::::::::::::::::::::::::::::::::::
 df \%>\% wilcox_test(len ~ dose, ref.group = "all")
 
+}
+\references{
+Kerby, D. S. (2014). The simple difference formula: An approach to
+ teaching nonparametric correlation. \emph{Comprehensive Psychology}, 3, 11.IT.3.1.
 }
