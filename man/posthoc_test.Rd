@@ -5,7 +5,14 @@
 \alias{print.posthoc_test}
 \title{Choose and Run the Appropriate Post-Hoc Test}
 \usage{
-posthoc_test(data, formula, significance = 0.05, ...)
+posthoc_test(
+  data,
+  formula,
+  significance = 0.05,
+  ...,
+  .assumptions = NULL,
+  omnibus = NULL
+)
 
 \method{print}{posthoc_test}(x, ...)
 }
@@ -24,6 +31,21 @@ only those it accepts, so an argument meant for one route does not error on
 another. In particular \code{p.adjust.method} is honoured only when Dunn's
 test is chosen; Tukey HSD and Games-Howell carry their own built-in
 adjustment and ignore it.}
+
+\item{.assumptions}{(optional) the tibble returned by
+\code{\link{check_test_assumptions}()} for the same data. When supplied its
+verdicts are used directly, so the Shapiro-Wilk and Levene tests are not run
+a second time (useful after \code{check_test_assumptions()} has already
+checked them). Default \code{NULL} (compute the assumptions here).}
+
+\item{omnibus}{(optional) an omnibus test result --- from
+\code{\link{anova_test}()}, \code{\link{welch_anova_test}()} or
+\code{\link{kruskal_test}()} --- that you already ran. If the post-hoc route
+chosen here belongs to a different family than that omnibus --- the families
+being parametric equal-variance (ANOVA / Tukey), parametric unequal-variance
+(Welch / Games-Howell) and non-parametric (Kruskal-Wallis / Dunn) --- a
+warning is issued so the two stay coherent (for example an \code{anova_test()}
+omnibus followed by a Games-Howell route). Default \code{NULL} (no check).}
 
 \item{x}{an object of class \code{posthoc_test}.}
 }
@@ -56,6 +78,12 @@ Given a one-way, independent-groups design
   usual pairwise result, with the selected method and the assumption verdicts
   attached (and shown when the result is printed), so the routing is
   transparent rather than hidden.
+
+  To check the same assumptions before the omnibus test and read off the
+  recommended omnibus/post-hoc pair, use \code{\link{check_test_assumptions}()};
+  its result can be passed back here through \code{.assumptions} so the checks
+  are not repeated. Choosing a test by first testing its assumptions on the
+  same data has a known cost --- see the note in \code{?check_test_assumptions}.
 }
 \examples{
 df <- ToothGrowth
@@ -65,7 +93,7 @@ df$dose <- as.factor(df$dose)
 df \%>\% posthoc_test(len ~ dose)
 }
 \seealso{
-\code{\link{tukey_hsd}()}, \code{\link{games_howell_test}()},
+\code{\link{check_test_assumptions}()}, \code{\link{tukey_hsd}()}, \code{\link{games_howell_test}()},
   \code{\link{dunn_test}()}, \code{\link{levene_test}()},
   \code{\link{shapiro_test}()}.
 }

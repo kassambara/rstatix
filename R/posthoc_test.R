@@ -24,6 +24,12 @@ NULL
 #'   attached (and shown when the result is printed), so the routing is
 #'   transparent rather than hidden.
 #'
+#'   To check the same assumptions before the omnibus test and read off the
+#'   recommended omnibus/post-hoc pair, use \code{\link{check_test_assumptions}()};
+#'   its result can be passed back here through \code{.assumptions} so the checks
+#'   are not repeated. Choosing a test by first testing its assumptions on the
+#'   same data has a known cost --- see the note in \code{?check_test_assumptions}.
+#'
 #' @param data a data frame containing the variables in the formula.
 #' @param formula a formula of the form \code{x ~ group} where \code{x} is a
 #'   numeric outcome variable and \code{group} is a factor with two or more
@@ -42,7 +48,7 @@ NULL
 #'   assumption verdicts are stored in the attributes \code{"posthoc.method"} and
 #'   \code{"assumptions"}, and printed above the table.
 #'
-#' @seealso \code{\link{tukey_hsd}()}, \code{\link{games_howell_test}()},
+#' @seealso \code{\link{check_test_assumptions}()}, \code{\link{tukey_hsd}()}, \code{\link{games_howell_test}()},
 #'   \code{\link{dunn_test}()}, \code{\link{levene_test}()},
 #'   \code{\link{shapiro_test}()}.
 #'
@@ -52,50 +58,37 @@ NULL
 #'
 #' # Assumptions hold here, so Tukey HSD is chosen
 #' df %>% posthoc_test(len ~ dose)
+#' @param .assumptions (optional) the tibble returned by
+#'   \code{\link{check_test_assumptions}()} for the same data. When supplied its
+#'   verdicts are used directly, so the Shapiro-Wilk and Levene tests are not run
+#'   a second time (useful after \code{check_test_assumptions()} has already
+#'   checked them). Default \code{NULL} (compute the assumptions here).
+#' @param omnibus (optional) an omnibus test result --- from
+#'   \code{\link{anova_test}()}, \code{\link{welch_anova_test}()} or
+#'   \code{\link{kruskal_test}()} --- that you already ran. If the post-hoc route
+#'   chosen here belongs to a different family than that omnibus --- the families
+#'   being parametric equal-variance (ANOVA / Tukey), parametric unequal-variance
+#'   (Welch / Games-Howell) and non-parametric (Kruskal-Wallis / Dunn) --- a
+#'   warning is issued so the two stay coherent (for example an \code{anova_test()}
+#'   omnibus followed by a Games-Howell route). Default \code{NULL} (no check).
 #' @name posthoc_test
 #' @export
-posthoc_test <- function(data, formula, significance = 0.05, ...){
-  if(is_grouped_df(data))
-    stop("`posthoc_test()` does not support grouped data; call it on each ",
-         "group separately.", call. = FALSE)
-  outcome <- get_formula_left_hand_side(formula)
-  group <- get_formula_right_hand_side(formula)
-  if(.is_empty(group))
-    stop("`posthoc_test()` needs a grouping variable (`outcome ~ group`).",
-         call. = FALSE)
-  data <- data %>% .as_factor(group)
-  if(guess_number_of_groups(data, group) < 2)
-    stop("The grouping variable must have at least two levels.", call. = FALSE)
-
-  # --- assumption checks ----------------------------------------------------
-  # Normality is checked PER GROUP (Shapiro-Wilk on each group's values), not on
-  # the pooled residuals: unequal variances turn the pooled residuals into a
-  # scale mixture that fails normality, which would make Games-Howell (the
-  # normal-but-unequal-variance branch) unreachable. Per-group normality is also
-  # exactly the assumption Games-Howell makes. The reported normality p-value is
-  # the smallest across groups (the group least consistent with normality), so a
-  # single non-normal group routes to the non-parametric test. Homogeneity of
-  # variance is Levene's test. A verdict that cannot be computed (a group with
-  # too few or constant values) is treated as "assumption not met", so the
-  # routing errs toward the more robust option.
-  outcome.values <- data %>% dplyr::pull(!!outcome)
-  group.values <- data %>% dplyr::pull(!!group)
-  per.group.p <- tapply(outcome.values, group.values, function(v){
-    v <- v[!is.na(v)]
-    tryCatch(stats::shapiro.test(v)$p.value, error = function(e) NA_real_)
-  })
-  normality.p <- if(anyNA(per.group.p)) NA_real_ else min(per.group.p)
-  homogeneity.p <- tryCatch(
-    dplyr::pull(levene_test(data, formula), "p"),
-    error = function(e) NA_real_
-  )
-  normal <- !is.na(normality.p) && normality.p > significance
-  equal.variance <- !is.na(homogeneity.p) && homogeneity.p > significance
-
-  # --- route ----------------------------------------------------------------
-  method <- if(!normal) "dunn_test"
-            else if(equal.variance) "tukey_hsd"
-            else "games_howell_test"
+posthoc_test <- function(data, formula, significance = 0.05, ...,
+                         .assumptions = NULL, omnibus = NULL){
+  route <- if(is.null(.assumptions)) choose_oneway_route(data, formula, significance)
+           else as_oneway_route(.assumptions, data, formula)
+  if(!is.null(omnibus)){
+    omnibus.family <- get_omnibus_family(omnibus)
+    if(!is.na(omnibus.family) && omnibus.family != route$family){
+      warning(
+        "The chosen post-hoc test (", route$posthoc, ", ", route$family,
+        ") belongs to a different family than the supplied omnibus test (",
+        omnibus.family, "). Consider using a coherent omnibus and post-hoc ",
+        "pair, e.g. via check_test_assumptions().", call. = FALSE
+      )
+    }
+  }
+  method <- route$posthoc
   chosen <- switch(
     method, dunn_test = dunn_test, tukey_hsd = tukey_hsd,
     games_howell_test = games_howell_test
@@ -107,16 +100,105 @@ posthoc_test <- function(data, formula, significance = 0.05, ...){
   dots <- list(...)
   chosen.formals <- names(formals(chosen))
   if(!("..." %in% chosen.formals)) dots <- dots[names(dots) %in% chosen.formals]
-  res <- do.call(chosen, c(list(data, formula), dots))
+  res <- do.call(chosen, c(list(route$data, formula), dots))
 
   attr(res, "posthoc.method") <- method
   attr(res, "assumptions") <- list(
-    normality.p = normality.p, homogeneity.p = homogeneity.p,
-    normal = normal, equal.variance = equal.variance,
-    significance = significance
+    normality.p = route$normality.p, homogeneity.p = route$homogeneity.p,
+    normal = route$normal, equal.variance = route$equal.variance,
+    significance = route$significance
   )
   class(res) <- c("posthoc_test", class(res))
   res
+}
+
+# Shared one-way assumption-check + routing node used by both posthoc_test() and
+# check_test_assumptions(), so the decision tree lives in exactly one place.
+# Validates a one-way independent-groups design; checks normality PER GROUP
+# (Shapiro-Wilk on each group's values, NOT the pooled residuals -- unequal
+# variances turn those into a scale mixture that fails normality and would make
+# the Games-Howell branch unreachable; per-group normality is also the assumption
+# Games-Howell makes) and homogeneity of variance (Levene). The reported
+# normality p-value is the smallest across groups. A verdict that cannot be
+# computed (a group with too few or constant values) is treated as "not met", so
+# the routing errs toward the more robust option. Returns the factored data, the
+# verdicts, and the recommended omnibus and post-hoc test names.
+choose_oneway_route <- function(data, formula, significance = 0.05){
+  design <- validate_oneway_design(data, formula)
+  data <- design$data
+  outcome.values <- data %>% dplyr::pull(!!design$outcome)
+  group.values <- data %>% dplyr::pull(!!design$group)
+  per.group.p <- tapply(outcome.values, group.values, function(v){
+    v <- v[!is.na(v)]
+    tryCatch(stats::shapiro.test(v)$p.value, error = function(e) NA_real_)
+  })
+  normality.p <- if(anyNA(per.group.p)) NA_real_ else min(per.group.p)
+  homogeneity.p <- tryCatch(
+    dplyr::pull(levene_test(data, formula), "p"),
+    error = function(e) NA_real_
+  )
+  normal <- !is.na(normality.p) && normality.p > significance
+  equal.variance <- !is.na(homogeneity.p) && homogeneity.p > significance
+  oneway_route(design, normality.p, homogeneity.p, normal, equal.variance, significance)
+}
+
+# Validate a one-way independent-groups design and factor the group; shared so
+# the checks live in one place.
+validate_oneway_design <- function(data, formula){
+  if(is_grouped_df(data))
+    stop("Grouped data are not supported here; call the function on each group ",
+         "separately.", call. = FALSE)
+  outcome <- get_formula_left_hand_side(formula)
+  group <- get_formula_right_hand_side(formula)
+  if(.is_empty(group))
+    stop("A grouping variable is required (`outcome ~ group`).", call. = FALSE)
+  data <- data %>% .as_factor(group)
+  if(guess_number_of_groups(data, group) < 2)
+    stop("The grouping variable must have at least two levels.", call. = FALSE)
+  list(data = data, outcome = outcome, group = group)
+}
+
+# Assemble a route list from a validated design and the verdicts.
+oneway_route <- function(design, normality.p, homogeneity.p, normal, equal.variance, significance){
+  family <- if(!normal) "nonparametric" else if(equal.variance) "parametric" else "welch"
+  list(
+    data = design$data, outcome = design$outcome, group = design$group,
+    normality.p = normality.p, homogeneity.p = homogeneity.p,
+    normal = normal, equal.variance = equal.variance, significance = significance,
+    family = family,
+    omnibus = switch(family, parametric = "anova_test",
+                     welch = "welch_anova_test", nonparametric = "kruskal_test"),
+    posthoc = switch(family, parametric = "tukey_hsd",
+                     welch = "games_howell_test", nonparametric = "dunn_test")
+  )
+}
+
+# Rebuild a route list from a check_test_assumptions() tibble + the data WITHOUT
+# recomputing Shapiro/Levene (that is the point of passing .assumptions).
+as_oneway_route <- function(assumptions, data, formula){
+  a <- keep_only_tbl_df_classes(assumptions)
+  design <- validate_oneway_design(data, formula)
+  oneway_route(
+    design, a$normality.p[1], a$homogeneity.p[1],
+    a$normal[1], a$equal.variance[1], a$significance[1]
+  )
+}
+
+# Family of an omnibus test result, for the coherence warning.
+get_omnibus_family <- function(omnibus){
+  if(inherits(omnibus, "anova_test")) "parametric"
+  else if(inherits(omnibus, "welch_anova_test")) "welch"
+  else if(inherits(omnibus, "kruskal_test")) "nonparametric"
+  else {
+    # An unrecognized object (no stashed args list, no method, or a multi-length
+    # method) yields NA -> no warning, rather than erroring on `$` or in switch().
+    args <- attr(omnibus, "args")
+    method <- if(is.list(args)) args$method else NULL
+    if(length(method) != 1) return(NA_character_)
+    switch(as.character(method),
+      anova_test = "parametric", welch_anova_test = "welch",
+      kruskal_test = "nonparametric", NA_character_)
+  }
 }
 
 #' @param x an object of class \code{posthoc_test}.

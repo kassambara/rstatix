@@ -92,6 +92,6 @@ test_that("extra arguments are forwarded only to a route that accepts them", {
 
 test_that("invalid designs are rejected with a clear error", {
   d <- ToothGrowth; d$dose <- factor(d$dose)
-  expect_error(d %>% dplyr::group_by(supp) %>% posthoc_test(len ~ dose), "grouped")
+  expect_error(d %>% dplyr::group_by(supp) %>% posthoc_test(len ~ dose), "[Gg]rouped")
   expect_error(d %>% posthoc_test(len ~ 1), "grouping variable")
 })
