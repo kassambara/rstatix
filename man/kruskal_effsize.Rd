@@ -12,7 +12,8 @@ kruskal_effsize(
   ci.type = "perc",
   nboot = 1000,
   boot.parallel = getOption("boot.parallel", "no"),
-  boot.ncpus = getOption("boot.ncpus", 1L)
+  boot.ncpus = getOption("boot.ncpus", 1L),
+  method = c("eta2", "epsilon2")
 )
 }
 \arguments{
@@ -43,6 +44,12 @@ globally with \code{options(boot.parallel = "multicore")}. Only used when
 bootstrap. Defaults to \code{getOption("boot.ncpus", 1L)}. Note that
 \code{boot.parallel} has no effect unless \code{boot.ncpus > 1}. Only used
 when \code{ci = TRUE}.}
+
+\item{method}{the effect-size metric. Either \code{"eta2"} (default) for the
+bias-corrected eta-squared \code{eta2[H] = (H - k + 1)/(N - k)}, or
+\code{"epsilon2"} for the rank epsilon-squared \code{H/(N - 1)} (Tomczak &
+Tomczak, 2014), which equals \code{effectsize::rank_epsilon_squared()} and is
+not bias-corrected (so a little larger than \code{eta2[H]}).}
 }
 \value{
 return a data frame with some of the following columns: \itemize{

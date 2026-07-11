@@ -50,6 +50,14 @@ NULL
 #'  bootstrap. Defaults to \code{getOption("boot.ncpus", 1L)}. Note that
 #'  \code{boot.parallel} has no effect unless \code{boot.ncpus > 1}. Only used
 #'  when \code{ci = TRUE}.
+#'@param method the effect-size metric. Either \code{"r"} (default) for the
+#'  rank correlation \code{r = Z / sqrt(N)}, or \code{"rank_biserial"} for the
+#'  rank-biserial correlation --- Cliff's delta for an independent-samples test
+#'  (equal to \code{\link{cliff_delta}()}) or the matched-pairs rank-biserial for
+#'  a paired test, both equal to \code{effectsize::rank_biserial()}. The
+#'  \code{"rank_biserial"} option is labelled with the Romano et al. magnitude
+#'  thresholds, and its confidence interval (\code{ci = TRUE}) is a percentile
+#'  bootstrap.
 #'@param detailed logical value. Default is FALSE. If TRUE, the output
 #'  additionally includes the \code{Z} \code{statistic} (extracted from the
 #'  \code{coin} package and used to compute \code{r = Z/sqrt(N)}), the p-value
@@ -97,17 +105,29 @@ wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
                                 mu = 0, ci = FALSE, conf.level = 0.95, ci.type = "perc",
                                 nboot = 1000, detailed = FALSE, ...,
                                 boot.parallel = getOption("boot.parallel", "no"),
-                                boot.ncpus = getOption("boot.ncpus", 1L)){
-
-  env <- as.list(environment())
+                                boot.ncpus = getOption("boot.ncpus", 1L),
+                                method = c("r", "rank_biserial")){
+  method <- match.arg(method)
+  env <- as.list(environment()) %>% remove_item("method")
   # See cohens_d(): the bootstrap-execution arguments are not part of the
-  # statistical call, so they are excluded from the stashed args.
+  # statistical call, so they are excluded from the stashed args. `method` is
+  # kept out of the stashed args unless it is the non-default value, so the
+  # default (r = Z/sqrt(N)) leaves attr(x, "args") unchanged.
   args <- env %>%
     remove_item(c("boot.parallel", "boot.ncpus")) %>%
     .add_item(method = "wilcox_effsize")
+  if(method != "r") args <- args %>% .add_item(effsize.method = method)
+  # method = "r": Z/sqrt(N) via coin (unchanged). method = "rank_biserial": the
+  # rank-biserial correlation -- Cliff's delta for an independent test (equals
+  # cliff_delta()) or the matched-pairs rank-biserial for a paired test -- with
+  # the Romano magnitude thresholds those metrics use.
+  stat.method <- if(method == "r") "coin.wilcox.test"
+                 else if(isTRUE(paired)) "rank.biserial" else "cliff.delta"
+  magnitude.fun <- if(method == "r") get_wilcox_effsize_magnitude
+                   else get_cliff_delta_magnitude
   params <- c(env, list(...)) %>%
     remove_null_items() %>%
-    add_item(method = "coin.wilcox.test", detailed = detailed)
+    add_item(method = stat.method, detailed = detailed)
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
@@ -123,7 +143,7 @@ wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
   res <- do.call(test.func, params) %>%
     select(all_of(c(".y.", "group1", "group2", "estimate")), everything()) %>%
     rename(effsize = "estimate") %>%
-    mutate(magnitude = get_wilcox_effsize_magnitude(.data$effsize)) %>%
+    mutate(magnitude = magnitude.fun(.data$effsize)) %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "wilcox_effsize"))
   warn_undefined_boot_ci(res, ci)

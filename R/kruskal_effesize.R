@@ -22,6 +22,11 @@ NULL
 #'
 #' Confidence intervals are calculated by bootstap.
 #'
+#'@param method the effect-size metric. Either \code{"eta2"} (default) for the
+#'  bias-corrected eta-squared \code{eta2[H] = (H - k + 1)/(N - k)}, or
+#'  \code{"epsilon2"} for the rank epsilon-squared \code{H/(N - 1)} (Tomczak &
+#'  Tomczak, 2014), which equals \code{effectsize::rank_epsilon_squared()} and is
+#'  not bias-corrected (so a little larger than \code{eta2[H]}).
 #'@inheritParams wilcox_effsize
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y variable used in the test. \item \code{n}: Sample
@@ -53,16 +58,20 @@ NULL
 #' @export
 kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
                             boot.parallel = getOption("boot.parallel", "no"),
-                            boot.ncpus = getOption("boot.ncpus", 1L)){
+                            boot.ncpus = getOption("boot.ncpus", 1L),
+                            method = c("eta2", "epsilon2")){
+  method <- match.arg(method)
   # See cohens_d(): the bootstrap-execution arguments are not part of the
-  # statistical call, so they are excluded from the stashed args.
+  # statistical call, so they are excluded from the stashed args. `method`
+  # (eta2/epsilon2) is captured below but overwritten by .add_item("kruskal_effsize"),
+  # so the stashed args are unchanged when the default method is used.
   args <- as.list(environment()) %>%
     remove_item(c("boot.parallel", "boot.ncpus")) %>%
     .add_item(method = "kruskal_effsize")
   data %>%
     doo(
       .kruskal_effsize, formula, ci = ci, conf.level = conf.level,
-      ci.type = ci.type, nboot = nboot,
+      ci.type = ci.type, nboot = nboot, effsize.method = method,
       boot.parallel = boot.parallel, boot.ncpus = boot.ncpus
     ) %>%
     set_attrs(args = args) %>%
@@ -70,13 +79,14 @@ kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.ty
 }
 
 .kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
+                             effsize.method = "eta2",
                              boot.parallel = getOption("boot.parallel", "no"),
                              boot.ncpus = getOption("boot.ncpus", 1L)){
-  results <- eta_squared_h(data, formula)
-  # Confidence interval of the effect size r
+  results <- eta_squared_h(data, formula, effsize.method = effsize.method)
+  # Confidence interval of the effect size
   if (ci == TRUE) {
     stat.func <- function(data, subset) {
-      eta_squared_h(data, formula, subset = subset)$effsize
+      eta_squared_h(data, formula, effsize.method = effsize.method, subset = subset)$effsize
     }
     CI <- get_boot_ci(
       data, stat.func, conf.level = conf.level,
@@ -89,21 +99,31 @@ kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.ty
 }
 
 
-eta_squared_h <- function(data, formula, subset = NULL, ...){
+eta_squared_h <- function(data, formula, effsize.method = "eta2", subset = NULL, ...){
   if(!is.null(subset)) data <- data[subset, ]
   res.kw <- kruskal_test(data, formula, ...)
   nb.groups <- res.kw$df + 1
   nb.samples <- res.kw$n
-  etasq <- (res.kw$statistic - nb.groups + 1) / (nb.samples - nb.groups)
-  # eta2[H] is a bias-corrected estimator (like adjusted R-squared / omega-squared)
-  # and can be slightly negative for a near-null effect (small H). Floor it to the
-  # documented [0, 1] range so the reported effect size is never < 0 (#217).
-  etasq <- max(0, min(1, etasq))
+  if(effsize.method == "epsilon2"){
+    # Rank epsilon-squared: epsilon2 = H / (N - 1) (Tomczak & Tomczak, 2014),
+    # matching effectsize::rank_epsilon_squared(). It is NOT bias-corrected, so it
+    # is a little larger than eta2[H]; it lies naturally in [0, 1].
+    es <- res.kw$statistic / (nb.samples - 1)
+    metric <- "epsilon2"
+  }
+  else{
+    es <- (res.kw$statistic - nb.groups + 1) / (nb.samples - nb.groups)
+    # eta2[H] is a bias-corrected estimator (like adjusted R-squared / omega-squared)
+    # and can be slightly negative for a near-null effect (small H). Floor it to the
+    # documented [0, 1] range so the reported effect size is never < 0 (#217).
+    es <- max(0, min(1, es))
+    metric <- "eta2[H]"
+  }
   tibble(
     .y. = get_formula_left_hand_side(formula),
     n = nb.samples,
-    effsize = etasq,
-    method = "eta2[H]"
+    effsize = es,
+    method = metric
     )
 }
 
