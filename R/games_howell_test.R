@@ -14,6 +14,11 @@ NULL
 #'  the multiple testing. So there is no need to apply additional p-value
 #'  corrections.
 #'
+#'@param effect.size logical. Default is FALSE. If TRUE, a \code{cohens.d} column
+#'  and its \code{magnitude} are added. Because Games-Howell assumes unequal
+#'  variances, this is the Welch (averaged-variance) Cohen's d,
+#'  \code{estimate / sqrt((s1^2 + s2^2) / 2)}, oriented like the reported mean
+#'  difference so the two never disagree in sign.
 #'@inheritParams t_test
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y (outcome) variable used in the test. \item
@@ -58,11 +63,14 @@ NULL
 #'
 #'@rdname games_howell_test
 #'@export
-games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE){
+games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE,
+                              effect.size = FALSE){
   args <- as.list(environment()) %>%
     .add_item(p.adjust.method = "Tukey", method = "games_howell_test")
+  if(!isTRUE(effect.size)) args <- remove_item(args, "effect.size")
   results <- data %>%
-    doo(.games_howell_test, formula, conf.level = conf.level)
+    doo(.games_howell_test, formula, conf.level = conf.level,
+        effect.size = effect.size)
   if(!detailed){
     results <- results %>%
       select(
@@ -75,7 +83,7 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
     add_class(c("rstatix_test", "games_howell_test"))
 }
 
-.games_howell_test <- function(data, formula, conf.level = 0.95){
+.games_howell_test <- function(data, formula, conf.level = 0.95, effect.size = FALSE){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
@@ -177,6 +185,17 @@ games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE
     add_column(.y. = outcome, .before = "group1") %>%
     add_significance("p.adj") %>%
     mutate(method = "Games-Howell")
+  if(isTRUE(effect.size)){
+    # Welch (unequal-variance) Cohen's d = mean difference / sqrt((s1^2 + s2^2)/2)
+    # -- the averaged-variance d that cohens_d(var.equal = FALSE) reports, and the
+    # variance assumption Games-Howell itself makes. Built from the test's OWN
+    # oriented `estimate`, so the d and the mean difference always share a sign.
+    v1 <- as.numeric(grp.vars[results$group1])
+    v2 <- as.numeric(grp.vars[results$group2])
+    d <- results$estimate / sqrt((v1 + v2) / 2)
+    results <- results %>%
+      mutate(cohens.d = d, magnitude = get_cohens_magnitude(d))
+  }
   results
 }
 

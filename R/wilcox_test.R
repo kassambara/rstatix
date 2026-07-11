@@ -34,6 +34,10 @@ NULL
 #'
 #'@param detailed logical value. Default is FALSE. If TRUE, a detailed result is
 #'  shown.
+#'@param effect.size logical. Default is FALSE. If TRUE, a \code{cliff.delta}
+#'  column (Cliff's delta) and its \code{magnitude} are added. Cliff's delta is
+#'  an independent-samples statistic, so \code{effect.size = TRUE} is not
+#'  supported for a paired or one-sample Wilcoxon test.
 #'@param id (optional) character string specifying the column that contains the
 #'  sample/subject identifier, used only for a \strong{paired} test
 #'  (\code{paired = TRUE}). When supplied, observations of the two compared
@@ -158,13 +162,16 @@ wilcox_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm",
   paired = FALSE, exact = NULL, alternative = "two.sided",
-  mu = 0, conf.level = 0.95, detailed = FALSE, id = NULL, error.as.na = FALSE
+  mu = 0, conf.level = 0.95, detailed = FALSE, id = NULL, error.as.na = FALSE,
+  effect.size = FALSE
 )
 {
   env <- as.list(environment())
   args <- env %>%
     add_item(method = "wilcox_test")
+  if(!isTRUE(effect.size)) args <- remove_item(args, "effect.size")
   params <- env %>%
+    remove_item("effect.size") %>%
     remove_null_items() %>%
     # only request the (Hollander-Wolfe) CI/estimate when detailed = TRUE: it is
     # not shown otherwise, and its uniroot step errors on degenerate/all-tied data (#79, #167)
@@ -173,6 +180,15 @@ wilcox_test <- function(
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
+  if(isTRUE(effect.size)){
+    if(isTRUE(paired))
+      stop("`effect.size = TRUE` is not supported for a paired Wilcoxon test: ",
+           "Cliff's delta is an independent-samples effect size. Compute a ",
+           "matched-pairs effect size separately.", call. = FALSE)
+    if(number.of.groups < 2)
+      stop("`effect.size = TRUE` requires two or more groups: Cliff's delta is ",
+           "not defined for a one-sample Wilcoxon test.", call. = FALSE)
+  }
   if(!is.null(id) && !is.null(ref.group) && ref.group %in% c("all", ".all.")){
     stop("`id` (paired matching) is not supported with ref.group = 'all': ",
          "pairing subjects against the pooled grand-mean group is not defined.",
@@ -186,9 +202,35 @@ wilcox_test <- function(
   }
   test.func <- two_sample_test
   if(number.of.groups > 2) test.func <- pairwise_two_sample_test
-  do.call(test.func, params) %>%
+  res <- do.call(test.func, params)
+  if(isTRUE(effect.size)){
+    res <- add_cliff_delta_effsize(
+      res, data, formula, comparisons = comparisons, ref.group = ref.group,
+      paired = paired, number.of.groups = number.of.groups
+    )
+  }
+  res %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "wilcox_test"))
+}
+
+# Join Cliff's delta as a `cliff.delta` column (with a Romano `magnitude`) onto a
+# Wilcoxon result. Cliff's delta is an independent-samples statistic (and has no
+# one-sample form), so paired and one-sample Wilcoxon tests are forbidden rather
+# than reporting a metric that does not match the test.
+add_cliff_delta_effsize <- function(res, data, formula, comparisons, ref.group,
+                                    paired, number.of.groups){
+  if(isTRUE(paired))
+    stop("`effect.size = TRUE` is not supported for a paired Wilcoxon test: ",
+         "Cliff's delta is an independent-samples effect size. Compute a ",
+         "matched-pairs effect size separately.", call. = FALSE)
+  if(number.of.groups < 2)
+    stop("`effect.size = TRUE` requires two or more groups: Cliff's delta is ",
+         "not defined for a one-sample Wilcoxon test.", call. = FALSE)
+  es <- cliff_delta(
+    data, formula, comparisons = comparisons, ref.group = ref.group
+  )
+  join_effect_size(res, keep_only_tbl_df_classes(es), "cliff.delta")
 }
 
 
@@ -197,10 +239,11 @@ wilcox_test <- function(
 #'@export
 pairwise_wilcox_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
-  p.adjust.method = "holm", detailed = FALSE, ...)
+  p.adjust.method = "holm", detailed = FALSE, ..., effect.size = FALSE)
   {
   args <- as.list(environment()) %>%
     .add_item(method = "wilcox_test")
+  if(!isTRUE(effect.size)) args <- remove_item(args, "effect.size")
 
   res <- pairwise_two_sample_test(
     data, formula, method = "wilcox.test",
@@ -208,6 +251,12 @@ pairwise_wilcox_test <- function(
     p.adjust.method = p.adjust.method, detailed = detailed,
     conf.int = detailed, ...
   )
+  if(isTRUE(effect.size)){
+    res <- add_cliff_delta_effsize(
+      res, data, formula, comparisons = comparisons, ref.group = ref.group,
+      paired = isTRUE(list(...)$paired), number.of.groups = 2
+    )
+  }
   res %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "wilcox_test"))

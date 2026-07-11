@@ -325,6 +325,28 @@ compare_pairs <- function(data, formula, pairs, method = "t.test", id = NULL, er
 
 
 
+# Effect-size column on a pairwise/two-sample test result
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# Left-join a per-metric effect-size column (and its magnitude, when present) onto
+# a test result. `es` is the tibble returned by the matching effect-size function
+# (cohens_d / cliff_delta), which dispatches through the SAME
+# two_sample_test()/pairwise_two_sample_test() engine and therefore carries the
+# same identifying columns (any grouping variables, .y., group1, group2, n/n1/n2)
+# with the same group1/group2 orientation. Joining on those shared columns keeps
+# the estimate on the row it belongs to regardless of row order, so the effect
+# size can never be silently misaligned with its p-value. `metric.name` is the
+# output column name (e.g. "cohens.d", "cliff.delta").
+join_effect_size <- function(res, es, metric.name){
+  value.cols <- intersect(c("effsize", "magnitude"), colnames(es))
+  keys <- setdiff(colnames(es), value.cols)
+  es <- es[, c(keys, value.cols), drop = FALSE]
+  # The sibling effect-size functions carry a per-value name on `effsize` (e.g.
+  # "Cohen's d"); drop it so the joined column is a plain numeric vector.
+  es[["effsize"]] <- unname(es[["effsize"]])
+  es <- dplyr::rename(es, !!metric.name := "effsize")
+  keep_only_tbl_df_classes(dplyr::left_join(res, es, by = keys))
+}
+
 # Remove details from statistical test results
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 remove_details <- function(res, method){

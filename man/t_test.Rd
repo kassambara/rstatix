@@ -18,7 +18,8 @@ t_test(
   conf.level = 0.95,
   detailed = FALSE,
   id = NULL,
-  error.as.na = FALSE
+  error.as.na = FALSE,
+  effect.size = FALSE
 )
 
 pairwise_t_test(
@@ -30,7 +31,8 @@ pairwise_t_test(
   paired = FALSE,
   pool.sd = !paired,
   detailed = FALSE,
-  ...
+  ...,
+  effect.size = FALSE
 )
 }
 \arguments{
@@ -94,6 +96,13 @@ are essentially constant) returns an \code{NA} result row with a warning
 instead of stopping with an error; the other comparisons (or groups, for a
 grouped analysis) are still computed. Default is \code{FALSE} (the comparison
 errors as before).}
+
+\item{effect.size}{logical. Default is FALSE. If TRUE, a \code{cohens.d} column
+(Cohen's d) and its \code{magnitude} are added. \code{t_test()} reports the
+per-pair d (consistent with its per-pair t-test); \code{pairwise_t_test()}
+with the default \code{pool.sd = TRUE} reports the common-SD (pooled-model) d
+so the estimate and the pooled-SD p-value share a variance basis. Not
+supported together with \code{id} (Cohen's d has no id-aware paired form).}
 
 \item{pool.sd}{logical value used in the function \code{pairwise_t_test()}.
  Switch to allow/disallow the use of a pooled SD.

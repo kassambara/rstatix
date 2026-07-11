@@ -18,7 +18,8 @@ wilcox_test(
   conf.level = 0.95,
   detailed = FALSE,
   id = NULL,
-  error.as.na = FALSE
+  error.as.na = FALSE,
+  effect.size = FALSE
 )
 
 pairwise_wilcox_test(
@@ -28,7 +29,8 @@ pairwise_wilcox_test(
   ref.group = NULL,
   p.adjust.method = "holm",
   detailed = FALSE,
-  ...
+  ...,
+  effect.size = FALSE
 )
 }
 \arguments{
@@ -91,6 +93,11 @@ are essentially constant) returns an \code{NA} result row with a warning
 instead of stopping with an error; the other comparisons (or groups, for a
 grouped analysis) are still computed. Default is \code{FALSE} (the comparison
 errors as before).}
+
+\item{effect.size}{logical. Default is FALSE. If TRUE, a \code{cliff.delta}
+column (Cliff's delta) and its \code{magnitude} are added. Cliff's delta is
+an independent-samples statistic, so \code{effect.size = TRUE} is not
+supported for a paired or one-sample Wilcoxon test.}
 
 \item{...}{other arguments to be passed to the function
 \code{\link[stats]{wilcox.test}}.}

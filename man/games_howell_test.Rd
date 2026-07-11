@@ -4,7 +4,13 @@
 \alias{games_howell_test}
 \title{Games Howell Post-hoc Tests}
 \usage{
-games_howell_test(data, formula, conf.level = 0.95, detailed = FALSE)
+games_howell_test(
+  data,
+  formula,
+  conf.level = 0.95,
+  detailed = FALSE,
+  effect.size = FALSE
+)
 }
 \arguments{
 \item{data}{a data.frame containing the variables in the formula.}
@@ -18,6 +24,12 @@ one or multiple levels giving the corresponding groups. For example,
 
 \item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
 shown.}
+
+\item{effect.size}{logical. Default is FALSE. If TRUE, a \code{cohens.d} column
+and its \code{magnitude} are added. Because Games-Howell assumes unequal
+variances, this is the Welch (averaged-variance) Cohen's d,
+\code{estimate / sqrt((s1^2 + s2^2) / 2)}, oriented like the reported mean
+difference so the two never disagree in sign.}
 }
 \value{
 return a data frame with some of the following columns: \itemize{

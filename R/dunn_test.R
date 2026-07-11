@@ -28,6 +28,11 @@ NULL
 #'  computed over only these comparisons. Note that, unlike \code{t_test()} and
 #'  \code{wilcox_test()}, \code{dunn_test()} does not support \code{ref.group =
 #'  "all"}.
+#'@param effect.size logical. Default is FALSE. If TRUE, an \code{r} column is
+#'  added, the effect size \code{r = Z / sqrt(N)} where \code{Z} is Dunn's
+#'  z-statistic and \code{N} is the total sample size (the whole-sample rank
+#'  variance Dunn's z is standardised on, not the pairwise \code{n1 + n2}). No
+#'  magnitude label is attached: there is no threshold set calibrated for it.
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y (outcome) variable used in the test. \item
 #'  \code{group1,group2}: the compared groups in the pairwise tests. \item
@@ -66,16 +71,20 @@ NULL
 #'   group_by(supp) %>%
 #'   dunn_test(len ~ dose)
 #'@export
-dunn_test <- function(data, formula, p.adjust.method = "holm", ref.group = NULL, detailed = FALSE){
+dunn_test <- function(data, formula, p.adjust.method = "holm", ref.group = NULL, detailed = FALSE,
+                      effect.size = FALSE){
   if(!is.null(ref.group)) ref.group <- as.character(ref.group)
   args <- as.list(environment()) %>%
     .add_item(method = "dunn_test")
+  if(!isTRUE(effect.size)) args <- remove_item(args, "effect.size")
   if(is_grouped_df(data)){
     results <- data %>%
-      doo(.dunn_test, formula, p.adjust.method, ref.group = ref.group)
+      doo(.dunn_test, formula, p.adjust.method, ref.group = ref.group,
+          effect.size = effect.size)
   }
   else{
-    results <- .dunn_test(data, formula, p.adjust.method, ref.group = ref.group)
+    results <- .dunn_test(data, formula, p.adjust.method, ref.group = ref.group,
+                          effect.size = effect.size)
   }
 
   if(!detailed){
@@ -88,7 +97,8 @@ dunn_test <- function(data, formula, p.adjust.method = "holm", ref.group = NULL,
 }
 
 
-.dunn_test <- function(data, formula, p.adjust.method = "holm", ref.group = NULL){
+.dunn_test <- function(data, formula, p.adjust.method = "holm", ref.group = NULL,
+                       effect.size = FALSE){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
@@ -191,9 +201,18 @@ dunn_test <- function(data, formula, p.adjust.method = "holm", ref.group = NULL,
   n2 <- group.size[PVAL$group2]
   mean.ranks1 <- mean.ranks[PVAL$group1]
   mean.ranks2 <- mean.ranks[PVAL$group2]
-  PVAL %>%
+  res <- PVAL %>%
     add_column(n1 = n1, n2 = n2, .after = "group2") %>%
     add_column(estimate1 = mean.ranks1, estimate2 = mean.ranks2, .after = "estimate")
+  if(isTRUE(effect.size)){
+    # Effect size r = Z / sqrt(N), with N the TOTAL number of observations in the
+    # design (Dunn's z is standardised on the whole-sample rank variance, not the
+    # pairwise n1 + n2 -- using the latter can push r above 1). r inherits the
+    # sign of the (ref.group-oriented) z, so it points from group1 to group2. No
+    # magnitude column: there is no magnitude threshold calibrated for Dunn's r.
+    res <- res %>% mutate(r = .data$statistic / sqrt(n))
+  }
+  res
 }
 
 
