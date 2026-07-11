@@ -50,11 +50,24 @@ NULL
 #'  bootstrap. Defaults to \code{getOption("boot.ncpus", 1L)}. Note that
 #'  \code{boot.parallel} has no effect unless \code{boot.ncpus > 1}. Only used
 #'  when \code{ci = TRUE}.
-#'@param detailed logical value. Default is FALSE. If TRUE, the output
-#'  additionally includes the \code{Z} \code{statistic} (extracted from the
-#'  \code{coin} package and used to compute \code{r = Z/sqrt(N)}), the p-value
-#'  (\code{p}) and the test \code{method}/\code{alternative}, so the effect size
-#'  and the underlying Z are reported together in one data frame.
+#'@param method the effect-size metric. Either \code{"r"} (default) for the
+#'  rank correlation \code{r = Z / sqrt(N)}, or \code{"rank_biserial"} for the
+#'  rank-biserial correlation --- Cliff's delta for an independent-samples test
+#'  (equal to \code{\link{cliff_delta}()}) or the matched-pairs rank-biserial for
+#'  a paired test, both equal to \code{effectsize::rank_biserial()}. The
+#'  independent-samples case is labelled with the Romano et al. magnitude
+#'  thresholds (those thresholds define Cliff's delta); the paired case carries
+#'  no \code{magnitude} (\code{NA}), because no threshold set is calibrated for
+#'  the matched-pairs rank-biserial. The confidence interval (\code{ci = TRUE})
+#'  is a percentile bootstrap.
+#'@param detailed logical value. Default is FALSE. If TRUE, and
+#'  \code{method = "r"}, the output additionally includes the \code{Z}
+#'  \code{statistic} (extracted from the \code{coin} package and used to compute
+#'  \code{r = Z/sqrt(N)}), the p-value (\code{p}) and the test
+#'  \code{method}/\code{alternative}, so the effect size and the underlying Z are
+#'  reported together in one data frame. The rank-biserial metric
+#'  (\code{method = "rank_biserial"}) has no underlying \code{Z}, so those extra
+#'  columns are not meaningful for it.
 #'@param ... Additional arguments passed to the functions
 #'  \code{coin::wilcoxsign_test()} (case of one- or paired-samples test) or
 #'  \code{coin::wilcox_test()} (case of independent two-samples test).
@@ -97,17 +110,34 @@ wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
                                 mu = 0, ci = FALSE, conf.level = 0.95, ci.type = "perc",
                                 nboot = 1000, detailed = FALSE, ...,
                                 boot.parallel = getOption("boot.parallel", "no"),
-                                boot.ncpus = getOption("boot.ncpus", 1L)){
-
-  env <- as.list(environment())
+                                boot.ncpus = getOption("boot.ncpus", 1L),
+                                method = c("r", "rank_biserial")){
+  method <- match.arg(method)
+  env <- as.list(environment()) %>% remove_item("method")
   # See cohens_d(): the bootstrap-execution arguments are not part of the
-  # statistical call, so they are excluded from the stashed args.
+  # statistical call, so they are excluded from the stashed args. `method` is
+  # kept out of the stashed args unless it is the non-default value, so the
+  # default (r = Z/sqrt(N)) leaves attr(x, "args") unchanged.
   args <- env %>%
     remove_item(c("boot.parallel", "boot.ncpus")) %>%
     .add_item(method = "wilcox_effsize")
+  if(method != "r") args <- args %>% .add_item(effsize.method = method)
+  # method = "r": Z/sqrt(N) via coin (unchanged). method = "rank_biserial": the
+  # rank-biserial correlation -- Cliff's delta for an independent test (equals
+  # cliff_delta()) or the matched-pairs rank-biserial for a paired test -- with
+  # the Romano magnitude thresholds those metrics use.
+  stat.method <- if(method == "r") "coin.wilcox.test"
+                 else if(isTRUE(paired)) "rank.biserial" else "cliff.delta"
+  # An independent-samples rank_biserial IS Cliff's delta, so its Romano
+  # thresholds apply. The matched-pairs rank-biserial (paired) has no calibrated
+  # threshold set, so -- like wilcox_test(effect.size = TRUE, paired = TRUE) --
+  # no magnitude is assigned (the column stays, filled with NA).
+  magnitude.fun <- if(method == "r") get_wilcox_effsize_magnitude
+                   else if(isTRUE(paired)) no_effsize_magnitude
+                   else get_cliff_delta_magnitude
   params <- c(env, list(...)) %>%
     remove_null_items() %>%
-    add_item(method = "coin.wilcox.test", detailed = detailed)
+    add_item(method = stat.method, detailed = detailed)
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
@@ -123,7 +153,7 @@ wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
   res <- do.call(test.func, params) %>%
     select(all_of(c(".y.", "group1", "group2", "estimate")), everything()) %>%
     rename(effsize = "estimate") %>%
-    mutate(magnitude = get_wilcox_effsize_magnitude(.data$effsize)) %>%
+    mutate(magnitude = magnitude.fun(.data$effsize)) %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "wilcox_effsize"))
   warn_undefined_boot_ci(res, ci)
@@ -235,4 +265,14 @@ get_wilcox_effsize_magnitude <- function(d){
   d.index <- findInterval(abs(d), magnitude.levels)+1
   magnitude <- factor(magnitude[d.index], levels = magnitude, ordered = TRUE)
   magnitude
+}
+
+# No calibrated magnitude thresholds exist for the matched-pairs rank-biserial,
+# so return an all-NA ordered factor rather than mis-applying the independent-
+# sample Romano thresholds. The levels mirror get_cliff_delta_magnitude() (the
+# independent rank_biserial case) so the magnitude column keeps one factor type
+# whether the rank_biserial result is independent or paired.
+no_effsize_magnitude <- function(d){
+  factor(rep(NA_character_, length(d)),
+         levels = c("negligible", "small", "medium", "large"), ordered = TRUE)
 }

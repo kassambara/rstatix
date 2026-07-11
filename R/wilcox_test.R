@@ -270,26 +270,47 @@ paired_rank_biserial_table <- function(data, formula, comparisons, ref.group, id
 # r = (R+ - R-) / (R+ + R-), the difference in the proportions of favourable and
 # unfavourable signed ranks (Kerby, 2014). Equals effectsize::rank_biserial(paired
 # = TRUE). x and y are the paired-aligned vectors the engine supplies.
-rank.biserial <- function(x, y = NULL, ...){
+rank.biserial <- function(x, y = NULL, ci = FALSE, conf.level = 0.95,
+                          ci.type = "perc", nboot = 1000, ...,
+                          boot.parallel = getOption("boot.parallel", "no"),
+                          boot.ncpus = getOption("boot.ncpus", 1L)){
   DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
   if(is.null(y))
     stop("The matched-pairs rank-biserial requires two paired samples.", call. = FALSE)
-  differences <- x - y
-  differences <- differences[is.finite(differences)]
-  differences <- differences[differences != 0]     # Wilcoxon drops zero differences
-  if(length(differences) < 1L)
-    stop("no non-zero paired differences to rank", call. = FALSE)
-  ranks <- rank(abs(differences))
-  r.plus  <- sum(ranks[differences > 0])
-  r.minus <- sum(ranks[differences < 0])
-  estimate <- (r.plus - r.minus) / (r.plus + r.minus)
+  differences <- (x - y)[is.finite(x - y)]
+  estimate <- get_rank_biserial(differences)
+  if(ci == TRUE){
+    # Percentile bootstrap over the PAIRS (the differences), as for cohens_d()/
+    # cliff_delta(): resampling the differences keeps each subject's pair intact.
+    pairs.df <- data.frame(diff = differences)
+    stat.func <- function(data, subset) get_rank_biserial(data$diff[subset])
+    CI <- get_boot_ci(
+      pairs.df, stat.func, conf.level = conf.level, type = ci.type,
+      nboot = nboot, parallel = boot.parallel, ncpus = boot.ncpus
+    )
+  }
   RVAL <- list(
     statistic = NA, p.value = NA, method = "Matched-pairs rank-biserial",
     data.name = DNAME, estimate = estimate
   )
+  if(ci){
+    attr(CI, "conf.level") <- conf.level
+    RVAL <- c(RVAL, list(conf.int = CI))
+  }
   names(RVAL$estimate) <- "rank-biserial"
   class(RVAL) <- "htest"
   RVAL
+}
+
+# Matched-pairs rank-biserial from the paired differences: drop zero differences
+# (Wilcoxon convention), rank |differences|, then (R+ - R-)/(R+ + R-).
+get_rank_biserial <- function(differences){
+  differences <- differences[differences != 0]
+  if(length(differences) < 1L)
+    stop("no non-zero paired differences to rank", call. = FALSE)
+  ranks <- rank(abs(differences))
+  (sum(ranks[differences > 0]) - sum(ranks[differences < 0])) /
+    sum(ranks)
 }
 
 
