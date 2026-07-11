@@ -6,18 +6,23 @@ NULL
 #'   (\code{outcome ~ group}), check the ANOVA assumptions and run the post-hoc
 #'   test they imply, following the standard decision tree:
 #'   \itemize{
-#'   \item residuals normal \strong{and} variances equal: Tukey HSD
+#'   \item each group normal \strong{and} variances equal: Tukey HSD
 #'     (\code{\link{tukey_hsd}()});
-#'   \item residuals normal \strong{but} variances unequal: Games-Howell
+#'   \item each group normal \strong{but} variances unequal: Games-Howell
 #'     (\code{\link{games_howell_test}()});
-#'   \item residuals not normal: Dunn's test (\code{\link{dunn_test}()}).
+#'   \item at least one group not normal: Dunn's test
+#'     (\code{\link{dunn_test}()}).
 #'   }
-#'   Normality is assessed with the Shapiro-Wilk test on the one-way model
-#'   residuals; homogeneity of variance with Levene's test
-#'   (\code{\link{levene_test}()}). Both are judged at the \code{significance}
-#'   level. The function returns the chosen test's usual pairwise result, with
-#'   the selected method and the assumption verdicts attached (and shown when the
-#'   result is printed), so the routing is transparent rather than hidden.
+#'   Normality is assessed \strong{per group} with the Shapiro-Wilk test applied
+#'   to each group's values, routing on the smallest p-value across groups (a
+#'   single non-normal group sends the data to the non-parametric test). This is
+#'   deliberately not the pooled model residuals, which unequal variances would
+#'   make non-normal and so hide the Games-Howell case. Homogeneity of variance
+#'   is assessed with Levene's test (\code{\link{levene_test}()}). Both are judged
+#'   at the \code{significance} level. The function returns the chosen test's
+#'   usual pairwise result, with the selected method and the assumption verdicts
+#'   attached (and shown when the result is printed), so the routing is
+#'   transparent rather than hidden.
 #'
 #' @param data a data frame containing the variables in the formula.
 #' @param formula a formula of the form \code{x ~ group} where \code{x} is a
@@ -25,8 +30,11 @@ NULL
 #'   levels giving the independent groups.
 #' @param significance the significance level used to judge the Shapiro-Wilk and
 #'   Levene assumption tests. Default is 0.05.
-#' @param ... additional arguments passed to the selected post-hoc test (for
-#'   example \code{p.adjust.method}).
+#' @param ... additional arguments forwarded to the selected post-hoc test, but
+#'   only those it accepts, so an argument meant for one route does not error on
+#'   another. In particular \code{p.adjust.method} is honoured only when Dunn's
+#'   test is chosen; Tukey HSD and Games-Howell carry their own built-in
+#'   adjustment and ignore it.
 #'
 #' @return the pairwise comparison table returned by the selected post-hoc test
 #'   (a \code{tukey_hsd}, \code{games_howell_test} or \code{dunn_test} object),
@@ -85,18 +93,21 @@ posthoc_test <- function(data, formula, significance = 0.05, ...){
   equal.variance <- !is.na(homogeneity.p) && homogeneity.p > significance
 
   # --- route ----------------------------------------------------------------
-  if(!normal){
-    method <- "dunn_test"
-    res <- dunn_test(data, formula, ...)
-  }
-  else if(equal.variance){
-    method <- "tukey_hsd"
-    res <- tukey_hsd(data, formula, ...)
-  }
-  else{
-    method <- "games_howell_test"
-    res <- games_howell_test(data, formula, ...)
-  }
+  method <- if(!normal) "dunn_test"
+            else if(equal.variance) "tukey_hsd"
+            else "games_howell_test"
+  chosen <- switch(
+    method, dunn_test = dunn_test, tukey_hsd = tukey_hsd,
+    games_howell_test = games_howell_test
+  )
+  # Forward only the extra arguments the chosen test can accept. The routing is
+  # data-dependent and the three tests have different signatures (e.g. only
+  # dunn_test() takes p.adjust.method; games_howell_test() has no `...`), so an
+  # argument meant for one route must not crash another.
+  dots <- list(...)
+  chosen.formals <- names(formals(chosen))
+  if(!("..." %in% chosen.formals)) dots <- dots[names(dots) %in% chosen.formals]
+  res <- do.call(chosen, c(list(data, formula), dots))
 
   attr(res, "posthoc.method") <- method
   attr(res, "assumptions") <- list(

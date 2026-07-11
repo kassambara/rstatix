@@ -19,8 +19,11 @@ levels giving the independent groups.}
 \item{significance}{the significance level used to judge the Shapiro-Wilk and
 Levene assumption tests. Default is 0.05.}
 
-\item{...}{additional arguments passed to the selected post-hoc test (for
-example \code{p.adjust.method}).}
+\item{...}{additional arguments forwarded to the selected post-hoc test, but
+only those it accepts, so an argument meant for one route does not error on
+another. In particular \code{p.adjust.method} is honoured only when Dunn's
+test is chosen; Tukey HSD and Games-Howell carry their own built-in
+adjustment and ignore it.}
 
 \item{x}{an object of class \code{posthoc_test}.}
 }
@@ -36,18 +39,23 @@ Given a one-way, independent-groups design
   (\code{outcome ~ group}), check the ANOVA assumptions and run the post-hoc
   test they imply, following the standard decision tree:
   \itemize{
-  \item residuals normal \strong{and} variances equal: Tukey HSD
+  \item each group normal \strong{and} variances equal: Tukey HSD
     (\code{\link{tukey_hsd}()});
-  \item residuals normal \strong{but} variances unequal: Games-Howell
+  \item each group normal \strong{but} variances unequal: Games-Howell
     (\code{\link{games_howell_test}()});
-  \item residuals not normal: Dunn's test (\code{\link{dunn_test}()}).
+  \item at least one group not normal: Dunn's test
+    (\code{\link{dunn_test}()}).
   }
-  Normality is assessed with the Shapiro-Wilk test on the one-way model
-  residuals; homogeneity of variance with Levene's test
-  (\code{\link{levene_test}()}). Both are judged at the \code{significance}
-  level. The function returns the chosen test's usual pairwise result, with
-  the selected method and the assumption verdicts attached (and shown when the
-  result is printed), so the routing is transparent rather than hidden.
+  Normality is assessed \strong{per group} with the Shapiro-Wilk test applied
+  to each group's values, routing on the smallest p-value across groups (a
+  single non-normal group sends the data to the non-parametric test). This is
+  deliberately not the pooled model residuals, which unequal variances would
+  make non-normal and so hide the Games-Howell case. Homogeneity of variance
+  is assessed with Levene's test (\code{\link{levene_test}()}). Both are judged
+  at the \code{significance} level. The function returns the chosen test's
+  usual pairwise result, with the selected method and the assumption verdicts
+  attached (and shown when the result is printed), so the routing is
+  transparent rather than hidden.
 }
 \examples{
 df <- ToothGrowth

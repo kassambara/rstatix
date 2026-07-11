@@ -65,15 +65,29 @@ test_that("the significance level changes the routing at the boundary", {
   expect_true(attr(strict, "posthoc.method") %in% c("tukey_hsd", "games_howell_test"))
 })
 
-test_that("extra arguments are forwarded to the chosen test", {
+test_that("extra arguments are forwarded only to a route that accepts them", {
+  # Dunn route: p.adjust.method is honoured (changes p.adj)
   set.seed(1)
-  d <- data.frame(
+  d.dunn <- data.frame(
     y = c(rexp(20), rexp(20) + 2, rexp(20) + 4),
     g = factor(rep(1:3, each = 20))
   )
-  holm <- d %>% posthoc_test(y ~ g)                                  # dunn default holm
-  bonf <- d %>% posthoc_test(y ~ g, p.adjust.method = "bonferroni")
+  holm <- d.dunn %>% posthoc_test(y ~ g)
+  bonf <- d.dunn %>% posthoc_test(y ~ g, p.adjust.method = "bonferroni")
+  expect_equal(attr(bonf, "posthoc.method"), "dunn_test")
   expect_false(isTRUE(all.equal(holm$p.adj, bonf$p.adj)))
+  # Games-Howell route: games_howell_test() takes no p.adjust.method / no `...`,
+  # so the same argument must be dropped, NOT crash (data-dependent routing).
+  set.seed(2)
+  d.gh <- data.frame(
+    y = c(rnorm(30, 0, 1), rnorm(30, 5, 4), rnorm(30, 10, 8)),
+    g = factor(rep(1:3, each = 30))
+  )
+  expect_error(d.gh %>% posthoc_test(y ~ g, p.adjust.method = "bonferroni"), NA)
+  expect_equal(
+    attr(d.gh %>% posthoc_test(y ~ g, p.adjust.method = "bonferroni"), "posthoc.method"),
+    "games_howell_test"
+  )
 })
 
 test_that("invalid designs are rejected with a clear error", {
