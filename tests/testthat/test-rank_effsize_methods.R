@@ -37,6 +37,7 @@ test_that("kruskal_effsize(method = 'epsilon2') works grouped and with a CI", {
 
 # ---- wilcox_effsize(method = "rank_biserial") -----------------------------
 test_that("wilcox_effsize default (r) is unchanged", {
+  skip_if_not_installed("coin")   # default metric r goes through coin::wilcox_test
   d <- tg_f()
   res <- d %>% wilcox_effsize(len ~ supp)
   expect_equal(unname(res$effsize), 0.2396302, tolerance = 1e-6)
