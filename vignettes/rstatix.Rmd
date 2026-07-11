@@ -1,0 +1,167 @@
+---
+title: "Get started with rstatix"
+author: "Alboukadel Kassambara"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{Get started with rstatix}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE
+)
+options(digits = 3)
+```
+
+`rstatix` provides a simple, pipe-friendly framework for common statistical
+tests, coherent with the `tidyverse` design philosophy. Each function takes a
+data frame and a formula, and returns the result as a **tidy tibble** — so a
+test flows straight into `dplyr` pipelines, into reporting tables
+(`gtsummary`, `gt`, `broom`), and into `ggpubr` plots, without reshaping.
+
+This vignette walks one analysis from start to finish: describe the data, check
+the assumptions, run the test, quantify the effect with a confidence interval,
+and report it. The same handful of verbs covers t-tests, Wilcoxon tests, ANOVA,
+Kruskal-Wallis, correlation, and their effect sizes.
+
+```{r}
+library(rstatix)
+library(dplyr)
+```
+
+We use `ToothGrowth`, a base R dataset: the length of odontoblasts (`len`) in 60
+guinea pigs, each given one of three vitamin C doses (`dose`) by one of two
+delivery methods (`supp`).
+
+```{r}
+df <- ToothGrowth
+df$dose <- factor(df$dose)
+head(df)
+```
+
+## Describe the data
+
+`get_summary_stats()` returns the summaries you actually report, for one or many
+variables, grouped or not.
+
+```{r}
+df %>%
+  group_by(dose) %>%
+  get_summary_stats(len, type = "mean_sd")
+```
+
+## Check the assumptions
+
+Before comparing the three doses, `check_test_assumptions()` tests normality
+(Shapiro-Wilk, per group) and homogeneity of variance (Levene), and returns a
+one-row recommendation: which omnibus test and which post-hoc test the data
+call for.
+
+```{r}
+df %>% check_test_assumptions(len ~ dose)
+```
+
+Here both assumptions hold, so the recommendation is a one-way ANOVA followed by
+Tukey HSD. When normality fails it points to Kruskal-Wallis with Dunn's test;
+when only the variances differ, to Welch ANOVA with Games-Howell. (Choosing a
+test by first testing its assumptions on the same data is a known trade-off,
+noted in `?check_test_assumptions` — pre-specifying the test is always
+defensible.)
+
+## Run the omnibus test
+
+Follow the recommendation. `anova_test()` returns the ANOVA table; asking for
+the partial eta-squared effect size with a confidence interval adds `pes` and
+its bounds.
+
+```{r}
+df %>% anova_test(len ~ dose, effect.size = "pes", ci = 0.95)
+```
+
+Dose has a large, highly significant effect on tooth length.
+
+## Post-hoc comparisons
+
+`posthoc_test()` runs the post-hoc appropriate to the same decision tree and
+shows which test it picked and why, so the routing is transparent.
+
+```{r}
+df %>% posthoc_test(len ~ dose)
+```
+
+Every pairwise difference is significant after adjustment. If you prefer to
+drive the pairwise step yourself, the individual verbs compose the same way —
+`tukey_hsd()`, or `dunn_test()` / `games_howell_test()` — and any pairwise test
+can be piped through `adjust_pvalue()` and `add_significance()`.
+
+## Quantify the effect
+
+A p-value tells you an effect exists; an effect size tells you how large. For a
+pairwise mean comparison that is Cohen's d:
+
+```{r}
+df %>% cohens_d(len ~ dose)
+```
+
+Each metric has a matching verb, all with the same interface and an optional
+confidence interval via `ci = TRUE`: `eta_squared()` for ANOVA, `cramer_v()` for
+association, `cliff_delta()` and `wilcox_effsize()` for the non-parametric case,
+`kruskal_effsize()` for Kruskal-Wallis.
+
+## Report it
+
+For a manuscript, `get_test_label(style = "apa")` writes the APA-7 in-text
+sentence, including the effect-size confidence interval when the result carries
+one:
+
+```{r}
+model <- df %>% anova_test(len ~ dose, effect.size = "pes", ci = 0.95)
+get_test_label(model, type = "text", style = "apa")
+```
+
+Because every result is a tibble, `tidy()` and `glance()` hand it to the
+reporting-table ecosystem (`broom`, `gtsummary`, `gt`):
+
+```{r}
+df %>% anova_test(len ~ dose) %>% tidy()
+df %>% anova_test(len ~ dose) %>% glance()
+```
+
+## Grouped analysis in one call
+
+The workflow is `group_by()`-aware: run the same test within every level of a
+grouping variable, then adjust and flag, in a single pipe. Here we compare the
+two delivery methods within each dose.
+
+```{r}
+df %>%
+  group_by(dose) %>%
+  t_test(len ~ supp) %>%
+  adjust_pvalue(method = "holm") %>%
+  add_significance()
+```
+
+The delivery method matters at the two lower doses but not at the highest.
+
+## Plotting and further reading
+
+`rstatix` returns the data; `ggpubr` draws it. The tidy result of any test pipes
+straight into a plot: `add_xy_position()` places the significance brackets and
+`stat_pvalue_manual()` adds them, so the p-values on the figure are the ones you
+computed. See the [ggpubr](https://rpkgs.datanovia.com/ggpubr/) documentation.
+
+Extended tutorials — comparing means, ANOVA designs, correlation analysis,
+effect sizes — are on the package website:
+<https://rpkgs.datanovia.com/rstatix/>.
+
+```{r}
+sessionInfo()
+```

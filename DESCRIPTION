@@ -42,6 +42,7 @@ Suggests:
     boot,
     testthat (>= 3.1.7),
     spelling
+VignetteBuilder: knitr
 URL: https://rpkgs.datanovia.com/rstatix/
 BugReports: https://github.com/kassambara/rstatix/issues
 Collate:
