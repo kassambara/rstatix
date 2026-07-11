@@ -9,7 +9,8 @@ dunn_test(
   formula,
   p.adjust.method = "holm",
   ref.group = NULL,
-  detailed = FALSE
+  detailed = FALSE,
+  effect.size = FALSE
 )
 }
 \arguments{
@@ -34,6 +35,12 @@ computed over only these comparisons. Note that, unlike \code{t_test()} and
 
 \item{detailed}{logical value. Default is FALSE. If TRUE, a detailed result is
 shown.}
+
+\item{effect.size}{logical. Default is FALSE. If TRUE, an \code{r} column is
+added, the effect size \code{r = Z / sqrt(N)} where \code{Z} is Dunn's
+z-statistic and \code{N} is the total sample size (the whole-sample rank
+variance Dunn's z is standardised on, not the pairwise \code{n1 + n2}). No
+magnitude label is attached: there is no threshold set calibrated for it.}
 }
 \value{
 return a data frame with some of the following columns: \itemize{

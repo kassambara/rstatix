@@ -42,6 +42,12 @@ NULL
 #'
 #'@param detailed logical value. Default is FALSE. If TRUE, a detailed result is
 #'  shown.
+#'@param effect.size logical. Default is FALSE. If TRUE, a \code{cohens.d} column
+#'  (Cohen's d) and its \code{magnitude} are added. \code{t_test()} reports the
+#'  per-pair d (consistent with its per-pair t-test); \code{pairwise_t_test()}
+#'  with the default \code{pool.sd = TRUE} reports the common-SD (pooled-model) d
+#'  so the estimate and the pooled-SD p-value share a variance basis. Not
+#'  supported together with \code{id} (Cohen's d has no id-aware paired form).
 #'@param id (optional) character string specifying the column that contains the
 #'  sample/subject identifier, used only for a \strong{paired} test
 #'  (\code{paired = TRUE}). When supplied, observations of the two compared
@@ -150,19 +156,29 @@ t_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm",
   paired = FALSE, var.equal = FALSE, alternative = "two.sided",
-  mu = 0, conf.level = 0.95, detailed = FALSE, id = NULL, error.as.na = FALSE
+  mu = 0, conf.level = 0.95, detailed = FALSE, id = NULL, error.as.na = FALSE,
+  effect.size = FALSE
 )
 {
   env <- as.list(environment())
   args <- env %>%
     .add_item(method = "t_test")
+  # Keep effect.size in the stashed args only when it is actually requested, so
+  # the default (FALSE) leaves attr(x, "args") byte-identical to before.
+  if(!isTRUE(effect.size)) args <- remove_item(args, "effect.size")
   params <- env %>%
+    remove_item("effect.size") %>%
     remove_null_items() %>%
     add_item(method = "t.test")
 
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
   number.of.groups <- guess_number_of_groups(data, group)
+  if(isTRUE(effect.size) && !is.null(id)){
+    stop("`effect.size = TRUE` is not supported together with `id` (paired ",
+         "matching by subject): Cohen's d has no id-aware form. Compute the ",
+         "effect size separately, or omit `id`.", call. = FALSE)
+  }
   if(!is.null(id) && !is.null(ref.group) && ref.group %in% c("all", ".all.")){
     stop("`id` (paired matching) is not supported with ref.group = 'all': ",
          "pairing subjects against the pooled grand-mean group is not defined.",
@@ -177,9 +193,33 @@ t_test <- function(
   test.func <- two_sample_test
   if(number.of.groups > 2)
     test.func <- pairwise_two_sample_test
-  do.call(test.func, params) %>%
+  res <- do.call(test.func, params)
+  if(isTRUE(effect.size)){
+    res <- add_cohens_d_effsize(
+      res, data, formula, comparisons = comparisons, ref.group = ref.group,
+      paired = paired, var.equal = var.equal, mu = mu, id = id
+    )
+  }
+  res %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "t_test"))
+}
+
+# Compute Cohen's d per pair (consistent with the per-pair t.test the public
+# t_test() runs) and join it as a `cohens.d` column with a Cohen `magnitude`.
+# Paired matching by `id` has no cohens_d() equivalent (cohens_d pairs by row
+# order), so it is forbidden rather than risk pairing the wrong subjects.
+add_cohens_d_effsize <- function(res, data, formula, comparisons, ref.group,
+                                 paired, var.equal, mu, id){
+  if(!is.null(id))
+    stop("`effect.size = TRUE` is not supported together with `id` (paired ",
+         "matching by subject): Cohen's d has no id-aware form. Compute the ",
+         "effect size separately, or omit `id`.", call. = FALSE)
+  es <- cohens_d(
+    data, formula, comparisons = comparisons, ref.group = ref.group,
+    paired = paired, mu = mu, var.equal = var.equal
+  )
+  join_effect_size(res, keep_only_tbl_df_classes(es), "cohens.d")
 }
 
 
@@ -190,15 +230,21 @@ t_test <- function(
 pairwise_t_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm", paired = FALSE, pool.sd = !paired,
-  detailed = FALSE, ...) {
+  detailed = FALSE, ..., effect.size = FALSE) {
 
   args <- c(as.list(environment()), list(...)) %>%
     .add_item(method = "t_test")
+  if(!isTRUE(effect.size)) args <- remove_item(args, "effect.size")
+  if(isTRUE(effect.size) && !is.null(list(...)$id))
+    stop("`effect.size = TRUE` is not supported together with `id` (paired ",
+         "matching by subject): Cohen's d has no id-aware form. Compute the ",
+         "effect size separately, or omit `id`.", call. = FALSE)
   if(paired) pool.sd <- FALSE
   if(pool.sd){
     res <- pairwise_t_test_psd(
       data, formula, comparisons = comparisons, ref.group = ref.group,
-      p.adjust.method = p.adjust.method, detailed = detailed, ...
+      p.adjust.method = p.adjust.method, detailed = detailed,
+      effect.size = effect.size, ...
     )
   }
   else{
@@ -208,6 +254,16 @@ pairwise_t_test <- function(
       p.adjust.method = p.adjust.method, paired = paired,
       detailed = detailed, ...
     )
+    if(isTRUE(effect.size)){
+      # pool.sd = FALSE runs per-pair t-tests, so the per-pair Cohen's d
+      # (var.equal matching the test) shares each pair's variance basis.
+      var.equal <- isTRUE(list(...)$var.equal)
+      es <- cohens_d(
+        data, formula, comparisons = comparisons, ref.group = ref.group,
+        paired = paired, var.equal = var.equal
+      )
+      res <- join_effect_size(res, keep_only_tbl_df_classes(es), "cohens.d")
+    }
   }
   res %>%
     set_attrs(args = args) %>%
@@ -218,7 +274,7 @@ pairwise_t_test <- function(
 pairwise_t_test_psd <- function(
   data, formula, comparisons = NULL, ref.group = NULL,
   p.adjust.method = "holm", alternative = "two.sided",
-  detailed = FALSE
+  detailed = FALSE, effect.size = FALSE
   )
   {
   . <- NULL
@@ -226,7 +282,7 @@ pairwise_t_test_psd <- function(
     results <- data %>%
       doo(pairwise_t_test_psd, formula, comparisons,
           ref.group, p.adjust.method, alternative = alternative,
-          detailed = detailed)
+          detailed = detailed, effect.size = effect.size)
     return(results)
   }
 
@@ -273,6 +329,22 @@ pairwise_t_test_psd <- function(
     add_significance("p") %>%
     add_significance("p.adj")
   if(!detailed) results <- remove_details(results, method = "t.test")
+  if(isTRUE(effect.size)){
+    # pool.sd = TRUE reports pooled-SD p-values, so the matching Cohen's d must use
+    # the SAME common within-group SD (the sqrt of the pooled variance over ALL k
+    # groups = the ANOVA residual SD), not a per-pair SD. This is the pooled-model
+    # d that emmeans::eff_size(sigma = , edf = ) reports, and it keeps the d
+    # recoverable from the pooled-SD t statistic. Oriented group1 - group2.
+    group.means <- tapply(outcome.values, group.values, mean, na.rm = TRUE)
+    group.vars  <- tapply(outcome.values, group.values, stats::var, na.rm = TRUE)
+    df.each     <- group.size - 1
+    common.sd   <- sqrt(sum(df.each * group.vars[names(group.size)]) / sum(df.each))
+    d <- as.numeric(
+      (group.means[results$group1] - group.means[results$group2]) / common.sd
+    )
+    results <- results %>%
+      mutate(cohens.d = d, magnitude = get_cohens_magnitude(d))
+  }
   results
 }
 
