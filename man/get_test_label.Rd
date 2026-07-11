@@ -17,7 +17,8 @@ get_test_label(
   type = c("expression", "text"),
   correction = c("auto", "GG", "HF", "none"),
   row = NULL,
-  detailed = FALSE
+  detailed = FALSE,
+  style = c("classic", "apa")
 )
 
 create_test_label(
@@ -30,7 +31,10 @@ create_test_label(
   effect.size = NA,
   effect.size.text = NA,
   type = c("expression", "text"),
-  detailed = FALSE
+  detailed = FALSE,
+  style = c("classic", "apa"),
+  effect.size.ci = NA,
+  effect.size.bounded = TRUE
 )
 
 get_n(stat.test)
@@ -67,6 +71,15 @@ automatically considered for ANOVA test.}
 
 \item{detailed}{logical value. If TRUE, returns detailed label.}
 
+\item{style}{the label style. Either \code{"classic"} (default, the historical
+format) or \code{"apa"} for an APA-7 in-text statistical report: the leading
+test-name label is dropped, the p-value is formatted APA-style
+(\code{p = .023}, \code{p < .001}), and the effect size is shown with its
+confidence interval when the object carries one (e.g. \code{anova_test(ci = )}),
+otherwise as a point estimate, otherwise omitted. Bounded effect sizes
+(\eqn{\eta^2}, \emph{r}, Cliff's \eqn{\delta}, rank-biserial) drop the
+leading zero; Cohen's \emph{d} keeps it.}
+
 \item{statistic.text}{character specifying the test statistic. For example
 \code{statistic.text = "F"} (for ANOVA test ); \code{statistic.text = "t"}
 (for t-test ).}
@@ -87,6 +100,15 @@ DFd); \code{sparameter = "9"} (for t-test ).}
 \item{effect.size.text}{a character specifying the relevant effect size. For
 example, for \code{Cohens d} statistic, \code{effect.size.text = "d"}. You
 can also use plotmath expression as follow \code{quote(italic("d"))}.}
+
+\item{effect.size.ci}{a length-two numeric \code{c(low, high)} giving the
+effect size's confidence interval, appended after the effect size when
+\code{style = "apa"}. Defaults to \code{NA} (no interval).}
+
+\item{effect.size.bounded}{logical. Whether the effect size lies in
+\code{[-1, 1]} (e.g. \eqn{\eta^2}, \emph{r}, Cliff's \eqn{\delta}); used by
+\code{style = "apa"} to decide whether to drop the leading zero. Defaults to
+\code{TRUE}; set \code{FALSE} for Cohen's \emph{d}.}
 }
 \value{
 a text label or an expression to pass to a plotting function.
@@ -169,4 +191,8 @@ get_n(stat.test)
 get_description(stat.test)
 
 
+}
+\references{
+American Psychological Association (2020). \emph{Publication Manual
+  of the American Psychological Association} (7th ed.).
 }
