@@ -58,6 +58,7 @@ reference:
       - wilcox_effsize
       - cliff_delta
       - eta_squared
+      - omega_squared
       - kruskal_effsize
       - friedman_effsize
       - cramer_v
