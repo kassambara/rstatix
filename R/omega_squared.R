@@ -9,7 +9,9 @@ NULL
 #' @param model an object of class \code{aov} or \code{anova} (a between-subjects
 #'   design). Repeated-measures and mixed models are not supported, as for
 #'   \code{\link{eta_squared}()}.
-#' @return a named numeric vector of effect sizes, one per model term.
+#' @return a named numeric vector of effect sizes, one per model term. A
+#'   negative point estimate (which can arise for a term with F < 1) is floored
+#'   at 0, since omega squared estimates a non-negative proportion of variance.
 #' @references Olejnik, S., & Algina, J. (2003). Generalized eta and omega
 #'   squared statistics: Measures of effect size for some common research
 #'   designs. \emph{Psychological Methods}, 8(4), 434-447.
@@ -29,9 +31,14 @@ NULL
 #' @describeIn omega_squared compute the classic (full) omega squared.
 #' @export
 omega_squared <- function(model){
-  model %>%
+  aovstat <- model %>%
     aov_stat_summary() %>%
     aov_stat_core("omega")
+  # Floor negative estimates at 0: omega squared estimates a non-negative
+  # proportion of variance, and a term with F < 1 yields a negative raw value.
+  # Floored in place so the term names are preserved.
+  aovstat[aovstat < 0] <- 0
+  aovstat
 }
 
 #' @describeIn omega_squared compute partial omega squared.
@@ -48,5 +55,7 @@ partial_omega_squared <- function(model){
     (ss.term - df.term * ms.resid) / (ss.term + (n_obs - df.term) * ms.resid)
   })
   names(aovstat) <- aov.sum[["term"]][1:n_terms]
+  # Floor negative estimates at 0 (see omega_squared()); in place to keep names.
+  aovstat[aovstat < 0] <- 0
   aovstat
 }

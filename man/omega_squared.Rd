@@ -15,7 +15,9 @@ design). Repeated-measures and mixed models are not supported, as for
 \code{\link{eta_squared}()}.}
 }
 \value{
-a named numeric vector of effect sizes, one per model term.
+a named numeric vector of effect sizes, one per model term. A
+  negative point estimate (which can arise for a term with F < 1) is floored
+  at 0, since omega squared estimates a non-negative proportion of variance.
 }
 \description{
 Compute (classic, full) omega-squared and partial omega-squared

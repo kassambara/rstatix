@@ -63,6 +63,30 @@ test_that("in a one-way design partial omega equals classic omega", {
   expect_equal(unname(omega_squared(m)), 0.6119308, tolerance = 1e-6)
 })
 
+test_that("a negative raw omega estimate is floored at 0, matching effectsize", {
+  # For a term with F < 1 the raw Olejnik-Algina/classic estimate is negative.
+  # omega squared estimates a non-negative proportion of variance, so we floor
+  # the point estimate at 0 -- the same behavior as effectsize::omega_squared(),
+  # which the pinned values below come from (effectsize 1.0.1, 2026-07-11).
+  set.seed(1)
+  d <- data.frame(y = rnorm(48), a = gl(2, 24), b = gl(2, 12, 48), c = gl(2, 6, 48))
+  m <- stats::aov(y ~ a * b * c, data = d)
+  # raw estimates: a, b, a:c, b:c, a:b:c are all negative (F < 1); only c and a:b
+  # are positive. All negatives must come back as exactly 0, never as a negative.
+  o  <- omega_squared(m)
+  po <- partial_omega_squared(m)
+  expect_true(all(o  >= 0))
+  expect_true(all(po >= 0))
+  expect_equal(
+    unname(o),
+    c(0, 0, 0.00344469307, 0.00062165575, 0, 0, 0), tolerance = 1e-7
+  )
+  expect_equal(
+    unname(po),
+    c(0, 0, 0.003161133877, 0.000571964241, 0, 0, 0), tolerance = 1e-7
+  )
+})
+
 test_that("omega_squared works from an anova object and errors cleanly on a repeated-measures model", {
   df <- ToothGrowth
   df$dose <- factor(df$dose)
