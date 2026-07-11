@@ -1,61 +1,48 @@
-## Resubmission
-
-This is a resubmission of rstatix 1.0.0, addressing the reverse-dependency
-issues found in the CRAN incoming check.
-
-* GimmeMyStats and GimmeMyPlot dispatch on the second element of an `anova_test()`
-  result's class vector (`method <- sub("_test", "", class(x)[2])`). The 1.0.0
-  dplyr/vctrs class-order fix (#106) had shifted the specific "anova_test" class
-  out of position 2, so `class(x)[2]` became "rstatix_test" and their dispatch
-  fell through. This version restores the order to
-  `c("rstatix_test", "anova_test", "data.frame")` -- "rstatix_test" first
-  (consistent with every other rstatix test and still before "data.frame"),
-  the specific class back in position 2 -- so both packages pass again. A
-  regression test locks the class order; `inherits()`, `print()`/`plot()`
-  dispatch, dplyr verbs and ggpubr are unaffected.
-
-* microdiluteR's test hard-codes a sign-test p-value rounded to 3 significant
-  figures (0.0156); the documented full-precision p-value change (#108) returns
-  0.015625. This is the intended, documented behaviour of this major version,
-  not a defect in rstatix. The maintainer has been notified and a one-line
-  downstream PR has been opened.
-
 ## Test environments
 * local macOS, R 4.5.x
 * GitHub Actions (check-standard): macOS-release, Windows-release,
-  Ubuntu-latest (devel, release, oldrel-1)
+  Ubuntu-latest (devel, release, oldrel-1), plus an Ubuntu job run with
+  `_R_CHECK_DEPENDS_ONLY_=true` (Suggests absent)
 * win-builder (devel and release)
 
 ## R CMD check results
 0 errors | 0 warnings | 0 notes.
 
-## Major release: 1.0.0
+## Minor release: 1.1.0
 
-This is a major release (previous CRAN version: 0.7.3). It bundles a large set
-of new functions, new arguments and bug fixes accumulated over the development
-cycle (see NEWS.md). The version is bumped to 1.0.0 because one change is not
-fully backward compatible: test functions now return **full-precision p-values**
-(previously rounded to 3 significant figures), so stored/printed `p`/`p.adj`
-values gain digits and pairwise adjusted p-values can shift slightly. All other
-changes are additive and preserve existing behaviour.
+Previous CRAN version: 1.0.0. This release is additive apart from one deliberate
+change, called out here:
 
-Highlights:
-* New functions: conover_test(), friedman_conover_test(), friedman_nemenyi_test(),
-  fligner_test(), dunnett_test(), ks_test(), add_cld().
-* New arguments: error.as.na (t_test/wilcox_test), id (paired tests),
-  ci (anova_test, partial eta-squared confidence intervals).
-* freq_table() now supports grouped data.
-* Many documentation additions and clearer error messages.
+* `cramer_v()` no longer applies Yates' continuity correction by default
+  (`correct` now defaults to `FALSE`). Yates' correction belongs to the
+  chi-square test, not to an effect size, where it only biases Cramer's V
+  downward. This changes the value returned for 2x2 tables (the only shape it
+  affects): the function now returns the standard `sqrt(chi2 / (N * (k - 1)))`,
+  matching `DescTools::CramerV()` and `effectsize::cramers_v(adjust = FALSE)`.
+  Passing `correct = TRUE` recovers the previous value. Larger tables are
+  unaffected. See NEWS.md and issue #293.
+
+Everything else is backward compatible: new functions (`cliff_delta()`,
+`omega_squared()`/`partial_omega_squared()`, `check_test_assumptions()`,
+`posthoc_test()`, `tidy()`/`glance()` methods for `rstatix_test` objects), and
+new arguments whose defaults reproduce the previous output (`effect.size` on the
+pairwise tests, `id` on `cohens_d()`, `ci` on `eta_squared()`/`cramer_v()`,
+`method` on `wilcox_effsize()`/`kruskal_effsize()`, `style` on
+`get_test_label()`, and `boot.parallel`/`boot.ncpus` on the effect-size
+functions).
 
 ## Reverse dependencies
 
-The principal reverse dependency, ggpubr, was checked against this version and
-passes its full test suite (including the coordinated update for issue #153).
-The three reverse dependencies flagged by the CRAN incoming check are addressed:
-GimmeMyStats and GimmeMyPlot are fixed by the class-order correction in this
-resubmission (see above); microdiluteR's failure is the expected full-precision
-p-value change (#108), for which a one-line downstream fix has been filed with
-its maintainer. The API changes in this release are additive; the one
-not-fully-backward-compatible change (full-precision p-values, #108) only adds
-digits to returned p-values and does not change function signatures or output
-structure.
+rstatix has 44 reverse dependencies (Depends/Imports/Suggests). The only change
+that alters the output of a pre-existing function for unchanged inputs is the
+`cramer_v()` default above; every other change is a new function or a new
+argument with an unchanged default, so existing revdep code gets identical
+results. We scanned the sources of all 44 reverse dependencies for callers of
+`cramer_v()`: one package (BiostatsUHNplus) imports it, and uses the value to
+populate an effect-size column whose tests check the output structure rather
+than the numeric value, so its checks are unaffected. No new problems are
+expected in reverse dependencies.
+
+## Notes
+* `datanovia.com` (linked from the documentation) can return HTTP 503 to
+  automated crawlers but is a valid, reachable site.
