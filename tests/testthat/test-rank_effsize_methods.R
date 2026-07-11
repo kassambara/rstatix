@@ -69,6 +69,8 @@ test_that("wilcox_effsize(method = 'rank_biserial') handles pairwise and paired 
   expect_true(is.na(paired$magnitude))
   indep <- dp %>% wilcox_effsize(y ~ g, method = "rank_biserial")
   expect_false(is.na(indep$magnitude))
+  # both share one factor type, so bind_rows() does not coerce the levels
+  expect_identical(levels(paired$magnitude), levels(indep$magnitude))
 })
 
 test_that("wilcox_effsize(method = 'rank_biserial', ci = TRUE) adds a bootstrap CI", {

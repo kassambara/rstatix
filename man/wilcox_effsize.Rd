@@ -62,11 +62,14 @@ hypothesis.}
 
 \item{nboot}{The number of replications to use for bootstrap.}
 
-\item{detailed}{logical value. Default is FALSE. If TRUE, the output
-additionally includes the \code{Z} \code{statistic} (extracted from the
-\code{coin} package and used to compute \code{r = Z/sqrt(N)}), the p-value
-(\code{p}) and the test \code{method}/\code{alternative}, so the effect size
-and the underlying Z are reported together in one data frame.}
+\item{detailed}{logical value. Default is FALSE. If TRUE, and
+\code{method = "r"}, the output additionally includes the \code{Z}
+\code{statistic} (extracted from the \code{coin} package and used to compute
+\code{r = Z/sqrt(N)}), the p-value (\code{p}) and the test
+\code{method}/\code{alternative}, so the effect size and the underlying Z are
+reported together in one data frame. The rank-biserial metric
+(\code{method = "rank_biserial"}) has no underlying \code{Z}, so those extra
+columns are not meaningful for it.}
 
 \item{...}{Additional arguments passed to the functions
 \code{coin::wilcoxsign_test()} (case of one- or paired-samples test) or
