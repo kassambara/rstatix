@@ -70,7 +70,9 @@ It's also possible to compute several effect size metrics, including "eta square
    
    
 ### Post-hoc analyses
-   
+
+- `check_test_assumptions()`: checks the normality and homogeneity-of-variance assumptions of a one-way, independent-groups design and returns the omnibus and post-hoc tests the data call for.
+- `posthoc_test()`: chooses and runs the post-hoc test appropriate to a one-way design, following the standard decision tree: Tukey HSD when the groups are normal with equal variances, Games-Howell when the variances differ, and Dunn's test when the data are not normal.
 - `tukey_hsd()`: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.
 - `dunn_test()`: compute multiple pairwise comparisons following Kruskal-Wallis test.
 - `conover_test()`: compute Conover's all-pairs rank comparison test, a more powerful alternative to Dunn's test for post-hoc analysis following a significant Kruskal-Wallis test.
@@ -102,11 +104,13 @@ It's also possible to compute several effect size metrics, including "eta square
 ### Effect Size
    
 - `cohens_d()`: Compute cohen's d measure of effect size for t-tests.
-- `wilcox_effsize()`: Compute Wilcoxon effect size (r).
-- `eta_squared()` and `partial_eta_squared()`: Compute effect size for ANOVA.
+- `wilcox_effsize()`: Compute Wilcoxon effect size (r) or the rank-biserial correlation.
+- `cliff_delta()`: Compute Cliff's delta, a non-parametric effect size for the difference between two groups.
+- `eta_squared()` and `partial_eta_squared()`: Compute effect size for ANOVA, with optional confidence intervals.
+- `omega_squared()` and `partial_omega_squared()`: Compute the less-biased omega-squared effect size for a between-subjects ANOVA.
 - `kruskal_effsize()`: Compute the effect size for Kruskal-Wallis test as the eta squared based on the H-statistic.
 - `friedman_effsize()`: Compute the effect size of Friedman test using the Kendall's W value.
-- `cramer_v()`: Compute Cramer's V, which measures the strength of the association between categorical variables.
+- `cramer_v()`: Compute Cramer's V, which measures the strength of the association between categorical variables, with optional confidence intervals.
    
 ### Correlation analysis
    
@@ -152,8 +156,8 @@ It's also possible to compute several effect size metrics, including "eta square
 Extract information from statistical test results. Useful for labelling plots with  test outputs.
 
 - `get_pwc_label()`: Extract label from pairwise comparisons.
-- `get_test_label()`: Extract label from statistical tests.
-- `create_test_label()`: Create labels from user specified test results.
+- `get_test_label()` and `create_test_label()`: Extract or create labels from statistical tests, with an APA-7 in-text style (`style = "apa"`).
+- `tidy()` and `glance()`: convert an `rstatix` test result into a plain tibble, so it flows into `broom`, `gtsummary` and `gt`.
    
    
 ### Data manipulation helper functions
