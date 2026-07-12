@@ -20,9 +20,23 @@ NULL
 #'  If a paired samples t-test was requested, then effect size desired is based
 #'  on the standard deviation of the differences.
 #'
-#'  It can also returns confidence intervals by bootstap.
+#'  It can also return confidence intervals for the effect size, either by
+#'  bootstrap (the default) or by an analytic, deterministic method (see
+#'  \code{ci.method}).
 #'
 #'@inheritParams wilcox_effsize
+#'@param ci.method the method used to compute the confidence interval when
+#'  \code{ci = TRUE}. Either \code{"boot"} (default) for a percentile bootstrap,
+#'  or \code{"analytic"} for a deterministic interval obtained by inverting the
+#'  noncentral \emph{t} distribution (Steiger, 2004; Cumming & Finch, 2001) --
+#'  the same machinery \code{\link{anova_test}(ci = )} uses for partial
+#'  eta-squared. The analytic interval covers the one-sample, paired and
+#'  two-sample (equal-variance and Welch) cases, is reproducible across runs
+#'  (no seed), and matches \code{effectsize::cohens_d(ci = )} /
+#'  \code{effectsize::hedges_g(ci = )}. When it is not defined for a given input
+#'  (for example a degenerate group), the bootstrap is used as a fallback. The
+#'  default \code{"boot"} leaves the returned interval unchanged from previous
+#'  versions.
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a
 #'  numeric variable giving the data values and \code{group} is a factor with
@@ -57,7 +71,13 @@ NULL
 #'  (1992). A power primer. Psychological Bulletin, 112, 155-159. \item Hedges,
 #'  Larry & Olkin, Ingram. (1985). Statistical Methods in Meta-Analysis.
 #'  10.2307/1164953. \item Navarro, Daniel. 2015. Learning Statistics with R: A
-#'  Tutorial for Psychology Students and Other Beginners (Version 0.5). }
+#'  Tutorial for Psychology Students and Other Beginners (Version 0.5). \item
+#'  Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals
+#'  and tests of close fit in the analysis of variance and contrast analysis.
+#'  Psychological Methods, 9(2), 164-182. \item Cumming, G., & Finch, S. (2001).
+#'  A primer on the understanding, use, and calculation of confidence intervals
+#'  that are based on central and noncentral distributions. Educational and
+#'  Psychological Measurement, 61(4), 532-574. }
 #'@return return a data frame with some of the following columns: \itemize{
 #'  \item \code{.y.}: the y variable used in the test. \item
 #'  \code{group1,group2}: the compared groups in the pairwise tests. \item
@@ -87,7 +107,9 @@ cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired
                      var.equal = FALSE, hedges.correction = FALSE,
                      ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
                      boot.parallel = getOption("boot.parallel", "no"),
-                     boot.ncpus = getOption("boot.ncpus", 1L), id = NULL){
+                     boot.ncpus = getOption("boot.ncpus", 1L), id = NULL,
+                     ci.method = c("boot", "analytic")){
+  ci.method <- match.arg(ci.method)
   env <- as.list(environment())
   # boot.parallel/boot.ncpus only steer how the bootstrap is computed, never the
   # result, and their defaults depend on the user's options(); keep them out of
@@ -98,6 +120,10 @@ cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired
   # id (paired matching by subject) is optional; keep it out of the stashed args
   # when unused so attr(x, "args") is unchanged for existing calls.
   if(is.null(id)) args <- remove_item(args, "id")
+  # ci.method chooses how the interval is computed, not the point estimate; keep
+  # it out of the stashed args on the default ("boot") so attr(x, "args") is
+  # unchanged for existing calls.
+  if(ci.method == "boot") args <- remove_item(args, "ci.method")
   params <- env %>%
     remove_null_items() %>%
     add_item(method = "cohens.d", detailed = FALSE)
@@ -128,9 +154,11 @@ cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired
 # Cohens d core function -------------------------------
 cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
                      hedges.correction = FALSE,
-                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000, ...,
+                     ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
+                     ci.method = c("boot", "analytic"), ...,
                      boot.parallel = getOption("boot.parallel", "no"),
                      boot.ncpus = getOption("boot.ncpus", 1L)){
+  ci.method <- match.arg(ci.method)
   check_two_samples_test_args(
     x = x, y = y, mu = mu, paired = paired,
     conf.level = conf.level
@@ -158,6 +186,10 @@ cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
     x <- x[is.finite(x)]
   }
 
+  # Raw group vectors, kept before the reshaping below: the analytic CI needs
+  # them (x = the differences for a paired test, or NULL for one-sample).
+  x.raw <- x
+  y.raw <- y
   if(is.null(y)){
    formula <- x ~ 1
    y <- rep(mu, length(x))
@@ -174,19 +206,31 @@ cohens.d <- function(x, y = NULL, mu = 0, paired = FALSE, var.equal = FALSE,
     data, formula, paired = paired, var.equal = var.equal,
     mu = mu, hedges.correction = hedges.correction
     )
-  # Confidence interval of the effect size r
+  # Confidence interval of the effect size
   if (ci == TRUE) {
-    stat.func <- function(data, subset) {
-      get_cohens_d(
-        data, formula = formula, subset = subset,
-        paired = paired, var.equal = var.equal,
-        mu = mu, hedges.correction = hedges.correction
-      )$d
+    CI <- NULL
+    if (ci.method == "analytic") {
+      # Deterministic noncentral-t interval; NA for a degenerate case (below),
+      # in which case fall back to the bootstrap so a CI is still returned.
+      CI <- cohens_d_analytic_ci(
+        x.raw, y.raw, mu = mu, paired = paired, var.equal = var.equal,
+        hedges.correction = hedges.correction, conf.level = conf.level
+      )
+      if (any(is.na(CI))) CI <- NULL
     }
-    CI <- get_boot_ci(
-      data, stat.func, conf.level = conf.level,
-      type = ci.type, nboot = nboot, parallel = boot.parallel, ncpus = boot.ncpus
-    )
+    if (is.null(CI)) {
+      stat.func <- function(data, subset) {
+        get_cohens_d(
+          data, formula = formula, subset = subset,
+          paired = paired, var.equal = var.equal,
+          mu = mu, hedges.correction = hedges.correction
+        )$d
+      }
+      CI <- get_boot_ci(
+        data, stat.func, conf.level = conf.level,
+        type = ci.type, nboot = nboot, parallel = boot.parallel, ncpus = boot.ncpus
+      )
+    }
     results <- results %>% mutate(conf.low = CI[1], conf.high = CI[2])
   }
   RVAL <- list(statistic = NA, p.value = NA, null.value = mu, method = METHOD,
@@ -275,6 +319,75 @@ two_independent_sample_d <- function(x, y, var.equal = TRUE, mu = 0){
 }
 paired_sample_d <- function(x, y, mu = 0){
   (mean(x-y) - mu)/sd(x-y)
+}
+
+# Analytic (deterministic) confidence interval for Cohen's d / Hedges' g, by
+# inverting the noncentral t distribution -- the same machinery as
+# partial_eta_squared_ci(), with t in place of F. The observed t = d * sqrt(n_eff)
+# is noncentral-t; the ncp bounds solve pt(t, df, ncp) = {1 - alpha/2, alpha/2},
+# and ncp rescales back to d by / sqrt(n_eff). Returns c(NA, NA) for a degenerate
+# input so the caller can fall back to the bootstrap. Matches
+# effectsize::cohens_d(ci = ) / hedges_g(ci = ). Refs: Steiger (2004);
+# Cumming & Finch (2001).
+cohens_d_nct_ci <- function(d, n_eff, df, conf.level = 0.95, hedges.J = 1){
+  if(any(is.na(c(d, n_eff, df))) || !is.finite(d) || n_eff <= 0 || df <= 0)
+    return(c(NA_real_, NA_real_))
+  alpha <- 1 - conf.level
+  t.obs <- d * sqrt(n_eff)
+  # pt(t.obs, df, ncp) decreases in ncp; find the ncp where it hits the target.
+  # suppressWarnings(): base R's noncentral-t routine can warn about incomplete
+  # precision at extreme ncp; the returned bound is still valid.
+  find_ncp <- function(target.prob){
+    suppressWarnings({
+      f <- function(ncp) stats::pt(t.obs, df, ncp) - target.prob
+      step <- abs(t.obs) + 1
+      lo <- t.obs - step; hi <- t.obs + step
+      while(f(lo) < 0){ lo <- lo - step; if(lo < -1e7) return(lo) }
+      while(f(hi) > 0){ hi <- hi + step; if(hi >  1e7) return(hi) }
+      stats::uniroot(f, interval = c(lo, hi))$root
+    })
+  }
+  ncp.low  <- find_ncp(1 - alpha/2)
+  ncp.high <- find_ncp(alpha/2)
+  c(ncp.low, ncp.high) / sqrt(n_eff) * hedges.J
+}
+
+# Effective n, df and (uncorrected) d for the noncentral-t interval, per design.
+# x/y are the raw group vectors from cohens.d(): for a paired or one-sample test
+# y is NULL and x already holds the differences (paired) or the sample values
+# (one-sample). hedges.J mirrors get_cohens_d()'s small-sample factor and is
+# applied to the interval, not to the noncentral t (which is on the uncorrected
+# d scale).
+cohens_d_analytic_ci <- function(x, y, mu = 0, paired = FALSE, var.equal = FALSE,
+                                 hedges.correction = FALSE, conf.level = 0.95){
+  if(is.null(y)){
+    # one-sample, or a paired test reduced to a one-sample test on the differences
+    n <- length(x)
+    if(n < 2 || !is.finite(stats::sd(x)) || stats::sd(x) == 0)
+      return(c(NA_real_, NA_real_))
+    d0 <- one_sample_d(x, mu)
+    n_eff <- n
+    df <- n - 1
+    J <- if(hedges.correction && paired) (n - 2)/(n - 1.25) else 1
+  } else {
+    n1 <- length(x); n2 <- length(y)
+    if(n1 < 2 || n2 < 2) return(c(NA_real_, NA_real_))
+    vx <- stats::var(x); vy <- stats::var(y)
+    d0 <- two_independent_sample_d(x, y, var.equal = var.equal, mu = mu)
+    if(var.equal){
+      n_eff <- n1 * n2 / (n1 + n2)
+      df <- n1 + n2 - 2
+    } else {
+      # data-dependent n_eff so that d0 * sqrt(n_eff) equals the Welch t statistic
+      se2 <- vx/n1 + vy/n2
+      if(!is.finite(se2) || se2 == 0) return(c(NA_real_, NA_real_))
+      n_eff <- ((vx + vy)/2) / se2
+      df <- se2^2 / ((vx/n1)^2/(n1 - 1) + (vy/n2)^2/(n2 - 1))   # Welch-Satterthwaite
+    }
+    J <- if(hedges.correction) (n1 + n2 - 3)/(n1 + n2 - 2.25) else 1
+  }
+  if(!is.finite(d0)) return(c(NA_real_, NA_real_))
+  cohens_d_nct_ci(d0, n_eff = n_eff, df = df, conf.level = conf.level, hedges.J = J)
 }
 
 

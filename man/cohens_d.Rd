@@ -19,7 +19,8 @@ cohens_d(
   nboot = 1000,
   boot.parallel = getOption("boot.parallel", "no"),
   boot.ncpus = getOption("boot.ncpus", 1L),
-  id = NULL
+  id = NULL,
+  ci.method = c("boot", "analytic")
 )
 }
 \arguments{
@@ -87,6 +88,19 @@ sample/subject identifier, used only for a \strong{paired} test
 \code{id} (instead of by row order) before the paired d is computed, as in
 \code{\link{t_test}()}. Only complete pairs (subjects measured in both
 groups) are used.}
+
+\item{ci.method}{the method used to compute the confidence interval when
+\code{ci = TRUE}. Either \code{"boot"} (default) for a percentile bootstrap,
+or \code{"analytic"} for a deterministic interval obtained by inverting the
+noncentral \emph{t} distribution (Steiger, 2004; Cumming & Finch, 2001) --
+the same machinery \code{\link{anova_test}(ci = )} uses for partial
+eta-squared. The analytic interval covers the one-sample, paired and
+two-sample (equal-variance and Welch) cases, is reproducible across runs
+(no seed), and matches \code{effectsize::cohens_d(ci = )} /
+\code{effectsize::hedges_g(ci = )}. When it is not defined for a given input
+(for example a degenerate group), the bootstrap is used as a fallback. The
+default \code{"boot"} leaves the returned interval unchanged from previous
+versions.}
 }
 \value{
 return a data frame with some of the following columns: \itemize{
@@ -113,7 +127,9 @@ Compute the effect size for t-test. T-test conventional effect
  If a paired samples t-test was requested, then effect size desired is based
  on the standard deviation of the differences.
 
- It can also returns confidence intervals by bootstap.
+ It can also return confidence intervals for the effect size, either by
+ bootstrap (the default) or by an analytic, deterministic method (see
+ \code{ci.method}).
 }
 \details{
 Quantification of the effect size magnitude is performed using the
@@ -145,5 +161,11 @@ df \%>\% cohens_d(value ~ treatment, paired = TRUE)
  (1992). A power primer. Psychological Bulletin, 112, 155-159. \item Hedges,
  Larry & Olkin, Ingram. (1985). Statistical Methods in Meta-Analysis.
  10.2307/1164953. \item Navarro, Daniel. 2015. Learning Statistics with R: A
- Tutorial for Psychology Students and Other Beginners (Version 0.5). }
+ Tutorial for Psychology Students and Other Beginners (Version 0.5). \item
+ Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals
+ and tests of close fit in the analysis of variance and contrast analysis.
+ Psychological Methods, 9(2), 164-182. \item Cumming, G., & Finch, S. (2001).
+ A primer on the understanding, use, and calculation of confidence intervals
+ that are based on central and noncentral distributions. Educational and
+ Psychological Measurement, 61(4), 532-574. }
 }
