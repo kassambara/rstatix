@@ -1,5 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<img src="man/figures/logo.png" align="right" height="139" alt="rstatix hex logo" />
+
 [![R build
 status](https://github.com/kassambara/rstatix/workflows/R-CMD-check/badge.svg)](https://github.com/kassambara/rstatix/actions)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/rstatix)](https://cran.r-project.org/package=rstatix)

@@ -6,6 +6,8 @@ output:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<img src="man/figures/logo.png" align="right" height="139" alt="rstatix hex logo" />
+
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
