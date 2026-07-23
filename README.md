@@ -774,8 +774,10 @@ Related articles
     P-values](https://www.datanovia.com/learn/data-visualization/ggpubr/stacked-bar-pvalues)
 -   [Add P-values and Significance Levels to
     ggplots](https://www.datanovia.com/learn/data-visualization/ggpubr/add-p-values)
+-   [How to Add P-Values onto Horizontal
+    GGPLOTS](https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests)
 -   [Comparing Means of Two Groups in
-    R](https://www.datanovia.com/learn/biostatistics/two-groups/)
+    R](https://www.datanovia.com/learn/biostatistics/two-groups/t-test-in-r)
     -   [T-test in R](https://www.datanovia.com/learn/biostatistics/two-groups/t-test-in-r)
     -   [Wilcoxon Test in
         R](https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r)
