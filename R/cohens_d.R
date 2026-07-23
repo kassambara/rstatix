@@ -24,6 +24,10 @@ NULL
 #'  bootstrap (the default) or by an analytic, deterministic method (see
 #'  \code{ci.method}).
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/two-groups/cohens-d-effect-size}{Cohen’s d Effect Size in R}
+#'  for a worked walkthrough.
+#'
 #'@inheritParams wilcox_effsize
 #'@param ci.method the method used to compute the confidence interval when
 #'  \code{ci = TRUE}. Either \code{"boot"} (default) for a percentile bootstrap,
@@ -107,6 +111,7 @@ NULL
 #' head(df)
 #'
 #' df %>% cohens_d(value ~ treatment, paired = TRUE)
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/cohens-d-effect-size}{Cohen’s d Effect Size in R}.
 #'@export
 cohens_d <- function(data, formula, comparisons = NULL, ref.group = NULL, paired = FALSE, mu = 0,
                      var.equal = FALSE, hedges.correction = FALSE,

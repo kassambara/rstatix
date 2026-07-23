@@ -64,6 +64,10 @@ Performs Conover's all-pairs comparison test (also known as the
  remaining treatments is compared only to the reference (control) treatment,
  and the p-value adjustment for multiple comparisons is computed over only
  these \code{k - 1} comparisons (as for \code{\link{dunn_test}()}).
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}
+ for a worked walkthrough.
 }
 \details{
 For a balanced complete block design with \eqn{b} blocks and \eqn{k}
@@ -108,4 +112,5 @@ Conover, W. J. (1999) Practical Nonparametric Statistics, 3rd
 \seealso{
 \code{\link{friedman_test}}, \code{\link{friedman_nemenyi_test}},
   \code{\link{friedman_effsize}}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}.
 }

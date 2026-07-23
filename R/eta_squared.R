@@ -3,6 +3,10 @@ NULL
 #' Effect Size for ANOVA
 #' @description Compute eta-squared and partial eta-squared for all terms in an
 #'   ANOVA model.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+#'  for a worked walkthrough.
 #' @param model an object of class \code{aov} or \code{anova}.
 #' @param ci confidence level for a confidence interval on the effect size. If a
 #'   number between 0 and 1 (e.g. \code{0.95}), the function returns a tibble with
@@ -39,6 +43,7 @@ NULL
 #' # Effect size with confidence interval
 #' eta_squared(res.aov, ci = 0.95)
 #' partial_eta_squared(res.aov, ci = 0.95)
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 
 #' @export
 eta_squared <- function(model, ci = NULL){

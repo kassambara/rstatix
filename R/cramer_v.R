@@ -4,6 +4,10 @@ NULL
 #'Compute Cramer's V
 #'@description Compute Cramer's V, which measures the strength of the
 #'  association between categorical variables.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/categorical/chi-square-test-of-independence-in-r}{Chi-Square Test of Independence in R}
+#'  for a worked walkthrough.
 #'@inheritParams stats::chisq.test
 #'@param correct logical. If TRUE, Yates' continuity correction is applied when
 #'  computing the chi-square statistic, which only affects 2x2 tables. Default is
@@ -92,6 +96,7 @@ NULL
 #' cramer_v(tab)
 #' cramer_v(tab, correct = TRUE)
 #'
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/chi-square-test-of-independence-in-r}{Chi-Square Test of Independence in R}.
 #'@export
 cramer_v <- function(x, y = NULL, correct = FALSE, ..., ci = FALSE, conf.level = 0.95) {
   test <- stats::chisq.test(x, y, correct = correct, ...)

@@ -62,6 +62,10 @@ Performs Dunnett's test for comparing each of several treatment
  \code{emmeans} package must be installed. The results match
  \code{DescTools::DunnettTest()} and \code{multcomp::glht(..., mcp(... =
  "Dunnett"))}.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+ for a worked walkthrough.
 }
 \examples{
 if (requireNamespace("emmeans", quietly = TRUE)) {
@@ -87,4 +91,5 @@ Dunnett, C. W. (1955) A multiple comparison procedure for comparing
 \seealso{
 \code{\link{tukey_hsd}()}, \code{\link{games_howell_test}()},
  \code{\link{emmeans_test}()}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 }

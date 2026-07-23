@@ -135,6 +135,10 @@ Compute the effect size for t-test. T-test conventional effect
  It can also return confidence intervals for the effect size, either by
  bootstrap (the default) or by an analytic, deterministic method (see
  \code{ci.method}).
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/two-groups/cohens-d-effect-size}{Cohen’s d Effect Size in R}
+ for a worked walkthrough.
 }
 \details{
 Quantification of the effect size magnitude is performed using the
@@ -173,4 +177,7 @@ df \%>\% cohens_d(value ~ treatment, paired = TRUE)
  A primer on the understanding, use, and calculation of confidence intervals
  that are based on central and noncentral distributions. Educational and
  Psychological Measurement, 61(4), 532-574. }
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/cohens-d-effect-size}{Cohen’s d Effect Size in R}.
 }

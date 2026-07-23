@@ -121,6 +121,10 @@ a text label or an expression to pass to a plotting function.
 \description{
 Extracts label information from statistical tests. Useful for
   labelling plots with test outputs.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{P-values from Tests on ggplots in R (rstatix)}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -200,4 +204,7 @@ get_description(stat.test)
 \references{
 American Psychological Association (2020). \emph{Publication Manual
   of the American Psychological Association} (7th ed.).
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{P-values from Tests on ggplots in R (rstatix)}.
 }

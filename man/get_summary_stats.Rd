@@ -59,6 +59,10 @@ A data frame containing descriptive statistics, such as: \itemize{
 }
 \description{
 Compute summary statistics for one or multiple numeric variables.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/assumptions/descriptive-statistics-in-r}{Descriptive Statistics in R}
+ for a worked walkthrough.
 }
 \examples{
 # Full summary statistics
@@ -92,4 +96,5 @@ ToothGrowth \%>\%
 \seealso{
 \code{\link{rstatix-programming}} for selecting columns by names held
  in strings (\code{!!}, \code{\{\{ \}\}}, \code{vars=}, \code{all_of()}).
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/descriptive-statistics-in-r}{Descriptive Statistics in R}.
 }

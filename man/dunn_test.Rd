@@ -76,6 +76,10 @@ Performs Dunn's test for pairwise multiple comparisons of the
  comparisons). Note that this affects the adjusted p-values: it is not
  equivalent to filtering the full pairwise result afterwards, which would still
  adjust over all pairs.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}
+ for a worked walkthrough.
 }
 \details{
 DunnTest performs the post hoc pairwise multiple comparisons
@@ -104,4 +108,7 @@ ToothGrowth \%>\%
 \references{
 Dunn, O. J. (1964) Multiple comparisons using rank sums
  Technometrics, 6(3):241-252.
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}.
 }

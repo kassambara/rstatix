@@ -4,8 +4,11 @@
 NULL
 #'Sign Test
 #'
-#'@description Performs one-sample and two-sample sign tests. Read more:
-#'  \href{https://www.datanovia.com/learn/biostatistics/two-groups/sign-test-in-r}{Sign Test in R}.
+#'@description Performs one-sample and two-sample sign tests.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/two-groups/sign-test-in-r}{Sign Test in R}
+#'  for a worked walkthrough.
 #'@inheritParams t_test
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a
@@ -80,6 +83,7 @@ NULL
 #'
 #'
 #'@describeIn sign_test Sign test
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/sign-test-in-r}{Sign Test in R}.
 #'@export
 sign_test <- function(data, formula, comparisons = NULL, ref.group = NULL,
                       p.adjust.method = "holm", alternative = "two.sided",

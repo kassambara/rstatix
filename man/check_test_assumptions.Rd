@@ -50,6 +50,10 @@ For a one-way, independent-groups design
   Games-Howell (which reduce to the classic result when variances are equal)
   or a rank-based test. Treat this recommendation as guidance, not a
   substitute for judgement.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/assumptions/statistical-tests-and-assumptions}{Statistical Tests and Assumptions in R}
+ for a worked walkthrough.
 }
 \examples{
 df <- ToothGrowth
@@ -59,4 +63,5 @@ df \%>\% check_test_assumptions(len ~ dose)
 \seealso{
 \code{\link{posthoc_test}()}, \code{\link{shapiro_test}()},
   \code{\link{levene_test}()}.
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/statistical-tests-and-assumptions}{Statistical Tests and Assumptions in R}.
 }

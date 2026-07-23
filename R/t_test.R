@@ -4,7 +4,11 @@ NULL
 #'
 #'
 #'@description Provides a pipe-friendly framework to performs one and two sample
-#'  t-tests. Read more: \href{https://www.datanovia.com/learn/biostatistics/two-groups/t-test-in-r}{T-test in R}.
+#'  t-tests.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/two-groups/t-test-in-r}{T-Test in R}
+#'  for a worked walkthrough.
 #'@inheritParams stats::t.test
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a
@@ -109,6 +113,7 @@ NULL
 #'  \code{mutate(statistic = -statistic, estimate = -estimate)}.
 #'@seealso \code{\link{rstatix-programming}} for building the formula from
 #'  variable names held in strings (e.g. \code{reformulate()}).
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/t-test-in-r}{T-Test in R}.
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::

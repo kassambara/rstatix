@@ -5,9 +5,11 @@ NULL
 #'
 #'
 #'@description Provides a pipe-friendly framework to performs one and two sample
-#'  Wilcoxon tests. Read more:
-#'  \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon in
-#'  R}.
+#'  Wilcoxon tests.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}
+#'  for a worked walkthrough.
 #'@inheritParams stats::wilcox.test
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a
@@ -167,6 +169,7 @@ NULL
 #' df %>% wilcox_test(len ~ dose, ref.group = "all")
 #'
 #'@describeIn wilcox_test Wilcoxon test
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}.
 #'@export
 wilcox_test <- function(
   data, formula, comparisons = NULL, ref.group = NULL,

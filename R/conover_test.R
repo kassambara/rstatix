@@ -17,6 +17,10 @@ NULL
 #'  \code{k - 1} comparisons (instead of all \code{k(k - 1)/2} pairwise
 #'  comparisons), exactly as for \code{\link{dunn_test}()}.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}
+#'  for a worked walkthrough.
+#'
 #'@inheritParams dunn_test
 #'@param ref.group a character string specifying the reference group. If
 #'  specified, for a given grouping variable, each of the group levels will be
@@ -61,6 +65,7 @@ NULL
 #'  Conover, W. J. and Iman, R. L. (1979) On multiple-comparisons procedures.
 #'  Technical Report LA-7677-MS, Los Alamos Scientific Laboratory.
 #' @seealso \code{\link{dunn_test}}, \code{\link{kruskal_test}}
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}.
 #' @examples
 #' # Simple test
 #' ToothGrowth %>% conover_test(len ~ dose)

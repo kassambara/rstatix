@@ -31,6 +31,10 @@ Provides a pipe-friendly framework to perform the Fligner-Killeen
  variances. It is robust against departures from normality and is a useful
  alternative to \code{\link{levene_test}()}. Wrapper around the function
  \code{\link[stats]{fligner.test}()}.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}
+ for a worked walkthrough.
 }
 \examples{
 # Load data
@@ -49,4 +53,5 @@ df \%>\%
 }
 \seealso{
 \code{\link{levene_test}}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}.
 }

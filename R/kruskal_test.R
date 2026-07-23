@@ -6,6 +6,10 @@ NULL
 #'@description Provides a pipe-friendly framework to perform Kruskal-Wallis
 #'  rank sum test. Wrapper around the function
 #'  \code{\link[stats]{kruskal.test}()}.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}
+#'  for a worked walkthrough.
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a
 #'  numeric variable giving the data values and \code{group} is a factor with
@@ -33,6 +37,7 @@ NULL
 #' df %>%
 #'   group_by(supp) %>%
 #'   kruskal_test(len ~ dose)
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}.
 
 #'@name kruskal_test
 #'@export

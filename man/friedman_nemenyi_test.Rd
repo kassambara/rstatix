@@ -47,6 +47,10 @@ Performs the Nemenyi (Wilcoxon-Nemenyi-McDonald-Thompson) all-pairs
  HSD. Unlike \code{\link{friedman_conover_test}()} (the Durbin-Conover test),
  it does not borrow the residual rank variance and is therefore more
  conservative.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}
+ for a worked walkthrough.
 }
 \details{
 For a balanced complete block design with \eqn{b} blocks and \eqn{k}
@@ -85,4 +89,5 @@ Nemenyi, P. (1963) Distribution-free Multiple Comparisons. PhD
 \seealso{
 \code{\link{friedman_test}}, \code{\link{friedman_conover_test}},
   \code{\link{friedman_effsize}}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}.
 }

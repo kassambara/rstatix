@@ -11,6 +11,10 @@ NULL
 #'   The p-values contained in the outputs of the functions
 #'   \code{\link{cor_mat}()} and \code{rcorr()} are automatically detected and
 #'   used in the visualization.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+#'  for a worked walkthrough.
 #' @inheritParams corrplot::corrplot
 #' @param cor.mat the correlation matrix to visualize
 #' @param palette character vector containing the color palette.
@@ -29,6 +33,7 @@ NULL
 #'   = list(size = 1, color = "black", style = "bold")}.
 #' @param ... additional options not listed (i.e. "tl.cex") here to pass to corrplot.
 #' @seealso \code{\link{cor_as_symbols}()}
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 #' @examples
 #' # Compute correlation matrix
 #' #::::::::::::::::::::::::::::::::::::::::::

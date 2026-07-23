@@ -76,6 +76,10 @@ Create beautiful summary tables of ANOVA test results obtained
 
  The results include ANOVA table, generalized effect size and some assumption
  checks.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+ for a worked walkthrough.
 }
 \examples{
 # Load data
@@ -115,6 +119,7 @@ anova_summary(res.anova)
 }
 \seealso{
 \code{\link{anova_test}()}, \code{\link{factorial_design}()}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 }
 \author{
 Alboukadel Kassambara, \email{alboukadel.kassambara@gmail.com}

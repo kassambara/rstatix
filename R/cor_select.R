@@ -1,13 +1,19 @@
 #' @include utilities.R
 NULL
 #' Subset Correlation Matrix
+#'
+#' See the Datanovia tutorial
+#' \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+#' for a worked walkthrough.
 #' @name cor_select
 #' @param x a correlation matrix. Particularly, an object of class \code{cor_mat}.
 #' @param vars a character vector containing the variable names of interest.
 #' @param ... One or more unquoted expressions (or variable names) separated by
 #'  commas. Used to select variables of interest.
 #'@return a data frame
-#'@seealso \code{\link{cor_mat}()}, \code{\link{pull_triangle}()}, \code{\link{replace_triangle}()}
+#'@seealso \code{\link{cor_mat}()}, \code{\link{pull_triangle}()}, \code{\link{replace_triangle}()}.
+#'  The Datanovia tutorial:
+#'  \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 #' @examples
 #' # Compute correlation matrix
 #' #::::::::::::::::::::::::::::::::::::::::::

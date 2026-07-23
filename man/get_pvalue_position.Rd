@@ -125,13 +125,13 @@ when \code{x} specified.}
 }
 \description{
 Compute p-value x and y positions for plotting significance
- levels. Many examples are provided at : \itemize{ \item
- \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{How
-  to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package} \item
- \href{https://www.datanovia.com/learn/data-visualization/ggpubr/auto-p-values}{How
-  to Add Adjusted P-values to a Multi-Panel GGPlot} \item
- \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{How
-  to Add P-Values Generated Elsewhere to a GGPLOT} }
+ levels.
+
+ See the Datanovia tutorials
+ \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{P-values from Tests on ggplots in R (rstatix)}
+ and
+ \href{https://www.datanovia.com/learn/data-visualization/ggpubr/auto-p-values}{Auto P-values in ggplot with geom_pwc (ggpubr)}
+ for worked walkthroughs.
 }
 \section{Functions}{
 \itemize{
@@ -179,4 +179,7 @@ stat.test <- stat.test \%>\%
      stat_pvalue_manual(stat.test, label = "p.adj.signif", tip.length = 0.01)
   }
 }
+}
+\seealso{
+The Datanovia tutorials: \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{P-values from Tests on ggplots in R (rstatix)}, \href{https://www.datanovia.com/learn/data-visualization/ggpubr/auto-p-values}{Auto P-values in ggplot with geom_pwc (ggpubr)}.
 }

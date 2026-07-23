@@ -17,6 +17,10 @@ Returns a data frame containing the matrix of the correlation
 \description{
 Convert a correlation test data frame, returned by the
   \code{\link{cor_test}()}, into a correlation matrix format.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+ for a worked walkthrough.
 }
 \examples{
 # Pairwise correlation tests between variables
@@ -33,4 +37,5 @@ res.cor.test \%>\% as_cor_mat()
 }
 \seealso{
 \code{\link{cor_mat}()}, \code{\link{cor_test}()}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 }

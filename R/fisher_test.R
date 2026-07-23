@@ -8,6 +8,10 @@ NULL
 #'  have the advantage of performing pairwise and row-wise fisher tests, the
 #'  post-hoc tests following a significant chi-square test of homogeneity for 2xc
 #'  and rx2 contingency tables.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/categorical/fisher-exact-test-in-r}{Fisher’s Exact Test in R}
+#'  for a worked walkthrough.
 #'@inheritParams stats::fisher.test
 #'@param xtab a contingency table in a matrix form.
 #'@param p.adjust.method method to adjust p values for multiple comparisons.
@@ -107,6 +111,7 @@ NULL
 #'                              satisfaction = c("VeryD", "LittleD", "ModerateS", "VeryS")))
 #' fisher_test(Job)
 #' fisher_test(Job, simulate.p.value = TRUE, B = 1e5)
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/fisher-exact-test-in-r}{Fisher’s Exact Test in R}.
 
 
 #' @describeIn fisher_test performs Fisher's exact test for testing the null of

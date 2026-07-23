@@ -4,6 +4,10 @@ NULL
 #' Extract Label Information from Statistical Tests
 #' @description Extracts label information from statistical tests. Useful for
 #'   labelling plots with test outputs.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{P-values from Tests on ggplots in R (rstatix)}
+#'  for a worked walkthrough.
 #' @param stat.test statistical test results returned by \code{rstatix}
 #'   functions.
 #' @param description the test description used as the prefix of the label.
@@ -123,6 +127,7 @@ NULL
 #'
 #'
 #' @describeIn get_test_label Extract label from pairwise comparisons.
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{P-values from Tests on ggplots in R (rstatix)}.
 #' @export
 get_pwc_label <- function(stat.test, type = c("expression", "text")){
   methods <- get_pairwise_comparison_methods()

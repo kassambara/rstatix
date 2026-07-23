@@ -9,6 +9,10 @@ NULL
 #'  the advantage of performing pairwise and row-wise z-test of two proportions,
 #'  the post-hoc tests following a significant chi-square test of homogeneity
 #'  for 2xc and rx2 contingency tables.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/two-groups/proportion-z-tests-in-r}{Proportion Z-Test in R}
+#'  for a worked walkthrough.
 #'@inheritParams stats::prop.test
 #'@param xtab a cross-tabulation (or contingency table) with two columns and
 #'  multiple rows (rx2 design). The columns give the counts of successes and
@@ -114,6 +118,7 @@ NULL
 #' xtab
 #' # Compare the proportion of males and females in each category
 #' row_wise_prop_test(xtab)
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/proportion-z-tests-in-r}{Proportion Z-Test in R}.
 
 
 #' @describeIn prop_test performs one-sample and two-samples z-test of
