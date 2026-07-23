@@ -38,7 +38,13 @@ jobs:
           # tarball, so it never hits this. This job's purpose -- catching
           # unguarded Suggests use in examples/tests -- is unaffected; those
           # still run.
-          - {os: ubuntu-latest,   r: 'release', label: 'noSuggests', deps: 'hard', depends-only: 'true', check-args: 'c("--no-manual", "--as-cran", "--ignore-vignettes")', build-args: 'c("--no-manual", "--no-build-vignettes")'}
+          # extra-packages adds the test driver: tests/testthat.R needs
+          # library(testthat) to run at all, and CRAN's depends-only flavour has
+          # the driver available too -- only the package's own code is limited
+          # to hard dependencies. (pak's resolver used to install it implicitly
+          # under deps: hard, like the vignette engine above; it stopped in
+          # July 2026 and the check step started dying at library(testthat).)
+          - {os: ubuntu-latest,   r: 'release', label: 'noSuggests', deps: 'hard', depends-only: 'true', check-args: 'c("--no-manual", "--as-cran", "--ignore-vignettes")', build-args: 'c("--no-manual", "--no-build-vignettes")', extra-packages: 'any::rcmdcheck, any::testthat'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -58,7 +64,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages: ${{ matrix.config.extra-packages || 'any::rcmdcheck' }}
           dependencies: ${{ matrix.config.deps && '"hard"' || '"all"' }}
           needs: check
 
