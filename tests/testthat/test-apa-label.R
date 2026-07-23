@@ -36,7 +36,7 @@ test_that("style = 'apa' appends the effect size with the APA leading-zero rule"
   expect_equal(
     get_test_label(d %>% wilcox_test(len ~ dose, effect.size = TRUE), row = 1,
                    type = "text", style = "apa"),
-    "W = 33.5, p < .001, delta = -.83"
+    "W = 33.50, p < .001, delta = -.83"
   )
 })
 
@@ -153,16 +153,16 @@ test_that("apa p formatting handles character p in any locale and caps at .999",
   lab <- function(p) create_test_label(statistic.text = "t", statistic = 2.1,
                                        parameter = "30", p = p, type = "text",
                                        style = "apa")
-  expect_equal(lab("<0.0001"), "t(30) = 2.1, p < .001")
-  expect_equal(lab("<0.05"),   "t(30) = 2.1, p < .05")
-  expect_equal(lab("0.023"),   "t(30) = 2.1, p = .023")
+  expect_equal(lab("<0.0001"), "t(30) = 2.10, p < .001")
+  expect_equal(lab("<0.05"),   "t(30) = 2.10, p < .05")
+  expect_equal(lab("0.023"),   "t(30) = 2.10, p = .023")
   # APA never reports p = 1.000
-  expect_equal(lab(0.9996), "t(30) = 2.1, p > .999")
-  expect_equal(lab(1),      "t(30) = 2.1, p > .999")
-  expect_equal(lab(0.9994), "t(30) = 2.1, p = .999")
+  expect_equal(lab(0.9996), "t(30) = 2.10, p > .999")
+  expect_equal(lab(1),      "t(30) = 2.10, p > .999")
+  expect_equal(lab(0.9994), "t(30) = 2.10, p = .999")
   # boundary behavior around .001 is unchanged
-  expect_equal(lab(0.001),     "t(30) = 2.1, p = .001")
-  expect_equal(lab(0.0009999), "t(30) = 2.1, p < .001")
+  expect_equal(lab(0.001),     "t(30) = 2.10, p = .001")
+  expect_equal(lab(0.0009999), "t(30) = 2.10, p < .001")
 })
 
 test_that("apa df spacing follows APA-7 while classic stays compact", {

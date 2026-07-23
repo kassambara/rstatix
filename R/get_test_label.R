@@ -445,7 +445,7 @@ apa_test_label.text <- function(statistic.text, statistic, parameter, p,
                                 effect.size.ci.level = 0.95){
   param <- if(is.na(parameter)) "" else paste0("(", parameter, ")")
   stat.part <- if(is.na(statistic)) ""
-               else paste0(statistic.text, param, " = ", round_value(statistic, 2), ", ")
+               else paste0(statistic.text, param, " = ", apa_format_statistic(statistic), ", ")
   es.part <- ""
   if(!is.na(effect.size)){
     es.part <- paste0(", ", effect.size.text, " = ",
@@ -461,6 +461,12 @@ apa_test_label.text <- function(statistic.text, statistic, parameter, p,
   paste0(stat.part, apa_format_p(p), es.part)
 }
 
+# APA-7 reports inferential statistics to two decimals, trailing zero kept
+# ("F(2, 20) = 14.30", not "14.3"), matching the fixed-width p and effect-size
+# formatters below.
+apa_format_statistic <- function(statistic){
+  formatC(round(unname(statistic), 2), format = "f", digits = 2)
+}
 # "95% CI" / "90% CI": the level the interval was actually computed at.
 apa_ci_prefix <- function(level){
   paste0(formatC(level * 100, format = "fg"), "% CI")
@@ -508,7 +514,7 @@ apa_test_label.expression <- function(statistic.text, statistic, parameter, p,
     base <- substitute(
       paste(st, param, " = ", sv, ", ", italic("p"), psuffix),
       env = list(st = statistic.text, param = param,
-                 sv = unname(round_value(statistic, 2)), psuffix = apa_p_suffix(p))
+                 sv = apa_format_statistic(statistic), psuffix = apa_p_suffix(p))
     )
   }
   if(is.na(effect.size)) return(base)
