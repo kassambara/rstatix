@@ -27,14 +27,18 @@ jobs:
           # dunnett_test(), emmeans_test() and wilcox_effsize() stop() without their
           # Suggests package, so an unguarded example or test errors there and
           # nowhere else. Without this entry that failure is invisible to us.
-          # Skip vignette tests here (--ignore-vignettes): the vignette engine
-          # (rmarkdown) is a Suggests package and is hidden under
-          # _R_CHECK_DEPENDS_ONLY_, so re-building the vignette would fail on the
-          # engine, not on package code. CRAN's own depends-only flavour makes
-          # the engine available and passes the same setup the sibling packages
-          # use. This job's purpose -- catching unguarded Suggests use in
-          # examples/tests -- is unaffected; those still run.
-          - {os: ubuntu-latest,   r: 'release', label: 'noSuggests', deps: 'hard', depends-only: 'true', check-args: 'c("--no-manual", "--as-cran", "--ignore-vignettes")'}
+          # Skip the vignette here, at build time (--no-build-vignettes) AND at
+          # check time (--ignore-vignettes): the vignette engine (knitr/rmarkdown)
+          # is a Suggests package, so with only hard dependencies installed
+          # R CMD build cannot even load the VignetteBuilder. (pak used to
+          # install the builder despite deps: hard, which made --ignore-vignettes
+          # alone sufficient; its resolver stopped doing so in July 2026 and the
+          # build step started failing with "vignette builder 'knitr' not
+          # found".) CRAN's own depends-only flavour checks the already-built
+          # tarball, so it never hits this. This job's purpose -- catching
+          # unguarded Suggests use in examples/tests -- is unaffected; those
+          # still run.
+          - {os: ubuntu-latest,   r: 'release', label: 'noSuggests', deps: 'hard', depends-only: 'true', check-args: 'c("--no-manual", "--as-cran", "--ignore-vignettes")', build-args: 'c("--no-manual", "--no-build-vignettes")'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -61,4 +65,5 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         with:
           args: ${{ matrix.config.check-args || 'c("--no-manual", "--as-cran")' }}
+          build_args: ${{ matrix.config.build-args || '"--no-manual"' }}
           upload-snapshots: true
