@@ -8,7 +8,7 @@ NULL
 #'   of normality. Support grouped data and multiple variables for multivariate
 #'   normality tests. Wrapper around the R base function
 #'   \code{\link[stats]{shapiro.test}()}. Can handle grouped data. Read more:
-#'   \href{https://www.datanovia.com/en/lessons/normality-test-in-r/}{Normality
+#'   \href{https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r}{Normality
 #'   Test in R}.
 #' @param data a data frame. Columns are variables.
 #' @param ... One or more unquoted expressions (or variable names) separated by

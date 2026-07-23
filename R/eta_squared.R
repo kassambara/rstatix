@@ -12,8 +12,10 @@ NULL
 #'   (Steiger, 2004), and matches
 #'   \code{effectsize::eta_squared(ci = , alternative = "two.sided")} —
 #'   \code{partial = FALSE} for \code{eta_squared()} and \code{partial = TRUE} for
-#'   \code{partial_eta_squared()}. Default is \code{NULL} (no interval; the bare
-#'   named vector is returned, unchanged).
+#'   \code{partial_eta_squared()} — to about four decimals for the non-partial
+#'   bounds of a small pseudo-F (that function's inversion uses a looser
+#'   tolerance), and more closely everywhere else. Default is \code{NULL} (no
+#'   interval; the bare named vector is returned, unchanged).
 #' @return a named numeric vector of effect sizes, one per model term; or, when
 #'   \code{ci} is a confidence level, a tibble with the columns \code{Effect},
 #'   \code{effsize}, \code{conf.low} and \code{conf.high}.
@@ -66,7 +68,17 @@ aov_stat_summary <- function (model)
   if (!tibble::has_name(aov.sum, "meansq"))
     aov.sum <- tibble::add_column(aov.sum, meansq = aov.sum$sumsq/aov.sum$df,
                                   .after = "sumsq")
-  aov.sum
+  drop_intercept_row(aov.sum)
+}
+
+# A car::Anova() table (type = 3) carries an "(Intercept)" row. Its sum of
+# squares belongs to neither the effect decomposition nor the residual, so it
+# must not enter SS_total (eta squared, omega squared), the sample-size
+# inference sum(df) + 1 (partial omega squared), or the per-term output rows.
+# Tables without such a row (aov, stats::anova(), car type 2) pass through
+# unchanged.
+drop_intercept_row <- function(aov.sum){
+  aov.sum[trimws(aov.sum[["term"]]) != "(Intercept)", , drop = FALSE]
 }
 
 aov_stat_core <- function(aov.sum, type){
@@ -119,8 +131,10 @@ aov_effsize_ci <- function(model, es, ci = 0.95){
     es, df.terms, SIMPLIFY = FALSE
   )
   bounds <- do.call(rbind, bounds)
-  # Unrounded, like eta_squared() itself and like effectsize, so the interval
-  # matches effectsize::eta_squared(ci = ) to numerical precision.
+  # Unrounded, like eta_squared() itself and like effectsize. Agreement with
+  # effectsize::eta_squared(ci = ) is bounded by the two root-finders: ours
+  # solves the defining equation to ~1e-8 or better; effectsize's non-partial
+  # inversion can be ~5e-4 off for a small pseudo-F (its tolerance is looser).
   tibble::tibble(
     Effect    = terms,
     effsize   = as.numeric(es),

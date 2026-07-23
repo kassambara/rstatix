@@ -7,7 +7,7 @@ NULL
 #'  test, which is the non-parametric alternative to the one-way repeated
 #'  measures ANOVA test. Wrapper around the function
 #'  \code{\link[stats]{friedman.test}()}. Read more:
-#'  \href{https://www.datanovia.com/en/lessons/friedman-test-in-r/}{Friedman
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman
 #'  test in R}.
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{a ~ b | c}, where \code{a}

@@ -135,14 +135,14 @@ return an object of class \code{anova_test} a data frame containing
 \description{
 Provides a pipe-friendly framework to perform different types of
  ANOVA tests, including: \itemize{ \item
- \strong{\href{https://www.datanovia.com/en/lessons/anova-in-r/}{Independent
+ \strong{\href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{Independent
  measures ANOVA}}: between-Subjects designs, \item
- \strong{\href{https://www.datanovia.com/en/lessons/repeated-measures-anova-in-r/}{Repeated
+ \strong{\href{https://www.datanovia.com/learn/biostatistics/anova/repeated-measures-anova-in-r}{Repeated
   measures ANOVA}}: within-Subjects designs \item
- \strong{\href{https://www.datanovia.com/en/lessons/mixed-anova-in-r/}{Mixed
+ \strong{\href{https://www.datanovia.com/learn/biostatistics/anova/mixed-anova-in-r}{Mixed
  ANOVA}}: Mixed within within- and between-Subjects designs, also known as
  split-plot ANOVA and \item
- \strong{\href{https://www.datanovia.com/en/lessons/ancova-in-r/}{ANCOVA:
+ \strong{\href{https://www.datanovia.com/learn/biostatistics/anova/ancova-in-r}{ANCOVA:
  Analysis of Covariance}}. }
 
  The function is an easy to use wrapper around \code{\link[car]{Anova}()} and

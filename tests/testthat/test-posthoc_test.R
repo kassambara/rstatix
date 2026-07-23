@@ -95,3 +95,11 @@ test_that("invalid designs are rejected with a clear error", {
   expect_error(d %>% dplyr::group_by(supp) %>% posthoc_test(len ~ dose), "[Gg]rouped")
   expect_error(d %>% posthoc_test(len ~ 1), "grouping variable")
 })
+
+test_that("a multi-factor formula is rejected with a one-way-design message", {
+  df <- ToothGrowth
+  df$dose <- factor(df$dose)
+  expect_error(posthoc_test(df, len ~ dose + supp), "one-way design")
+  expect_error(posthoc_test(df, len ~ dose * supp), "one-way design")
+  expect_error(check_test_assumptions(df, len ~ dose + supp), "one-way design")
+})

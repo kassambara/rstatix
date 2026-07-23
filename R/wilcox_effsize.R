@@ -156,6 +156,7 @@ wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
     mutate(magnitude = magnitude.fun(.data$effsize)) %>%
     set_attrs(args = args) %>%
     add_class(c("rstatix_test", "wilcox_effsize"))
+  if(identical(stat.method, "rank.biserial")) warn_undefined_rank_biserial(res)
   warn_undefined_boot_ci(res, ci)
   res
 }

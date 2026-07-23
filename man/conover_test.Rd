@@ -78,6 +78,11 @@ The Conover-Iman pairwise statistic for comparing groups \eqn{i} and
  statistic is referred to a \emph{t}-distribution with \eqn{N - k} degrees of
  freedom.
 
+ In the returned table each row is oriented with \eqn{i = } \code{group2} and
+ \eqn{j = } \code{group1}: \code{estimate} is \eqn{\bar{R}_{group2} -
+ \bar{R}_{group1}} and \code{statistic} carries its sign, the same convention
+ as \code{\link{dunn_test}()}.
+
  The results match \code{PMCMRplus::kwAllPairsConoverTest()}.
 }
 \examples{

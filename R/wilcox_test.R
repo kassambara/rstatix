@@ -6,7 +6,7 @@ NULL
 #'
 #'@description Provides a pipe-friendly framework to performs one and two sample
 #'  Wilcoxon tests. Read more:
-#'  \href{https://www.datanovia.com/en/lessons/wilcoxon-test-in-r/}{Wilcoxon in
+#'  \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon in
 #'  R}.
 #'@inheritParams stats::wilcox.test
 #'@param data a data.frame containing the variables in the formula.
@@ -230,12 +230,31 @@ add_wilcox_effsize <- function(res, data, formula, comparisons, ref.group,
          "is not defined for a one-sample Wilcoxon test.", call. = FALSE)
   if(isTRUE(paired)){
     es <- paired_rank_biserial_table(data, formula, comparisons, ref.group, id)
+    warn_undefined_rank_biserial(es)
     return(join_effect_size(res, es, "rank.biserial"))
   }
   es <- cliff_delta(
     data, formula, comparisons = comparisons, ref.group = ref.group
   )
   join_effect_size(res, keep_only_tbl_df_classes(es), "cliff.delta")
+}
+
+# two_sample_test() suppresses warnings raised inside the stat function, so the
+# undefined matched-pairs rank-biserial (all paired differences zero -> NA) is
+# reported from the exported surface, mirroring warn_undefined_boot_ci().
+warn_undefined_rank_biserial <- function(es){
+  effsize.col <- intersect(c("effsize", "rank.biserial"), colnames(es))[1]
+  if(is.na(effsize.col)) return(invisible(es))
+  undefined <- is.na(es[[effsize.col]])
+  if(any(undefined)){
+    warning(
+      "The matched-pairs rank-biserial correlation is undefined for ",
+      sum(undefined), " of ", nrow(es), " comparison(s): all paired ",
+      "differences are zero, so there is nothing to rank. It is returned as NA.",
+      call. = FALSE
+    )
+  }
+  invisible(es)
 }
 
 # Matched-pairs rank-biserial table, one row per comparison, routed through the
@@ -303,11 +322,13 @@ rank.biserial <- function(x, y = NULL, ci = FALSE, conf.level = 0.95,
 }
 
 # Matched-pairs rank-biserial from the paired differences: drop zero differences
-# (Wilcoxon convention), rank |differences|, then (R+ - R-)/(R+ + R-).
+# (Wilcoxon convention), rank |differences|, then (R+ - R-)/(R+ + R-). With no
+# non-zero difference left the statistic is undefined (0/0): NA rather than an
+# error, so the other comparisons of a pairwise call are still computed (same
+# contract as the undefined bootstrap CI, #290).
 get_rank_biserial <- function(differences){
   differences <- differences[differences != 0]
-  if(length(differences) < 1L)
-    stop("no non-zero paired differences to rank", call. = FALSE)
+  if(length(differences) < 1L) return(NA_real_)
   ranks <- rank(abs(differences))
   (sum(ranks[differences > 0]) - sum(ranks[differences < 0])) /
     sum(ranks)

@@ -117,6 +117,11 @@ anova_summary <- function(object, effect.size = "ges", detailed = FALSE, observe
          "Object needs to be of class 'Anova.mlm' or 'anova'.")
   }
   .args <- attr(object, "args") # exist only in anova_test()
+  # Record the confidence level next to the other stashed arguments, so that a
+  # consumer of the result (e.g. get_test_label(style = "apa")) can label the
+  # interval with the level it was actually computed at. Only added when a CI
+  # was requested, so every other call's attributes are unchanged.
+  if(!is.null(ci) && !is.null(.args)) .args$ci <- ci
   results <- results %>%
     add_anova_effect_size(effect.size, observed, ci = ci)
 

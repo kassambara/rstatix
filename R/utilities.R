@@ -807,9 +807,10 @@ warn_undefined_boot_ci <- function(res, ci){
   if(any(undefined)){
     warning(
       "The bootstrap confidence interval could not be computed for ",
-      sum(undefined), " of ", nrow(res), " comparison(s) (this happens when the ",
-      "bootstrap replicates are all identical or all missing, e.g. with constant ",
-      "data or a perfect effect size). `conf.low` and `conf.high` are NA there.",
+      sum(undefined), " of ", nrow(res), " comparison(s): the bootstrap ",
+      "replicates are all identical or all missing (e.g. constant data or a ",
+      "perfect effect size), or the requested `ci.type` cannot be computed ",
+      "from them. `conf.low` and `conf.high` are NA there.",
       call. = FALSE
     )
   }
@@ -819,7 +820,8 @@ warn_undefined_boot_ci <- function(res, ci){
 # Bootstrap confidence intervals -------------------------
 get_boot_ci <- function(data, stat.func, conf.level = 0.95, type = "perc", nboot = 500,
                         parallel = getOption("boot.parallel", "no"),
-                        ncpus = getOption("boot.ncpus", 1L)){
+                        ncpus = getOption("boot.ncpus", 1L),
+                        strata = NULL){
   required_package("boot")
   # boot.ci() silently ignores an interval type it does not know, which would send
   # a misspelled ci.type down the "interval could not be computed" path below and
@@ -833,7 +835,15 @@ get_boot_ci <- function(data, stat.func, conf.level = 0.95, type = "perc", nboot
   # boot::boot() resolves getOption("boot.parallel") only when `parallel` is
   # missing; passing the option's own value keeps that behavior while allowing
   # a per-call override. boot::boot.ci() has no `parallel` formal.
-  Boot = boot::boot(data, stat.func, R = nboot, parallel = parallel, ncpus = ncpus)
+  # `strata` (resample within groups, keeping each group's n fixed) is only
+  # forwarded when supplied: boot()'s own default is a single stratum, and the
+  # callers that predate the argument must keep drawing the same replicates.
+  Boot = if(is.null(strata)){
+    boot::boot(data, stat.func, R = nboot, parallel = parallel, ncpus = ncpus)
+  } else {
+    boot::boot(data, stat.func, R = nboot, strata = strata,
+               parallel = parallel, ncpus = ncpus)
+  }
   # The interval is undefined when the bootstrap replicates are degenerate: all
   # identical (a perfect effect size) or all missing (constant data). Left to
   # itself boot.ci() prints a note and returns NULL in the first case, and errors

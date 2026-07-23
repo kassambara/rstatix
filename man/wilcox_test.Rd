@@ -132,7 +132,7 @@ return a data frame with some of the following columns: \itemize{
 \description{
 Provides a pipe-friendly framework to performs one and two sample
  Wilcoxon tests. Read more:
- \href{https://www.datanovia.com/en/lessons/wilcoxon-test-in-r/}{Wilcoxon in
+ \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon in
  R}.
 }
 \details{

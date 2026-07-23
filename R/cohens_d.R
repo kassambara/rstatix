@@ -32,9 +32,14 @@ NULL
 #'  the same machinery \code{\link{anova_test}(ci = )} uses for partial
 #'  eta-squared. The analytic interval covers the one-sample, paired and
 #'  two-sample (equal-variance and Welch) cases, is reproducible across runs
-#'  (no seed), and matches \code{effectsize::cohens_d(ci = )} /
-#'  \code{effectsize::hedges_g(ci = )}. When it is not defined for a given input
-#'  (for example a degenerate group), the bootstrap is used as a fallback. The
+#'  (no seed), and matches \code{effectsize::cohens_d(ci = )}. With
+#'  \code{hedges.correction = TRUE} the estimate and both bounds are scaled by
+#'  the documented \eqn{(N - 3)/(N - 2.25)} approximation, so they are not
+#'  identical to \code{effectsize::hedges_g(ci = )}, which applies the exact
+#'  gamma-function correction at the design's degrees of freedom. The gap is
+#'  proportional to the effect size and grows as the samples shrink.
+#'  When the interval is not defined for a given input (for
+#'  example a degenerate group), the bootstrap is used as a fallback. The
 #'  default \code{"boot"} leaves the returned interval unchanged from previous
 #'  versions.
 #'@param data a data.frame containing the variables in the formula.
