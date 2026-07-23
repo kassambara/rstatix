@@ -10,8 +10,8 @@
 
 ## Minor release: 1.1.0
 
-Previous CRAN version: 1.0.0. This release is additive apart from one deliberate
-change, called out here:
+Previous CRAN version: 1.0.0. This release is additive apart from two deliberate
+changes, called out here:
 
 * `cramer_v()` no longer applies Yates' continuity correction by default
   (`correct` now defaults to `FALSE`). Yates' correction belongs to the
@@ -21,6 +21,13 @@ change, called out here:
   matching `DescTools::CramerV()` and `effectsize::cramers_v(adjust = FALSE)`.
   Passing `correct = TRUE` recovers the previous value. Larger tables are
   unaffected. See NEWS.md and issue #293.
+
+* `eta_squared()` and `partial_eta_squared()` now exclude the `(Intercept)` row
+  that a `car::Anova(type = 3)` table carries. Counting it inflated the
+  eta-squared denominator (returning, e.g., 0.042 where the correct value is
+  0.582) and produced a meaningless `(Intercept)` effect row. The corrected
+  values match `effectsize::eta_squared()`; `aov` and `stats::anova()` inputs
+  carry no intercept row and are unchanged. See NEWS.md.
 
 Everything else is backward compatible: new functions (`cliff_delta()`,
 `omega_squared()`/`partial_omega_squared()`, `check_test_assumptions()`,
@@ -33,15 +40,18 @@ functions).
 
 ## Reverse dependencies
 
-rstatix has 44 reverse dependencies (Depends/Imports/Suggests). The only change
-that alters the output of a pre-existing function for unchanged inputs is the
-`cramer_v()` default above; every other change is a new function or a new
-argument with an unchanged default, so existing revdep code gets identical
-results. We scanned the sources of all 44 reverse dependencies for callers of
-`cramer_v()`: one package (BiostatsUHNplus) imports it, and uses the value to
-populate an effect-size column whose tests check the output structure rather
-than the numeric value, so its checks are unaffected. No new problems are
-expected in reverse dependencies.
+rstatix has 42 reverse dependencies (Depends/Imports/LinkingTo/Suggests). The
+only changes that alter the output of a pre-existing function for unchanged
+inputs are the two called out above; every other change is a new function or a
+new argument with an unchanged default, so existing revdep code gets identical
+results. We scanned the sources of all 42 reverse dependencies for callers of
+the changed `cramer_v()` default, for the removed internal MANOVA helpers, and
+for `rstatix:::`: no revdep calls `cramer_v()` (its single mention is an unused
+import in BiostatsUHNplus); the three call sites that use `eta_squared()` pass
+`aov` models or a type II table, none of which carries an intercept row; none
+references the removed internals or `:::`; and every caller of the
+functions that gained arguments this cycle uses their pre-existing signatures
+with unchanged defaults. No new problems are expected in reverse dependencies.
 
 ## Notes
 * `datanovia.com` (linked from the documentation) can return HTTP 503 to
