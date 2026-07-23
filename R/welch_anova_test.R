@@ -7,6 +7,10 @@ NULL
 #'   \code{\link[stats]{oneway.test}()}. This is is an alternative to the
 #'   standard one-way ANOVA in the situation where the homogeneity of variance
 #'   assumption is violated.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+#'  for a worked walkthrough.
 #' @param data a data frame containing the variables in the formula.
 #' @param formula a formula specifying the ANOVA model similar to aov. Can be of
 #'   the form y ~ group where y is a numeric variable giving the data values and
@@ -33,6 +37,7 @@ NULL
 #'   group_by(supp) %>%
 #'   welch_anova_test(len ~ dose)
 #' @name welch_anova_test
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 #' @export
 welch_anova_test <- function(data, formula){
   args <- as.list(environment()) %>%

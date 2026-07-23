@@ -9,6 +9,10 @@ NULL
 #'  The results include ANOVA table, generalized effect size and some assumption
 #'  checks.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+#'  for a worked walkthrough.
+#'
 #'@param effect.size the effect size to compute and to show in the ANOVA
 #'  results. Allowed values can be either "ges" (generalized eta squared) or
 #'  "pes" (partial eta squared) or both. Default is "ges".
@@ -63,6 +67,7 @@ NULL
 #'
 #'@author Alboukadel Kassambara, \email{alboukadel.kassambara@@gmail.com}
 #'@seealso \code{\link{anova_test}()}, \code{\link{factorial_design}()}
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 #' @examples
 #'# Load data
 #'#:::::::::::::::::::::::::::::::::::::::

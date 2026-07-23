@@ -2,6 +2,10 @@
 NULL
 #'Compute Summary Statistics
 #'@description Compute summary statistics for one or multiple numeric variables.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/assumptions/descriptive-statistics-in-r}{Descriptive Statistics in R}
+#'  for a worked walkthrough.
 #'@param data a data frame
 #'@param ... (optional) One or more unquoted expressions (or variable names)
 #'  separated by commas. Used to select a variable of interest. If no variable
@@ -38,6 +42,7 @@ NULL
 #'  m_4/m_2^2 - 3}. Skewness is \code{NA} for n < 3 and kurtosis for n < 4.
 #'@seealso \code{\link{rstatix-programming}} for selecting columns by names held
 #'  in strings (\code{!!}, \code{\{\{ \}\}}, \code{vars=}, \code{all_of()}).
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/descriptive-statistics-in-r}{Descriptive Statistics in R}.
 #' @examples
 #' # Full summary statistics
 #' data("ToothGrowth")

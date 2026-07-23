@@ -57,6 +57,10 @@ Performs Games-Howell test, which is used to compare all possible
  the difference between each pair of means with appropriate adjustment for
  the multiple testing. So there is no need to apply additional p-value
  corrections.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+ for a worked walkthrough.
 }
 \details{
 The Games-Howell method is an improved version of the Tukey-Kramer
@@ -88,4 +92,7 @@ ToothGrowth \%>\%
  https://rpubs.com/aaronsc32/games-howell-test. \item Sangseok Lee, Dong Kyu
  Lee. What is the proper way to apply the multiple comparison test?. Korean J
  Anesthesiol. 2018;71(5):353-360. }
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 }

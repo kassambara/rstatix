@@ -17,6 +17,10 @@ NULL
 #'
 #'  Confidence intervals are calculated by bootstap.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}
+#'  for a worked walkthrough.
+#'
 #'@inheritParams friedman_test
 #'@inheritParams wilcox_effsize
 #'@param ... other arguments passed to the function \code{\link[stats]{friedman.test}()}
@@ -42,6 +46,7 @@ NULL
 #' # Friedman test effect size
 #' #:::::::::::::::::::::::::::::::::::::::::
 #' df %>% friedman_effsize(len ~ dose | id)
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}.
 
 #' @export
 friedman_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,

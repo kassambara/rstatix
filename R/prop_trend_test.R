@@ -6,6 +6,10 @@ NULL
 #'
 #'  Wrappers around the R base function \code{\link[stats]{prop.trend.test}()} but
 #'  returns a data frame for easy data visualization.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/categorical/cochran-armitage-trend-test-in-r}{Cochran-Armitage Trend Test in R}
+#'  for a worked walkthrough.
 #'@param xtab a cross-tabulation (or contingency table) with two columns and
 #'  multiple rows (rx2 design). The columns give the counts of successes and
 #'  failures respectively.
@@ -36,6 +40,7 @@ NULL
 #' xtab
 #' # Compare the proportion of survived between groups
 #' prop_trend_test(xtab)
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/cochran-armitage-trend-test-in-r}{Cochran-Armitage Trend Test in R}.
 
 #' @export
 prop_trend_test <- function(xtab, score = NULL){

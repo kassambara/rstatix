@@ -84,6 +84,10 @@ Given a one-way, independent-groups design
   its result can be passed back here through \code{.assumptions} so the checks
   are not repeated. Choosing a test by first testing its assumptions on the
   same data has a known cost --- see the note in \code{?check_test_assumptions}.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/assumptions/statistical-tests-and-assumptions}{Statistical Tests and Assumptions in R}
+ for a worked walkthrough.
 }
 \examples{
 df <- ToothGrowth
@@ -96,4 +100,5 @@ df \%>\% posthoc_test(len ~ dose)
 \code{\link{check_test_assumptions}()}, \code{\link{tukey_hsd}()}, \code{\link{games_howell_test}()},
   \code{\link{dunn_test}()}, \code{\link{levene_test}()},
   \code{\link{shapiro_test}()}.
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/statistical-tests-and-assumptions}{Statistical Tests and Assumptions in R}.
 }

@@ -108,6 +108,10 @@ Performs chi-squared tests, including goodness-of-fit,
  table is built internally. Note that in the positional form the second column
  occupies the \code{correct} argument slot, so use the \code{vars} form (or the
  table interface) if you need to set \code{correct}/\code{simulate.p.value}.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/categorical/chi-square-test-of-independence-in-r}{Chi-Square Test of Independence in R}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -174,4 +178,7 @@ df <- data.frame(
 df \%>\% chisq_test(gender, smoker)
 # Equivalent, using vars (keeps `correct` settable)
 df \%>\% chisq_test(vars = c("gender", "smoker"), correct = FALSE)
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/chi-square-test-of-independence-in-r}{Chi-Square Test of Independence in R}, \href{https://www.datanovia.com/learn/biostatistics/categorical/chi-square-goodness-of-fit-test-in-r}{Chi-Square Goodness-of-Fit Test in R}.
 }

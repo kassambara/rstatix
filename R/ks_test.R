@@ -12,6 +12,10 @@ NULL
 #'  When the grouping factor contains more than two levels, pairwise
 #'  Kolmogorov-Smirnov tests are automatically performed, with p-value
 #'  adjustment.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r}{Normality Test in R}
+#'  for a worked walkthrough.
 #'@inheritParams stats::ks.test
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a
@@ -44,6 +48,7 @@ NULL
 #'  The \strong{returned object has an attribute called args}, which is a list
 #'  holding the test arguments.
 #'@seealso \code{\link{wilcox_test}()}, \code{\link{t_test}()}
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r}{Normality Test in R}.
 #' @examples
 #' # Two-samples test
 #' #:::::::::::::::::::::::::::::::::::::::::

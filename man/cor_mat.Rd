@@ -57,6 +57,10 @@ a data frame
 Compute correlation matrix with p-values. Numeric columns in the
  data are detected and automatically selected for the analysis. You can also
  specify variables of interest to be used in the correlation analysis.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -115,4 +119,5 @@ cor.mat \%>\% cor_gather()
  \code{\link{cor_gather}()}, \code{\link{cor_select}()},
  \code{\link{cor_as_symbols}()}, \code{\link{pull_triangle}()},
  \code{\link{replace_triangle}()}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 }

@@ -48,6 +48,10 @@ Detect outliers using boxplot methods. Boxplots are a popular and
  not considered as troublesome as those considered extreme points and might
  even be ignored. Note that, any \code{NA} and \code{NaN} are automatically removed
  before the quantiles are computed.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/assumptions/descriptive-statistics-in-r}{Descriptive Statistics in R}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -78,4 +82,7 @@ demo.data \%>\%
 demo.data \%>\%
   group_by(gender) \%>\%
   identify_outliers("score")
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/descriptive-statistics-in-r}{Descriptive Statistics in R}.
 }

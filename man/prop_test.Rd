@@ -93,6 +93,10 @@ Performs proportion tests to either evaluate the homogeneity of
  the advantage of performing pairwise and row-wise z-test of two proportions,
  the post-hoc tests following a significant chi-square test of homogeneity
  for 2xc and rx2 contingency tables.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/two-groups/proportion-z-tests-in-r}{Proportion Z-Test in R}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -179,4 +183,7 @@ dimnames(xtab) <- list(
 xtab
 # Compare the proportion of males and females in each category
 row_wise_prop_test(xtab)
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/proportion-z-tests-in-r}{Proportion Z-Test in R}.
 }

@@ -18,7 +18,9 @@ commas. Used to select variables of interest.}
 a data frame
 }
 \description{
-Subset Correlation Matrix
+See the Datanovia tutorial
+\href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+for a worked walkthrough.
 }
 \examples{
 # Compute correlation matrix
@@ -40,5 +42,7 @@ cor.mat \%>\%
 
 }
 \seealso{
-\code{\link{cor_mat}()}, \code{\link{pull_triangle}()}, \code{\link{replace_triangle}()}
+\code{\link{cor_mat}()}, \code{\link{pull_triangle}()}, \code{\link{replace_triangle}()}.
+ The Datanovia tutorial:
+ \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 }

@@ -65,6 +65,10 @@ Performs Conover's test (also known as the Conover-Iman test) for
  the p-value adjustment for multiple comparisons is computed over only these
  \code{k - 1} comparisons (instead of all \code{k(k - 1)/2} pairwise
  comparisons), exactly as for \code{\link{dunn_test}()}.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}
+ for a worked walkthrough.
 }
 \details{
 The Conover-Iman pairwise statistic for comparing groups \eqn{i} and
@@ -108,4 +112,5 @@ Conover, W. J. (1999) Practical Nonparametric Statistics, 3rd
 }
 \seealso{
 \code{\link{dunn_test}}, \code{\link{kruskal_test}}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}.
 }

@@ -3,6 +3,10 @@ NULL
 #' Add Significance Levels To a Correlation Matrix
 #' @description Combines correlation coefficients and significance levels in a
 #'   correlation matrix data.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+#'  for a worked walkthrough.
 #' @inheritParams add_significance
 #' @param x an object of class \code{\link{cor_mat}()}.
 #' @return a data frame containing the lower triangular part of the correlation
@@ -12,6 +16,7 @@ NULL
 #'   select(mpg, disp, hp, drat, wt, qsec) %>%
 #'   cor_mat() %>%
 #'   cor_mark_significant()
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 #' @export
 cor_mark_significant <- function(x, cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05,  1),
                                  symbols = c("****", "***", "**", "*",  ""))

@@ -23,6 +23,10 @@ correlation coefficient symbols. Default values are \code{c(" ", ".",  "+",
 \description{
 Take a correlation matrix and replace the correlation coefficients by symbols according to the
   level of the correlation.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+ for a worked walkthrough.
 }
 \examples{
 # Compute correlation matrix
@@ -40,4 +44,5 @@ cor.mat \%>\%
 }
 \seealso{
 \code{\link{cor_mat}()}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 }

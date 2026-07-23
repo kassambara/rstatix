@@ -6,6 +6,10 @@ NULL
 #' @description Performs the Box's M-test for homogeneity of covariance matrices
 #'   obtained from multivariate normal data according to one grouping variable.
 #'   The test is based on the chi-square approximation.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}
+#'  for a worked walkthrough.
 #' @param data a numeric data.frame or matrix containing n observations of p
 #'   variables; it is expected that n > p.
 #' @param group a vector of length n containing the class of each
@@ -18,6 +22,7 @@ NULL
 #' @examples
 #' data(iris)
 #' box_m(iris[, -5], iris[, 5])
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}.
 #' @export
 box_m <-function(data, group)
   {

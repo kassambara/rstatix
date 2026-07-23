@@ -8,6 +8,10 @@ NULL
 #'
 #'   Wrapper around the function \code{\link[car]{leveneTest}()}, which can
 #'   additionally handles a grouped data.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}
+#'  for a worked walkthrough.
 #' @param data a data frame for evaluating the formula or a model
 #' @param formula a formula
 #' @param center The name of a function to compute the center of each group;
@@ -29,6 +33,7 @@ NULL
 #'   group_by(supp) %>%
 #'   levene_test(len ~ dose)
 #'
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}.
 #' @export
 levene_test <- function(data, formula, center = median){
   if(is_grouped_df(data)){

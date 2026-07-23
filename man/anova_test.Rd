@@ -260,6 +260,7 @@ anova_test(.my.model)
 }
 \seealso{
 \code{\link{anova_summary}()}, \code{\link{factorial_design}()}
+  The Datanovia tutorials: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}, \href{https://www.datanovia.com/learn/biostatistics/anova/repeated-measures-anova-in-r}{Repeated Measures ANOVA in R}, \href{https://www.datanovia.com/learn/biostatistics/anova/mixed-anova-in-r}{Mixed ANOVA in R}, \href{https://www.datanovia.com/learn/biostatistics/anova/ancova-in-r}{ANCOVA in R}.
 }
 \author{
 Alboukadel Kassambara, \email{alboukadel.kassambara@gmail.com}

@@ -26,6 +26,10 @@ Tests for equal means in a one-way design (not assuming equal
   \code{\link[stats]{oneway.test}()}. This is is an alternative to the
   standard one-way ANOVA in the situation where the homogeneity of variance
   assumption is violated.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+ for a worked walkthrough.
 }
 \examples{
 # Load data
@@ -43,4 +47,7 @@ df \%>\% welch_anova_test(len ~ dose)
 df \%>\%
   group_by(supp) \%>\%
   welch_anova_test(len ~ dose)
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 }

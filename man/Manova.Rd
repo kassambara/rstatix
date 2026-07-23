@@ -5,5 +5,10 @@
 \title{Manova exported from car package}
 \description{
 See \code{car::\link[car:Anova]{Manova}} for details.
+ See the Datanovia tutorial \href{https://www.datanovia.com/learn/biostatistics/anova/manova-in-r}{MANOVA in R}
+ for a worked walkthrough.
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/manova-in-r}{MANOVA in R}.
 }
 \keyword{internal}

@@ -15,6 +15,10 @@ NULL
 #'  function, you can also compute, for example, the correlation between one
 #'  variable vs many.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-test-in-r}{Correlation Test in R}
+#'  for a worked walkthrough.
+#'
 #'
 #'@inheritParams stats::cor.test
 #'@inheritParams stats::cor
@@ -53,6 +57,7 @@ NULL
 #'  TRUE)$cor}.
 #'@seealso \code{\link{cor_mat}()}, \code{\link{as_cor_mat}()},
 #'  \code{\link{rstatix-programming}} (using variable names held in strings)
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-test-in-r}{Correlation Test in R}.
 #' @examples
 #'
 #' # Correlation between the specified variable vs

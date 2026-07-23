@@ -31,6 +31,10 @@ Performs chi-squared test for trend in proportion. This test is
 
  Wrappers around the R base function \code{\link[stats]{prop.trend.test}()} but
  returns a data frame for easy data visualization.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/categorical/cochran-armitage-trend-test-in-r}{Cochran-Armitage Trend Test in R}
+ for a worked walkthrough.
 }
 \examples{
 # Proportion of renal stone (calculi) across age
@@ -47,4 +51,7 @@ dimnames(xtab) <- list(
 xtab
 # Compare the proportion of survived between groups
 prop_trend_test(xtab)
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/cochran-armitage-trend-test-in-r}{Cochran-Armitage Trend Test in R}.
 }

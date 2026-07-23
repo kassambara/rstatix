@@ -145,7 +145,11 @@ return a data frame with some the following columns: \itemize{ \item
 }
 \description{
 Provides a pipe-friendly framework to performs one and two sample
- t-tests. Read more: \href{https://www.datanovia.com/learn/biostatistics/two-groups/t-test-in-r}{T-test in R}.
+ t-tests.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/two-groups/t-test-in-r}{T-Test in R}
+ for a worked walkthrough.
 }
 \details{
 - If a list of comparisons is specified, the result of the pairwise tests is
@@ -220,4 +224,5 @@ df \%>\% t_test(len ~ dose, ref.group = "all")
 \seealso{
 \code{\link{rstatix-programming}} for building the formula from
  variable names held in strings (e.g. \code{reformulate()}).
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/t-test-in-r}{T-Test in R}.
 }

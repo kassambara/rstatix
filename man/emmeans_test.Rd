@@ -87,6 +87,10 @@ Performs pairwise comparisons between groups using the estimated
  contrast()} from the \code{emmeans} package, which need to be installed
  before using this function. This function is useful for performing post-hoc
  analyses following ANOVA/ANCOVA tests.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -135,4 +139,7 @@ d \%>\% emmeans_test(score ~ time, model = rm_model)
 }
 
 }
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 }

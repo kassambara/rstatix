@@ -11,6 +11,10 @@ NULL
 #'   \code{-1} to \code{1} and, unlike the rank-biserial \code{r}, is unaffected
 #'   by ties beyond their contribution to the counts.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}
+#'  for a worked walkthrough.
+#'
 #' @inheritParams wilcox_effsize
 #' @param ... other arguments; accepted for interface compatibility with
 #'   \code{\link{cohens_d}()} and \code{\link{wilcox_effsize}()} but not used
@@ -53,6 +57,7 @@ NULL
 #' ToothGrowth %>%
 #'   dplyr::group_by(supp) %>%
 #'   cliff_delta(len ~ dose)
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}.
 #' @export
 cliff_delta <- function(data, formula, comparisons = NULL, ref.group = NULL,
                         ci = FALSE, conf.level = 0.95, ci.type = "perc",

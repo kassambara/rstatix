@@ -21,6 +21,10 @@ NULL
 #'  equivalent to filtering the full pairwise result afterwards, which would still
 #'  adjust over all pairs.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}
+#'  for a worked walkthrough.
+#'
 #'@inheritParams t_test
 #'@param ref.group a character string specifying the reference group. If
 #'  specified, for a given grouping variable, each of the group levels will be
@@ -70,6 +74,7 @@ NULL
 #' ToothGrowth %>%
 #'   group_by(supp) %>%
 #'   dunn_test(len ~ dose)
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}.
 #'@export
 dunn_test <- function(data, formula, p.adjust.method = "holm", ref.group = NULL, detailed = FALSE,
                       effect.size = FALSE){

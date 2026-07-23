@@ -15,6 +15,10 @@ a data frame
 \description{
 reorder correlation matrix, according to the coefficients,
   using the hierarchical clustering method.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+ for a worked walkthrough.
 }
 \examples{
 # Compute correlation matrix
@@ -36,4 +40,5 @@ cor.mat \%>\%
 }
 \seealso{
 \code{\link{cor_mat}()}, \code{\link{cor_gather}()}, \code{\link{cor_spread}()}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 }

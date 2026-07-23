@@ -28,6 +28,10 @@ return a data frame with the following columns: \itemize{ \item
 Provides a pipe-friendly framework to perform Kruskal-Wallis
  rank sum test. Wrapper around the function
  \code{\link[stats]{kruskal.test}()}.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}
+ for a worked walkthrough.
 }
 \examples{
 # Load data
@@ -43,4 +47,7 @@ df \%>\% kruskal_test(len ~ dose)
 df \%>\%
   group_by(supp) \%>\%
   kruskal_test(len ~ dose)
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}.
 }

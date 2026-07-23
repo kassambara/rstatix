@@ -25,10 +25,17 @@ a data frame containing the lower triangular part of the correlation
 \description{
 Combines correlation coefficients and significance levels in a
   correlation matrix data.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+ for a worked walkthrough.
 }
 \examples{
 mtcars \%>\%
   select(mpg, disp, hp, drat, wt, qsec) \%>\%
   cor_mat() \%>\%
   cor_mark_significant()
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 }

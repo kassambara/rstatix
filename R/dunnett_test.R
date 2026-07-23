@@ -15,6 +15,10 @@ NULL
 #'  \code{DescTools::DunnettTest()} and \code{multcomp::glht(..., mcp(... =
 #'  "Dunnett"))}.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+#'  for a worked walkthrough.
+#'
 #'@inheritParams t_test
 #'@param ref.group a character string specifying the reference (control) group.
 #'  Each remaining group level is compared against this group. If \code{NULL}
@@ -43,6 +47,7 @@ NULL
 #'  Association, 50, 1096-1121.
 #'@seealso \code{\link{tukey_hsd}()}, \code{\link{games_howell_test}()},
 #'  \code{\link{emmeans_test}()}
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 #' @examples
 #' if (requireNamespace("emmeans", quietly = TRUE)) {
 #'

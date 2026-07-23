@@ -22,6 +22,10 @@ NULL
 #'
 #' Confidence intervals are calculated by bootstap.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}
+#'  for a worked walkthrough.
+#'
 #'@param method the effect-size metric. Either \code{"eta2"} (default) for the
 #'  bias-corrected eta-squared \code{eta2[H] = (H - k + 1)/(N - k)}, or
 #'  \code{"epsilon2"} for the rank epsilon-squared \code{H/(N - 1)} (Tomczak &
@@ -55,6 +59,7 @@ NULL
 #' df %>%
 #'   group_by(supp) %>%
 #'   kruskal_effsize(len ~ dose)
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}.
 #' @export
 kruskal_effsize <- function(data, formula, ci = FALSE, conf.level = 0.95,  ci.type = "perc", nboot = 1000,
                             boot.parallel = getOption("boot.parallel", "no"),

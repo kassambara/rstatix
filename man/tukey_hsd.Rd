@@ -46,6 +46,10 @@ Provides a pipe-friendly framework to performs Tukey post-hoc
  essentially a t-test that corrects for multiple testing.
 
  Can handle different inputs formats: aov, lm, formula.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+ for a worked walkthrough.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -79,4 +83,7 @@ df \%>\%
   group_by(supp) \%>\%
   tukey_hsd(len ~ dose)
 
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 }

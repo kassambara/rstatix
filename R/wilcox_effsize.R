@@ -34,6 +34,10 @@ NULL
 #'  - < 0.3} (small effect), \code{0.30 - < 0.5} (moderate effect) and \code{>=
 #'  0.5} (large effect).
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}
+#'  for a worked walkthrough.
+#'
 #'@inheritParams wilcox_test
 #'@param ci If TRUE, returns confidence intervals by bootstrap. May be slow.
 #'@param conf.level The level for the confidence interval.
@@ -104,6 +108,7 @@ NULL
 #'   wilcox_effsize(len ~ dose)
 #'
 #' }
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}.
 #'@export
 wilcox_effsize <- function(data, formula, comparisons = NULL, ref.group = NULL,
                                 paired = FALSE, alternative = "two.sided",
