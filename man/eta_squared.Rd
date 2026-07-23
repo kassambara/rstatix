@@ -20,8 +20,10 @@ interval is computed in base R by inverting the noncentral F distribution
 (Steiger, 2004), and matches
 \code{effectsize::eta_squared(ci = , alternative = "two.sided")} —
 \code{partial = FALSE} for \code{eta_squared()} and \code{partial = TRUE} for
-\code{partial_eta_squared()}. Default is \code{NULL} (no interval; the bare
-named vector is returned, unchanged).}
+\code{partial_eta_squared()} — to about four decimals for the non-partial
+bounds of a small pseudo-F (that function's inversion uses a looser
+tolerance), and more closely everywhere else. Default is \code{NULL} (no
+interval; the bare named vector is returned, unchanged).}
 }
 \value{
 a named numeric vector of effect sizes, one per model term; or, when
