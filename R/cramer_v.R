@@ -52,8 +52,14 @@ NULL
 #'  implementation, and it only arises for effect sizes indistinguishable from
 #'  zero.
 #'
-#'  The results match \code{effectsize::cramers_v(adjust = FALSE, ci = ,
-#'  alternative = "two.sided")} and \code{DescTools::CramerV()}.
+#'  At the default \code{correct = FALSE}, the results match
+#'  \code{effectsize::cramers_v(adjust = FALSE, ci = , alternative =
+#'  "two.sided")} away from the near-independence corner above (where numerical
+#'  inversions differ), and \code{DescTools::CramerV(conf.level = )} throughout.
+#'  Neither package applies Yates' continuity correction, so \code{correct =
+#'  TRUE} values have no counterpart there (\code{DescTools}'s own
+#'  \code{correct} argument selects the Bergsma bias correction, a different
+#'  adjustment).
 #'@references Cramer, H. (1946). Mathematical Methods of Statistics. Princeton
 #'  University Press.
 #'

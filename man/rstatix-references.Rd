@@ -99,8 +99,9 @@ documentation: \code{\link{anova_test}()} uses
 \code{car::Anova()} for type II and type III sums of squares, and
 \code{stats::aov()} for type I; \code{\link{dunnett_test}()} and
 \code{\link{emmeans_test}()} use \code{emmeans::emmeans()}; and
-\code{\link{wilcox_effsize}()} takes its statistic from
-\code{coin::wilcoxsign_test()} or \code{coin::wilcox_test()}.
+\code{\link{wilcox_effsize}()} takes its default statistic (\code{r = Z /
+sqrt(N)}) from \code{coin::wilcoxsign_test()} or \code{coin::wilcox_test()},
+while its \code{method = "rank_biserial"} alternative is computed in base R.
 }
 
 \seealso{

@@ -64,7 +64,7 @@ Key functions
 -   `anova_test()`: an easy-to-use wrapper around `car::Anova()` to
     perform different types of ANOVA tests, including **independent
     measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
--   `get_anova_test_table()`: extract ANOVA table from `anova_test()`
+-   `get_anova_table()`: extract ANOVA table from `anova_test()`
     results. Can apply sphericity correction automatically in the case
     of within-subject (repeated measures) designs.
 -   `welch_anova_test()`: Welch one-Way ANOVA test. A pipe-friendly
@@ -77,7 +77,7 @@ Key functions
     the one-way repeated measures ANOVA test.
 -   `get_comparisons()`: Create a list of possible pairwise comparisons
     between groups.
--   `get_pvalue_position()`: autocompute p-value positions for plotting
+-   `add_xy_position()`, `get_y_position()`: autocompute p-value positions for plotting
     significance using ggplot2.
 
 ### Facilitating ANOVA computation in R
@@ -763,7 +763,7 @@ Related articles
 -   [How to Add P-Values onto Basic
     GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-basic-ggplots/)
 -   [How to Add Adjusted P-values to a Multi-Panel
-    GGPlot](https://www.datanovia.com/en/blog/ggpubr-how-to-add-adjusted-p-values-to-a-multi-panel-ggplot/)
+    GGPlot](https://www.datanovia.com/learn/data-visualization/ggpubr/auto-p-values)
 -   [How to Add P-values to GGPLOT
     Facets](https://www.datanovia.com/en/blog/how-to-add-p-values-to-ggplot-facets/)
 -   [How to Add P-Values Generated Elsewhere to a

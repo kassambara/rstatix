@@ -47,9 +47,10 @@ for \code{\link{cohens_d}()} and \code{\link{wilcox_effsize}()}.}
 
 \item{nboot}{The number of replications to use for bootstrap.}
 
-\item{...}{Additional arguments passed to the functions
-\code{coin::wilcoxsign_test()} (case of one- or paired-samples test) or
-\code{coin::wilcox_test()} (case of independent two-samples test).}
+\item{...}{other arguments; accepted for interface compatibility with
+\code{\link{cohens_d}()} and \code{\link{wilcox_effsize}()} but not used
+(Cliff's delta has no test backend to forward them to). \code{paired} is
+rejected: the statistic is defined for two independent samples only.}
 
 \item{boot.parallel}{The type of parallel operation to be used when computing
 the bootstrap confidence interval. Allowed values are \code{"no"} (default),

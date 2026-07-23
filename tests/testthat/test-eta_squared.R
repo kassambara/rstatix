@@ -142,3 +142,28 @@ test_that("eta_squared validates ci", {
   narrow <- eta_squared(m, ci = 0.95)
   expect_true(all(wide$conf.high >= narrow$conf.high - 1e-8))
 })
+
+test_that("a car::Anova type 3 table's (Intercept) row is excluded", {
+  # The intercept row's SS must stay out of the eta-squared denominator and no
+  # (Intercept) effect row may be reported. References from
+  # effectsize::eta_squared(a3, partial = FALSE/TRUE), effectsize 1.0.1,
+  # 2026-07-23.
+  mt <- mtcars
+  mt$cyl <- factor(mt$cyl)
+  mt$am <- factor(mt$am)
+  m <- stats::lm(mpg ~ cyl * am, data = mt,
+                 contrasts = list(cyl = "contr.sum", am = "contr.sum"))
+  a3 <- car::Anova(m, type = 3)
+  e <- eta_squared(a3)
+  pe <- partial_eta_squared(a3)
+  expect_equal(names(e), c("cyl", "am", "cyl:am"))
+  expect_equal(names(pe), c("cyl", "am", "cyl:am"))
+  expect_equal(unname(e),
+               c(0.5823612581, 0.0423754394, 0.0360890177), tolerance = 1e-7)
+  expect_equal(unname(pe),
+               c(0.6319466054, 0.1110613812, 0.0961698559), tolerance = 1e-7)
+  # the ci path reports one row per real term, none for the intercept
+  ec <- eta_squared(a3, ci = 0.95)
+  expect_equal(ec$Effect, c("cyl", "am", "cyl:am"))
+  expect_equal(ec$effsize, unname(e), tolerance = 1e-10)
+})

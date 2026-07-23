@@ -66,7 +66,17 @@ aov_stat_summary <- function (model)
   if (!tibble::has_name(aov.sum, "meansq"))
     aov.sum <- tibble::add_column(aov.sum, meansq = aov.sum$sumsq/aov.sum$df,
                                   .after = "sumsq")
-  aov.sum
+  drop_intercept_row(aov.sum)
+}
+
+# A car::Anova() table (type = 3) carries an "(Intercept)" row. Its sum of
+# squares belongs to neither the effect decomposition nor the residual, so it
+# must not enter SS_total (eta squared, omega squared), the sample-size
+# inference sum(df) + 1 (partial omega squared), or the per-term output rows.
+# Tables without such a row (aov, stats::anova(), car type 2) pass through
+# unchanged.
+drop_intercept_row <- function(aov.sum){
+  aov.sum[trimws(aov.sum[["term"]]) != "(Intercept)", , drop = FALSE]
 }
 
 aov_stat_core <- function(aov.sum, type){

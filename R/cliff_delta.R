@@ -12,6 +12,10 @@ NULL
 #'   by ties beyond their contribution to the counts.
 #'
 #' @inheritParams wilcox_effsize
+#' @param ... other arguments; accepted for interface compatibility with
+#'   \code{\link{cohens_d}()} and \code{\link{wilcox_effsize}()} but not used
+#'   (Cliff's delta has no test backend to forward them to). \code{paired} is
+#'   rejected: the statistic is defined for two independent samples only.
 #' @param data a data frame containing the variables in the formula.
 #' @param formula a formula of the form \code{x ~ group} where \code{x} is a
 #'   numeric variable and \code{group} is a factor with two or more levels.
@@ -56,6 +60,15 @@ cliff_delta <- function(data, formula, comparisons = NULL, ref.group = NULL,
                         boot.parallel = getOption("boot.parallel", "no"),
                         boot.ncpus = getOption("boot.ncpus", 1L)){
 
+  # Cliff's delta is defined for two independent samples only. `...` is
+  # otherwise absorbed silently (for interface parity with cohens_d() /
+  # wilcox_effsize()), so a `paired` request must be rejected explicitly rather
+  # than returning the independent-samples statistic for it.
+  if("paired" %in% names(list(...)))
+    stop("Cliff's delta is defined for two independent samples; `paired` is not ",
+         "supported. For a paired rank-based effect size, use ",
+         "wilcox_effsize(paired = TRUE, method = \"rank_biserial\").",
+         call. = FALSE)
   env <- as.list(environment())
   # As in cohens_d()/wilcox_effsize(): the bootstrap-execution arguments are not
   # part of the statistical call, so they are excluded from the stashed args.
@@ -102,8 +115,8 @@ cliff.delta <- function(x, y = NULL, ci = FALSE, conf.level = 0.95,
   DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
   if(is.null(y))
     stop("Cliff's delta requires two independent samples.", call. = FALSE)
-  x <- x[is.finite(x)]
-  y <- y[is.finite(y)]
+  x <- x[!is.na(x)]
+  y <- y[!is.na(y)]
   delta <- get_cliff_delta(x, y)
   if(ci == TRUE){
     data <- data.frame(
@@ -114,9 +127,13 @@ cliff.delta <- function(x, y = NULL, ci = FALSE, conf.level = 0.95,
       d <- data[subset, , drop = FALSE]
       get_cliff_delta(d$value[d$.grp. == "g1"], d$value[d$.grp. == "g2"])
     }
+    # Stratified resampling: delta compares two fixed groups, so each replicate
+    # keeps n1 and n2. An unstratified resample of the pooled rows can lose a
+    # whole (small) group, which aborted the call mid-bootstrap.
     CI <- get_boot_ci(
       data, stat.func, conf.level = conf.level, type = ci.type,
-      nboot = nboot, parallel = boot.parallel, ncpus = boot.ncpus
+      nboot = nboot, parallel = boot.parallel, ncpus = boot.ncpus,
+      strata = data$.grp.
     )
   }
   RVAL <- list(statistic = NA, p.value = NA, method = "Cliff's delta",
@@ -134,11 +151,14 @@ cliff.delta <- function(x, y = NULL, ci = FALSE, conf.level = 0.95,
 # difference of pair counts rather than mean(sign(outer(...))) on purpose: a
 # sign() call here would make R CMD check read the internal sign.test() function
 # as an S3 method of the base sign() generic and emit a spurious consistency NOTE.
+# Only NA/NaN observations are removed: an Inf compares like any other value
+# (Inf > y counts as a win, Inf vs Inf as a tie), so dropping it would break the
+# formula's n1 * n2 denominator and the rank-biserial equivalence.
 get_cliff_delta <- function(x, y){
-  x <- x[is.finite(x)]
-  y <- y[is.finite(y)]
+  x <- x[!is.na(x)]
+  y <- y[!is.na(y)]
   if(length(x) < 1L || length(y) < 1L)
-    stop("not enough (finite) observations", call. = FALSE)
+    stop("not enough non-missing observations", call. = FALSE)
   (sum(outer(x, y, ">")) - sum(outer(x, y, "<"))) / (length(x) * length(y))
 }
 

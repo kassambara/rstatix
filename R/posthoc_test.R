@@ -152,6 +152,11 @@ validate_oneway_design <- function(data, formula){
   group <- get_formula_right_hand_side(formula)
   if(.is_empty(group))
     stop("A grouping variable is required (`outcome ~ group`).", call. = FALSE)
+  if(length(group) > 1 || grepl("[+*:|]", group))
+    stop("Only a one-way design (`outcome ~ group`, a single grouping variable) ",
+         "is supported; got `", deparse(formula), "`. For a multi-factor design, ",
+         "use anova_test() with emmeans_test() or tukey_hsd() directly.",
+         call. = FALSE)
   data <- data %>% .as_factor(group)
   if(guess_number_of_groups(data, group) < 2)
     stop("The grouping variable must have at least two levels.", call. = FALSE)

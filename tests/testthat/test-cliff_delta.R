@@ -117,3 +117,41 @@ test_that("missing values are dropped before computing delta", {
   expect_equal(res$n1, sum(!is.na(a)))
   expect_equal(res$n2, sum(!is.na(b)))
 })
+
+test_that("paired = TRUE is rejected rather than silently ignored", {
+  # Cliff's delta is a two-independent-samples statistic; before this guard the
+  # argument was absorbed by `...` and the independent-samples value returned.
+  expect_error(
+    cliff_delta(ToothGrowth, len ~ supp, paired = TRUE),
+    "two independent samples"
+  )
+})
+
+test_that("Inf observations are compared, not dropped", {
+  # Inf > finite counts as a win and Inf vs Inf as a tie, so the documented
+  # formula keeps the full n1 * n2 denominator. Reference:
+  # effectsize::rank_biserial() = 0.2122222222 on this data (effectsize 1.0.1,
+  # 2026-07-23), equal to the hand count (191 - 0 wins asymmetry) / 900.
+  tinf <- ToothGrowth
+  tinf$len[1] <- Inf
+  res <- cliff_delta(tinf, len ~ supp)
+  x <- tinf$len[tinf$supp == "OJ"]; y <- tinf$len[tinf$supp == "VC"]
+  hand <- (sum(outer(x, y, ">")) - sum(outer(x, y, "<"))) / (length(x) * length(y))
+  expect_equal(unname(res$effsize), hand, tolerance = 1e-12)
+  expect_equal(unname(res$effsize), 0.2122222222, tolerance = 1e-9)
+  expect_equal(c(res$n1, res$n2), c(30L, 30L))
+})
+
+test_that("the bootstrap interval resamples within groups and survives small groups", {
+  # An unstratified resample of the pooled rows can lose a whole small group,
+  # which aborted the call mid-bootstrap for most seeds.
+  ps <- data.frame(v = c(1, 3, 5, 7, 9, 2, 4, 6, 18, 20),
+                   g = factor(rep(c("lo", "hi"), each = 5)))
+  for (s in 1:10) {
+    set.seed(s)
+    res <- suppressWarnings(cliff_delta(ps, v ~ g, ci = TRUE, nboot = 200))
+    expect_false(anyNA(res$effsize))
+    expect_true(all(stats::na.omit(c(res$conf.low, res$conf.high)) >= -1))
+    expect_true(all(stats::na.omit(c(res$conf.low, res$conf.high)) <= 1))
+  }
+})
