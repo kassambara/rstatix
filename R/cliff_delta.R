@@ -64,7 +64,7 @@ cliff_delta <- function(data, formula, comparisons = NULL, ref.group = NULL,
   # otherwise absorbed silently (for interface parity with cohens_d() /
   # wilcox_effsize()), so a `paired` request must be rejected explicitly rather
   # than returning the independent-samples statistic for it.
-  if("paired" %in% names(list(...)))
+  if(isTRUE(list(...)$paired))
     stop("Cliff's delta is defined for two independent samples; `paired` is not ",
          "supported. For a paired rank-based effect size, use ",
          "wilcox_effsize(paired = TRUE, method = \"rank_biserial\").",

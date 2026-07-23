@@ -2,8 +2,12 @@ context("test-cohens_d-analytic-ci")
 
 # Analytic (noncentral-t) confidence-interval values for cohens_d(ci.method =
 # "analytic"). Pinned from the implementation and cross-checked in development to
-# match effectsize::cohens_d(ci = ) / effectsize::hedges_g(ci = ) 1.x
-# (2026-07-12) to <= 1e-5. effectsize is a development-time oracle only: the
+# match effectsize::cohens_d(ci = ) 1.x (2026-07-12) to <= 1e-5. With
+# hedges.correction = TRUE the values are NOT those of effectsize::hedges_g():
+# rstatix scales by its documented (N - 3)/(N - 2.25) approximation while
+# effectsize applies the exact gamma-function correction, a gap that grows as
+# samples shrink (about 0.04 in g for a 5-vs-4 Welch design).
+# effectsize is a development-time oracle only: the
 # values are hard-coded here, not computed, so these tests need no Suggests
 # package and run under _R_CHECK_DEPENDS_ONLY_.
 

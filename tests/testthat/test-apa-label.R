@@ -174,3 +174,27 @@ test_that("apa df spacing follows APA-7 while classic stays compact", {
   expect_match(get_test_label(res, type = "text", detailed = TRUE),
                "F\\(2,57\\)")
 })
+
+test_that("a sphericity-corrected label shows the object's stored interval", {
+  # get_anova_table(correction = "GG") corrects DFn/DFd but the stored
+  # conf.low/conf.high are defined at the uncorrected df; re-deriving the
+  # interval from the corrected row would contradict the object's own interval,
+  # so the corrected path must display the stored bounds as they are.
+  score <- c(
+    12, 15, 18, 11, 14, 20, 13, 17, 19, 10, 16, 21,
+    14, 13, 22, 15, 12, 17, 11, 18, 20, 16, 14, 23,
+    13, 16, 17, 12, 15, 19, 14, 18, 21, 11, 17, 22
+  )
+  d <- data.frame(
+    id = factor(rep(1:12, each = 3)),
+    time = factor(rep(c("t1", "t2", "t3"), times = 12)),
+    score = score
+  )
+  ra <- anova_test(d, dv = score, wid = id, within = time,
+                   effect.size = "pes", ci = 0.95)
+  tab <- get_anova_table(ra, correction = "GG")
+  lab <- get_test_label(ra, type = "text", style = "apa", correction = "GG")
+  fmt <- function(x) sub("^0\\.", ".", formatC(round(x, 2), format = "f", digits = 2))
+  expect_match(lab, paste0("95% CI \\[", fmt(tab$conf.low[1]), ", ",
+                           fmt(tab$conf.high[1]), "\\]"), fixed = FALSE)
+})

@@ -128,8 +128,9 @@ model <- df %>% anova_test(len ~ dose, effect.size = "pes", ci = 0.95)
 get_test_label(model, type = "text", style = "apa")
 ```
 
-Every result ships with `tidy()` and `glance()` methods, which hand it as a
-plain tibble to the reporting-table ecosystem (`broom`, `gtsummary`, `gt`):
+The test results are `rstatix_test` objects with `tidy()` and `glance()`
+methods, which hand them as plain tibbles to the reporting-table ecosystem
+(`broom`, `gtsummary`, `gt`):
 
 ```{r}
 df %>% anova_test(len ~ dose) %>% tidy()

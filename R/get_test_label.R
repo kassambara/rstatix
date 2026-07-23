@@ -174,11 +174,19 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
   is_anova_test <- inherits(stat.test, "anova_test")
   anova.n <- NA
   anova.ci.level <- NA
+  anova.simple <- FALSE
   if(is_anova_test){
     # the confidence level anova_test(ci = ) was run with; needed below because
     # the slice strips the attributes that carry it
     ci.arg <- attr(stat.test, "args")$ci
     if(is.numeric(ci.arg) && length(ci.arg) == 1) anova.ci.level <- ci.arg
+    # A plain one-table result (between-subjects, or a within design with no
+    # sphericity machinery) displays the same df the stored interval was
+    # computed at. A list result carries sphericity corrections that
+    # get_anova_table() may apply to DFn/DFd, while conf.low/conf.high stay at
+    # the uncorrected df -- so re-deriving the interval from the displayed df
+    # would contradict the object's own interval (see below).
+    anova.simple <- is.data.frame(stat.test)
     stat.test <- get_anova_table(stat.test, correction = correction)
     # derive the sample size now, before the slice below strips the anova_test
     # class/attributes that get_n() needs to compute n for ANOVA (#150). The total
@@ -222,8 +230,11 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
     # (anova_summary()), and rounding those again to APA's 2 decimals can move
     # the last digit (a true bound 0.7854 is stored as 0.785 and would print
     # ".78" instead of ".79"). Re-derive the estimate and the interval from the
-    # row's F and df, which pins them well beyond 2 displayed decimals.
-    if(all(c("F", "DFn", "DFd") %in% colnames(stat.test))){
+    # row's F and df, which pins them well beyond 2 displayed decimals. Only
+    # for a plain table (anova.simple): a sphericity-corrected row displays
+    # corrected df while the stored interval is defined at the uncorrected df,
+    # so there the stored bounds are shown as they are.
+    if(anova.simple && all(c("F", "DFn", "DFd") %in% colnames(stat.test))){
       effect.size.ci <- partial_eta_squared_ci(
         stat.test$F[1], stat.test$DFn[1], stat.test$DFd[1],
         conf.level = anova.ci.level

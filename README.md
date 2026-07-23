@@ -761,39 +761,39 @@ Related articles
 ----------------
 
 -   [How to Add P-Values onto Basic
-    GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-basic-ggplots/)
+    GGPLOTS](https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests)
 -   [How to Add Adjusted P-values to a Multi-Panel
     GGPlot](https://www.datanovia.com/learn/data-visualization/ggpubr/auto-p-values)
 -   [How to Add P-values to GGPLOT
-    Facets](https://www.datanovia.com/en/blog/how-to-add-p-values-to-ggplot-facets/)
+    Facets](https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests)
 -   [How to Add P-Values Generated Elsewhere to a
-    GGPLOT](https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/)
+    GGPLOT](https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests)
 -   [How to Add P-Values onto a Grouped GGPLOT using the GGPUBR R
-    Package](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/)
+    Package](https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests)
 -   [How to Create Stacked Bar Plots with Error Bars and
-    P-values](https://www.datanovia.com/en/blog/how-to-create-stacked-bar-plots-with-error-bars-and-p-values/)
+    P-values](https://www.datanovia.com/learn/data-visualization/ggpubr/stacked-bar-pvalues)
 -   [How to Add P-Values onto Horizontal
     GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-horizontal-ggplots/)
 -   [Add P-values and Significance Levels to
-    ggplots](https://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/)
+    ggplots](https://www.datanovia.com/learn/data-visualization/ggpubr/add-p-values)
 -   [Comparing Means of Two Groups in
     R](https://www.datanovia.com/en/courses/comparing-means-of-two-groups-in-r/)
-    -   [T-test in R](https://www.datanovia.com/en/lessons/t-test-in-r/)
+    -   [T-test in R](https://www.datanovia.com/learn/biostatistics/two-groups/t-test-in-r)
     -   [Wilcoxon Test in
-        R](https://www.datanovia.com/en/lessons/wilcoxon-test-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r)
     -   [Sign Test in
         R](https://www.datanovia.com/en/lessons/sign-test-in-r/)
 -   [Comparing Multiple Means in
-    R](https://www.datanovia.com/en/courses/comparing-multiple-means-in-r/)
-    -   [ANOVA in R](https://www.datanovia.com/en/lessons/anova-in-r/)
+    R](https://www.datanovia.com/learn/biostatistics/anova/)
+    -   [ANOVA in R](https://www.datanovia.com/learn/biostatistics/anova/anova-in-r)
     -   [Repeated Measures ANOVA in
-        R](https://www.datanovia.com/en/lessons/repeated-measures-anova-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/anova/repeated-measures-anova-in-r)
     -   [Mixed ANOVA in
-        R](https://www.datanovia.com/en/lessons/mixed-anova-in-r/)
-    -   [ANCOVA in R](https://www.datanovia.com/en/lessons/ancova-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/anova/mixed-anova-in-r)
+    -   [ANCOVA in R](https://www.datanovia.com/learn/biostatistics/anova/ancova-in-r)
     -   [One-Way MANOVA in
-        R](https://www.datanovia.com/en/lessons/one-way-manova-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/anova/manova-in-r)
     -   [Kruskal-Wallis Test in
-        R](https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r)
     -   [Friedman Test in
-        R](https://www.datanovia.com/en/lessons/friedman-test-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r)

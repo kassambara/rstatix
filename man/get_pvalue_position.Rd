@@ -126,11 +126,11 @@ when \code{x} specified.}
 \description{
 Compute p-value x and y positions for plotting significance
  levels. Many examples are provided at : \itemize{ \item
- \href{https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/}{How
+ \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{How
   to Add P-Values onto a Grouped GGPLOT using the GGPUBR R Package} \item
  \href{https://www.datanovia.com/learn/data-visualization/ggpubr/auto-p-values}{How
   to Add Adjusted P-values to a Multi-Panel GGPlot} \item
- \href{https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/}{How
+ \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{How
   to Add P-Values Generated Elsewhere to a GGPLOT} }
 }
 \section{Functions}{
