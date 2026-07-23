@@ -133,8 +133,8 @@ aov_effsize_ci <- function(model, es, ci = 0.95){
   bounds <- do.call(rbind, bounds)
   # Unrounded, like eta_squared() itself and like effectsize. Agreement with
   # effectsize::eta_squared(ci = ) is bounded by the two root-finders: ours
-  # solves the defining equation to ~1e-9; effectsize's non-partial inversion
-  # can be ~5e-4 off for a small pseudo-F (its tolerance is looser).
+  # solves the defining equation to ~1e-8 or better; effectsize's non-partial
+  # inversion can be ~5e-4 off for a small pseudo-F (its tolerance is looser).
   tibble::tibble(
     Effect    = terms,
     effsize   = as.numeric(es),
