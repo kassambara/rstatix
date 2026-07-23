@@ -14,6 +14,10 @@ NULL
 #'  the multiple testing. So there is no need to apply additional p-value
 #'  corrections.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+#'  for a worked walkthrough.
+#'
 #'@param effect.size logical. Default is FALSE. If TRUE, a \code{cohens.d} column
 #'  and its \code{magnitude} are added. Because Games-Howell assumes unequal
 #'  variances, this is the Welch (averaged-variance) Cohen's d,
@@ -62,6 +66,7 @@ NULL
 #'   games_howell_test(len ~ dose)
 #'
 #'@rdname games_howell_test
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 #'@export
 games_howell_test <- function(data, formula, conf.level = 0.95, detailed = FALSE,
                               effect.size = FALSE){

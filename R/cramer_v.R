@@ -4,6 +4,10 @@ NULL
 #'Compute Cramer's V
 #'@description Compute Cramer's V, which measures the strength of the
 #'  association between categorical variables.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/categorical/chi-square-test-of-independence-in-r}{Chi-Square Test of Independence in R}
+#'  for a worked walkthrough.
 #'@inheritParams stats::chisq.test
 #'@param correct logical. If TRUE, Yates' continuity correction is applied when
 #'  computing the chi-square statistic, which only affects 2x2 tables. Default is
@@ -52,8 +56,17 @@ NULL
 #'  implementation, and it only arises for effect sizes indistinguishable from
 #'  zero.
 #'
-#'  The results match \code{effectsize::cramers_v(adjust = FALSE, ci = ,
-#'  alternative = "two.sided")} and \code{DescTools::CramerV()}.
+#'  At the default \code{correct = FALSE}, the results match
+#'  \code{effectsize::cramers_v(adjust = FALSE, ci = , alternative =
+#'  "two.sided")} away from the near-independence corner above (where numerical
+#'  inversions differ), and \code{DescTools::CramerV(conf.level = )} to about
+#'  four decimals (its inversion uses a looser tolerance), except at a
+#'  chi-square of exactly zero, where \code{DescTools} returns \code{NA}
+#'  bounds and this function returns the collapsed \code{[0, 0]} interval.
+#'  Neither package applies Yates' continuity correction, so \code{correct =
+#'  TRUE} values have no counterpart there (\code{DescTools}'s own
+#'  \code{correct} argument selects the Bergsma bias correction, a different
+#'  adjustment).
 #'@references Cramer, H. (1946). Mathematical Methods of Statistics. Princeton
 #'  University Press.
 #'
@@ -83,6 +96,7 @@ NULL
 #' cramer_v(tab)
 #' cramer_v(tab, correct = TRUE)
 #'
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/chi-square-test-of-independence-in-r}{Chi-Square Test of Independence in R}.
 #'@export
 cramer_v <- function(x, y = NULL, correct = FALSE, ..., ci = FALSE, conf.level = 0.95) {
   test <- stats::chisq.test(x, y, correct = correct, ...)

@@ -22,6 +22,10 @@ NULL
 #'  function \code{qchisq(0.999, df) }, where df is the degree of freedom (i.e.,
 #'  the number of dependent variable used in the computation).
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r}{Normality Test in R}
+#'  for a worked walkthrough.
+#'
 #'@param data a data frame. Columns are variables.
 #'@param ... One unquoted expressions (or variable name). Used to select a
 #'  variable of interest. Can be also used to ignore a variable that are not
@@ -44,6 +48,7 @@ NULL
 #'  doo(~mahalanobis_distance(.)) %>%
 #'  filter(is.outlier == TRUE)
 #'
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r}{Normality Test in R}.
 #'@export
 mahalanobis_distance <- function(data, ...){
   if(is_grouped_df(data)){

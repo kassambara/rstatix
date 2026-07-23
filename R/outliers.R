@@ -21,6 +21,10 @@ NULL
 #'  even be ignored. Note that, any \code{NA} and \code{NaN} are automatically removed
 #'  before the quantiles are computed.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/assumptions/descriptive-statistics-in-r}{Descriptive Statistics in R}
+#'  for a worked walkthrough.
+#'
 #'@return \itemize{ \item \code{identify_outliers()}. Returns the input data
 #'  frame with two additional columns: "is.outlier" and "is.extreme", which hold
 #'  logical values. \item \code{is_outlier() and is_extreme()}. Returns logical
@@ -53,6 +57,7 @@ NULL
 #' demo.data %>%
 #'   group_by(gender) %>%
 #'   identify_outliers("score")
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/descriptive-statistics-in-r}{Descriptive Statistics in R}.
 
 #'@describeIn outliers takes a data frame and extract rows suspected as outliers
 #'  according to a numeric column. The following columns are added "is.outlier"

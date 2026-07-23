@@ -5,6 +5,10 @@ NULL
 #'
 #'  Wrappers around the R base function \code{\link[stats]{mcnemar.test}()}, but
 #'  provide pairwise comparisons between multiple groups
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/categorical/mcnemar-test-in-r}{McNemar’s Test in R}
+#'  for a worked walkthrough.
 #'@inheritParams stats::mcnemar.test
 #'@param data a data frame containing the variables in the formula.
 #'@param formula a formula of the form \code{a ~ b | c}, where \code{a} is the
@@ -74,6 +78,7 @@ NULL
 #'
 #'@describeIn mcnemar_test performs McNemar's chi-squared test for comparing two
 #'  paired proportions
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/mcnemar-test-in-r}{McNemar’s Test in R}.
 #'@export
 mcnemar_test <- function(x, y = NULL, correct = TRUE){
   args <- as.list(environment()) %>%

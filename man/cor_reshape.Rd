@@ -22,6 +22,10 @@ Reshape correlation analysis results. Key functions: \itemize{
   (long format). \item \code{cor_spread()}: spread a long correlation data format across
   multiple columns. Particularly, it takes the results of \code{\link{cor_test}}
   and transforms it into a correlation matrix. }
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -60,4 +64,5 @@ long.format \%>\% cor_spread(value = "p")
 }
 \seealso{
 \code{\link{cor_mat}()}, \code{\link{cor_reorder}()}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 }

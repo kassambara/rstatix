@@ -47,9 +47,10 @@ for \code{\link{cohens_d}()} and \code{\link{wilcox_effsize}()}.}
 
 \item{nboot}{The number of replications to use for bootstrap.}
 
-\item{...}{Additional arguments passed to the functions
-\code{coin::wilcoxsign_test()} (case of one- or paired-samples test) or
-\code{coin::wilcox_test()} (case of independent two-samples test).}
+\item{...}{other arguments; accepted for interface compatibility with
+\code{\link{cohens_d}()} and \code{\link{wilcox_effsize}()} but not used
+(Cliff's delta has no test backend to forward them to). \code{paired} is
+rejected: the statistic is defined for two independent samples only.}
 
 \item{boot.parallel}{The type of parallel operation to be used when computing
 the bootstrap confidence interval. Allowed values are \code{"no"} (default),
@@ -78,6 +79,10 @@ Compute Cliff's delta, a non-parametric effect size for the
   \eqn{\delta = (\#\{x > y\} - \#\{x < y\}) / (n_1 n_2)}. It ranges from
   \code{-1} to \code{1} and, unlike the rank-biserial \code{r}, is unaffected
   by ties beyond their contribution to the counts.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}
+ for a worked walkthrough.
 }
 \details{
 The magnitude thresholds are those of Romano et al. (2006):
@@ -105,4 +110,7 @@ Cliff, N. (1993). Dominance statistics: Ordinal analyses to answer ordinal
   Romano, J., Kromrey, J. D., Coraggio, J., & Skowronek, J. (2006). Appropriate
   statistics for ordinal level data. Annual meeting of the Florida Association
   of Institutional Research.
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}.
 }

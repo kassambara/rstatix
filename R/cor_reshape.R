@@ -6,10 +6,15 @@ NULL
 #'   (long format). \item \code{cor_spread()}: spread a long correlation data format across
 #'   multiple columns. Particularly, it takes the results of \code{\link{cor_test}}
 #'   and transforms it into a correlation matrix. }
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+#'  for a worked walkthrough.
 #' @param data a data frame or matrix.
 #' @param drop.na logical. If TRUE, drop rows containing missing values after gathering the data.
 #' @param value column name containing the value to spread.
 #' @seealso \code{\link{cor_mat}()}, \code{\link{cor_reorder}()}
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 #' @examples
 #' # Data preparation
 #' #::::::::::::::::::::::::::::::::::::::::::

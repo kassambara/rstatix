@@ -28,9 +28,11 @@ return a data frame with the following columns: \itemize{ \item
 Provides a pipe-friendly framework to perform a Friedman rank sum
  test, which is the non-parametric alternative to the one-way repeated
  measures ANOVA test. Wrapper around the function
- \code{\link[stats]{friedman.test}()}. Read more:
- \href{https://www.datanovia.com/en/lessons/friedman-test-in-r/}{Friedman
- test in R}.
+ \code{\link[stats]{friedman.test}()}.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}
+ for a worked walkthrough.
 }
 \examples{
 # Load data
@@ -45,4 +47,7 @@ head(df)
 #:::::::::::::::::::::::::::::::::::::::::
 df \%>\% friedman_test(len ~ dose | id)
 
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}.
 }

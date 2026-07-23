@@ -24,6 +24,10 @@ Compute (classic, full) omega-squared and partial omega-squared
   for all terms in a between-subjects ANOVA model. Omega squared is a
   less-biased alternative to eta squared, estimating the population effect
   size rather than the sample one.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -51,4 +55,5 @@ Olejnik, S., & Algina, J. (2003). Generalized eta and omega
 }
 \seealso{
 \code{\link{eta_squared}()}, \code{\link{anova_test}()}.
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 }

@@ -73,6 +73,10 @@ Provides a pipe-friendly framework to perform the two-sample
  When the grouping factor contains more than two levels, pairwise
  Kolmogorov-Smirnov tests are automatically performed, with p-value
  adjustment.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r}{Normality Test in R}
+ for a worked walkthrough.
 }
 \examples{
 # Two-samples test
@@ -89,4 +93,5 @@ ToothGrowth \%>\% ks_test(len ~ dose, ref.group = "0.5")
 }
 \seealso{
 \code{\link{wilcox_test}()}, \code{\link{t_test}()}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r}{Normality Test in R}.
 }

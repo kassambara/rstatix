@@ -24,8 +24,15 @@ A data frame containing the following components:
 Performs the Box's M-test for homogeneity of covariance matrices
   obtained from multivariate normal data according to one grouping variable.
   The test is based on the chi-square approximation.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}
+ for a worked walkthrough.
 }
 \examples{
 data(iris)
 box_m(iris[, -5], iris[, 5])
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}.
 }

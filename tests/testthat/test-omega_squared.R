@@ -98,3 +98,28 @@ test_that("omega_squared works from an anova object and errors cleanly on a repe
   expect_error(omega_squared(rm))
   expect_error(partial_omega_squared(rm))
 })
+
+test_that("a car::Anova type 3 table's (Intercept) row does not enter the computation", {
+  # A type 3 table carries an "(Intercept)" row; its SS must stay out of
+  # SS_total and its df out of the sample-size inference sum(df) + 1.
+  # References from effectsize::omega_squared(a3, partial = FALSE/TRUE),
+  # effectsize 1.0.1, 2026-07-23; identical to the hand formulas with
+  # SS_total = sum(term SS) + SS_resid and N = 32.
+  mt <- mtcars
+  mt$cyl <- factor(mt$cyl)
+  mt$am <- factor(mt$am)
+  m <- stats::lm(mpg ~ cyl * am, data = mt,
+                 contrasts = list(cyl = "contr.sum", am = "contr.sum"))
+  a3 <- car::Anova(m, type = 3)
+  o  <- omega_squared(a3)
+  po <- partial_omega_squared(a3)
+  expect_equal(names(o), c("cyl", "am", "cyl:am"))
+  expect_equal(names(po), c("cyl", "am", "cyl:am"))
+  expect_equal(unname(o),
+               c(0.5491077277, 0.0289525833, 0.0098699332), tolerance = 1e-7)
+  expect_equal(unname(po),
+               c(0.5712865076, 0.0656487909, 0.0233918105), tolerance = 1e-7)
+  # and the same model through aov() (no intercept row) is not affected by the
+  # intercept handling: the pinned aov-path values above still hold, so only the
+  # type 3 input gains the exclusion.
+})

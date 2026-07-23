@@ -34,7 +34,8 @@ create_test_label(
   detailed = FALSE,
   style = c("classic", "apa"),
   effect.size.ci = NA,
-  effect.size.bounded = TRUE
+  effect.size.bounded = TRUE,
+  effect.size.ci.level = 0.95
 )
 
 get_n(stat.test)
@@ -109,6 +110,10 @@ effect size's confidence interval, appended after the effect size when
 \code{[-1, 1]} (e.g. \eqn{\eta^2}, \emph{r}, Cliff's \eqn{\delta}); used by
 \code{style = "apa"} to decide whether to drop the leading zero. Defaults to
 \code{TRUE}; set \code{FALSE} for Cohen's \emph{d}.}
+
+\item{effect.size.ci.level}{the confidence level \code{effect.size.ci} was
+computed at, shown before the interval (e.g. \code{95\%} CI). Defaults to
+\code{0.95}.}
 }
 \value{
 a text label or an expression to pass to a plotting function.
@@ -116,6 +121,10 @@ a text label or an expression to pass to a plotting function.
 \description{
 Extracts label information from statistical tests. Useful for
   labelling plots with test outputs.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{P-values from Tests on ggplots in R (rstatix)}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -195,4 +204,7 @@ get_description(stat.test)
 \references{
 American Psychological Association (2020). \emph{Publication Manual
   of the American Psychological Association} (7th ed.).
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests}{P-values from Tests on ggplots in R (rstatix)}.
 }

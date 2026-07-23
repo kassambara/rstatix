@@ -20,6 +20,10 @@ Performs the Cochran's Q test for unreplicated randomized block
  test is analogue to the \code{\link{friedman.test}()} with 0,1 coded
  response. It's an extension of the McNemar Chi-squared test for comparing
  more than two paired proportions.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/categorical/cochran-q-test-in-r}{Cochran’s Q Test in R}
+ for a worked walkthrough.
 }
 \examples{
 # Generate a demo data
@@ -41,4 +45,7 @@ cochran_qtest(mydata, outcome ~ treatment|participant)
 # pairwise comparisons between groups
 pairwise_mcnemar_test(mydata, outcome ~ treatment|participant)
 
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/cochran-q-test-in-r}{Cochran’s Q Test in R}.
 }

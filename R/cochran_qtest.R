@@ -6,6 +6,10 @@ NULL
 #'  test is analogue to the \code{\link{friedman.test}()} with 0,1 coded
 #'  response. It's an extension of the McNemar Chi-squared test for comparing
 #'  more than two paired proportions.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/categorical/cochran-q-test-in-r}{Cochran’s Q Test in R}
+#'  for a worked walkthrough.
 #'@param data a data frame containing the variables in the formula.
 #'@param formula a formula of the form \code{a ~ b | c}, where \code{a} is the
 #'  outcome variable name; b is the within-subjects factor variables; and c
@@ -31,6 +35,7 @@ NULL
 #' # pairwise comparisons between groups
 #' pairwise_mcnemar_test(mydata, outcome ~ treatment|participant)
 #'
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/cochran-q-test-in-r}{Cochran’s Q Test in R}.
 #'@export
 cochran_qtest <- function(data, formula){
   args <- as.list(environment()) %>%

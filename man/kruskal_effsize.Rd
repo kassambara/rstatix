@@ -77,6 +77,10 @@ Compute the effect size for Kruskal-Wallis test as the eta
  its valid \code{[0, 1]} range.
 
 Confidence intervals are calculated by bootstap.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}
+ for a worked walkthrough.
 }
 \examples{
 # Load data
@@ -101,4 +105,7 @@ Maciej Tomczak and Ewa Tomczak. The need to report effect size
  http://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/effectSize
 
  http://www.psy.gla.ac.uk/~steve/best/effect.html
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}.
 }

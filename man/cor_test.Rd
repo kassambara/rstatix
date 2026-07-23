@@ -77,6 +77,10 @@ Provides a pipe-friendly framework to perform correlation test
  two variables or between two different vectors of variables. Using this
  function, you can also compute, for example, the correlation between one
  variable vs many.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-test-in-r}{Correlation Test in R}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -132,4 +136,5 @@ mtcars \%>\% cor_test(
 \seealso{
 \code{\link{cor_mat}()}, \code{\link{as_cor_mat}()},
  \code{\link{rstatix-programming}} (using variable names held in strings)
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-test-in-r}{Correlation Test in R}.
 }

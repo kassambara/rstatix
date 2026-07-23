@@ -68,6 +68,10 @@ Compute the effect size estimate (referred to as \code{w}) for
  effect)
 
  Confidence intervals are calculated by bootstap.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}
+ for a worked walkthrough.
 }
 \examples{
 # Load data
@@ -86,4 +90,7 @@ df \%>\% friedman_effsize(len ~ dose | id)
 Maciej Tomczak and Ewa Tomczak. The need to report effect size
  estimates revisited. An overview of some recommended measures of effect
  size. Trends in Sport Sciences. 2014; 1(21):19-25.
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}.
 }

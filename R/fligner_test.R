@@ -8,6 +8,10 @@ NULL
 #'  variances. It is robust against departures from normality and is a useful
 #'  alternative to \code{\link{levene_test}()}. Wrapper around the function
 #'  \code{\link[stats]{fligner.test}()}.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}
+#'  for a worked walkthrough.
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a
 #'  numeric variable giving the data values and \code{group} is a factor with
@@ -23,6 +27,7 @@ NULL
 #'  freedom. \item \code{p}: p-value. \item \code{method}: the statistical test
 #'  used to compare groups.}
 #'@seealso \code{\link{levene_test}}
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}.
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::

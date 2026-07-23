@@ -30,6 +30,10 @@ NULL
 #'   are not repeated. Choosing a test by first testing its assumptions on the
 #'   same data has a known cost --- see the note in \code{?check_test_assumptions}.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/assumptions/statistical-tests-and-assumptions}{Statistical Tests and Assumptions in R}
+#'  for a worked walkthrough.
+#'
 #' @param data a data frame containing the variables in the formula.
 #' @param formula a formula of the form \code{x ~ group} where \code{x} is a
 #'   numeric outcome variable and \code{group} is a factor with two or more
@@ -51,6 +55,7 @@ NULL
 #' @seealso \code{\link{check_test_assumptions}()}, \code{\link{tukey_hsd}()}, \code{\link{games_howell_test}()},
 #'   \code{\link{dunn_test}()}, \code{\link{levene_test}()},
 #'   \code{\link{shapiro_test}()}.
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/statistical-tests-and-assumptions}{Statistical Tests and Assumptions in R}.
 #'
 #' @examples
 #' df <- ToothGrowth
@@ -152,6 +157,11 @@ validate_oneway_design <- function(data, formula){
   group <- get_formula_right_hand_side(formula)
   if(.is_empty(group))
     stop("A grouping variable is required (`outcome ~ group`).", call. = FALSE)
+  if(length(group) > 1 || grepl("[+*:|]", group))
+    stop("Only a one-way design (`outcome ~ group`, a single grouping variable) ",
+         "is supported; got `", deparse(formula), "`. For a multi-factor design, ",
+         "use anova_test() with emmeans_test() or tukey_hsd() directly.",
+         call. = FALSE)
   data <- data %>% .as_factor(group)
   if(guess_number_of_groups(data, group) < 2)
     stop("The grouping variable must have at least two levels.", call. = FALSE)

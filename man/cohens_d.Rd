@@ -96,9 +96,14 @@ noncentral \emph{t} distribution (Steiger, 2004; Cumming & Finch, 2001) --
 the same machinery \code{\link{anova_test}(ci = )} uses for partial
 eta-squared. The analytic interval covers the one-sample, paired and
 two-sample (equal-variance and Welch) cases, is reproducible across runs
-(no seed), and matches \code{effectsize::cohens_d(ci = )} /
-\code{effectsize::hedges_g(ci = )}. When it is not defined for a given input
-(for example a degenerate group), the bootstrap is used as a fallback. The
+(no seed), and matches \code{effectsize::cohens_d(ci = )}. With
+\code{hedges.correction = TRUE} the estimate and both bounds are scaled by
+the documented \eqn{(N - 3)/(N - 2.25)} approximation, so they are not
+identical to \code{effectsize::hedges_g(ci = )}, which applies the exact
+gamma-function correction at the design's degrees of freedom. The gap is
+proportional to the effect size and grows as the samples shrink.
+When the interval is not defined for a given input (for
+example a degenerate group), the bootstrap is used as a fallback. The
 default \code{"boot"} leaves the returned interval unchanged from previous
 versions.}
 }
@@ -130,6 +135,10 @@ Compute the effect size for t-test. T-test conventional effect
  It can also return confidence intervals for the effect size, either by
  bootstrap (the default) or by an analytic, deterministic method (see
  \code{ci.method}).
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/two-groups/cohens-d-effect-size}{Cohen’s d Effect Size in R}
+ for a worked walkthrough.
 }
 \details{
 Quantification of the effect size magnitude is performed using the
@@ -168,4 +177,7 @@ df \%>\% cohens_d(value ~ treatment, paired = TRUE)
  A primer on the understanding, use, and calculation of confidence intervals
  that are based on central and noncentral distributions. Educational and
  Psychological Measurement, 61(4), 532-574. }
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/cohens-d-effect-size}{Cohen’s d Effect Size in R}.
 }

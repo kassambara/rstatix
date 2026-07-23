@@ -16,6 +16,10 @@ NULL
 #'  it does not borrow the residual rank variance and is therefore more
 #'  conservative.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}
+#'  for a worked walkthrough.
+#'
 #'@inheritParams friedman_conover_test
 #'@param detailed logical value. If TRUE, returns the rank-sum estimate and the
 #'  test method in the output.
@@ -52,6 +56,7 @@ NULL
 #'  Hollander, M., Wolfe, D. A. (1973) Nonparametric Statistical Methods. Wiley.
 #' @seealso \code{\link{friedman_test}}, \code{\link{friedman_conover_test}},
 #'   \code{\link{friedman_effsize}}
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}.
 #' @examples
 #' # A balanced complete block design: 3 treatments measured on 6 subjects
 #' df <- data.frame(

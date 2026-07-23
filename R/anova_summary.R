@@ -9,6 +9,10 @@ NULL
 #'  The results include ANOVA table, generalized effect size and some assumption
 #'  checks.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+#'  for a worked walkthrough.
+#'
 #'@param effect.size the effect size to compute and to show in the ANOVA
 #'  results. Allowed values can be either "ges" (generalized eta squared) or
 #'  "pes" (partial eta squared) or both. Default is "ges".
@@ -63,6 +67,7 @@ NULL
 #'
 #'@author Alboukadel Kassambara, \email{alboukadel.kassambara@@gmail.com}
 #'@seealso \code{\link{anova_test}()}, \code{\link{factorial_design}()}
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 #' @examples
 #'# Load data
 #'#:::::::::::::::::::::::::::::::::::::::
@@ -117,6 +122,11 @@ anova_summary <- function(object, effect.size = "ges", detailed = FALSE, observe
          "Object needs to be of class 'Anova.mlm' or 'anova'.")
   }
   .args <- attr(object, "args") # exist only in anova_test()
+  # Record the confidence level next to the other stashed arguments, so that a
+  # consumer of the result (e.g. get_test_label(style = "apa")) can label the
+  # interval with the level it was actually computed at. Only added when a CI
+  # was requested, so every other call's attributes are unchanged.
+  if(!is.null(ci) && !is.null(.args)) .args$ci <- ci
   results <- results %>%
     add_anova_effect_size(effect.size, observed, ci = ci)
 

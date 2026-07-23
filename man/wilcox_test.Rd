@@ -131,9 +131,11 @@ return a data frame with some of the following columns: \itemize{
 }
 \description{
 Provides a pipe-friendly framework to performs one and two sample
- Wilcoxon tests. Read more:
- \href{https://www.datanovia.com/en/lessons/wilcoxon-test-in-r/}{Wilcoxon in
- R}.
+ Wilcoxon tests.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}
+ for a worked walkthrough.
 }
 \details{
 - \code{pairwise_wilcox_test()} applies the standard two sample
@@ -229,4 +231,7 @@ df \%>\% wilcox_test(len ~ dose, ref.group = "all")
 \references{
 Kerby, D. S. (2014). The simple difference formula: An approach to
  teaching nonparametric correlation. \emph{Comprehensive Psychology}, 3, 11.IT.3.1.
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}.
 }

@@ -68,6 +68,10 @@ Provide a tibble-friendly framework to visualize a correlation
   The p-values contained in the outputs of the functions
   \code{\link{cor_mat}()} and \code{rcorr()} are automatically detected and
   used in the visualization.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+ for a worked walkthrough.
 }
 \examples{
 # Compute correlation matrix
@@ -131,4 +135,5 @@ if(require("ggpubr")){
 }
 \seealso{
 \code{\link{cor_as_symbols}()}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 }

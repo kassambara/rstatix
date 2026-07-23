@@ -64,6 +64,10 @@ Performs Conover's all-pairs comparison test (also known as the
  remaining treatments is compared only to the reference (control) treatment,
  and the p-value adjustment for multiple comparisons is computed over only
  these \code{k - 1} comparisons (as for \code{\link{dunn_test}()}).
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}
+ for a worked walkthrough.
 }
 \details{
 For a balanced complete block design with \eqn{b} blocks and \eqn{k}
@@ -74,7 +78,11 @@ For a balanced complete block design with \eqn{b} blocks and \eqn{k}
  \frac{R_i - R_j}{\sqrt{\dfrac{2\,(b\,A - \sum_j R_j^2)}{(b - 1)(k - 1)}}}}
  referred to a \emph{t}-distribution with \eqn{(b - 1)(k - 1)} degrees of
  freedom. This is the Conover (1999) post-hoc, also known as the
- Durbin-Conover test.
+ Durbin-Conover test. In the returned table each row is oriented with
+ \eqn{i = } \code{group2} and \eqn{j = } \code{group1}: \code{estimate} is
+ \eqn{R_{group2} - R_{group1}} and \code{statistic} carries its sign, the
+ same convention as \code{\link{conover_test}()} and
+ \code{\link{dunn_test}()}.
 
  The p-values match \code{PMCMRplus::frdAllPairsConoverTest()}. That function
  reports the \emph{t} statistic for the reversed comparison, so its sign is
@@ -104,4 +112,5 @@ Conover, W. J. (1999) Practical Nonparametric Statistics, 3rd
 \seealso{
 \code{\link{friedman_test}}, \code{\link{friedman_nemenyi_test}},
   \code{\link{friedman_effsize}}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}.
 }

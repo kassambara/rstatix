@@ -42,6 +42,10 @@ By default, a single numeric value: Cramer's V.
 \description{
 Compute Cramer's V, which measures the strength of the
  association between categorical variables.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/categorical/chi-square-test-of-independence-in-r}{Chi-Square Test of Independence in R}
+ for a worked walkthrough.
 }
 \details{
 Cramer's V is \eqn{V = \sqrt{\chi^2 / (N (k - 1))}} (Cramer, 1946),
@@ -71,8 +75,17 @@ Cramer's V is \eqn{V = \sqrt{\chi^2 / (N (k - 1))}} (Cramer, 1946),
  implementation, and it only arises for effect sizes indistinguishable from
  zero.
 
- The results match \code{effectsize::cramers_v(adjust = FALSE, ci = ,
- alternative = "two.sided")} and \code{DescTools::CramerV()}.
+ At the default \code{correct = FALSE}, the results match
+ \code{effectsize::cramers_v(adjust = FALSE, ci = , alternative =
+ "two.sided")} away from the near-independence corner above (where numerical
+ inversions differ), and \code{DescTools::CramerV(conf.level = )} to about
+ four decimals (its inversion uses a looser tolerance), except at a
+ chi-square of exactly zero, where \code{DescTools} returns \code{NA}
+ bounds and this function returns the collapsed \code{[0, 0]} interval.
+ Neither package applies Yates' continuity correction, so \code{correct =
+ TRUE} values have no counterpart there (\code{DescTools}'s own
+ \code{correct} argument selects the Bergsma bias correction, a different
+ adjustment).
 }
 \examples{
 
@@ -105,4 +118,7 @@ Cramer, H. (1946). Mathematical Methods of Statistics. Princeton
  Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals
  and tests of close fit in the analysis of variance and contrast analysis.
  Psychological Methods, 9, 164-182.
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/chi-square-test-of-independence-in-r}{Chi-Square Test of Independence in R}.
 }

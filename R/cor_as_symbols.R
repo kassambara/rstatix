@@ -4,6 +4,10 @@ NULL
 #'
 #' @description Take a correlation matrix and replace the correlation coefficients by symbols according to the
 #'   level of the correlation.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+#'  for a worked walkthrough.
 #' @param x a correlation matrix. Particularly, an object of class \code{cor_mat}.
 #' @param cutpoints numeric vector used for intervals. Default values are
 #'  \code{c(0, 0.25, 0.5, 0.75, 1)}.
@@ -11,6 +15,7 @@ NULL
 #'  correlation coefficient symbols. Default values are \code{c(" ", ".",  "+",
 #'  "*")}.
 #' @seealso \code{\link{cor_mat}()}
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 #' @examples
 #' # Compute correlation matrix
 #' #::::::::::::::::::::::::::::::::::::::::::

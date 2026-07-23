@@ -25,6 +25,10 @@ Provide a pipe-friendly framework to easily compute Levene's
 
   Wrapper around the function \code{\link[car]{leveneTest}()}, which can
   additionally handles a grouped data.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}
+ for a worked walkthrough.
 }
 \examples{
 # Prepare the data
@@ -39,4 +43,7 @@ df \%>\%
   group_by(supp) \%>\%
   levene_test(len ~ dose)
 
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r}{Homogeneity of Variance Test in R}.
 }

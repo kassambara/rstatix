@@ -51,6 +51,9 @@ Key functions
 -   `shapiro_test()` and `mshapiro_test()`: Univariate and multivariate
     Shapiro-Wilk normality test.
 
+Related tutorial: [Descriptive Statistics in
+R](https://www.datanovia.com/learn/biostatistics/assumptions/descriptive-statistics-in-r).
+
 ### Comparing means
 
 -   `t_test()`: perform one-sample, two-sample and pairwise t-tests
@@ -64,7 +67,7 @@ Key functions
 -   `anova_test()`: an easy-to-use wrapper around `car::Anova()` to
     perform different types of ANOVA tests, including **independent
     measures ANOVA**, **repeated measures ANOVA** and **mixed ANOVA**.
--   `get_anova_test_table()`: extract ANOVA table from `anova_test()`
+-   `get_anova_table()`: extract ANOVA table from `anova_test()`
     results. Can apply sphericity correction automatically in the case
     of within-subject (repeated measures) designs.
 -   `welch_anova_test()`: Welch one-Way ANOVA test. A pipe-friendly
@@ -77,8 +80,13 @@ Key functions
     the one-way repeated measures ANOVA test.
 -   `get_comparisons()`: Create a list of possible pairwise comparisons
     between groups.
--   `get_pvalue_position()`: autocompute p-value positions for plotting
-    significance using ggplot2.
+-   `add_xy_position()`, `get_y_position()`: autocompute p-value
+    positions for plotting significance using ggplot2.
+
+Related tutorials: [T-Test in
+R](https://www.datanovia.com/learn/biostatistics/two-groups/t-test-in-r)
+· [Wilcoxon Test in
+R](https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r).
 
 ### Facilitating ANOVA computation in R
 
@@ -91,6 +99,11 @@ Key functions
     results include ANOVA table, generalized effect size and some
     assumption checks, such as Mauchly’s test for sphericity in the case
     of repeated measures ANOVA.
+
+Related tutorials: [One-Way ANOVA in
+R](https://www.datanovia.com/learn/biostatistics/anova/anova-in-r) ·
+[Repeated Measures ANOVA in
+R](https://www.datanovia.com/learn/biostatistics/anova/repeated-measures-anova-in-r).
 
 ### Post-hoc analyses
 
@@ -120,6 +133,11 @@ Key functions
 -   `emmeans_test()`: pipe-friendly wrapper arround `emmeans` function
     to perform pairwise comparisons of estimated marginal means. Useful
     for post-hoc analyses following up ANOVA/ANCOVA tests.
+
+Related tutorials: [One-Way ANOVA in
+R](https://www.datanovia.com/learn/biostatistics/anova/anova-in-r) ·
+[Kruskal-Wallis Test in
+R](https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r).
 
 ### Comparing proportions
 
@@ -154,6 +172,13 @@ Key functions
 -   `prop_trend_test()`: Performs chi-squared test for trend in
     proportion. This test is also known as Cochran-Armitage trend test.
 
+Related tutorials: [Chi-Square Test of Independence in
+R](https://www.datanovia.com/learn/biostatistics/categorical/chi-square-test-of-independence-in-r)
+· [Proportion Z-Test in
+R](https://www.datanovia.com/learn/biostatistics/two-groups/proportion-z-tests-in-r)
+· [Fisher’s Exact Test in
+R](https://www.datanovia.com/learn/biostatistics/categorical/fisher-exact-test-in-r).
+
 ### Comparing variances
 
 -   `levene_test()`: Pipe-friendly framework to easily compute Levene’s
@@ -164,6 +189,9 @@ Key functions
     non-parametric test for homogeneity of variances that is robust
     against departures from normality.
 -   `box_m()`: Box’s M-test for homogeneity of covariance matrices
+
+Related tutorial: [Homogeneity of Variance Test in
+R](https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r).
 
 ### Effect Size
 
@@ -183,6 +211,9 @@ Key functions
 -   `cramer_v()`: Compute Cramer’s V, which measures the strength of the
     association between categorical variables, with optional confidence
     intervals.
+
+Related tutorial: [Cohen’s d Effect Size in
+R](https://www.datanovia.com/learn/biostatistics/two-groups/cohens-d-effect-size).
 
 ### Correlation analysis
 
@@ -227,6 +258,11 @@ Key functions
 -   `cor_plot()`: visualize correlation matrix using base plot.
 -   `cor_mark_significant()`: add significance levels to a correlation
     matrix.
+
+Related tutorials: [Correlation Test in
+R](https://www.datanovia.com/learn/biostatistics/correlation/correlation-test-in-r)
+· [Correlation Matrix in
+R](https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r).
 
 ### Adjusting p-values, formatting and adding significance symbols
 
@@ -760,40 +796,68 @@ cor.mat %>%
 Related articles
 ----------------
 
--   [How to Add P-Values onto Basic
-    GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-basic-ggplots/)
--   [How to Add Adjusted P-values to a Multi-Panel
-    GGPlot](https://www.datanovia.com/en/blog/ggpubr-how-to-add-adjusted-p-values-to-a-multi-panel-ggplot/)
--   [How to Add P-values to GGPLOT
-    Facets](https://www.datanovia.com/en/blog/how-to-add-p-values-to-ggplot-facets/)
--   [How to Add P-Values Generated Elsewhere to a
-    GGPLOT](https://www.datanovia.com/en/blog/ggpubr-how-to-add-p-values-generated-elsewhere-to-a-ggplot/)
--   [How to Add P-Values onto a Grouped GGPLOT using the GGPUBR R
-    Package](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-a-grouped-ggplot-using-the-ggpubr-r-package/)
--   [How to Create Stacked Bar Plots with Error Bars and
-    P-values](https://www.datanovia.com/en/blog/how-to-create-stacked-bar-plots-with-error-bars-and-p-values/)
--   [How to Add P-Values onto Horizontal
-    GGPLOTS](https://www.datanovia.com/en/blog/how-to-add-p-values-onto-horizontal-ggplots/)
--   [Add P-values and Significance Levels to
-    ggplots](https://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/)
--   [Comparing Means of Two Groups in
-    R](https://www.datanovia.com/en/courses/comparing-means-of-two-groups-in-r/)
-    -   [T-test in R](https://www.datanovia.com/en/lessons/t-test-in-r/)
+-   Adding p-values to ggplots
+    -   [P-values from Tests on ggplots in R
+        (rstatix)](https://www.datanovia.com/learn/data-visualization/ggpubr/p-values-from-tests)
+    -   [Auto P-values in ggplot with geom\_pwc
+        (ggpubr)](https://www.datanovia.com/learn/data-visualization/ggpubr/auto-p-values)
+    -   [Add P-values to ggplots in R
+        (ggpubr)](https://www.datanovia.com/learn/data-visualization/ggpubr/add-p-values)
+    -   [Stacked Bar Plot with Error Bars & P-values in
+        R](https://www.datanovia.com/learn/data-visualization/ggpubr/stacked-bar-pvalues)
+-   [Comparing Two
+    Groups](https://www.datanovia.com/learn/biostatistics/two-groups/)
+    -   [T-Test in
+        R](https://www.datanovia.com/learn/biostatistics/two-groups/t-test-in-r)
     -   [Wilcoxon Test in
-        R](https://www.datanovia.com/en/lessons/wilcoxon-test-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r)
     -   [Sign Test in
-        R](https://www.datanovia.com/en/lessons/sign-test-in-r/)
--   [Comparing Multiple Means in
-    R](https://www.datanovia.com/en/courses/comparing-multiple-means-in-r/)
-    -   [ANOVA in R](https://www.datanovia.com/en/lessons/anova-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/two-groups/sign-test-in-r)
+    -   [Proportion Z-Test in
+        R](https://www.datanovia.com/learn/biostatistics/two-groups/proportion-z-tests-in-r)
+-   [The ANOVA
+    Family](https://www.datanovia.com/learn/biostatistics/anova/)
+    -   [One-Way ANOVA in
+        R](https://www.datanovia.com/learn/biostatistics/anova/anova-in-r)
     -   [Repeated Measures ANOVA in
-        R](https://www.datanovia.com/en/lessons/repeated-measures-anova-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/anova/repeated-measures-anova-in-r)
     -   [Mixed ANOVA in
-        R](https://www.datanovia.com/en/lessons/mixed-anova-in-r/)
-    -   [ANCOVA in R](https://www.datanovia.com/en/lessons/ancova-in-r/)
-    -   [One-Way MANOVA in
-        R](https://www.datanovia.com/en/lessons/one-way-manova-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/anova/mixed-anova-in-r)
+    -   [ANCOVA in
+        R](https://www.datanovia.com/learn/biostatistics/anova/ancova-in-r)
+    -   [MANOVA in
+        R](https://www.datanovia.com/learn/biostatistics/anova/manova-in-r)
     -   [Kruskal-Wallis Test in
-        R](https://www.datanovia.com/en/lessons/kruskal-wallis-test-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r)
     -   [Friedman Test in
-        R](https://www.datanovia.com/en/lessons/friedman-test-in-r/)
+        R](https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r)
+-   Categorical data
+    -   [Chi-Square Test of Independence in
+        R](https://www.datanovia.com/learn/biostatistics/categorical/chi-square-test-of-independence-in-r)
+    -   [Chi-Square Goodness-of-Fit Test in
+        R](https://www.datanovia.com/learn/biostatistics/categorical/chi-square-goodness-of-fit-test-in-r)
+    -   [Fisher’s Exact Test in
+        R](https://www.datanovia.com/learn/biostatistics/categorical/fisher-exact-test-in-r)
+    -   [McNemar’s Test in
+        R](https://www.datanovia.com/learn/biostatistics/categorical/mcnemar-test-in-r)
+    -   [Cochran’s Q Test in
+        R](https://www.datanovia.com/learn/biostatistics/categorical/cochran-q-test-in-r)
+    -   [Cochran-Armitage Trend Test in
+        R](https://www.datanovia.com/learn/biostatistics/categorical/cochran-armitage-trend-test-in-r)
+-   Correlation
+    -   [Correlation Test in
+        R](https://www.datanovia.com/learn/biostatistics/correlation/correlation-test-in-r)
+    -   [Correlation Matrix in
+        R](https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r)
+-   Effect size
+    -   [Cohen’s d Effect Size in
+        R](https://www.datanovia.com/learn/biostatistics/two-groups/cohens-d-effect-size)
+-   Assumptions and descriptives
+    -   [Statistical Tests and Assumptions in
+        R](https://www.datanovia.com/learn/biostatistics/assumptions/statistical-tests-and-assumptions)
+    -   [Normality Test in
+        R](https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r)
+    -   [Homogeneity of Variance Test in
+        R](https://www.datanovia.com/learn/biostatistics/assumptions/homogeneity-of-variance-in-r)
+    -   [Descriptive Statistics in
+        R](https://www.datanovia.com/learn/biostatistics/assumptions/descriptive-statistics-in-r)

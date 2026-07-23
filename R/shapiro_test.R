@@ -7,9 +7,11 @@ NULL
 #' @description Provides a pipe-friendly framework to performs Shapiro-Wilk test
 #'   of normality. Support grouped data and multiple variables for multivariate
 #'   normality tests. Wrapper around the R base function
-#'   \code{\link[stats]{shapiro.test}()}. Can handle grouped data. Read more:
-#'   \href{https://www.datanovia.com/en/lessons/normality-test-in-r/}{Normality
-#'   Test in R}.
+#'   \code{\link[stats]{shapiro.test}()}. Can handle grouped data.
+#'
+#'   See the Datanovia tutorial
+#'   \href{https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r}{Normality Test in R}
+#'   for a worked walkthrough.
 #' @param data a data frame. Columns are variables.
 #' @param ... One or more unquoted expressions (or variable names) separated by
 #'   commas. Used to select a variable of interest.
@@ -28,6 +30,7 @@ NULL
 #' # Multivariate normality test
 #' mshapiro_test(iris[, 1:3])
 #'
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r}{Normality Test in R}.
 
 #' @describeIn shapiro_test univariate Shapiro-Wilk normality test
 #' @export

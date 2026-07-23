@@ -140,6 +140,10 @@ Compute Wilcoxon effect size (\code{r}) for: \itemize{ \item
  for r commonly in published litterature and on the internet are: \code{0.10
  - < 0.3} (small effect), \code{0.30 - < 0.5} (moderate effect) and \code{>=
  0.5} (large effect).
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}
+ for a worked walkthrough.
 }
 \examples{
 if(require("coin")){
@@ -168,4 +172,7 @@ ToothGrowth \%>\%
 Maciej Tomczak and Ewa Tomczak. The need to report effect size
  estimates revisited. An overview of some recommended measures of effect
  size. Trends in Sport Sciences. 2014; 1(21):19-25.
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/two-groups/wilcoxon-test-in-r}{Wilcoxon Test in R}.
 }

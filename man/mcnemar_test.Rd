@@ -61,6 +61,10 @@ Performs McNemar chi-squared test to compare paired proportions.
 
  Wrappers around the R base function \code{\link[stats]{mcnemar.test}()}, but
  provide pairwise comparisons between multiple groups
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/categorical/mcnemar-test-in-r}{McNemar’s Test in R}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -109,4 +113,7 @@ cochran_qtest(mydata, outcome ~ treatment|participant)
 # pairwise comparisons between groups
 pairwise_mcnemar_test(mydata, outcome ~ treatment|participant)
 
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/mcnemar-test-in-r}{McNemar’s Test in R}.
 }

@@ -8,6 +8,10 @@ NULL
 #'  contrast()} from the \code{emmeans} package, which need to be installed
 #'  before using this function. This function is useful for performing post-hoc
 #'  analyses following ANOVA/ANCOVA tests.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+#'  for a worked walkthrough.
 #'@inheritParams t_test
 #'@param model a fitted-model object such as the result of a call to
 #'  \code{lm()}, \code{stats::aov()} (including a within-subject \code{Error()}
@@ -77,6 +81,7 @@ NULL
 #' }
 #'
 #' }
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 #'@export
 emmeans_test <- function(data, formula, covariate = NULL, ref.group = NULL,
                          comparisons = NULL, p.adjust.method = "bonferroni",

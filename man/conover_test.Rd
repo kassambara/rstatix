@@ -65,6 +65,10 @@ Performs Conover's test (also known as the Conover-Iman test) for
  the p-value adjustment for multiple comparisons is computed over only these
  \code{k - 1} comparisons (instead of all \code{k(k - 1)/2} pairwise
  comparisons), exactly as for \code{\link{dunn_test}()}.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}
+ for a worked walkthrough.
 }
 \details{
 The Conover-Iman pairwise statistic for comparing groups \eqn{i} and
@@ -77,6 +81,11 @@ The Conover-Iman pairwise statistic for comparing groups \eqn{i} and
  \eqn{S^2 = \frac{1}{N - 1}\left(\sum r^2 - \frac{N(N+1)^2}{4}\right)}). The
  statistic is referred to a \emph{t}-distribution with \eqn{N - k} degrees of
  freedom.
+
+ In the returned table each row is oriented with \eqn{i = } \code{group2} and
+ \eqn{j = } \code{group1}: \code{estimate} is \eqn{\bar{R}_{group2} -
+ \bar{R}_{group1}} and \code{statistic} carries its sign, the same convention
+ as \code{\link{dunn_test}()}.
 
  The results match \code{PMCMRplus::kwAllPairsConoverTest()}.
 }
@@ -103,4 +112,5 @@ Conover, W. J. (1999) Practical Nonparametric Statistics, 3rd
 }
 \seealso{
 \code{\link{dunn_test}}, \code{\link{kruskal_test}}
+  The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/kruskal-wallis-test-in-r}{Kruskal-Wallis Test in R}.
 }

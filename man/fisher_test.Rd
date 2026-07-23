@@ -86,6 +86,10 @@ Performs Fisher's exact test for testing the null of independence
  have the advantage of performing pairwise and row-wise fisher tests, the
  post-hoc tests following a significant chi-square test of homogeneity for 2xc
  and rx2 contingency tables.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/categorical/fisher-exact-test-in-r}{Fisher’s Exact Test in R}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -177,4 +181,7 @@ Job <- matrix(c(1,2,1,0, 3,3,6,1, 10,10,14,9, 6,7,12,11), 4, 4,
                              satisfaction = c("VeryD", "LittleD", "ModerateS", "VeryS")))
 fisher_test(Job)
 fisher_test(Job, simulate.p.value = TRUE, B = 1e5)
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/categorical/fisher-exact-test-in-r}{Fisher’s Exact Test in R}.
 }

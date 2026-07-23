@@ -5,11 +5,16 @@ NULL
 #' @description Convert a correlation test data frame, returned by the
 #'   \code{\link{cor_test}()}, into a correlation matrix format.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}
+#'  for a worked walkthrough.
+#'
 #' @param x an object of class \code{cor_test}.
 #' @return  Returns a data frame containing the matrix of the correlation
 #'   coefficients. The output has an attribute named "pvalue", which contains
 #'   the matrix of the correlation test p-values.
 #' @seealso \code{\link{cor_mat}()}, \code{\link{cor_test}()}
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/correlation/correlation-matrix-in-r}{Correlation Matrix in R}.
 #' @examples
 #' # Pairwise correlation tests between variables
 #' #:::::::::::::::::::::::::::::::::::::::::::::::

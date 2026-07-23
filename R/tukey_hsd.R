@@ -11,6 +11,10 @@ NULL
 #'  essentially a t-test that corrects for multiple testing.
 #'
 #'  Can handle different inputs formats: aov, lm, formula.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+#'  for a worked walkthrough.
 #'@param x an object of class \code{aov}, \code{lm} or \code{data.frame}
 #'  containing the variables used in the formula.
 #'@param data a data.frame containing the variables in the formula.
@@ -50,6 +54,7 @@ NULL
 #'   group_by(supp) %>%
 #'   tukey_hsd(len ~ dose)
 #'
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 #'@export
 tukey_hsd <- function(x, ...){
   UseMethod("tukey_hsd", x)

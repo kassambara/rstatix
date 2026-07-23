@@ -6,9 +6,11 @@ NULL
 #'@description Provides a pipe-friendly framework to perform a Friedman rank sum
 #'  test, which is the non-parametric alternative to the one-way repeated
 #'  measures ANOVA test. Wrapper around the function
-#'  \code{\link[stats]{friedman.test}()}. Read more:
-#'  \href{https://www.datanovia.com/en/lessons/friedman-test-in-r/}{Friedman
-#'  test in R}.
+#'  \code{\link[stats]{friedman.test}()}.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}
+#'  for a worked walkthrough.
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{a ~ b | c}, where \code{a}
 #'  (numeric) is the dependent variable name; \code{b} is the within-subjects
@@ -37,6 +39,7 @@ NULL
 #' df %>% friedman_test(len ~ dose | id)
 #'
 #'@name friedman_test
+#' @seealso The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/friedman-test-in-r}{Friedman Test in R}.
 #'@export
 friedman_test <- function(data, formula, ...){
   args <- c(as.list(environment()), list(...)) %>%

@@ -20,8 +20,10 @@ interval is computed in base R by inverting the noncentral F distribution
 (Steiger, 2004), and matches
 \code{effectsize::eta_squared(ci = , alternative = "two.sided")} —
 \code{partial = FALSE} for \code{eta_squared()} and \code{partial = TRUE} for
-\code{partial_eta_squared()}. Default is \code{NULL} (no interval; the bare
-named vector is returned, unchanged).}
+\code{partial_eta_squared()} — to about four decimals for the non-partial
+bounds of a small pseudo-F (that function's inversion uses a looser
+tolerance), and more closely everywhere else. Default is \code{NULL} (no
+interval; the bare named vector is returned, unchanged).}
 }
 \value{
 a named numeric vector of effect sizes, one per model term; or, when
@@ -31,6 +33,10 @@ a named numeric vector of effect sizes, one per model term; or, when
 \description{
 Compute eta-squared and partial eta-squared for all terms in an
   ANOVA model.
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+ for a worked walkthrough.
 }
 \section{Functions}{
 \itemize{
@@ -60,4 +66,7 @@ partial_eta_squared(res.aov, ci = 0.95)
 Steiger, J. H. (2004). Beyond the F test: Effect size confidence
   intervals and tests of close fit in the analysis of variance and contrast
   analysis. \emph{Psychological Methods}, 9, 164-182.
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 }

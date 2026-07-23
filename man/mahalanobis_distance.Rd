@@ -39,6 +39,10 @@ Pipe-friendly wrapper around to the function
  The threshold to declare a multivariate outlier is determined using the
  function \code{qchisq(0.999, df) }, where df is the degree of freedom (i.e.,
  the number of dependent variable used in the computation).
+
+ See the Datanovia tutorial
+ \href{https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r}{Normality Test in R}
+ for a worked walkthrough.
 }
 \examples{
 
@@ -52,4 +56,7 @@ iris \%>\%
  doo(~mahalanobis_distance(.)) \%>\%
  filter(is.outlier == TRUE)
 
+}
+\seealso{
+The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/normality-test-in-r}{Normality Test in R}.
 }

@@ -30,6 +30,10 @@ NULL
 #'   or a rank-based test. Treat this recommendation as guidance, not a
 #'   substitute for judgement.
 #'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/assumptions/statistical-tests-and-assumptions}{Statistical Tests and Assumptions in R}
+#'  for a worked walkthrough.
+#'
 #' @param data a data frame containing the variables in the formula.
 #' @param formula a formula of the form \code{x ~ group} where \code{x} is a
 #'   numeric outcome and \code{group} is a factor with two or more levels.
@@ -44,6 +48,7 @@ NULL
 #'
 #' @seealso \code{\link{posthoc_test}()}, \code{\link{shapiro_test}()},
 #'   \code{\link{levene_test}()}.
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/assumptions/statistical-tests-and-assumptions}{Statistical Tests and Assumptions in R}.
 #'
 #' @examples
 #' df <- ToothGrowth

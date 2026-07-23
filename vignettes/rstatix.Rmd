@@ -111,10 +111,11 @@ pairwise mean comparison that is Cohen's d:
 df %>% cohens_d(len ~ dose)
 ```
 
-Each metric has a matching verb, all with the same interface and an optional
-confidence interval via `ci = TRUE`: `eta_squared()` for ANOVA, `cramer_v()` for
-association, `cliff_delta()` and `wilcox_effsize()` for the non-parametric case,
-`kruskal_effsize()` for Kruskal-Wallis.
+Each metric has a matching verb: `eta_squared()` for ANOVA (on the fitted
+model), `cramer_v()` for association, `cliff_delta()` and `wilcox_effsize()`
+for the non-parametric case, `kruskal_effsize()` for Kruskal-Wallis. Each can
+also return a confidence interval — `ci = TRUE` for the formula-based verbs,
+a confidence level such as `ci = 0.95` for `eta_squared()`.
 
 ## Report it
 
@@ -127,8 +128,9 @@ model <- df %>% anova_test(len ~ dose, effect.size = "pes", ci = 0.95)
 get_test_label(model, type = "text", style = "apa")
 ```
 
-Because every result is a tibble, `tidy()` and `glance()` hand it to the
-reporting-table ecosystem (`broom`, `gtsummary`, `gt`):
+The test results are `rstatix_test` objects with `tidy()` and `glance()`
+methods, which hand them as plain tibbles to the reporting-table ecosystem
+(`broom`, `gtsummary`, `gt`):
 
 ```{r}
 df %>% anova_test(len ~ dose) %>% tidy()

@@ -6,6 +6,10 @@ NULL
 #'   for all terms in a between-subjects ANOVA model. Omega squared is a
 #'   less-biased alternative to eta squared, estimating the population effect
 #'   size rather than the sample one.
+#'
+#'  See the Datanovia tutorial
+#'  \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}
+#'  for a worked walkthrough.
 #' @param model an object of class \code{aov} or \code{anova} (a between-subjects
 #'   design). Repeated-measures and mixed models are not supported, as for
 #'   \code{\link{eta_squared}()}.
@@ -16,6 +20,7 @@ NULL
 #'   squared statistics: Measures of effect size for some common research
 #'   designs. \emph{Psychological Methods}, 8(4), 434-447.
 #' @seealso \code{\link{eta_squared}()}, \code{\link{anova_test}()}.
+#'   The Datanovia tutorial: \href{https://www.datanovia.com/learn/biostatistics/anova/anova-in-r}{One-Way ANOVA in R}.
 #' @examples
 #' # Data preparation
 #' df <- ToothGrowth

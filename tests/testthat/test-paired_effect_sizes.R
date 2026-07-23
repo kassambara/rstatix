@@ -97,3 +97,29 @@ test_that("a one-sample Wilcoxon still rejects effect.size = TRUE", {
   expect_error(ToothGrowth %>% wilcox_test(len ~ 1, mu = 20, effect.size = TRUE),
                "one-sample|two or more")
 })
+
+test_that("an all-zero paired difference set gives NA rank-biserial with a warning", {
+  # (R+ - R-)/(R+ + R-) is 0/0 with nothing to rank: NA + warning, same
+  # contract as the undefined bootstrap CI (#290), instead of an error.
+  z <- data.frame(t = rep(c("a", "b"), each = 4), v = rep(1:4, 2))
+  expect_warning(
+    res <- wilcox_test(z, v ~ t, paired = TRUE, effect.size = TRUE),
+    "undefined"
+  )
+  expect_true(is.na(res$rank.biserial))
+  expect_equal(nrow(res), 1L)
+  # a pairwise call still computes the other comparisons
+  z3 <- data.frame(t = rep(c("a", "b", "c"), each = 4), v = c(1:4, 1:4, 5:8))
+  expect_warning(
+    res3 <- wilcox_test(z3, v ~ t, paired = TRUE, effect.size = TRUE,
+                        error.as.na = TRUE),
+    "undefined"
+  )
+  expect_equal(res3$rank.biserial, c(NA, -1, -1))
+  # wilcox_effsize's rank_biserial path follows the same contract
+  expect_warning(
+    rese <- wilcox_effsize(z, v ~ t, paired = TRUE, method = "rank_biserial"),
+    "undefined"
+  )
+  expect_true(is.na(rese$effsize))
+})
