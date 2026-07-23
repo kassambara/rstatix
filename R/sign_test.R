@@ -5,7 +5,7 @@ NULL
 #'Sign Test
 #'
 #'@description Performs one-sample and two-sample sign tests. Read more:
-#'  \href{https://www.datanovia.com/en/lessons/sign-test-in-r/}{Sign Test in R}.
+#'  \href{https://www.datanovia.com/learn/biostatistics/two-groups/sign-test-in-r}{Sign Test in R}.
 #'@inheritParams t_test
 #'@param data a data.frame containing the variables in the formula.
 #'@param formula a formula of the form \code{x ~ group} where \code{x} is a

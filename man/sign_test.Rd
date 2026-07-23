@@ -90,7 +90,7 @@ return a data frame with some the following columns: \itemize{ \item
 }
 \description{
 Performs one-sample and two-sample sign tests. Read more:
- \href{https://www.datanovia.com/en/lessons/sign-test-in-r/}{Sign Test in R}.
+ \href{https://www.datanovia.com/learn/biostatistics/two-groups/sign-test-in-r}{Sign Test in R}.
 }
 \section{Functions}{
 \itemize{

@@ -36,8 +36,8 @@ NULL
 #'  \code{hedges.correction = TRUE} the estimate and both bounds are scaled by
 #'  the documented \eqn{(N - 3)/(N - 2.25)} approximation, so they are not
 #'  identical to \code{effectsize::hedges_g(ci = )}, which applies the exact
-#'  gamma-function correction at the design's degrees of freedom; the gap grows
-#'  as the samples shrink (about 0.04 in \emph{g} for a 5-vs-4 Welch design).
+#'  gamma-function correction at the design's degrees of freedom. The gap is
+#'  proportional to the effect size and grows as the samples shrink.
 #'  When the interval is not defined for a given input (for
 #'  example a degenerate group), the bootstrap is used as a fallback. The
 #'  default \code{"boot"} leaves the returned interval unchanged from previous
