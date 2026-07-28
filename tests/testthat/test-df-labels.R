@@ -223,7 +223,11 @@ test_that("label factor levels keep the order df_unite_factors() produces (#324)
   value <- df_label_value(nested, vars = "region")
   expect_equal(levels(value$label), c("East", "North", "South"))
 
-  # parity with the exported uniting function the labellers used to borrow
+  # parity with the exported uniting function the labellers used to borrow.
+  # df_label_value() sorts the grouping columns themselves, so this holds in
+  # general; for df_label_both() it holds only where sorting the pasted
+  # "<var>:<value>" strings agrees with sorting the values, which is why the
+  # case below uses ToothGrowth (dose 0.5/1/2). See #326 for where they part.
   expect_equal(
     levels(value$label),
     levels(df_unite_factors(nested, col = "label", vars = "region")$label)
