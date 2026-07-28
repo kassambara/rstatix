@@ -217,11 +217,13 @@ df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c("
     )
     sep <- c(":", ", ")
   }
-  label <- data %>%
-    df_select(vars = vars) %>%
+  groups <- data %>% df_select(vars = vars)
+  label <- groups %>%
     concat_groupname_to_levels(vars, sep = sep[2]) %>%
-    unite_factors_in_place(col = label_col, vars = vars, sep = sep[1])
-  data %>% mutate(!!label_col := label)
+    unite_factors_in_place(
+      col = label_col, vars = vars, sep = sep[1], order_by = groups
+    )
+  data %>% mutate(!!label_col := !!label)
 }
 
 
@@ -232,18 +234,20 @@ df_label_value <- function(data, ..., vars = NULL, label_col = "label", sep = ",
   label <- data %>%
     df_select(vars = vars) %>%
     unite_factors_in_place(col = label_col, vars = vars, sep = sep[1])
-  data %>% mutate(!!label_col := label)
+  data %>% mutate(!!label_col := !!label)
 }
 
 
 # Add panel label to a data
 # Labels are the combination of the grouping variable labels
 add_panel_label <- function(data, groups, col = "label") {
-  label <- data %>%
-    df_select(vars = groups) %>%
+  group.data <- data %>% df_select(vars = groups)
+  label <- group.data %>%
     concat_groupname_to_levels(groups, sep = ":") %>%
-    unite_factors_in_place(col = col, vars = groups, sep = ", ")
-  data %>% mutate(!!col := label)
+    unite_factors_in_place(
+      col = col, vars = groups, sep = ", ", order_by = group.data
+    )
+  data %>% mutate(!!col := !!label)
 }
 # Unite grouping columns into a labelling factor, one label per input row.
 #
@@ -251,21 +255,27 @@ add_panel_label <- function(data, groups, col = "label") {
 # that the labels stay aligned with the rows they were built from:
 # df_unite_factors() sorts before uniting, so its column is a permutation of
 # the input rows and mutating it back onto the unsorted data mislabels every
-# row whose sorted position differs (#324). The factor levels are still taken
-# from the sorted order, so level order - and any downstream panel ordering
-# built on it - is unchanged.
-unite_factors_in_place <- function(data, col, vars, sep = "_"){
-  unite_and_pull <- function(x){
-    x %>%
-      df_unite(col = col, vars = vars, sep = sep) %>%
-      pull(!!col)
-  }
-  labels <- unite_and_pull(data)
-  levels <- data %>%
+# row whose sorted position differs (#324).
+#
+# The factor levels follow the sorted row order, so they still drive panel
+# ordering the way df_unite_factors() does. order_by supplies the columns that
+# sort is taken on, for callers that label a transformed copy of the grouping
+# variables: df_label_both() pastes the variable name onto the values first,
+# and sorting those strings ordered a numeric variable lexicographically and
+# ignored a factor's levels (#326). Sorting is left to dplyr::arrange() rather
+# than order(), so character collation is unchanged.
+unite_factors_in_place <- function(data, col, vars, sep = "_", order_by = NULL){
+  labels <- data %>%
+    df_unite(col = col, vars = vars, sep = sep) %>%
+    pull(!!col)
+  if(is.null(order_by)) order_by <- data
+  row_id <- ".rstatix_row"
+  while(row_id %in% vars) row_id <- paste0(row_id, ".")
+  row_order <- order_by %>%
+    dplyr::mutate(!!row_id := dplyr::row_number()) %>%
     dplyr::arrange(!!!syms(vars)) %>%
-    unite_and_pull() %>%
-    unique()
-  factor(labels, levels = levels)
+    pull(!!row_id)
+  factor(labels, levels = unique(labels[row_order]))
 }
 # Add a column containing panel name
 add_panel_name <- function(data, panel, col = "label") {
