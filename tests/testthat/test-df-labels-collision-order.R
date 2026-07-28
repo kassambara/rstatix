@@ -290,14 +290,35 @@ test_that("labelling with no grouping variable errors consistently (#326)", {
 
 # --------------------------------------------------------- no-regression ----
 
-test_that("character grouping and df_unite_factors are unaffected by #326", {
+test_that("a missing value moves the level order for any column type (#326)", {
+  # the sort used to run on the string "g:NA", which placed the missing group
+  # alphabetically; it now runs on the column, where NA sorts last. This
+  # reaches column types that are otherwise unaffected, so the release note
+  # cannot claim character or alphabetical factors are unaffected outright
+  expect_equal(
+    levels(df_label_both(data.frame(g = c("North", NA, "East"), v = 1:3,
+                                    stringsAsFactors = FALSE), vars = "g")$label),
+    c("g:East", "g:North", "g:NA")            # was g:East, g:NA, g:North
+  )
+  expect_equal(
+    levels(df_label_both(data.frame(g = factor(c("a", NA, "b"), levels = c("a", "b")),
+                                    v = 1:3), vars = "g")$label),
+    c("g:a", "g:b", "g:NA")                   # was g:NA, g:a, g:b
+  )
+  expect_equal(
+    levels(df_label_both(data.frame(g = c(TRUE, NA, FALSE), v = 1:3), vars = "g")$label),
+    c("g:FALSE", "g:TRUE", "g:NA")            # was g:FALSE, g:NA, g:TRUE
+  )
+})
+
+test_that("character grouping without NA, and df_unite_factors, are unaffected by #326", {
   chr <- data.frame(
     g = rep(c("North", "East", "South"), each = 4),
     v = 1:12,
     stringsAsFactors = FALSE
   )
-  # a constant "<var>:" prefix cannot reorder character values, so this case
-  # is byte-identical to before the change
+  # a constant "<var>:" prefix cannot reorder character values, so a character
+  # column with no missing value is byte-identical to before the change
   expect_equal(
     levels(df_label_both(df_nest_by(chr, vars = "g"), vars = "g")$label),
     c("g:East", "g:North", "g:South")
@@ -308,8 +329,10 @@ test_that("character grouping and df_unite_factors are unaffected by #326", {
       "dose:1, supp:VC", "dose:2, supp:OJ", "dose:2, supp:VC")
   )
 
-  # the exported uniting function keeps sorting on the columns it is given,
-  # including the lexicographic order for a numeric column
+  # the exported uniting function keeps sorting on the columns it is given.
+  # It always ordered a numeric column numerically, which is what df_label_both()
+  # now agrees with: the divergence was on df_label_both()'s side, because it
+  # sorted the pasted strings instead of the values
   n <- data.frame(g = rep(c(10, 2, 1), each = 2), v = 1:6)
   uf <- df_unite_factors(n, col = "lab", vars = "g")
   expect_equal(as.character(uf$lab), rep(c("1", "2", "10"), each = 2))
