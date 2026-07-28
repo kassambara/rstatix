@@ -661,7 +661,7 @@ get_n <- function(stat.test){
   if(inherits(stat.test, "anova_test")){
     .args <- attr(stat.test, "args")
     wid <- .args$wid
-    if(is.null(wid)) n <- nrow(.args$data)
+    if(is.null(wid)) n <- get_anova_n(.args)
     else n <- .args$data %>% pull(tidyselect::all_of(wid)) %>% unique() %>% length()
     stat.test$n <- n
   }
@@ -684,6 +684,33 @@ get_n <- function(stat.test){
     else n <- stat.test$n1 + stat.test$n2
   }
   n
+}
+
+# Observations a between-subjects ANOVA actually used.
+#
+# The formula interface fits the model on complete cases inside fit_lm(), which
+# removes the missing rows from a LOCAL copy of the arguments - so the data
+# stashed on the result still carries the rows the test dropped, and counting
+# them reported an n contradicting the degrees of freedom printed beside it
+# (#322). The fitted model is the one thing that knows how many observations it
+# saw.
+#
+# Only two shapes reach here, and both always carry a model: a formula with no
+# Error() term, and a model the caller fitted and passed in. Every other design
+# has a wid - check_anova_arguments() routes it through check_factorial_design(),
+# whose assertthat_wid_is_specified() names it ".id." even for a purely
+# between-subjects dv/between call - and get_n() counts distinct wid values
+# instead, without consulting this. nrow(.args$data) is therefore a defensive
+# fallback for an arguments list carrying no model, or a model class with no
+# nobs() method - is_model() (R/anova_test.R) accepts only lm, aov, glm,
+# multinom, polr, mlm and manova, so no anova_test path reaches it with a live
+# arguments list, and widening that set is what would make it live. (A result
+# whose attributes dplyr has stripped arrives here as .args = NULL and does take
+# it, returning NULL, which get_n() reports as NA exactly as before.)
+get_anova_n <- function(.args){
+  n <- tryCatch(stats::nobs(.args$model), error = function(e) NULL)
+  if(length(n) == 1 && is.finite(n)) return(n)
+  nrow(.args$data)
 }
 
 # Statistical test description ---------------------------------
