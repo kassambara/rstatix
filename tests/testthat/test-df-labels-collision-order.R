@@ -180,6 +180,75 @@ test_that("a zero-row input gets no phantom label level (#326)", {
   expect_length(levels(res$label), 0)
 })
 
+# ------------------------------------------------------------- grouping ----
+
+test_that("a grouped or rowwise input is labelled like an ungrouped one (#326)", {
+  # the label depends only on the row's own grouping values, so a dplyr
+  # grouping on some other column must not influence it. The row order used to
+  # derive the levels is taken with row_number(), which counts WITHIN groups on
+  # a grouped_df; without ungrouping first, the level set is truncated and every
+  # row outside it is silently labelled NA.
+  d <- data.frame(
+    g = c("b", "b", "a", "a"),
+    blk = c(1, 2, 1, 2),
+    v = 1:4,
+    stringsAsFactors = FALSE
+  )
+  grouped <- dplyr::group_by(d, blk)
+
+  both <- df_label_both(grouped, vars = "g")
+  expect_equal(as.character(both$label), c("g:b", "g:b", "g:a", "g:a"))
+  expect_equal(levels(both$label), c("g:a", "g:b"))
+  expect_false(anyNA(both$label))
+
+  value <- df_label_value(grouped, vars = "g")
+  expect_equal(as.character(value$label), c("b", "b", "a", "a"))
+  expect_equal(levels(value$label), c("a", "b"))
+  expect_false(anyNA(value$label))
+
+  # identical to the ungrouped call, values and levels
+  for (f in list(df_label_both, df_label_value)) {
+    g <- f(grouped, vars = "g")$label
+    u <- f(d, vars = "g")$label
+    expect_equal(as.character(g), as.character(u))
+    expect_equal(levels(g), levels(u))
+  }
+})
+
+test_that("grouping does not drop whole groups from the labels (#326)", {
+  # a shape where the truncated level set loses an entire group: grouped by
+  # supp, the dose == 2 rows fall outside the first group's labels
+  tg <- ToothGrowth[!(ToothGrowth$supp == "VC" & ToothGrowth$dose == 2), ]
+  res <- df_label_both(dplyr::group_by(tg, supp), vars = "dose")
+
+  expect_false(anyNA(res$label))
+  expect_equal(levels(res$label), c("dose:0.5", "dose:1", "dose:2"))
+  expect_equal(as.character(res$label), paste0("dose:", tg$dose))
+  expect_equal(sum(res$label == "dose:2"), sum(tg$dose == 2))
+
+  # rowwise() indexes one row per group, the most extreme case
+  rw <- df_label_both(dplyr::rowwise(ToothGrowth), vars = "dose")
+  expect_false(anyNA(rw$label))
+  expect_equal(as.character(rw$label), paste0("dose:", ToothGrowth$dose))
+  expect_equal(levels(rw$label), c("dose:0.5", "dose:1", "dose:2"))
+})
+
+test_that("labelling with no grouping variable errors consistently (#326)", {
+  # a label built from no variables has length 0 and cannot be assigned to a
+  # 4-row frame. That errored before too - except when the data happened to
+  # carry a "label" column, which the old code echoed back and passed off as
+  # success. It must not depend on whether such a column is present.
+  no_label_col <- data.frame(g = c("b", "b", "a", "a"), v = 1:4, stringsAsFactors = FALSE)
+  has_label_col <- data.frame(
+    g = c("b", "b", "a", "a"),
+    label = c("X", "X", "Y", "Y"),
+    v = 1:4,
+    stringsAsFactors = FALSE
+  )
+  expect_error(df_label_both(no_label_col))
+  expect_error(df_label_both(has_label_col))
+})
+
 # --------------------------------------------------------- no-regression ----
 
 test_that("character grouping and df_unite_factors are unaffected by #326", {

@@ -265,10 +265,17 @@ add_panel_label <- function(data, groups, col = "label") {
 # ignored a factor's levels (#326). Sorting is left to dplyr::arrange() rather
 # than order(), so character collation is unchanged.
 unite_factors_in_place <- function(data, col, vars, sep = "_", order_by = NULL){
+  if(is.null(order_by)) order_by <- data
+  # Both frames must be ungrouped before the dplyr verbs below. row_number()
+  # counts within groups, so on a grouped_df the row order would be a per-group
+  # index instead of a permutation of the rows; unique() would then see only the
+  # first group's labels and factor() would silently turn every other row's
+  # label into NA.
+  data <- dplyr::ungroup(data)
+  order_by <- dplyr::ungroup(order_by)
   labels <- data %>%
     df_unite(col = col, vars = vars, sep = sep) %>%
     pull(!!col)
-  if(is.null(order_by)) order_by <- data
   row_id <- ".rstatix_row"
   while(row_id %in% vars) row_id <- paste0(row_id, ".")
   row_order <- order_by %>%
