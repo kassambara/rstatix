@@ -217,7 +217,11 @@ df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c("
     )
     sep <- c(":", ", ")
   }
-  groups <- data %>% df_select(vars = vars)
+  assert_labelling_vars(vars)
+  # ungroup first: select() on a grouped_df silently prepends the grouping
+  # columns, which would hand concat_groupname_to_levels() more columns than
+  # variable names, and the grouping is irrelevant to a row's own label anyway
+  groups <- data %>% dplyr::ungroup() %>% df_select(vars = vars)
   label <- groups %>%
     concat_groupname_to_levels(vars, sep = sep[2]) %>%
     unite_factors_in_place(
@@ -231,7 +235,9 @@ df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c("
 #' @export
 df_label_value <- function(data, ..., vars = NULL, label_col = "label", sep = ", "){
   vars <- df_get_var_names(data, ..., vars = vars)
+  assert_labelling_vars(vars)
   label <- data %>%
+    dplyr::ungroup() %>%
     df_select(vars = vars) %>%
     unite_factors_in_place(col = label_col, vars = vars, sep = sep[1])
   data %>% mutate(!!label_col := !!label)
@@ -241,13 +247,22 @@ df_label_value <- function(data, ..., vars = NULL, label_col = "label", sep = ",
 # Add panel label to a data
 # Labels are the combination of the grouping variable labels
 add_panel_label <- function(data, groups, col = "label") {
-  group.data <- data %>% df_select(vars = groups)
+  assert_labelling_vars(groups)
+  group.data <- data %>% dplyr::ungroup() %>% df_select(vars = groups)
   label <- group.data %>%
     concat_groupname_to_levels(groups, sep = ":") %>%
     unite_factors_in_place(
       col = col, vars = groups, sep = ", ", order_by = group.data
     )
   data %>% mutate(!!col := !!label)
+}
+# A label has to be built from at least one grouping variable. Without one the
+# label is zero-length, which df_label_both() reported as a dplyr recycling
+# error while df_label_value() quietly returned empty strings.
+assert_labelling_vars <- function(vars){
+  if(length(vars) == 0){
+    stop("Specify at least one grouping variable to build the label from.", call. = FALSE)
+  }
 }
 # Unite grouping columns into a labelling factor, one label per input row.
 #

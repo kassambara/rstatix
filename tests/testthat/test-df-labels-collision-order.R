@@ -233,6 +233,42 @@ test_that("grouping does not drop whole groups from the labels (#326)", {
   expect_equal(levels(rw$label), c("dose:0.5", "dose:1", "dose:2"))
 })
 
+test_that("grouping works with more than one labelling variable (#326)", {
+  # select() on a grouped_df prepends the grouping columns, so with two
+  # labelling variables concat_groupname_to_levels() was handed three columns
+  # against two names. This is the repeated-measures idiom: group by subject,
+  # label by two factors.
+  dd <- data.frame(
+    id = rep(1:4, each = 3),
+    treat = rep(c("B", "A"), 6),
+    time = rep(c(3, 1, 10), 4),
+    stringsAsFactors = FALSE
+  )
+  grouped <- df_label_both(dplyr::group_by(dd, id), treat, time)
+  plain <- df_label_both(dd, treat, time)
+
+  expect_false(anyNA(grouped$label))
+  expect_equal(as.character(grouped$label), as.character(plain$label))
+  expect_equal(levels(grouped$label), levels(plain$label))
+  expect_equal(
+    as.character(plain$label),
+    paste0("treat:", dd$treat, ", time:", dd$time)
+  )
+  # the composite key still orders time numerically, not as text
+  expect_equal(
+    levels(plain$label),
+    c("treat:A, time:1", "treat:A, time:3", "treat:A, time:10",
+      "treat:B, time:1", "treat:B, time:3", "treat:B, time:10")
+  )
+  # and grouping adds no message the ungrouped call does not raise
+  expect_no_message(df_label_both(dplyr::group_by(dd, id), treat, time))
+
+  expect_equal(
+    as.character(df_label_value(dplyr::group_by(dd, id), treat, time)$label),
+    as.character(df_label_value(dd, treat, time)$label)
+  )
+})
+
 test_that("labelling with no grouping variable errors consistently (#326)", {
   # a label built from no variables has length 0 and cannot be assigned to a
   # 4-row frame. That errored before too - except when the data happened to
@@ -245,8 +281,11 @@ test_that("labelling with no grouping variable errors consistently (#326)", {
     v = 1:4,
     stringsAsFactors = FALSE
   )
-  expect_error(df_label_both(no_label_col))
-  expect_error(df_label_both(has_label_col))
+  for (d in list(no_label_col, has_label_col)) {
+    expect_error(df_label_both(d), "at least one grouping variable")
+    expect_error(df_label_value(d), "at least one grouping variable")
+    expect_error(df_split_by(d), "at least one grouping variable")
+  }
 })
 
 # --------------------------------------------------------- no-regression ----
