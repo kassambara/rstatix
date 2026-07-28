@@ -218,9 +218,9 @@ df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c("
     sep <- c(":", ", ")
   }
   assert_labelling_vars(vars)
-  # ungroup first: select() on a grouped_df silently prepends the grouping
-  # columns, which would hand concat_groupname_to_levels() more columns than
-  # variable names, and the grouping is irrelevant to a row's own label anyway
+  # ungroup first: select() on a grouped_df adds the grouping columns back,
+  # which would hand concat_groupname_to_levels() more columns than variable
+  # names, and the grouping is irrelevant to a row's own label anyway
   groups <- data %>% dplyr::ungroup() %>% df_select(vars = vars)
   label <- groups %>%
     concat_groupname_to_levels(vars, sep = sep[2]) %>%

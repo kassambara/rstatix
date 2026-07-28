@@ -290,24 +290,41 @@ test_that("labelling with no grouping variable errors consistently (#326)", {
 
 # --------------------------------------------------------- no-regression ----
 
-test_that("a missing value moves the level order for any column type (#326)", {
-  # the sort used to run on the string "g:NA", which placed the missing group
-  # alphabetically; it now runs on the column, where NA sorts last. This
-  # reaches column types that are otherwise unaffected, so the release note
-  # cannot claim character or alphabetical factors are unaffected outright
+test_that("a missing value sorts last rather than as the text 'NA' (#326)", {
+  # the old sort compared each pasted label against the literal string "g:NA",
+  # so the missing group only moves when a present value sorts after it in byte
+  # order; where every value already sorted before "NA" it was last anyway
+  lv <- function(g) levels(df_label_both(data.frame(g = g, v = seq_along(g)),
+                                         vars = "g")$label)
+  # moves: a present value sorts after "NA"
+  expect_equal(lv(c("north", NA, "east")), c("g:east", "g:north", "g:NA"))
+  expect_equal(lv(c("OJ", NA, "VC")), c("g:OJ", "g:VC", "g:NA"))
+  expect_equal(lv(factor(c("a", NA, "b"), levels = c("a", "b"))),
+               c("g:a", "g:b", "g:NA"))       # was g:NA, g:a, g:b
+  # does not move: every present value already sorted before "NA"
+  expect_equal(lv(c("Control", NA, "Drug")), c("g:Control", "g:Drug", "g:NA"))
+  expect_equal(lv(c("A", NA, "B")), c("g:A", "g:B", "g:NA"))
+  expect_equal(lv(c(TRUE, NA, FALSE)), c("g:FALSE", "g:TRUE", "g:NA"))
+})
+
+test_that("a mixed-case factor keeps its declared level order (#326)", {
+  # the old order came from a byte-order sort of the pasted strings, which puts
+  # every uppercase initial before every lowercase one; factor() builds its
+  # levels with a locale-aware sort, so the two disagree on mixed case
   expect_equal(
-    levels(df_label_both(data.frame(g = c("North", NA, "East"), v = 1:3,
-                                    stringsAsFactors = FALSE), vars = "g")$label),
-    c("g:East", "g:North", "g:NA")            # was g:East, g:NA, g:North
+    levels(df_label_both(data.frame(g = factor(c("control", "Treatment")), v = 1:2),
+                         vars = "g")$label),
+    c("g:control", "g:Treatment")             # was g:Treatment, g:control
   )
   expect_equal(
-    levels(df_label_both(data.frame(g = factor(c("a", NA, "b"), levels = c("a", "b")),
-                                    v = 1:3), vars = "g")$label),
-    c("g:a", "g:b", "g:NA")                   # was g:NA, g:a, g:b
+    levels(df_label_both(data.frame(g = factor(c("a", "Z")), v = 1:2), vars = "g")$label),
+    c("g:a", "g:Z")                           # was g:Z, g:a
   )
+  # a uniformly uppercase-initial factor is unaffected
   expect_equal(
-    levels(df_label_both(data.frame(g = c(TRUE, NA, FALSE), v = 1:3), vars = "g")$label),
-    c("g:FALSE", "g:TRUE", "g:NA")            # was g:FALSE, g:NA, g:TRUE
+    levels(df_label_both(data.frame(g = factor(c("Control", "Drug")), v = 1:2),
+                         vars = "g")$label),
+    c("g:Control", "g:Drug")
   )
 })
 
