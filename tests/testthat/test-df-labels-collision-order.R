@@ -323,10 +323,19 @@ test_that("a factor whose levels defy byte order keeps its declared order (#326)
     lv(factor(c("a", "Z"), levels = c("a", "Z"))),
     c("g:a", "g:Z")                           # was g:Z, g:a
   )
-  # where the declared order already matches byte order, nothing moves
+  expect_equal(
+    lv(factor(c("banana", "Apple"), levels = c("banana", "Apple"))),
+    c("g:banana", "g:Apple")                  # was g:Apple, g:banana
+  )
+  # where the declared order already matches byte order, nothing moves - mixed
+  # case on its own does not decide it, the order does
   expect_equal(
     lv(factor(c("Control", "Drug"), levels = c("Control", "Drug"))),
     c("g:Control", "g:Drug")
+  )
+  expect_equal(
+    lv(factor(c("Apple", "banana"), levels = c("Apple", "banana"))),
+    c("g:Apple", "g:banana")
   )
 })
 
