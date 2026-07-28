@@ -234,11 +234,12 @@ df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c("
 #' @export
 df_label_value <- function(data, ..., vars = NULL, label_col = "label", sep = ", "){
   vars <- df_get_var_names(data, ..., vars = vars)
-  # No assertion on a zero-length vars here: labelling by nothing has always
-  # produced an empty label from this labeller, and ggpubr's free-panel path
-  # relies on it for a facet.by that resolves to no column (#328). Only
-  # df_label_both(), which cannot build a label at all without a variable name,
-  # rejects it - as it already did before the message was made explicit.
+  # Labelling by nothing yields an empty label here - one empty string per row -
+  # and ggpubr's free-panel path relies on that for a facet.by resolving to no
+  # column (#328). df_label_both() cannot build a "<variable>:<value>" label
+  # without a variable name, so its label comes out zero-length and dplyr
+  # rejects it on a frame with rows; that is dplyr's check, not one of ours, and
+  # a zero-row frame takes the empty label without complaint (#330).
   label <- data %>%
     dplyr::ungroup() %>%
     df_select(vars = vars) %>%
