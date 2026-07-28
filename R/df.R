@@ -217,7 +217,6 @@ df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c("
     )
     sep <- c(":", ", ")
   }
-  assert_labelling_vars(vars)
   # ungroup first: select() on a grouped_df adds the grouping columns back,
   # which would hand concat_groupname_to_levels() more columns than variable
   # names, and the grouping is irrelevant to a row's own label anyway
@@ -251,7 +250,6 @@ df_label_value <- function(data, ..., vars = NULL, label_col = "label", sep = ",
 # Add panel label to a data
 # Labels are the combination of the grouping variable labels
 add_panel_label <- function(data, groups, col = "label") {
-  assert_labelling_vars(groups)
   group.data <- data %>% dplyr::ungroup() %>% df_select(vars = groups)
   label <- group.data %>%
     concat_groupname_to_levels(groups, sep = ":") %>%
@@ -259,16 +257,6 @@ add_panel_label <- function(data, groups, col = "label") {
       col = col, vars = groups, sep = ", ", order_by = group.data
     )
   data %>% mutate(!!col := !!label)
-}
-# df_label_both() and add_panel_label() cannot build a "<variable>:<value>"
-# label without a variable name; without one the label is zero-length and dplyr
-# reported it as a recycling error. df_label_value() deliberately does NOT
-# assert - labelling by nothing yields an empty label there, which ggpubr's
-# free-panel path relies on (#328) - so it is not a caller of this.
-assert_labelling_vars <- function(vars){
-  if(length(vars) == 0){
-    stop("Specify at least one grouping variable to build the label from.", call. = FALSE)
-  }
 }
 # Unite grouping columns into a labelling factor, one label per input row.
 #

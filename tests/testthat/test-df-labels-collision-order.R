@@ -272,11 +272,12 @@ test_that("grouping works with more than one labelling variable (#326)", {
   )
 })
 
-test_that("df_label_both rejects no grouping variable, consistently (#326)", {
+test_that("df_label_both with no grouping variable behaves as in 1.1.0 (#326)", {
   # df_label_both() cannot build a "<variable>:<value>" label without a variable
-  # name, and has always failed here; it used to surface as a dplyr recycling
-  # error, or look like success when the data carried a "label" column for the
-  # old code to echo back. It must not depend on whether such a column exists.
+  # name, so a zero-length label falls out and dplyr rejects it on a frame with
+  # rows. The message is dplyr's and is deliberately not pinned. What matters is
+  # the outcome, and that it no longer depends on whether the data happens to
+  # carry a "label" column for the old code to echo back.
   no_label_col <- data.frame(g = c("b", "b", "a", "a"), v = 1:4, stringsAsFactors = FALSE)
   has_label_col <- data.frame(
     g = c("b", "b", "a", "a"),
@@ -285,9 +286,15 @@ test_that("df_label_both rejects no grouping variable, consistently (#326)", {
     stringsAsFactors = FALSE
   )
   for (d in list(no_label_col, has_label_col)) {
-    expect_error(df_label_both(d), "at least one grouping variable")
-    expect_error(df_split_by(d), "at least one grouping variable")
+    expect_error(df_label_both(d))
+    expect_error(df_split_by(d))
   }
+
+  # a zero-row frame takes a zero-length label without complaint, as it did in
+  # 1.1.0 - an assertion here would turn a working call into an error (#328)
+  empty <- data.frame(g = character(0), v = integer(0), stringsAsFactors = FALSE)
+  expect_equal(as.character(df_label_both(empty, vars = character(0))$label), character(0))
+  expect_equal(nrow(df_split_by(empty, vars = character(0))), 0)
 })
 
 test_that("df_label_value accepts a zero-length grouping vector (#328)", {
