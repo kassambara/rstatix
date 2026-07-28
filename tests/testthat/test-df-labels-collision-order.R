@@ -272,11 +272,11 @@ test_that("grouping works with more than one labelling variable (#326)", {
   )
 })
 
-test_that("labelling with no grouping variable errors consistently (#326)", {
-  # a label built from no variables has length 0 and cannot be assigned to a
-  # 4-row frame. That errored before too - except when the data happened to
-  # carry a "label" column, which the old code echoed back and passed off as
-  # success. It must not depend on whether such a column is present.
+test_that("df_label_both rejects no grouping variable, consistently (#326)", {
+  # df_label_both() cannot build a "<variable>:<value>" label without a variable
+  # name, and has always failed here; it used to surface as a dplyr recycling
+  # error, or look like success when the data carried a "label" column for the
+  # old code to echo back. It must not depend on whether such a column exists.
   no_label_col <- data.frame(g = c("b", "b", "a", "a"), v = 1:4, stringsAsFactors = FALSE)
   has_label_col <- data.frame(
     g = c("b", "b", "a", "a"),
@@ -286,8 +286,30 @@ test_that("labelling with no grouping variable errors consistently (#326)", {
   )
   for (d in list(no_label_col, has_label_col)) {
     expect_error(df_label_both(d), "at least one grouping variable")
-    expect_error(df_label_value(d), "at least one grouping variable")
     expect_error(df_split_by(d), "at least one grouping variable")
+  }
+})
+
+test_that("df_label_value accepts a zero-length grouping vector (#328)", {
+  # labelling by nothing yields an empty label from this labeller, as it has
+  # since 1.1.0. ggpubr's free-panel path depends on it: a facet.by that
+  # resolves to no column at all must still draw one panel, not error.
+  d <- data.frame(g = rep(c("a", "b"), each = 4), v = 1:8, stringsAsFactors = FALSE)
+
+  for (vs in list(character(0), "")) {
+    res <- df_label_value(d, vars = vs)
+    expect_equal(nrow(res), 8)
+    expect_s3_class(res$label, "factor")
+    expect_equal(as.character(res$label), rep("", 8))
+    expect_equal(levels(res$label), "")
+  }
+
+  # and through df_split_by(), which is how ggpubr reaches it
+  for (vs in list(character(0), "")) {
+    res <- df_split_by(d, vars = vs, label_col = "panel", labeller = df_label_value)
+    expect_equal(nrow(res), 1)
+    expect_equal(as.character(res$panel), "")
+    expect_equal(levels(res$panel), "")
   }
 })
 

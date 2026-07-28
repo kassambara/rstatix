@@ -235,7 +235,11 @@ df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c("
 #' @export
 df_label_value <- function(data, ..., vars = NULL, label_col = "label", sep = ", "){
   vars <- df_get_var_names(data, ..., vars = vars)
-  assert_labelling_vars(vars)
+  # No assertion on a zero-length vars here: labelling by nothing has always
+  # produced an empty label from this labeller, and ggpubr's free-panel path
+  # relies on it for a facet.by that resolves to no column (#328). Only
+  # df_label_both(), which cannot build a label at all without a variable name,
+  # rejects it - as it already did before the message was made explicit.
   label <- data %>%
     dplyr::ungroup() %>%
     df_select(vars = vars) %>%
