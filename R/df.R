@@ -235,7 +235,11 @@ df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c("
 #' @export
 df_label_value <- function(data, ..., vars = NULL, label_col = "label", sep = ", "){
   vars <- df_get_var_names(data, ..., vars = vars)
-  assert_labelling_vars(vars)
+  # No assertion on a zero-length vars here: labelling by nothing has always
+  # produced an empty label from this labeller, and ggpubr's free-panel path
+  # relies on it for a facet.by that resolves to no column (#328). Only
+  # df_label_both(), which cannot build a label at all without a variable name,
+  # rejects it - as it already did before the message was made explicit.
   label <- data %>%
     dplyr::ungroup() %>%
     df_select(vars = vars) %>%
@@ -256,9 +260,11 @@ add_panel_label <- function(data, groups, col = "label") {
     )
   data %>% mutate(!!col := !!label)
 }
-# A label has to be built from at least one grouping variable. Without one the
-# label is zero-length, which df_label_both() reported as a dplyr recycling
-# error while df_label_value() quietly returned empty strings.
+# df_label_both() and add_panel_label() cannot build a "<variable>:<value>"
+# label without a variable name; without one the label is zero-length and dplyr
+# reported it as a recycling error. df_label_value() deliberately does NOT
+# assert - labelling by nothing yields an empty label there, which ggpubr's
+# free-panel path relies on (#328) - so it is not a caller of this.
 assert_labelling_vars <- function(vars){
   if(length(vars) == 0){
     stop("Specify at least one grouping variable to build the label from.", call. = FALSE)
