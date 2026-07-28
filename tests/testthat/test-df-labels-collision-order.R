@@ -294,6 +294,8 @@ test_that("df_label_value accepts a zero-length grouping vector (#328)", {
   # labelling by nothing yields an empty label from this labeller, as it has
   # since 1.1.0. ggpubr's free-panel path depends on it: a facet.by that
   # resolves to no column at all must still draw one panel, not error.
+  # Only the character(0) case regressed - vars = "" has length 1 and never
+  # reached the assertion - but both are locked, the "" one as a neighbour.
   d <- data.frame(g = rep(c("a", "b"), each = 4), v = 1:8, stringsAsFactors = FALSE)
 
   for (vs in list(character(0), "")) {

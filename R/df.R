@@ -260,9 +260,11 @@ add_panel_label <- function(data, groups, col = "label") {
     )
   data %>% mutate(!!col := !!label)
 }
-# A label has to be built from at least one grouping variable. Without one the
-# label is zero-length, which df_label_both() reported as a dplyr recycling
-# error while df_label_value() quietly returned empty strings.
+# df_label_both() and add_panel_label() cannot build a "<variable>:<value>"
+# label without a variable name; without one the label is zero-length and dplyr
+# reported it as a recycling error. df_label_value() deliberately does NOT
+# assert - labelling by nothing yields an empty label there, which ggpubr's
+# free-panel path relies on (#328) - so it is not a caller of this.
 assert_labelling_vars <- function(vars){
   if(length(vars) == 0){
     stop("Specify at least one grouping variable to build the label from.", call. = FALSE)
