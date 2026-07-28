@@ -307,23 +307,25 @@ test_that("a missing value sorts last rather than as the text 'NA' (#326)", {
   expect_equal(lv(c(TRUE, NA, FALSE)), c("g:FALSE", "g:TRUE", "g:NA"))
 })
 
-test_that("a mixed-case factor keeps its declared level order (#326)", {
+test_that("a factor whose levels defy byte order keeps its declared order (#326)", {
   # the old order came from a byte-order sort of the pasted strings, which puts
-  # every uppercase initial before every lowercase one; factor() builds its
-  # levels with a locale-aware sort, so the two disagree on mixed case
+  # every uppercase initial before every lowercase one. The levels are declared
+  # explicitly here on purpose: factor() would otherwise build them with a
+  # locale-aware sort, and under the C collation R CMD check runs in, the
+  # declared order would already BE the byte order and nothing would move.
+  lv <- function(g) levels(df_label_both(data.frame(g = g, v = seq_along(g)),
+                                         vars = "g")$label)
   expect_equal(
-    levels(df_label_both(data.frame(g = factor(c("control", "Treatment")), v = 1:2),
-                         vars = "g")$label),
+    lv(factor(c("control", "Treatment"), levels = c("control", "Treatment"))),
     c("g:control", "g:Treatment")             # was g:Treatment, g:control
   )
   expect_equal(
-    levels(df_label_both(data.frame(g = factor(c("a", "Z")), v = 1:2), vars = "g")$label),
+    lv(factor(c("a", "Z"), levels = c("a", "Z"))),
     c("g:a", "g:Z")                           # was g:Z, g:a
   )
-  # a uniformly uppercase-initial factor is unaffected
+  # where the declared order already matches byte order, nothing moves
   expect_equal(
-    levels(df_label_both(data.frame(g = factor(c("Control", "Drug")), v = 1:2),
-                         vars = "g")$label),
+    lv(factor(c("Control", "Drug"), levels = c("Control", "Drug"))),
     c("g:Control", "g:Drug")
   )
 })
