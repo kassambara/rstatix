@@ -1,5 +1,9 @@
 # rstatix 1.1.0.999
 
+## Bug fixes
+
+- `df_split_by()`, `df_label_both()` and `df_label_value()` no longer attach another group's label to a subset (#324). The label was built by sorting the grouping variables and then writing the sorted labels back onto the unsorted rows, so any group whose position differed from its sorted rank got its neighbour's label — the wrong label also went into each nested subset. For example, `df_split_by(df, vars = "region")` on a character `region` running North, East, South returned North's data labelled `region:East`. Labels are now built row by row from each group's own values. `df_label_both()` was affected even when the grouping column was a factor, since the variable name is pasted onto the levels before the sort. The label's factor levels still follow the sorted order, so panel ordering is unchanged, and `df_unite_factors()` itself is untouched.
+
 
 # rstatix 1.1.0
 

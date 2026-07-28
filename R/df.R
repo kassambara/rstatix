@@ -220,8 +220,7 @@ df_label_both <- function(data, ..., vars = NULL, label_col = "label", sep = c("
   label <- data %>%
     df_select(vars = vars) %>%
     concat_groupname_to_levels(vars, sep = sep[2]) %>%
-    df_unite_factors(col = label_col, vars = vars, sep = sep[1]) %>%
-    pull(!!label_col)
+    unite_factors_in_place(col = label_col, vars = vars, sep = sep[1])
   data %>% mutate(!!label_col := label)
 }
 
@@ -232,8 +231,7 @@ df_label_value <- function(data, ..., vars = NULL, label_col = "label", sep = ",
   vars <- df_get_var_names(data, ..., vars = vars)
   label <- data %>%
     df_select(vars = vars) %>%
-    df_unite_factors(col = label_col, vars = vars, sep = sep[1]) %>%
-    pull(!!label_col)
+    unite_factors_in_place(col = label_col, vars = vars, sep = sep[1])
   data %>% mutate(!!label_col := label)
 }
 
@@ -244,9 +242,30 @@ add_panel_label <- function(data, groups, col = "label") {
   label <- data %>%
     df_select(vars = groups) %>%
     concat_groupname_to_levels(groups, sep = ":") %>%
-    df_unite_factors(col = col, vars = groups, sep = ", ") %>%
-    pull(!!col)
+    unite_factors_in_place(col = col, vars = groups, sep = ", ")
   data %>% mutate(!!col := label)
+}
+# Unite grouping columns into a labelling factor, one label per input row.
+#
+# Same output as pulling the united column out of df_unite_factors(), except
+# that the labels stay aligned with the rows they were built from:
+# df_unite_factors() sorts before uniting, so its column is a permutation of
+# the input rows and mutating it back onto the unsorted data mislabels every
+# row whose sorted position differs (#324). The factor levels are still taken
+# from the sorted order, so level order - and any downstream panel ordering
+# built on it - is unchanged.
+unite_factors_in_place <- function(data, col, vars, sep = "_"){
+  unite_and_pull <- function(x){
+    x %>%
+      df_unite(col = col, vars = vars, sep = sep) %>%
+      pull(!!col)
+  }
+  labels <- unite_and_pull(data)
+  levels <- data %>%
+    dplyr::arrange(!!!syms(vars)) %>%
+    unite_and_pull() %>%
+    unique()
+  factor(labels, levels = levels)
 }
 # Add a column containing panel name
 add_panel_name <- function(data, panel, col = "label") {
