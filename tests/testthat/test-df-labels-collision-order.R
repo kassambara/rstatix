@@ -260,8 +260,11 @@ test_that("grouping works with more than one labelling variable (#326)", {
     c("treat:A, time:1", "treat:A, time:3", "treat:A, time:10",
       "treat:B, time:1", "treat:B, time:3", "treat:B, time:10")
   )
-  # and grouping adds no message the ungrouped call does not raise
+  # and grouping adds no message the ungrouped call does not raise. Asserted
+  # for both labellers: only df_label_both() breaks outright without the
+  # ungroup(), so df_label_value()'s would otherwise be unlocked
   expect_no_message(df_label_both(dplyr::group_by(dd, id), treat, time))
+  expect_no_message(df_label_value(dplyr::group_by(dd, id), treat, time))
 
   expect_equal(
     as.character(df_label_value(dplyr::group_by(dd, id), treat, time)$label),
