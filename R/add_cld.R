@@ -21,8 +21,10 @@ NULL
 #'@param p.col character. The p-value column to threshold. If \code{NULL}
 #'  (default), \code{"p.adj"} is used when present, otherwise \code{"p"}.
 #'@param threshold the significance threshold (default 0.05). Comparisons with a
-#'  p-value below \code{threshold} are treated as significant; comparisons with a
-#'  missing (\code{NA}) p-value are treated as non-significant.
+#'  p-value below \code{threshold} are treated as significant. A comparison whose
+#'  p-value is missing (\code{NA}), or which the input does not contain at all,
+#'  has no established significance: the groups it involves get no letter rather
+#'  than being displayed as not significantly different.
 #'@param reversed logical. If \code{TRUE}, reverses the order in which the
 #'  letters are assigned (so that, with groups ordered by increasing level, the
 #'  later groups receive the earlier letters). Default is \code{FALSE}.
@@ -30,7 +32,12 @@ NULL
 #'@return a tibble with one row per group and the following columns: any grouping
 #'  variables (for a grouped test), \code{.y.} (the outcome variable, when
 #'  present), \code{group} (the group level) and \code{cld} (the compact letter
-#'  display). Groups sharing a letter are not significantly different.
+#'  display). Groups sharing a letter are not significantly different;
+#'  \code{cld} is \code{NA} for a group involved in a comparison whose
+#'  significance was not established, and a warning names those comparisons. A
+#'  group keeps its letter only when every one of its comparisons is present and
+#'  carries a p-value, so one group whose comparisons cannot be estimated can
+#'  leave the whole display empty.
 #'@references Piepho, H.-P. (2004) An Algorithm for a Letter-Based Representation
 #'  of All-Pairwise Comparisons. Journal of Computational and Graphical
 #'  Statistics, 13(2), 456-466.
@@ -100,30 +107,66 @@ add_cld <- function(test, p.col = NULL, threshold = 0.05, reversed = FALSE, ...)
   else {
     groups <- unique(c(group1, group2))
   }
-  # The compact letter display is only meaningful for an ALL-pairwise input.
-  # A reduced set (e.g. a ref.group result with only k - 1 comparisons) would
-  # treat the missing pairs as non-significant and produce a misleading display.
-  # Count DISTINCT unordered pairs (not rows) so a duplicated comparison can't
-  # mask a genuinely missing one.
-  n.expected <- choose(length(groups), 2)
-  n.present <- length(unique(paste(pmin(group1, group2), pmax(group1, group2))))
-  if(n.present < n.expected){
+  pvals <- data[[p.col]]
+  # A comparison is KNOWN only if some row carries a usable p-value for it. That
+  # covers both ways it can be unknown: a pair the input never contains (a
+  # ref.group result has only k - 1 of them), and a pair whose p-value is NA
+  # because the test could not estimate it -- games_howell_test() returns NA
+  # when the pair's Welch standard error is zero or undefined, which needs BOTH
+  # groups constant, or one of them a single observation (a comparison against a
+  # single constant group is perfectly estimable). Either way its significance
+  # was not established, and lettering the two groups as equal would assert a
+  # comparison that was never made (#323).
+  #
+  # Groups touched by an unknown comparison therefore get no letter. Because a
+  # group is dropped as soon as ANY of its pairs is unknown, every pair among
+  # the groups that remain is known, so the letters still shown rest only on
+  # comparisons that were actually made. The rule is deliberately symmetric
+  # rather than minimal: one group whose comparisons are all unestimable -- a
+  # single-observation group, say -- removes every group it is compared against,
+  # so the whole display can come back empty even though the other groups were
+  # compared successfully with each other. Pair identity is carried as an
+  # integer code rather than a pasted string, so a group name containing the
+  # separator cannot collide with another pair.
+  n.g <- length(groups)
+  i1 <- match(group1, groups)
+  i2 <- match(group2, groups)
+  pair.code <- function(a, b) pmin(a, b) * (n.g + 1L) + pmax(a, b)
+  known.codes <- unique(pair.code(i1, i2)[!is.na(pvals)])
+  all.codes <- if(n.g > 1){
+    idx <- utils::combn(seq_len(n.g), 2)
+    pair.code(idx[1, ], idx[2, ])
+  } else integer(0)
+  unknown.codes <- setdiff(all.codes, known.codes)
+
+  retained <- seq_len(n.g)
+  if(length(unknown.codes) > 0){
+    unknown.a <- unknown.codes %/% (n.g + 1L)
+    unknown.b <- unknown.codes %% (n.g + 1L)
+    retained <- setdiff(retained, unique(c(unknown.a, unknown.b)))
+    pair.labels <- paste(groups[unknown.a], groups[unknown.b], sep = " - ")
     warning(
-      "add_cld(): the input has ", n.present, " of the ", n.expected,
-      " pairwise comparisons needed for a complete display of ", length(groups),
-      " groups. Missing comparisons are treated as non-significant, which can ",
-      "make the compact letter display misleading (e.g. for a `ref.group` result).",
+      "add_cld(): the significance of ", length(unknown.codes), " comparison",
+      if(length(unknown.codes) > 1) "s" else "", " was not established (",
+      paste(utils::head(pair.labels, 5), collapse = ", "),
+      if(length(pair.labels) > 5) ", ..." else "",
+      "): the input does not contain the comparison, or its p-value is NA. ",
+      "The groups involved get no letter, because treating such a pair as ",
+      "non-significant would display a comparison that was never made.",
       call. = FALSE
     )
   }
-  pvals <- data[[p.col]]
-  is.sig <- !is.na(pvals) & pvals < threshold
+
+  is.sig <- !is.na(pvals) & pvals < threshold & i1 %in% retained & i2 %in% retained
   sig.pairs <- mapply(
     function(a, b) c(a, b), group1[is.sig], group2[is.sig],
     SIMPLIFY = FALSE, USE.NAMES = FALSE
   )
-  letters.map <- .cld_letters(groups, sig.pairs, reversed = reversed)
-  tibble(group = groups, cld = unname(letters.map[groups]))
+  kept <- groups[retained]
+  letters.map <- .cld_letters(kept, sig.pairs, reversed = reversed)
+  cld <- rep(NA_character_, n.g)
+  cld[retained] <- unname(letters.map[kept])
+  tibble(group = groups, cld = cld)
 }
 
 # Insert-and-absorb letter assignment (Piepho, 2004). `groups` is a character
