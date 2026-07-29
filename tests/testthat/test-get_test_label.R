@@ -161,3 +161,92 @@ test_that("get_test_label is unchanged for non-ANOVA tests and non-detailed labe
   # the non-detailed ANOVA label has no n (only the description + p)
   expect_false(grepl("n =", get_test_label(ToothGrowth %>% anova_test(len ~ dose), type = "text")))
 })
+
+test_that("get_test_label refuses to invent a p-value (#339)", {
+  df <- ToothGrowth
+  df$dose <- factor(df$dose)
+  res <- anova_test(df, len ~ dose)          # true p = 9.53e-16
+
+  # An anova_test is a base data frame, not a tibble, so once the select() below
+  # kept no p column, `$p` partial-matched the `parameter` column that mutate()
+  # adds and the degrees of freedom were printed as the p-value: "p = 2,57".
+  stripped <- res
+  stripped$p <- NULL
+  stripped$F <- NULL
+  stripped$ges <- NULL
+  stripped$`p<.05` <- NULL
+  expect_error(
+    get_test_label(stripped, detailed = TRUE, type = "text"),
+    "Can't find a p-value column"
+  )
+  # whatever it does, it must never present the df as a p-value
+  lab <- tryCatch(get_test_label(stripped, detailed = TRUE, type = "text"),
+                  error = function(e) "")
+  expect_false(grepl("p = 2,57", lab, fixed = TRUE))
+
+  # naming a column the result does not have is an error, not a silent
+  # substitution of the unadjusted p
+  expect_false("p.adj" %in% colnames(res))
+  expect_error(
+    get_test_label(res, p.col = "p.adj", detailed = TRUE, type = "text"),
+    'p.col = "p.adj" is not a column'
+  )
+
+  # p_detect() returns EVERY known p-column name it finds, so it can also come
+  # back with several. That left the p slot unfilled the same way, printing
+  # "p = " (or "p = NA" in the APA style) rather than a p-value.
+  # the two candidates must differ at printed precision, otherwise the
+  # assertions below would pass even if the wrong column were read
+  set.seed(9)
+  df2 <- df
+  df2$len <- df2$len + stats::rnorm(60, 0, 8)
+  ambiguous <- dplyr::rename(adjust_pvalue(t_test(df2, len ~ dose)), p.value = p)
+  expect_false("p" %in% colnames(ambiguous))
+  expect_length(rstatix:::p_detect(ambiguous), 2L)
+  expect_equal(round(ambiguous$p.value[3], 6), 0.000514)
+  expect_equal(round(ambiguous$p.adj[3], 6), 0.001028)
+
+  expect_error(
+    get_test_label(ambiguous, detailed = TRUE, type = "text"),
+    "more than one p-value column"
+  )
+  lab <- tryCatch(get_test_label(ambiguous, detailed = TRUE, type = "text"),
+                  error = function(e) "")
+  expect_false(grepl("p = ,", lab, fixed = TRUE))
+
+  # naming one resolves it, and picks THAT one rather than its neighbour
+  named.adj <- get_test_label(ambiguous, p.col = "p.adj", row = 3, detailed = TRUE, type = "text")
+  named.raw <- get_test_label(ambiguous, p.col = "p.value", row = 3, detailed = TRUE, type = "text")
+  expect_match(as.character(named.adj), "p = 0.001", fixed = TRUE)
+  expect_match(as.character(named.raw), "p = 0.00051", fixed = TRUE)
+  expect_false(grepl("p = 0.00051", as.character(named.adj), fixed = TRUE))
+})
+
+test_that("get_test_label keeps finding the p column it should (#339)", {
+  df <- ToothGrowth
+  df$dose <- factor(df$dose)
+  res <- anova_test(df, len ~ dose)
+
+  # the default path is untouched for every test type
+  expect_match(get_test_label(res, detailed = TRUE, type = "text"), "p = <0.0001")
+  expect_match(get_test_label(kruskal_test(df, len ~ dose), detailed = TRUE, type = "text"),
+               "p = <0.0001")
+  expect_match(get_test_label(t_test(df, len ~ supp), detailed = TRUE, type = "text"),
+               "p = 0.061")
+  expect_match(get_test_label(res, detailed = TRUE, type = "text", style = "apa"),
+               "p < .001")
+
+  # a fixture whose p and p.adj format differently, so these lock which column
+  # was read rather than only that the call succeeded
+  set.seed(9)
+  df2 <- df
+  df2$len <- df2$len + stats::rnorm(60, 0, 8)
+  pw <- adjust_pvalue(t_test(df2, len ~ dose))
+  expect_match(as.character(get_test_label(pw, p.col = "p.adj", row = 3, detailed = TRUE, type = "text")),
+               "p = 0.001", fixed = TRUE)
+  expect_match(as.character(get_test_label(pw, p.col = "p", row = 3, detailed = TRUE, type = "text")),
+               "p = 0.00051", fixed = TRUE)
+  # and the default still auto-detects when "p" itself is absent
+  expect_match(as.character(get_test_label(dplyr::select(pw, -p), row = 3, detailed = TRUE, type = "text")),
+               "p = 0.001", fixed = TRUE)
+})
