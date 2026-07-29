@@ -16,8 +16,10 @@ and \code{group2} columns and a p-value column.}
 (default), \code{"p.adj"} is used when present, otherwise \code{"p"}.}
 
 \item{threshold}{the significance threshold (default 0.05). Comparisons with a
-p-value below \code{threshold} are treated as significant; comparisons with a
-missing (\code{NA}) p-value are treated as non-significant.}
+p-value below \code{threshold} are treated as significant. A comparison whose
+p-value is missing (\code{NA}), or which the input does not contain at all,
+has no established significance: the groups it involves get no letter rather
+than being displayed as not significantly different.}
 
 \item{reversed}{logical. If \code{TRUE}, reverses the order in which the
 letters are assigned (so that, with groups ordered by increasing level, the
@@ -29,7 +31,12 @@ later groups receive the earlier letters). Default is \code{FALSE}.}
 a tibble with one row per group and the following columns: any grouping
  variables (for a grouped test), \code{.y.} (the outcome variable, when
  present), \code{group} (the group level) and \code{cld} (the compact letter
- display). Groups sharing a letter are not significantly different.
+ display). Groups sharing a letter are not significantly different;
+\code{cld} is \code{NA} for a group involved in a comparison whose
+significance was not established, and a warning names those comparisons. A
+group keeps its letter only when every one of its comparisons is present and
+carries a p-value, so one group whose comparisons cannot be estimated can
+leave the whole display empty.
 }
 \description{
 Adds the \strong{compact letter display} (CLD) to a pairwise
