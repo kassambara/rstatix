@@ -380,8 +380,19 @@ is_grouped_anova_test <- function(x){
 #' @export
 print.anova_test <- function(x, ...) {
   .args <- attr(x, "args")
-  type <- switch(.args$type, `1` = "I", `2` = "II", `3` =  "III")
-  cat("ANOVA Table (type", type, "tests)\n\n")
+  # An operation that does not carry the stashed arguments through keeps the
+  # anova_test class but leaves no sum of squares type to name, and switch()
+  # used to fail on a zero-length EXPR (#336). Print the table under a plain
+  # header instead. Which operations those are is not "the ones dropping a
+  # column": x[, cols], select(), transmute(), mutate(), relocate(), distinct()
+  # and subset() all lose the attribute, while x[i, ], head(), filter(),
+  # arrange(), slice() and even x$col <- NULL keep it. A result whose arguments
+  # still carry a type prints exactly as before.
+  if(length(.args$type) == 1){
+    type <- switch(.args$type, `1` = "I", `2` = "II", `3` =  "III")
+    cat("ANOVA Table (type", type, "tests)\n\n")
+  }
+  else cat("ANOVA Table\n\n")
   if(inherits(x, "data.frame"))
     print.data.frame(x)
   else if(inherits(x, "list")){

@@ -196,3 +196,57 @@ test_that("repeated-measures anova_test gives clear errors for degenerate design
   # a single incomplete subject is NOT rejected (no false positive)
   expect_silent(suppressMessages(anova_test(good[-1, ], dv = y, wid = id, within = time)))
 })
+
+test_that("printing an anova_test result survives dropping columns (#336)", {
+  df <- ToothGrowth
+  df$dose <- factor(df$dose)
+  res <- anova_test(df, len ~ dose)
+
+  # x[, cols], select() and mutate() keep the class but drop the stashed
+  # arguments; print() used to fail on switch() with a zero-length EXPR
+  # "ANOVA Table" alone is a substring of the typed header, so each case pins
+  # the absence of a type as well as the absence of the error
+  # the last shape carries its arguments but no type, which is what separates
+  # the guard from a looser is.null(args) test
+  for (stripped in list(res[, c("DFn", "DFd")],
+                        dplyr::select(res, DFn, DFd),
+                        dplyr::mutate(res, sig = p < 0.05),
+                        subset(res, DFn > 0),
+                        local({y <- res; attr(y, "args")$type <- NULL; y}))) {
+    out <- capture.output(print(stripped))
+    expect_true(any(grepl("ANOVA Table", out, fixed = TRUE)))
+    expect_false(any(grepl("type", out)))
+  }
+
+  # the table itself is still printed
+  expect_true(any(grepl("57", capture.output(print(res[, c("DFn", "DFd")])))))
+
+  # dropping a column is not what decides it: this one keeps the arguments
+  keeps <- res
+  keeps$ges <- NULL
+  expect_output(print(keeps), "ANOVA Table \\(type II tests\\)")
+})
+
+test_that("the anova_test print header is unchanged wherever the arguments survive (#336)", {
+  df <- ToothGrowth
+  df$dose <- factor(df$dose)
+  expect_output(print(anova_test(df, len ~ dose)), "ANOVA Table \\(type II tests\\)")
+  expect_output(print(anova_test(df, len ~ dose, type = 1)), "ANOVA Table \\(type I tests\\)")
+  expect_output(print(anova_test(df, len ~ dose, type = 3)), "ANOVA Table \\(type III tests\\)")
+
+  # row operations keep the arguments, so they keep the type in the header
+  res <- anova_test(df, len ~ supp * dose)
+  expect_output(print(res[1, ]), "ANOVA Table \\(type II tests\\)")
+  expect_output(print(head(res, 1)), "ANOVA Table \\(type II tests\\)")
+  expect_output(print(dplyr::filter(res, DFn > 0)), "ANOVA Table \\(type II tests\\)")
+  expect_output(print(dplyr::arrange(res, DFn)), "ANOVA Table \\(type II tests\\)")
+  expect_output(print(dplyr::slice(res, 1)), "ANOVA Table \\(type II tests\\)")
+
+  # a repeated-measures result prints as a list of tables, unchanged
+  set.seed(1)
+  rm_data <- data.frame(id = factor(rep(1:10, 3)),
+                        time = factor(rep(c("t1", "t2", "t3"), each = 10)),
+                        score = rnorm(30))
+  expect_output(print(anova_test(rm_data, dv = score, wid = id, within = time)),
+                "ANOVA Table \\(type III tests\\)")
+})
