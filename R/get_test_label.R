@@ -15,7 +15,11 @@ NULL
 #'   description, specify \code{description = NULL}. If missing, we'll try to
 #'   guess the statistical test default description.
 #' @param p.col character specifying the column containing the p-value. Default
-#'   is \code{"p"}, can be \code{"p.adj"}.
+#'   is \code{"p"}, can be \code{"p.adj"}. Naming a column the result does not
+#'   have is an error. Left at its default, the p-value column is detected
+#'   automatically when \code{"p"} itself is absent (\code{"p.adj"},
+#'   \code{"p.value"}, ...); it is an error if none is found, or if several are
+#'   and none is named.
 #' @param type the label type. Can be one of "text" and "expression". Partial
 #'   match allowed. If you want to add the label onto a ggplot, it might be
 #'   useful to specify \code{type = "expresion"}.
@@ -162,6 +166,9 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
                            style = c("classic", "apa")){
   type = match.arg(type)
   style = match.arg(style)
+  # whether the caller named a p-value column, as opposed to taking the default:
+  # a named one that is absent is an error, an absent default is auto-detected
+  p.col.given <- !missing(p.col)
   allowed.tests <- c(
     get_pairwise_comparison_methods(),
     kruskal_test = "Kruskal-Wallis",
@@ -258,8 +265,36 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
     }
   }
   if(!(p.col %in% colnames(stat.test))){
+    if(p.col.given){
+      stop(
+        "p.col = \"", p.col, "\" is not a column of the test result. ",
+        "Available columns: ", paste(colnames(stat.test), collapse = ", "), ".",
+        call. = FALSE
+      )
+    }
     # automatic detection of p.col
     p.col <- p_detect(stat.test)
+    # p_detect() returns every known p-value column name it finds, so it comes
+    # back empty when there is none and length > 1 when several are present.
+    # Either way there is no single column for the select() below to take, and
+    # the p slot was left to be filled from the neighbouring column: an
+    # anova_test is a base data frame rather than a tibble, so `$p`
+    # partial-matched the `parameter` column that mutate() adds, printing the
+    # degrees of freedom as the p-value (#339).
+    if(length(p.col) != 1){
+      stop(
+        if(length(p.col) == 0){
+          "Can't find a p-value column in the test result. "
+        }
+        else {
+          paste0("Found more than one p-value column (",
+                 paste(p.col, collapse = ", "), "). ")
+        },
+        "Name one with p.col =. Available columns: ",
+        paste(colnames(stat.test), collapse = ", "), ".",
+        call. = FALSE
+      )
+    }
   }
   stat.test <- stat.test %>%
     keep_only_tbl_df_classes() %>%

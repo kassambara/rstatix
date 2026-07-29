@@ -56,7 +56,11 @@ description, specify \code{description = NULL}. If missing, we'll try to
 guess the statistical test default description.}
 
 \item{p.col}{character specifying the column containing the p-value. Default
-is \code{"p"}, can be \code{"p.adj"}.}
+is \code{"p"}, can be \code{"p.adj"}. Naming a column the result does not
+have is an error. Left at its default, the p-value column is detected
+automatically when \code{"p"} itself is absent (\code{"p.adj"},
+\code{"p.value"}, ...); it is an error if none is found, or if several are
+and none is named.}
 
 \item{correction}{character, considered only in the case of ANOVA test. Which sphericity
 correction of the degrees of freedom should be reported for the
