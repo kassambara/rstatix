@@ -51,9 +51,33 @@ welch_anova_test <- function(data, formula){
 oneway_test <- function(data, formula){
   outcome <- get_formula_left_hand_side(formula)
   group <- get_formula_right_hand_side(formula)
+  # Report the number of observations the test used, not the rows supplied
+  # (#334). oneway.test() drops a row whose value for ANY term of the formula is
+  # missing, so nrow(data) over-reported n on data with NAs - 60 where 40 rows
+  # were usable - and disagreed with anova_test() and kruskal_test() on the same
+  # data.
+  #
+  # Counted from the formula's VARIABLES rather than from a model frame, on
+  # purpose. Building a model frame here would evaluate the formula a second
+  # time, and for a formula whose terms are not a pure function of the data -
+  # anything containing a random draw, say - that changes the statistic itself
+  # (n from one evaluation, F from the next), advances .Random.seed twice so
+  # every later random number in the caller's script moves, and consumes a
+  # once-per-session warning that oneway.test()'s own evaluation would then not
+  # re-raise. all.vars() reads the names without evaluating anything.
+  #
+  # The cost is that a row lost to a non-finite TRANSFORMED value, as in
+  # log(len) with a non-positive len, is still counted: that needs the
+  # transformation evaluated, which is what this avoids. Such a call keeps the
+  # count it had. Only the variables present in `data` are used, so a formula
+  # referring to something in the calling environment cannot error here.
+  n.vars <- intersect(all.vars(formula), colnames(data))
+  n <- if(length(n.vars) > 0){
+    sum(stats::complete.cases(data[, n.vars, drop = FALSE]))
+  } else nrow(data)
   res <- stats::oneway.test(formula, data = data, var.equal = FALSE)
   tibble(
-    .y. = outcome, n = nrow(data),
+    .y. = outcome, n = n,
     statistic = round_value(res$statistic, 2),
     DFn = res$parameter[1],
     DFd = res$parameter[2],
