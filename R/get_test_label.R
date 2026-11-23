@@ -32,7 +32,8 @@ NULL
 #'   GG correction if the sphericity assumption is not for within-subject
 #'   design.
 #' @param row numeric, the row index to be considered. If NULL, the last row is
-#'   automatically considered for ANOVA test.
+#'   automatically considered for ANOVA tests. For grouped ANOVA results, the
+#'   index is applied within each group.
 #' @param statistic.text character specifying the test statistic. For example
 #'   \code{statistic.text = "F"} (for ANOVA test ); \code{statistic.text = "t"}
 #'   (for t-test ).
@@ -69,6 +70,10 @@ NULL
 #' @references American Psychological Association (2020). \emph{Publication Manual
 #'   of the American Psychological Association} (7th ed.).
 #' @return a text label or an expression to pass to a plotting function.
+#'   For grouped ANOVA results, \code{get_test_label()} returns a list with one
+#'   entry per group, in the order the groups appear in the results.
+#'   Labels for older saved grouped tables may lack sample sizes or
+#'   confidence intervals if the required information was not stored.
 #' @examples
 #' # Load data
 #' #:::::::::::::::::::::::::::::::::::::::
@@ -169,6 +174,15 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
   # whether the caller named a p-value column, as opposed to taking the default:
   # a named one that is absent is an error, an absent default is auto-detected
   p.col.given <- !missing(p.col)
+  if(inherits(stat.test, "grouped_anova_test")){
+    label.args <- list(type = type, correction = correction, row = row,
+                       detailed = detailed, style = style)
+    if(!missing(description)) label.args["description"] <- list(description)
+    if(p.col.given) label.args["p.col"] <- list(p.col)
+    return(map(grouped_anova_label_tests(stat.test), function(test){
+      do.call(get_test_label, c(list(stat.test = test), label.args))
+    }))
+  }
   allowed.tests <- c(
     get_pairwise_comparison_methods(),
     kruskal_test = "Kruskal-Wallis",
@@ -336,6 +350,34 @@ get_test_label <- function(stat.test, description = NULL, p.col = "p",
     results <- get_label_func_df(stat.test)
   }
   results
+}
+
+grouped_anova_label_tests <- function(x){
+  if(nrow(x) == 0) return(list())
+  if(is_grouped_anova_test(x)) return(x$anova)
+
+  .args <- attr(x, "args")
+  if(is.null(.args$data)){
+    stop("Grouped ANOVA labels require the grouping information stored by anova_test().",
+         call. = FALSE)
+  }
+  group.vars <- dplyr::group_vars(.args$data)
+  groups <- x %>% keep_only_tbl_df_classes() %>% group_by(!!!syms(group.vars))
+  keys <- dplyr::group_keys(groups)
+  rows <- dplyr::group_rows(groups)
+  n <- rep(NA_integer_, nrow(keys))
+  if(!is.null(.args$label_groups)){
+    n.col <- utils::tail(make.unique(c(group.vars, ".label_n")), 1)
+    sample.sizes <- .args$label_groups
+    sample.sizes[[n.col]] <- .args$label_n
+    n <- dplyr::left_join(keys, sample.sizes, by = group.vars)[[n.col]]
+  }
+  tests <- map2(dplyr::group_split(groups, .keep = FALSE), n, function(test, size){
+    test <- as.data.frame(test)
+    class(test) <- c("rstatix_test", "anova_test", class(test))
+    set_attrs(test, args = list(method = "anova_test", n = size, ci = .args$ci))
+  })
+  tests[order(vapply(rows, function(i) i[1], integer(1)))]
 }
 
 #' @describeIn get_test_label Create labels from user specified test results.
@@ -743,6 +785,7 @@ get_n <- function(stat.test){
 # whose attributes dplyr has stripped arrives here as .args = NULL and does take
 # it, returning NULL, which get_n() reports as NA exactly as before.)
 get_anova_n <- function(.args){
+  if(!is.null(.args$n)) return(.args$n)
   n <- tryCatch(stats::nobs(.args$model), error = function(e) NULL)
   if(length(n) == 1 && is.finite(n)) return(n)
   nrow(.args$data)

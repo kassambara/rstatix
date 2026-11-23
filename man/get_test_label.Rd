@@ -72,7 +72,8 @@ GG correction if the sphericity assumption is not for within-subject
 design.}
 
 \item{row}{numeric, the row index to be considered. If NULL, the last row is
-automatically considered for ANOVA test.}
+automatically considered for ANOVA tests. For grouped ANOVA results, the
+index is applied within each group.}
 
 \item{detailed}{logical value. If TRUE, returns detailed label.}
 
@@ -121,6 +122,10 @@ computed at, shown before the interval (e.g. \code{95\%} CI). Defaults to
 }
 \value{
 a text label or an expression to pass to a plotting function.
+  For grouped ANOVA results, \code{get_test_label()} returns a list with one
+  entry per group, in the order the groups appear in the results.
+  Labels for older saved grouped tables may lack sample sizes or
+  confidence intervals if the required information was not stored.
 }
 \description{
 Extracts label information from statistical tests. Useful for
