@@ -252,17 +252,31 @@ anova_test <- function(data, formula, dv, wid, between, within, covariate, type 
   }
 
   if(is_grouped_df(data)){
+    group.vars <- dplyr::group_vars(data)
+    result.col <- utils::tail(make.unique(c(group.vars, "anova")), 1)
     results <- data %>% doo(
-      ~.anova_test(data = ., .args = .args, effect.size = effect.size,
-                   error = error, observed = observed, detailed = detailed, ci = ci),
-      result = "anova"
+      ~list(.anova_test(data = ., .args = .args, effect.size = effect.size,
+                       error = error, observed = observed, detailed = detailed, ci = ci)),
+      result = result.col
     )
-    if("anova" %in% colnames(results)){
-      # This happens for repeated measure anova
-      results <- results %>%
-        mutate(anova = map(.data$anova, .append_anova_class))
+    tests <- map(results[[result.col]], 1)
+    args <- list(data = data)
+    if(length(tests) > 0){
+      if(all(purrr::map_lgl(tests, is.data.frame))){
+        # Capture the analyzed sample sizes before unnesting drops the fitted models.
+        args$label_groups <- results[group.vars]
+        args$label_n <- purrr::map_int(tests, ~as.integer(get_n(.append_anova_class(.x))[1]))
+        args$ci <- ci
+        results[[result.col]] <- tests
+        results <- suppressWarnings(unnest(results, cols = all_of(result.col)))
+      }
+      else{
+        # Repeated-measures results with sphericity tables stay in a list column.
+        results[[result.col]] <- map(tests, .append_anova_class)
+        results <- dplyr::rename(results, anova = all_of(result.col))
+      }
     }
-    results <- results %>% set_attrs(args = list(data = data))
+    results <- results %>% set_attrs(args = args)
     # rstatix_test must come before data.frame for dplyr/vctrs compatibility (#106)
     class(results) <- c("rstatix_test", "grouped_anova_test", class(results))
   }

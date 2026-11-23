@@ -2,6 +2,8 @@
 
 ## Minor changes
 
+- `get_test_label()` now returns labels for each group in a grouped ANOVA (#343).
+
 - The declared minimum version of dplyr is now 1.0.0, which the package has in fact required since it began importing `all_of()` and `any_of()`: dplyr re-exports both from 1.0.0 onwards, so an older dplyr failed on the `NAMESPACE` import rather than at a call site. The declared minimum still said 0.7.1.
 
 ## Bug fixes

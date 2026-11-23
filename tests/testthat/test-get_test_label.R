@@ -1,5 +1,41 @@
 context("test-get_test_label")
 
+test_that("grouped ANOVA labels match the individual tests (#343)", {
+  df <- transform(ToothGrowth, dose = factor(dose))
+  df$len[1] <- NA_real_
+  fits <- suppressWarnings(
+    df %>% group_by(supp) %>% anova_test(len ~ dose, effect.size = "pes", ci = 0.90)
+  )
+  individual <- lapply(fits$supp, function(supp){
+    suppressWarnings(anova_test(df[df$supp == supp, ], len ~ dose,
+                                effect.size = "pes", ci = 0.90))
+  })
+
+  expect_equal(
+    get_test_label(fits, detailed = TRUE, type = "text"),
+    lapply(individual, get_test_label, detailed = TRUE, type = "text")
+  )
+  expect_identical(
+    get_test_label(fits, detailed = TRUE),
+    lapply(individual, get_test_label, detailed = TRUE)
+  )
+  expect_equal(
+    get_test_label(fits[2:1, ], detailed = TRUE, style = "apa"),
+    lapply(rev(individual), get_test_label, detailed = TRUE, style = "apa")
+  )
+  expect_error(get_test_label(fits, p.col = "p.adj"), 'p.col = "p.adj"')
+})
+
+test_that("grouped repeated ANOVA applies the row and correction per group", {
+  df <- transform(ToothGrowth, id = rep(1:10, 6))
+  df <- rbind(transform(df, study = 1), transform(df, study = 2, len = sqrt(len)))
+  fits <- df %>% group_by(study) %>% anova_test(dv = len, wid = id, within = c(supp, dose))
+  expect_equal(
+    get_test_label(fits, row = 2, correction = "GG", description = NULL, type = "text"),
+    lapply(fits$anova, get_test_label, row = 2, correction = "GG", description = NULL, type = "text")
+  )
+})
+
 test_that("get_test_label includes the sample size n for ANOVA (#150)", {
   one_way <- get_test_label(ToothGrowth %>% anova_test(len ~ dose),
                             detailed = TRUE, type = "text")
